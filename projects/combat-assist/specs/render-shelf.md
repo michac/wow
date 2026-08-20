@@ -107,19 +107,72 @@ Two consequences the style is built on:
 1. **The press is not a thing cap draws.** `press`, `press-promoted` and `below` render
    identically — the scan edge, nothing else. The press is *whatever the scan reaches first*. Cap's
    job is to rule things out convincingly, not to point.
-2. **The cue vocabulary is negative by default, with exactly one positive exception.** A cue
+2. **The cue vocabulary is negative by default.** A cue
    normally draws when a button is ruled *out* and draws nothing when it is clear. A satisfied
    dependency is silence. A red badge is the whole statement — it says *that* something is skipped
    and *why*, in one mark, and nothing else on the row says either.
    Every cue declares its `polarity`, and a cue that declares none is read as negative.
 
-**The one exception, and the reason it exists.** Elimination encodes **rank** — it answers "what is
+### When elimination is the wrong tool — the density rule
+
+**Pass 2 costs the reader one badge per skip, and that cost is not free.** Stepping over one or two
+red badges to reach the press is a glance. Stepping over three or more is *counting*, and counting
+is the thing the whole model exists to avoid — a row where most buttons are lit reads as "something
+is wrong" long before it reads as "press the clean one."
+
+```
+1–2 HOLDS before the press — elimination. Draw the skips.
+3+  HOLDS before the press — elimination is the wrong tool here.
+                             Promote the press with `priority` instead.
+```
+
+**What counts is `budgeted`, and only `blocked` carries it.** A hold is cap making a claim the
+player cannot check at a glance: *this button is castable, you can afford it, and you should skip
+it anyway.* That is the mark which costs interpretation, and three of them in a row is the thing
+that reads as noise. `starved` and `overcap` are not that — they restate a resource the player is
+already reading off their own bar, on buttons that were never pressable in that state, and they
+cluster on adjacent spender rows as one visual group. Counting them would push rows over budget
+for being honest about Holy Power.
+
+**This is a rule about the row, not about any one button**, which is what makes it different from
+every other rule in this part. A hold is authored per ability and is true or false on its own
+terms; the density rule can only be evaluated once you know what the *rest* of the row is doing in
+that state. So it is enforced per **scenario** in `check` rather than per marker, and a catalog
+satisfies it by choosing which of the two shapes to author, not by tuning a threshold.
+
+⚠ **Swipes do not count.** Blizzard's dial already ran those buttons down and cap did not draw
+them; the reader is not paying for them. Only cap's own negative badges count against the budget.
+
+⚠ **`priority` removes the need for the holds that existed only to REACH the press.** It does not
+silence holds that are true on their own terms — markers are authored per ability and cannot know
+which scenario they are in, so a genuine hold still draws. What it retires is the *scaffolding*:
+a hold whose only job was to stop elimination landing on the wrong row. Retribution's opener is the
+worked example — promoting Blade of Justice let two markers be **deleted outright**
+(`woa_awaits_wrath_ready`, `dt_awaits_wrath_ready`), because they existed solely so a left-to-right
+scan would step over Wake of Ashes and Divine Toll to reach it.
+
+⚠ **A promoted row is judged by pass 1, so the density gate does not run on it at all.** That is
+not an exemption to be reached for — it is the rule working: once the press is pointed at, the
+reader is no longer stepping over anything.
+
+**And the reason a positive cue exists at all.** Elimination encodes **rank** — it answers "what is
 the highest-priority thing not ruled out." Some facts are not about rank at all. *You are wasting a
 charge right now* is urgent no matter what sits to its left, and it stays urgent when the answer to
 "what is highest priority" is something else entirely. There is no negative phrasing of it: to say
 it by ruling things out you would have to mark the buttons to its left as skippable, which would be
-false. So the vocabulary carries **one** positive cue, `capped`, scoped to **impending loss** and
-nothing wider.
+false.
+
+So the vocabulary carries **two** positive cues, and they are positive for two different reasons:
+`capped` because its fact is not about rank, and `priority` because the rank is real but expressing
+it negatively costs more than the reader will pay. Both are scoped: `capped` to **impending loss**,
+`priority` to the density rule above. Neither is a general-purpose "this is good" mark.
+
+⚠ **There is no positive-cue budget, and there never was a reason for one.** Until 2026-08-19 the
+shelf allowed exactly one positive cue and `check` enforced it. That was never a design finding —
+it was the three-slot badge geometry (V5) read backwards, plus the fact that Havoc happened never
+to need a second. What pass 1 actually requires is that *"scan for a positive cue"* have one
+answer, and that is a constraint on a single **row**, not on the vocabulary: `check` now asserts
+that no entry wears more than one positive cue, which is the real invariant.
 
 **Pass 1 makes it pre-emptive, and that is the point.** A cue that reports impending loss and then
 waits its turn in the scan has reported it too late — by the time the eye arrives the charge is
@@ -134,7 +187,8 @@ The other positive signals (a "banked" light, a green dependency dot, a weave ch
 press) remain **parked, not refuted**. `spec.md` §3.6 and `havoc/catalog.md` both record that a
 sealed threshold is expressible in **either** polarity, and that stays true.
 
-**Four gates in `wowkb.capart check` hold this line, one per pass plus two on the vocabulary.**
+**Five gates in `wowkb.capart check` hold this line: one per pass, two on the vocabulary, and one
+keeping chrome out of both.**
 
 - **Pass 1.** If a scenario wears a positive cue at all, the leftmost entry wearing one must be the
   press. A positive cue is pre-emptive, so a scenario where it points somewhere other than the
@@ -148,9 +202,16 @@ sealed threshold is expressible in **either** polarity, and that stays true.
   procedure above to say how the two rank.
 - **A declared cue worn by no scenario fails `check`**, since a cue that renders nowhere is
   `spec.md` §3.2's defect at shelf level.
+- **Chrome takes part in neither pass, and `check` holds it there.** `tokens.hotkey` fails if it
+  names a cue, if it declares a `polarity` or a `rank`, or if it anchors to the corner the badge
+  stack flows from. This is the mechanical form of the chrome ruling: a label that can be mistaken
+  for a signal is the one way V15 breaks the reading model, and geometry is where that mistake
+  would start. ⚠ Nothing else needs exempting — every cue gate iterates `tokens.cues` and nothing
+  enumerates top-level token keys, so a sibling of `cues` is invisible to all of them.
 
-One further `check` assertion keeps this part's own claims mechanical rather than promised: slot 3
-belongs to the positive cue (Part 1).
+One further `check` assertion keeps this part's own claims mechanical rather than promised: every
+positive cue ranks above every negative one, so a promotion always sits on the corner where the eye
+lands first (Part 1).
 
 ---
 
@@ -163,7 +224,8 @@ a design choice, not a platform constraint, unless marked otherwise.
 | --- | --- | --- | --- |
 | **Icon face** | the art itself | nothing — cap draws no treatment here | **Desaturation is Blizzard's and cap does not draw it.** The CDM already desaturates and re-tints the icon on its own refresh — `SPELL_UPDATE_USABLE` drives icon colour continuously (`cooldown-manager.md:700, :755`), which is the client's built-in "you cannot cast this" channel. cap adding a second one would restate a signal the player already has. |
 | **Scan edge** | a thin additive line on the icon edge | one bit: the row is in the scan, or it is not | Static — nothing about it moves (V13). Drawn on cap's own frame, sized to the icon rect, so it needs no host scale-up and cannot reach a neighbour. |
-| **Corner badge slots** | three discs hung off the **top-right** corner | one cue each — slots 1–2 (along the top edge) negative, slot 3 (down the right edge) the single positive cue | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). Position carries polarity as well as colour. |
+| **Corner badge stack** | discs hung off the **top-right** corner, flowing **down** the right edge | one cue each, as many as the row wears | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). The first badge always sits on the corner; further badges pack downward in `rank` order. **Polarity is carried by hue and glow, not by position** (V5). |
+| **Hotkey text** | the icon's **top-left** corner | the key bound to this ability — nothing else | **Chrome, not a cue** (`spec.md` §3.8): it names the row and takes no part in the scan. One static outlined FontString on cap's own frame (V15), drawn from `tokens.hotkey`. Blank when the ability is unbound or reached only through a macro. It sits at the corner opposite the badge flow, so the two never negotiate a place. |
 | **Cooldown swipe** | the radial dial | remaining time | Can be *restyled* without knowing the time (see V7). |
 | **Count tile** | Blizzard's own aura count position | a sealed stack number | Client-owned; cap never learns the value. |
 | **Independent bar** | anywhere on screen | one duration, large | Off-icon surface. |
@@ -174,13 +236,16 @@ a design choice, not a platform constraint, unless marked otherwise.
 - **BOTTOMRIGHT** — `ChargeCount.Current` on the cooldown tab and `Applications` on the aura tab,
   both anchored at −2 / +2.
 - **Centre** — the countdown numbers the swipe draws.
-- **Free:** both top corners, and bottom-centre.
+- **Free:** bottom-centre. Both top corners were free until 2026-08-19; the badge stack flows
+  from the **top-right** and the hotkey text (V15, chrome) now holds the **top-left**.
 
 ⚠ A previous revision of this table claimed Blizzard draws **keybind text** along the bottom of a
 CDM item. It does not: `grep HotKey` over the whole `Blizzard_CooldownViewer` folder returns
-**zero** — the CDM has no `HotKey` region at all (that is an ActionButton thing). The corner slots
-still live in the top-right, but the reason is now "the top corners are free and the OS-badge
-convention lives there," not a collision that does not exist.
+**zero** — the CDM has no `HotKey` region at all (that is an ActionButton thing). Two things follow.
+The badges start in the top-right because the top corners are free and the OS-badge convention
+lives there, not because of a collision that does not exist. And cap's hotkey text (V15) is
+**adding** a region the Cooldown Manager never had rather than restating one, which is most of why
+it is worth drawing at all.
 
 ⚠ **Not a design choice:** cap draws on its **own frame parented to `UIParent`**, anchored to the
 CDM item frame — it must never reparent onto or restyle a live Cooldown Manager frame. Since 12.1
@@ -254,11 +319,27 @@ Windows/mobile notification-badge convention: a filled circular disc hung off th
 **top-right** corner, overhanging by `tokens.badges.overhang_px` past the top and right edges so it
 reads as *on top of* the icon rather than *inside* it.
 
-- **Geometry:** `tokens.badges.diameter_pct` of icon width. Slot 1 sits on the top-right corner;
-  slot 2 is one `diameter + tokens.badges.padding_px` to its left along the top edge; slot 3 the
-  same distance below it down the right edge. Order is fixed by cue identity, never by arrival, so
-  a given cue is always in the same place. Three slots is the ceiling; if a fourth cue wants in,
-  one of the three is not earning its slot.
+- **Geometry:** `tokens.badges.diameter_pct` of icon width. Badges **flow**: the first sits on the
+  top-right corner, and each further badge steps one `diameter + tokens.badges.padding_px` **down**
+  the right edge (`tokens.badges.flow`). Order is fixed by each cue's `rank`, never by arrival, so
+  two rows wearing the same pair of cues always stack them the same way round. **There is no
+  ceiling** — the vocabulary grows by declaring a cue, not by winning a slot.
+
+  ⚠ **This replaced three fixed slots on 2026-08-19, and the thing that changed is what position
+  MEANS.** The old layout ran negatives leftward along the top edge and put the one positive cue
+  below the corner, so position carried polarity redundantly with hue — at the price of a hard
+  ceiling of three cues, which is why a fourth could not be added without an argument about which
+  of the three had stopped earning its place. That ceiling was geometry being read as design.
+  Flowing gives up the redundancy: **hue and glow now carry polarity alone.** They carry it twice
+  over (every positive cue is gold *and* glows; no negative does either), so the signal survives
+  losing its third carrier — but a future negative cue that glows, or a gold one, would break
+  something this layout no longer catches.
+
+  ⚠ **One axis, deliberately.** An L — negatives left, positives down — was considered and
+  rejected: the corner badge belongs to both arms, so a reader has to identify which arm a badge
+  is on before its position means anything, and with a single badge present there is no arm to
+  see. Flowing down also keeps clear of the neighbouring icon, since Cooldown Manager viewers lay
+  their rows out horizontally.
 - **Plate:** every badge sits on a dark disc, `tokens.badges.plate`, scaled
   `tokens.badges.plate.scale` past the sprite. Additive art over busy icon work washes out, and
   contrast is the cheap fix — more light is not (CDMProbe, learned the expensive way).
@@ -300,19 +381,39 @@ marker whose satisfied state happens to be invisible. `spec.md` §3.2 says *"a c
 loads successfully and then renders nothing is a defect"*, and that test only keeps meaning if
 "drew nothing" is unambiguously a bug rather than a legal second state.
 
-| Cue | Polarity | Frames (`tokens.cues.<key>.frames`) | Loop | Slot | Means |
+| Cue | Polarity | Frames (`tokens.cues.<key>.frames`) | Loop | Rank | Means |
 | --- | --- | --- | --- | --- | --- |
-| **`blocked`** | negative | `timer_0 → CW_25 → CW_50 → CW_75 → timer_100` | `REPEAT` | 1 | held for a cooldown, or a readable dependency says the press would be wasted |
-| **`starved`** | negative | `flask_empty → flask_half` | `BOUNCE` | 2 | you cannot afford it |
-| **`overcap`** | negative | `flask_half → flask_full` | `BOUNCE` | 2 | pressing would waste resource |
-| **`capped`** | **positive** | `cards_stack → cards_stack_high` | `BOUNCE` | 3 | charges are at max and the recharge is stalled — you are losing one right now |
+| **`priority`** | **positive** | `fire` (still — V14's ring is what moves) | `HOLD` | 1 | press this one — the scan would reach it late, or only after stepping over more skips than a reader can hold at once |
+| **`capped`** | **positive** | `cards_stack → cards_stack_high` | `BOUNCE` | 2 | charges are at max and the recharge is stalled — you are losing one right now |
+| **`blocked`** | negative | `timer_0 → CW_25 → CW_50 → CW_75 → timer_100` | `REPEAT` | 3 | held for a cooldown, or a readable dependency says the press would be wasted |
+| **`starved`** | negative | `flask_empty → flask_half` | `BOUNCE` | 4 | you cannot afford it |
+| **`overcap`** | negative | `flask_half → flask_full` | `BOUNCE` | 5 | pressing would waste resource |
+| **`st_only`** | negative | `pawn` (still) | `HOLD` | 6 | the single-target spender while AoE mode is on |
+| **`aoe_only`** | negative | `pawns` (still) | `HOLD` | 7 | the AoE spender in single target |
 
 **The three negatives share one red** (`tokens.badges.rgb`) and carry no per-cue hue: one colour for
-every "skip this" is what lets the row be read without decoding each glyph. **`capped` is the only
-cue with its own** — gold, `tokens.cues.capped.rgb` — because it is the only one saying something
-other than "skip". It also takes **slot 3** (down the right edge) rather than the top edge the
-negatives use, so polarity is legible from position as well as colour, and a badge that means the
-opposite of its neighbours can never sit in the same place as one of them.
+every "skip this" is what lets the row be read without decoding each glyph. **The positives share
+one gold** for the same reason — one colour for every "act on this" — and they are told apart by
+glyph, exactly as the negatives are. **Hue is the polarity carrier**, and since 2026-08-19 it is
+the primary one rather than a reinforcement of position (V5).
+
+**The two MODE cues are their own key for a reason.** A spec with two spenders has to say *which
+one this is*, and until 2026-08-19 that was said with `blocked` — whose declared meaning is *"held
+for a cooldown, or a readable dependency says the press would be wasted."* Neither clause is true
+of the wrong-mode spender: nothing is held, nothing is wasted, it is simply the other one's turn.
+One key answering two questions makes the badge stop carrying its *why*, which is the whole
+justification for a vocabulary of negatives rather than a single "skip" mark.
+
+⚠ **They are NOT budgeted** (Part 0.5's density rule), and the test is the same one `starved`
+passes: a budgeted cue is cap claiming a castable, affordable button should be skipped **on
+information the player cannot check at a glance**. Mode is the most checkable fact on the screen —
+the player flipped the toggle themselves. The badge is a reminder of a choice they made, not a
+claim they have to take on trust.
+
+⚠ **Ranks put the positives on the corner.** `priority` and `capped` rank 1–2 and the negatives
+3–5, so when a row wears both a promotion and a skip the promotion is the badge sitting where the
+eye lands. `check` asserts the ordering rather than the absolute positions, which is what lets the
+vocabulary grow without renegotiating geometry.
 
 **`capped` animates exactly like the two flask cues** — a two-frame `BOUNCE` at the same
 `duration_s`, a thin stack growing to a full one. Frame cadence is the *shared* idiom of the badge
@@ -320,7 +421,9 @@ vocabulary and carries no polarity; what separates this cue from the negatives i
 slot, and the glow below. Making it a still image had it reading as a different **kind** of widget
 rather than a different **kind of statement**, which is not the distinction that matters.
 
-⚠ **`capped` glows; nothing else does.** `tokens.cues.capped.glow` pulses a halo *behind* the glyph
+⚠ **The positive cues glow; no negative does.** This is the second polarity carrier, and with
+position no longer carrying it (V5) the two that remain are load-bearing: a negative cue that
+glowed, or one tinted gold, would be indistinguishable from a promotion. `tokens.cues.capped.glow` pulses a halo *behind* the glyph
 between `alpha_min` and `alpha_max` at `hz`. The **glyph itself holds full alpha** — a cue that
 faded would blink the fact it carries, which is exactly what the `tokens.text` flicker limits exist
 to forbid, and those limits (`max_hz` 2.0) are the ceiling this rate sits under. The halo may
@@ -395,11 +498,43 @@ inside a duration object: `SetTimerDuration`, `SetCooldownFromDurationObject`. S
 secret directly: `SetAlpha`, `SetDesaturation`, `SetValue`, `SetText`, `SetApplicationCount`.
 **Never read back** — a capture may say `offered` / `armed` / `refused`, never `drew`.
 
-### V11 · Cooldown hatch
+### V11 · Ruled-out hatch
 
-A row the Cooldown Manager says is on cooldown draws diagonal stripes across its whole face:
-`tokens.hatch.rgb` at `tokens.hatch.alpha`, offset by `tokens.hatch.phase_pct` of one pitch.
-Promoted out of the lab on 2026-08-16 per Part 7 rule 4.
+**A row that is ruled out draws diagonal stripes across its whole face.** There are two ways to
+be ruled out, they are drawn in two colours, and that is the whole primitive:
+
+| Cause | Whose verdict | Colour |
+| --- | --- | --- |
+| the Cooldown Manager says the ability is down | Blizzard's | `tokens.hatch.rgb` at `tokens.hatch.alpha`, phase `tokens.hatch.phase_pct` |
+| the row wears **any cue whose polarity is negative** | cap's | `tokens.hatch.skip.rgb` at `.alpha`, phase `.phase_pct` |
+
+⚠ **This is Part 0.5's pass 2, drawn.** The procedure says *skip anything the swipe has run down,
+and anything wearing a red cue; press the first that survives.* Until 2026-08-19 the first half was
+drawn and the second was not — a swiped row was unmistakably out while a badged one relied on the
+reader noticing a 22px disc. Now both halves look the same, and elimination is a thing you SEE
+rather than a thing you perform.
+
+⚠ **It generalises over polarity, not over cue keys.** `blocked`, `starved` and `overcap` all hatch
+because all three are negative; a positive cue never hatches, and a future cue is covered the day it
+declares its polarity rather than the day someone remembers to add it here. Promoted out of the lab
+2026-08-19 (`stripes-l3-hold` and `stripes-l5-starved` together, since one rule answers both) per
+Part 7 rule 4 — and the answer to those two entries' shared question, *"does one red across two
+different reasons under-differentiate?"*, is that the **badge** carries the reason and the hatch
+carries only the verdict. Two channels, two jobs.
+
+⚠ **cap's half OVERHANGS the scan edge and carries its own border.** It is drawn
+`tokens.hatch.skip.overhang_px` outside the icon rect, with a `tokens.hatch.skip.border` ring at
+the same weight as V13's scan edge — so a ruled-out row's red replaces the yellow "in the scan"
+line rather than sitting inside it. The two treatments would otherwise be making opposite
+statements about the same row simultaneously, with the yellow reading as the louder of the two
+because it is a hard line and the stripes are a wash. Blizzard's half stays inside the rect: its
+cause is the CDM's own, and the swipe underneath it is already the client's statement.
+
+⚠ **The two causes keep different phases** (`phase_pct` 50 against 0) so that a row which is
+somehow both does not moiré into a flat wash. In practice markers are gated on readiness, so a
+swiped row rarely wears a cue at all.
+
+The cooldown half was promoted on 2026-08-16.
 
 **This restates the swipe deliberately, and that is the point.** V7 says the swipe is the CDM's own
 "ruled out" signal and cap has no reason to repeat it — that was true while the swipe was the only
@@ -448,6 +583,37 @@ rather than one mess. On its own the offset is invisible, and that is the correc
 the slot open.
 
 ---
+
+### V14 · Promotion ring
+
+**A row wearing a positive cue draws a glowing ring around its badge**: `tokens.promotion`'s
+flipbook, tinted `tokens.promotion.rgb`, at `tokens.promotion.spread` of the badge diameter,
+walked at `tokens.promotion.fps`. Promoted out of the lab 2026-08-19 per Part 7 rule 4.
+
+**It is a REPLICA of Blizzard's proc glow, and every number in it was measured rather than
+chosen.** `wowkb.procring` generates the sheet against four properties read off
+`ui-hud-actionbar-proc-loop-flipbook` (atlas 2476) on 2026-08-19:
+
+| Measured on Blizzard's | Value | What it forced |
+| --- | --- | --- |
+| per-frame energy | varies **7%** | it does **not** pulse — the life is hot spots travelling the rim at constant total brightness |
+| interior | flat **0.0** | it never touches the icon; the art underneath stays fully legible |
+| radial falloff | ~9px out, ~3px in | **asymmetric** — light spilling off an edge, not a ring painted on one |
+| band | centre ~17% in, ~20% wide | where the ring sits relative to what it surrounds |
+
+⚠ **The first four candidates failed on the first property alone.** Every one of them breathed,
+because "glow" reads as "pulse" until you measure one. A promotion that blinks makes its own
+information come and go, which is what `tokens.text`'s flicker limits exist to forbid — the same
+rule that keeps a badge glyph at full alpha while only its halo breathes (V5).
+
+⚠ **Circular on purpose, and it is not a preference.** Blizzard's traces a rounded square because
+an action button is square; cap's promotion sits on a round badge. A ring cropped from square art
+reads as exactly that.
+
+⚠ **It is NEUTRAL art, which the original is not.** White with the shape in alpha, so
+`SetVertexColor` takes it to the authored hue — shown at Blizzard's own measured gold
+(R.98 G.82 B.27) because that is what the player is trained on, but not bound to it. This is the
+one way the replica beats the thing it replicates, and it is why generating beat vendoring.
 
 ### V12 · Virtual row — a cap-owned icon for a press with no CDM row
 
@@ -543,13 +709,93 @@ survives a player not having memorised a legend.
   `--ready-rgb` at `--ready-alpha`, composited `screen` — the CSS analogue of an additive multiply
   on white. Same rect, same width, same colour, and nothing animates it there either.
 
+### V15 · Hotkey text — the row's name
+
+The one thing on a row that is not about the press. `spec.md` §3.8: it says **which button this
+icon is**, and nothing about whether to press it. It exists because Blizzard's Cooldown Manager
+draws no key at all (Part 1's ⚠), so "the third icon" and "the button under my ring finger" are
+two thoughts the player has to join by memory.
+
+- **Where:** the icon's **top-left**, inset `tokens.hotkey.offset` on both axes, anchored
+  `tokens.hotkey.anchor`. That corner is free (Part 1) and stays free of cues — the badge stack
+  flows from the opposite corner precisely so these two never have to negotiate a place.
+- **Look:** `tokens.hotkey.font` at `tokens.hotkey.size` with `tokens.hotkey.outline`, in
+  `tokens.hotkey.rgb` at `tokens.hotkey.alpha`. Off-white and a little under full alpha: legible at
+  a glance without competing with a badge for the eye. It is the same outlined-static-text idiom
+  Blizzard uses for the count tile (V8), which is what makes small text survive arbitrary icon art
+  at 56 px.
+- **The face is MONOSPACED, and that is the whole reason it is not the client's own.** A keybind
+  is not prose: `csF1` sets four glyphs of four different widths hard against each other and reads
+  as one smudge. A fixed advance gives the label internal rhythm, so the eye can count it instead
+  of decoding it. The cost is paid honestly — monospace prices every glyph at the widest, so `M4`
+  is wider than it would be in a proportional face — and it is bought back by choosing a
+  *condensed* mono. Chosen over four alternatives, including Blizzard's own ARIALN, on the
+  preview; `render-rationale.md` has none of this because the argument is above.
+- ⚠ **cap ships this font**, which makes it the only third-party asset the addon redistributes.
+  `tokens.preview.hotkey_font` carries the source, the licence and the rename OFL 1.1 clause 3
+  requires; `capart export lua` writes the subset, `OFL.txt` and a `NOTICE.txt` into
+  `Media/fonts/`, and `capart check` gates all three the way it gates `Style.lua`. Part 3's
+  "don't bundle Blizzard art" is untouched by this and always was — the rule is about art that is
+  **not ours to give away**, and this font is.
+  ⚠ **`outline` is a client font FLAG, and it is the only dark edge cap can ask for.** `SetFont`
+  takes `OUTLINE` or `THICKOUTLINE` — nothing between them and nothing wider — so readability here
+  is bought with those two values and with `size`, and by nothing else. V15 spends both:
+  `THICKOUTLINE` at the count tile's size rather than under it, because a label that cannot be read
+  costs more than one that is a little loud. Two heavier treatments were tried and rejected on the
+  preview — a plate sized to the label, which reads as something *stuck on* the icon, and a
+  full-width title bar, which buys legibility with 16 of 56 px of art on every row forever.
+- **It never moves, never blinks and never tints.** It carries no state, so it has nothing to
+  animate: `tokens.text`'s flicker limits (`max_hz` / `duty` / `alpha_floor`) bind text that
+  *changes*, and this does not, so they have no subject here. Part 4's tint guard likewise has no
+  texture to guard, which is why `tokens.hotkey` carries no `tint` key.
+- **Blank is a state it draws.** An unbound ability, or one reached only through a macro, gets the
+  empty string — no placeholder glyph, no reserved box, no dash. An invented key is worse than an
+  absent one.
+- **Lua:**
+  ```lua
+  local hk = row:CreateFontString(nil, "OVERLAY")       -- cap's own frame, NOT the CDM item
+  hk:SetFont("Fonts\\" .. T.hotkey.font, T.hotkey.size, T.hotkey.outline)
+  hk:SetTextColor(T.hotkey.rgb[1], T.hotkey.rgb[2], T.hotkey.rgb[3])
+  hk:SetAlpha(T.hotkey.alpha)
+  hk:SetPoint(T.hotkey.anchor, row, T.hotkey.anchor, T.hotkey.offset.x, T.hotkey.offset.y)
+
+  hk:SetText(ns.Binds.For(row.primary) or "")           -- a legal in-combat write (Part 3)
+  ```
+- **Preview reproduction.** Absolutely-positioned text in the icon box, off the `--hotkey-*`
+  custom properties: same size in px against the same 56 px icon, same colour and alpha, same
+  corner and inset, and the `OUTLINE` flag emulated as a real **stroke** (`-webkit-text-stroke`
+  under `paint-order: stroke fill`), which is what the client's flag actually is.
+  ⚠ **Offset `text-shadow` copies are not an outline and this file once said they were.** Every
+  copy is antialiased, the overlaps accumulate alpha into a halo, and the diagonals sit at 2.83 px
+  where the axials sit at 2 — so a 2 px "ring" rendered as a smudge with lumpy corners and made
+  the preview's fonts look worse than any of them are. A stroke computed from the glyph outline is
+  the only thing that converges on what the client draws from its SDF.
+  **The preview draws the client's actual font.** `tokens.preview.hotkey_font_fdid` is
+  `fonts/frizqt__.ttf`'s FileDataID — 615960, the same number the install's own
+  `Fonts/615960.slug` carries — and `capart` pulls it out of CASC and embeds it as an `@font-face`
+  data URI, exactly as it already embeds spell icons. **Part 3 permits this and always did:** its
+  rule is *"extracted art is for measuring and for the preview, never for the addon's `Media/`
+  folder"*, which is about what cap **redistributes**; nothing on this path reaches `Style.lua` or
+  `Media/`. It matters because a substitute family gets **advance width** wrong, and "does
+  `C-S-F1` fit the corner" is a width question — a near-enough letterform that lies about width
+  answers it backwards. ⚠ The keys it draws are **simulated** — `tokens.preview.hotkeys`, a fixed
+  cycle of the shapes real bindings take, assigned by roster position so the same ability always
+  wears the same fake. The list is deliberately **longer than a spec's roster**, so no two rows in
+  one scenario wear the same key — a duplicate would read as a bug in the hint rather than as an
+  artefact of the fake. They are in `preview`, which `capart.NOT_THE_STYLE` excludes, so a fake key
+  is structurally incapable of reaching the addon. The list deliberately includes a **wide** entry
+  (`C-S-F1`): the corner has to be judged against the label that stresses it, not only against
+  `3`.
+
 ---
 
 ## Part 2.5 — Composing a row
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
-hatch, a scan edge and badges** — nothing else is drawn on it, and in particular the icon face is not
-cap's (Part 1).
+hatch, a scan edge and badges** — the icon face is not cap's (Part 1), and nothing else takes part
+in the composition. Chrome sits beside that rather than inside it: the hotkey text (V15) holds a
+corner no cue may claim, carries no condition, and so has nothing to stack with or against. The
+rule below is about conditions competing for a surface, and a label is not a condition.
 
 1. **The cooldown hatch** (V11), or none. It sits under everything else, directly over the icon
    face, because it is a statement about the button rather than a mark placed on it.
@@ -617,10 +863,14 @@ statement as the same badge at full, made about a smaller amount; it is never a 
   is unrestricted and measured so. Left as-is because "always `Show`/`Hide`" is a cheap habit to
   keep and costs nothing.)*
 - **Set frame strata/level out of combat only.** In combat, confine writes to
-  `Show`/`Hide`/`SetVertexColor`/`SetAlpha`, plus the texture-level frame step
+  `Show`/`Hide`/`SetVertexColor`/`SetAlpha`, the texture-level frame step
   (`SetTexture` for a badge, `SetTexCoord` for V2's ring) that the frame walk needs and that the
-  badge vocabulary has been making in combat since it shipped. Nothing re-anchors, re-sizes or
-  re-levels in combat; the arrival is painted into the art precisely so it does not have to.
+  badge vocabulary has been making in combat since it shipped, and **`SetText` on cap's own
+  FontStrings** — V15 re-reads its binding mid-pull, because a bar-page flip is a combat event and
+  a label that waits for `PLAYER_REGEN_ENABLED` is wrong for the rest of the fight
+  (`cdm-rider-patterns.md` §11 measured the read chain unfenced in Blizzard's own code). Nothing
+  re-anchors, re-sizes or re-levels in combat; the arrival is painted into the art precisely so it
+  does not have to.
 - **Stock proc glow coexists.** cap dims Blizzard's own overlay to `tokens.surfaces.proc_glow_alpha`
   via `hooksecurefunc(frame, "RefreshOverlayGlow")`. That is a dial for an eyeball, not a measured
   value, and `SetAlpha` reports nothing back. With V1 retired there is no longer a cap animation
@@ -730,6 +980,14 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    does a *standing* row — permanently clear, forever — read as the terminus of the sweep or as
    wallpaper?
 
+9. **Does the hotkey read as a label or as another signal?** V15 is the only thing on a row that
+   is not about the press, and its failure mode is being taken for one: a key the eye stops on
+   during the scan costs exactly what a fourth badge would. Two specifics. A **wide** label —
+   `C-S-F1` is the shape to look for — either fits the corner or starts crossing the icon. And the
+   **gap**: a line of rows with one blank, from an unbound ability or a macro. Does that read as
+   "you have not bound that" or as "cap is broken"? If the second, the finding is about the blank,
+   not about the font.
+
 ⚠ **The arrival questions left this list with V2.** "Does the snap catch the eye", "does the band
 survive minification", "does 16 frames at 40 fps read as motion" — nothing on the shipped path
 asks them any more. They are still live questions and they are still asked, in Part 7, by the
@@ -802,30 +1060,38 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "plate": { "rgb": [0.00, 0.00, 0.00], "alpha": 0.78, "scale": 1.12 },
     "halo_falloff": 0.70,
     "asset_root": "previews/assets/kenney",
-    "slots": [
-      { "id": 1, "anchor": "top-right-corner" },
-      { "id": 2, "anchor": "left-of-1-along-top" },
-      { "id": 3, "anchor": "below-1-along-right" }
-    ]
+    "flow": { "anchor": "top-right-corner", "direction": "down" }
   },
   "cues": {
     "blocked": {
       "means": "held for a cooldown, or a readable dependency says the press would be wasted. The sweep is a steady pace, NOT elapsed time.",
       "polarity": "negative",
       "frames": ["timer_0", "timer_CW_25", "timer_CW_50", "timer_CW_75", "timer_100"],
-      "duration_s": 2.00, "loop": "REPEAT", "slot": 1, "open": false
+      "duration_s": 2.00, "loop": "REPEAT", "rank": 3, "open": false, "budgeted": true
     },
     "starved": {
       "means": "you cannot afford it",
       "polarity": "negative",
       "frames": ["flask_empty", "flask_half"],
-      "duration_s": 1.20, "loop": "BOUNCE", "slot": 2, "open": false
+      "duration_s": 1.20, "loop": "BOUNCE", "rank": 4, "open": false, "budgeted": false
+    },
+    "st_only": {
+      "means": "the single-target spender, while AoE mode is on — the other one is the answer here",
+      "polarity": "negative",
+      "frames": ["pawn"],
+      "duration_s": 1.20, "loop": "HOLD", "rank": 6, "open": false, "budgeted": false
+    },
+    "aoe_only": {
+      "means": "the AoE spender, in single target — the other one is the answer here",
+      "polarity": "negative",
+      "frames": ["pawns"],
+      "duration_s": 1.20, "loop": "HOLD", "rank": 7, "open": false, "budgeted": false
     },
     "overcap": {
       "means": "pressing would waste resource",
       "polarity": "negative",
       "frames": ["flask_half", "flask_full"],
-      "duration_s": 1.20, "loop": "BOUNCE", "slot": 2, "open": false
+      "duration_s": 1.20, "loop": "BOUNCE", "rank": 5, "open": false, "budgeted": false
     },
     "capped": {
       "means": "charges are at max and the recharge is stalled — you are losing one right now",
@@ -833,7 +1099,15 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "rgb": [1.00, 0.78, 0.25],
       "glow": { "hz": 1.2, "alpha_min": 0.15, "alpha_max": 0.55, "scale": 1.55 },
       "frames": ["cards_stack", "cards_stack_high"],
-      "duration_s": 1.20, "loop": "BOUNCE", "slot": 3, "open": false
+      "duration_s": 1.20, "loop": "BOUNCE", "rank": 2, "open": false, "budgeted": false
+    },
+    "priority": {
+      "means": "press this one — the scan would reach it late, or only after stepping over more skips than a reader can hold at once",
+      "polarity": "positive",
+      "rgb": [1.00, 0.78, 0.25],
+      "glow": { "hz": 1.2, "alpha_min": 0.15, "alpha_max": 0.55, "scale": 1.55 },
+      "frames": ["fire"],
+      "duration_s": 1.20, "loop": "HOLD", "rank": 1, "open": false, "budgeted": false
     }
   },
   "hatch": {
@@ -845,7 +1119,48 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "rgb": [0.00, 0.00, 0.00],
     "alpha": 0.50,
     "phase_pct": 50,
-    "tint": "shelf"
+    "tint": "shelf",
+    "skip": {
+      "rgb": [0.95, 0.30, 0.30], "alpha": 0.45, "phase_pct": 0,
+      "overhang_px": 2,
+      "border": { "rgb": [0.95, 0.30, 0.30], "alpha": 1.00, "line_px": 2 }
+    }
+  },
+  "promotion": {
+    "texture": "procring",
+    "cols": 8, "rows": 4, "cell": 64, "frames": 32, "fps": 30,
+    "rgb": [1.00, 0.82, 0.27],
+    "alpha": 1.00,
+    "spread": 2.00,
+    "tint": "lane"
+  },
+  "hotkey": {
+    "_comment": "V15. CHROME, not a cue (spec.md \u00a73.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion \u2014 and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",
+    "font": "Interface\\AddOns\\CombatAssistPlus\\Media\\fonts\\CapKeyMono.ttf",
+    "size": 14,
+    "outline": "THICKOUTLINE",
+    "rgb": [0.92, 0.92, 0.90],
+    "alpha": 0.85,
+    "anchor": "TOPLEFT",
+    "offset": { "x": 2, "y": -2 }
+  },
+  "preview": {
+    "_comment": "NOT THE STYLE, and structurally incapable of becoming it: `preview` is in capart.NOT_THE_STYLE, so nothing here can reach Style.lua. It exists so the previews can draw a keybind hint before one exists in the game \u2014 the point of V15's preview is judging how the text sits in the corner, and that cannot be judged against an empty string. The strings are what `Binds.Shorten` PRODUCES, not what the client hands it: lowercase modifier letters closed up against the key (the client's own `SHIFT_KEY_TEXT_ABBR` is `s`), and `M4`/`N5` where the client would say `Mouse Button 4`/`Num Pad 5`.",
+    "hotkeys": ["3", "s2", "M4", "csF1", "1", "4", "sE", "M5", "2", "a3",
+                "5", "s4", "c1", "M3", "sF", "6", "asQ", "MU"],
+    "hotkey_outline_rgb": [0.00, 0.00, 0.00],
+    "hotkey_outline_px": 2,
+    "hotkey_font": {
+      "_comment": "The font V15 draws with, and the ONE third-party asset cap redistributes. The preview embeds this exact subset and the addon ships this exact subset, so the page and the game measure the same advance widths. `ship_as` is not a preference: the upstream family carries the Reserved Font Name 'Share', a subset is a Modified Version, and OFL 1.1 clause 3 forbids a Modified Version from using it \u2014 so the shipped file is renamed and `license_url` travels beside it.",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf",
+      "family": "ShareTechMono",
+      "ship_as": "CapKeyMono",
+      "rfn": "Share",
+      "license": "OFL 1.1",
+      "license_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/OFL.txt",
+      "shippable": true
+    },
+    "hotkey_font_stack": "'CapKeyMono', 'Trebuchet MS', var(--sans)"
   },
   "panel": {
     "icon_px": 50, "gap_px": 6,
@@ -858,6 +1173,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "hold-sealed":    { "scan": true,  "swipe": false, "cues": ["blocked"] },
     "starved":        { "scan": true,  "swipe": false, "cues": ["starved"] },
     "overcap":        { "scan": true,  "swipe": false, "cues": ["overcap"] },
+    "off-mode":       { "scan": true,  "swipe": false, "cues": [] },
     "press":          { "scan": true,  "swipe": false, "cues": [] },
     "press-promoted": { "scan": true,  "swipe": false, "cues": [] },
     "below":          { "scan": true,  "swipe": false, "cues": [] }
@@ -875,48 +1191,284 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "encode": "webp",
     "quality": 90
   },
-  "budget": { "max_base64_kb": 512 },
+  "budget": { "max_base64_kb": 750 },
 
   "lab": {
     "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from here. The stripe entries below draw on `tokens.hatch`'s sheet, which is the STYLE's — a lab entry citing the style is the legal direction.",
     "_arrival_stage": { "neighbours": 2 },
 
-    "stripes-l3-hold": {
-      "draws": "stripes",
-      "title": "Red stripes on a sequencing hold",
-      "asks": "When cap is holding a button for something else, does a stated condition across the face read better than a badge alone — and does it still read as *held for a reason* rather than as *broken*?",
-      "rgb": [0.95, 0.30, 0.30],
-      "alpha": 0.45,
-      "phase_pct": 0,
+    "hotkey-l1-frizqt": {
+      "draws": "hotkey",
+      "title": "V15 as declared — FRIZQT__, the control",
+      "asks": "This is what the style says today, drawn so the candidates below have something to beat. Friz Quadrata is the client's UI face and therefore the one that looks like it belongs — but it is a glyphic serif with wide letterforms, which is the opposite of what a four-character label in a 56 px corner wants. Does belonging beat fitting?",
+      "font": { "fdid": 615960, "family": "FRIZQT__", "client_path": "Fonts\\FRIZQT__.TTF", "license": "Blizzard \u2014 in every install; cap may name it, never bundle it" },
+      "size_px": 14, "outline": "THICKOUTLINE", "outline_px": 2,
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "Same family and size the style declares, so this cell set is also the reference the other two are read against."
+    },
+
+    "hotkey-l2-arialn": {
+      "draws": "hotkey",
+      "title": "ARIALN \u2014 what Blizzard itself puts on a hotkey",
+      "asks": "Blizzard's own action-button HotKey, reproduced EXACTLY: ARIALN.TTF at 12 with a NORMAL outline [T1 src: Blizzard_Fonts_Shared/Mainline/GameFonts.xml:59-61 via GameFontStyles.xml:18-23 and ActionButtonTemplate.xml:85]. Fifteen years of the player reading keybinds in this face, at this size, on buttons this big \u2014 the strongest prior in the set, and the only candidate that costs nothing to adopt. Note what it is NOT: not 14, and not thick. If the shipped answer to this exact problem is a point smaller and a stroke thinner than V15 declares, that is a finding about V15.",
+      "font": { "fdid": 615958, "family": "ARIALN", "client_path": "Fonts\\ARIALN.TTF", "license": "Blizzard \u2014 in every install; cap may name it, never bundle it" },
+      "size_px": 12, "outline": "OUTLINE", "outline_px": 1,
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "⚠ NOT SHIPPABLE. It is Blizzard's font, so cap may READ it by name (`SetFont(\"Fonts\\\\ARIALN.TTF\", ...)`) exactly as any addon does — the client already has it — but it may never be bundled. That makes this candidate free if it wins: no Media/ file, no licence, no page weight in the addon."
+    },
+
+    "hotkey-l3-barlow": {
+      "draws": "hotkey",
+      "title": "Barlow Condensed SemiBold \u2014 ours to ship",
+      "asks": "The one candidate that is genuinely OURS: OFL 1.1, so cap could bundle it and stop depending on what the client happens to have. Condensed and semibold is the shape a small high-contrast label wants \u2014 more characters per pixel of width, and enough weight to survive an outline at 14 px. Does a face the game does not use anywhere else read as deliberate, or as an addon that did not match?",
+      "font": { "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-SemiBold.ttf", "family": "BarlowCondensed", "client_path": "Interface\\AddOns\\CombatAssistPlus\\Media\\lab\\BarlowCondensed.ttf", "license": "OFL 1.1", "shippable": true },
+      "size_px": 14, "outline": "THICKOUTLINE", "outline_px": 2,
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "Shipping it costs a Media/fonts/ file and an OFL.txt beside it. The subset `capart` already builds \u2014 the ~45 glyphs a keybind can contain \u2014 is what makes that cheap; the full face is 107 KB and the subset is a fraction of it. That subset is exactly as shippable as the full font under OFL 1.1."
+    },
+
+    "hotkey-l4-plexmono": {
+      "draws": "hotkey",
+      "title": "IBM Plex Mono SemiBold \u2014 fixed width, well drawn",
+      "asks": "Every candidate above is PROPORTIONAL, and a keybind is not prose: `csF1` sets four glyphs of four different widths hard against each other and reads as one smudge. A monospaced face gives every character the same advance, so the label has internal rhythm and the eye can count it. The cost is real and is the thing to judge \u2014 monospace prices every glyph at the widest one, so `M4` gets wider even as `csF1` gets clearer. Does the rhythm buy more than the width costs?",
+      "font": { "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-SemiBold.ttf", "family": "IBMPlexMono", "client_path": "Interface\\AddOns\\CombatAssistPlus\\Media\\lab\\IBMPlexMono.ttf", "license": "OFL 1.1", "shippable": true },
+      "size_px": 13, "outline": "THICKOUTLINE", "outline_px": 2,
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "A size SMALLER than the proportional candidates, deliberately: monospace is wider per character, so matching them on width means giving up a point. If it still reads at 13 it has won on more than rhythm."
+    },
+
+    "hotkey-l5-sharetechmono": {
+      "draws": "hotkey",
+      "title": "Share Tech Mono \u2014 fixed width that is also narrow",
+      "asks": "The compromise entry, and the reason both mono candidates are here. Share Tech Mono is a CONDENSED monospace, so it takes the uniform advance that fixes the smudge without paying the usual width for it. The risk is the other direction: a narrow mono at 14 px with a thick outline can close its own counters \u2014 the holes in `e`, `a`, `0` fill in and every glyph turns into a blob. Does it stay open?",
+      "font": { "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf", "family": "ShareTechMono", "client_path": "Interface\\AddOns\\CombatAssistPlus\\Media\\lab\\ShareTechMono.ttf", "license": "OFL 1.1", "shippable": true },
+      "size_px": 14, "outline": "THICKOUTLINE", "outline_px": 2,
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "Only 42 KB before subsetting, the smallest source of the five \u2014 it carries a narrow character set, which is exactly what a keybind needs."
+    },
+
+    "hotkey-l6-sharetech-thin": {
+      "draws": "hotkey",
+      "title": "Share Tech Mono, NORMAL outline \u2014 is the thick edge the problem?",
+      "asks": "The same face as l5 with the only other value the flag takes. A thick stroke is bought at the counters' expense: at 14 px it eats into the holes in `0`, `e` and `a` and closes the gap between neighbouring glyphs, so the thing meant to make the label legible is also what turns it to mush. Blizzard reached the same place from the other side \u2014 its own hotkey uses a NORMAL outline (l2). Read this beside l5 and answer one question: is the dark edge carrying the label over bright art, or is it the reason the label looks smudged?",
+      "font": { "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf", "family": "ShareTechMono", "client_path": "Interface\\AddOns\\CombatAssistPlus\\Media\\lab\\ShareTechMono.ttf", "license": "OFL 1.1", "shippable": true },
+      "size_px": 14, "outline": "OUTLINE", "outline_px": 1,
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "Costs nothing extra: same family as l5, so one @font-face and one shipped file serve both. The BRIGHT-art cell decides it \u2014 a thin edge is free on dark art, and bright art is exactly where a thick one earns its keep."
+    },
+
+    "hotkey-l7-arialn-14-plate": {
+      "draws": "hotkey",
+      "title": "ARIALN 14 on a plate \u2014 contrast from the ground, not from the stroke",
+      "asks": "The other way to make small text survive arbitrary icon art. An outline fights the background at every glyph edge; a plate REPLACES the background, so the label is read against one known colour and the stroke stops having to do the work. It is also the badge's own move \u2014 `tokens.badges.plate` is why a 22 px sprite reads on any icon \u2014 so the row already contains this idea and the hint would be echoing it rather than introducing it. What it costs is ink: a filled rectangle in the corner is a second object on the row, and the whole claim of chrome is that it recedes. Does it still recede?",
+      "font": { "fdid": 615958, "family": "ARIALN", "client_path": "Fonts\\ARIALN.TTF", "license": "Blizzard \u2014 in every install; cap may name it, never bundle it" },
+      "size_px": 14, "outline": "OUTLINE", "outline_px": 1,
+      "plate": { "rgb": [0.00, 0.00, 0.00], "alpha": 0.78, "pad_x_px": 3, "pad_y_px": 1 },
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "Alpha matches `tokens.badges.plate.alpha` deliberately \u2014 if both plates on a row are read at the same weight they read as one system. The outline drops to NORMAL because a plate and a thick stroke are two solutions to one problem and stacking them is what makes a corner look armoured."
+    },
+
+    "hotkey-l8-arialn-16-plate": {
+      "draws": "hotkey",
+      "title": "ARIALN 16 on a plate \u2014 the same idea, spent on size",
+      "asks": "If the plate carries the contrast, the size no longer has to be a compromise with legibility \u2014 so this asks what the label looks like when it is simply BIG. 16 px on a 56 px icon is a label you cannot fail to read. The question is the one chrome always faces: at what size does it stop naming the row and start competing with it? Read it against l7 and find the point where the answer flips.",
+      "font": { "fdid": 615958, "family": "ARIALN", "client_path": "Fonts\\ARIALN.TTF", "license": "Blizzard \u2014 in every install; cap may name it, never bundle it" },
+      "size_px": 16, "outline": "OUTLINE", "outline_px": 1,
+      "plate": { "rgb": [0.00, 0.00, 0.00], "alpha": 0.78, "pad_x_px": 3, "pad_y_px": 1 },
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "⚠ At 16 the plate for `csF1` is a visibly large rectangle. The `blocked` badge's disc is `tokens.badges.diameter_pct` (40%) of the icon \u2014 about 22 px \u2014 so compare the two areas directly: if the label's plate is bigger than the badge, chrome has become the loudest thing on the row."
+    },
+
+    "hotkey-l9-titlebar": {
+      "draws": "hotkey",
+      "title": "Title bar \u2014 the label stops being a sticker and becomes part of the frame",
+      "asks": "l7/l8 put a plate the size of the text on the icon, and a small dark rectangle floating over art reads as something STUCK ON. A bar the full width of the icon reads as furniture instead: it has an edge the eye can resolve, it is in the same place on every row so the eye stops hunting for it, and a bar of constant width says nothing about the label inside it \u2014 which is exactly what chrome is supposed to say. The cost is icon: 16 of 56 px of art is now under a bar, on every row, forever. Is a row still identifiable by its picture?",
+      "colour": "Near-black with a slight cool cast, at 0.85, and a one-pixel neutral rule along the bottom. NOT a cue colour and deliberately so: red is every negative cue and gold is every positive one (Part 0.5), so a bar in either would be the loudest false signal on the row. Neutral-cool also separates from the warm icon art most abilities carry, which is what makes the bottom rule readable at all.",
+      "font": { "fdid": 615958, "family": "ARIALN", "client_path": "Fonts\\ARIALN.TTF", "license": "Blizzard \u2014 in every install; cap may name it, never bundle it" },
+      "size_px": 12, "outline": "OUTLINE", "outline_px": 1,
+      "bar": { "rgb": [0.04, 0.05, 0.07], "alpha": 0.85, "height_px": 16, "align": "center", "fade": false, "rule": { "rgb": [1.00, 1.00, 1.00], "alpha": 0.12, "px": 1 } },
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "⚠ It runs UNDER the badge stack, which flows from the top-right corner and overhangs it by `tokens.badges.overhang_px`. The badge cell is the one to look at: a bar the badge sits on top of may be fine (the badge is the louder object and should win) or may look broken. Centred text is not decoration \u2014 left-aligned, a bar is just a plate that grew; centred, it reads as a field with something in it."
+    },
+
+    "hotkey-l10-titlebar-fade": {
+      "draws": "hotkey",
+      "title": "Title bar as a scrim \u2014 same geometry, no bottom edge",
+      "asks": "The objection to l9 is that a hard-edged bar CUTS the icon in two, and a 56 px picture cannot afford to be bisected. This is the same 16 px of darkening with the edge taken away: opaque at the top, transparent at the bottom, no rule. It should read as the art fading out under the label rather than as a strip laid over it. The risk is the opposite one \u2014 a scrim with no edge may just look like the icon is damaged. Which failure is worse is the entire question, and it is not answerable by argument.",
+      "colour": "The same near-black cool cast as l9 and the same 0.85 at its top, so the two differ in ONE property. A gradient is what the client actually does here (`SetGradient`, Part 3), not a CSS-only trick \u2014 and Part 3's warning applies: apply the gradient first and tint second, because SetGradient resets vertex colour to white.",
+      "font": { "fdid": 615958, "family": "ARIALN", "client_path": "Fonts\\ARIALN.TTF", "license": "Blizzard \u2014 in every install; cap may name it, never bundle it" },
+      "size_px": 12, "outline": "OUTLINE", "outline_px": 1,
+      "bar": { "rgb": [0.04, 0.05, 0.07], "alpha": 0.85, "height_px": 16, "align": "center", "fade": true },
+      "cells": [{"ability": "Eye Beam", "verdict": "press", "key": "csF1", "caption": "the <b>widest</b> label, on dark art. If a candidate fails anywhere it fails here."}, {"ability": "Immolation Aura", "verdict": "press", "key": "sF", "caption": "a modified key on <b>bright, busy</b> art — the legibility case the outline exists for."}, {"ability": "Blade Dance", "verdict": "hold-readable", "key": "M4", "caption": "a mouse binding, <b>beside a badge</b>. The label must win the overlap outright."}, {"ability": "Throw Glaive", "verdict": "cd", "key": "3", "caption": "the common case, on a swiped row — does it stay readable through the dial?"}],
+      "_note": "⚠ A BAR ABOVE THE ICON was considered and is refuted, not parked. Scenario: the bar sits in the gap between rows so it covers no art at all. Failing rung: `tokens.surfaces.row_gap_px` is 6 and the client owns the layout \u2014 a 16 px bar would overlap the row above by 10 px, on a frame cap does not control and must not reparent (Part 1). Reopening condition: a CDM layout whose row pitch cap can read AND a gap of at least the bar height, or the bar shrinking to 6 px, which no font fits."
+    },
+
+    "procglow-l8-square": {
+      "draws": "flipbook",
+      "title": "Blizzard's OWN proc glow, unaltered — the control",
+      "asks": "This is the effect the player already has fifteen years of training on, drawn at its real size on the icon. Every entry below has to beat it. Does a rounded-square glow still read correctly around a Cooldown Manager row, which is the same square shape as an action button?",
+      "sheet": "procloop", "cols": 8, "rows": 4, "cell": 64, "frames": 30, "fps": 30,
+      "tint": "none", "blend": "ADD", "scale": 1.45,
       "cells": [
-        { "kind": "icon", "ability": "The Hunt", "verdict": "hold-readable",
-          "stripes": ["self"],
-          "caption": "<b>readable hold</b> — the corner badge says <em>why</em>, the stripes say <em>not this</em>. Both, on one icon." },
-        { "kind": "icon", "ability": "Essence Break", "verdict": "hold-sealed",
-          "stripes": ["self"],
-          "caption": "<b>sealed hold</b> — the same statement drawn from a sealed fact. If the two holds do not look alike here, the player is being asked to decode where the fact came from." },
-        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "cues": [], "stripes": [],
-          "caption": "<b>control</b> — the same icon untreated. The comparison is the point; a treatment that only reads beside its own caption has not read." },
-        { "kind": "sheet",
-          "caption": "the tiling sheet itself, at this entry's colour — pitch and angle, unmasked by any icon." }
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>the control</b> — <code>ui-hud-actionbar-proc-loop-flipbook</code>, atlas 2476, exactly as the client draws it." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — an icon-scale effect is judged by what it does to the row, not to its own square." }
       ]
     },
 
-    "stripes-l5-starved": {
-      "draws": "stripes",
-      "title": "Red stripes on `starved`",
-      "asks": "Does the same red that marks a hold also read as *you cannot afford this*, with only the badge to separate them — or does one red across two different reasons under-differentiate?",
-      "rgb": [0.95, 0.30, 0.30],
-      "alpha": 0.45,
-      "phase_pct": 0,
+    "procglow-l10-flame": {
+      "draws": "flipbook",
+      "title": "A flame flipbook — 64 frames of actual fire",
+      "asks": "Fire is the most literal possible reading of *urgent*. Does an effect with this much internal motion still let the ICON be read — the thing the player actually has to identify — or does it win the row and lose the button?",
+      "sheet": "flame", "cols": 8, "rows": 4, "cell": 64, "frames": 32, "fps": 15,
+      "tint": "none", "blend": "ADD", "scale": 1.55,
       "cells": [
-        { "kind": "icon", "ability": "Chaos Strike", "verdict": "starved",
-          "stripes": ["self"],
-          "caption": "<b>cannot afford it</b> — a Fury spender short of its cost, drawn by its own render with its own parameters." },
-        { "kind": "icon", "ability": "Chaos Strike", "verdict": "below", "cues": [], "stripes": [],
-          "caption": "<b>control</b> — affordable, untreated." },
-        { "kind": "sheet",
-          "caption": "the sheet at this entry's colour — the same red and the same phase as L3, because it is the same kind of statement." }
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>flame</b> — vendored VFX, 64 frames. Baked hue by nature: fire is a gradient, not one colour multiplied." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — the honest question for this one is whether it reads as a cue or as the row being on fire." }
+      ]
+    },
+
+    "procglow-l11-energy": {
+      "draws": "flipbook",
+      "title": "An energy burst — 36 frames, one shot rather than a loop",
+      "asks": "A burst has a beginning, which a loop does not. Does a one-shot that fires WHEN the press becomes correct beat a loop that simply persists — and after it ends, is the button still marked, or has the information gone?",
+      "sheet": "energy", "cols": 8, "rows": 3, "cell": 64, "frames": 18, "fps": 12,
+      "tint": "none", "blend": "ADD", "scale": 1.70,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>burst</b> — decoded from a 4K float16 EXR whose alpha channel was empty; visibility is its luminance." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — the widest of the five at 1.70x, so if anything reaches a neighbouring icon it is this." }
+      ]
+    },
+
+    "procglow-l12-sparkler": {
+      "draws": "flipbook",
+      "title": "A sparkler, GENERATED — and the only one that can be re-hued",
+      "asks": "The other four are art we found; this one is art we can change. It is white-on-alpha, so it takes the lane's own colour instead of dictating one. Does a neutral particle burst carry the same *press me* as baked fire, or is the heat of the colour doing most of the work?",
+      "sheet": "sparkler", "cols": 8, "rows": 4, "cell": 64, "frames": 32, "fps": 30,
+      "tint": "lane", "blend": "ADD", "scale": 1.60,
+      "rgb": [1.00, 0.78, 0.25],
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>sparkler</b> — <code>wowkb.sparkler</code>, seeded and reproducible. Shown at the positives' gold; it can be any hue." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — the comparison that matters is against L8: does this beat the thing you are already trained on?" }
+      ]
+    },
+
+    "blaze-l6-behind-glyph": {
+      "draws": "blaze",
+      "behind": "glyph",
+      "title": "\"Press me!!!\" — the blaze BEHIND THE FLAME",
+      "asks": "If a promotion shouts instead of pointing, is it still readable? This puts the bright field behind the flame's own silhouette, so the light has the glyph's shape. Does that read as one hot object — or does an irregular blob of light on a 56px icon just read as damage?",
+      "sprite": "fire",
+      "rgb": [1.00, 0.62, 0.12],
+      "alpha": 0.95,
+      "spread": 2.30,
+      "glyph_rgb": [1.00, 1.00, 1.00],
+      "period_s": 0.9,
+      "rest_alpha": 0.55,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>the shout</b> — the light wears the flame&rsquo;s own outline, so the glyph looks like the source of it rather than something sitting on a lamp." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — the row is read as a whole, so the question is not whether this is loud but whether it makes the icon BESIDE it harder to read." },
+        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "treat": false,
+          "caption": "<b>control</b> — the same icon untreated. A treatment that only reads beside its own caption has not read." }
+      ]
+    },
+
+    "blaze-l7-behind-plate": {
+      "draws": "blaze",
+      "behind": "plate",
+      "title": "\"Press me!!!\" — the blaze BEHIND THE BLACK CIRCLE",
+      "asks": "The same shout, with the light behind the badge's dark disc instead of the glyph. The plate keeps its job — contrast under the sprite — and the blaze becomes a halo with a hard edge. Does the disc make it read as a BADGE that is shouting, rather than as the icon being on fire?",
+      "sprite": "fire",
+      "rgb": [1.00, 0.62, 0.12],
+      "alpha": 0.95,
+      "spread": 2.30,
+      "glyph_rgb": [1.00, 1.00, 1.00],
+      "period_s": 0.9,
+      "rest_alpha": 0.55,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>the shout</b> — the dark disc sits over the light, so the blaze is a hard-edged halo and the glyph keeps its contrast plate." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — the row is read as a whole, so the question is not whether this is loud but whether it makes the icon BESIDE it harder to read." },
+        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "treat": false,
+          "caption": "<b>control</b> — the same icon untreated. A treatment that only reads beside its own caption has not read." }
+      ]
+    },
+
+    "blaze-l9-corona": {
+      "draws": "blaze",
+      "behind": "corona",
+      "sheet": "corona", "cols": 1, "rows": 1, "cell": 128, "frames": 1, "fps": 0,
+      "title": "\"Press me!!!\" — the blaze as a RING around the badge",
+      "asks": "The third way to light the same badge. L6 gave the light the flame's silhouette and L7 gave it the plate's hard disc; this gives it a ring with a dark centre, so the glyph sits in a hole rather than on a field. Does a corona read as *hot* the way a filled disc does, or does the dark middle just make the flame look unlit?",
+      "sprite": "fire",
+      "rgb": [1.00, 0.62, 0.12],
+      "alpha": 0.95,
+      "spread": 2.30,
+      "glyph_rgb": [1.00, 1.00, 1.00],
+      "period_s": 0.9,
+      "rest_alpha": 0.55,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>the ring</b> — Blizzard's <code>Artifacts-PerkRing-MainProc-Glow</code> at BADGE scale, augmenting the fire cue rather than replacing it." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — a ring overhangs further than a disc, so this is where the corner crowding shows." },
+        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "treat": false,
+          "caption": "<b>control</b> — the same icon untreated." }
+      ]
+    },
+
+    "blaze-l13-energy-badge": {
+      "draws": "blaze",
+      "behind": "sheet",
+      "sheet": "energy", "cols": 8, "rows": 3, "cell": 64, "frames": 18, "fps": 12,
+      "title": "\"Press me!!!\" — the energy burst BEHIND THE BADGE",
+      "asks": "L11 puts this burst around the whole icon, where it competes with the art. At badge scale it augments the fire cue instead. Is 18 frames of motion legible in a 22px disc at all, or does a burst need room to be a burst?",
+      "sprite": "fire",
+      "rgb": [1.00, 0.62, 0.12],
+      "alpha": 0.95,
+      "spread": 2.60,
+      "glyph_rgb": [1.00, 1.00, 1.00],
+      "rest_alpha": 0.55,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>burst, badge scale</b> — the same 18 frames as L11, sized to augment rather than replace." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — the widest spread of the badge family at 2.60x." },
+        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "treat": false,
+          "caption": "<b>control</b> — the same icon untreated." }
+      ]
+    },
+
+    "blaze-l14-sparkler-badge": {
+      "draws": "blaze",
+      "behind": "sheet",
+      "sheet": "sparkler", "cols": 8, "rows": 4, "cell": 64, "frames": 32, "fps": 30,
+      "title": "\"Press me!!!\" — the sparkler BEHIND THE BADGE, and it takes the lane's colour",
+      "asks": "The only badge-scale field that is NEUTRAL art, so it is tinted rather than baked. Against L13 beside it, this asks the question the whole family is really for: is the heat doing the work, or the motion? If a gold-tinted sparkler reads as urgently as a baked fire burst, the vocabulary can keep its own colours.",
+      "sprite": "fire",
+      "rgb": [1.00, 0.78, 0.25],
+      "alpha": 0.95,
+      "spread": 2.60,
+      "tint": "lane",
+      "glyph_rgb": [1.00, 1.00, 1.00],
+      "rest_alpha": 0.55,
+      "cells": [
+        { "kind": "icon", "ability": "The Hunt", "verdict": "press",
+          "caption": "<b>sparkler, badge scale</b> — generated, neutral, tinted to the positives' gold. It could be any hue." },
+        { "kind": "icon", "ability": "Essence Break", "verdict": "below",
+          "caption": "<b>the neighbour</b> — a particle field throws light further than a ring does." },
+        { "kind": "icon", "ability": "The Hunt", "verdict": "below", "treat": false,
+          "caption": "<b>control</b> — the same icon untreated." }
       ]
     },
 

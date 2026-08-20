@@ -38,7 +38,7 @@ recipes).
 | Avenging Wrath / Execution Sentence / Wake of Ashes **cooldown remaining** | **sealed-display** | S4 → `sealed-cooldown-range` | `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`; the duration object carries the secrecy |
 | Free vs ordinary Hammer of Light | **open** | — | one overlay row for both; buff identity sealed |
 | `buff.undisputed_ruling.remains`, `buff.avenging_wrath.remains`, `buff.hammer_of_light_free.remains` | **open** | — | aura *durations*; cap has no aura-duration range display and this pass does not prebuild one |
-| `dot.expurgation.ticking` | **open** | — | a **target** aura; cap has no target-aura vocabulary |
+| `dot.expurgation.ticking` | **readable** | R8 | a **target** aura, latched from CDM `TrackedBuff` alert edges (`OnAuraApplied` / `OnAuraRemoved`) on the DoT **`383346`** — a hook observes a *call*, never a value, so the up/down latch is branchable. Flown in combat on a hostile target `[client 2026-08-19]`; `knowledge/addon-dev/cdm-rider-patterns.md` §6.2. ⚠ Requires the row bound — see the enablement note in the catalog |
 | Target health / execute range | **not needed** | — | subsumed by the Hammer of Wrath override |
 | Enemy count | **not modelled** | — | replaced by the toggle, as on Havoc |
 | `raid_event.adds`, `fight_remains`, `target.time_to_die` | **not facts** | — | simulation state |

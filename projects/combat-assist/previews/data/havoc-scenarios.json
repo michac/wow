@@ -175,17 +175,11 @@
       "row": [
         {
           "name": "Vengeful Retreat",
-          "verdict": "hold-sealed",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-sealed"
         },
         {
           "name": "Metamorphosis",
-          "verdict": "hold-sealed",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-sealed"
         },
         {
           "name": "The Hunt",
@@ -281,10 +275,7 @@
         },
         {
           "name": "Metamorphosis",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-readable"
         },
         {
           "name": "The Hunt",
@@ -377,10 +368,7 @@
         },
         {
           "name": "Metamorphosis",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-readable"
         },
         {
           "name": "The Hunt",
@@ -469,10 +457,7 @@
         },
         {
           "name": "The Hunt",
-          "verdict": "hold-sealed",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-sealed"
         },
         {
           "name": "Eye Beam",
@@ -734,10 +719,7 @@
       "row": [
         {
           "name": "Vengeful Retreat",
-          "verdict": "hold-sealed",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-sealed"
         },
         {
           "name": "Metamorphosis",
@@ -753,10 +735,7 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "hold-sealed",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-sealed"
         },
         {
           "name": "Blade Dance",
@@ -1132,10 +1111,7 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "hold-readable",
-          "cues": [
-            "blocked"
-          ]
+          "verdict": "hold-readable"
         },
         {
           "name": "Chaos Strike",

@@ -54,10 +54,10 @@
     if (COLLECT) COLLECT.push(id);
   }
 
-  function badgeNode(key) {
+  function badgeNode(key, index) {
     var cue = T.cues[key] || {};
     var slot = el("div", "slot");
-    slot.setAttribute("data-slot", String(cue.slot || 1));
+    slot.setAttribute("data-index", String(index || 0));
     slot.title = key + " — " + (cue.means || "") + (cue.open ? " (open — unverified in client)" : "");
     if (cue.open) slot.setAttribute("data-open", "1");
     slot.setAttribute("data-polarity", cue.polarity || "negative");
@@ -114,7 +114,21 @@
 
     // V11 · the cooldown hatch. Over the icon and the swipe, under the badges — it states a
     // condition about the whole button, and the marks that say *why* must stay legible on top.
+    // DEDUPED. A cue named twice is ONE badge -- that is how the band grammar expresses an OR,
+    // and it holds just as much when the second mention comes from the verdict rather than from
+    // a second marker. Without this, an entry whose verdict already implies `blocked` and which
+    // also declares it draws two identical discs, which reads as two different reasons.
+    var cueList = (rule.cues || []).concat(entry.cues || []).filter(function (k, i, all) {
+      return all.indexOf(k) === i;
+    });
     if (rule.hatch) item.appendChild(hatchLayer());
+    // V11's second cause: cap's own verdict. A row wearing ANY negative cue is ruled out, and
+    // the hatch is Part 0.5's pass 2 drawn -- until this shipped, a swiped row was unmistakably
+    // out while a badged one relied on the reader noticing a 22px disc.
+    var ruledOut = cueList.some(function (k) {
+      return (T.cues[k] || {}).polarity !== "positive";
+    });
+    if (ruledOut) item.appendChild(skipLayer());
 
     // Every non-`cd` row is IN THE SCAN and wears the edge. `press`, `press-promoted` and
     // `below` render IDENTICALLY, and that is the point: the press is "the leftmost thing not
@@ -122,11 +136,31 @@
     // — it is a rim on the button, not a layer across it.
     if (rule.scan) item.appendChild(scanMark());
 
+    // V15 · the keybind hint. CHROME, not a cue (spec.md §3.8): it names the row and takes no
+    // part in the scan, so it holds the top-left corner the badges never flow into and no
+    // verdict can add or remove it. ⚠ The key is SIMULATED — `tokens.preview.hotkeys` by roster
+    // position — because the point of drawing it here is judging how the text sits in the corner
+    // before any of it reaches the game, and an empty corner cannot be judged.
+    if (ab.hotkey) {
+      var hk = el("div", "hotkey");
+      hk.textContent = ab.hotkey;
+      item.appendChild(hk);
+    }
+
     var open = false;
-    var cues = (rule.cues || []).concat(entry.cues || []);
-    cues.slice(0, T.badges.slots.length).forEach(function (k) {
+    // Sorted by the cue's RANK, not by the order the catalog happened to name them, so two rows
+    // wearing the same pair always stack them the same way round. Positives rank above
+    // negatives, so a promotion lands on the corner (render-shelf.md Part 1).
+    var cues = cueList.slice().sort(function (a, b) {
+      return ((T.cues[a] || {}).rank || 99) - ((T.cues[b] || {}).rank || 99);
+    });
+    cues.forEach(function (k, i) {
       if ((T.cues[k] || {}).open) open = true;
-      item.appendChild(badgeNode(k));
+      var node = badgeNode(k, i);
+      // V14 rides the badge it belongs to, so it moves with the stack rather than being
+      // anchored to the corner independently.
+      if ((T.cues[k] || {}).polarity === "positive") node.insertBefore(promoRing(), node.firstChild);
+      item.appendChild(node);
     });
     if (open) item.setAttribute("data-open", "1");
 
@@ -331,26 +365,25 @@
     gallery.appendChild(swatch(
       "cue · " + key + (cue.open ? " ⚠" : ""),
       (cue.open ? "<b>declared, unverified in client — produces no hint yet.</b> " : "") +
-        cue.means + " <em>(slot " + cue.slot + ", " + cue.frames.length + " frames @ " +
+        cue.means + " <em>(rank " + cue.rank + ", " + cue.frames.length + " frames @ " +
         cue.duration_s + "s " + cue.loop + ")</em>",
       function () { return bareItem(D.scan_sample, "below", { cues: [key] }); }
     ));
   });
 
-  // One cue per DISTINCT slot, not the first N cues: `starved` and `overcap` deliberately share
-  // slot 2 (they are the same question about the same resource, and never co-occur), so taking
-  // the first three would stack two badges in one place and draw only two. This swatch exists to
-  // answer "do three badges crowd the face?", which it cannot do while showing two.
-  var perSlot = [];
-  T.badges.slots.forEach(function (s) {
-    var k = cueKeys.filter(function (c) { return T.cues[c].slot === s.id; })[0];
-    if (k) perSlot.push(k);
+  // The stack FLOWS, so there are no slots to show one-per. What this has to answer instead is
+  // "how far down the icon does a full stack reach, and does it still read?" — so it draws every
+  // cue in the vocabulary at once, which is the worst case by construction rather than by a
+  // number someone has to keep up to date.
+  var stack = cueKeys.slice().sort(function (a, b) {
+    return (T.cues[a].rank || 99) - (T.cues[b].rank || 99);
   });
-  gallery.appendChild(swatch("badges · all three slots",
-    T.badges.slots.length + " is the ceiling the shelf sets. If a fourth slot wants in, one of " +
-    "the three is not earning its place. Shown: " + perSlot.join(" · ") + " — one per slot, so " +
-    "the crowding question is answerable. Slot 3 is the positive cue's, and reads gold.",
-    function () { return bareItem(D.scan_sample, "below", { cues: perSlot }); }));
+  gallery.appendChild(swatch("badges · the full stack",
+    "Every cue at once, in rank order — the deepest stack the vocabulary can produce, which is " +
+    "the crowding question worth answering now that there is no ceiling. Positives rank first " +
+    "and sit on the corner, so a promotion is the badge the eye reaches before any skip. " +
+    "Shown: " + stack.join(" · ") + ".",
+    function () { return bareItem(D.scan_sample, "below", { cues: stack }); }));
 
   // A badge overhanging the corner can collide with the next icon. That is arithmetic, and
   // arithmetic in a caption is an assertion; drawn in a real row it is a finding.
@@ -422,6 +455,17 @@
     asks.innerHTML = "<b>Asks:</b> " + (spec.asks || "<em>nothing — Part 7 says an entry that " +
       "cannot say what it is asking is decoration</em>");
     box.appendChild(asks);
+    // A font entry says where its face came from and what it costs, because "could we ship our
+    // own font" is a licence question before it is a taste question.
+    var f = LAB_FONTS[key];
+    if (f) {
+      var prov = el("p", "asks");
+      prov.innerHTML = "<b>" + f.family + "</b> · " + f.origin + " · " + f.license +
+        " · <b>" + (f.shippable ? "ours to ship" : "preview only") + "</b> · " +
+        (f.source_bytes / 1024).toFixed(0) + " KB, subset to " +
+        (f.subset_bytes / 1024).toFixed(1) + " KB";
+      box.appendChild(prov);
+    }
     var row = el("div", "lab-row");
     box.appendChild(row);
     return { box: box, row: row };
@@ -448,20 +492,59 @@
    * There is deliberately no shared "is this striped" flag: a layer is built from ONE render's
    * own colour and phase, and a cell that needs two conditions shown gets two layers.
    */
-  var SHEET = D.lab_stripes;
-
   function maskedStripe(cls, rgbVar, phaseVar) {
     var n = el("div", cls);
     n.style.setProperty("--stripe-rgb", rgbVar);
     n.style.setProperty("--stripe-phase", phaseVar);
-    if (SHEET) {
-      n.style.webkitMaskImage = n.style.maskImage = "url(" + SHEET.uri + ")";
+    // ⚠ Resolved AT CALL TIME, never hoisted into a module-scope `var`. The gallery is built
+    // before the Part 7 section of this file executes, so a `var SHEET = D.lab_stripes` above
+    // was still `undefined` when a cue swatch asked for it — and an unmasked stripe layer is
+    // not a missing treatment, it is a FLAT RED FIELD that looks like a deliberate different
+    // one. Measured 2026-08-19: gallery `mask-image: none`, scenario rows masked correctly.
+    var sheet = D.lab_stripes;
+    if (sheet) {
+      n.style.webkitMaskImage = n.style.maskImage = "url(" + sheet.uri + ")";
     }
     return n;
   }
 
   function hatchLayer() {
     return maskedStripe("stripes", "var(--hatch-rgb)", "var(--hatch-phase)");
+  }
+
+  // The same sheet, cap's own colour and phase. One geometry, two verdicts (V11).
+  function skipLayer() {
+    // Its own class as well as the shared one: cap's half of V11 overhangs the icon rect and
+    // carries a border, so that a ruled-out row's red REPLACES V13's yellow scan edge instead of
+    // sitting inside it. Two treatments making opposite statements about one row, with the
+    // yellow reading louder because it is a hard line, is the thing this prevents.
+    var n = maskedStripe("stripes skip-hatch", "var(--hatch-skip-rgb)",
+                         "var(--hatch-skip-phase)");
+    return n;
+  }
+
+  /* V14 · the promotion ring — a glowing ring around the badge of a row wearing a positive cue.
+   * A measured replica of Blizzard's proc glow: it does NOT pulse, it never covers the icon, and
+   * its falloff is asymmetric. See render-shelf.md V14 for what was measured and why. */
+  function promoRing() {
+    var art = D.promotion || {};
+    var n = el("div", "promo-ring");
+    if (!art.uri) return n;
+    var sc = art.w / 64, sr = art.h / 64;
+    n.style.webkitMaskImage = n.style.maskImage = "url(" + art.uri + ")";
+    n.style.webkitMaskSize = n.style.maskSize = (sc * 100) + "% " + (sr * 100) + "%";
+    var i = 0;
+    var stepX = sc > 1 ? 100 / (sc - 1) : 0, stepY = sr > 1 ? 100 / (sr - 1) : 0;
+    var cols = T.promotion.cols, frames = T.promotion.frames;
+    function tick() {
+      var c = i % cols, r = Math.floor(i / cols);
+      n.style.webkitMaskPosition = n.style.maskPosition = (c * stepX) + "% " + (r * stepY) + "%";
+      i = (i + 1) % frames;
+    }
+    tick();
+    var id = setInterval(tick, 1000 / T.promotion.fps);
+    if (COLLECT) COLLECT.push(id);
+    return n;
   }
 
   function stripeLayer(key) {
@@ -486,6 +569,156 @@
       var layer = stripeLayer(which === "self" ? key : which);
       if (anchor) item.insertBefore(layer, anchor); else item.appendChild(layer);
     });
+    return item;
+  }
+
+  /* Part 7 · the flipbook entries — icon-scale VFX, the proc-glow family.
+   *
+   * These sit on the ICON RECT, not on a badge: Blizzard's proc glow surrounds the whole
+   * button, and half of why it reads is that it is big. `scale` is a multiple of the icon.
+   *
+   * A sheet is stepped with `background-position` on a `steps()` animation, which is the CSS
+   * analogue of SetTexCoord walking a grid. Baked-hue sheets draw as-is; a neutral one is
+   * masked and tinted so it takes the lane's own colour.
+   */
+  var VFX = D.lab_vfx || {};
+
+  function flipbookLayer(key, spec) {
+    var art = VFX[spec.sheet] || {};
+    var n = el("div", "vfx");
+    n.setAttribute("data-fit", spec.frames > 1 ? "sheet" : "single");
+    n.style.setProperty("--vfx-scale", "var(--lab-" + key + "-scale)");
+    n.style.setProperty("--vfx-dur", "var(--lab-" + key + "-dur)");
+    n.style.setProperty("--vfx-cols", "var(--lab-" + key + "-cols)");
+    n.style.setProperty("--vfx-rows", "var(--lab-" + key + "-rows)");
+    if (spec.period_s) n.style.setProperty("--vfx-period", "var(--lab-" + key + "-period)");
+    if (!art.uri) return n;
+
+    // ⚠ The CELL SIZE IS DECLARED, never assumed. The sheet is padded to a power of two, so
+    // neither `art.w / cols` nor a fixed 64 is right: `corona` is one 128px frame in a 128x128
+    // sheet, and `energy` is an 8x3 grid of 64px cells in a 512x256 one with a quarter of the
+    // height unused. Assuming 64 drew the corona as a 2x2 grid and showed one corner of it.
+    var cell = spec.cell;
+    var sheetCols = art.w / cell, sheetRows = art.h / cell;
+    // Scale the sheet so ONE cell covers the layer, then walk it by whole cells.
+    var bgW = sheetCols * 100, bgH = sheetRows * 100;
+
+    if (spec.tint === "lane") {
+      n.setAttribute("data-tint", "lane");
+      n.style.setProperty("--vfx-rgb", "var(--lab-" + key + "-rgb)");
+      n.style.webkitMaskImage = n.style.maskImage = "url(" + art.uri + ")";
+      n.style.webkitMaskSize = n.style.maskSize = bgW + "% " + bgH + "%";
+    } else {
+      n.style.backgroundImage = "url(" + art.uri + ")";
+      n.style.backgroundSize = bgW + "% " + bgH + "%";
+    }
+
+    if (spec.frames > 1) walkSheet(n, spec, sheetCols, sheetRows);
+    return n;
+  }
+
+  // Step a flipbook by setting background-position per frame, the same way `animateSprite`
+  // steps the badge frames. CSS `steps()` cannot walk a 2-D grid without generated keyframes,
+  // and generating keyframes per entry puts layout arithmetic into a stylesheet that is not
+  // allowed to hold numbers.
+  function walkSheet(node, spec, sheetCols, sheetRows) {
+    var i = 0;
+    // `background-position` in % is a RATIO, not an offset: 100% means "align the image's right
+    // edge with the box's right edge". So one cell of travel is 100/(cells-1), over the sheet's
+    // OWN cell count -- including the padding cells, which is why the frame count is what bounds
+    // the walk and the grid is only what shapes it.
+    var stepX = sheetCols > 1 ? 100 / (sheetCols - 1) : 0;
+    var stepY = sheetRows > 1 ? 100 / (sheetRows - 1) : 0;
+    function tick() {
+      var c = i % spec.cols, r = Math.floor(i / spec.cols);
+      var pos = (c * stepX) + "% " + (r * stepY) + "%";
+      if (spec.tint === "lane") {
+        node.style.webkitMaskPosition = node.style.maskPosition = pos;
+      } else {
+        node.style.backgroundPosition = pos;
+      }
+      i = (i + 1) % spec.frames;
+    }
+    tick();
+    var id = setInterval(tick, 1000 / (spec.fps || 30));
+    if (COLLECT) COLLECT.push(id);
+  }
+
+  function flipbookItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: [] });
+    if (cell.treat === false) return item;
+    // BEFORE the badge slots, so a corner badge stays legible over the effect — the badge is
+    // the thing that says *why*, and an effect that buries it has taken information away.
+    var anchor = item.querySelector(".slot");
+    var layer = flipbookLayer(key, spec);
+    if (anchor) item.insertBefore(layer, anchor); else item.appendChild(layer);
+    return item;
+  }
+
+  /* Part 7 · the blaze. A promotion that SHOUTS instead of pointing.
+   *
+   * Two entries differ in one thing: what shape the light has. `behind: "glyph"` masks the
+   * bright field to the sprite's own silhouette, so the flame appears to be the source.
+   * `behind: "plate"` puts it behind the badge's dark disc, so the light has a hard circular
+   * edge and the plate keeps doing its contrast job.
+   *
+   * No number is in this file — `spread`, the two alphas and the period all arrive as CSS
+   * variables from the shelf, same discipline as the stripe and readiness renders.
+   */
+  var LAB_SPRITES = D.lab_sprites || {};
+
+  function blazeItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: [] });
+    // A CONTROL cell draws the icon and nothing else. Without this every cell wore the
+    // treatment, including the one captioned "the same icon untreated" -- which makes the
+    // comparison the entry exists for impossible to actually make.
+    if (cell.treat === false) return item;
+    var art = LAB_SPRITES[spec.sprite] || {};
+    var badge = el("div", "blaze-badge");
+    badge.setAttribute("data-behind", spec.behind || "glyph");
+    badge.style.setProperty("--bl-rgb", "var(--lab-" + key + "-rgb)");
+    badge.style.setProperty("--bl-rest", "var(--lab-" + key + "-rest)");
+    badge.style.setProperty("--bl-flare", "var(--lab-" + key + "-flare)");
+    badge.style.setProperty("--bl-spread", "var(--lab-" + key + "-spread)");
+    badge.style.setProperty("--bl-glyph", "var(--lab-" + key + "-glyph)");
+    if (spec.period_s) badge.style.setProperty("--bl-period", "var(--lab-" + key + "-period)");
+
+    // The bright field, in one of THREE shapes -- which is the only thing separating these
+    // entries. Masked to the GLYPH, a plain DISC behind the plate, or a RING from real art.
+    // All three sit behind the sprite, and none ever touches the sprite's own alpha: a
+    // promotion whose glyph blinks is a promotion that hides its own information.
+    var behind = spec.behind || "glyph";
+    var blaze = el("div", "blaze");
+    if (behind === "glyph" && art.uri) {
+      blaze.style.webkitMaskImage = blaze.style.maskImage = "url(" + art.uri + ")";
+    } else if (behind === "corona" || behind === "sheet") {
+      // Real art as the field. A ring or a flipbook, drawn rather than tinted, because both
+      // carry their own falloff and a flat colour through a mask would lose the part that reads
+      // as heat. `sheet` walks its frames; `corona` is a single frame and simply sits there.
+      var art2 = VFX[spec.sheet] || {};
+      if (art2.uri) {
+        var sc = art2.w / spec.cell, sr = art2.h / spec.cell;
+        if (spec.tint === "lane") {
+          // The one neutral field: masked and tinted, so it takes the lane's colour.
+          blaze.style.webkitMaskImage = blaze.style.maskImage = "url(" + art2.uri + ")";
+          blaze.style.webkitMaskSize = blaze.style.maskSize = (sc * 100) + "% " + (sr * 100) + "%";
+          blaze.setAttribute("data-tint", "lane");
+        } else {
+          blaze.style.backgroundImage = "url(" + art2.uri + ")";
+          blaze.style.backgroundSize = (sc * 100) + "% " + (sr * 100) + "%";
+        }
+        if (spec.frames > 1) walkSheet(blaze, spec, sc, sr);
+      }
+    }
+    badge.appendChild(blaze);
+
+    var sprite = el("div", "blaze-sprite");
+    if (art.uri) {
+      sprite.style.webkitMaskImage = sprite.style.maskImage = "url(" + art.uri + ")";
+    }
+    badge.appendChild(sprite);
+
+    item.appendChild(badge);
     return item;
   }
 
@@ -557,6 +790,44 @@
     return row;
   }
 
+  /* Part 7 · the font candidates for V15's hotkey text.
+   *
+   * The cell is a REAL row — same icon, same verdict, same badges — with the label overridden to
+   * this entry's family and dials. Judging a font on its own line proves nothing: the question is
+   * whether four characters survive the art under them and the badge beside them, and only a row
+   * asks that. ⚠ Every family here is SUBSET to the keybind alphabet at build time, so the
+   * advance widths are the real ones and the page still weighs what it weighed.
+   */
+  function hotkeyItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "press", { cues: cell.cues || [] });
+    var hk = item.querySelector(":scope > .hotkey");
+    if (!hk) {
+      hk = el("div", "hotkey");
+      item.appendChild(hk);
+    }
+    hk.textContent = cell.key || "3";
+    hk.style.setProperty("--hotkey-font", "var(--lab-" + key + "-hk-font)");
+    hk.style.setProperty("--hotkey-size", "var(--lab-" + key + "-hk-size)");
+    hk.style.setProperty("--hotkey-outline-px", "var(--lab-" + key + "-hk-outline)");
+    if (spec.bar) {
+      // A bar is a different object from a corner label, so it takes its own rule rather than
+      // overloading `.hotkey`'s. Everything positional in that rule is overridden.
+      hk.className = "hotkey hotkey-bar";
+      hk.style.setProperty("--hotkey-bar", "var(--lab-" + key + "-hk-bar)");
+      hk.style.setProperty("--hotkey-bar-h", "var(--lab-" + key + "-hk-bar-h)");
+      hk.style.setProperty("--hotkey-bar-align", "var(--lab-" + key + "-hk-bar-align)");
+      hk.style.setProperty("--hotkey-bar-rule", "var(--lab-" + key + "-hk-bar-rule)");
+    }
+    if (spec.plate) {
+      hk.style.setProperty("--hotkey-plate", "var(--lab-" + key + "-hk-plate)");
+      hk.style.setProperty("--hotkey-plate-x", "var(--lab-" + key + "-hk-plate-x)");
+      hk.style.setProperty("--hotkey-plate-y", "var(--lab-" + key + "-hk-plate-y)");
+    }
+    return item;
+  }
+
+  var LAB_FONTS = D.lab_fonts || {};
+
   var LAB = T.lab || {};
   var labHost = document.getElementById("lab");
   var labKeys = Object.keys(LAB).filter(function (k) { return k.charAt(0) !== "_"; });
@@ -595,6 +866,24 @@
         }
         if (cell.kind === "row") {
           e.row.appendChild(labCell(readyRow(key, spec, cell), cap));
+          return;
+        }
+        if (spec.draws === "hotkey") {
+          var headK = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "press") +
+                      "</code><br>";
+          e.row.appendChild(labCell(hotkeyItem(key, spec, cell), headK + cap));
+          return;
+        }
+        if (spec.draws === "flipbook") {
+          var headF = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(flipbookItem(key, spec, cell), headF + cap));
+          return;
+        }
+        if (spec.draws === "blaze") {
+          var headB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(blazeItem(key, spec, cell), headB + cap));
           return;
         }
         if (spec.draws === "ready-glow" || spec.draws === "ready-line") {

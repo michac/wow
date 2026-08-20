@@ -998,8 +998,41 @@ secure snippet does not.
 
 **Formatting the key for display.** `GetBindingText(key, 1)` — the abbreviate flag is a
 positional truthy argument (`1`, `true` and `0` all appear in shipped calls), **not** the
-string `"KEY_ABBR"`, which is the naming convention for the `KEY_ABBR_*` global strings the
-function looks up internally `[T1 src: ActionButton.lua:491; SharedConstants.lua:55-59]`.
+string `"KEY_ABBR"` `[T1 src: ActionButton.lua:491]`.
+
+⚠ **The flag abbreviates the MODIFIERS and nothing else, so its output does not fit an icon
+corner.** The abbreviations are single lowercase letters — `SHIFT_KEY_TEXT_ABBR = "s"`,
+`CTRL_KEY_TEXT_ABBR = "c"`, `ALT_KEY_TEXT_ABBR = "a"`, `META_KEY_TEXT_ABBR` / `CMD_KEY_TEXT_ABBR
+= "m"` `[T1 src: GlobalStrings enUS :17900, :5336, :832, :13434, :4186]`. **There is no
+abbreviated form of any key NAME.** The `KEY_ABBR_*` family is **gamepad-only** and expands to a
+texture escape (`|A:Gamepad_%s_32:14:14|a`) rather than to text `[T1 src:
+SharedConstants.lua:56-58, :61-143]`, so a mouse or numpad binding comes back at full length
+however the flag is set: `KEY_BUTTON4 = "Mouse Button 4"`, `KEY_BUTTON3 = "Middle Mouse"`,
+`KEY_MOUSEWHEELUP = "Mouse Wheel Up"`, `KEY_NUMPAD5 = "Num Pad 5"` `[T1 src: GlobalStrings enUS
+:12460, :12457, :12480, :12488]`. Function keys, letters and digits have no `KEY_*` entry at all
+and pass through as the raw token. **A rider that wants a short label has to shorten it itself.**
+
+⚠ `[gap]` **The JOINER between an abbreviated modifier and the key is unmeasured.**
+`GetBindingText` is implemented C-side and is only ever *called* from Lua — `s-F`, `sF` and `s F`
+are all consistent with the string table `[searched 2026-08-19: wow-ui-source 12.0.7 (68453) and
+BlizzardInterfaceResources enUS GlobalStrings, for any Lua definition of GetBindingText]`. Write
+a shortener that tolerates all three rather than matching one.
+
+**Blizzard does not truncate a long key either — it clips.** `ActionButton.lua:487-508`
+(`UpdateHotkeys`) reads `GetBindingText(key, 1)`, treats **`""`** (not nil) as "nothing bound" and
+hides the FontString `[:492-494]`, and otherwise fixes the region's size — `SetSize(frameWidth-8,
+10)` for keyboard, `SetSize(frameWidth, 16)` for gamepad — and calls `SetText` `[:497-506]`. No
+`strsub`, no max length, anywhere in the tree `[searched 2026-08-19: Blizzard_ActionBar/** for
+hotkey truncation]`.
+
+**The font Blizzard puts on a hotkey is `Fonts\ARIALN.TTF`, height 12, `outline="NORMAL"`,**
+tinted 0.6 grey. Chain: the FontString inherits `NumberFontNormalSmallGray` `[T1 src:
+ActionButtonTemplate.xml:85]` → `NumberFontNormalSmall` + a grey colour `[T1 src:
+GameFontStyles.xml:21-23]` → `NumberFont_OutlineThick_Mono_Small` `[:18-20]` → the roman member,
+ARIALN at 12 `[T1 src: GameFonts.xml:59-61]`. ⚠ The family is named *OutlineThick* and resolves
+to a **NORMAL** outline; the THICK variant with that name is the **glue/login** one `[T1 src:
+GlueFontStyles.xml:80-85]` and is not the in-game action bar's. Arial Narrow is a deliberate
+choice for this problem: narrow buys characters in a fixed-width corner.
 `GetBindingKeyForAction(action, useNotBound, useParentheses)` is Blizzard's own wrapper over
 the pair, with a `NOT_BOUND` fallback `[T1 src: BindingUtil.lua:151]`. Note that none of
 `GetBindingKey` / `GetBindingText` / `SetBinding` appear in the generated API docs — they are
@@ -1127,3 +1160,70 @@ Forbidden objects (engine aura buttons) seal themselves entirely: style them ins
 creation window and anchor a proxy to follow them, never the reverse. Everything readable —
 identities, booleans, `isOnGCD`, Assisted-Combat suggestions, overlay-glow events, range
 events, keybinds — is fair game, and using it well is the whole craft.
+
+## 6. Auras at 12.1 — the route map
+
+Everything in §1–§5 is cooldowns and charges. Auras are a **separate system** with its own
+seal, and the three pieces that make them workable were established on different days, in
+different files, filed by how they were found rather than by what they are for. This section
+is the entry point; each claim lives in exactly one place and is cited, not restated.
+
+**The starting fact: `C_UnitAuras` is closed to a tainted caller while auras are secret.** The
+spell-keyed getters return a silent `nil` — indistinguishable from "no such aura" — and the
+enumerators raise. Measured both ways, on the player's own auras as well as the target's:
+[`security-taint-and-restricted-data.md`](./security-taint-and-restricted-data.md) §4.7.1.
+**Reaching this and stopping is the mistake to avoid**; the capability moved, it did not go
+away. Three routes replace it, and they answer *different questions*.
+
+| You want to… | Route | Gives you |
+|---|---|---|
+| **show** an aura — icon, stacks, a draining timer | `AuraContainer` / `AuraButton` (`security-taint-and-restricted-data.md` §3.5, §3.5.1) | pixels only |
+| **know** whether one is up, and branch on it | CDM alert edges (`cooldown-manager.md` §5.1) | a readable boolean |
+| **identify** which spell id an aura actually carries | a container narrowed to a candidate set (`security-taint-and-restricted-data.md` §3.5.1) | the id, by eye |
+
+### 6.1 To DISPLAY — the container
+
+Declare intent (which auras, sorted how, at most how many), register output sinks, and the
+engine fills them; your code never sees an `AuraData`. Flown from tainted addon code, in
+combat, with `includeSpellIDs` honoured on a **hostile** target — so a display scoped to one
+spec's own DoTs is buildable
+([`security-taint-and-restricted-data.md`](./security-taint-and-restricted-data.md) §3.5.1).
+
+⚠ **It ends at the pixel.** The buttons answer `IsShown` with a secret, so nothing downstream
+may branch on whether one appeared. If you need a *decision*, you are in §6.2, not here.
+
+⚠ **Size the button in `initializeFrame` or you will see nothing**, while every call returns
+`ok` — the template carries no `<Size>` and the layout never sets one (`security-taint-and-restricted-data.md` §3.5).
+
+### 6.2 To KNOW — the alert edges
+
+A CDM row bound to an aura calls `TriggerAlertEvent` with `OnAuraApplied` / `OnAuraRemoved`,
+and **observing a call is not reading a value**, so a latch built on these edges is readable
+and branchable. Works for a debuff on an **enemy**, which is what makes it the only surviving
+target-aura *predicate*. Hook per item **instance**; the recipe, the enum values and the
+measurement are in [`cooldown-manager.md`](./cooldown-manager.md) §5.1.
+
+⚠ **A refresh of a live aura raises nothing** (`cooldown-manager.md` §5.4) — harmless for an up/down latch, since a
+refresh does not change up/down, and fatal for anything wanting duration.
+
+⚠ **`Available` is asymmetric and gated on the player's alert config; the aura edges are not**
+— they run from the `UNIT_AURA` path rather than `OnUpdate` registration (`cooldown-manager.md` §5.1).
+
+### 6.3 The gate on both — is the row even bound?
+
+Both routes above assume the row you care about reached an item frame. Many aura rows carry
+`HideByDefault` and only bind once the player adds them to Tracked Buffs, and a consumer that
+cannot tell gets **no error and no absent value** — it simply never hears about that ability
+(`cooldown-manager.md` §1.2). A hint resting on an unheard row sits dark forever and reads as *"the condition is
+false"*, which is the one thing an unknown must never become.
+
+**Ask the question the hook cares about: did it get a frame?** Enumerate the four viewer
+globals' active item frames and read `GetCooldownID()` on each; a frame carrying the id is
+what an alert hook attaches to, and a cleared frame answers `nil`. Reconciling against the
+settings provider's `GetOrderedCooldownIDsForCategory` instead returns the row **whether or
+not the player enabled it** `[client 2026-08-19]`, so it answers a different question than the
+one being asked. `@pending-test: cdm-aura-edges-need-a-bound-row` — the frame-enumeration form
+is derived from source and has not yet been shown to flip across an enable/disable pair.
+
+⚠ **Whatever you build, it has to be able to say "I cannot hear this one."** The remedy is one
+tracked-buff toggle, and the player has no way to know it is needed unless something tells them.

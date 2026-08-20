@@ -3,6 +3,7 @@ name = "wowkb"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
+    "fonttools>=4.63.0",
     "html2text>=2025.4.15",
     "pillow>=12.2.0",
     "python-dotenv>=1.2.2",
@@ -10,4 +11,9 @@ dependencies = [
     "requests>=2.34.2",
     "youtube-transcript-api>=1.2.4",
     "yt-dlp>=2026.3.17",
+]
+
+[dependency-groups]
+dev = [
+    "openexr>=3.4.14",
 ]

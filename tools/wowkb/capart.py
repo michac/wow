@@ -47,7 +47,8 @@ carved for. (It did, until 2026-08-17: the two gates ran independently and every
 satisfy both.) What keeps pass 1 unambiguous is the separate rule that at most ONE cue may declare
 `polarity: "positive"`; that gate is untouched and is what this chain rests on. Two more gates
 stand beside it: every declared cue must be worn by some scenario row (a cue that renders nowhere
-is `spec.md` §3.2's defect), and slot 3 belongs to the positive cue (`render-shelf.md` Part 1).
+is `spec.md` §3.2's defect), positive cues rank above negative ones so a promotion packs onto the
+corner (`render-shelf.md` Part 1), and no row is denser than Part 0.5's hold budget.
 
 Usage:
     uv run python -m wowkb.capart tokens                # resolved tokens + the CSS block
@@ -351,7 +352,9 @@ def parse_row(raw: str) -> list[dict]:
                  "render-shelf V6.\n"
                  "       A SATISFIED dependency now draws nothing — delete the group. A "
                  "BLOCKED one is\n"
-                 "       `{cues: blocked}` on a `hold-readable` row.")
+                 "       the `hold-readable` verdict itself, which already IMPLIES `blocked` — "
+                 "do not also\n"
+                 "       declare `{cues: blocked}`, which is a second mention of one cue.")
         groups = {m.group("kind"): m.group("body") for m in GROUP_RE.finditer(chunk)}
         bare = GROUP_RE.sub("", chunk).strip()
         m = ENTRY_RE.match(bare)
@@ -533,16 +536,45 @@ def validate(scenarios: list[dict], tokens: dict, roster: dict) -> None:
 # --------------------------------------------------------------------------- assets
 
 
+#: Encoded-asset cache, keyed by image CONTENT plus encode settings. Gitignored (`raw/`).
+#:
+#: ⚠ This exists because the encode is genuinely expensive and almost always redundant. Measured
+#: 2026-08-19: `webp method=6` costs 2.94s for one 512x256 VFX sheet against 0.03s at method=4 —
+#: a hundredfold, for 15% of file size. With six sheets, encoded once per spec, `build --all`
+#: spent ~30s re-encoding art that had not changed, and `check` paid it a second time because it
+#: re-renders both pages to compare. So a one-line colour edit cost a minute of pure recompute.
+#:
+#: Keyed on the decoded pixels rather than the source path, so it stays correct when a generator
+#: rewrites a sheet byte-for-byte identically, and misses when the pixels actually move.
+_URI_CACHE = ROOT / "raw" / "capart-uri"
+
+
 def _data_uri(img: Image.Image, tokens: dict) -> tuple[str, int]:
-    buf = io.BytesIO()
     fmt = tokens["assets"].get("encode", "webp")
+    quality = tokens["assets"].get("quality", 90)
+    key = hashlib.sha256(
+        img.tobytes() + f"|{img.mode}|{img.size}|{fmt}|{quality}|m6".encode()
+    ).hexdigest()
+    cached = _URI_CACHE / f"{key}.txt"
+    try:
+        uri = cached.read_text(encoding="ascii")
+        return uri, len(uri)
+    except OSError:
+        pass
+
+    buf = io.BytesIO()
     if fmt == "webp":
-        img.save(buf, "WEBP", quality=tokens["assets"].get("quality", 90), method=6)
+        img.save(buf, "WEBP", quality=quality, method=6)
         mime = "image/webp"
     else:
         img.save(buf, "PNG", optimize=True)
         mime = "image/png"
     uri = f"data:{mime};base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+    try:
+        _URI_CACHE.mkdir(parents=True, exist_ok=True)
+        cached.write_text(uri, encoding="ascii")
+    except OSError:
+        pass          # a cache that cannot be written is a slow build, never a wrong one
     return uri, len(uri)
 
 
@@ -605,15 +637,19 @@ def badge_assets(tokens: dict) -> dict:
         for frame in cue["frames"]:
             if frame in out:
                 continue
-            path = root / f"{frame}.png"
-            if not path.exists():
-                _die(f"cue {key!r} names frame {frame!r}, not found at "
-                     f"{(root / f'{frame}.png').relative_to(ROOT)} — "
-                     f"tokens.badges.asset_root is {badges['asset_root']!r}")
-            img = Image.open(path).convert("RGBA")
+            if frame in GENERATED_FRAMES:
+                img, where = GENERATED_FRAMES[frame](), f"generated ({frame})"
+            else:
+                path = root / f"{frame}.png"
+                if not path.exists():
+                    _die(f"cue {key!r} names frame {frame!r}, not found at "
+                         f"{(root / f'{frame}.png').relative_to(ROOT)} and not in "
+                         f"GENERATED_FRAMES — tokens.badges.asset_root is "
+                         f"{badges['asset_root']!r}")
+                img, where = Image.open(path).convert("RGBA"), str(path.relative_to(ROOT))
             measure = uiart.tintability(img)
             open_flag = assert_tintable(
-                f"badge sprite {frame!r} (cue {key!r})", str(path.relative_to(ROOT)),
+                f"badge sprite {frame!r} (cue {key!r})", where,
                 tint, measure["mean_saturation"], measure["tintable"],
             )
             buf = io.BytesIO()
@@ -647,6 +683,11 @@ def addon_style(tokens: dict) -> dict:
     # prefix and the shelf's own texture name, so no path is spelled out in Lua.
     if "hatch" in out:
         out["hatch"] = dict(out["hatch"], texture_root=MEDIA_TEXTURE_ROOT)
+    # V14's promotion ring, same reason and the same directory. It ships to `Media/` rather than
+    # `Media/lab/` because it is the STYLE now — promotion moved the art with the treatment,
+    # exactly as V11's stripe sheet moved on 2026-08-16.
+    if "promotion" in out:
+        out["promotion"] = dict(out["promotion"], texture_root=MEDIA_TEXTURE_ROOT)
     return out
 
 
@@ -711,6 +752,36 @@ def addon_lab(tokens: dict) -> dict:
         out["_sheet"]["direction"] = hatch.get("direction", "down")
         out["_sheet"]["texture_root"] = MEDIA_TEXTURE_ROOT
         out["_sheet"]["texture"] = hatch["texture"]
+    # Where the gallery finds art the LAB owns. Its own root, so `Media/lab/` stays legible from
+    # `ls` and an entry's art can be deleted with the entry when the experiment loses.
+    # TWO roots, because a lab entry now draws from both. Its SPRITE is `fire`, which the style
+    # owns since `priority` took it as a glyph; its SHEET is VFX art the lab still owns. Pointing
+    # both at one directory is what would put a second copy of `fire` on disk.
+    if any(isinstance(v, dict) and v.get("sprite")
+           for k, v in out.items() if not k.startswith("_")):
+        out["_sprites"] = {"texture_root": BADGE_TEXTURE_ROOT}
+    if any(isinstance(v, dict) and v.get("sheet")
+           for k, v in out.items() if not k.startswith("_")):
+        out["_sheets"] = {"texture_root": LAB_TEXTURE_ROOT}
+
+    # A flipbook's texcoord step is `cell / sheet`, NOT `1 / cols` — the sheet is padded to a
+    # power of two, so an 8x3 grid of 64px cells lives in a 512x256 texture with a quarter of the
+    # height unused. Dividing by `rows` would stretch every frame and walk into the padding.
+    # Computed here, from the file on disk, so neither the gallery nor the preview can assume it.
+    for key, entry in out.items():
+        if key.startswith("_") or not isinstance(entry, dict) or not entry.get("sheet"):
+            continue
+        path = VFX_DIR / f"{entry['sheet']}.png"
+        if not path.exists():
+            _die(f"lab entry {key!r} names sheet {entry['sheet']!r}, missing at "
+                 f"{path.relative_to(ROOT)}")
+        w, h = Image.open(path).size
+        cell = entry.get("cell")
+        if not cell:
+            _die(f"lab entry {key!r} declares no `cell` — the sheet is padded, so the frame "
+                 "size cannot be inferred from its dimensions")
+        entry["du"] = round(cell / w, 6)
+        entry["dv"] = round(cell / h, 6)
     return out
 
 
@@ -750,6 +821,14 @@ SPRITE_PX = 64
 SHAPE_PX = 64          # texture resolution for the generated shapes — plumbing, not a look
 SHAPE_SS = 4           # supersampling factor for the disc's edge
 PLATE_TEXTURE, HALO_TEXTURE = "plate", "halo"
+
+
+#: Frames cap authors itself, by name. Consulted BEFORE the vendored asset directory, so a
+#: generated frame needs no file on disk and cannot go stale against one.
+#: Empty since 2026-08-19. `chevron_*` was authored as the `priority` glyph and retired the same
+#: day the flame replaced it — probe art dies in the edit that settles the question it asked.
+#: The mechanism stays: a cue frame named here needs no file on disk and cannot go stale.
+GENERATED_FRAMES: dict = {}
 
 
 def shape_images(tokens: dict) -> dict:
@@ -942,6 +1021,149 @@ def ring_asset(tokens: dict) -> dict | None:
             "tint": ring.get("tint", "none")}
 
 
+# Every glyph a keybind can contain — digits, letters in both cases (a lowercase-modifier
+# notation like `sF` needs them), the punctuation a keyboard binds, and the four arrows a mouse
+# wheel or a direction key can produce. A font subset to this is 5-15 KB instead of 100-500 KB,
+# which is what makes both the preview page and a SHIPPED font affordable.
+KEY_GLYPHS = ("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+              "-+=[]\\;\',./`~!@#$%^&*()<> \u2191\u2193\u2190\u2192")
+
+_FONT_CACHE = ROOT / "raw" / "fonts"
+
+
+FONT_NOTICE = """\
+{ship_as}.ttf — third-party font shipped with Combat Assist Plus.
+
+Source        {family}
+Upstream      {url}
+Licence       {license} (see OFL.txt beside this file)
+
+RENAMED ON PURPOSE. The upstream family carries the Reserved Font Name {rfn!r}, and the file here
+is a SUBSET — about 45 glyphs, the alphabet a keybind can contain — which OFL 1.1 counts as a
+Modified Version. Clause 3 forbids a Modified Version from using the Reserved Font Name, so it
+ships as {ship_as}. The copyright and licence records inside the file are untouched, because the
+same licence requires those to travel with it.
+
+Generated by `wowkb.capart export lua` from render-shelf.md Part 6. Do not edit by hand.
+"""
+
+
+def _font_text(url: str) -> bytes:
+    """A licence file fetched and cached beside the fonts it governs."""
+    _FONT_CACHE.mkdir(parents=True, exist_ok=True)
+    cached = _FONT_CACHE / (hashlib.sha256(url.encode()).hexdigest()[:16] + ".txt")
+    if not cached.exists():
+        import urllib.request
+        req = urllib.request.Request(url, headers={"User-Agent": uiart._BROWSER_UA["User-Agent"]})
+        with urllib.request.urlopen(req, timeout=180) as r:
+            cached.write_bytes(r.read())
+    return cached.read_bytes()
+
+
+def _font_source(spec: dict) -> bytes:
+    """The raw TTF named by a font spec: `{fdid}` reads CASC, `{url}` reads the web, once."""
+    if spec.get("fdid"):
+        return uiart.fetch_blp(int(spec["fdid"]))
+    url = spec.get("url")
+    if not url:
+        _die(f"font spec {spec!r} names neither `fdid` nor `url`")
+    _FONT_CACHE.mkdir(parents=True, exist_ok=True)
+    cached = _FONT_CACHE / (hashlib.sha256(url.encode()).hexdigest()[:16] + ".ttf")
+    if not cached.exists():
+        import urllib.request
+        req = urllib.request.Request(url, headers={"User-Agent": uiart._BROWSER_UA["User-Agent"]})
+        with urllib.request.urlopen(req, timeout=180) as r:
+            cached.write_bytes(r.read())
+    return cached.read_bytes()
+
+
+def _rename_font(font, name: str) -> None:
+    """Rewrite a font's identity, which OFL 1.1 clause 3 REQUIRES for a Reserved Font Name.
+
+    Share Tech Mono ships "with Reserved Font Name 'Share'", and a subset is a Modified Version —
+    so the shipped file may not carry the original name. Only the IDENTITY records change: the
+    copyright (0), licence (13) and licence URL (14) are left exactly as they are, because the
+    same licence requires those to travel with the file.
+    """
+    ident = {1: name, 3: name, 4: name, 6: name, 16: name}
+    for record in font["name"].names:
+        if record.nameID in ident:
+            record.string = ident[record.nameID].encode("utf-16-be" if record.platformID == 3
+                                                        else "latin-1")
+
+
+def _subset_font(data: bytes, label: str, ship_as: str | None = None) -> bytes:
+    """Cut a font down to `KEY_GLYPHS`.
+
+    ⚠ A TrueType file opens `\x00\x01\x00\x00` (or `true`/`ttcf`/`OTTO`). Checked before
+    anything else because wago.tools answers a bad FileDataID with a 34-byte JSON error, and a
+    JSON blob base64'd into an `@font-face` fails SILENTLY — the page falls through to the next
+    family and nothing anywhere says the fidelity was lost.
+    """
+    if data[:4] not in (b"\x00\x01\x00\x00", b"true", b"ttcf", b"OTTO"):
+        _die(f"{label} is not a font file (opens {data[:4]!r}) — the fdid or url is wrong, "
+             "or the fetch was refused")
+    from fontTools import subset as ftsubset
+    font = ftsubset.load_font(io.BytesIO(data), ftsubset.Options())
+    # `hinting=False` is most of the saving — measured on ARIALN, 37 KB with the hinting tables
+    # and 9 KB without. It costs nothing either side of this: a browser rasterises small text with
+    # its own hinter, and the WoW client converts a TTF to a signed-distance-field slug (the
+    # install's `Fonts/615960.slug` is FRIZQT's) where the original hints play no part.
+    # `layout_features=[]` drops shaping tables a keybind alphabet has no use for.
+    subsetter = ftsubset.Subsetter(options=ftsubset.Options(
+        layout_features=[], hinting=False, desubroutinize=True, notdef_outline=True))
+    subsetter.populate(text=KEY_GLYPHS)
+    subsetter.subset(font)
+    if ship_as:
+        _rename_font(font, ship_as)
+    out = io.BytesIO()
+    font.save(out)
+    font.close()
+    return out.getvalue()
+
+
+def font_asset(spec: dict, label: str) -> dict:
+    """One `@font-face`-ready font: fetched, subset to the keybind alphabet, base64'd."""
+    raw = _font_source(spec)
+    data = _subset_font(raw, label, spec.get("ship_as"))
+    uri = "data:font/ttf;base64," + base64.b64encode(data).decode("ascii")
+    return {"uri": uri, "bytes": len(uri), "family": spec.get("ship_as") or spec["family"],
+            "source_bytes": len(raw), "subset_bytes": len(data),
+            "origin": f"CASC {spec['fdid']}" if spec.get("fdid") else spec.get("url", ""),
+            "license": spec.get("license", ""), "shippable": bool(spec.get("shippable"))}
+
+
+def lab_font_assets(tokens: dict) -> dict:
+    """Every font a Part 7 hotkey entry asks for. Lab only — nothing here is the style."""
+    out = {}
+    for key, entry in (tokens.get("lab") or {}).items():
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        if entry.get("draws") != "hotkey" or not entry.get("font"):
+            continue
+        out[key] = font_asset(entry["font"], f"lab.{key}")
+    return out
+
+
+def hotkey_font_asset(tokens: dict) -> dict | None:
+    """V15's font, pulled out of CASC by FileDataID and embedded as a `data:` URI.
+
+    ⚠ WHY THIS IS ALLOWED HERE AND NOWHERE ELSE. `render-shelf.md` Part 3 says extracted Blizzard
+    art is *"for measuring and for the preview, never for the addon's `Media/` folder"* — the rule
+    is about what cap **redistributes**, and the preview redistributes nothing: it is a local
+    workflow artifact in this repo, exactly like the spell icons it has always embedded. Nothing
+    on this path reaches `Style.lua` or `Media/`, and `export` has no idea it exists.
+
+    It matters because the alternative was a guessed CSS family, and a substitute font gets
+    ADVANCE WIDTH wrong — which is precisely the question the preview is asked ("does `C-S-F1` fit
+    the corner"). A near-enough letterform that lies about width answers it backwards.
+    """
+    spec = (tokens.get("preview") or {}).get("hotkey_font")
+    if not spec:
+        return None
+    return font_asset(spec, "tokens.preview.hotkey_font")
+
+
 def hatch_asset(tokens: dict) -> dict | None:
     """V11's stripe sheet as a data URI, measured and put under the tint guard.
 
@@ -991,12 +1213,16 @@ def export_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     BADGE_DIR.mkdir(parents=True, exist_ok=True)
     written = []
     for frame in badge_frames(tokens):
-        path = src / f"{frame}.png"
-        if not path.exists():
-            _die(f"cue frame {frame!r} not found at {path.relative_to(ROOT)}")
-        img = Image.open(path).convert("RGBA")
+        if frame in GENERATED_FRAMES:
+            img, where = GENERATED_FRAMES[frame](), f"generated ({frame})"
+        else:
+            path = src / f"{frame}.png"
+            if not path.exists():
+                _die(f"cue frame {frame!r} not found at {path.relative_to(ROOT)} "
+                     "and not in GENERATED_FRAMES")
+            img, where = Image.open(path).convert("RGBA"), str(path.relative_to(ROOT))
         measure = uiart.tintability(img)
-        assert_tintable(f"badge sprite {frame!r}", str(path.relative_to(ROOT)),
+        assert_tintable(f"badge sprite {frame!r}", where,
                         tint, measure["mean_saturation"], measure["tintable"])
         if img.size[0] > SPRITE_PX:
             img = img.resize((SPRITE_PX, SPRITE_PX), Image.LANCZOS)
@@ -1045,6 +1271,44 @@ def export_hatch(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     return [(sheet["texture"], _write_tga(img, sheet["texture"], MEDIA_DIR))]
 
 
+def promotion_asset(tokens: dict) -> dict:
+    """V14's sheet as the preview draws it: a `data:` URI plus its measurement."""
+    promo = tokens.get("promotion")
+    if not promo:
+        return {}
+    path = VFX_DIR / f"{promo['texture']}.png"
+    if not path.exists():
+        _die(f"V14 names {promo['texture']!r}, missing at {path.relative_to(ROOT)}")
+    img = Image.open(path).convert("RGBA")
+    measure = uiart.tintability(img)
+    assert_tintable("promotion ring (V14)", str(path.relative_to(ROOT)),
+                    promo.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
+    uri, nbytes = _data_uri(img, tokens)
+    return {"uri": uri, "bytes": nbytes, "w": img.size[0], "h": img.size[1]}
+
+
+def export_promotion(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Vendor V14's proc-ring flipbook into `Media/`, beside the ring and the stripe sheet.
+
+    The tint guard has real teeth here: V14's whole advantage over Blizzard's own proc glow is
+    that it is NEUTRAL and therefore tintable, so a future edit that bakes a hue into
+    `wowkb.procring` must fail loudly rather than silently shipping art `SetVertexColor` cannot
+    move.
+    """
+    promo = tokens.get("promotion")
+    if not promo:
+        return []
+    path = VFX_DIR / f"{promo['texture']}.png"
+    if not path.exists():
+        _die(f"V14 names {promo['texture']!r}, missing at {path.relative_to(ROOT)} — "
+             "regenerate it with `python -m wowkb.procring`")
+    img = Image.open(path).convert("RGBA")
+    measure = uiart.tintability(img)
+    assert_tintable("promotion ring (V14, ship path)", str(path.relative_to(ROOT)),
+                    promo.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
+    return [(promo["texture"], _write_tga(img, promo["texture"], MEDIA_DIR))]
+
+
 LAB_PROVENANCE = """\
 GENERATED — do not edit, and do not add art here by hand.
 
@@ -1062,6 +1326,112 @@ Vendored CC0 art lives beside its LICENSE.txt in ../badges/.
 """
 
 
+#: Art the LAB owns, by frame name. Kept separate from the cue frames on purpose: a lab sprite
+#: is not part of the badge vocabulary, ships to `Media/lab/` rather than `Media/badges/`, and
+#: must be deletable with its entry when the experiment loses (Part 7 rule 4).
+#: Empty since 2026-08-19: `fire` was promoted to a cue frame when `priority` took it as its
+#: glyph, so it now ships to `Media/badges/` as declared art and the lab reads it FROM THERE.
+#: Promotion moves art rather than copying it — the same rule that moved V11's stripe sheet.
+LAB_SPRITES: tuple[str, ...] = ()
+
+
+def lab_sprite_assets(tokens: dict) -> dict:
+    """The lab's own sprite frames as `data:` URIs, measured by the same tint guard.
+
+    A lab entry may draw art the style does not, but it may not draw art nobody measured — a
+    baked-hue sprite would show the gallery a recolour `SetVertexColor` could never produce, and
+    the whole point of the in-client gallery is that it does not lie about the client.
+    """
+    root = ROOT / "projects" / "combat-assist" / tokens["badges"]["asset_root"]
+    tint = tokens["badges"].get("tint", "none")
+    out: dict[str, dict] = {}
+    for frame in LAB_SPRITES:
+        path = root / f"{frame}.png"
+        if not path.exists():
+            _die(f"lab sprite {frame!r} not found at {path.relative_to(ROOT)}")
+        img = Image.open(path).convert("RGBA")
+        measure = uiart.tintability(img)
+        assert_tintable(f"lab sprite {frame!r}", str(path.relative_to(ROOT)),
+                        tint, measure["mean_saturation"], measure["tintable"])
+        uri, nbytes = _data_uri(img, tokens)
+        out[frame] = {"uri": uri, "bytes": nbytes,
+                      "mean_saturation": measure["mean_saturation"]}
+    return out
+
+
+VFX_DIR = ROOT / "projects" / "combat-assist" / "previews" / "assets" / "vfx"
+
+
+def vfx_assets(tokens: dict) -> dict:
+    """The lab's FLIPBOOK sheets — VFX art, which the tint guard cannot simply assert on.
+
+    Every other art path in this file demands neutral art, because the shelf's primitives are
+    tinted per lane and a baked hue makes `SetVertexColor` a liar. A particle effect is the one
+    case where that is the wrong demand: an explosion is not one colour multiplied, it is a fire
+    gradient, and desaturating it to make it tintable destroys the thing being evaluated.
+
+    So the guard INVERTS here. The measurement still runs — every sheet's mean saturation is
+    reported — but the entry declares what it intends (`tint: "none"` for baked art it will never
+    recolour, `tint: "lane"` for neutral art it will), and `check` fails an entry whose art does
+    not match its declaration. Baked art is allowed; baked art *claiming* to be tintable is not.
+    """
+    out: dict[str, dict] = {}
+    lab = tokens.get("lab") or {}
+    for key, entry in lab.items():
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        name = entry.get("sheet")
+        if not name or name in out:
+            continue
+        path = VFX_DIR / f"{name}.png"
+        if not path.exists():
+            _die(f"lab entry {key!r} names sheet {name!r}, not found at "
+                 f"{path.relative_to(ROOT)} — generate it with wowkb.vfxsheet or wowkb.sparkler")
+        img = Image.open(path).convert("RGBA")
+        measure = uiart.tintability(img)
+        uri, nbytes = _data_uri(img, tokens)
+        out[name] = {"uri": uri, "bytes": nbytes, "w": img.size[0], "h": img.size[1],
+                     "mean_saturation": measure["mean_saturation"],
+                     "tintable": measure["tintable"]}
+    return out
+
+
+FONTS_DIR = MEDIA_DIR / "fonts"
+
+
+def export_style_font(tokens: dict) -> list[str]:
+    """Ship V15's font into the addon, with the licence it travels under.
+
+    This is the ONE piece of third-party art cap redistributes, and the rules that let it are not
+    the same rules that govern the preview. The preview may embed anything it can measure, because
+    it redistributes nothing; `Media/fonts/` goes out to every player, so what lands here must be
+    ours to give away. `tokens.preview.hotkey_font.license` is where that is asserted and
+    `shippable` is what turns it on.
+    """
+    spec = (tokens.get("preview") or {}).get("hotkey_font") or {}
+    written: list[str] = []
+    FONTS_DIR.mkdir(parents=True, exist_ok=True)
+    if not spec.get("shippable"):
+        # A client font (`Fonts\\ARIALN.TTF`) needs no file and must never get one.
+        for stale in sorted(FONTS_DIR.glob("*")):
+            stale.unlink()
+        return written
+    name = spec.get("ship_as") or spec["family"]
+    data = _subset_font(_font_source(spec), "tokens.preview.hotkey_font", spec.get("ship_as"))
+    (FONTS_DIR / f"{name}.ttf").write_bytes(data)
+    written.append(f"{name}.ttf")
+    # ⚠ The licence is not optional cargo. OFL 1.1 requires it to travel with every copy, and
+    # clause 3 is why the file above is RENAMED — see `_rename_font`.
+    if spec.get("license_url"):
+        (FONTS_DIR / "OFL.txt").write_bytes(_font_text(spec["license_url"]))
+        written.append("OFL.txt")
+    (FONTS_DIR / "NOTICE.txt").write_text(FONT_NOTICE.format(
+        ship_as=name, family=spec["family"], rfn=spec.get("rfn", "—"),
+        license=spec.get("license", "—"), url=spec.get("url", "—")), encoding="utf-8")
+    written.append("NOTICE.txt")
+    return written
+
+
 def export_lab(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     """Ship the lab's generated art into the addon as 32-bit TGA, under its own directory.
 
@@ -1071,10 +1441,64 @@ def export_lab(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     edit which bakes a colour into the generator fails here instead of shipping a lie.
     """
     written: list[tuple[str, tuple[int, int]]] = []
-    # Nothing here today. The stripe sheet moved to `Media/` with V11's promotion, and the
-    # gallery reads it there; this stays because the next lab entry that needs its own art
-    # should get it under `Media/lab/` rather than beside the style's.
-    if written:
+    fonts_written: list[tuple[str, int]] = []
+    src = ROOT / "projects" / "combat-assist" / tokens["badges"]["asset_root"]
+    tint = tokens["badges"].get("tint", "none")
+    LAB_DIR.mkdir(parents=True, exist_ok=True)
+    for name in sorted({e.get("sheet") for e in (tokens.get("lab") or {}).values()
+                        if isinstance(e, dict) and e.get("sheet")}):
+        path = VFX_DIR / f"{name}.png"
+        if not path.exists():
+            _die(f"lab sheet {name!r} not found at {path.relative_to(ROOT)}")
+        img = Image.open(path).convert("RGBA")
+        # No tint assertion: a VFX sheet is allowed a baked hue (see `vfx_assets`). What is
+        # asserted is that its declaration matches, and `check` owns that.
+        written.append((name, _write_tga(img, name, LAB_DIR)))
+    for frame in LAB_SPRITES:
+        path = src / f"{frame}.png"
+        if not path.exists():
+            _die(f"lab sprite {frame!r} not found at {path.relative_to(ROOT)}")
+        img = Image.open(path).convert("RGBA")
+        measure = uiart.tintability(img)
+        assert_tintable(f"lab sprite {frame!r}", str(path.relative_to(ROOT)),
+                        tint, measure["mean_saturation"], measure["tintable"])
+        if img.size[0] > SPRITE_PX:
+            img = img.resize((SPRITE_PX, SPRITE_PX), Image.LANCZOS)
+        written.append((frame, _write_tga(img, frame, LAB_DIR)))
+    # Part 7's SHIPPABLE fonts. A font candidate can only be judged where the client draws it
+    # (WoW rasterises a TTF into a signed-distance-field slug, which a browser does not do), and
+    # the gallery cannot draw a face the install does not have. Blizzard's own candidates need no
+    # file — `Fonts\\ARIALN.TTF` is already there — so only the ones we would actually ship get
+    # written, subset to the keybind alphabet exactly as the preview embeds them.
+    for key, entry in sorted((tokens.get("lab") or {}).items()):
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        spec = entry.get("font") or {}
+        if entry.get("draws") != "hotkey" or not spec.get("shippable"):
+            continue
+        data = _subset_font(_font_source(spec), f"lab.{key}")
+        out = LAB_DIR / f"{spec['family']}.ttf"
+        out.write_bytes(data)
+        fonts_written.append((f"{spec['family']}.ttf", len(data)))
+
+    # PRUNE art the lab no longer owns. Promotion MOVES a file — `fire` went to `Media/badges/`
+    # when `priority` took it as a glyph, and `procring` to `Media/` when V14 shipped — and a
+    # promoted texture left behind here is the second copy the whole rule exists to prevent. It
+    # would also keep drawing: the gallery reads by name, so a stale file silently wins.
+    keep = {name for name, _ in written}
+    for stale in sorted(LAB_DIR.glob("*.tga")):
+        if stale.stem not in keep:
+            stale.unlink()
+            print(f"  pruned {stale.name:<21} no longer lab art (promoted, or its entry is gone)")
+    # A shipped font is not `.tga` and the prune above cannot see it; prune it the same way.
+    keep_fonts = {name for name, _ in fonts_written}
+    for stale in sorted(LAB_DIR.glob("*.ttf")):
+        if stale.name not in keep_fonts:
+            stale.unlink()
+            print(f"  pruned {stale.name:<21} no longer a lab font candidate")
+    for name, size in fonts_written:
+        print(f"  {name:<24} {size / 1024:>6.1f} KB subset → {LAB_DIR.relative_to(ROOT)}")
+    if written or fonts_written:
         (LAB_DIR / "PROVENANCE.txt").write_text(LAB_PROVENANCE, encoding="utf-8")
     return written
 
@@ -1137,14 +1561,15 @@ def root_css(tokens: dict) -> str:
         f"  --ready-line: {rd['line_px']}px;",
     ]
 
-    # Slot 1 hangs off the top-right corner: its right edge sits `overhang` past the icon's
-    # right edge and its top edge `overhang` above the top, so it reads as ON the icon rather
-    # than inside it. Slot 2 steps one diameter+padding left along the top; slot 3 the same
-    # distance down the right.
+    # The first badge hangs off the top-right corner: its right edge sits `overhang` past the
+    # icon's right edge and its top edge `overhang` above the top, so it reads as ON the icon
+    # rather than inside it. Every further badge steps one diameter+padding DOWN the right edge.
+    # The stack is unbounded, so the page computes each offset from its index rather than
+    # matching a fixed slot rule (V5, 2026-08-19).
     lines += [
         "",
-        "  /* V5 · corner badges. Slot 1 overhangs the top-right corner by --badge-over;",
-        "     2 steps left along the top edge, 3 steps down the right edge. */",
+        "  /* V5 · corner badges, flowing DOWN. The first overhangs the top-right corner by",
+        "     --badge-over; each further badge steps --badge-step down the right edge. */",
         f"  --badge-d: {d:.2f}px;",
         f"  --badge-over: {b['overhang_px']}px;",
         f"  --badge-step: {d + b['padding_px']:.2f}px;",
@@ -1185,11 +1610,71 @@ def root_css(tokens: dict) -> str:
             f"  --hatch-rgb: {rgba(sheet['rgb'], sheet.get('alpha', 1.0))};",
             f"  --hatch-phase: {sheet['pitch_px'] * sheet.get('phase_pct', 0) / 100:.2f}px;",
         ]
+        # V11's SECOND cause: cap's own "ruled out", in its own red at its own phase, so a row
+        # that is somehow both does not moiré into a flat wash.
+        skip = sheet.get("skip")
+        if skip:
+            lines += [
+                f"  --hatch-skip-rgb: {rgba(skip['rgb'], skip.get('alpha', 1.0))};",
+                f"  --hatch-skip-phase: "
+                f"{sheet['pitch_px'] * skip.get('phase_pct', 0) / 100:.2f}px;",
+                f"  --hatch-skip-over: {skip.get('overhang_px', 0)}px;",
+            ]
+            border = skip.get("border")
+            if border:
+                lines += [
+                    f"  --hatch-skip-line: {border['line_px']}px;",
+                    f"  --hatch-skip-edge: {rgba(border['rgb'], border.get('alpha', 1.0))};",
+                ]
+    # V15 · the hotkey hint. `root_css` is hand-written per token group rather than a generic
+    # flattener, so a new token group needs a line here or `strict_css` fails the stylesheet that
+    # tried to name the value directly. Chrome: no tint, no rank, nothing per-cue.
+    hk = tokens.get("hotkey")
+    if hk:
+        lines += [
+            "",
+            "  /* V15 · hotkey text — chrome. Names the row; asserts nothing about the press. */",
+            f"  --hotkey-size: {hk['size']}px;",
+            f"  --hotkey-color: {rgba(hk['rgb'], hk['alpha'])};",
+            f"  --hotkey-x: {hk['offset']['x']}px;",
+            f"  --hotkey-y: {-hk['offset']['y']}px;",
+            # The client's `OUTLINE` flag draws black and cap does not choose that; the preview
+            # has to emulate it with four offset shadows, so the colour lives in `preview` —
+            # excluded from Style.lua, because the addon has nothing to do with it.
+            f"  --hotkey-outline: "
+            f"{rgba((tokens.get('preview') or {}).get('hotkey_outline_rgb', [0, 0, 0]))};",
+            # ⚠ The client's font is a FILE (`tokens.hotkey.font`) and the browser cannot have
+            # it — Part 3 forbids shipping Blizzard art, so the preview names the closest family
+            # it can and the shelf owns that choice too. This is the largest remaining fidelity
+            # gap in V15's preview and the flight is what closes it.
+            f"  --hotkey-font: "
+            f"{(tokens.get('preview') or {}).get('hotkey_font_stack', 'inherit')};",
+            # The client's `OUTLINE` / `THICKOUTLINE` flag, emulated as an offset ring. The width
+            # is the SHELF's, not this file's, and it is a two-value vocabulary on purpose: the
+            # preview must not be able to draw a dark edge `SetFont` cannot ask for.
+            f"  --hotkey-outline-px: "
+            f"{(tokens.get('preview') or {}).get('hotkey_outline_px', 1)}px;",
+        ]
+
+    promo = tokens.get("promotion")
+    if promo:
+        lines += [
+            "",
+            "  /* V14 · promotion ring */",
+            f"  --promo-rgb: {','.join(str(round(x * 255)) for x in promo['rgb'])};",
+            f"  --promo-alpha: {promo.get('alpha', 1.0):.2f};",
+            f"  --promo-spread: {promo['spread']:.2f};",
+            f"  --promo-cols: {promo['cols']};",
+            f"  --promo-rows: {promo['rows']};",
+        ]
     lab = tokens.get("lab") or {}
     if sheet:
         for key, entry in lab.items():
             if key.startswith("_") or not isinstance(entry, dict) or "rgb" not in entry:
                 continue
+            if entry.get("draws") != "stripes":
+                continue   # a phase is meaningless without the sheet, and the rgba() form
+                           # would be overwritten by the bare triple emitted below anyway
             phase = sheet["pitch_px"] * entry.get("phase_pct", 0) / 100
             lines.append(f"  --lab-{key}-rgb: {rgba(entry['rgb'], entry.get('alpha', 1.0))};")
             lines.append(f"  --lab-{key}-phase: {phase:.2f}px;")
@@ -1220,7 +1705,116 @@ def root_css(tokens: dict) -> str:
         for k, css in (("decay_s", "decay"), ("period_s", "period")):
             if k in entry:
                 lines.append(f"{pre}{css}: {entry[k]:.2f}s;")
+        # Part 7 · blaze. `spread` is a SCALE rather than a pixel outset: the field is a scaled
+        # copy of the glyph's own mask (or of the plate's disc), so it has to grow proportionally
+        # or the light stops fitting the shape it is supposed to be coming from.
+        if "spread" in entry:
+            lines.append(f"{pre}spread: {entry['spread']:.2f};")
+        # The glyph's own hue, separate from the light's. They cannot be the same value: a
+        # sprite tinted with the colour blazing behind it disappears into it.
+        if "glyph_rgb" in entry:
+            lines.append(f"{pre}glyph: "
+                         f"{','.join(str(round(x * 255)) for x in entry['glyph_rgb'])};")
+    # Part 7 · the flipbook entries (icon-scale VFX). They carry no `rest_alpha`, so they miss
+    # the readiness loop above and emit their own. `scale` is a multiple of the ICON, not of a
+    # badge: these surround the button the way Blizzard's proc glow does.
+    for key, entry in lab.items():
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        if entry.get("draws") != "flipbook":
+            continue
+        pre = f"  --lab-{key}-"
+        lines.append("")
+        lines.append(f"  /* Part 7 · {key} — {entry['frames']} frames @ {entry['fps']}fps */")
+        lines.append(f"{pre}scale: {entry.get('scale', 1.0):.2f};")
+        lines.append(f"{pre}dur: {entry['frames'] / entry['fps']:.3f}s;"
+                     if entry.get("fps") else f"{pre}dur: 0s;")
+        lines.append(f"{pre}cols: {entry['cols']};")
+        lines.append(f"{pre}rows: {entry['rows']};")
+        if "period_s" in entry:
+            lines.append(f"{pre}period: {entry['period_s']:.2f}s;")
+        if "rgb" in entry:
+            lines.append(f"{pre}rgb: "
+                         f"{','.join(str(round(x * 255)) for x in entry['rgb'])};")
+    # Part 7 · the font candidates. Each hotkey entry names its own family and its own two
+    # dials, so the entries can be read side by side at the same size or at different ones.
+    for key, entry in (tokens.get("lab") or {}).items():
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        if entry.get("draws") != "hotkey":
+            continue
+        pre = f"  --lab-{key}-hk-"
+        lines += [
+            "",
+            f"  /* Part 7 · {key} */",
+            f"{pre}font: '{entry['font']['family']}', var(--hotkey-font);",
+            f"{pre}size: {entry['size_px']}px;",
+            f"{pre}outline: {entry['outline_px']}px;",
+        ]
+        # The plate, where an entry has one. A candidate without one emits nothing and the
+        # stylesheet's own transparent/0 defaults stand, so `background` and `padding` do not
+        # have to be conditional in CSS.
+        # The title bar. Emitted as ONE `background` value so the flat and the faded variant
+        # differ in the token block and nowhere else — CSS takes a gradient wherever it takes a
+        # colour, and the client takes `SetGradient` wherever it takes `SetColorTexture`.
+        bar = entry.get("bar")
+        if bar:
+            top = rgba(bar["rgb"], bar.get("alpha", 1.0))
+            fill = (f"linear-gradient(to bottom, {top}, {rgba(bar['rgb'], 0.0)})"
+                    if bar.get("fade") else top)
+            lines += [
+                f"{pre}bar: {fill};",
+                f"{pre}bar-h: {bar['height_px']}px;",
+                f"{pre}bar-align: {'center' if bar.get('align') == 'center' else 'flex-start'};",
+            ]
+            rule = bar.get("rule")
+            lines.append(f"{pre}bar-rule: {rule['px']}px solid {rgba(rule['rgb'], rule['alpha'])};"
+                         if rule else f"{pre}bar-rule: 0 solid transparent;")
+
+        plate = entry.get("plate")
+        if plate:
+            lines += [
+                f"{pre}plate: {rgba(plate['rgb'], plate.get('alpha', 1.0))};",
+                f"{pre}plate-x: {plate.get('pad_x_px', 0)}px;",
+                f"{pre}plate-y: {plate.get('pad_y_px', 0)}px;",
+            ]
     lines.append("}")
+
+    # V15's real font, straight out of CASC. Emitted AFTER `:root` because an `@font-face` is a
+    # top-level rule and cannot live inside one. The preview is the only consumer; see
+    # `hotkey_font_asset` for why embedding it is Part 3-legal.
+    font = hotkey_font_asset(tokens)
+    if font:
+        lines += [
+            "",
+            f"/* V15 · the SHIPPED font, {font['origin']} — the same subset file the addon "
+            "carries, so the preview measures exactly the advance widths the game does. */",
+            "@font-face {",
+            f"  font-family: '{font['family']}';",
+            f"  src: url({font['uri']}) format('truetype');",
+            "  font-display: block;",
+            "}",
+        ]
+    # Part 7's candidates, same mechanism. Subset to the keybind alphabet, so three extra
+    # families cost a few KB rather than a few hundred.
+    #
+    # Deduped BY FAMILY: the control entry deliberately names the same face the style does, and
+    # two `@font-face` rules for one family is both dead weight and a question about which wins.
+    seen_families = {font["family"]} if font else set()
+    for key, asset in lab_font_assets(tokens).items():
+        if asset["family"] in seen_families:
+            continue
+        seen_families.add(asset["family"])
+        lines += [
+            "",
+            f"/* Part 7 · {key} — {asset['family']}, {asset['source_bytes'] / 1024:.0f} KB "
+            f"subset to {asset['subset_bytes'] / 1024:.1f} KB. {asset['origin']} */",
+            "@font-face {",
+            f"  font-family: '{asset['family']}';",
+            f"  src: url({asset['uri']}) format('truetype');",
+            "  font-display: block;",
+            "}",
+        ]
     return "\n".join(lines)
 
 
@@ -1336,8 +1930,24 @@ def build(spec: str, tokens: dict, when: str) -> str:
     total = (sum(a["bytes"] for a in icons.values()) + sum(f["bytes"] for f in frames.values())
              + (stripes["bytes"] if stripes else 0))
 
+    # V15 · SIMULATED keybinds, so the corner can be judged before the feature reaches the game.
+    #
+    # ⚠ These are fakes and they live in `tokens.preview`, which `NOT_THE_STYLE` excludes from
+    # `Style.lua` — a fake key is structurally incapable of reaching the addon. They are NOT in
+    # any catalog or sidecar either: a keyboard layout in a gameplay authority document would
+    # contradict the chrome ruling, and a `{hotkey: …}` row group would make the fake look
+    # authored.
+    #
+    # Assignment is by ROSTER POSITION and therefore deterministic — gate 2 rebuilds the page and
+    # byte-compares, so a random or date-seeded fake would make that gate permanently red. It also
+    # means one ability wears the same fake in every scenario on the page, which is what makes the
+    # eye able to learn it.
+    fakes = (tokens.get("preview") or {}).get("hotkeys") or []
+    at = {name: i for i, name in enumerate(lab_icon_roster)}
+
     abilities = {
         name: {"key": lab_icon_roster[name]["key"], "spell": lab_icon_roster[name]["spell"],
+               "hotkey": (fakes[at[name] % len(fakes)] if fakes else ""),
                # The authored role lane still travels because the CATALOGS still record it —
                # it is a fact about the ability. It no longer picks a treatment: an icon either
                # is in the scan or is not, and rank comes from row order plus elimination.
@@ -1368,6 +1978,10 @@ def build(spec: str, tokens: dict, when: str) -> str:
         "notes": notes,
         "frames": frames,
         "lab_stripes": stripes,
+        "lab_sprites": lab_sprite_assets(tokens),
+        "lab_fonts": lab_font_assets(tokens),
+        "lab_vfx": vfx_assets(tokens),
+        "promotion": promotion_asset(tokens),
         "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, ring, total,
                                            when),
     }
@@ -1508,11 +2122,12 @@ def cmd_tokens(args) -> None:
     print(f"    row fit  overhangs {over}px past the edge, row gap {gap}px — "
           f"{'CLEARS' if over < gap else 'COLLIDES'}")
 
-    print("\n  cues (negative BY DEFAULT — a cue draws when a button is RULED OUT; the one "
-          "positive\n        cue reports impending loss and does NOT eliminate its own button)")
+    print("\n  cues (negative BY DEFAULT — a cue draws when a button is RULED OUT. The positives "
+          "do not\n        eliminate their own button, and rank above the negatives so they pack "
+          "onto the corner)")
     for key, cue in tokens["cues"].items():
         pol = cue.get("polarity", "negative")
-        print(f"    {key:<9} {'+' if pol == 'positive' else '-'} slot {cue['slot']} · "
+        print(f"    {key:<9} {'+' if pol == 'positive' else '-'} rank {cue['rank']} · "
               f"{len(cue['frames'])}f @{cue['duration_s']}s {cue['loop']:<7} {cue['means'][:48]}")
 
     t = tokens["text"]
@@ -1700,6 +2315,9 @@ def cmd_export(args) -> None:
         STYLE_LUA.write_text(style_lua(tokens), encoding="utf-8")
         print(f"wrote {STYLE_LUA.relative_to(ROOT)} — render-tokens v{tokens['version']} "
               f"(shelf sha {_sha(SHELF)})")
+        # V15's font rides with Style.lua because Style.lua is what names its path.
+        for name in export_style_font(tokens):
+            print(f"  {name:<24} → {FONTS_DIR.relative_to(ROOT)}")
     if what in ("badges", "all"):
         for frame, size in export_badges(tokens):
             print(f"  {frame + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
@@ -1710,6 +2328,10 @@ def cmd_export(args) -> None:
                   f"{MEDIA_DIR.relative_to(ROOT)}")
     if what in ("hatch", "all"):
         for name, size in export_hatch(tokens):
+            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
+                  f"{MEDIA_DIR.relative_to(ROOT)}")
+    if what in ("promotion", "all"):
+        for name, size in export_promotion(tokens):
             print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
                   f"{MEDIA_DIR.relative_to(ROOT)}")
     # `lab` is its own target and its own file, for the same reason it is its own global: the lab
@@ -1833,6 +2455,79 @@ def wears_positive(scenario: dict, tokens: dict) -> bool:
                for e in scenario["row"] for k in _cues_of(e, tokens))
 
 
+def one_positive_per_entry(scenarios: list[dict], tokens: dict) -> list[str]:
+    """Pass 1 needs ONE answer, and that is a constraint on a row rather than the vocabulary.
+
+    "Scan left to right for a positive cue; if one is present, press it" is undefined if a single
+    button wears two of them. It is perfectly defined when two different buttons in the vocabulary
+    can each carry one, which is why the old cap of one positive cue overall was the wrong shape.
+    """
+    fails = []
+    for sc in scenarios:
+        for e in sc["row"]:
+            worn = [k for k in _cues_of(e, tokens)
+                    if tokens["cues"].get(k, {}).get("polarity") == "positive"]
+            if len(worn) > 1:
+                fails.append(f"{sc['id']}: {e['name']!r} wears {len(worn)} positive cues "
+                             f"({', '.join(sorted(worn))}) — pass 1 says 'press the positive cue' "
+                             "and says nothing about which of two wins.")
+    return fails
+
+
+#: Part 0.5's density rule. Stepping over one or two holds is a glance; three is counting.
+NEGATIVE_BUDGET = 2
+
+
+def density_gate(scenarios: list[dict], tokens: dict) -> list[str]:
+    """THE DENSITY RULE, MECHANISED (render-shelf.md Part 0.5).
+
+    Elimination is not free: every skip the reader steps over costs a badge to interpret. Past
+    two, a row reads as "something is wrong" rather than "press the clean one", and the press
+    should be PROMOTED instead of the skips being drawn.
+
+    ⚠ Swipes do not count. Blizzard ran those buttons down and cap drew nothing; the reader is
+    not paying for them.
+
+    ⚠ Nor does every badge. Only cues flagged `budgeted` in the shelf count, which today is
+    `blocked` alone. A hold is cap claiming a castable, affordable button should be skipped
+    anyway — the reader cannot check that at a glance, and it is what costs interpretation.
+    `starved` and `overcap` restate a resource already on the player's own bar, on buttons that
+    were not pressable in that state.
+
+    ⚠ This is the one gate that cannot be evaluated per marker. A hold is true or false on its
+    own terms, but whether the row is too dense depends on what every OTHER entry is doing in
+    that same state — so it is per scenario, and a catalog satisfies it by choosing which of the
+    two shapes to author.
+    """
+    def negative(e) -> bool:
+        rule = tokens["verdicts"][e["verdict"]]
+        if rule["swipe"]:
+            return False
+        keys = list(rule.get("cues") or []) + list(e.get("cues") or [])
+        return any(tokens["cues"].get(k, {}).get("polarity", "negative") == "negative"
+                   and tokens["cues"].get(k, {}).get("budgeted", False)
+                   for k in keys)
+
+    fails = []
+    for sc in scenarios:
+        if wears_positive(sc, tokens):
+            continue                      # promoted rows answer to pass 1, not to elimination
+        press = next((i for i, e in enumerate(sc["row"])
+                      if e["verdict"].startswith("press")), None)
+        if press is None:
+            continue                      # reading_gate already reports a row with no press
+        skipped = [e["name"] for e in sc["row"][:press] if negative(e)]
+        if len(skipped) > NEGATIVE_BUDGET:
+            fails.append(
+                f"{sc['id']}: {len(skipped)} holds stand between the left edge and the "
+                f"press ({', '.join(skipped)}), over the budget of {NEGATIVE_BUDGET}.\n"
+                "    Part 0.5: past two skips the reader is counting rather than glancing. Author "
+                "`priority` on\n"
+                f"    {sc['row'][press]['name']!r} and drop the holds it replaces, rather than "
+                "raising this number.")
+    return fails
+
+
 def reading_gate(scenarios: list[dict], tokens: dict) -> list[str]:
     """THE OPERATOR HEURISTIC AS AN ORDERED CHAIN (render-shelf.md Part 0.5).
 
@@ -1852,9 +2547,10 @@ def reading_gate(scenarios: list[dict], tokens: dict) -> list[str]:
     not rank, and it is allowed to jump the queue. Havoc's rung 10 is exactly this: a banked
     Immolation Aura charge outranks buttons sitting to its left, and no row position can say so.
 
-    What keeps the chain honest is the gate that is deliberately NOT relaxed: at most one cue may
-    declare `polarity: "positive"`, so "scan for a positive cue" always has one answer. Widening
-    that is a Part 0.5 decision — pass 1 says nothing about how two positive cues would rank.
+    What keeps the chain honest is `one_positive_per_entry`: no single button may wear two
+    positive cues, so "scan for a positive cue" always has one answer. That is the real
+    invariant — until 2026-08-19 it was enforced as a cap of one positive cue in the whole
+    vocabulary, which was the V5 three-slot geometry mistaken for a reading rule.
     """
     # Both passes quietly abstain on a row without exactly one press, so the chain has to assert
     # it itself or a malformed row would be judged by neither.
@@ -1864,7 +2560,9 @@ def reading_gate(scenarios: list[dict], tokens: dict) -> list[str]:
              if len([e for e in sc["row"] if e["verdict"].startswith("press")]) != 1]
     positive = [sc for sc in scenarios if wears_positive(sc, tokens)]
     plain = [sc for sc in scenarios if not wears_positive(sc, tokens)]
-    return fails + positive_gate(positive, tokens) + elimination_gate(plain, tokens)
+    return (fails + one_positive_per_entry(scenarios, tokens)
+            + positive_gate(positive, tokens) + elimination_gate(plain, tokens)
+            + density_gate(scenarios, tokens))
 
 
 def lab_gates(tokens: dict) -> list[str]:
@@ -2042,16 +2740,11 @@ def _check_one(args) -> None:
                 f"{tokens['arrival']['duration_s']}s. The frame walk IS the arrival (render-shelf "
                 "V2), so the three have to agree.")
 
-    # 0b · exactly one positive cue, because pass 1 has no tie-break. Part 0.5's procedure says
-    # "scan for A positive cue and press it" — that is unambiguous with one positive cue in the
-    # vocabulary and undefined with two, since a row could then wear both and the heuristic would
-    # not say which wins. So this is an ORDERING gate, not merely a vocabulary one.
-    positives = [k for k, c in tokens["cues"].items() if c.get("polarity") == "positive"]
-    if len(positives) > 1:
-        fails.append(f"{len(positives)} positive cues declared ({', '.join(sorted(positives))}) — "
-                     "Part 0.5 allows exactly one, because a second one is a second pass-1 "
-                     "candidate and the procedure says nothing about how two of them rank. "
-                     "Rewrite Part 0.5 to define that ordering first, then relax this gate.")
+    # 0b · at most one positive cue PER ENTRY. Pass 1 says "scan for A positive cue and press
+    # it", which needs one answer — but that is a constraint on a ROW, not on the vocabulary.
+    # Until 2026-08-19 this gate capped the vocabulary at one positive cue, which was the V5
+    # three-slot geometry read backwards; the badge stack now flows and there is no ceiling.
+    # See render-shelf.md Part 0.5, "There is no positive-cue budget".
 
     # 1 · the doc leads the sidecar.
     doc = scrape_scenarios(cfg["scenarios"])
@@ -2131,19 +2824,109 @@ def _check_one(args) -> None:
     # primitive, so the gate has no subject. There is nothing to put in its place: a row's skip is
     # now said once, by the badge, and a rule that a badge implies a badge is not a rule.
 
-    # 0d · slot 3 is the positive cue's, and only the positive cue's (render-shelf.md Part 1).
-    # Position carries polarity there as well as colour, which is only true while nothing negative
-    # can land in slot 3 and nothing positive can land beside the negatives on the top edge.
-    for key, cue in tokens["cues"].items():
-        positive = cue.get("polarity") == "positive"
-        if positive and cue.get("slot") != 3:
-            fails.append(f"cue {key!r} is positive but sits in slot {cue.get('slot')} — Part 1 puts "
-                         "the positive cue in slot 3, down the right edge, so polarity is legible "
-                         "from position and not only from colour.")
-        if not positive and cue.get("slot") == 3:
-            fails.append(f"cue {key!r} is negative but sits in slot 3, which Part 1 reserves for "
-                         "the single positive cue. A negative badge there reads as the opposite of "
-                         "what it means.")
+    # 0d · every positive cue ranks above every negative one, so a promotion always lands on the
+    # corner where the eye arrives first (render-shelf.md Part 1). This replaced the old
+    # "slot 3 belongs to the positive cue" assertion when the stack began to flow: absolute
+    # positions stopped existing, and the ordering is what actually carried the meaning.
+    ranks = {k: c.get("rank") for k, c in tokens["cues"].items()}
+    missing = sorted(k for k, r in ranks.items() if not isinstance(r, int))
+    if missing:
+        fails.append(f"cues with no integer `rank`: {', '.join(missing)} — the badge stack packs "
+                     "in rank order, so a cue without one has no defined position.")
+    else:
+        worst_positive = max((r for k, r in ranks.items()
+                              if tokens["cues"][k].get("polarity") == "positive"), default=None)
+        best_negative = min((r for k, r in ranks.items()
+                             if tokens["cues"][k].get("polarity") != "positive"), default=None)
+        if worst_positive is not None and best_negative is not None \
+                and worst_positive > best_negative:
+            fails.append(
+                f"a negative cue ranks above a positive one (best negative rank {best_negative}, "
+                f"worst positive {worst_positive}) — Part 1 packs positives onto the corner so a "
+                "promotion is the badge the eye reaches first.")
+        if len(set(ranks.values())) != len(ranks):
+            fails.append("two cues share a `rank` — the stack order would depend on dict order, "
+                         "so two rows wearing the same pair could stack them differently.")
+
+    # 0f · the SHIPPED font is the one the shelf declares, byte for byte.
+    #
+    # Gated exactly as Style.lua is, and for the same reason: generation buys nothing the first
+    # time someone edits one and not the other. It also catches the thing that would be worst
+    # here — a `Media/fonts/` file with no licence beside it, or one left behind after the style
+    # moved to a font the client already has.
+    if ADDON_SRC.exists():
+        spec = (tokens.get("preview") or {}).get("hotkey_font") or {}
+        want = {}
+        if spec.get("shippable"):
+            name = spec.get("ship_as") or spec["family"]
+            want[f"{name}.ttf"] = _subset_font(_font_source(spec), "tokens.preview.hotkey_font",
+                                               spec.get("ship_as"))
+            if spec.get("license_url"):
+                want["OFL.txt"] = _font_text(spec["license_url"])
+        have = {f.name for f in FONTS_DIR.glob("*")} if FONTS_DIR.exists() else set()
+        for name, data in want.items():
+            path = FONTS_DIR / name
+            if not path.exists():
+                fails.append(f"Media/fonts/{name} is missing — run: wowkb.capart export lua")
+            elif path.read_bytes() != data:
+                fails.append(f"Media/fonts/{name} disagrees with the shelf — "
+                             "run: wowkb.capart export lua")
+        for stale in sorted(have - set(want) - {"NOTICE.txt"}):
+            fails.append(f"Media/fonts/{stale} is shipped but the shelf does not declare it — "
+                         "run: wowkb.capart export lua")
+        if want and "OFL.txt" not in want and spec.get("license", "").upper().startswith("OFL"):
+            fails.append("tokens.preview.hotkey_font claims an OFL licence but names no "
+                         "`license_url`, so the licence would ship with no text beside it.")
+
+    # 0e · CHROME IS NOT A CUE, and this is what makes that mechanical rather than promised.
+    #
+    # The reading model's gates (`_cues_of`, `reading_gate`, the rank check above, 1c) all iterate
+    # `tokens["cues"]` and nothing enumerates top-level token keys, so a sibling key is invisible
+    # to them by construction — which is exactly why the ruling needs a gate of its OWN. Nothing
+    # would have failed if `hotkey` had quietly grown a polarity and started ranking rows.
+    #
+    # ⚠ This replaces the plan's "the hint claims no badge slot": the three fixed slots were
+    # retired on 2026-08-19 and the stack flows, so there is no slot left to claim. The geometry
+    # assertion that still means something is the CORNER — the badges flow from
+    # `tokens.badges.flow.anchor` and chrome must not start there.
+    hk = tokens.get("hotkey")
+    if hk is not None:
+        if "hotkey" in tokens["cues"]:
+            fails.append("`hotkey` is declared as a cue — it is chrome (spec.md §3.8): it names a "
+                         "row and asserts nothing about the press, so it must take no part in "
+                         "elimination or the badge vocabulary.")
+        for key in ("polarity", "rank"):
+            if key in hk:
+                fails.append(f"tokens.hotkey declares `{key}` — chrome has no polarity and no "
+                             "rank (spec.md §3.8). A label that can be mistaken for a signal is "
+                             "the one way V15 breaks the reading model.")
+        for name, rule in tokens["verdicts"].items():
+            if "hotkey" in (rule.get("cues") or []):
+                fails.append(f"verdict {name!r} names `hotkey` in its cues — chrome is not "
+                             "authored per verdict and never rules a row in or out.")
+        corner = (tokens["badges"].get("flow") or {}).get("anchor", "top-right-corner")
+        if corner.replace("-corner", "").replace("-", "") == hk.get("anchor", "").lower():
+            fails.append(f"tokens.hotkey.anchor is {hk.get('anchor')!r}, which is the corner the "
+                         f"badge stack flows from ({corner}) — the two would negotiate a place, "
+                         "and chrome is supposed to hold a corner no cue may claim.")
+
+    # 1b-ii · an entry may not DECLARE a cue its verdict already implies.
+    #
+    # `{cues: …}` exists to add a cue the verdict does not carry. Naming one it already carries is
+    # a second mention of a single cue, and the renderer drew it as a second badge — two identical
+    # red discs on one icon, which reads as two different reasons rather than as one. The
+    # renderer now dedupes, so this is about the DOC saying what it means: found 2026-08-19 with
+    # 8 such entries in Havoc, all of them following advice this file used to print.
+    for sc in doc:
+        for e in sc["row"]:
+            implied = set(tokens["verdicts"].get(e["verdict"], {}).get("cues") or [])
+            dup = sorted(implied & set(e.get("cues") or []))
+            if dup:
+                fails.append(
+                    f"{sc['id']}: {e['name']!r} declares {{cues: {', '.join(dup)}}}, which its "
+                    f"`{e['verdict']}` verdict already implies.\n"
+                    "    Drop the group — a cue named twice is one badge, and the declaration "
+                    "adds nothing but noise.")
 
     # 1c · every declared cue actually draws somewhere. spec.md §3.2 — "a catalog form that
     # loads successfully and then renders nothing is a defect" — and a cue nobody wears is that
@@ -2246,7 +3029,7 @@ def _check_one(args) -> None:
           "     every art-bearing primitive still declares the tint guard, tokens/assets both "
           "run, every class\n"
           "     stepper.js names is styled, every drawn row resolves to an icon, and the positive\n"
-          f"     cue owns slot 3, and all {len(doc)} scenarios read correctly under the pass they\n"
+          f"     cues rank onto the corner, and all {len(doc)} scenarios read correctly under the pass they\n"
           "     actually reach — a row wearing the positive cue presses it, every other row is "
           "reached by elimination.\n"
           "     Part 7: Style.lua carries no lab, Lab.lua and Media/lab/ are current, and "
@@ -2285,7 +3068,7 @@ def main() -> None:
     e = sub.add_parser("export",
                        help="write the shelf into the addon (Style.lua + badge art + Lab.lua)")
     e.add_argument("what", nargs="?", default="all",
-                   choices=["lua", "badges", "ring", "hatch", "lab", "all"])
+                   choices=["lua", "badges", "ring", "hatch", "promotion", "lab", "all"])
     e.set_defaults(func=cmd_export)
 
     c = sub.add_parser("check", help="doc-vs-sidecar and preview-staleness gates")

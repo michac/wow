@@ -209,6 +209,10 @@ Marker shapes, colors, sizes and placement are `render-shelf.md`'s, not this sec
 question a flight asks is whether the player can identify the fact without consulting the
 catalog; the answer changes the shelf.
 
+Not everything cap draws is a marker. A keybind hint identifies a row rather than gating a press —
+it has no `when`, no `display`, and no catalog authors it — so **§3.8** holds it outside this
+taxonomy on purpose, rather than admitting a marker that is exempt from the rules above.
+
 ### 3.3 Tyrant cooldown experiment
 
 One movable Tyrant countdown bar tests whether a larger surface adds information the CDM icon
@@ -465,6 +469,42 @@ Each row begins as a hypothesis judged by play, exactly as the pilots did. Rows 
 fact is still open (Demonsurge, the Inertia proc-glow, the Essence-Break-window promotion)
 produce no hint until the in-client test named in `specs/havoc/catalog.md` resolves.
 
+### 3.8 Chrome
+
+Not everything cap draws is a hint. **Chrome tells you which row you are looking at; it asserts
+nothing about pressing it.** The keybind hint is the whole category today — the key you have
+actually bound to an ability, drawn small in a corner the cue vocabulary does not use
+(`render-shelf.md` Part 1), so that "the third icon" and "the button under my ring finger" stop
+being two thoughts.
+
+It is placed here rather than inside §3.2 because it is a *peer* of emphasis and context markers,
+not an exception to them. Every difference below is a rule of §3.1 or §3.2 that simply does not
+reach it:
+
+- **It is not a cue and not a marker.** It has no gating fact, so it has neither of §3.2's two
+  forms — no `when` to be readable by, no `display` for the client to evaluate. The binding is an
+  ordinary readable fact (§3.6) that drives no comparison: cap shows it and ranks nothing by it. It
+  takes no badge, joins no cue vocabulary, and the elimination walk (§3.1, `render-shelf.md`
+  Part 0.5) does not see it — a bound button is not thereby ruled in, and an unbound one is not
+  ruled out. Were it otherwise, the reading gates would begin ranking rows on the basis of a
+  keyboard layout.
+- **It is not catalog-authored.** A marker is authored per ability by a spec's catalog; chrome
+  applies to every row cap draws on every spec, and no catalog can add one or take one away.
+- **Drawing nothing is legal for it.** §3.2's "a form that loads and then renders nothing is a
+  defect" is a test on a marker's one declared state, and chrome has no state to be single. An
+  ability you have not bound has no key to show, and blank is the complete answer. ⚠ **Never a
+  placeholder** — an invented key is worse than an absent one. That holds equally for a key cap
+  merely failed to find: the lookup is spell-keyed, so a slot holding a *macro* that casts the
+  ability reads blank, and that is the shipped behaviour rather than a gap papered over.
+- **It is always on.** That is not a settings decision. §2 says cap is opinionated and not
+  configurable; there is no opinion here to configure, only a fact that is either available or
+  absent.
+
+The boundary it stays inside is §4's: cap *reads* a binding to label a row and owns none of them.
+Nothing here sets, changes, or offers to change a binding, and the place to fix one is still
+BucketBinds. What the hint looks like and where it sits are `render-shelf.md`'s (`tokens.hotkey`,
+V15).
+
 ## 4. What cap does not do
 
 - It never presses, queues, macros or takes an action for the player.
@@ -474,7 +514,8 @@ produce no hint until the in-client test named in `specs/havoc/catalog.md` resol
 - It is not a WeakAuras-style rule editor and does not accept user-authored priority packs.
 - It does not replace or configure the Cooldown Manager.
 - It does nothing on specs and builds without an authored experience.
-- It does not own keybinds or action-bar layout; that is BucketBinds.
+- It does not own keybinds or action-bar layout; that is BucketBinds. It may *show* you the
+  binding you already have (§3.8), which is a read and changes nothing.
 - It supports Retail / Midnight only.
 
 Combat Assist Plus supersedes the old Cooldown HUD product. Its measured client facts remain

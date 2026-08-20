@@ -119,6 +119,71 @@ a { color: var(--accent); }
   background: conic-gradient(var(--swipe-color) 0turn var(--swipe-frac), transparent var(--swipe-frac) 1turn);
 }
 
+/* V15 · the keybind hint — chrome, not a cue. Top-left, the corner the badge stack never flows
+ * into, so the two never negotiate a place. Every value is the shelf's: there is no literal here
+ * and `strict_css` would fail one. It is static — nothing animates it, and `tokens.text`'s
+ * flicker limits bind text that changes, which this does not.
+ *
+ * The dark edge is a real STROKE, which is what the client's font flag actually is.
+ *
+ * ⚠ It used to be eight offset `text-shadow` copies, and that was wrong in a way that showed:
+ * every copy is antialiased, the overlaps accumulate alpha into a fuzzy halo, and the diagonal
+ * copies sit at 2.83px where the axial ones sit at 2 — so a 2px ring rendered as a smudge with
+ * lumpy corners. The client computes OUTLINE/THICKOUTLINE from the glyph outline (from its SDF),
+ * uniform and crisp, and nothing made of offset copies converges on that. `paint-order` puts the
+ * stroke UNDER the fill, so it reads as an outward edge rather than eating the letterform —
+ * which is also what the client does.
+ *
+ * The stroke is drawn at twice `--hotkey-outline-px` because a centred stroke spends half its
+ * width inside the glyph; the outward half is what that variable names.
+ * ⚠ It only ever takes the ONE value matching the declared flag. A wider edge would make the
+ * preview more readable than the game can be, which is the one thing this may not do. */
+.item .hotkey {
+  position: absolute;
+  /* The plate grows AROUND the glyph rather than pushing it: the padding is subtracted from the
+   * anchor offset, so a plated candidate and a bare one put their first letter on exactly the
+   * same pixel and the comparison is about the plate alone. Both default to 0. */
+  top: calc(var(--hotkey-y) - var(--hotkey-plate-y, 0px));
+  left: calc(var(--hotkey-x) - var(--hotkey-plate-x, 0px));
+  padding: var(--hotkey-plate-y, 0px) var(--hotkey-plate-x, 0px);
+  /* Square corners, and not for want of a border-radius. The client's analogue is one
+   * `SetColorTexture` rect behind the FontString; rounding it would need an art file, which is a
+   * different (and shippable-asset) proposition. The preview may not draw a shape the addon
+   * cannot. */
+  background: var(--hotkey-plate, transparent);
+  pointer-events: none;
+  font-family: var(--hotkey-font);
+  font-size: var(--hotkey-size);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--hotkey-color);
+  paint-order: stroke fill;
+  -webkit-text-stroke: calc(var(--hotkey-outline-px) * 2) var(--hotkey-outline);
+  white-space: nowrap;
+}
+
+/* Part 7 · the title-bar candidates. A strip across the icon's top edge with the label in it,
+ * rather than a plate sized to the label. It is a different OBJECT, not a bigger plate: constant
+ * width on every row, so the eye stops hunting for it, and a field of fixed size says nothing
+ * about what is written in it — which is what chrome is supposed to say.
+ *
+ * The whole fill arrives as one value, flat colour or gradient, because that is the one property
+ * the two candidates differ in. It runs the full width and therefore UNDER the badge stack, which
+ * overhangs the same corner — deliberately, and the badge cell is where that gets judged. */
+.item .hotkey-bar {
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  height: var(--hotkey-bar-h);
+  display: flex;
+  align-items: center;
+  justify-content: var(--hotkey-bar-align);
+  background: var(--hotkey-bar);
+  border-bottom: var(--hotkey-bar-rule);
+  box-sizing: border-box;
+}
+
 /* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining lab entries.
  *
  * ⚠ This block used to say "LAB, not the style, nothing above Part 7 draws this." That stopped
@@ -160,9 +225,14 @@ a { color: var(--accent); }
    * rather than behind the ability icon, where it would be invisible. */
   isolation: isolate;
 }
-.item .slot[data-slot="1"] { top: calc(var(--badge-over) * -1); right: calc(var(--badge-over) * -1); }
-.item .slot[data-slot="2"] { top: calc(var(--badge-over) * -1); right: calc(var(--badge-step) - var(--badge-over)); }
-.item .slot[data-slot="3"] { top: calc(var(--badge-step) - var(--badge-over)); right: calc(var(--badge-over) * -1); }
+/* V5 · the badge stack FLOWS down the right edge. Every badge shares the right offset; only
+   the vertical one moves, by its index in the stack. No fixed slots, so no ceiling. */
+.item .slot { right: calc(var(--badge-over) * -1); }
+.item .slot[data-index="0"] { top: calc(var(--badge-over) * -1); }
+.item .slot[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
+.item .slot[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
+.item .slot[data-index="3"] { top: calc(var(--badge-step) * 3 - var(--badge-over)); }
+.item .slot[data-index="4"] { top: calc(var(--badge-step) * 4 - var(--badge-over)); }
 
 /* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is the
  * cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
@@ -422,3 +492,161 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 .frames .f { width: 1.4rem; height: 1.4rem; border-radius: 50%; position: relative;
              background: var(--paper-3); }
 .frames .f i { position: absolute; inset: 18%; display: block; }
+
+/* ---------------------------------------------------------------- Part 7 · the blaze
+ *
+ * A promotion that SHOUTS. Two entries, one difference: what shape the light has.
+ * Nothing here holds a colour or a rate — every value arrives as a --bl-* variable the
+ * renderer wires to the shelf's --lab-<entry>-* tokens.
+ */
+.item .blaze-badge {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  pointer-events: none;
+  isolation: isolate;
+}
+
+/* The bright field, BEHIND the glyph in both entries. Scaled by --bl-spread so the light
+ * reaches past the badge; the scale is shared by both shapes so the two entries differ in
+ * silhouette and in nothing else. */
+.item .blaze-badge .blaze {
+  position: absolute; inset: 0;
+  transform: scale(var(--bl-spread));
+  background-color: rgba(var(--bl-rgb), var(--bl-flare));
+  z-index: -1;
+}
+/* behind the FLAME — the field takes the sprite's own silhouette. */
+.item .blaze-badge[data-behind="glyph"] .blaze {
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  filter: blur(2px);
+}
+/* behind the BADGE as REAL ART — a ring, or a walked flipbook. The badge KEEPS its plate:
+   the layering is glyph on top, dark disc under it, effect behind that. Letting the art's own
+   dark centre stand in for the plate loses the badge's identity and its contrast job.
+   Sizing and frame position are set per node by stepper.js; this file may hold no numbers. */
+.item .blaze-badge[data-behind="sheet"] .blaze,
+.item .blaze-badge[data-behind="corona"] .blaze {
+  /* ADDITIVE, which is what these effects are and what the client draws them with. Without it
+     the layer composites normally and a luminance-derived alpha reads as a translucent decal
+     you can see the icon through -- rather than as light, which does not occlude anything.
+     `plus-lighter` is the closest CSS has to SetBlendMode("ADD"). */
+  mix-blend-mode: plus-lighter;
+}
+.item .blaze-badge[data-behind="sheet"] .blaze {
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+.item .blaze-badge[data-behind="sheet"] .blaze[data-tint="lane"] {
+  background-image: none !important;
+  background-color: rgba(var(--bl-rgb), var(--bl-flare));
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.item .blaze-badge[data-behind="corona"] .blaze {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+/* behind the BLACK CIRCLE — a hard-edged disc, with the plate drawn over it. */
+.item .blaze-badge[data-behind="plate"] .blaze {
+  border-radius: 50%;
+}
+.item .blaze-badge[data-behind="plate"]::before,
+.item .blaze-badge[data-behind="corona"]::before,
+.item .blaze-badge[data-behind="sheet"]::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+
+/* The glyph. Full alpha, always — the thing that breathes is the light behind it. */
+.item .blaze-badge .blaze-sprite {
+  position: absolute; inset: var(--badge-inset);
+  background-color: rgba(var(--bl-glyph), 1);
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .item .blaze-badge[style*="--bl-period"] .blaze {
+    animation: blaze-breathe var(--bl-period) ease-in-out infinite alternate;
+  }
+}
+@keyframes blaze-breathe {
+  from { opacity: calc(var(--bl-rest) / var(--bl-flare)); }
+  to   { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------- Part 7 · icon-scale VFX
+ *
+ * The proc-glow family. These surround the ICON, not the badge — Blizzard's own proc glow
+ * surrounds the whole button and half of why it reads is that it is big.
+ *
+ * A flipbook is stepped with background-position on a steps() timeline: the CSS analogue of
+ * SetTexCoord walking a grid. The sheet is padded to a power of two for the client, so the
+ * background is sized to the GRID and the padding is never addressed.
+ */
+.item .vfx {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 100%; height: 100%;
+  transform: translate(-50%, -50%) scale(var(--vfx-scale));
+  pointer-events: none;
+  background-repeat: no-repeat;
+  /* ADD, not `screen`. Both let dark pixels drop out, but `screen` asymptotes toward white and
+     flattens the bright core of an effect into a wash — the "faded photograph" look. These
+     sheets are additive renders (mostly low alpha BY DESIGN: glow art is meant to be added as
+     light, not stamped down as a decal), so `plus-lighter` is both the truthful analogue of
+     SetBlendMode("ADD") and the one that keeps the hot centre hot. */
+  mix-blend-mode: plus-lighter;
+}
+/* Sizing and stepping are set per node by stepper.js — they are arithmetic over the declared
+   grid, and this file may not hold numbers. */
+.item .vfx[data-tint="lane"] {
+  background-image: none !important;
+  background-color: rgba(var(--vfx-rgb), 1);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* A single-frame entry cannot shimmer, so it breathes instead — which is the honest
+     comparison: shape isolated from motion. */
+  .item .vfx[style*="--vfx-period"] {
+    animation: vfx-breathe var(--vfx-period) ease-in-out infinite alternate;
+  }
+}
+@keyframes vfx-breathe { from { opacity: 0.45; } to { opacity: 1; } }
+
+/* ---------------------------------------------------------------- V14 · promotion ring
+ *
+ * A ring around the BADGE of a row wearing a positive cue. A measured replica of Blizzard's
+ * proc glow — see render-shelf.md V14 for the four properties it was built to. It does not
+ * pulse: the animation is hot spots travelling the rim at constant total brightness, walked
+ * per frame by stepper.js. Additive, because it is light.
+ */
+.item .slot .promo-ring {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 100%; height: 100%;
+  transform: translate(-50%, -50%) scale(var(--promo-spread));
+  pointer-events: none;
+  background-color: rgba(var(--promo-rgb), var(--promo-alpha));
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mix-blend-mode: plus-lighter;
+  z-index: -1;
+}
+
+/* V11 · cap's half of the ruled-out hatch overhangs the icon rect and carries its own border,
+   so a ruled-out row's red replaces V13's yellow scan edge rather than sitting inside it. */
+.item .stripes.skip-hatch {
+  inset: calc(var(--hatch-skip-over) * -1);
+  border: var(--hatch-skip-line) solid var(--hatch-skip-edge);
+  box-sizing: border-box;
+}

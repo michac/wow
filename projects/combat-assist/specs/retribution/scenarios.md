@@ -52,28 +52,39 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-1 · Opener, everything ready, HP 0
 
 - **State.** Pull timer at zero, every cooldown up, **Holy Power 0**, single-target mode, no
-  procs.
-- **CDM row.** Execution Sentence `hold-readable` · Avenging Wrath `press` · Wake of Ashes `below` ·
-  Divine Toll `below` · Final Verdict `starved` {client: not-enough-power} · Divine Storm `starved` {client: not-enough-power} · Blade of Justice `below` ·
+  procs. **Holy Flames talented, Expurgation not yet on the target** — the state the opener exists
+  to end.
+- **CDM row.** Execution Sentence `hold-readable` · Avenging Wrath `hold-readable` · Wake of Ashes
+  `below` · Divine Toll `below` · Final Verdict `starved` {client: not-enough-power} · Divine Storm `starved` {client: not-enough-power} · Blade of Justice `press-promoted` {cues: priority} ·
   Judgment `below` · Crusader Strike `below`
-- **Walk.**
-  1. **Execution Sentence** — available, and the `blocked` badge lights from the readable half of
-     its hold (`es_awaits_wrath_ready`): Avenging Wrath is **ready**, and Execution Sentence's own
-     line requires it to be more than 15s away → skip.
-  2. **Avenging Wrath** — available, nothing rules it out → **press.** `cooldowns` 10.
-  3. **Final Verdict / Divine Storm** — to the right of the press, and unaffordable at 0 Holy
-     Power in any case.
-- ⚠ **Documented divergence.** The APL would open with Blade of Justice on a Holy Flames build
-  (`generators` 2 — `time<5`, Expurgation not ticking). That rung is keyed on a **target DoT** and
-  is open, so cap sends the eye to a cooldown for the first five seconds of a pull. Misordering 1.
-- **Cue set.** Readable hold (C) → **have**. Affordability (A) → **have**.
+- **Walk.** ⚠ **This scenario is read by pass 1, not by elimination** — the only one in the
+  catalog that is.
+  1. **Blade of Justice** wears `priority` (cue **H**, `boj_opener`) → **press.** `generators` 2,
+     the rung that puts Expurgation up. The condition is that rung: Holy Flames talented, the DoT
+     absent, the button ready.
+  2. Everything else is read only if the eye goes looking. Execution Sentence and Avenging Wrath
+     are genuinely held — `es_awaits_wrath_ready` and `aw_awaits_expurgation` — and the two
+     spenders are unaffordable at 0 Holy Power. None of that has to be interpreted to find the
+     press.
+- **Eye-direction.** ⚠ **This is the catalog's worked example of the density rule.** Said by
+  elimination, the opener needs **four** holds — Execution Sentence, Avenging Wrath, Wake of Ashes
+  and Divine Toll all standing down so a left-to-right scan can reach position 7. That is over
+  budget (`../render-shelf.md` Part 0.5) and it reads as "something is wrong" rather than "press
+  the clean one". Promoting the press costs one badge and says the same thing.
+
+  **Two markers were deleted outright** when this was authored — `woa_awaits_wrath_ready` and
+  `dt_awaits_wrath_ready` — because they existed for no reason other than steering the scan past
+  their own rows. That is the test of a promotion worth making: it should *remove* authored
+  vocabulary, not add to it.
+- **Cue set.** Priority (H) → **have**. Readable hold (C) → **have**, on rows 1 and 2.
+  Affordability (A) → **have**.
 
 ### RET-2 · HP 5, Wake of Ashes on cooldown — the interleave, resolved
 
 - **State.** Single target, no procs, **Holy Power 5**. Execution Sentence, Avenging Wrath and
   Wake of Ashes are all on cooldown. Divine Toll is ready.
 - **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `overcap` · Final Verdict `press` · Divine Storm `below` · Blade of Justice `below` ·
+  Divine Toll `overcap` · Final Verdict `press` · Divine Storm `off-mode` {cues: aoe_only} · Blade of Justice `below` ·
   Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence … Wake of Ashes** — on cooldown → skip.
@@ -92,7 +103,7 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** As RET-2, but **Wake of Ashes is ready**. Holy Power is still 5.
 - **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `press` ·
-  Divine Toll `overcap` · Final Verdict `below` · Divine Storm `below` · Blade of Justice `below` ·
+  Divine Toll `overcap` · Final Verdict `below` · Divine Storm `off-mode` {cues: aoe_only} · Blade of Justice `below` ·
   Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
@@ -111,7 +122,7 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 - **State.** Wake of Ashes has been cast; **row 3 is displaying Hammer of Light**. Holy Power 4.
   Execution Sentence and Avenging Wrath are on cooldown.
 - **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Hammer of Light `press` ·
-  Divine Toll `below` · Final Verdict `below` · Divine Storm `below` · Blade of Justice `below` ·
+  Divine Toll `below` · Final Verdict `below` · Divine Storm `off-mode` {cues: aoe_only} · Blade of Justice `below` ·
   Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
@@ -147,7 +158,7 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 - **State.** Single target, **Art of War (or Righteous Cause) is up**, Holy Power 4, every
   cooldown down, Blade of Justice ready.
 - **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `hold-readable` · Divine Storm `hold-readable` ·
+  Divine Toll `cd` · Final Verdict `hold-readable` · Divine Storm `hold-readable` {cues: aoe_only} ·
   Blade of Justice `press` · Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
@@ -166,7 +177,7 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** As RET-6, but **Holy Power 5**.
 - **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `press` · Divine Storm `below` · Blade of Justice `below` ·
+  Divine Toll `cd` · Final Verdict `press` · Divine Storm `off-mode` {cues: aoe_only} · Blade of Justice `below` ·
   Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
@@ -182,17 +193,19 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 - **State.** The player has flipped cap's AoE toggle; four targets, no Empyrean Legacy proc,
   Holy Power 4, cooldowns down.
 - **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `hold-readable` · Divine Storm `press` ·
+  Divine Toll `cd` · Final Verdict `off-mode` {cues: st_only} · Divine Storm `press` ·
   Blade of Justice `below` · Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
-  2. **Final Verdict** — `blocked` from `tv_divine_storm_aoe`: the toggle is on, no Empyrean
-     Legacy proc is live, and the spend is affordable → skip.
+  2. **Final Verdict** — the `st_only` pawn from `tv_divine_storm_aoe`: the toggle is on, no
+     Empyrean Legacy proc is live, and the spend is affordable → skip. ⚠ **Not `blocked`** —
+     nothing is held here and nothing would be wasted, it is simply the other spender's turn.
   3. **Divine Storm** — **press.** `finishers` 3, via `ds_castable`'s target clause.
 - ⚠ **The 2-vs-3 target threshold is the player's, not cap's.** Tempest of the Lightbringer
   without Jurisdiction moves it, and **cap models no enemy count** — the toggle is the whole
   interface. This scenario says what the badge does once the toggle is on, not when to flip it.
-- **Cue set.** Readable hold (E) → **have**, gated on the `aoe` predicate.
+- **Cue set.** Mode (E) → **have**, gated on the `aoe` predicate. Its mirror `aoe_only` rides
+  Divine Storm in single target, and the pair is what lets the two spenders be told apart at all.
 
 ### RET-9 · Single target, Empyrean Power proc, HP 4
 
@@ -203,13 +216,20 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
   Blade of Justice `below` · Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
-  2. **Final Verdict** — `blocked` from `tv_empyrean_power` → skip.
+  2. **Final Verdict** — `blocked` from `tv_empyrean_power` → skip. ⚠ **`blocked`, not the
+     `st_only` pawn RET-8 wears.** The mode is right here; what rules Final Verdict out is a free
+     Divine Storm waiting, which is precisely "a readable dependency says the press would be
+     wasted". A pawn here would tell the player their mode was wrong when it was not.
   3. **Divine Storm** — **press.** A free Divine Storm satisfies `ds_castable` with **no target
      term at all**, which is why this row looks identical to RET-8 and is a different marker.
-- **Eye-direction.** Two markers, one badge, one appearance — and that is correct. The player does
-  not need to know *which* clause of `ds_castable` fired; they need to know Templar's Verdict is
-  not the press. The distinction lives in the Lua, where it has to.
-- **Cue set.** Readable hold (E) → **have**, gated on `proc` rather than on `aoe`.
+- **Eye-direction.** ⚠ **This scenario and RET-8 used to look identical, and stopped on
+  2026-08-19.** Both put a badge on Final Verdict, and while the vocabulary had one negative key
+  for both, the argument here was that the player does not need to know *which* clause of
+  `ds_castable` fired. That was a concession to the vocabulary rather than a finding: the two
+  reasons are a **mode** and a **proc**, they are acted on differently — one is fixed by the
+  toggle, the other passes on its own — and the badge's job is to carry the reason. Now they
+  differ.
+- **Cue set.** Proc-defer (D) → **have**, gated on `proc` rather than on `aoe`.
 
 ### RET-10 · AoE mode on, Empyrean Legacy proc, HP 4 — the exception to the exception
 
@@ -269,9 +289,10 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-13 · Execution Sentence, Avenging Wrath and Wake of Ashes all ready, HP 3
 
 - **State.** The state the sealed band cannot cover: **Avenging Wrath is ready**, i.e. zero
-  remaining. Execution Sentence and Wake of Ashes are up too. Holy Power 3.
+  remaining. Execution Sentence and Wake of Ashes are up too. Holy Power 3. Mid-fight, so
+  **Expurgation is ticking** and `aw_awaits_expurgation` is dark — the difference from RET-1.
 - **CDM row.** Execution Sentence `hold-readable` · Avenging Wrath `press` · Wake of Ashes `below` ·
-  Divine Toll `below` · Final Verdict `below` · Divine Storm `below` · Blade of Justice `below` ·
+  Divine Toll `below` · Final Verdict `below` · Divine Storm `off-mode` {cues: aoe_only} · Blade of Justice `below` ·
   Judgment `below` · Crusader Strike `below`
 - **Walk.**
   1. **Execution Sentence** — `blocked` from `es_awaits_wrath_ready`, the **readable** half of the
@@ -283,11 +304,20 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
   left of everything it waits on, so a quiet row 1 would be pressed before the eye ever reached
   Avenging Wrath. Rows sitting to the *right* of what they wait on need only the band —
   elimination covers their zero case. **Position in the row decides which halves a hold needs.**
+  ⚠ **RET-1 tested that rule and it held, but only just.** There, cue G holds a *ready* Avenging
+  Wrath, so the walk does not stop at row 2 and rows 3 and 4 briefly needed companions of their
+  own. Promoting the opener (cue H) removed the need and both were deleted. The rule survives
+  because a promoted scenario is never read by elimination at all.
 - **Cue set.** Readable hold (C) → **have**, the counter to RET-12's sealed one.
 
 **What the walk did not have to explain.** No state in it required cap to know a target count, a
-buff duration, a target aura, or which of two Hammer of Light states was live. Every skip above
-is a readable Lua term or a sealed band on a *cooldown*.
+buff duration, or which of two Hammer of Light states was live. Every skip above is a readable Lua
+term, a sealed band on a *cooldown*, or — at RET-1 only — the readable up/down latch on a target
+aura that cues **G** and **H** are both built from.
+
+**One scenario in thirteen is read by pass 1.** RET-1 is the catalog's only promotion, and the
+ratio is the point: a vocabulary where the positive cue is reached often has stopped being a
+reading model and become a pointer (`../render-shelf.md` Part 0.5).
 
 ⚠ **Row 9 renders only on a Templar Strikes build.** Crusader Strike binds nothing otherwise, so
 on any other build the row simply is not there and the walk is eight entries wide. It is drawn in

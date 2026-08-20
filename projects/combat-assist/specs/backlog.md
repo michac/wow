@@ -134,9 +134,11 @@ and nothing about how it was measured.
 - **Devourer is authored and has never been built or flown**, on the same terms: three files, and
   the first spec whose definition needed **V12's virtual row** (Collapsing Star has no CDM frame at
   all). No catalog Lua, no preview registered in `SPECS_BUILT`.
-- **Cue D (demon-form promotion) and cue B's positive "banked" half are authored and not drawn.**
-  A promotion is a positive cue and `press-promoted` renders identically to `press`. The permission
-  is unchanged; what is missing is pixels, not authority.
+- **Cue D (demon-form promotion) is authored and not drawn.** A promotion is a positive cue and
+  `press-promoted` renders identically to `press`. The permission is unchanged; what is missing is
+  pixels, not authority. **Cue B's positive "banked" half is not parked beside it — it is deleted**,
+  and by the 2026-08-17 APL re-source rather than by any cue budget: the priority list puts no Fury
+  term on Essence Break at all, so there is nothing for the half to say.
 
 ### Tooling
 
@@ -151,24 +153,45 @@ and nothing about how it was measured.
 
 ## Now
 
-### Keybind hint on the CDM row — planned, not started
+### Keybind hint on the CDM row — built, not flown
 
-A key hint in each row's free corner, so you know which icon is which button. The route is
-`keybind-hint-plan.md`; the API chain it rests on is `knowledge/addon-dev/cdm-rider-patterns.md`
-§11, Tier-1 against shipped 12.1 source.
+The key you have bound, drawn in each row's top-left corner, because Blizzard's Cooldown Manager
+draws none: `grep HotKey` over `Blizzard_CooldownViewer` returns zero. The API chain is
+`knowledge/addon-dev/cdm-rider-patterns.md` §11, Tier-1 against shipped 12.1 source.
 
-✅ **Phase 0 — the lane → scan migration — landed 2026-08-19** and its section of the plan is
-superseded; phases 1+ stand as written. It was a live breakage rather than groundwork: the shelf
-had already collapsed the four role lanes into `tokens.ready` and `Style.lua` had been regenerated
-without `lanes`, while `Paint.lua`, `Treatment.lua` and `StylePanel.lua` still read
-`ns.Style.lanes`, so the addon nil-indexed on the first row paint (`busted`: 22 errors) and
-`capart tokens` / `capart assets` were both dead behind a `KeyError`.
+✅ **The three decisions are settled (2026-08-19)** — chrome not a cue, macros blank in v1, always
+on with no toggle. They live in `spec.md` §3.8 and `render-shelf.md` V15 now, and
+`keybind-hint-plan.md` was deleted on landing, as it said it would be.
 
-- [ ] Phases 1–5 — `Binds.lua`, the `tokens.hotkey` shelf entry, the draw in `Overlay.paint()`,
-      the arithmetic spec, the in-game pass
-- [ ] Three decisions sit at the **end** of the plan, and they are not the same kind: chrome-not-
-      a-cue and macros-blank-in-v1 are proposals awaiting a *confirm*, while whether the hint takes
-      a toggle is genuinely **open**.
+✅ **Built 2026-08-19.** `Binds.lua` (the two-stage lookup, cached, debounced, no combat fence),
+`tokens.hotkey` + V15 in the shelf, `Paint.Hotkey`/`Paint.Label`, the draw in `Overlay.paint()`
+with the widget added to `quiet()`, 21 pure specs in `binds_spec.lua`, and a `capart check` gate
+(0e) asserting chrome names no cue, declares no polarity or rank, and does not anchor to the
+corner the badge stack flows from.
+
+⚠ **The slot arithmetic the plan file specified was not built, deliberately.** It hardcoded
+`page = floor((slot-1)/12)+1` plus a page→binding table, which §11 explicitly rejects: the real
+button frames already carry `frame.action`, and reading it handles paged, bonus and override
+numbering with no ranges. The KB won.
+
+- [ ] **The flight.** Six states, all six or the phase has not passed: spec swap · bar page flip ·
+      shapeshift · combat entry · combat exit · CDM re-layout. Plus Part 5 question 9 — does the
+      hint read as a label or as another signal, and does the blank read as "unbound" or "broken".
+      ⚠ Havoc has not flown since it was re-sourced from the Tier-1 APL on 2026-08-17 and carries
+      an unflown V11 hatch and V13 scan edge, so judge those together rather than the hint alone.
+✅ **The preview draws the client's own font** (2026-08-19). `capart` pulls `fonts/frizqt__.ttf`
+out of CASC by FileDataID and embeds it as an `@font-face` data URI, the way it already embeds
+spell icons — so advance width in the preview is the game's, which is what "does `C-S-F1` fit the
+corner" actually asks. Part 3 permitted this all along: its rule bans extracted art in the addon's
+`Media/`, not in the preview, and nothing on this path reaches `Style.lua`. The page grew ~50 KB
+and `tokens.budget.max_base64_kb` went 512 → 600 to match, rather than leaving a standing warning
+that would blunt the signal.
+
+- [ ] **Readability was bought with the only two dials the client has** — `size` 12 → 14 and
+      `outline` `OUTLINE` → `THICKOUTLINE`. `SetFont` offers nothing between them and nothing
+      wider, so if 14/THICK still does not read over bright icon art, the next move is a dark
+      backdrop texture behind the FontString (the badge plate is the precedent), not a bigger
+      number. Judge it in the flight.
 
 ### Anchor — what the one flight did not exercise
 
@@ -343,6 +366,27 @@ order. Since `Anchor.lua` shipped that is no longer true even on a stock setup �
 sorts by `layoutIndex`, so every instrument cap owns is blind to a `SetPoint` re-anchor by
 construction, and under a competing CDM skin the check is neither right nor wrong but blind, which
 is the worse failure. At minimum its capture note should say which order it read.
+
+### Target-aura latch — retarget is the only part that needs a flight
+
+Aura secrecy is **combat-gated**, so cap mirrors aura truth out of combat and freezes it at
+`PLAYER_REGEN_DISABLED`; edges maintain it from there. Cue G rests on a read, not an assumption.
+
+**Two of the three risks are self-evident in play and are not tracked here.** Whether the seed
+survives the transition, and whether `OnAuraApplied` arrives when Blade of Justice lands
+Expurgation, both show up on the first pull — Blade of Justice is prio at the opener or it is not,
+and Avenging Wrath releases or stays held all fight. Play it; do not build a flight for either.
+
+- [ ] **Retarget only.** Does `PLAYER_TARGET_CHANGED` → `RefreshActiveFramesForTargetChange` raise
+      aura alert edges (`knowledge/addon-dev/cooldown-manager.md` §5.1, :960)? If not, the latch
+      describes the previous target. **Deferred until Affliction** — Retribution presses Avenging
+      Wrath about once per opener, so a stale latch barely shows; multi-dotting is the whole of
+      Affliction and it would be wrong constantly.
+
+⚠ **No enablement detector, no setup warning, and `cdm-aura-edges-need-a-bound-row` is retired.**
+This addon has one user, who knows to enable the Tracked Buff and knows what to blame if a row is
+lit all fight. Should it ever want one, out-of-combat truth vs. the latch is a direct differential
+and needs no item-frame enumeration.
 
 ### Split the Immolation Aura charge question in game
 

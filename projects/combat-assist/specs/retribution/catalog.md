@@ -208,11 +208,13 @@ right at 5 Holy Power, where the proc'd rung loses to the early `finishers` call
 
 **Documented misorderings — what is left after the badges.**
 
-1. **The opener.** Generators 2 (`blade_of_justice,if=talent.holy_flames&!dot.expurgation.ticking&time<5`)
-   is an opener rung keyed on a **target DoT** and on fight time. Both are open (below), so cap
-   sends the eye to a cooldown in the first globals where the APL front-loads a Blade of Justice
-   to get Expurgation ticking. Narrow — five seconds a pull — and not fixable without target-aura
-   vocabulary this pass may not build.
+1. ~~**The opener.**~~ **RESOLVED — cue G.** Generators 2
+   (`blade_of_justice,if=talent.holy_flames&!dot.expurgation.ticking&time<5`) front-loads a Blade
+   of Justice to get Expurgation ticking, and the **same** term stands Avenging Wrath *down* until
+   it does — so the old walk did not merely point one slot left of the APL, it pointed at a
+   cooldown the APL **forbids**. The term is a target DoT, and target DoTs turned out to be
+   readable through CDM alert edges (see *Not open*, below), so it is authored rather than
+   documented as a divergence. RET-1 presses Blade of Justice.
 2. **Execution Sentence and Avenging Wrath are ordered by list position, not by a hold.** The APL
    evaluates Execution Sentence first, and its own condition stands it down while Avenging Wrath
    is ready or near (cue C), so position 1 is safe. But nothing in the APL is held *for*
@@ -270,10 +272,14 @@ lit COOLDOWN rows to its right by position.
   of Ashes is not. That is *correct* — the APL genuinely holds it — but whether it reads as
   useful or as nagging is a flight question (*Open facts* 6).
 - **Avenging Wrath** (`31884`, cooldowns 10). *Problem:* the window everything aligns into.
-  *Fact:* `ready` (R2). *Treatment:* COOLDOWN, **no hold**. Its line's only non-simulation term is
-  `(!talent.holy_flames|dot.expurgation.ticking)`, a **target DoT** cap cannot read, so the one
-  real hold it has is **open** and draws nothing. Read "nothing rules Avenging Wrath out" as
-  *nothing cap can see*.
+  *Facts:* `ready` (R2) plus **the Expurgation latch** (R8). *Treatment:* COOLDOWN + one hold.
+  - `aw_awaits_expurgation` — **readable** `blocked`, cue **G**, gated on `talent(holy_flames)`.
+    Its line's only non-simulation term is `(!talent.holy_flames|dot.expurgation.ticking)`, so on a
+    Holy Flames build Avenging Wrath is **not castable** until the DoT lands — a forbidden press,
+    not a low-ranked one. The `talent` gate is what makes the marker safe: on a build without Holy
+    Flames the term is vacuously true and the marker is never authored at all.
+  ⚠ On a **Radiant Glory** build this row may not exist; the C bands naming it are talent-gated for
+  that reason, and cue G's own gate is independent of it.
   ⚠ On a **Radiant Glory** build this row may not exist at all — *"Avenging Wrath is replaced with
   Radiant Glory"* (458359) — which is a second reason the C bands that name it are talent-gated
   rather than relying on the row's absence.
@@ -304,13 +310,23 @@ lit COOLDOWN rows to its right by position.
   `!talent(radiant_glory)`. Neither needs a readable half: both dependencies sit **left** of this
   row, so a ready Avenging Wrath or Execution Sentence stops the elimination walk before it
   arrives.
+  ⚠ **That argument survived a real challenge, and it is worth recording how.** Cue G makes a
+  *ready* Avenging Wrath holdable, so at the opener the walk no longer stops there — which briefly
+  put a `woa_awaits_wrath_ready` companion on this row, and a matching one on Divine Toll, purely
+  so the scan would step over both to reach Blade of Justice. Both were **deleted** when the
+  opener was promoted instead (cue H): a hold whose only job is to steer the scan past its own row
+  is scaffolding, and `../render-shelf.md` Part 0.5's density rule exists to catch exactly that.
   ⚠ **The Hammer of Light life carries no hold, and one of its rungs is unexpressible.**
   Finishers 2 is `hammer_of_light,if=!buff.hammer_of_light_free.up|buff.hammer_of_light_free.up&(…four clip conditions…)`.
   The **ordinary** Hammer is pressed unconditionally, which the row already says. The **free**
   one (Light's Deliverance 425518) should be held until one of four buff-remaining thresholds,
-  and cap has no aura-duration range display and — decisively — **no way to tell the free Hammer
-  from the ordinary one**: `SpellActivationOverlay` @ 12.1.0.69214 carries a single row for
-  Hammer of Light (`SpellID 427441`), so both states light the same overlay. *Open facts* 3.
+  and cap has neither an aura-duration range display nor an authored way to tell the free Hammer
+  from the ordinary one **through the overlay channel**: `SpellActivationOverlay` @ 12.1.0.69214
+  carries a single row for Hammer of Light (`SpellID 427441`), so both states light the same
+  overlay. What is unmeasured is the other route: if Light's Deliverance's free-Hammer state is a
+  **player aura**, an AuraContainer slot filtered to it paints it client-side with Lua reading
+  nothing (`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5, the S2 recipe).
+  *Open facts* 3.
 - **Divine Toll** (`375576`, generators 4). *Problem:* a large Holy Power injection, and with
   Divine Hammer the seed of Templar's area damage — so it belongs *inside* the burst window, and
   it is the one builder that genuinely must not be pressed at cap. *Facts:* `ready` (R2),
@@ -380,11 +396,21 @@ that it is doing ordering work a sealed curve could not do.
   of Justice. *Treatment:* ROTATION + `ds_starved` (`starved`) + `ds_awaits_blade` (`blocked`,
   the same four terms as `tv_awaits_blade`). The second marker is not optional: without it,
   badging only Templar's Verdict would hand the walk to Divine Storm.
-- **Blade of Justice** (`184575`, generators 5 and 8). *Problem:* none that a cue solves.
-  *Fact:* `ready` (R2). *Treatment:* ROTATION, **no cues**. Its whole ordering story is told by
-  the two markers it causes on the rows above it; a badge on Blade of Justice itself would be
-  the positive statement "press this now", which is the thing the vocabulary does not do
-  (`../render-shelf.md` Part 0.5 — the press is whatever the scan reaches first).
+- **Blade of Justice** (`184575`, generators 2, 5 and 8). *Problem:* in the steady state, none that
+  a cue solves. At the **opener** it is first in the priority and seven rows from the left, which
+  elimination can only say by holding four rows above it — over Part 0.5's budget.
+  *Facts:* `ready` (R2), `talent` and the Expurgation latch (R8). *Treatment:* ROTATION +
+  - `boj_opener` — **readable** `priority`, cue **H**: `ready(blade_of_justice)` **and**
+    `talent(holy_flames)` **and** `!aura(expurgation)`. That is generators 2 exactly, minus
+    `time<5` — the latch subsumes it, since the only moment Expurgation is absent on a Holy Flames
+    build is before the first Blade of Justice.
+  ⚠ **In every other state this row still wears nothing, and that is not a leftover — it is the
+  rule.** Outside the opener its ordering story is told entirely by the markers it *causes* on the
+  rows above it, and the press is whatever the scan reaches first (`../render-shelf.md` Part 0.5).
+  Cue H is not a general "press this now" mark and must not become one: its condition is one
+  specific APL rung, and the thing that justifies it is **density**, not importance. Widening it to
+  any state where Blade of Justice happens to be the press would turn every catalog into a pointer
+  and delete the reading model.
   ⚠ **Blizzard already glows this button.** Art of War 406086 and Righteous Cause 402916 are both
   registered spell-activation overlays that highlight Blade of Justice, so the client draws the
   proc without cap's help. cap's use of the same fact is to *rank other rows against it* — which
@@ -423,9 +449,11 @@ that it is doing ordering work a sealed curve could not do.
 | --- | --- | --- | --- | --- | --- |
 | **A** starved | a spender you cannot pay for wears the `starved` badge — Templar's Verdict, Divine Storm, and Wake of Ashes **while it is Hammer of Light** | `insufficientPower` on the **live** id | marker (readable) | R1 + R7 | corner badge, slot 2 |
 | **B** overcap | **Divine Toll only** wears the `overcap` badge at 5 Holy Power | `UnitPower(player, HolyPower) >= 5` | marker (readable) | R3 | corner badge, slot 2 |
-| **C** sealed hold | the `blocked` badge driven by a *related ability's cooldown remaining*, in two senses. `within` = *"it is nearly here, wait for it"*: Execution Sentence while Avenging Wrath ends within 15s · Wake of Ashes while Avenging Wrath ends within 6s · Wake of Ashes while Execution Sentence ends within 4s · Divine Toll while Avenging Wrath ends within 15s. `beyond` = *"it is nowhere near, this is not its moment"*: Execution Sentence while Wake of Ashes has at least 1.5s left. **Both read nothing at zero remaining.** One readable companion — Execution Sentence while Avenging Wrath is *ready* — because that row sits left of the one it waits on | a related ability's cooldown remaining, plus one readiness | cue (sealed) + one marker (readable) | S4 `sealed-cooldown-range` + R2 | curve → badge alpha, slot 1 |
+| **C** sealed hold | the `blocked` badge driven by a *related ability's cooldown remaining*, in two senses. `within` = *"it is nearly here, wait for it"*: Execution Sentence while Avenging Wrath ends within 15s · Wake of Ashes while Avenging Wrath ends within 6s · Wake of Ashes while Execution Sentence ends within 4s · Divine Toll while Avenging Wrath ends within 15s. `beyond` = *"it is nowhere near, this is not its moment"*: Execution Sentence while Wake of Ashes has at least 1.5s left. **Both read nothing at zero remaining.** One readable companion — Execution Sentence while Avenging Wrath is *ready* — because that row sits left of the one it waits on | a related ability's cooldown remaining, plus one readiness | cue (sealed) + one marker (readable) | S4 `sealed-cooldown-range` + R2 | curve → badge, rank 3 |
 | **D** proc-defer | Templar's Verdict **and** Divine Storm wear `blocked` while a free Blade of Justice is waiting and Holy Power is below 5 | `IsSpellOverlayed(184575)` + `ready` + `resource` | marker (readable) | overlay `proc` + R2 + R3 | corner badge, slot 1 |
 | **E** Divine Storm skip | Templar's Verdict wears `blocked` while AoE mode is on **or** an Empyrean Power proc is live, and no Empyrean Legacy proc is | cap's `/cap aoe` toggle + two overlay procs + `affordable` | two markers unioned (readable) | `aoe` + overlay `proc` + R1 | corner badge, slot 1 |
+| **H** the opener promotion | **Blade of Justice only**, and only at the opener: it wears the gold `priority` badge while Holy Flames is talented, Expurgation is off the target and the button is ready. The catalog's one **positive** cue, and its one scenario read by pass 1 | the same latch as G, plus `ready` and `talent` | marker (readable) | R8 + R2 + the `talent` predicate | corner badge, rank 1 |
+| **G** target-aura hold | **Avenging Wrath only** wears `blocked` while Holy Flames is talented and the Expurgation DoT is **not** on the target — the opener state, released by the first Blade of Justice | CDM `TrackedBuff` alert edges on `383346`, latched up/down | marker (readable) | R8 + the `talent` predicate | corner badge, slot 1 |
 | **F** the talent gate | nothing of its own — it **withholds** three C bands on a Radiant Glory build, where the Avenging Wrath half of the condition does not exist | the trait config's node/entry selection | gate on a cue (readable) | the `talent` predicate | (no sink — it gates) |
 
 **Three cue keys, and the same red.** `blocked`, `starved` and `overcap` share one hue
@@ -467,7 +495,10 @@ genuinely outranks it, which is precisely the failure a positive cue is dangerou
 
 **The one thing that would qualify is unmeasured.** A **free** Hammer of Light from Light's
 Deliverance expires, and letting it expire is loss in progress with no negative phrasing. cap
-cannot see it (*Open facts* 3). If that ever becomes readable, this is the argument to reopen.
+has no authored way to see it today (*Open facts* 3). **Readability is not the reopening
+condition** — a sealed sink suffices: an AuraContainer slot filtered to the free-Hammer aura would
+paint it without Lua learning anything, so measuring whether that state *is* a player aura is what
+reopens this.
 
 ---
 
@@ -484,7 +515,12 @@ Almost none, which is the point of the pattern shelf. Against the current source
 `aoe`; `Catalog.DISPLAYS` = `player-aura-stacks`, `sealed-power-percent`,
 `sealed-cooldown-range`):
 
-1. **No new predicate.** Every term above is one of the eight.
+1. **One new fact, no new predicate *kind*.** Cue G's `aw_awaits_expurgation` reads a **target
+   aura**, which nothing in the vocabulary covered before. It is authored as an ordinary readable
+   marker over a latch (R8) rather than as a ninth predicate, because what the catalog needs is a
+   boolean and the latch already produces one; a `target_aura` predicate would be the right shape
+   once a second spec wants it. Affliction is that spec. Every other term above is one of the
+   eight.
 2. **No new display kind.** The five sealed bands are `sealed-cooldown-range`, in both of its
    existing senses. **`sealed-power-percent` is not used at all** — the first catalog to need no
    graded resource curve, because its resource is readable.
@@ -563,10 +599,40 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, never as a TODO h
    exposure is that a Radiant Glory build silently keeps three bands it should not have.
    @verify-ingame
 
-**Not open, deliberately closed as inexpressible this pass:** `dot.expurgation.ticking` (a target
-aura; `../authoring.md`'s standing rule is *do not prebuild vocabulary*, and the four rungs that
-name it are all secondary gates on rows that ship anyway), the three buff-remaining clip
-conditions on finishers 2, and every `raid_event` / `fight_remains` / `target.time_to_die` term.
+**Authored, with one deferral: `dot.expurgation.ticking`.** A CDM `TrackedBuff` row bound to the
+Expurgation DoT (**`383346`** — the debuff that lands, not the `383344` talent node) raises
+`OnAuraApplied` / `OnAuraRemoved` through the alert channel, and a hook **observes a call rather
+than reading a value**, so the up/down latch is readable and branchable — measured in combat on a
+hostile target `[client 2026-08-19]` (`knowledge/addon-dev/cdm-rider-patterns.md` §6.2). Cue G is
+built on it.
+
+**The latch is SEEDED, not defaulted.** Aura secrecy is **combat-gated**: out of combat the full
+`C_UnitAuras` surface is open to a tainted caller, and only the in-combat measurement in
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §4.7.1 found it shut. So cap mirrors
+aura truth continuously out of combat and **freezes that mirror at `PLAYER_REGEN_DISABLED`**;
+edges mutate it from there. At a fresh pull cue G therefore rests on something cap *read*, not on
+an assumption — which is exactly the RET-1 state.
+
+⚠ **Seeding fixes entry and not release, and that raises the stakes rather than lowering them.**
+Blade of Justice applies Expurgation mid-combat, where only `OnAuraApplied` can report it. The row
+carries `HideByDefault`, so on a setup where the player never added it to Tracked Buffs no edge
+ever arrives, the seed stays "absent", and cap holds Avenging Wrath **for the whole fight while
+being confident** — a worse failure than the silent unknown, because nothing about it looks
+uncertain. The **enablement detector is therefore a correctness requirement, not a nicety.**
+
+⚠ **Two facts about the latch are unmeasured and one of them is load-bearing.** Whether
+`PLAYER_TARGET_CHANGED` → `RefreshActiveFramesForTargetChange` raises aura alert edges decides
+whether the latch tracks the *current* target or the one held when the last edge fired
+(`knowledge/addon-dev/cooldown-manager.md` §5.1, and :960 for the routing). Retribution survives a
+stale answer as a cleave annoyance; **Affliction does not**, since multi-dotting is the spec. Flight:
+`../backlog.md` → *"Seed, release and retarget"*.
+
+**Defeated this pass, with the reopening named:** the three buff-remaining clip conditions on
+finishers 2. They died on the **shelf**, not the client — an aura-remaining *band* is an S-form
+nobody has written, and `C_UnitAuras.GetAuraDuration`'s duration object takes the same step curve
+S4 already puts on a cooldown (`../pattern-shelf.md` S5). Writing that S-form reopens all three.
+Separately, and not a defeat at all: every `raid_event` / `fight_remains` / `target.time_to_die`
+term stays out as a product rule — cap does not model the encounter.
 
 ---
 
