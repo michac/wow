@@ -322,8 +322,8 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Deviation from ST-0. Metamorphosis is **up**, Blade Dance is on cooldown, and **Eye
   Beam's cooldown has ~6s left**. The Hunt is on cooldown. Essence Break is up.
-- **CDM row.** Vengeful Retreat `hold-sealed` {cues: blocked} · Metamorphosis `hold-sealed`
-  {cues: blocked} · The Hunt `cd` · Eye Beam `cd` · Essence Break `press` · Blade Dance `cd` ·
+- **CDM row.** Vengeful Retreat `hold-sealed` · Metamorphosis `hold-sealed` ·
+  The Hunt `cd` · Eye Beam `cd` · Essence Break `press` · Blade Dance `cd` ·
   Immolation Aura `below` · Chaos Strike `below` · Felblade `below` · Demon's Bite `below` ·
   Fel Rush `below` · Throw Glaive `below`
 - **Walk.**
@@ -355,7 +355,7 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed. Metamorphosis is up; **Blade Dance is ready**. Eye Beam is on
   cooldown with well over 8s left. The Hunt and Essence Break are on cooldown.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `hold-readable` {cues: blocked} ·
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `hold-readable` ·
   The Hunt `cd` · Eye Beam `cd` · Essence Break `cd` · Blade Dance `press` ·
   Immolation Aura `below` · Chaos Strike `below` · Felblade `below` · Demon's Bite `below` ·
   Fel Rush `below` · Throw Glaive `below`
@@ -377,7 +377,7 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed. The Hunt is up. **Metamorphosis is ready**, and **Blade Dance is
   ready too**, so Meta itself is held. Eye Beam is on cooldown, ~12s out.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `hold-readable` {cues: blocked} ·
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `hold-readable` ·
   The Hunt `press` · Eye Beam `cd` · Essence Break `below` · Blade Dance `below` ·
   Immolation Aura `below` · Chaos Strike `below` · Felblade `below` · Demon's Bite `below` ·
   Fel Rush `below` · Throw Glaive `below`
@@ -400,8 +400,8 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed. The Hunt is up. **Metamorphosis's cooldown has ~12s left.** Eye Beam
   is ready.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `hold-sealed`
-  {cues: blocked} · Eye Beam `press` · Essence Break `below` · Blade Dance `below` ·
+- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `hold-sealed` ·
+  Eye Beam `press` · Essence Break `below` · Blade Dance `below` ·
   Immolation Aura `below` · Chaos Strike `below` · Felblade `below` · Demon's Bite `below` ·
   Fel Rush `below` · Throw Glaive `below`
 - **Walk.**
@@ -487,9 +487,9 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Deviation from ST-7: **Eye Beam's cooldown has ~2s left** instead of more than 4s.
   Blade Dance is up and affordable.
-- **CDM row.** Vengeful Retreat `hold-sealed` {cues: blocked} · Metamorphosis `cd` ·
+- **CDM row.** Vengeful Retreat `hold-sealed` · Metamorphosis `cd` ·
   The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `hold-sealed` {cues: blocked} · Blade Dance `press` · Immolation Aura `below` ·
+  Essence Break `hold-sealed` · Blade Dance `press` · Immolation Aura `below` ·
   Chaos Strike `below` · Felblade `below` · Demon's Bite `below` · Fel Rush `below` ·
   Throw Glaive `below`
 - **Walk.**
@@ -610,7 +610,7 @@ first because it is the easiest to read, not because the others are measured aga
   live. Blade Dance is on cooldown. **Immolation Aura has one charge banked** — available, and
   not capped. A Fire Inside is taken.
 - **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `cd` · Blade Dance `cd` · Immolation Aura `hold-readable` {cues: blocked} ·
+  Essence Break `cd` · Blade Dance `cd` · Immolation Aura `hold-readable` ·
   Chaos Strike `press` · Felblade `overcap` · Demon's Bite `overcap` · Fel Rush `below` ·
   Throw Glaive `below`
 - **Walk.**
