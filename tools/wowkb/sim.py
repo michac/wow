@@ -871,6 +871,8 @@ def override_brand(built: dict) -> str:
 
 
 def print_overrides(built: dict, indent: str = "    ") -> None:
+    if built.get("override_spec_warn"):
+        print(f"{indent}⚠ OVERRIDE SPEC MISMATCH  {built['override_spec_warn']}")
     for o in built.get("overrides") or []:
         print(f"{indent}⚠ OVERRIDE  variable.{o['name']} = {o['value']:g}  "
               f"[measured {o['measured']}]")
@@ -964,11 +966,24 @@ def build_profile(export: dict, ref: dict, *, name: str | None = None,
     # `variable,name=X` assignment wins over upstream's. Nothing here is copied from the
     # JSON — the line is constructed from a validated name and a float.
     applied, rejected, appended = ([], [], [])
+    spec_warn = None
     if use_overrides and not apl_override:
         entry = load_overrides(export.get("character"))
         applied, rejected = resolve_overrides(ref, entry)
         appended, app_rejected = resolve_apl_append(entry)
         rejected += app_rejected
+        # sim_overrides.json is keyed by CHARACTER only, so a demo-tuned entry silently
+        # applies to a destro/affli run of the same character, where its `if=` conditions
+        # are inert (measured 2026-08-21: the Tyrant-gated trinket rungs never fire off a
+        # spec without Demonic Tyrant). If the entry records the spec it was measured on,
+        # warn when we are simming a different one.
+        authored = (entry.get("spec") or "").strip().lower()
+        run_spec = (export.get("spec") or "").strip().lower()
+        if (applied or appended) and authored and authored != run_spec:
+            spec_warn = (
+                f"override for {export.get('character')} was measured on {authored}, "
+                f"but this run is {run_spec or 'an unstated spec'} — its conditions may "
+                "be inert or wrong here. Verify, or pass --no-overrides.")
         if appended:
             lines += ["", "# ⛔ APL-APPEND — `use_item` rungs appended BELOW upstream's "
                       "own list; see wowkb/data/sim_overrides.json"]
@@ -995,7 +1010,7 @@ def build_profile(export: dict, ref: dict, *, name: str | None = None,
 
     return "\n".join(lines) + "\n", {"assigned": assigned, "cleared": cleared,
                                       "overrides": applied, "overrides_rejected": rejected,
-                                      "apl_append": appended}
+                                      "apl_append": appended, "override_spec_warn": spec_warn}
 
 
 # ══ Running simc ═════════════════════════════════════════════════════════════
@@ -1411,8 +1426,10 @@ class Frame:
 
 
 def run_frame(export: dict, ref: dict, variants: dict, *, targets: int, time: int,
-              iterations: int, tag: str, apl_override: list[str] | None = None) -> Frame:
-    profile, built = build_profile(export, ref, apl_override=apl_override)
+              iterations: int, tag: str, apl_override: list[str] | None = None,
+              use_overrides: bool = True) -> Frame:
+    profile, built = build_profile(export, ref, apl_override=apl_override,
+                                   use_overrides=use_overrides)
     profile += "\n".join(
         ln.replace("{level}", str(export.get("level") or 90))
         for ln in profileset_lines(variants)) + "\n"
@@ -1496,13 +1513,14 @@ def variant_export(export: dict, overrides: dict[str, str]) -> dict:
 
 
 def gate_variants(export: dict, ref: dict, variants: dict, *,
-                  iterations: int, targets: int, time: int) -> dict[str, list[dict]]:
+                  iterations: int, targets: int, time: int,
+                  use_overrides: bool = True) -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = {}
     for name, overrides in variants.items():
         if not introduces_effects(export, overrides):
             continue
         sub = variant_export(export, overrides)
-        profile, _ = build_profile(sub, ref)
+        profile, _ = build_profile(sub, ref, use_overrides=use_overrides)
         data, _ = run_simc(profile, {
             "iterations": iterations, "fight_style": "Patchwerk",
             "max_time": time, "desired_targets": targets,
@@ -1564,9 +1582,125 @@ def _build_drift(export: dict) -> str | None:
             f"{m.group(1)} — the client may be ahead of the KB")
 
 
+# API slot type (Blizzard profile /equipment) → simc canonical slot. Cosmetic slots
+# (SHIRT, TABARD) are dropped — simc does not model them and they carry no stats.
+_API_SLOTMAP = {
+    "HEAD": "head", "NECK": "neck", "SHOULDER": "shoulders", "BACK": "back",
+    "CHEST": "chest", "WAIST": "waist", "LEGS": "legs", "FEET": "feet",
+    "WRIST": "wrists", "HANDS": "hands", "FINGER_1": "finger1", "FINGER_2": "finger2",
+    "TRINKET_1": "trinket1", "TRINKET_2": "trinket2", "MAIN_HAND": "main_hand",
+    "OFF_HAND": "off_hand",
+}
+
+
+def _api_item_line(it: dict) -> str:
+    """One equipped item from the /equipment endpoint → a simc item string
+    (`,id=…,bonus_id=…,ilevel=…,enchant_id=…,gem_id=…`)."""
+    parts = [f"id={it['item']['id']}"]
+    if it.get("bonus_list"):
+        parts.append("bonus_id=" + "/".join(str(b) for b in it["bonus_list"]))
+    ilvl = (it.get("level") or {}).get("value")
+    if ilvl:
+        parts.append(f"ilevel={ilvl}")
+    ench = [e["enchantment_id"] for e in it.get("enchantments", [])
+            if (e.get("enchantment_slot") or {}).get("type") == "PERMANENT"
+            and e.get("enchantment_id")]
+    if ench:
+        parts.append("enchant_id=" + "/".join(str(e) for e in ench))
+    gems = [s["item"]["id"] for s in it.get("sockets", []) if s.get("item")]
+    if gems:
+        parts.append("gem_id=" + "/".join(str(g) for g in gems))
+    return ",".join([""] + parts)
+
+
+def build_export_from_api(name: str, realm: str) -> str:
+    """Assemble a /simc-addon-format profile from the Blizzard profile API, so an
+    EQUIPPED-gear sim needs no `/simc` addon paste (which only the bag/vault/crest
+    subcommands actually require — see the module docstring). Pulls the character's
+    ACTIVE spec + its active talent loadout; edit the emitted `spec=`/`talents=` lines
+    to sim a different spec. Lazy-imports `wowkb.blizzard` so this module stays
+    importable from the stdlib-only test runner."""
+    from . import blizzard  # lazy: pulls in dotenv via _common, needed only here
+
+    base = f"/profile/wow/character/{realm.lower()}/{name.lower()}"
+    summary = blizzard.get(base, "profile")
+    equipment = blizzard.get(f"{base}/equipment", "profile")
+    try:
+        specs = blizzard.get(f"{base}/specializations", "profile")
+    except Exception:
+        specs = {}
+
+    cls_token = (summary.get("character_class", {}).get("name") or "").lower() \
+        .replace(" ", "_").replace("'", "")
+    if cls_token not in CLASS_ALIASES and cls_token not in set(CLASS_ALIASES.values()):
+        # CLASS_ALIASES keys are the tokens simc expects; a name we cannot map is fatal
+        # rather than silently emitting an actor simc will reject.
+        raise Unsupported(f"could not map class {summary.get('character_class')} to a "
+                          "simc class token")
+    active_spec = (summary.get("active_spec", {}).get("name") or "").lower() \
+        .replace(" ", "_")
+
+    talents = None
+    for block in specs.get("specializations", []):
+        if (block.get("specialization", {}).get("name") or "").lower() \
+                .replace(" ", "_") == active_spec:
+            loadouts = block.get("loadouts", [])
+            active = [lo for lo in loadouts
+                      if lo.get("is_active") and lo.get("talent_loadout_code")]
+            # The active flag is `is_active` (not `is_active_loadout`); if a stale sync
+            # leaves none flagged, fall back to the first loadout that carries a code.
+            with_code = [lo for lo in loadouts if lo.get("talent_loadout_code")]
+            chosen = active or with_code
+            if chosen:
+                talents = chosen[0]["talent_loadout_code"]
+
+    today = datetime.date.today().isoformat()
+    realm_name = summary.get("realm", {}).get("name") or realm
+    lines = [
+        f"# {summary.get('name', name)} - {active_spec or '?'} - {today} 00:00 "
+        f"- US/{realm_name}",
+        "# synthesized from the Blizzard profile API (equipped gear only; no bags/vault)",
+        "",
+        f'{cls_token}="{summary.get("name", name)}"',
+        f"level={summary.get('level') or 90}",
+    ]
+    race = (summary.get("race", {}).get("name") or "").lower() \
+        .replace(" ", "_").replace("'", "")
+    if race:
+        lines.append(f"race={race}")
+    lines.append("region=us")
+    lines.append(f"server={summary.get('realm', {}).get('slug') or realm.lower()}")
+    if active_spec:
+        lines.append(f"spec={active_spec}")
+    if talents:
+        lines.append(f"talents={talents}")
+    else:
+        lines.append("# ⚠ no active talent loadout returned by the API — add a "
+                     "`talents=` line before simming")
+    lines.append("")
+
+    by_slot = {}
+    for it in equipment.get("equipped_items", []):
+        slot = _API_SLOTMAP.get(it.get("slot", {}).get("type"))
+        if slot:
+            by_slot[slot] = it
+    for slot in CANON_SLOTS:
+        if slot in by_slot:
+            lines.append(f"{slot}={_api_item_line(by_slot[slot])}")
+    return "\n".join(lines) + "\n"
+
+
 def cmd_import(args) -> int:
-    text = sys.stdin.read() if args.source == "-" else pathlib.Path(
-        args.source).read_text(encoding="utf-8")
+    if getattr(args, "from_api", None):
+        text = build_export_from_api(args.from_api, args.realm)
+    elif args.source == "-":
+        text = sys.stdin.read()
+    elif args.source:
+        text = pathlib.Path(args.source).read_text(encoding="utf-8")
+    else:
+        print("error: give a source (.simc path or -), or --from-api <name>",
+              file=sys.stderr)
+        return 2
     export = parse_export(text)
     if not export["character"] or not export["class"]:
         print("error: this does not look like a /simc export — no `<class>=\"<name>\"` "
@@ -1658,7 +1792,8 @@ def cmd_check(args) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
-    profile, built = build_profile(export, ref)
+    profile, built = build_profile(export, ref,
+                                   use_overrides=not getattr(args, "no_overrides", False))
     options = {
         "iterations": args.iterations,
         "fight_style": "Patchwerk",
@@ -1831,10 +1966,13 @@ def cmd_compare(args) -> int:
 
     char = (export["character"] or "x").lower()
 
+    use_overrides = not getattr(args, "no_overrides", False)
+
     def frame_for(targets: int, time: int) -> Frame:
         return run_frame(export, ref, variants, targets=targets, time=time,
                          iterations=args.iterations, apl_override=apl_override,
-                         tag=f"compare-{char}-{targets}t{time}s")
+                         tag=f"compare-{char}-{targets}t{time}s",
+                         use_overrides=use_overrides)
 
     frames: list[Frame] = [frame_for(*styles[0])]
 
@@ -1845,7 +1983,8 @@ def cmd_compare(args) -> int:
     leaks = leak_gate(export, frames[0].built, frames[0].data)
     var_findings = gate_variants(export, ref, variants,
                                  iterations=args.gate_iterations,
-                                 targets=frames[0].targets, time=frames[0].time)
+                                 targets=frames[0].targets, time=frames[0].time,
+                                 use_overrides=use_overrides)
     on_gcd = apl_hygiene(frames[0].profile)
 
     fails = [f for f in base_findings if f["level"] == "FAIL"]
@@ -3272,7 +3411,14 @@ def main(argv=None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
 
     imp = sub.add_parser("import", help="parse a /simc export and store it verbatim")
-    imp.add_argument("source", help="path to a .simc export, or - for stdin")
+    imp.add_argument("source", nargs="?",
+                     help="path to a .simc export, or - for stdin (omit with --from-api)")
+    imp.add_argument("--from-api", metavar="NAME",
+                     help="build the EQUIPPED-gear profile from the Blizzard profile API "
+                          "instead of a /simc paste (active spec + active talents). Needs "
+                          "credentials in .env. Bags/vault are NOT available this way.")
+    imp.add_argument("--realm", default="kiljaeden",
+                     help="realm slug for --from-api (default: kiljaeden)")
     imp.add_argument("--json", action="store_true", help="also dump the parsed structure")
     imp.set_defaults(func=cmd_import)
 
@@ -3285,6 +3431,9 @@ def main(argv=None) -> int:
     chk.add_argument("--iterations", type=int, default=1000)
     chk.add_argument("--time", type=int, default=300, help="fight length in seconds")
     chk.add_argument("--targets", type=int, default=1)
+    chk.add_argument("--no-overrides", action="store_true",
+                     help="ignore this character's sim_overrides.json entry (variables + "
+                          "apl_append), i.e. run upstream unaided")
     chk.set_defaults(func=cmd_check)
 
     cmp_ = sub.add_parser(
@@ -3321,6 +3470,9 @@ Deltas across invocations are not merely discouraged, there is no code path for 
     cmp_.add_argument("--accept-failing-gate", metavar="REASON",
                       help="print the table despite a FAILING firing gate, branded "
                            "with REASON")
+    cmp_.add_argument("--no-overrides", action="store_true",
+                      help="ignore this character's sim_overrides.json entry (variables + "
+                           "apl_append), i.e. run upstream unaided")
     cmp_.add_argument("--json", action="store_true")
     cmp_.set_defaults(func=cmd_compare)
 

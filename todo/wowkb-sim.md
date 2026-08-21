@@ -635,3 +635,44 @@ rows because the lines were written bare (`use_item,...`) instead of `actions+=/
 which simc silently ignores — now an abort guard. And the shipped condition carried an
 escape valve that is **dead code**, caught only because the arm with and without it was
 byte-identical. Both are registered above.
+
+### 2026-08-21 — Encomplete three-spec M+ compare, from the Blizzard API (no addon paste)
+
+Ran demo/destro/affli on Encomplete's current gear from a **laptop with no `/simc` addon
+dump and a stale WoW install**. Lessons, all confirmed by the session:
+
+- **Equipped-gear sims do NOT need the addon paste.** Built the profile from the Blizzard
+  **profile `/equipment` endpoint** (id + bonus_list + level.value + enchantments + sockets
+  → addon-paste-format text) and fed the existing gated harness unchanged. The addon-paste
+  requirement is really only for the **bag/vault/crest** subcommands (bag item LEVELS and
+  track/step exist nowhere else). A converter lives at `scratchpad/mkprofile.py`. The
+  built-in path everyone actually uses for this is simc's own `armory=` import; we build the
+  profile ourselves so it runs through our gates + our creds.
+- **`--no-overrides` is documented in CLAUDE.md but NOT wired into the CLI** (only the
+  `use_overrides=` kwarg exists). To sim "upstream unaided" per spec, rename the character
+  (overrides are keyed by NAME only) — `load_overrides` returns {} for an unknown name.
+- **`sim_overrides.json` is spec-blind.** Encomplete's demo-tuned trinket append
+  (`if=pet.demonic_tyrant.active`) applies to destro/affli too, where it's inert. **Re-check
+  the firing gate per spec** — destro/affli fire both on-use trinkets under UPSTREAM unaided
+  (the two-trinket deadlock is a demo-APL problem, not universal).
+- **Measure, don't extrapolate.** A scale-factor weight predicted a full mastery→haste
+  reforge for Affli at ~0.1%; the actual sim was **+4.2%** (haste compounds beyond its local
+  derivative). Never integrate a scale factor over a large budget swing — sim the change.
+- **`set_bonus=` needs the single-line `/` form in 12.0+** (`set_bonus=..._2pc=1/..._4pc=1`);
+  two separate `+=set_bonus=` lines silently overwrite rather than stack. Overlaying the
+  bonus EFFECT (via `set_bonus=`) answers "what's the tier worth on my current stats" without
+  the 4-slot stat swap — exactly the right tool for a "magically give me the bonuses" ask.
+- **`--hero <Tree>` to match the reference APL to the build's hero tree.** Confirm which tree
+  a raider.io string actually encoded by grepping the sim's used abilities in json2 (base APLs
+  branch on `talent.enabled`, so a mismatch usually costs ~0 — but confirm, don't assume).
+- **Distinct character names** avoid clobbering built-profile files (`compare-<char>-…simc`).
+- **Fixed a latent bug:** `cmd_compare` called `print_overrides(built,…)` with `built`
+  undefined — crashed the print AFTER the sim whenever an override applied. Now
+  `frames[0].built`. (`check` was fine; it defines `built`.)
+- **Patchwerk ≠ M+.** The bare-gear ladder (demo ≫ destro ≫ affli, 5–20%) is steeper than the
+  meta's day-3 A-tier cluster. Dummy sims measure throughput, not M+ (utility, big-pull AoE,
+  priority damage). Always caveat + cross-check the meta; Affli is the spec a fixed-target
+  dummy most understates.
+- **Verify game mechanics before asserting.** Claimed "Affli loot spec → more haste/crit
+  gear"; a 30-second check showed **loot spec does not touch secondaries at all**. Cheap to
+  verify, expensive to state wrong.

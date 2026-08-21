@@ -22,6 +22,7 @@
     "Run with --no-overrides to see what upstream does unaided."
   ],
   "encomplete": {
+    "spec": "demonology",
     "note": "Two ON-USE trinkets. Upstream's shipped profile carries only one (Vile Vial of Volatile Venom on-use + Wavecaller's Seastone passive), so its rungs - which gate each trinket on the OTHER's cooldown state - are never exercised in the two-on-use case and deadlock here. Ruled out 2026-08-20: it is not the ilvl tie (bumping trinket2 to 308 changes nothing), not `trinket_priority`, not `damage_trinket_priority`, and not our harness (it reproduces exactly in the stock upstream profile with only the two trinket lines changed). || 2026-08-21: an earlier version of these rungs carried an escape valve, `|cooldown.summon_demonic_tyrant.remains>trinket.N.cooldown.duration`, meant to press anyway when Tyrant was too far out to be worth waiting for. It is DEAD CODE: Tyrant's cooldown (~62s observed) is SHORTER than either trinket's (90s / 120s), so `remains` can never exceed `cooldown.duration`. With and without it the runs are byte-identical. Removed rather than left in looking load-bearing. A `remains>10` grace clause WAS tested and is worse than both (+2.09% vs +2.27% on-cooldown, +3.41% held).",
     "variables": {},
     "apl_append": [
