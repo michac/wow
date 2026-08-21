@@ -2,7 +2,7 @@
 title: Delves — Midnight Season 2 (12.1 "Curse of Ula'tek")
 patch: 12.1
 fetched: 2026-08-18
-reviewed: 2026-08-18
+reviewed: 2026-08-21   # only the Itemization section was added/verified this pass — see Changelog; the loot ladder + tier-ceiling claims were NOT re-checked
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1) — 3 new delves, Coffer Key Shard retune
   - https://us.forums.blizzard.com/en/wow/posts/29833350       # S1 ending / S2 information (Tier 1) — the pre-season delve rules, verbatim in _meta/patch-notes/12.1.md
@@ -11,6 +11,7 @@ sources:
   - https://www.icy-veins.com/wow/midnight-delve-rewards-guide  # S2 per-tier ilvl table (Tier 3, updated 2026-08-01, PTR-sourced)
   - https://www.icy-veins.com/wow/delvers-journey-guide         # S2 Delver's Journey rank table (Tier 3, updated 2026-07-30, PTR-sourced)
   - https://www.icy-veins.com/wow/delves-guide                  # S2 delves guide (Tier 3, updated 2026-08-03) — Bountiful rerolls on the DAILY reset + in-game countdown; "non-Bountiful Delves do not have scaling rewards past Tier 3"
+  - https://www.wowhead.com/guide/the-war-within/delves-rewards # delve/World Great Vault row is SEPARATE from the M+/dungeon row and draws the World-content reward pool (Tier 3) — the basis for the Itemization section: delve gear = the seasonal world armor set, not a bespoke stat-skewed list
   - https://www.bluetracker.gg/wow/topic/eu-en/557563-feedback-delves-in-season-2/  # Blizzard blue post 2025-01-16 (Tier 1, but TWW 11.1-era) — Bountiful selection rotates through the pool "until all of them have had some time in the sun" (replaced one-per-zone)
   - https://conquestcapped.com/guides/wow/midnight-delves-season-2/  # corroborates 13-delve pool + Azta'rec "?"/"??" unlock conditions (Tier 3)
   - https://www.wowhead.com/news/how-to-unlock-myth-dawncrests-from-delves-in-midnight-season-1-380813  # S1 history
@@ -227,6 +228,42 @@ against the DB2 crest bands above, which is what earns them any credit at all.)*
   week 1 of S2, that is a Tier-1-vs-Tier-1 surprise worth recording here.
   @verify-ingame
 
+## Itemization: are delve stats deliberately worse? (no — it's the pool, not a stat bias)
+
+**Short answer: no.** No source at any tier shows Blizzard weighting delve gear toward
+Versatility (or any "worse" secondary). The premise doesn't hold mechanically: **no**
+retail loot source lets you choose secondaries — a raid or M+ item has its two secondaries
+baked in exactly as a delve item does. What makes delve gear *feel* un-optimizable is a
+**narrow reward pool with few rolls and a lower ilvl/track ceiling**, not a rigged stat table.
+
+- **The pool.** Delve gear (end-of-delve + Bountiful Coffer, and the Great Vault **World**
+  row) draws from the **World-content reward pool** — a pool *separate* from the Mythic+/
+  dungeon one; they occupy different Great Vault rows. It is the seasonal **world armor set**
+  at the delve ilvl brackets, not a hand-authored list of unique "delve items": no guide
+  publishes named per-slot delve gear, only ilvl/track tables, because the items are the
+  generic seasonal world pieces. The *named* delve drops are containers/currency, not stat
+  items — **Restored Coffer Key → Bountiful Coffer**, **Trovehunter's Bounty → Hidden
+  Trove**, **Gilded Stash** (T11), and **Mistcrests**.
+- **Why it feels like a Versatility factory.** A delve run yields ~**one** gear item, from a
+  **narrow** world set (roughly one piece per slot per ilvl bracket), so you see the same few
+  fixed stat combos repeatedly with no way to target-farm a better one. Raid (many bosses ×
+  items) and M+ (8 dungeons × full tables + the vault) give far more stat variety per unit of
+  effort. When the unlucky combo is Versatility — the least-wanted DPS secondary — there is no
+  re-roll, and *that* reads as "delve gear is trash." It is a small-pool / no-targeting
+  artifact, not a designed bias. (The "pick highest/lowest/random secondary" effect people
+  conflate with this is a **Delve boon** — an in-run buff, not a property of the loot.)
+- **How delves are actually gated below raid/M+: item level, not stat quality.** End-of-run
+  gear caps at **Champion 2/6 = 295** (Tier 8; T9–11 add crests/Journey, not ilvl); the Great
+  Vault delve/World row caps at **Hero 1/6 = 305**. M+ and raid vaults reach **Myth 1/6
+  (~318)**, and Mythic raid climbs the Myth track (321–334). The deliberate lever is a
+  ~13–29 ilvl / one-full-track ceiling — top-end capped a whole track below raid/M+. Stat
+  quality is not part of the tiering.
+
+Confidence: **high** on the mechanics (World-pool sourcing, secondaries fixed per item as
+everywhere, the ilvl/track ceiling — the last corroborated against this file's DB2 crest
+bands). **Medium** on "no deliberate stat weighting": it proves a negative, but no Tier-1
+note describes any weighting and the item-stat mechanics leave no room for a hidden one.
+
 ## Which delves are Bountiful, and how often that changes
 
 **The Bountiful flag is a property of the DAY, not of the delve.** A delve is
@@ -424,6 +461,8 @@ current reward**.
       Season 1 section
 
 ## Changelog
+
+2026-08-21 — Added "Itemization: are delve stats deliberately worse?" answering the common "delves just hand you Versatility gear" belief. Verdict: no deliberate stat weighting at any source tier; delve gear draws the World-content reward pool (separate Great Vault row from M+/dungeon) and is the generic seasonal world armor set — secondaries are fixed per item as they are everywhere, so the "un-optimizable" feel is a narrow-pool / one-drop-per-run / low-ceiling artifact, not a stat bias. Delves are gated below raid/M+ by ilvl/track (end-of-run Champion 2/6 = 295, vault Hero 1/6 = 305; M+/raid vault reach Myth ~318), not stat quality. Confidence high on mechanics, medium on the negative. **This pass added only that section — the loot ladder and tier-ceiling claims were not re-verified.**
 
 2026-08-18 — Added "Which delves are Bountiful, and how often that changes": the flag rerolls at the DAILY reset (in-game countdown + glowing icons), selection is a rotation through the pool per Blizzard's 2025-01-16 blue post (TWW-era), and the set is server-wide. The PER-DAY COUNT for the 13-delve S2 pool is published nowhere — left open, not guessed. Also recorded Icy Veins' "non-Bountiful Delves do not have scaling rewards past Tier 3" as corroboration for reading 1 of the keyed-only question, flagged as possibly circular.
 
