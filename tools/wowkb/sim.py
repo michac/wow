@@ -1,7 +1,7 @@
 """`wowkb.sim` — a local SimulationCraft harness that refuses to lie quietly.
 
-Design doc + field log: `todo/wowkb-sim.md`. **Read the field log before designing a
-new comparison** — it is the list of ways this has already fooled us.
+Design doc + field log: `tools/docs/wowkb-sim.md`. **Read the field log before designing
+a new comparison** — it is the list of ways this has already fooled us.
 
 Simming Encomplete's Season 2 gear on 2026-08-20 produced five wrong answers before a
 right one. Every error was in the *harness* — the hand-written profile and APL
