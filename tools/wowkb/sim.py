@@ -790,9 +790,142 @@ def strip_reference(text: str) -> list[str]:
     return kept
 
 
+
+# ══ Character overrides (the declared, gated exception) ══════════════════════
+#
+# The mandate is "never write an actions line", and this is the one narrow place the
+# tool does. It exists because a real character hit a real upstream deadlock that no
+# gear arrangement fixes: Encomplete's two trinkets are both ilvl 305, upstream picks
+# the damage trinket with a STRICT inequality (`trinket.2.ilvl>trinket.1.ilvl`), and an
+# exact tie therefore always resolves to trinket1 — after which each trinket's rung
+# waits on the other's cooldown. Measured 2026-08-20: 0 presses in 300s, and swapping
+# the two indices in game reproduces it exactly, so the deadlock follows the ITEM.
+#
+# Five fences keep this from becoming the hand-edited-APL failure it replaces:
+#   1. Only `variable,name=X,value=N` lines, and THE TOOL BUILDS THE LINE. Nothing from
+#      the JSON is ever pasted into a profile, so the file cannot carry an action.
+#   2. The variable must already be DECLARED by the upstream reference. An override can
+#      re-point a decision upstream already makes; it cannot invent behaviour. A
+#      variable upstream renames stops applying and says so.
+#   3. Every row of every table computed with one active is branded.
+#   4. The firing gate runs unchanged and stays the judge. The point of an override is
+#      to make the gate go green HONESTLY.
+#   5. `why` and `measured` are mandatory; an unmeasured override is a superstition.
+
+SIM_OVERRIDES = pathlib.Path(__file__).resolve().parent / "data" / "sim_overrides.json"
+
+VAR_NAME = re.compile(r"^[a-z0-9_]+$")
+REF_VAR = re.compile(r"variable,name=([a-z0-9_]+)")
+
+
+def load_overrides(character: str | None) -> dict:
+    """The override entry for this character, or {}. Never raises: a malformed or
+    missing file must degrade to 'upstream unaided', not to a crash mid-sweep."""
+    if not character:
+        return {}
+    try:
+        data = json.loads(SIM_OVERRIDES.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    entry = data.get(character.strip().lower())
+    return entry if isinstance(entry, dict) else {}
+
+
+def resolve_overrides(ref: dict, entry: dict) -> tuple[list[dict], list[str]]:
+    """(accepted, rejected-with-reasons), validated against the reference APL itself."""
+    declared = set(REF_VAR.findall(ref.get("text") or "\n".join(ref.get("actions") or [])))
+    accepted, rejected = [], []
+    for name, spec in (entry.get("variables") or {}).items():
+        if not VAR_NAME.match(name):
+            rejected.append(f"{name!r}: not a plain variable name")
+            continue
+        if not isinstance(spec, dict) or "value" not in spec:
+            rejected.append(f"{name}: no value")
+            continue
+        if not (spec.get("why") and spec.get("measured")):
+            rejected.append(f"{name}: missing `why` and/or `measured` — an override with "
+                            "no recorded measurement is a superstition")
+            continue
+        try:
+            value = float(spec["value"])
+        except (TypeError, ValueError):
+            rejected.append(f"{name}: value is not a number")
+            continue
+        if name not in declared:
+            rejected.append(f"{name}: the upstream reference APL does not declare this "
+                            "variable — it may have been renamed; override NOT applied")
+            continue
+        accepted.append({"name": name, "value": value, "why": spec["why"],
+                         "measured": spec["measured"]})
+    return accepted, rejected
+
+
+def override_brand(built: dict) -> str:
+    bits = [o["name"] for o in built.get("overrides") or []]
+    brand = f"⚠ OVERRIDE({', '.join(bits)}) " if bits else ""
+    if built.get("apl_append"):
+        # Louder than a variable override, because this one adds an ACTION. A row lifted
+        # out of the table must carry the fact that upstream did not press these.
+        brand += f"⛔ APL-APPEND(x{len(built['apl_append'])}) "
+    return brand
+
+
+def print_overrides(built: dict, indent: str = "    ") -> None:
+    for o in built.get("overrides") or []:
+        print(f"{indent}⚠ OVERRIDE  variable.{o['name']} = {o['value']:g}  "
+              f"[measured {o['measured']}]")
+        print(f"{indent}            {o['why']}")
+    for a in built.get("apl_append") or []:
+        print(f"{indent}⛔ APL-APPEND  actions+=/{a['line']}  [measured {a['measured']}]")
+        print(f"{indent}               {a['why']}")
+    for why in built.get("overrides_rejected") or []:
+        print(f"{indent}⚠ OVERRIDE REJECTED  {why}")
+
+
+
+# `use_item` lines appended to upstream's list — the SECOND declared exception, and a
+# narrower one than it looks. Measured 2026-08-20 on Encomplete's two-on-use trinket
+# set, common random numbers, 2000 iterations, stock upstream profile:
+#     upstream untouched   Freightrunner 1.0   Stormbound 0.0    196,547 dps
+#     forced on cooldown   Freightrunner 3.6   Stormbound 2.8    200,837  (+2.18%)
+#     Tyrant-aligned       Freightrunner 3.2   Stormbound 2.4    203,099  (+3.33%)
+# So upstream leaves >3% on the floor for this gear, and a human pressing two buttons
+# recovers it. Refusing to model that would make the sim wrong in the direction that
+# matters — it would rank gear as if the trinkets did not exist.
+#
+# Three fences, all mechanical:
+#   1. `use_item` ONLY. Anything else is rejected, so this can never become "rewrite the
+#      rotation" — the thing failure #3 showed swings 3.21% on ordering alone.
+#   2. `use_off_gcd=1` is MANDATORY. Failure #2 was exactly this line without that flag,
+#      and it baked −3.2% into every forced run for a day.
+#   3. APPENDED with `actions+=/`, never `actions=`. Upstream's priority list survives
+#      intact underneath; these only get a look when it has nothing to cast.
+APL_APPEND_OK = re.compile(r"^use_item,[A-Za-z0-9_,.=|&!%<>+*()@$-]+$")
+
+
+def resolve_apl_append(entry: dict) -> tuple[list[dict], list[str]]:
+    accepted, rejected = [], []
+    for spec in (entry.get("apl_append") or []):
+        line = (spec or {}).get("line", "") if isinstance(spec, dict) else ""
+        line = line.strip()
+        if not APL_APPEND_OK.match(line):
+            rejected.append(f"{line[:48]!r}: only `use_item,...` lines may be appended")
+            continue
+        if OFF_GCD not in line:
+            rejected.append(f"{line[:48]!r}: missing {OFF_GCD} — a use_item rung without "
+                            "it costs a GCD when it fires (failure #2, −3.2%)")
+            continue
+        if not (spec.get("why") and spec.get("measured")):
+            rejected.append(f"{line[:48]!r}: missing `why` and/or `measured`")
+            continue
+        accepted.append({"line": line, "why": spec["why"], "measured": spec["measured"]})
+    return accepted, rejected
+
+
 def build_profile(export: dict, ref: dict, *, name: str | None = None,
                   overrides: dict[str, str] | None = None,
-                  apl_override: list[str] | None = None) -> tuple[str, dict]:
+                  apl_override: list[str] | None = None,
+                  use_overrides: bool = True) -> tuple[str, dict]:
     """The base profile, plus a bookkeeping record of what was set where.
 
     Every canonical slot is emitted — assigned from the export or explicitly cleared —
@@ -827,6 +960,25 @@ def build_profile(export: dict, ref: dict, *, name: str | None = None,
         lines += ["", "# ⚠ UNVALIDATED HARNESS — hand-written actions replace the "
                   "upstream priority list.", *apl_override]
 
+    # Character overrides go AFTER the reference's own precombat, so a later
+    # `variable,name=X` assignment wins over upstream's. Nothing here is copied from the
+    # JSON — the line is constructed from a validated name and a float.
+    applied, rejected, appended = ([], [], [])
+    if use_overrides and not apl_override:
+        entry = load_overrides(export.get("character"))
+        applied, rejected = resolve_overrides(ref, entry)
+        appended, app_rejected = resolve_apl_append(entry)
+        rejected += app_rejected
+        if appended:
+            lines += ["", "# ⛔ APL-APPEND — `use_item` rungs appended BELOW upstream's "
+                      "own list; see wowkb/data/sim_overrides.json"]
+            lines += [f"actions+=/{a['line']}" for a in appended]
+        if applied:
+            lines += ["", "# ⚠ CHARACTER OVERRIDE — re-points variables the upstream APL "
+                      "already declares; see wowkb/data/sim_overrides.json"]
+            lines += [f"actions.precombat+=/variable,name={o['name']},value={o['value']:g}"
+                      for o in applied]
+
     lines += ["", "# ── gear: every slot explicitly assigned or explicitly cleared ──"]
     assigned, cleared = {}, []
     for slot in CANON_SLOTS:
@@ -841,7 +993,9 @@ def build_profile(export: dict, ref: dict, *, name: str | None = None,
         else:
             cleared.append(slot)
 
-    return "\n".join(lines) + "\n", {"assigned": assigned, "cleared": cleared}
+    return "\n".join(lines) + "\n", {"assigned": assigned, "cleared": cleared,
+                                      "overrides": applied, "overrides_rejected": rejected,
+                                      "apl_append": appended}
 
 
 # ══ Running simc ═════════════════════════════════════════════════════════════
@@ -1560,6 +1714,7 @@ def cmd_check(args) -> int:
                  else ""))
 
     print("\n  other gates")
+    print_overrides(built, "    ")
     if leaks:
         print(f"    ❌ FAIL  reference-profile gear leaked into: {', '.join(leaks)}")
     else:
@@ -1746,6 +1901,7 @@ def cmd_compare(args) -> int:
               "nothing to fire, no validation run needed")
 
     print("\n  other gates")
+    print_overrides(built, "    ")
     if leaks:
         print(f"    ❌ FAIL  reference-profile gear leaked into: {', '.join(leaks)}")
     else:
@@ -1784,6 +1940,7 @@ def cmd_compare(args) -> int:
           f"(simc's mean\n  standard error × {SE_MEDIAN_FACTOR}, baseline and variant "
           "errors combined).\n")
     brand = ("⛔UNVALIDATED " if apl_override else "⚠ GATE-FAILED " if blocked else "")
+    brand += override_brand(frames[0].built)
     for line in _table(frames, deltas, brand):
         print("  " + line)
 
@@ -1973,7 +2130,7 @@ def _gear_slot(args, export: dict, ref: dict, slot: str, styles: list,
         print(f"\n    ⚠ GATE FAILED, ACCEPTED — {args.accept_failing_gate}")
 
     deltas = {f.id: frame_deltas(f) for f in frames}
-    brand = ("⚠ GATE-FAILED " if blocked else "")
+    brand = ("⚠ GATE-FAILED " if blocked else "") + override_brand(frames[0].built)
     if weapons:
         brand += "⚠ NOT-USABILITY-CHECKED "
         print("\n    ⚠ WEAPON SLOT — ranked but NOT usability-checked. simc carries no "
@@ -2419,12 +2576,23 @@ def ilvl_fidelity_gate(export: dict, player: dict) -> list[dict]:
     return out
 
 
-def allocate(ranks: list[dict], deltas: dict[str, dict], budget: int) -> list[dict]:
-    """Greedy over MARGINAL delta, honouring the fact that ranks stack.
+def allocate(ranks: list[dict], deltas: dict[str, dict],
+             budgets: dict[str, int]) -> list[dict]:
+    """Greedy over MARGINAL delta, honouring two constraints.
 
-    Rank k's Δ is measured against current gear, so it already includes k-1. The value
-    of buying k once k-1 is bought is Δ(k) − Δ(k-1) — sorting on the raw Δ would buy the
-    top of a ladder while pretending the rungs below it were free.
+    1. **Ranks stack.** Rank k's Δ is measured against current gear, so it already
+       includes k-1. The value of buying k once k-1 is bought is Δ(k) − Δ(k-1) — sorting
+       on the raw Δ would buy the top of a ladder while pretending the rungs below were
+       free.
+    2. **Each crest tier upgrades ITS OWN TRACK ONLY** (dawncrests.md:47), so `budgets`
+       is per track and a rank can only be bought out of its own track's pool.
+
+    ⚠ Constraint 2 was missing on 2026-08-20 and it produced a confidently wrong plan on
+    the first real character it met: the budget was summed across all five tracks (16
+    ranks) and then spent entirely on Champion and Hero ranks, for a character holding
+    **zero** Champion Mistcrests and 8 Hero. Every row was individually true and the
+    recommendation was unbuyable. Pooling budgets across tracks is not a rounding error,
+    it is a different game.
     """
     by_slot: dict[str, list[dict]] = {}
     for r in ranks:
@@ -2435,14 +2603,19 @@ def allocate(ranks: list[dict], deltas: dict[str, dict], budget: int) -> list[di
     taken: list[dict] = []
     cursor = {slot: 0 for slot in by_slot}
     prev: dict[str, float] = {slot: 0.0 for slot in by_slot}
-    remaining = budget
-    while remaining > 0:
+    left = dict(budgets)
+    while any(v > 0 for v in left.values()):
         best, best_gain = None, 0.0
         for slot, rows in by_slot.items():
             i = cursor[slot]
             if i >= len(rows):
                 continue
             row = rows[i]
+            # The rank's OWN track must still have crests. A slot whose next rung is
+            # unaffordable is skipped, not deferred: the rungs above it are unreachable
+            # too, since ranks stack.
+            if left.get(row["track"], 0) <= 0:
+                continue
             d = deltas.get(rank_name(row), {}).get("delta_pct")
             if d is None:
                 continue
@@ -2455,7 +2628,7 @@ def allocate(ranks: list[dict], deltas: dict[str, dict], budget: int) -> list[di
         taken.append({**row, "marginal_pct": gain})
         cursor[slot] += 1
         prev[slot] = deltas[rank_name(row)]["delta_pct"]
-        remaining -= 1
+        left[row["track"]] -= 1
     return taken
 
 
@@ -2654,7 +2827,7 @@ def cmd_crests(args) -> int:
         print(f"\n  ⚠ GATE FAILED, ACCEPTED — {args.accept_failing_gate}")
 
     deltas = {f.id: frame_deltas(f) for f in frames}
-    brand = "⚠ GATE-FAILED " if blocked else ""
+    brand = ("⚠ GATE-FAILED " if blocked else "") + override_brand(frames[0].built)
     print()
     for line in _table(frames, deltas, brand):
         print("  " + line)
@@ -2712,26 +2885,37 @@ def cmd_crests(args) -> int:
           "independent of it and is not branded.")
 
     print("\n  allocation (greedy on MARGINAL Δ, ranks stack within a slot)")
-    budget = args.budget
-    if budget is None:
-        budget = sum(balances.get(t, 0) // CREST_COST_PER_RANK for t in wanted)
+    # Per TRACK, never pooled — each crest tier upgrades its own track only.
+    budgets = {t: (args.budget if args.budget is not None
+                   else balances.get(t, 0) // CREST_COST_PER_RANK) for t in wanted}
+    budget = sum(budgets.values())
+    # A track carrying ranks but no crests is the answer, so it is named rather than
+    # left to be inferred from an allocation that silently skips it.
+    broke = sorted({r["track"] for r in paid if budgets.get(r["track"], 0) <= 0})
+    for track in broke:
+        n = len([r for r in paid if r["track"] == track])
+        print(f"    ⛔ {track}: {n} rank(s) available but "
+              f"{balances.get(track, 0)} crest(s) held — NONE of them is buyable")
     if not paid:
         print("    nothing to buy — every remaining rank in scope is free by watermark")
     elif budget <= 0:
         print(f"    0 rank(s) affordable: no crests held for {', '.join(sorted(wanted))}")
     else:
-        chosen = allocate(paid, by_name, budget)
+        chosen = allocate(paid, by_name, budgets)
         if not chosen:
-            print(f"    {budget} rank(s) affordable, but no rank in scope has a "
-                  "positive marginal Δ")
+            print(f"    {budget} rank(s) affordable in total, but no rank whose "
+                  "OWN track has crests has a positive marginal Delta")
         for i, r in enumerate(chosen, 1):
             row = by_name.get(rank_name(r), {})
             print(f"    {i}. {rank_name(r):<40} marginal {r['marginal_pct']:+.2f}%"
                   f"   cumulative {row.get('delta_pct', 0):+.2f}%"
                   f" ± {row.get('err_pct', 0):.2f}% ({row.get('verdict', '?')})")
-        spent = len(chosen) * CREST_COST_PER_RANK
-        print(f"    → {len(chosen)} of {budget} affordable rank(s) worth buying; "
-              f"{spent} crests [Tier-3 est]")
+        per_track: dict[str, int] = {}
+        for r in chosen:
+            per_track[r["track"]] = per_track.get(r["track"], 0) + 1
+        cost = ", ".join(f"{n * CREST_COST_PER_RANK} {tr}"
+                         for tr, n in sorted(per_track.items()))
+        print(f"    → {len(chosen)} rank(s) worth buying; {cost} crest(s) [Tier-3 est]")
 
     # `crests` answers "what should I upgrade"; `gear` answers "what should I wear".
     # Neither knows about the other, so the seam is printed rather than papered over.

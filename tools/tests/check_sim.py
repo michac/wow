@@ -35,6 +35,8 @@ from wowkb.sim import (  # noqa: E402
     # ── Phase 5: the cast timeline ──
     LOG_BRAND, LOG_SEED, _log_line, effect_subjects, log_actions, log_options,
     log_windows, parse_log, window_events,
+    # ── character overrides ──
+    OFF_GCD, load_overrides, override_brand, resolve_apl_append, resolve_overrides,
 )
 
 FIX = pathlib.Path(__file__).parent / "fixtures"
@@ -138,7 +140,12 @@ for cls, spec in (("shaman", "restoration"), ("monk", "mistweaver"),
               f"{cls}/{spec} refuses simc's built-in APL by name (failure #1)")
 
 # ── Profile building: slot hygiene (invariant 3) ─────────────────────────────
-profile, built = build_profile(export, ref)
+# ⚠ use_overrides=False, and that is the whole point of this block. The headline
+# regression below asserts what UPSTREAM does unaided — Stormbound Emblem of Dazar
+# sitting inert through a 300s fight. Encomplete now carries an `apl_append` override
+# that fixes it in real runs, so without this flag the test would go green for the right
+# reason in the wrong place, and the firing gate itself would stop being tested.
+profile, built = build_profile(export, ref, use_overrides=False)
 check(profile.startswith('warlock="Encomplete"'),
       "our player line is first — a second `<class>=` would create a SECOND actor")
 assigned_lines = [ln for ln in profile.splitlines() if ln.split("=", 1)[0] in CANON_SLOTS]
@@ -697,26 +704,44 @@ cum = {"head Veteran 2/6 282": 0.5, "head Veteran 3/6 285": 0.8,
        "head Veteran 6/6 295": 2.3}
 deltas = {n: {"delta_pct": v, "err_pct": 0.05, "verdict": "significant"}
           for n, v in cum.items()}
-picked = allocate(ladder, deltas, 3)
+picked = allocate(ladder, deltas, {"Veteran": 3})
 check([r["step"] for r in picked] == [2, 3, 4],
       "ranks STACK: 4/6 cannot be bought without 2/6 and 3/6, so the ladder is walked "
       "in order however tempting the later rung")
 check(abs(picked[2]["marginal_pct"] - 1.1) < 1e-9,
       "the reported gain is MARGINAL (1.9 − 0.8), not the cumulative Δ")
-check(len(allocate(ladder, deltas, 99)) == 5, "a budget larger than the ladder buys it all")
-check(allocate(ladder, deltas, 0) == [], "a zero budget buys nothing")
+check(len(allocate(ladder, deltas, {"Veteran": 99})) == 5, "a budget larger than the ladder buys it all")
+check(allocate(ladder, deltas, {"Veteran": 0}) == [], "a zero budget buys nothing")
 
 flat = {n: {"delta_pct": 0.0, "err_pct": 0.05} for n in cum}
-check(allocate(ladder, flat, 3) == [],
+check(allocate(ladder, flat, {"Veteran": 3}) == [],
       "a rank with no positive marginal gain is not bought just because it is affordable")
 
 # THE property that makes the Tier-3 cost figure safe to quote: because cost is uniform
 # across ranks, it sets the COUNT and nothing else. Halve it and the ORDER is identical.
-order_20 = [rank_name(r) for r in allocate(ladder, deltas, 140 // CREST_COST_PER_RANK)]
-order_10 = [rank_name(r) for r in allocate(ladder, deltas, 140 // CREST_COST_DISCOUNTED)]
+order_20 = [rank_name(r) for r in allocate(ladder, deltas, {"Veteran": 140 // CREST_COST_PER_RANK})]
+order_10 = [rank_name(r) for r in allocate(ladder, deltas, {"Veteran": 140 // CREST_COST_DISCOUNTED})]
 check(order_10[:len(order_20)] == order_20,
       "rank ORDER is independent of the per-rank cost constant — which is why the order "
       "is not branded [Tier-3 est] and the counts are")
+
+
+# ⚠ The regression that a real character found on 2026-08-20: budgets are PER TRACK and
+# must never be pooled. Encomplete held 186 Adventurer + 139 Veteran + 20 Myth crests and
+# ZERO Champion — and the first version summed those into "16 ranks" and then spent all
+# 16 on Champion ranks. Every row was individually true and the plan was unbuyable.
+# A slot carries ONE track, so the Champion rungs go on a different slot — modelling
+# two tracks on one slot would test something the game cannot produce.
+mixed = ladder + [dict(r, track="Champion", slot="chest") for r in ladder]
+mixed_deltas = dict(deltas)
+for r in mixed:
+    mixed_deltas.setdefault(rank_name(r), {"delta_pct": 9.0, "err_pct": 0.05})
+broke = allocate(mixed, mixed_deltas, {"Veteran": 2, "Champion": 0})
+check(all(r["track"] == "Veteran" for r in broke) and len(broke) == 2,
+      "a rank is bought ONLY out of its own track's pool — a track with zero crests "
+      "contributes nothing, however large its delta")
+check(len(allocate(mixed, mixed_deltas, {"Veteran": 0, "Champion": 0})) == 0,
+      "no crests in any track in scope buys nothing at all")
 
 
 # ══ Phase 5 — the cast timeline ══════════════════════════════════════════════
@@ -832,6 +857,61 @@ check(storm_sub["on_use"] and storm_sub["cooldown"] and storm_sub["cooldown"] > 
 check(storm_sub["spell_id"] in storm_sub["ids"] and storm_sub["keys"],
       "each subject carries the keys and ids that identify it in a report OR a log — "
       "the same matcher the firing gate uses, so the two cannot disagree")
+
+# ══ Character overrides — the two declared exceptions, and their fences ══════
+
+REF = {"text": "actions.precombat+=/variable,name=trinket_priority,value=1\n"
+               "actions+=/demonbolt\n"}
+
+ok, bad = resolve_overrides(REF, {"variables": {
+    "trinket_priority": {"value": 2, "why": "w", "measured": "2026-08-20"}}})
+check(len(ok) == 1 and ok[0]["value"] == 2.0, "a declared variable is accepted")
+_, bad = resolve_overrides(REF, {"variables": {
+    "invented_variable": {"value": 2, "why": "w", "measured": "2026-08-20"}}})
+check(len(bad) == 1 and "does not declare" in bad[0],
+      "a variable the UPSTREAM reference does not declare is REJECTED — an override may "
+      "re-point a decision upstream already makes, never invent behaviour")
+_, bad = resolve_overrides(REF, {"variables": {"trinket_priority": {"value": 2}}})
+check(len(bad) == 1 and "superstition" in bad[0],
+      "no `why`/`measured` → rejected; an unmeasured override is a superstition")
+_, bad = resolve_overrides(REF, {"variables": {
+    "trinket_priority; actions=chaos_bolt": {"value": 1, "why": "w", "measured": "d"}}})
+check(len(bad) == 1, "a variable NAME cannot smuggle an action past the parser")
+
+TY = "use_item,use_off_gcd=1,slot=trinket2,if=pet.demonic_tyrant.active"
+ok, bad = resolve_apl_append({"apl_append": [
+    {"line": TY, "why": "w", "measured": "2026-08-20"}]})
+check(len(ok) == 1 and ok[0]["line"] == TY, "a use_item rung with use_off_gcd=1 is accepted")
+_, bad = resolve_apl_append({"apl_append": [
+    {"line": "use_item,slot=trinket2", "why": "w", "measured": "d"}]})
+check(len(bad) == 1 and OFF_GCD in bad[0],
+      "use_off_gcd=1 is MANDATORY — failure #2 was exactly this line without it, and it "
+      "baked -3.2% into every forced run for a day")
+_, bad = resolve_apl_append({"apl_append": [
+    {"line": "chaos_bolt,if=1", "why": "w", "measured": "d"}]})
+check(len(bad) == 1 and "use_item" in bad[0],
+      "only use_item may be appended — this can never become 'rewrite the rotation', "
+      "which failure #3 showed swings 3.21% on ordering alone")
+_, bad = resolve_apl_append({"apl_append": [
+    {"line": "use_item,use_off_gcd=1,slot=trinket1\nactions=chaos_bolt",
+     "why": "w", "measured": "d"}]})
+check(len(bad) == 1, "a newline cannot smuggle a second action line through")
+
+check(override_brand({"overrides": [{"name": "trinket_priority"}]}).startswith("⚠ OVERRIDE"),
+      "a variable override brands every row")
+check("APL-APPEND" in override_brand({"apl_append": [{"line": TY}]}),
+      "an appended action brands LOUDER — it adds a press upstream would not make")
+check(override_brand({}) == "", "no override, no brand")
+
+live = load_overrides("encomplete")
+check(live.get("apl_append") and len(live["apl_append"]) == 2,
+      "Encomplete's two trinket rungs are installed (this is what took the firing gate "
+      "from FAIL to PASS on 2026-08-20)")
+check(all(OFF_GCD in a["line"] and a.get("measured") for a in live["apl_append"]),
+      "…and both carry use_off_gcd=1 and a measurement date")
+check(load_overrides("nobody") == {} and load_overrides(None) == {},
+      "an unknown character degrades to 'upstream unaided', never to a crash")
+
 
 if _fails:
     print(f"FAIL ({len(_fails)}/{_total})")

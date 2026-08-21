@@ -333,6 +333,12 @@ Each entry: detection rule + regression test. Seeded from 2026-08-20.
 | Hardcoded window length | the window's `+after` comes from the anchor's OWN summon duration in the log (`summons demonic_tyrant for 20.272s`), not a constant. A 20s Tyrant default would be a Demonology special case in a tool that has none, and the output names which source it used |
 | Log verb drift | `parse_log` keeps only the verbs a reader can act on and drops `schedules execute` / `schedules travel` / `refreshes` / `decrements` / per-hit damage — ~60% of a log, none of it about ORDER. The kept/dropped split is asserted against a log fragment in `check_sim.py`, so a simc format change fails there rather than silently emptying a timeline |
 | Effect identity drift | `effect_subjects()` is the ONE definition of "what an item's effect is" and its keys/ids are shared by the firing gate (aggregate counts) and `log` (timeline placement), so the two cannot disagree about whether a trinket fired |
+| Pooled crest budget | crest budgets are PER TRACK and are never summed. Each tier upgrades its own track only (dawncrests.md:47). Found by a real character on 2026-08-20: 186 Adventurer + 139 Veteran + 20 Myth + **0 Champion** was pooled into "16 ranks affordable" and then spent entirely on Champion and Hero ranks. Every row was individually true and the plan was unbuyable. A track with ranks but no crests is now named outright |
+| Character variable override | `wowkb/data/sim_overrides.json` → `variables`. The DECLARED exception: re-points a variable the upstream reference APL **already declares**. The tool builds the `variable,name=X,value=N` line itself (nothing in the JSON is ever pasted), an undeclared variable is rejected loudly, `why`+`measured` are mandatory, every row is branded, and the firing gate still judges |
+| Appended `use_item` rung | `sim_overrides.json` → `apl_append`. The SECOND exception, and the narrower one: **only** `use_item` lines (never a damage action — failure #3 showed ordering alone swings 3.21%), `use_off_gcd=1` **mandatory** (failure #2 was this exact line without it, −3.2%), and `actions+=/` appends so upstream's list survives intact underneath. Branded `⛔ APL-APPEND` |
+| Dead APL condition | a condition that can never evaluate true reads as load-bearing and gets tuned around. Caught 2026-08-21: `cooldown.summon_demonic_tyrant.remains>trinket.N.cooldown.duration` is impossible because Tyrant's cooldown (~62s) is SHORTER than either trinket's (90s/120s). Detection: the arm with and without the clause produced byte-identical output. Two arms that agree exactly are a claim about the code, not about the game |
+| Silently ignored APL line | simc accepts a bare `use_item,...` line as an unknown option and ignores it — only `actions+=/use_item,...` reaches the priority list. Six analysis arms returned identical numbers before this was spotted. Any multi-arm script asserts that the arm meant to CHANGE something actually did, and aborts if not |
+| Fix disables its own test | a regression that asserts upstream's broken behaviour must pin `use_overrides=False`. The Phase 1 headline test (Stormbound inert) went green the moment the override fixed it — the right reason in the wrong place, and it would have stopped testing the firing gate at all |
 | Branded table copied out | a caveat printed ABOVE a table does not survive someone copying one row, so `UNVALIDATED HARNESS` / `GATE FAILED` prefixes EVERY line of it |
 
 ## Field log
@@ -573,3 +579,59 @@ the rule this tool enforces everywhere else is about *numbers*, not about invoca
 shared with `log`. Previously the gate held the only definition of "what an item's
 effect is"; a second, drifting copy inside `log` is exactly how a timeline would come to
 say a trinket fired while `check` said it did not.
+
+### 2026-08-21 — the two-on-use trinket deadlock, and two declared exceptions
+
+**How it started.** A fresh export (ilvl 294 → 300, the S1 4pc finally replaced) put 14 of
+15 slots on a resolved track, so `crests` ran for real for the first time — and produced a
+**wrong answer**. It pooled crest budgets across all five tracks into "16 ranks" and spent
+them on Champion and Hero ranks for a character holding **zero** Champion crests. Fixed:
+budgets are per track, a broke track is named, regression added.
+
+**The trinket hunt, and what it cost to do properly.** Stormbound Emblem of Dazar fires
+**0 times in 300s** under upstream. Four hypotheses died in order:
+
+1. *The slot index* — swapped trinket1/trinket2; reproduces exactly. The deadlock follows
+   the ITEM.
+2. *`trinket_priority`* — overridden to 2; no change.
+3. *`damage_trinket_priority`* — overridden to 2; no change. (Both were removed again
+   rather than left in the file: my own README says an unmeasured override is a
+   superstition, and two disproven ones are worse.)
+4. *The ilvl tie* — bumped trinket2 to 308 so 305/305 no longer ties; no change. This one
+   had been written up as the likely cause and was **wrong**.
+
+**And the one that mattered: it is not our harness.** Running the shipped
+`MID2_Warlock_Demonology.simc` completely untouched with **only the two trinket lines**
+changed reproduces it exactly — Freightrunner 1.0, Stormbound 0.0. That bisect is also a
+ready-made minimal repro for an upstream issue. Upstream's own default profile carries
+**one** on-use trinket (Vile Vial on-use + Wavecaller's passive), so the two-on-use case —
+where each rung waits on the other's cooldown — is never exercised there.
+
+**The user was right about the history.** "We had two trinkets working before" was
+accurate: failure #2's *"every forced-use run"* was a hand-written `use_item` APL, not
+upstream. That is what `apl_append` now makes durable and gated instead of ad-hoc.
+
+**Measured (stock upstream profile, common random numbers, `deterministic=1` + one seed,
+so arms differ ONLY by APL — profilesets cannot carry an APL, so separate invocations are
+structurally required here and CRN is the mitigation):**
+
+| 1T/300s | flask presses | uptime | emblem presses | uptime | dps |
+|---|---|---|---|---|---|
+| upstream unaided | 1.00 | 5.0% | **0.00** | 0.0% | 196,348 |
+| on cooldown | 3.64 | 17.9% | 2.81 | 18.1% | 200,776 (+2.27%) |
+| held for Tyrant | 3.16 | 15.6% | 2.41 | 15.3% | **203,002 (+3.41%)** |
+
+Held also wins at 5T/300s (+1.86% over on-cooldown), and at 120s it is **free** —
+identical press counts either way, still +1.0–1.9%. A 10s grace clause is the worst of
+both (+2.09%). So upstream leaves **>3%** on the floor for this gear.
+
+**The uptime objection is real and still loses.** Holding costs 13% of presses (3.64 →
+3.16), not the 25% the naive 90s-CD-forced-to-120s-cadence arithmetic predicts — Tyrant's
+real cycle is ~62s and drifts against 90s. Tyrant multiplies pet damage, so stats placed
+inside the window are worth disproportionately more; less uptime, better placed, wins.
+
+**Two process failures worth keeping.** The first six-arm analysis returned six identical
+rows because the lines were written bare (`use_item,...`) instead of `actions+=/use_item`,
+which simc silently ignores — now an abort guard. And the shipped condition carried an
+escape valve that is **dead code**, caught only because the arm with and without it was
+byte-identical. Both are registered above.

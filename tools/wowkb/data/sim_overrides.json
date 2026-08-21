@@ -1,0 +1,40 @@
+{
+  "_README": [
+    "Character-specific APL VARIABLE overrides, looked up automatically by wowkb.sim.",
+    "",
+    "Two kinds of entry, both fenced so they cannot become the hand-edited-APL failure",
+    "this tool exists to replace:",
+    "",
+    "`variables` — re-point a variable the UPSTREAM reference APL already declares. The",
+    "tool builds the `variable,name=X,value=N` line itself; nothing here is ever pasted",
+    "into a profile, and a variable upstream does not declare is rejected loudly.",
+    "",
+    "`apl_append` — append `use_item` rungs BELOW upstream's own priority list. Only",
+    "`use_item` lines are accepted (never a damage action), `use_off_gcd=1` is mandatory",
+    "(failure #2 was exactly this line without it, -3.2%), and `actions+=/` appends so",
+    "upstream's list survives intact underneath.",
+    "",
+    "Both require `why` and `measured`. An override with no recorded measurement is a",
+    "superstition, and this file is exactly where superstitions accumulate. Everything",
+    "computed with either active is branded on every row, and the firing gate still runs",
+    "unchanged - the point is to make the gate go green HONESTLY.",
+    "",
+    "Run with --no-overrides to see what upstream does unaided."
+  ],
+  "encomplete": {
+    "note": "Two ON-USE trinkets. Upstream's shipped profile carries only one (Vile Vial of Volatile Venom on-use + Wavecaller's Seastone passive), so its rungs - which gate each trinket on the OTHER's cooldown state - are never exercised in the two-on-use case and deadlock here. Ruled out 2026-08-20: it is not the ilvl tie (bumping trinket2 to 308 changes nothing), not `trinket_priority`, not `damage_trinket_priority`, and not our harness (it reproduces exactly in the stock upstream profile with only the two trinket lines changed). || 2026-08-21: an earlier version of these rungs carried an escape valve, `|cooldown.summon_demonic_tyrant.remains>trinket.N.cooldown.duration`, meant to press anyway when Tyrant was too far out to be worth waiting for. It is DEAD CODE: Tyrant's cooldown (~62s observed) is SHORTER than either trinket's (90s / 120s), so `remains` can never exceed `cooldown.duration`. With and without it the runs are byte-identical. Removed rather than left in looking load-bearing. A `remains>10` grace clause WAS tested and is worse than both (+2.09% vs +2.27% on-cooldown, +3.41% held).",
+    "variables": {},
+    "apl_append": [
+      {
+        "line": "use_item,use_off_gcd=1,slot=trinket1,if=pet.demonic_tyrant.active",
+        "why": "Freightrunner's Flask (90s CD) fires 1.0x/300s under upstream unaided. Holding it for Tyrant gives 3.16x / 15.6% uptime vs 3.64x / 17.9% pressing on cooldown - so holding DOES cost 13% of presses, exactly the tradeoff the 90s-CD-vs-62s-Tyrant-cycle drift implies. It still wins, because Tyrant multiplies pet damage and stats placed inside the window are worth disproportionately more.",
+        "measured": "2026-08-21"
+      },
+      {
+        "line": "use_item,use_off_gcd=1,slot=trinket2,if=pet.demonic_tyrant.active",
+        "why": "Stormbound Emblem of Dazar (120s CD) fires 0x/300s under upstream unaided. Measured on the stock upstream profile, common random numbers, 2500 iterations, 1T/300s Patchwerk: upstream 196,348 -> on-cooldown 200,776 (+2.27%) -> held-for-Tyrant 203,002 (+3.41%). Held also wins at 5T/300s (+1.86% over on-cooldown) and at 120s, where it is FREE - identical press counts, 2.00x either way.",
+        "measured": "2026-08-21"
+      }
+    ]
+  }
+}
