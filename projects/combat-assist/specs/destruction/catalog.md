@@ -4,7 +4,7 @@
 the normative catalog document: the thing a future `Catalogs/Destruction.lua` transcribes. It is
 a provisional product characterization for play, not a claim the rules are universally correct.
 `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns every recipe cited here (`R1`…`R10`, `S1`…`S6`);
+`../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
 definition; `scenarios.md` beside it is the walk that proves it, and `fact-classification.md` is
@@ -160,7 +160,7 @@ transforms does.
 
 **Conflagrate is the only charge row, and it is the only one in any catalog whose charge state
 does ordering work.** Two charges, ~13 s recharge *[T1: `ability-inventory.tsv` @ 12.1.0.69214;
-`abilities.md`]*, and `../pattern-shelf.md` R6's measurement is on **this exact spell** —
+`abilities.md`]*, and R6's measurement is on **this exact spell** —
 OBS-066: at 2/2 everything is readable; at 1/2 and 0/2 `currentCharges` is secret and `isActive`
 is `true` in both, so it cannot tell castable-1 from dead-0.
 
@@ -488,7 +488,7 @@ Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, 
    The mechanism is unchanged; the airtime is not, and that is a flight question.
 4. **First catalog to spend two positive cues.** `one_positive_per_entry` is the invariant that
    makes it safe and it is satisfied by construction — the two live on different rows.
-5. **No new marker shape or channel pairing**, so under `../pattern-shelf.md` Part 3's 9.4 seam
+5. **No new marker shape or channel pairing**, so under `../authoring.md`'s **marker seam** (stage 6's renderer test, the definition-of-done for Phase 9.4)
    this spec should edit **nothing** in `Treatment.lua` / `Overlay.lua` and be authored purely as
    catalog data.
 

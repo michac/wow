@@ -4,7 +4,7 @@
 normative catalog document: the thing a future `Catalogs/Havoc.lua` transcribes. It is a
 provisional product characterization for play, not a claim the rules are universally correct.
 `../spec.md` §3.7 owns the intended experience; `../spec.md` §3.1 owns the tier model;
-`../pattern-shelf.md` owns every recipe cited here (`R1`…`R10`, `S1`…`S6`);
+`../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `fact-classification.md` beside this file tags each fact readable / sealed-display / open with
 its addon-dev evidence; `scenarios.md` beside this file walks the Fel-Scarred priority as a
 single-row Cooldown-Manager elimination walk and proves lane + cues reproduce the order (state →
@@ -465,8 +465,7 @@ override the elimination scan**, and on Havoc it must: rung 10 outranks Eye Beam
 and no row position can say so. That override is why cue F's fence around it matters — a positive
 cue pointing past a cooldown that genuinely outranks it is the one way this exception goes wrong.
 
-⚠ **"About to cap" has no authored form yet, and cue E deliberately fires at exact full only.** R6 (`../pattern-shelf.md:125`) and
-OBS-066 measured that below full `currentCharges` is secret and `isActive` reads `true` at **both**
+⚠ **"About to cap" has no authored form yet, and cue E deliberately fires at exact full only.** R6 and OBS-066 measured that below full `currentCharges` is secret and `isActive` reads `true` at **both**
 1/2 and 0/2 — it means *recharge running*, not *which charge*. (That is also exactly why the
 below-max state could never have carried a countdown toward the cap.) So a threshold on the recharge
 duration cannot tell "about to cap" from "about to get your first charge back", and would fire the

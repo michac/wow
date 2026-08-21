@@ -29,10 +29,14 @@ Eight permanent files have eight jobs:
 | `specs/discussion.md` | Only unresolved product questions requiring an author decision. |
 | `specs/flight-reading.md` | How to interpret the capture format the current source emits. |
 
-`specs/pattern-shelf.md` is the recipe reference `authoring.md` stage 3 classifies against.
+**Which facts you may use** is not a project document. The client evidence lives in
+`knowledge/addon-dev/`, inside the KB's gates and provenance conventions;
+`specs/authoring.md` → *The recipe index* owns the `R#` / `S#` shorthand the catalogs cite and maps
+each ID to its anchor there. Stage 3 classifies against that index. **Read the KB anchor, not the
+index row** — the row is an address, and it deliberately asserts nothing.
 
-**The two shelves.** `pattern-shelf.md` = which facts you may use. `render-shelf.md` = how you may
-show them. **Visual opinions belong in the render shelf and nowhere else** — `spec.md` fixes the
+**The shelf's other half.** `render-shelf.md` = how you may show them. **Visual opinions belong in
+the render shelf and nowhere else** — `spec.md` fixes the
 *model* (role lanes, readable-vs-sealed) and says nothing about pixels. Trying a
 new look is an edit to the shelf, not a spec amendment; regenerate the preview from it and look.
 

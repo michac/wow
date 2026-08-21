@@ -273,7 +273,7 @@ Two of the proof's three claims survive and one is **withdrawn**:
   *count* — exact out-of-combat seed, debit on a cast, credit on an accepted `ChargeGained` alert,
   clamp, re-seed at combat end, with captures distinguishing exact `live` from in-combat
   `napkin`. **No rung in the 12.1 priority wants the number.** The one Conflagrate rung that reads
-  charges asks `charges>=2`, and `pattern-shelf.md` R6 reads exactly that and only that — charges
+  charges asks `charges>=2`, and R6 reads exactly that and only that — charges
   are readable at full and seal below it. The recipe stays on the shelf, unbuilt, for a spec that
   needs a number; the `live` / `napkin` capture labels have no producer.
 
@@ -418,7 +418,7 @@ display it but never branch on it. The roster maps onto the §3.1 lanes the way 
 priority does: the **COOLDOWN** lane (Metamorphosis, Eye Beam, The Hunt, Essence Break, Vengeful
 Retreat) carries the burst/window buttons that dominate the top of the priority list, and the
 **ROTATION** lane (the build/spend core) is where the cues do the choosing. Four cues turn the
-secret resource into that ordering; each is a pattern-shelf recipe, and the full mapping lives in
+secret resource into that ordering; each is a recipe in `authoring.md`'s index, and the full mapping lives in
 `specs/havoc/catalog.md`.
 
 - **A — Affordability cue (readable).** Within ROTATION, a Fury *spender* you can't afford is
@@ -567,4 +567,4 @@ Play first and record the player's report in their own terms. Use captures after
 explain whether the authored mechanism ran and why the observed result may have happened.
 
 Captures never overrule the player's visual judgment; **accepted is not drawn**
-(`pattern-shelf.md` Part 2). Occupancy and refusal rates are diagnostics, not acceptance quotas.
+(`authoring.md` → *Accepted is not drawn*). Occupancy and refusal rates are diagnostics, not acceptance quotas.

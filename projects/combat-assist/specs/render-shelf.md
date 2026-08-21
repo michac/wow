@@ -1,7 +1,8 @@
 # Combat Assist Plus — the render shelf
 
-**What this file is for:** how cap is allowed to *look*. `pattern-shelf.md` answers **which facts
-you may use**; this answers **how you may show them**. It owns every visual opinion in the
+**What this file is for:** how cap is allowed to *look*. `authoring.md`'s recipe index answers
+**which facts you may use** and where the client evidence for each one lives; this answers **how
+you may show them**. It owns every visual opinion in the
 project — surfaces, primitives, colors, motion, placement, composition — so that trying something
 new means editing this file, not amending `spec.md`.
 
@@ -1349,8 +1350,8 @@ say *"drawn in the client only"* for each.
 FLEW and PASSED `[client 2026-08-21]`** — the formatter is honoured (including the complement and
 inline colour escapes), and `AddPandemicRegion` drives a cap-owned texture off Blizzard's real
 window. The mechanism is measured, not a proposal; the drained findings and their working Lua are
-`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5.2, and `../pattern-shelf.md`
-S7–S9 are now `FLOWN`. **What remains is PROMOTION** — moving these three into Parts 1–6 with their
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5.2 (the formatter's own surface is
+§3.5), which `authoring.md`'s recipe index reaches as `S7`–`S9`. **What remains is PROMOTION** — moving these three into Parts 1–6 with their
 numbers and deleting them here (rule 4). That is a cap-pipeline step, not a prose edit: it re-runs
 `capart export`, lifts `Catalog.lua:192`'s `min = 2`, and needs a cap release — **ask-first, not
 yet done**. Until then they stay in the lab as *flown-and-passed*, and the tokens are measured

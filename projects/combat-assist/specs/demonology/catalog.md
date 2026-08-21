@@ -4,7 +4,7 @@
 the normative catalog document: the thing a future `Catalogs/Demonology.lua` transcribes.
 It is a provisional product characterization for play, not a claim the rules are universally
 correct. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns every recipe cited here (`R1`…`R10`, `S1`…`S6`);
+`../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
 definition; `scenarios.md` beside it is the walk that proves it, and `fact-classification.md` is
@@ -54,7 +54,7 @@ the readable/sealed/open safety case. Havoc is the model.
 ## The design in one paragraph
 
 Demonology's primary decision resource, **Soul Shards, is readable** — one of the seven
-never-secret power types, and the one `../pattern-shelf.md` R3 names first
+never-secret power types, and the one R3 names first
 (`power = "SoulShards"` has shipped since the pilot). So the single largest decision in the
 spec — *do I have five shards for Tyrant?* — is an **exact Lua comparison**, and it is the
 catalog's centrepiece. Two override transforms (R7) do most of the rest: **Ruination rides the
@@ -449,7 +449,7 @@ Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, 
 3. **First use of the two-band identity mechanism to change a row from FALLBACK to ROTATION.**
    Retribution's row 3 goes COOLDOWN → ROTATION; this goes the other direction on the ladder.
    The mechanism is unchanged (`Signal.tier` takes the first band whose condition holds).
-4. **No new marker shape or channel pairing**, so under `../pattern-shelf.md` Part 3's 9.4 seam
+4. **No new marker shape or channel pairing**, so under `../authoring.md`'s **marker seam** (stage 6's renderer test, the definition-of-done for Phase 9.4)
    this spec should edit **nothing** in `Treatment.lua` / `Overlay.lua` and be authored purely as
    catalog data. If a renderer edit turns out to be needed, that is a finding about the seam.
 5. **One S-form is wanted twice and is not written** — see *Defeats*, items 1 and 2. It is not
@@ -489,7 +489,7 @@ would reopen it**. None of these is a bare "cannot".
    (S2), and it is a **count display** — an AuraContainer slot whose FontString is empty below a
    threshold and shows the number at or above it. It paints; it does not badge, and it cannot
    paint the *complement*. It is additionally hard-limited to `min = 2` in `Catalog.Check`.
-   `../pattern-shelf.md`'s `aura` latch gives a readable **boolean** (are there any Cores / any
+   the `aura` latch gives a readable **boolean** (are there any Cores / any
    imps), which is not the question either rung asks. **This is not a platform limit** — the
    secret is a number and `spec.md` §3.6 says a threshold on a secret is expressible as an
    authored curve the client evaluates; nobody has written the curve for a stack count.
@@ -572,7 +572,7 @@ An ability with no named player problem gets no row; so does one with no Cooldow
   Demonic Tyrant's cooldown (cue F), plus two optional `player-aura-stacks` count displays. cap
   authors the window in seconds, the client evaluates the curve, and cap reports `offered` /
   `armed` / `refused` and never reads back. **Accepted is not drawn**
-  (`../pattern-shelf.md` Part 2).
+  (`../authoring.md` → *Accepted is not drawn*).
 - **No cooldown remaining, no aura duration, no aura stack count and no target state ever enters
   a Lua condition**, in either polarity.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable`,

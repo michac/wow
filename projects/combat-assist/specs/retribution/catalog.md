@@ -4,7 +4,7 @@
 normative catalog document: the thing a future `Catalogs/Retribution.lua` transcribes. It is a
 provisional product characterization for play, not a claim the rules are universally correct.
 `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns every recipe cited here (`R1`…`R10`, `S1`…`S6`);
+`../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
 definition; `scenarios.md` beside it is the walk that proves it, and `fact-classification.md` is
@@ -50,7 +50,7 @@ the readable/sealed/open safety case. Havoc is the model.
 Retribution is the **inverse of Havoc**: its primary decision resource, **Holy Power, is
 readable** — one of the seven never-secret power types, `C_Secrets.GetPowerTypeSecrecy(9)` → **0
 (`NeverSecret`)** `[client 2026-08-03]` (`knowledge/addon-dev/security-taint-and-restricted-data.md`
-§4.12; `../pattern-shelf.md` R3). So the build/spend loop that Havoc had to hand to the client as
+§4.12; `../authoring.md`'s recipe index R3). So the build/spend loop that Havoc had to hand to the client as
 a graded curve is here an **exact Lua comparison**, and the catalog carries a `power` field. Two
 further facts do more of the work than the resource does. First, **three of the eight rows are
 override transforms** (R7) — Hammer of Light rides the **Wake of Ashes** row, Hammer of Wrath
@@ -524,7 +524,7 @@ Almost none, which is the point of the pattern shelf. Against the current source
 2. **No new display kind.** The five sealed bands are `sealed-cooldown-range`, in both of its
    existing senses. **`sealed-power-percent` is not used at all** — the first catalog to need no
    graded resource curve, because its resource is readable.
-3. **No new marker shape or channel pairing**, so under `../pattern-shelf.md` Part 3's 9.4 seam
+3. **No new marker shape or channel pairing**, so under `../authoring.md`'s **marker seam** (stage 6's renderer test, the definition-of-done for Phase 9.4)
    this spec should edit **nothing** in `Treatment.lua` / `Overlay.lua` and be authored purely as
    catalog data. If a renderer edit turns out to be needed, that is a finding about the seam.
 4. **First use of two-band identity switching for a role change.** Havoc uses `identity` to
@@ -630,7 +630,7 @@ stale answer as a cleave annoyance; **Affliction does not**, since multi-dotting
 **Defeated this pass, with the reopening named:** the three buff-remaining clip conditions on
 finishers 2. They died on the **shelf**, not the client — an aura-remaining *band* is an S-form
 nobody has written, and `C_UnitAuras.GetAuraDuration`'s duration object takes the same step curve
-S4 already puts on a cooldown (`../pattern-shelf.md` S5). Writing that S-form reopens all three.
+S4 already puts on a cooldown (`../authoring.md`'s recipe index S5). Writing that S-form reopens all three.
 Separately, and not a defeat at all: every `raid_event` / `fight_remains` / `target.time_to_die`
 term stays out as a product rule — cap does not model the encounter.
 
@@ -674,7 +674,7 @@ Stage 2 cut five of the fourteen candidate presses.
 - **Cues carry sealed facts to client-owned sinks:** five `sealed-cooldown-range` bands on three
   abilities' cooldowns. cap authors the window in seconds, the client evaluates the curve, and cap
   reports `offered` / `armed` / `refused` and never reads back. **Accepted is not drawn**
-  (`../pattern-shelf.md` Part 2).
+  (`../authoring.md` → *Accepted is not drawn*).
 - **No cooldown remaining, no aura duration and no target state ever enters a Lua condition**, in
   either polarity.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable`,

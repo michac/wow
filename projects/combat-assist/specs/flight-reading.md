@@ -6,7 +6,7 @@ support. It is not a visual oracle or a history log. SavedVariables flush only o
 Read the live addon version first. Captures store changes, not periodic samples, so line counts
 are not duty cycles.
 
-⚠ **Accepted is not drawn** — `pattern-shelf.md` Part 2 states it once, and it applies to every
+⚠ **Accepted is not drawn** — `authoring.md` states it once, and it applies to every
 field below without being repeated per field: a sink accepting a duration or a paint call never
 proves a pixel appeared. The player's report is the authority for brightness, contrast, placement
 and usefulness.

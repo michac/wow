@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-08-21   # §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
+reviewed: 2026-08-21   # 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -968,6 +968,73 @@ created and thereafter written by the engine
 `SetDispelTypeText` (:119), `AddDispelTypeTexture` (:84), `AddPandemicRegion` (:236),
 `SetSpellName` (:267). Each has a matching `Get*`/`Clear*`.
 
+**`SetApplicationCount` takes an options table, and its `formatter` is the seam that turns the
+count sink from one Blizzard-chosen threshold into an authored piecewise function.** The apply
+path is a two-branch `if` — a formatter if you supplied one, otherwise Blizzard's default
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+CustomAuraButtonPrivateMixin:ApplyApplicationCount]`:
+
+```lua
+local formatter = options.formatter;
+local applications = auraData.applications;
+
+if formatter then
+    text = formatter:FormatNumber(applications);
+elseif applications > 1 then
+    text = applications;
+end
+-- ...
+fontString:SetText(text);
+```
+
+Two things follow immediately. **The default never prints a lone `1`** — that is what
+`applications > 1` means — so a `1` on screen is unambiguous evidence a supplied ruleset ran.
+And **the "shows at 2 or more" behaviour everyone has seen is the zero-configuration case, not a
+platform limit**: it is what the `elseif` does when `options.formatter` is absent.
+
+**The rule object is a `NumericRuleFormatter`, and it is a curve's opposite number — bands, not
+interpolation.** `C_StringUtil.CreateNumericRuleFormatter()` — *"Creates a numeric formatter that
+converts numbers to strings with flexible rulesets"* `[T1 docs @12.1.0: StringUtilDocumentation.lua
+— CreateNumericRuleFormatter]`. Its surface:
+
+- **Configuration** is `AddBreakpoint(breakpoint)`, `SetBreakpoints(breakpoints)`,
+  `GetBreakpoints()`, `ClearBreakpoints()`, and `Copy()`
+  `[T1 docs @12.1.0: NumericRuleFormatterAPIDocumentation.lua]`. `AddBreakpoint` and
+  `SetBreakpoints` are `SecretArguments = "AllowedWhenUntainted"` — which is no obstacle, because
+  breakpoints are **plain authored numbers**, never a secret. `Copy` is `ReturnsNeverSecret`, so
+  one configured template can be cloned per row rather than rebuilt.
+- **Evaluation** is a *different* documented object: `FormatNumber(number) -> string`, carrying
+  `ConstSecretAccessor = true`
+  `[T1 docs @12.1.0: NumericFormatterAPIDocumentation.lua — FormatNumber]`. Secret in, secret
+  out, no aspect applied to the formatter itself — which is why the client may call it on a
+  sealed count on your behalf.
+- **A breakpoint** is `{ threshold, step, rounding, min, max, format, components }`
+  `[T1 docs @12.1.0: NumericRuleFormatterSharedDocumentation.lua — NumericRuleFormatBreakpoint]`.
+  `threshold` is *"Minimum input value that this rule applies to"* and `format` is *"The format
+  string to apply at this threshold"*.
+
+⚠ **`min` and `max` on a breakpoint are INPUT CLAMPS, and the name collides with the obvious
+reading.** They are documented as *"clamps the input value to this value if lesser after
+rounding"* and *"…if greater after rounding"* — they change the **number handed to the format
+string**, not whether the band draws. Visibility is `threshold` plus what `format` emits.
+Likewise `step` (*"the input value is rounded to multiples of this step before processing"*) with
+`rounding` (`Nearest` / `Up` / `Down`), and `components`, which splits one value across several
+specifiers via per-component `div` / `mod`.
+
+**An empty `format` string is how a band expresses absence** — the only way to say "draw nothing
+here" through this object, and the shape both known consumers want. `format` also need not carry
+a numeric specifier at all, so a band may emit a fixed word or glyph instead of the number.
+Neither of the other two factories can do either: `CreateSecondsFormatter` and
+`CreateAbbreviatedNumberFormatter` are documented as fixed transforms (*"93 -> '1m 33s'"*,
+*"123456 -> '123k'"*) `[T1 docs @12.1.0: StringUtilDocumentation.lua]`.
+
+⚠ **Do not reach for `SecondsFormatterMixin` by mistake.** It is a pure-Lua lookalike in
+`Blizzard_SharedXML/TimeUtil.lua` with nearly the same method vocabulary, used across Blizzard's
+own addons via `CreateFromMixins` — and it does its arithmetic **in script**, so a secret handed
+to it aborts the call. The secret-safe objects are `Userdata`
+(`ObjectType = "Userdata"` on both documentation tables above) and come only from
+`C_StringUtil.Create*`.
+
 ⚠ **The container does NOT size its buttons, and every symptom of forgetting looks like
 success.** `CustomAuraButtonTemplate` declares no `<Size>`
 `[T1 src @12.1: Blizzard_CustomAuraButton.xml:5]`; the flow layout's `ApplyElementLayout`
@@ -1087,9 +1154,12 @@ choose which stack values show a number, and drive its own art off Blizzard's pa
 without ever reading the sealed value. Both are Destruction-at-a-dummy human-eyeball verdicts
 (the outputs are sealed, so reading them back would invalidate the test).
 
-**1 · A tainted-created `NumericRuleFormatter` IS honoured on `SetApplicationCount`.** Build the
-formatter in `initializeFrame` (it is plain authored data, no secret in it) and hand it in as an
-option; the client evaluates it against the secret count and draws the result:
+**1 · A tainted-created `NumericRuleFormatter` IS honoured on `SetApplicationCount`.** §3.5 is
+the source-read spec for the formatter object and the sink's two-branch apply path; this is the
+one thing a source read could not settle — whether the client honours a formatter **built by
+tainted code**. It does. Build it in `initializeFrame` (it is plain authored data, no secret in
+it) and hand it in as an option; the client evaluates it against the secret count and draws the
+result:
 
 ```lua
 -- C_StringUtil resolved by string (it is not in .luacheckrc's curated std).
@@ -1105,13 +1175,26 @@ Four band tables, all confirmed on the Backdraft tiles (117828, HELPFUL, unit `p
 |---|---|---|
 | `{{threshold=0,format="%d"}}` | `1` at one stack | **the proof** — Blizzard's no-formatter default is `elseif applications > 1` and NEVER prints a lone `1`, so a `1` on screen is unambiguous evidence cap's ruleset ran |
 | `{{0,""},{2,"MAX"}}` | blank, then `MAX` | a band may emit a fixed **word/glyph**, not just a number |
-| `{{0,"\|cffff4040%d\|r"},{2,"\|cff40ff70%d\|r"}}` | **red 1, green 2** | inline colour escapes are **not stripped** by the formatter on this build (pattern-shelf S8) |
-| `{{0,"%d"},{2,""}}` | `1`, then blank | **the complement** — low-shown/high-hidden, the shape pattern-shelf S2 had recorded as *impossible* |
+| `{{0,"\|cffff4040%d\|r"},{2,"\|cff40ff70%d\|r"}}` | **red 1, green 2** | inline colour escapes are **not stripped** by the formatter on this build |
+| `{{0,"%d"},{2,""}}` | `1`, then blank | **the complement** — low-shown/high-hidden, i.e. a band may *hide* the value above a threshold as readily as below one |
 
-So cap can author which stack values carry a number, in any hue — the `min = 2` cap has always
-lived under is Blizzard's zero-config default, not a platform limit. `SetApplicationCount` adds
-only `Text` and `Shown` aspects (`:59-68`), **not `VertexColor`**, so a static hue via
-`SetTextColor` at setup stays cap's regardless of the formatter.
+So an addon may author which stack values carry a number, and in which hue, without ever reading
+one. The "shows at 2 or more" ceiling is Blizzard's zero-config default (§3.5), not a platform
+limit. And `SetApplicationCount` adds only the `Text` and `Shown` secret aspects to the
+FontString `[T1 src @12.1.0: Blizzard_CustomAuraButton.lua —
+CustomAuraButtonSharedMixin:SetApplicationCount]`, **not `VertexColor`** — compare
+`SetDurationText`, which adds `Text`, `Alpha` *and* `VertexColor` because its colour curve drives
+them. So on the count FontString a static hue via `SetTextColor` at setup remains the addon's to
+call, regardless of the formatter; per-*band* hue is what needs the escapes.
+
+⚠ **The escape route worked here and is not guaranteed to keep working.** `C_StringUtil` also
+ships `EscapeQuotedCodes` and `StripHyperlinks`, so the client sanitises markup out of untrusted
+strings *somewhere*; whether `NumericRuleFormatter` ever starts doing so is invisible from Lua,
+and the only symptom would be the escapes appearing as literal text. A band emitting a private-use
+codepoint in a bundled font is the fallback that survives that failure — `SetFont` runs before
+lockdown and its FontString variant returns a `success` bool
+`[T1 docs @12.1.0: SimpleFontStringAPIDocumentation.lua — SetFont]`, a checkable result while one
+can still be read.
 
 **2 · `AddPandemicRegion` drives a cap-owned Texture off Blizzard's own refresh window.** Hand any
 Region to the button; the client adds `SecretAspect.Shown` to it and calls
@@ -1267,15 +1350,31 @@ if type(v) == "number" and v > 0 then   -- the comparison ERRORS on a secret
 
 passes the type check and blows up on the comparison. Tier 2 states this
 explicitly (`Secret Values`, revid 6777907: *"Querying the type of a secret
-value type(secret) returns its real type"*). Blizzard's own dumper is written to
-match — it takes `local valType = type(val)` and then separately asks
-`canaccessvalue(val)`. Exact lines in `Blizzard_SharedXML/Dump.lua`:
-`type(val)` :98 → `canaccessvalue(val)` :106, :113 (in `prepSimple`);
-`type(val)` :149 → `canaccessvalue(val)` :151;
-`type(val)` :309 → `issecretvalue(val)` :312 → `canaccessvalue`/`canaccesstable`
-:315 (in `DevTools_DumpValue`);
-`type(value)` :406 → `canaccesstable(value)` :407.
-The correct guard is `issecretvalue(v)` or `canaccessvalue(v)`, never `type()`.
+value type(secret) returns its real type"*).
+
+**Blizzard's own dumper settles it three ways, and all three are in the shipped
+`Blizzard_SharedXML/Dump.lua`** `[T1 src @12.1.0]`. Cite them by symbol and quoted
+fragment, not by line — this file is one Blizzard has reworked before:
+
+- `prepSimple` opens `local valType = type(val)` and then asks `canaccessvalue(val)`
+  **separately**, on a later branch. Its secret marker is the format
+  `FORMATS["opaqueTypeKeySecret"] = "<secret %s>"`, applied as
+  `string.format(FORMATS.opaqueTypeKeySecret, valType)` — it **interpolates the real type
+  into the word "secret"**, which it could not do if `type()` had answered `"secret"`.
+- In the same function a secret **string** reaches the ordinary
+  `elseif (valType == "string") then` branch and is only *then* tested, with
+  `if (canaccessvalue(val) and ShouldTruncateString(val)) then`. The type test does not
+  divert it; the access test does.
+- `DevTools_DumpValue` takes `local valType = type(val)`, calls `IsSimpleType(valType)`,
+  and asks the secrecy question on a different value entirely:
+  `local format = issecretvalue(val) and FORMATS.simpleValueSecret or FORMATS.simpleValue`.
+  Two independent questions, deliberately.
+
+**So `type()` cannot detect secrecy in either direction**, and the practical consequence is
+the one that costs a handler: `type(x) ~= "number"` **passes a secret number straight
+through** to the comparison below it, which then aborts the whole call chain. The correct
+guard is `issecretvalue(v)` or `canaccessvalue(v)` first, branch on the class, and only then
+compare — never `type()`.
 
 **Trap 2 — truthiness is type-dependent.** `if secretNumber then` is legal and returns a
 plain boolean `[client 2026-08-05]`; `if secretBoolean then` errors. You cannot tell which
@@ -2174,9 +2273,12 @@ renders it. Unlike finding 2's formatter route the format string lives in Lua, s
 precision is per-call. ⚠ It inherits finding 10 — `SetFormattedText` **poisons
 anchoring**, so the FontString must be a leaf. `DurationTextBinding` remains the
 only anchor-safe text route.
-⚠⚠ **AND `type(x) == "number"` IS THE WRONG GUARD.** A secret number fails it, so
-a bare `type()` check silently rejects exactly the in-combat case you need. Ask
-`issecretvalue` first (rule 15). *Confidence:* high on the API pair.
+⚠⚠ **AND `type(x) == "number"` IS THE WRONG GUARD.** It is wrong in the dangerous
+direction: `type()` returns a secret number's **real type**, so the check *passes*
+and execution falls into the arithmetic or comparison below it, which aborts the
+handler. The complement `type(x) ~= "number"` is the same defect wearing a
+rejection — it lets the secret through. Ask `issecretvalue` first (rule 15) and
+branch on the class (Trap 1). *Confidence:* high on the API pair.
 
 **8. `UnitPowerPercent` accepts a `LuaColorCurveObject`.** Its curve argument is
 typed `LuaCurveObjectBase` (`UnitDocumentation.lua:2729`), the shared base of both
@@ -2694,6 +2796,38 @@ proves the flag is computed **per spell against its own cost**. At high Fury all
    So a cost table IS derivable from game data, provided the talent set is known and the
    condition column is honoured. What is wrong is reading `ManaCost` alone.
    *[T1: `raw/wago/SpellPower.csv`, `SpellName` @ 12.1.0.69214]*
+
+   **And the API mirrors that column, so you need not go to DB2 at all.**
+   `C_Spell.GetSpellPowerCost(spellIdentifier) -> powerCosts` returns *"a table containing one
+   or more SpellPowerCostInfos, one for each power type this spell costs"*, is
+   `SecretArguments = "AllowedWhenTainted"` with **no return predicate**, and is
+   `MayReturnNothing` — nil for a spell that has no resource cost, which is not the same as a
+   cost of zero `[T1 docs @12.1.0: SpellDocumentation.lua — GetSpellPowerCost]`. Each entry is a
+   `SpellPowerCostInfo` `[T1 docs @12.1.0: SpellSharedDocumentation.lua — SpellPowerCostInfo]`:
+
+   | field | what it is |
+   |---|---|
+   | `type` / `name` | the `PowerType` and its token (*"the name or 'power token' for this power type (ex: MANA, FOCUS, etc)"*) |
+   | `cost` | *"Full cost including optional cost; Optional cost is cost the spell will use but isn't required"* |
+   | `minCost` | *"Cost excluding optional cost; This is min required to cast the spell"* — **this is the affordability number**, not `cost` |
+   | `costPercent` | *"Cost as a percentage of base maximum resource; May be 0 if the cost is simply a flat cost"* |
+   | `costPerSec` | *"Cost as a percentage of base maximum resource consumed per second, used by channel spells"* |
+   | `requiredAuraID` | *"An aura the caster must have for the cost to apply; Usually based on things like active spec or shapeshift form"* — the API mirror of `SpellPower.RequiredAuraSpellID` |
+   | `hasRequiredAura` | *"True if there is a requiredAuraID and the caster currently has that aura"* — the client evaluating the condition **for you**, against this character's build |
+
+   `hasRequiredAura` is what makes the trap above disappear: a caller that keeps only the rows
+   where `requiredAuraID == 0 or hasRequiredAura` gets the cost this character actually pays,
+   with no talent-set bookkeeping. That is also why the Throw Glaive case is not evidence that
+   a static table disagrees with the client — the table was right and the read was partial.
+
+   **Costs are static per spell, so cache them out of combat.** Nothing in
+   `SpellPowerCostInfo` is a live magnitude; the whole tuple is a property of the spell and the
+   build, not of the moment. Read it once at load and again on `PLAYER_ENTERING_WORLD` /
+   `SPELLS_CHANGED` / talent or spec change, and every later comparison is against an ordinary
+   cached Lua number — readable in restricted combat by construction, because it never came
+   from a restricted read. This is what makes a projected-resource decision possible at all:
+   the *current* secondary value is readable for the seven never-secret types above, the cost is
+   cached, and only their combination has to happen in combat.
 3. **It is BINARY.** It is false at 40 Fury and at 170 alike, so **overcap avoidance is
    unrecoverable through it**. If you need "how full is the bar", the only route is §4.8's
    curve trick — `UnitPowerPercent(unit, type, unmodified, curve)` evaluated in C and handed
@@ -2820,6 +2954,25 @@ ship at the commits recorded in `sources.md` §3.1.
 - **[gap] `SecretArguments` on the secret-testing primitives is internally
   inconsistent** with Blizzard's own statement that addons should call
   `issecretvalue`. See §4.4. Unresolved.
+- **[gap] No per-spell resource-GENERATION counterpart to `C_Spell.GetSpellPowerCost` was
+  found.** Cost has a first-class API returning a resolved, build-aware tuple (§4.12); the
+  amount a spell *grants* has no equivalent that turned up. So the incoming half of any "will I
+  have enough after this cast" arithmetic has to come from an authored static table — the spec's
+  own priority data — cached alongside the cost, exactly the same way and on the same refresh
+  events. Looked at:
+  `[searched 2026-08-21: every Function name in the 12.1.0 generated-docs tree matching
+  Energize|PowerGain|PowerRegen|Regen|Generat, and every Documentation string matching
+  energize|generates|resource gain|power gain; raw/wago/SpellPower.csv and
+  SpellEffect-12.1.0.69214.csv column lists]`.
+  Two near-misses worth naming so they are not re-found and mistaken for the answer.
+  `GetPowerRegen()` / `GetPowerRegenForPowerType(powerType)` exist and return
+  `basePowerRegen, castingPowerRegen` — that is **passive tick rate**, not what a cast grants,
+  and both carry `SecretWhenUnitStatsRestricted`
+  `[T1 docs @12.1.0: PlayerScriptDocumentation.lua — GetPowerRegen, GetPowerRegenForPowerType]`.
+  And `SpellEffect` in DB2 does encode energize effects, but as a per-effect `Effect` /
+  `EffectAura` / `EffectBasePointsF` row with no resolved-per-character accessor and no
+  `hasRequiredAura` equivalent — deriving a build-correct number from it is a much larger job
+  than reading a cost tuple, and is not the same kind of source.
 - **[gap] `IsPreventingSecretValues()` is undocumented.** It exists at
   `SimpleFrameScriptObjectAPIDocumentation.lua:114`; nothing in the source, the
   docs, or the wiki says what sets the state.

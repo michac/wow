@@ -7,7 +7,7 @@
 precisely so those citations keep working.
 
 **Cross-links.** `catalog.md` beside this file is the definition — roster, lanes, cues, contract
-boundary. `../spec.md` §3.6 owns the readable/sealed boundary, `../pattern-shelf.md` the recipes,
+boundary. `../spec.md` §3.6 owns the readable/sealed boundary, `../authoring.md`'s recipe index the recipe IDs,
 `../render-shelf.md` every pixel. **Three files per spec** (`../authoring.md` §0): a definition,
 its proof, and its safety case.
 

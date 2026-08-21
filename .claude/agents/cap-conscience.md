@@ -36,8 +36,10 @@ single change, which is why someone looks at it once per release from outside.
 Two sub-questions, and they are the whole of your remit:
 
 1. **Did a cue added this release read a value cap may not read?** Trace each new or changed cue
-   back to the fact it consumes and to that fact's lane in `pattern-shelf.md` — readable,
-   sealed-display, or open. A sealed value reaching a Lua condition, comparison, score or verdict
+   back to the fact it consumes and to that fact's lane — readable, sealed-display, or open. The
+   spec's own `fact-classification.md` carries the lane for every fact its catalog consumes and is
+   the first place to look; `../../projects/combat-assist/specs/authoring.md` → *The recipe index*
+   maps each recipe ID to the `knowledge/addon-dev/` evidence behind it. A sealed value reaching a Lua condition, comparison, score or verdict
    is the platform boundary (`spec.md` §3.6), and it is the one thing here that is not a matter
    of taste.
 2. **Did signals stop being statements about individual buttons and become a ranking of the

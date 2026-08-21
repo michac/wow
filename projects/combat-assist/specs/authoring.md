@@ -7,8 +7,9 @@ It owns no gameplay opinion, no player-visible behavior and no status.
 Everything here is downstream of `spec.md` §1. Where a stage restates a rule, the cited section
 is the authority and this file is the reminder of *when* it applies.
 
-**Who owns what.** `spec.md` owns approved behavior. `pattern-shelf.md` owns the recipes
-(`R1`…`R10`, `S1`…`S6`, the Part-3 seams) and their `knowledge/addon-dev/` evidence.
+**Who owns what.** `spec.md` owns approved behavior. **This file owns the recipe namespace**
+(`R1`…`R10`, `S1`…`S9`, the mechanism seams) — see *The recipe index* below — while every recipe's
+*evidence* lives in `knowledge/addon-dev/`, which the index points into.
 `backlog.md` → `## Status` owns what is built and what has flown. `notes.md` owns dated history.
 `discussion.md` owns undecided product questions. This file owns the order the work happens in.
 
@@ -86,8 +87,8 @@ and the honest gaps.
 
 **Entry:** stage 2 exit.
 
-Enumerate only the facts those rules require, and tag each one against `pattern-shelf.md`
-Parts 1–2 (`spec.md` §3.6 is the boundary):
+Enumerate only the facts those rules require, and tag each one against *The recipe index*
+below (`spec.md` §3.6 is the boundary):
 
 - **readable** — Lua may compare, index, add or truth-test it. Drives emphasis tiers and readable
   markers.
@@ -95,8 +96,9 @@ Parts 1–2 (`spec.md` §3.6 is the boundary):
   truth-tested. cap reports `offered` / `armed` / `refused` and never reads back.
 - **open** — unmeasured, or no API. Produces **no hint**.
 
-Every tagged fact points at its recipe and that recipe's `knowledge/addon-dev/` evidence. A fact
-with no recipe is either a new Part-3 seam (stage 6) or an open fact (stage 5).
+Every tagged fact points at its recipe ID and, through the index, at that recipe's
+`knowledge/addon-dev/` evidence. A fact with no row in the index is either a fact the KB covers
+under no recipe ID (check there first), a new mechanism seam (stage 6), or an open fact (stage 5).
 
 **A threshold on a secret is expressible**, in either polarity, as an authored curve the client
 evaluates (`spec.md` §3.6) — the platform seals the *value*, not a break point authored against it.
@@ -158,8 +160,8 @@ add it to the `.toc` and register it. Resolve override spell IDs via `overrideSp
 **Gameplay choices stay in the catalog. Unknown-safe evaluation stays in `Signal`. Pixels stay in
 shared treatment/overlay code.**
 
-**The renderer test** (`pattern-shelf.md` Part 3, the marker seam — the definition-of-done for
-`backlog.md` → Phase 9.4)**:** a spec that reuses an existing tier
+**The renderer test** — the **marker seam** in *The recipe index* below, and the definition-of-done
+for `backlog.md` → Phase 9.4**:** a spec that reuses an existing tier
 and an existing marker/channel shape **edits nothing** in `Treatment.lua` / `Overlay.lua` — it is
 authored purely as catalog data. A renderer edit means the slice introduced a new marker shape or
 channel pairing. Write a shared helper when this slice needs one.
@@ -192,7 +194,8 @@ record the player's report in their own terms. Read captures **afterward**, only
 route armed and why the observed result may have happened.
 
 Captures never overrule the player's visual judgment: **accepted is not drawn**
-(`pattern-shelf.md` Part 2). Occupancy and refusal rates are diagnostics, not acceptance quotas.
+(*Accepted is not drawn*, in the index below). Occupancy and refusal rates are diagnostics, not
+acceptance quotas.
 `flight-reading.md` says what each stream can and cannot prove. SavedVariables flush only on
 `/reload` or logout.
 
@@ -240,13 +243,124 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
   row, whose negative carries `[searched 2026-08-17: PowerType.csv, the CDM readable surface, the
   shipped UI's DemonHunterSoulFragmentsBar]`.
 
+---
+
+## The recipe index
+
+**What this is.** The `R#` / `S#` namespace the catalogs, scenarios and fact-classifications
+cite, mapped to where the evidence actually lives. It **makes no claims** — every cell is an ID,
+a lane and a pointer. A row that stops resolving is a broken link, not a stale fact, and that is
+the only failure mode it has.
+
+**Why the IDs live here and the evidence lives in `knowledge/addon-dev/`.** The evidence is
+general client knowledge and belongs in the gated KB, where `wowkb.kblint` reaches it and the
+front-matter provenance conventions apply. The IDs are cap's own shorthand — `S7` means nothing
+to anyone not authoring a cap spec — and the KB's own rules bar a project-scoped pointer from a
+`knowledge/addon-dev/**` claim. So the namespace stays here and the anchors point out.
+
+**How to use it in stage 3.** Tag each fact `readable` / `sealed-display` / `open` against
+`spec.md` §3.6 — that section, not this table, is the normative boundary. Then find the row whose
+ID the catalog will cite, and read the anchor. The anchor is the evidence; this row is only the
+address.
+
+⚠ **A fact with no row here is not automatically open.** It may be a fact the KB covers under no
+recipe ID at all — check `knowledge/addon-dev/` before concluding a gap, and if it is genuinely
+unmeasured, route it per stage 5.
+
+### Part 1 — readable facts
+
+| ID | The question | Lane | Anchor in `knowledge/addon-dev/` |
+| --- | --- | --- | --- |
+| `R1` | Can I afford this cast? | readable | `security-taint-and-restricted-data.md` §4.12 → *The sanctioned replacement: `C_Spell.IsSpellUsable`*, including its three traps (read the **second** return; it is binary) |
+| `R2` | Is it ready / on cooldown? | readable, but not by polling in combat | `cooldown-manager.md` §7 Tier 3 → `C_Spell.GetSpellCooldown` (per-member seal; `isActive`/`isEnabled`/`isOnGCD` plain). The alert-edge latch: `cooldown-manager.md` §5.1. The scratch-widget boolean: `cdm-rider-patterns.md` §2.3 |
+| `R3` | Secondary vs primary resource level | readable for exactly seven power types; sealed for every primary | `security-taint-and-restricted-data.md` §4.12 (the per-type split, `C_Secrets.GetPowerTypeSecrecy`, and `UnitPowerMax` being a different predicate). Mirrored in `cooldown-manager.md` §7 Tier 3 → `UnitPower` |
+| `R4` | Static resource cost, and generation | readable — cached plain numbers, never a combat read | `security-taint-and-restricted-data.md` §4.12 trap 2 → the `SpellPowerCostInfo` tuple, `requiredAuraID` / `hasRequiredAura`, and the cache-out-of-combat rule. Generation has no API: §6 Gaps |
+| `R5` | Projected secondary resource across an in-flight cast | readable by construction (all inputs are) — **no consumer yet** | Composition of `R3` + `R4`; the caching half is §4.12 trap 2. The in-flight cast's identity must come from `R9`'s readable route, never the cast API |
+| `R6` | Is a charge-spell castable? | `maxCharges` / `isActive` readable; the current count seals below full | `cooldown-manager.md` §7 Tier 3 → `C_Spell.GetSpellCharges`; `observations.md` OBS-066 for the 2/2 vs 1/2 vs 0/2 measurement. The estimator's debit trigger is `R9`, per `cdm-rider-patterns.md` §9.2 |
+| `R7` | Transform-safe identity (a spell that switches mid-combat) | readable | `cooldown-manager.md` §2 rung 4 → `overrideSpellID` is always populated, so the only honest test is `overrideSpellID ~= spellID`; §2.8 and §3.3 for the charge ladder's different choice |
+| `R8` | Pandemic window | readable as a **boolean**, sealed as a number | `cooldown-manager.md` §5.2 (`PandemicTime` is one-shot per instance) and §7 Tier 2 → `item.PandemicIcon`. Tab-1 rows only |
+| `R9` | What am I casting right now? | **split** — readable via the press, sealed via the cast API | `cdm-rider-patterns.md` §9.1 (press hooks + `GetActionInfo`) and §9.2 (the `SecretWhenUnitSpellCastRestricted` annotation on every `UNIT_SPELLCAST_*` event and on `UnitCastingInfo`) |
+| `R10` | A rolling history of the last N casts | readable ring from presses; sealed ring from confirmed casts | `cdm-rider-patterns.md` §9.2 → the two-source table and the consequence for a charge ledger |
+
+### Part 2 — sealed-display cues
+
+| ID | The cue | Lane | Anchor in `knowledge/addon-dev/` |
+| --- | --- | --- | --- |
+| `S1` | Primary resource as a display cue | sealed-display | `security-taint-and-restricted-data.md` §4.12 trap 3 → `UnitPowerPercent(unit, type, unmodified, curve)` evaluated in C; §4.8.1 for which sinks carry a secret |
+| `S2` | Aura stack count, shown/hidden by value | sealed-display | `security-taint-and-restricted-data.md` §3.5 → the `ApplyApplicationCount` two-branch path. `S2` is its **zero-configuration case** (`elseif applications > 1`), not a ceiling — `S7` is the general form |
+| `S3` | Show/hide by whether a cooldown is up | sealed-display | `cdm-rider-patterns.md` §2 + §2.1 → the Step curve into `SetDesaturation` / `SetAlpha`; `security-taint-and-restricted-data.md` §4.8 finding 4 for why a duration object is itself a curve evaluator |
+| `S4` | Show/hide by cooldown-remaining within a RANGE | sealed-display | `cdm-rider-patterns.md` §2.2 → the break point at the threshold, and the guard-and-floor rule for a threshold that is itself secret |
+| `S5` | An aura's remaining duration as text in a custom place | ⛔ **the instance-ID route is not to be built on** | `cooldown-manager.md` §5.2 → the 12.0.7 measurement and the `@verify-ingame` on the plain `auraInstanceID` it rests on. The replacement is the container's own sinks: `security-taint-and-restricted-data.md` §3.5 |
+| `S6` | Totem duration as text, and occupied/empty | sealed-display; the show/hide half is readable | `cooldown-manager.md` §7 Tier 3 → `GetTotemDuration` carries no seal while `GetTotemInfo` / `GetTotemTimeLeft` do; `GetNumTotemSlots()` measured **5** on a Warlock, so a loop sized by the legacy 4-slot global undercounts. Readable liveness on a CDM totem row: §7 Tier 2 → `item.Bar.Pip:IsShown()` |
+| `S7` | Aura stack count in a BAND | sealed-display | `security-taint-and-restricted-data.md` §3.5 → the `NumericRuleFormatter` surface (breakpoints, the `min`/`max` input-clamp trap, the `SecondsFormatterMixin` lookalike); §3.5.2 for the flight that proved a tainted-created formatter is honoured |
+| `S8` | Per-band COLOUR on a banded count | sealed-display | `security-taint-and-restricted-data.md` §3.5.2 → inline colour escapes survived the formatter on this build, the static-hue floor via `SetTextColor`, and the bundled-font fallback if a later build starts sanitising |
+| `S9` | Pandemic window as a client-drawn texture | sealed-display | `security-taint-and-restricted-data.md` §3.5.2 → `AddPandemicRegion`, Blizzard's own window rather than the community 30 %, the `OnUpdate` cost, and the aura-id-is-not-the-cast-id trap |
+
+⚠ **All three AuraContainer forms share one gate**: `initializeFrame` is the only window in which
+any sink may be registered, every sink widget must be a descendant of the button, and buttons are
+created in batches — so nothing may be inferred from how many times the callback fires.
+`security-taint-and-restricted-data.md` §3.5 owns that gate and its four constraints.
+
+### Part 3 — mechanism seams
+
+Reusable seams the recipes imply. Author each when its **first** real consumer needs it; none is
+prebuilt (see the standing rules).
+
+| Seam | What it is | Where |
+| --- | --- | --- |
+| Duration acquisition | Four sources, one return type (`LuaDurationObject`): spell cooldown, charge recharge, totem — and, for auras, the container's own sinks rather than an instance-ID call (`S5`). Keep identity + liveness per-source; share only the curve/sink plumbing | `cdm-rider-patterns.md` §2, §3.1 |
+| Curve guard | Feature-gate `C_CurveUtil.CreateCurve`, `Enum.LuaCurveType.Step` and `Enum.DurationTimeModifier`; return the inert path on any missing piece. Curves and durations are `userdata`, not tables | `cdm-rider-patterns.md` §2 |
+| Sink routing | Which sinks accept a secret directly vs which carry secrecy inside a duration object. Never read back | `cdm-rider-patterns.md` §1.2; `security-taint-and-restricted-data.md` §4.8.1 |
+| Identity resolution + re-seed | `R7`'s transform-safe read, plus re-seeding any estimate when the override id changes | `cooldown-manager.md` §2 |
+| **The marker seam** | Tier→pixels lives in the shared treatment/overlay code. A spec reusing an existing tier and an existing marker/channel shape **edits nothing** there and is authored purely as catalog data. This is stage 6's **renderer test**, and the definition-of-done `backlog.md` → Phase 9.4 refers to | stage 6 of this file |
+
+### The anti-patterns
+
+- **Branching on a secret.** Comparing, indexing, adding or truth-testing one aborts the handler —
+  and every later frame of a `pairs()` loop with it. Guard **secret-first**: `issecretvalue` (or
+  `canaccessvalue`), branch on the class, then compare. ⚠ **`type()` is not a guard** — it returns
+  a secret's real type, so `type(x) ~= "number"` *passes the secret through*. See
+  `security-taint-and-restricted-data.md` §4.3 Trap 1.
+- **Identity off `item:GetSpellID()`** — secret, and the secret set moves between reads. Use
+  `overrideSpellID` (`R7`).
+- **"0 charges" from `IsSpellUsable`** — it is unusable for many reasons, and a secret count leaves
+  zero genuinely unknown (`R1`, `R6`).
+- **Keying a ledger on `UNIT_SPELLCAST_SUCCEEDED`** — its `spellID` is sealed under restriction.
+  Debit on the press (`R9`, `R10`).
+- **Reading a cost off `ManaCost` alone** — cost rows are conditional; honour `requiredAuraID` /
+  `hasRequiredAura`, or use the API tuple that resolves them for you (`R4`).
+- **Reading a duration or a sink back** — *accepted is not drawn*, below.
+- **Carrying a charge estimate across a transform** — re-seed on the override flip (`R7`).
+
+### ⚠ Accepted is not drawn — the one statement of it
+
+Every sealed-display sink is aspect-less on readback: **the call being accepted is not proof a
+pixel appeared.** A capture reports `offered` / `armed` / `refused`, never `drew`, and a display
+question is closed only by an eyeball. `spec.md` §6, stage 8 above, `flight-reading.md` and the
+anti-patterns above all point here rather than restating it.
+
+The client fact underneath it — which setters accept a secret directly, and that none of them
+exposes a readback — is `security-taint-and-restricted-data.md` §4.8.1.
+
+### Canonical examples, and the gate terms
+
+When you need an existing row to author against: Demonbolt = proc + resource, Tyrant = readiness +
+readable markers, Conflagrate = charged readiness, Backdraft = sealed stacks, Immolate =
+aura-duration display, Dreadstalkers = totem-duration display.
+
+The gate terms a catalog may name, and the reads behind them, are the transcription's business,
+not the KB's — read them off the current source vocabulary at stage 6 rather than from any
+document, since a stale worktree transcribes against dead names.
+
+---
+
 ## Where a thing gets written
 
 | The thing | Its home |
 | --- | --- |
 | Priority order, talents, gearing | `knowledge/classes/<class>/<spec>/` |
-| A measured client fact | `knowledge/addon-dev/` |
-| A recipe and its evidence | `specs/pattern-shelf.md` |
+| A measured client fact, and the evidence behind any recipe | `knowledge/addon-dev/` |
+| A recipe ID (`R#` / `S#` / a mechanism seam) and where its evidence lives | this file → *The recipe index* |
 | What a cue looks like — art, color, motion, placement | `specs/render-shelf.md` |
 | Why it looks that way — alternatives, reasoning, rejects | `specs/render-rationale.md` |
 | A spec's roster, lanes, cues, state walk | `specs/<spec>/catalog.md` |

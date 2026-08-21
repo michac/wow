@@ -886,3 +886,41 @@ season turnover is a KB edit, not a code edit.
 
 ⚠ Until it is fixed, **do not quote the tool's discount line** — read the
 Mist ladder off `endgame/dawncrests.md` and the gear table by hand.
+
+---
+
+## 1174 rotting line-number locators in `knowledge/addon-dev/` *(2026-08-21)*
+
+Filed by `wowkb.citecheck`, the citation-resolution gate added when
+`projects/combat-assist/specs/pattern-shelf.md` was dissolved into the KB.
+
+The gate's rule is that a Tier-1 citation should anchor on a **symbol** (and,
+where it quotes, a verbatim fragment), never on a line number. The reason is
+measured: `Blizzard_SharedXML/Dump.lua` is 486 lines in both 12.0.7.68887 and
+12.1.0.69273 with `type(val)` at 98 / 149 / 309 in **both**, while
+`CooldownViewer.lua` went 2168 → 2374 lines over the same interval. So a line
+anchor is right in the files Blizzard did not touch and silently wrong in the
+ones it reworked — and nothing about the citation itself distinguishes them. That
+is exactly what the pattern-shelf audit found: every
+`Blizzard_CustomAuraButton.lua` citation exact, every `cooldown-manager.md` one
+wrong.
+
+**The size of the job, as the tool currently measures it:**
+
+- **11** symbol-anchored citations — all resolve, and these are gated (exit 1).
+- **392** line-anchored citations inside a `[T1 src …]` / `[T1 docs …]` bracket.
+- **1174** `File.lua:123` locators in the subtree once the ones written inline in
+  prose (rather than inside a citation bracket) are counted too.
+
+```bash
+cd tools
+uv run python -m wowkb.citecheck --lines    # every one of them, with its file:line
+```
+
+**Not scheduled.** Repairing them is mechanical but not cheap — each one has to
+be re-resolved against the right clone and rewritten as a symbol, and a wrong
+re-resolution is worse than the stale number. The right time is probably a
+patch-day sweep of one file at a time, highest-churn file first
+(`cooldown-manager.md`, then `security-taint-and-restricted-data.md`). New
+citations should be written symbol-anchored from the start; the gate enforces
+that they resolve.

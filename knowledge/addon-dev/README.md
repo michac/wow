@@ -583,3 +583,34 @@ for f in knowledge/addon-dev/*.md; do
        {print FILENAME":"FNR":"$0}' "$f"
 done | grep -E 'OBS-[0-9]{3}|projects/|CDMProbe|BucketBinds|PlannerState|ClientLab|(^|[^A-Za-z0-9_/])/(cdmp|clab|bb|ps|cap)([^A-Za-z0-9_]|$)|wowkb\.(capture|cdmp|lab|obs|addon|diagnostics)|raw/[^ ]*\.log'
 ```
+
+### How a Tier-1 citation is anchored
+
+**Anchor on the SYMBOL, and quote the fragment that matters. Never on a line number alone.**
+
+```
+[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+                 CustomAuraButtonPrivateMixin:ApplyApplicationCount]
+```
+
+The reason is measured, not stylistic. `Blizzard_SharedXML/Dump.lua` is **486 lines in both**
+12.0.7.68887 and 12.1.0.69273, with `type(val)` at 98 / 149 / 309 in both — while
+`CooldownViewer.lua` went **2168 → 2374** lines over the same interval. A line anchor is
+therefore exact in the files Blizzard did not touch and silently wrong in the ones it reworked,
+and **nothing about the citation distinguishes them without re-resolving it**. A symbol survives
+reflow; when the symbol itself goes, the citation fails **loudly**, which is the event worth
+catching, because it means the claim standing on it is describing code that no longer exists.
+
+A quoted fragment does the same work for prose: a `Documentation` string or a comment quoted
+verbatim is findable by grep and is its own proof that the wording has not changed under it.
+
+`wowkb.citecheck` is the gate. It resolves the named file in the matching clone
+(`@12.1*` → `raw/addon-research/wow-ui-source-12.1.0`, anything else → `wow-ui-source`) and
+greps for the cited symbol; a symbol that does not resolve exits 1. **Line-anchored citations are
+counted, never failed** — 1174 of them predate this rule, and `_meta/kb-inbox.md` carries the
+repair job rather than blocking every future edit on it.
+
+```bash
+uv run python -m wowkb.citecheck             # the gate
+uv run python -m wowkb.citecheck --lines     # the legacy line locators, with file:line
+```

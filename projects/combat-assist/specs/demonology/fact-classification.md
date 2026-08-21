@@ -9,7 +9,7 @@ spec: Demonology Warlock (Diabolist) — specID 266, hero tree 59, Midnight 12.1
 
 **Cross-links.** `catalog.md` (beside this file) is the definition — roster, lanes, markers,
 contract boundary. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns the recipes; `../render-shelf.md` owns every pixel and this file
+`../authoring.md`'s recipe index owns the recipe IDs and their evidence anchors; `../render-shelf.md` owns every pixel and this file
 describes none. Priority source: `knowledge/classes/warlock/demonology/simc-apl.md` (Tier 1,
 generated, commit `51d49d5`), explained by that spec's `rotation.md`; neither is restated here.
 
@@ -35,7 +35,7 @@ back. They are the reason this file has a section 4.
 ## 2. Facts, classified
 
 Every fact the catalog consumes, tagged **readable** / **sealed-display** / **open**, with its
-recipe and evidence (`../spec.md` §3.6 is the boundary; `../pattern-shelf.md` Parts 1–2 own the
+recipe and evidence (`../spec.md` §3.6 is the boundary; `../authoring.md`'s recipe index owns the
 recipes).
 
 | Fact | Lane | Recipe | Evidence | Consumed by |
@@ -65,7 +65,7 @@ recipes).
 
 ## 3. The two transforms, in full — they are what makes this catalog small
 
-`../pattern-shelf.md` R7 names "Shadow Bolt↔Infernal Bolt" as the canonical case, and this is
+`../authoring.md`'s recipe index R7 names "Shadow Bolt↔Infernal Bolt" as the canonical case, and this is
 the catalog it was named for. Both transforms are established from **spell data**, not from a
 secrecy argument, and they are not equally well established.
 
@@ -86,7 +86,7 @@ finds no cooldown either way.
 
 ### The proc measurement
 
-`../pattern-shelf.md` has no recipe for *"is this proc readable"*, and the honest answer is that
+`../authoring.md`'s recipe index has no row for *"is this proc readable"*, and the honest answer is that
 it is a question about **spell data**, not about the secrecy rules. Under 12.1's wholesale aura
 secrecy a buff is sealed — but cap's `proc` predicate is
 `C_SpellActivationOverlay.IsSpellOverlayed(spellID)` (`Sense.lua`'s `readProc`), a plain boolean
@@ -137,7 +137,7 @@ suspect a branch, and they are not one:
 - The count FontString is empty below the threshold and shows the number at or above it. **The
   client draws it from the secret; Lua never reads it.**
 - cap reports `offered` / `armed` / `refused` and never `drew`. **Accepted is not drawn**
-  (`../pattern-shelf.md` Part 2) — whether either number ever appears is an eyeball, not a
+  (`../authoring.md` → *Accepted is not drawn*) — whether either number ever appears is an eyeball, not a
   capture.
 
 **They do not eliminate.** `../render-shelf.md` Part 0.5's reading model has two eliminating

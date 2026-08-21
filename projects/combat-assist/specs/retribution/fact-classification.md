@@ -9,7 +9,7 @@ spec: Retribution Paladin (Templar) — specID 70, Midnight 12.1
 
 **Cross-links.** `catalog.md` (beside this file) is the definition — roster, lanes, markers,
 contract boundary. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns the recipes; `../render-shelf.md` owns every pixel and this file
+`../authoring.md`'s recipe index owns the recipe IDs and their evidence anchors; `../render-shelf.md` owns every pixel and this file
 describes none. Priority source: `knowledge/classes/paladin/retribution/simc-apl.md` (Tier 1,
 generated), explained by that spec's `rotation.md`; neither is restated here.
 
@@ -21,7 +21,7 @@ and its safety case.
 ## Facts, classified
 
 Every fact the catalog consumes, tagged **readable** / **sealed-display** / **open**, with its
-recipe and evidence (`../spec.md` §3.6 is the boundary; `../pattern-shelf.md` Parts 1–2 own the
+recipe and evidence (`../spec.md` §3.6 is the boundary; `../authoring.md`'s recipe index owns the
 recipes).
 
 | Fact | Lane | Recipe | Evidence |
@@ -45,7 +45,7 @@ recipes).
 
 ### The proc measurement, in full — it is what makes this catalog cheap
 
-`../pattern-shelf.md` has no recipe for *"is this proc readable"*, and the honest answer is that
+`../authoring.md`'s recipe index has no row for *"is this proc readable"*, and the honest answer is that
 it is a question about **spell data**, not about the secrecy rules. Under 12.1's wholesale aura
 secrecy a buff is sealed — but cap's `proc` predicate is
 `C_SpellActivationOverlay.IsSpellOverlayed(spellID)` (`Sense.lua`'s `readProc`), a plain boolean

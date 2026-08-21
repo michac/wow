@@ -490,7 +490,7 @@ answer and the one that was available.
   remaining, and the row now carries the **readable** half of the same decision — a hold below
   five Soul Shards, which is an exact Lua comparison. `spec.md` §3.3 still owns the bar's
   semantics and the permission is unchanged; the duration-object recipe stays in
-  `knowledge/addon-dev/` and in `pattern-shelf.md` S6, with **no product code preserved for it**.
+  `knowledge/addon-dev/` and under recipe `S6` in `authoring.md`'s index, with **no product code preserved for it**.
 - **The sealed Backdraft marker has no consumer in the single-target rotation.** Its rungs ask
   whether Backdraft is *absent* (`buff.backdraft.stack<1`), which the readable aura latch answers;
   the sealed **count** is right for the AoE rung that asks for two stacks, and that rung is not

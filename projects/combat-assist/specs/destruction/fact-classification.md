@@ -9,7 +9,7 @@ spec: Destruction Warlock (Diabolist) — specID 267, hero tree 59, Midnight 12.
 
 **Cross-links.** `catalog.md` (beside this file) is the definition — roster, lanes, markers,
 contract boundary. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns the recipes; `../render-shelf.md` owns every pixel and this file
+`../authoring.md`'s recipe index owns the recipe IDs and their evidence anchors; `../render-shelf.md` owns every pixel and this file
 describes none. Priority source: `knowledge/classes/warlock/destruction/simc-apl.md` (Tier 1,
 generated, commit `8ec56ea`), explained by that spec's `rotation.md`; neither is restated here.
 
@@ -37,7 +37,7 @@ sealed lane is empty because the sealed facts got **no** treatment, not because 
 ## 2. Facts, classified
 
 Every fact the catalog consumes, tagged **readable** / **sealed-display** / **open**, with its
-recipe and evidence (`../spec.md` §3.6 is the boundary; `../pattern-shelf.md` Parts 1–2 own the
+recipe and evidence (`../spec.md` §3.6 is the boundary; `../authoring.md`'s recipe index owns the
 recipes).
 
 | Fact | Lane | Recipe | Evidence | Consumed by |
@@ -58,7 +58,7 @@ recipes).
 | `dot.immolate.remains` — the **pandemic window** | **readable as a BOOLEAN, sealed as a number** | R8 | `item.PandemicIcon ~= nil` on a tab-1 row mirrors `IsInPandemicTime` exactly, recomputed every frame, **never secret** (`cooldown-manager.md:1303-1309`, `[client 2026-07-31]`). The *numbers* — `pandemicStartTime` / `pandemicEndTime` — are secret and `IsInPandemicTime(timeNow)` **throws** | **nothing yet.** R8 records *"no cap consumer yet"* and this is that consumer; the predicate does not exist. §5.1 |
 | `variable.ritual_length` | **sealed, no authored form** | — | a sum of three Diabolic Ritual auras' remaining times. S5 can *display* an aura duration (it renders in combat) but there is no aura-remaining **band** — no display kind turns one into a badge | rungs 3 and 13. **No hint.** §5.2 |
 | `demonic_art` — an Art is armed | **partly readable** | R7 | Art: Pit Lord ⇒ row 6 reads `transformed` (Ruination); Art: Mother of Chaos ⇒ row 8 reads `transformed` (Infernal Bolt); **Art: Overlord changes no button.** Diabolic Ritual `428514` holds two Category-2 rows in set 884 (OrderIndex 28, 29) and which is the armed Art is unmeasured | rung 3's first disjunct — **two thirds visible, and not authored as a marker.** §5.3 |
-| `target.health.pct<=20` — execute range | **open** | R1's **first** return, unmeasured | Shadowburn's own Tier-1 description is *"Only usable on enemies that have less than 20% health"* @ 12.1.0.69214, so the gate **is** `isUsable`. R1 warns against the first return **because it is true for a spell on cooldown** — a warning about cooldowns, not about access gates. `[searched 2026-08-19: SpellActivationOverlay @ 12.1.0.69214 (no execute overlay), CooldownSetSpell @ 12.1.0.69214 (no execute-form row for 17877), the ability-inventory tooltip, and pattern-shelf R1's measured set — four Fury-gated Havoc spells, none access-gated]` | rung 7's first disjunct. **No hint.** §5.4 |
+| `target.health.pct<=20` — execute range | **open** | R1's **first** return, unmeasured | Shadowburn's own Tier-1 description is *"Only usable on enemies that have less than 20% health"* @ 12.1.0.69214, so the gate **is** `isUsable`. R1 warns against the first return **because it is true for a spell on cooldown** — a warning about cooldowns, not about access gates. `[searched 2026-08-19: SpellActivationOverlay @ 12.1.0.69214 (no execute overlay), CooldownSetSpell @ 12.1.0.69214 (no execute-form row for 17877), the ability-inventory tooltip, and R1's measured set — four Fury-gated Havoc spells, none access-gated]` | rung 7's first disjunct. **No hint.** §5.4 |
 | `target_if` — which enemy | **not expressible** — and not for a data reason | — | eight of `aoe_dia`'s fourteen rungs carry one. The **facts** are largely routable; what has nowhere to go is the **instruction**: a CDM row is a button, not a target | §5.5 |
 | `active_enemies` | **not modelled** | — | replaced by the `/cap aoe` toggle, as on Havoc and Retribution | the `aoe_dia` entry gate, and rung 3's `>=3` |
 | `raid_event.adds`, `fight_remains`, `target.time_to_die` | **not facts** | — | simulation state. cap does not model the encounter | six rungs. Deliberately unmodelled |
@@ -67,7 +67,7 @@ recipes).
 
 ## 3. The three transforms, in full
 
-`../pattern-shelf.md` R7 names "Shadow Bolt↔Infernal Bolt" as the canonical case; this spec has
+`../authoring.md`'s recipe index R7 names "Shadow Bolt↔Infernal Bolt" as the canonical case; this spec has
 that one plus two more, and **one of them is the best-established override in any catalog.**
 
 | Transform | Established by | Confidence |
@@ -151,7 +151,7 @@ Worth stating explicitly, because an empty section reads like an omission.
   want it**, and OBS-065 already verified it on this exact aura.
 
 So: cap **offers** nothing to a client sink for this spec, **arms** nothing, and has nothing to
-report as `refused`. The whole *"accepted is not drawn"* caution (`../pattern-shelf.md` Part 2)
+report as `refused`. The whole *"accepted is not drawn"* caution (`../authoring.md` → *Accepted is not drawn*)
 has no application here, and every claim this catalog makes is one cap can check in a capture.
 
 ---

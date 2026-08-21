@@ -2,12 +2,13 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-21   # 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
+reviewed: 2026-08-21   # 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
   - "EllesmereUI Cooldown Manager 8.8.4 (live install)"
   - "Blizzard UI source 12.1.0 — Blizzard_ActionBar, Blizzard_SharedXML/BindingUtil.lua, Blizzard_APIDocumentationGenerated/ActionBarFrameDocumentation.lua"
+  - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Blizzard_APIDocumentationGenerated/LuaDurationObjectAPIDocumentation.lua, UnitDocumentation.lua. `[T1 docs @12.1.0]` locators resolve here
 confidence: medium
 ---
 
@@ -136,6 +137,15 @@ encodes the decision, hand it plus the opaque duration object to the engine, and
 engine evaluates the secret internally and returns the mapped result (which may itself be
 secret — and you pipe it straight into an `AllowedWhenTainted` setter).
 
+⚠ **The second argument is the `DurationTimeModifier`, not a fallback value.**
+`EvaluateRemainingDuration(curve, modifier)` declares `modifier` as
+`{ Name = "modifier", Type = "DurationTimeModifier", Nilable = false, Default = "RealTime" }`
+`[T1 docs @12.1.0: LuaDurationObjectAPIDocumentation.lua — EvaluateRemainingDuration]`, and its
+sibling `FormatRemainingDuration` takes the same enum. Passing a number there is passing a
+`DurationTimeModifier` whose value happens to be `0` — it does not supply a value for the
+"duration carries nothing" case, and there is no argument on this method that does. Feature-gate
+`Enum.DurationTimeModifier` alongside the curve enums and pass the member by name.
+
 The opaque duration object comes from one of two spell APIs:
 
 ```lua
@@ -149,7 +159,7 @@ Build a step curve and evaluate it:
 -- Feature-gate everything first; on a client missing any piece, return the fallback.
 if not (durObj and durObj.EvaluateRemainingDuration
         and C_CurveUtil and C_CurveUtil.CreateCurve
-        and Enum and Enum.LuaCurveType) then
+        and Enum and Enum.LuaCurveType and Enum.DurationTimeModifier) then
     return fallback
 end
 
@@ -159,8 +169,9 @@ curve:AddPoint(0, 0)         -- x = remaining seconds, y = mapped result
 curve:AddPoint(0.001, 1)     -- any remaining > 0 maps to 1
 
 -- The engine reads the secret remaining-time, applies the curve, returns the result.
--- Second arg is the fallback used when durObj carries nothing.
-local value = durObj:EvaluateRemainingDuration(curve, 0)
+-- Second arg is the DurationTimeModifier, NOT a fallback -- it selects which clock the
+-- remaining time is measured against, and its documented default is RealTime.
+local value = durObj:EvaluateRemainingDuration(curve, Enum.DurationTimeModifier.RealTime)
 ```
 
 ### 2.1 Desaturate an icon while it is on cooldown
@@ -173,7 +184,7 @@ desatCurve:AddPoint(0, 0)
 desatCurve:AddPoint(0.001, 1)
 
 local function ApplyCooldownDesaturation(frame, durObj)
-    local val = durObj:EvaluateRemainingDuration(desatCurve, 0)
+    local val = durObj:EvaluateRemainingDuration(desatCurve, Enum.DurationTimeModifier.RealTime)
     frame.texture:SetDesaturation(val or 0)   -- AllowedWhenTainted; val may be secret
 end
 ```
@@ -197,7 +208,7 @@ local function GCDTailAlpha(durObj, normalAlpha)
     curve:SetType(Enum.LuaCurveType.Step)
     curve:AddPoint(0, 0)                             -- recharge ends before GCD -> hide
     curve:AddPoint(len, normalAlpha)                 -- recharge outlasts GCD -> show
-    return durObj:EvaluateRemainingDuration(curve, normalAlpha)
+    return durObj:EvaluateRemainingDuration(curve, Enum.DurationTimeModifier.RealTime)
 end
 
 -- consumed straight into an allowed setter:
@@ -811,21 +822,58 @@ AddToMap(C_Spell.GetBaseSpell(cdSpellID), icon)
 -- lookup mirrors the same three forms of the pressed spell.
 ```
 
-### 9.2 "The player actually cast this spell" (confirmed)
+### 9.2 "The player actually cast this spell" — authoritative, and SEALED on identity
 
-For debiting a charge estimate or any ledger that must not count a fat-fingered key, use
-the confirmed-cast event, filtered to the player:
+The obvious answer to "did that cast land" is the confirmed-cast event, filtered to the player:
 
 ```lua
 frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
 frame:SetScript("OnEvent", function(_, _, unit, castGUID, spellID)
-    if unit == "player" then RecordCast(spellID) end
+    if unit == "player" then RecordCast(spellID) end   -- ⚠ spellID may be SECRET here
 end)
 ```
 
-The two are complementary: press-hooks are immediate but predictive (a press can be
-cancelled or out of range); `UNIT_SPELLCAST_SUCCEEDED` is authoritative but arrives after
-the server confirms.
+⚠⚠ **`spellID` on this event is not readable in restricted combat, so it cannot key a ledger.**
+`UNIT_SPELLCAST_SUCCEEDED` carries `SecretWhenUnitSpellCastRestricted = true`, and of its four
+payload fields only `castBarID` is marked `NeverSecret` — `unitTarget`, `castGUID` and **`spellID`
+are not**
+`[T1 docs @12.1.0: UnitDocumentation.lua — Event UnitSpellcastSucceeded, LiteralName
+UNIT_SPELLCAST_SUCCEEDED]`. The same annotation sits on every sibling `UNIT_SPELLCAST_*` event and
+on `UnitCastingInfo` / `UnitChannelInfo`, whose result structures mark only `castBarID`,
+`delayTimeMs` and `isTradeskill` `NeverSecret`
+`[T1 docs @12.1.0: UnitDocumentation.lua — UnitCastingInfo, UnitCastingInfoResult,
+UnitChannelInfoResult]`. So *which* spell is being cast is a **sealed-display** fact under
+restriction: forward it to a client-owned sink, never compare, index or truth-test it.
+
+The one thing this channel still gives you is the **fact and timing** of a cast, which is plain:
+the event fired, and `castBarID` is readable. Anything more specific than "a cast completed" has
+to come from somewhere else.
+
+⚠ **The restricted case is Tier-1 annotation, not measurement.** The one in-client reading on
+record was taken **unrestricted** and found a plain `spellID` (`cooldown-manager.md` Tier 3), which
+does not bear on the sealed-in-instance case either way. `@verify-ingame` — read
+`issecretvalue` on `UNIT_SPELLCAST_SUCCEEDED`'s `spellID` inside an instance, in combat.
+
+**So the readable route is the press, and the two are NOT interchangeable.**
+
+| | §9.1 press hook | `UNIT_SPELLCAST_SUCCEEDED` |
+|---|---|---|
+| when | key-down, before any server round-trip | after the server confirms |
+| what it means | *what I tried* — a press can be cancelled, out of range, or fail | *what landed* |
+| the spell id | **readable** — it comes off the action bar (`GetActionInfo`), not from combat state | **sealed under restriction** |
+| may key a ledger | yes | no |
+
+**A rolling history of recent casts follows the same split, and the lane follows the source.** A
+ring buffer fed from the **press** route is the addon's own plain data and is fully branchable —
+it is a history of intents. A ring fed from `UNIT_SPELLCAST_SUCCEEDED` is a history of confirmed
+casts whose entries are sealed, so it is forward-to-display only; it can be *shown*, and it can be
+*counted* (the count is yours), but no entry in it may be compared to a spell id.
+
+**The consequence for §3's charge estimator:** the readable trigger for "the tracked spell was
+just cast" is the **press**, or a CDM charge-alert edge — not the confirmed-cast event, because
+its id cannot be matched against the tracked spell under restriction. Debit on the readable
+trigger and treat `UNIT_SPELLCAST_SUCCEEDED` as timing only. Match the pressed id under the whole
+`{self, override, base}` set (§9.1) so a transform does not silently stop debiting.
 
 ---
 

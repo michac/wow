@@ -2,7 +2,7 @@
 
 **Purpose.** A single audit table for every fact the Havoc / **Fel-Scarred** catalog relies on.
 For each fact it names the safety lane (readable / sealed-display / open), the canonical
-pattern-shelf recipe it maps to, the `knowledge/addon-dev/` evidence behind that recipe, and the
+recipe ID it maps to, the `knowledge/addon-dev/` evidence behind that recipe, and the
 catalog row(s) and cue that consume it. Read it as the proof obligation for `../spec.md` §3.6:
 no sealed fact ever enters a Lua condition, and no open fact is silently treated as known. It
 classifies **only** what `catalog.md` consumes — if a fact is not in that catalog, it is not
@@ -11,7 +11,7 @@ not classified here.)
 
 **Cross-links.** Normative catalog: `catalog.md` (beside this file, Fel-Scarred). Priority walk
 that consumes these facts scenario-by-scenario: `scenarios.md` (beside this file). Recipe bodies +
-their evidence: `../pattern-shelf.md` (`R1`…`R10`, `S1`…`S6`, Part-3 seams). Safety boundary and
+their evidence: `../authoring.md`'s recipe index (`R1`…`R10`, `S1`…`S9`, the mechanism seams). Safety boundary and
 product surface: `../spec.md` §3.1 (the two-tools split — emphasis vs cues) and §3.6 (the
 readable/sealed data-path rule). Sealed forms are named here as the **code** names them — `player-aura-stacks`,
 `sealed-power-percent`, `sealed-cooldown-range` — and `../spec.md` §3.6 uses the same three.

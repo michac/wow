@@ -11,6 +11,12 @@ surgery actually acted on plus every PROCESS rule that survived because it names
 so that a rule cut on **2026-08-15** can be found again, with its old text and the reason, if its
 absence turns out to cause a real mistake.
 
+⚠ **Every `pattern-shelf.md` locator below is a historical address.** That file was dissolved on
+2026-08-21 — its client evidence into `knowledge/addon-dev/`, its `R#` / `S#` namespace and the
+single statement of *accepted is not drawn* into `authoring.md` → *The recipe index*. The rows are
+kept as the record of where a rule or a copy stood on 2026-08-15, which is the whole point of this
+ledger; none of them resolves today.
+
 **The governing principles it was applied under.** Too loose is the correct failure mode; a rule
 gets re-added *after* a dated mistake, never pre-emptively. BORDERLINE resolves to CUT. Worked
 examples (the Havoc catalog + scenario walk) beat stated rules. Line numbers below are
@@ -89,8 +95,15 @@ examples (the Havoc catalog + scenario walk) beat stated rules. Line numbers bel
 ## 5 · Fact caveats — all kept, deduplicated
 
 **"Accepted ≠ drawn" was stated eleven times across five files.** Eleven copies is drift waiting to
-happen, not eleven insights. It is now stated **once**, at `pattern-shelf.md:234-238`, in Part 2
-where sink behaviour is defined; the other ten cite it.
+happen, not eleven insights. It was consolidated to **one** statement, in `pattern-shelf.md` Part 2
+where sink behaviour was defined; the other ten cite it.
+
+⚠ **Superseded 2026-08-21 as to WHERE, not as to WHAT.** `pattern-shelf.md` was dissolved into
+`knowledge/addon-dev/` and `authoring.md`; the single home of *accepted is not drawn* is now
+`authoring.md` → *Accepted is not drawn*, and the client fact under it is
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §4.8.1. The consolidation itself
+stands — one statement, everything else citing it — and every `pattern-shelf.md` locator in the
+table below is a record of where a copy *was*, not a live address.
 
 | Copy | Was | Now |
 | --- | --- | --- |

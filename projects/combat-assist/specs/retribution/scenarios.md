@@ -9,7 +9,7 @@ spec: Retribution Paladin (Templar) — specID 70, Midnight 12.1
 
 **Cross-links.** `catalog.md` (beside this file) is the definition — roster, lanes, markers,
 contract boundary. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../pattern-shelf.md` owns the recipes; `../render-shelf.md` owns every pixel and this file
+`../authoring.md`'s recipe index owns the recipe IDs and their evidence anchors; `../render-shelf.md` owns every pixel and this file
 describes none. Priority source: `knowledge/classes/paladin/retribution/simc-apl.md` (Tier 1,
 generated), explained by that spec's `rotation.md`; neither is restated here.
 

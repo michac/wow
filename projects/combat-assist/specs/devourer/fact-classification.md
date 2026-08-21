@@ -7,7 +7,7 @@
 precisely so those citations keep working.
 
 **Cross-links.** `catalog.md` beside this file is the definition — roster, lanes, cues, contract
-boundary. `../spec.md` §3.6 owns the readable/sealed boundary, `../pattern-shelf.md` the recipes,
+boundary. `../spec.md` §3.6 owns the readable/sealed boundary, `../authoring.md`'s recipe index the recipe IDs,
 `../render-shelf.md` every pixel. **Three files per spec** (`../authoring.md` §0): a definition,
 its proof, and its safety case.
 
@@ -16,7 +16,7 @@ its proof, and its safety case.
 ## 4. Fact classification
 
 Every fact this catalog would consume, tagged **readable** / **sealed-display** / **open**
-against `../pattern-shelf.md` Parts 1–2, with the evidence behind it. `../spec.md` §3.6 is
+against `../authoring.md`'s recipe index, with the evidence behind it. `../spec.md` §3.6 is
 the boundary: **no sealed fact appears in a proposed Lua condition, in either polarity.**
 
 ### 4.1 The resources: both sealed, for different reasons

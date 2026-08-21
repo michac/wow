@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-21   # 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
+reviewed: 2026-08-21   # 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
 sources:
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1770,8 +1770,16 @@ target debuff. Until then prefer the route that never holds one: the managed Aur
 duration sinks (`SetDurationCooldown` / `SetDurationText`) are handed the duration object by the
 client `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua:139-192]`.
 
-**But the record's plain `auraInstanceID` opens the duration-object route, and that DOES
-work — on both sides.** `[client 2026-08-05]`, Destruction, in combat, 30 item frames:
+**The duration-object route below WORKED on 12.0.7 — and it rests entirely on the row above,
+whose 12.1 class is unconfirmed.** Read it as a measurement of the mechanism, not as a route to
+build on today: every line of it begins by holding a plain `auraInstanceID`, so if that row has
+flipped the whole chain refuses at its first call and nothing else changes. Build a new aura
+duration display on the AuraContainer's own sinks, which are handed the duration object by the
+client and never make an addon hold an instance ID at all
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua — SetDurationCooldown /
+SetDurationText]`. `security-taint-and-restricted-data.md` §3.5.2 carries the flown chain.
+
+`[client 2026-08-05]`, Destruction, in combat, 30 item frames:
 
 ```lua
 local unit = item.auraDataUnit                 -- plain: "player" | "target"
@@ -1812,11 +1820,12 @@ bar:SetTimerDuration(C_UnitAuras.GetAuraDuration(item.auraDataUnit,
 in-combat remaining-time *read* stays unanswerable. What changed is that you can **show**
 it. A HUD can draw an honest DoT timer it is not allowed to inspect.
 
-What the record *also* adds is
+What the record *also* added on that build is
 `auraInstanceID` as a **plain, in-combat, per-aura identity** — enough to tell "the same
-aura instance is still on the target" from "a different one is", which is a genuinely new
-in-combat fact even though it carries no timing. Pair it with `auraDataUnit` (which side
-the aura is on) and `PandemicIcon` (is it refreshable) for the readable set.
+aura instance is still on the target" from "a different one is", an in-combat fact that carries
+no timing. That too is downstream of the unconfirmed row and inherits its `@verify-ingame`.
+`auraDataUnit` (which side the aura is on) and `PandemicIcon` (is it refreshable) do not depend
+on it and stay in the readable set unconditionally.
 
 **How you OBTAIN these rows: `GetItemFrames()` keeps answering when the viewer is
 hidden.** It is `GetItemContainerFrame():GetLayoutChildren()`, and the container is the
@@ -1856,8 +1865,8 @@ read the viewer's own `IsShown()` for that, and let the row count mean *configur
 
 | Read | Status |
 |---|---|
-| `UnitPower` | **`[client]`** readable *and branchable* in instanced combat |
-| `UNIT_SPELLCAST_*` (player) | **`[client]`** readable spellID in all four phases |
+| `UnitPower` | **PER POWER TYPE, not per combat state.** Secondary resources (Combo Points, Runes, Soul Shards, Holy Power, Chi, Arcane Charges, Essence) are never secret and are branchable anywhere; every primary — Mana, Rage, Focus, Energy, Runic Power, Fury, Pain, Insanity, Maelstrom — reads secret, in a city as well as mid-pull. `security-taint-and-restricted-data.md` §4.12 carries the per-type table and the measurement |
+| `UNIT_SPELLCAST_*` (player) | **`[client]`** readable spellID in all four phases — **measured unrestricted**. Every one of these events, and `UnitCastingInfo` / `UnitChannelInfo`, carries `SecretWhenUnitSpellCastRestricted = true` with only `castBarID` (and `delayTimeMs` / `isTradeskill`) marked `NeverSecret`, so the `spellID` payload is expected to seal in restricted combat and that case is unmeasured. `cdm-rider-patterns.md` §9.2 carries the consequence for anything that ledgers casts |
 | `C_SpellActivationOverlay.IsSpellOverlayed` | **`[client]`** readable in combat |
 | `C_AssistedCombat.GetNextCastSpell` | **`[client 2026-08-01]`** ⚠ *evidence gone — capture off the ring, no surviving extract* — readable — a plain number in combat and out. See below: readability is proven, usefulness is not |
 | `C_Spell.GetSpellCooldown` | **`[client 2026-08-09]`** **not sealed whole** — a plain table whose members seal individually. `isEnabled` / `isActive` / `isOnGCD` read plain in restricted combat; `startTime` / `duration` / `modRate` are secret. See below |
