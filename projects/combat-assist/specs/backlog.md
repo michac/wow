@@ -123,17 +123,37 @@ and nothing about how it was measured.
 - **The Havoc row flew once, 2026-08-15** (cap v0.4.0, Fel-Scarred, on EllesmereUI), against the
   pre-APL catalog. Its structural finding — the reading model assumes the CDM's row order matches
   the authored priority — is what `Anchor.lua` was built to answer.
-- Demonology remains the small pilot: Tyrant and Demonbolt are its only enhanced entries,
-  Dreadstalkers and Grimoire are readable Tyrant dependencies. Destruction / Diabolist is the
-  minimal sealed proof — Conflagrate tiering plus an independent sealed Backdraft count through
-  Blizzard's 12.1 AuraContainer path. **Neither has ever flown as a cap build.**
-- **Retribution / Templar is authored and has never been built or flown.** Three files
+- **Demonology / Diabolist and Destruction / Diabolist are authored and have never been built or
+  flown** (2026-08-19). Three files each — `catalog.md` / `scenarios.md` /
+  `fact-classification.md` — twelve scenarios each, and generated `demonology-stepper.html` /
+  `destruction-stepper.html` previews registered in `capart.SPECS_BUILT`. There is no
+  `Catalogs/Demonology.lua` or `Catalogs/Destruction.lua` **of the current design**: the two
+  files in the addon are the *pilot* catalogs and predate these documents, so what the addon draws
+  on either spec is the old four-entry / two-entry proof and **not** what `specs/**` now says.
+  ⚠ **That is the one place in the project where a shipped catalog and its document disagree**,
+  and it is deliberate — `authoring.md` stage 6 has not run. Do not read either `.lua` as the
+  design.
+  - **They replaced the two pilots**, which were single-mechanism proofs rather than rosters
+    (`spec.md` §3.4 / §3.5 record what carried, what was corrected and what was withdrawn).
+  - **Neither has ever flown as a cap build**, in either form.
+- **Retribution / Templar is authored and has never flown.** Three files
   (`catalog.md` / `scenarios.md` / `fact-classification.md`, split 2026-08-19), 13 scenarios, and a
-  generated `retribution-stepper.html` preview. There is no `Catalogs/Retribution.lua`, so the
-  addon draws nothing on the spec — which is the design (a spec without a catalog gets nothing).
+  generated `retribution-stepper.html` preview.
+  ⚠ **It HAS been transcribed.** `Catalogs/Retribution.lua` exists (216 lines) and is registered
+  in the `.toc`, so the addon **does** draw on the spec. This entry previously said the file did
+  not exist and that the addon drew nothing; that was wrong, and the correction is recorded here
+  rather than left as a note under a dead claim. What is still true is that **nothing about it has
+  been judged in play** — `authoring.md` stage 8 has not run.
 - **Devourer is authored and has never been built or flown**, on the same terms: three files, and
   the first spec whose definition needed **V12's virtual row** (Collapsing Star has no CDM frame at
-  all). No catalog Lua, no preview registered in `SPECS_BUILT`.
+  all). No catalog Lua. **It does now have a preview** — registered in `SPECS_BUILT` on 2026-08-19,
+  10 scenarios (B-1…B-5 build phase, M-1…M-5 window phase), and the first page any spec has drawn a
+  virtual row on. Two things about it are deliberate and should not be read as settled work:
+  **M-3's row was DERIVED, not authored** (the doc had it as a prose delta on M-2 with no row of its
+  own), and the page carries **loud `⚠ UNSURE` annotations** wherever the authoring docs doubt
+  themselves — position 1's desaturation assumption, misordering 2, cue D's sound slice, cue B's
+  fitted break point, the owed Voidsurge. The page exists to be **argued with**, not to record a
+  decision, and the gates prove only that each row is self-consistent.
 - **Cue D (demon-form promotion) is authored and not drawn.** A promotion is a positive cue and
   `press-promoted` renders identically to `press`. The permission is unchanged; what is missing is
   pixels, not authority. **Cue B's positive "banked" half is not parked beside it — it is deleted**,
@@ -459,17 +479,46 @@ which is the whole reason `simc-apl.md` exists as a generated artifact.
 not product authorities. Delete or archive them, and remove the obsolete modules, fields and
 vocabulary that were kept as compatibility scaffolding for an unreleased design.
 
-### Judge the two unflown Warlock surfaces
+### ~~Judge the two unflown Warlock surfaces~~ — ANSWERED ON PAPER 2026-08-19
 
-Neither Demonology nor Destruction has ever flown as a cap build, and two questions are waiting on
-that rather than on any code.
+**Do not re-raise as written.** Both questions were about the *pilot* surfaces, and the 2026-08-19
+authoring pass answered both from the priority rather than from a flight — which is the cheaper
+answer and the one that was available.
 
-- [ ] **Does the independent Tyrant countdown bar earn its screen space?** If it does, it is the
-      canonical *spell duration object → client-owned countdown* example. If it does not, keep the
-      duration-object recipe in `knowledge/addon-dev/` rather than preserving dead product code.
-- [ ] **Fly the sealed Backdraft marker in restricted combat.** Record the player's visual judgment
-      first and use the capture only to prove which route armed — an accepted secret sink is not
-      evidence that a pixel appeared.
+- **The independent Tyrant countdown bar is not authored**, so there is nothing to judge. The
+  Demonology catalog declares no bar: the fact it would draw is Tyrant's own **sealed** cooldown
+  remaining, and the row now carries the **readable** half of the same decision — a hold below
+  five Soul Shards, which is an exact Lua comparison. `spec.md` §3.3 still owns the bar's
+  semantics and the permission is unchanged; the duration-object recipe stays in
+  `knowledge/addon-dev/` and in `pattern-shelf.md` S6, with **no product code preserved for it**.
+- **The sealed Backdraft marker has no consumer in the single-target rotation.** Its rungs ask
+  whether Backdraft is *absent* (`buff.backdraft.stack<1`), which the readable aura latch answers;
+  the sealed **count** is right for the AoE rung that asks for two stacks, and that rung is not
+  authored. OBS-065 already carries the human verdict on the display itself.
+
+⚠ **What is genuinely still unflown is everything**, and it is bigger than these two questions —
+see the Status block. Neither Warlock spec has a catalog Lua of the current design.
+
+### Two future Warlock catalogs, each with its reopening condition
+
+Both are **separate catalogs authored later**, never overlays on the shipped ones — a
+spec-and-hero pair is the unit (`authoring.md` §0).
+
+- [ ] **Soul Harvester (Demonology).** `actions.soulharvest` is a genuinely different list: **no
+      Ruination rung at all**, and Tyrant and Dreadstalkers cast plainly on cooldown with no
+      Reign-of-Tyranny window — so two of the Diabolist catalog's cues would have to be deleted
+      for it. **Reopening condition:** Season-2 logs or a regenerated `sims.md` putting Soul
+      Harvester ahead in **M+**. Icy Veins already has it ~3 % ahead in *pure single target* at
+      12.1 (Tier 3), which is not enough on its own —
+      `knowledge/classes/warlock/demonology/builds.md` carries the argument.
+- [ ] **Hellcaller (Destruction).** `actions.aoe_hc` is gated on `talent.wither`, and Wither has
+      **no `CooldownSetSpell` row in any set** at 12.1.0.69214 — so the first thing that catalog
+      must solve is which row the spec's whole DoT rides, exactly as Incinerate rides Shadow
+      Bolt's. It also adds Malevolence, which the Diabolist catalog leaves unbound. **Reopening
+      condition:** Season-2 logs or a re-sim putting Hellcaller ahead in M+. 12.1's Blackened Soul
+      rework was an explicit Hellcaller priority-target buff and nobody has re-run the comparison,
+      so this is a live possibility rather than a formality —
+      `knowledge/classes/warlock/destruction/builds.md` carries it.
 
 ## Ideas
 

@@ -2,7 +2,7 @@
 title: Great Vault — Midnight Season 2 (12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-20
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1)
   - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season details (Tier 1)
@@ -71,7 +71,33 @@ S2 build — day-1 third-party raid tables disagree with each other (one has the
 Myth track topping out at 328, another has Myth 1/6 at 318), so only the *track
 names* above are trustworthy today.
 
-### Nebulous Voidcores are a vault reward now (Tier 1)
+### The Season 2 bonus-roll currency — ⚠ NAME DISPUTED, verify week of Aug 25
+
+⚠ **Do not quote a currency NAME from this section until it is confirmed in game.**
+Two sources disagree and neither is conclusive:
+
+- **This file previously asserted (Tier 1, from the 12.1 notes) that the S2
+  bonus-roll currency is the *Nebulous Voidcore*** — the same currency as S1.
+- **The user reports (2026-08-20) that the S2 currency is the *Venomous
+  Voidcore*.**
+- **Game data is ambiguous and does not settle it.** `CurrencyTypes` DB2 at
+  **both** 12.1.0.69214 and the live client build **12.1.0.69382** carries
+  `3511 = "[DNT, Unused] Venomous Voidcore"` — described as the Season 2
+  equivalent, but flagged Unused — alongside two live *Nebulous Voidcore* rows
+  (`3418`, `3513`). A `[DNT, Unused]` marker is a **development flag, not proof
+  the currency does not ship**; Blizzard routinely leaves such names uncleaned on
+  currencies that go live. Encomplete's `/simc` export tracks **both**
+  (`bonus_roll_currencies=3418:0/3511:0`), which is consistent with either.
+
+The currency does not exist on any character yet — it first appears as a **Great
+Vault option the week of Aug 25**. **Read the name off the vault UI that week and
+resolve this.** @verify-ingame
+
+*(Recorded 2026-08-20: an earlier revision stated the Nebulous name as settled
+Tier-1 fact. That confidence was not warranted — the 12.1 notes were read as
+naming the S2 currency when they may only have been describing S1 wind-down.)*
+
+### Mechanics (independent of the name)
 
 - Season 1 Voidcores **convert to gold** at the end of S1 and can no longer be
   spent on S1 content.

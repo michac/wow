@@ -37,18 +37,38 @@ SKIP_DIRS = {"__pycache__", "node_modules"}
 
 # Injected before </body> (or appended). It reconnects on drop, so restarting the server or
 # suspending the laptop does not leave a dead page that silently stops updating.
+#
+# ⚠ **It holds the stream only while the tab is VISIBLE, and that is not an optimisation.**
+# An `EventSource` is a permanent HTTP connection, and browsers cap HTTP/1.1 at SIX per origin.
+# A previous version connected on load and never let go, so six open preview tabs consumed every
+# slot and the seventh request — including a plain page load — queued forever behind them. The
+# failure mode is the worst kind: no error, no timeout, just `pending` in devtools and a server
+# that answers `curl` instantly, which sends you looking at the page instead of the transport.
+# Measured 2026-08-19 with two specs open across several reloads.
+#
+# Releasing the stream when the tab is hidden means background tabs cost nothing, so the budget
+# is spent only on tabs actually being looked at. A tab reloads on becoming visible if it missed
+# a rebuild while away, which is the behaviour you wanted from a background tab anyway.
 RELOAD_JS = """
 <script>
 (function () {
-  var gen = null;
+  var gen = null, es = null;
   function connect() {
-    var es = new EventSource("/__reload");
+    if (es || document.visibilityState === "hidden") return;
+    es = new EventSource("/__reload");
     es.onmessage = function (e) {
       if (gen === null) { gen = e.data; return; }
       if (e.data !== gen) location.reload();
     };
-    es.onerror = function () { es.close(); setTimeout(connect, 1000); };
+    es.onerror = function () { drop(); setTimeout(connect, 1000); };
   }
+  function drop() { if (es) { es.close(); es = null; } }
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") drop(); else connect();
+  });
+  // `pagehide` rather than `unload`: it fires for the back/forward cache too, which `unload`
+  // does not, and a bfcached page holding a stream is exactly the leak this is preventing.
+  window.addEventListener("pagehide", drop);
   connect();
 })();
 </script>
@@ -161,18 +181,38 @@ class Handler(SimpleHTTPRequestHandler):
 
     # ---- live reload
 
+    #: Backstop for the connection budget described on RELOAD_JS. The client releases its stream
+    #: when hidden, but a crashed tab or a browser that never fires `pagehide` would still strand
+    #: one. Streams are capped and the OLDEST evicted, so the newest tab — the one being looked
+    #: at — always gets a slot. Below the browser's own limit of 6 on purpose.
+    MAX_STREAMS = 4
+    _streams: list = []
+    _streams_lock = threading.Lock()
+
     def _stream(self) -> None:
+        token = object()
+        with Handler._streams_lock:
+            Handler._streams.append(token)
+            while len(Handler._streams) > Handler.MAX_STREAMS:
+                Handler._streams.pop(0)
         self.send_response(200)
         self.send_header("Content-Type", "text/event-stream")
         self.send_header("Cache-Control", "no-cache")
         self.end_headers()
         try:
             while True:
+                with Handler._streams_lock:
+                    if token not in Handler._streams:
+                        return          # evicted: let the client reconnect if it still cares
                 self.wfile.write(f"data: {self.watcher.generation}\n\n".encode())
                 self.wfile.flush()
                 self.watcher.wait(15.0)  # also a keep-alive tick
         except (BrokenPipeError, ConnectionResetError):
             pass
+        finally:
+            with Handler._streams_lock:
+                if token in Handler._streams:
+                    Handler._streams.remove(token)
 
     def _is_html(self) -> bool:
         path = Path(self.translate_path(self.path))

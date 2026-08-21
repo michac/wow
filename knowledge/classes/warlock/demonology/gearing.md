@@ -2,7 +2,7 @@
 title: Demonology Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S2)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-20
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" content update notes, Tier 1
   - https://worldofwarcraft.com/en-us/news/24294369  # Midnight Season 2 overview, Tier 1
@@ -11,6 +11,8 @@ sources:
   - https://murlok.io/warlock/demonology/diabolist/m+  # top-player secondary distribution, Tier 2 — Season 1 data
   - https://www.wowhead.com/item=273796  # item-name resolution (Wowhead item DB)
   - https://www.wowhead.com/item=271884  # item-name resolution (Wowhead item DB)
+  - IN-GAME 2026-08-20 (Encomplete) — S1 "Reign of the Abyssal Immolator" set bonuses confirmed STILL ACTIVE in Season 2
+  - simc @ a9c5673 (2026-08-20) engine/dbc/generated/item_set_bonus.inc:1104-1109 — S1 set modelled for specs 265/266/267; :1208-1211 — S2 Demo set "Abyssal Doomhound's Pursuit" (items 271535-271540)
 confidence: medium
 ---
 
@@ -100,8 +102,30 @@ Verbatim from maxroll (sim-verify):
 - **4-Set:** When their energy depletes, [Wild Imps](https://www.wowhead.com/spell=104317) have a 20% chance to fling themselves at their target and [Implode](https://www.wowhead.com/spell=196277) at 250% effectiveness to their main target and 225% effectiveness to other targets.
 
 See [Midnight Season 2 Tier Sets](https://maxroll.gg/wow/resources/midnight-season-2-tier-sets).
-*(The Season 1 set — Hand of Gul'dan +15% / Dreadstalkers +10% and +3s — is
-historical as of 12.1.)*
+### ⚠ The Season 1 set bonuses are STILL ACTIVE in Season 2
+
+**Season 1 set (Abyssal Immolator's):** 2pc = Hand of Gul'dan +15% · 4pc =
+Dreadstalkers +10% and +3s duration.
+
+**These bonuses continue to function in Season 2** — confirmed **in-game
+2026-08-20** (Encomplete, 4pc equipped, bonuses reading as active on the
+character sheet). They are no longer the set to *chase*, but they are **not
+switched off**, and this changes gearing decisions materially:
+
+> **Dropping below 4pc / 2pc of the S1 set costs you real throughput.** A
+> higher-ilvl non-tier piece in a tier slot (head/shoulders/chest/hands/legs) is
+> **not** automatically an upgrade — it is an ilvl gain weighed against a set
+> bonus loss, and needs a sim to resolve. Do not treat old-tier slots as free
+> upgrade targets.
+
+Corroborating Tier-1 evidence: the 12.1 notes **retune** Midnight Season 1
+2-set bonuses for other specs (Augmentation `_meta/patch-notes/12.1.md:611`,
+Restoration Shaman `:1148`, Arms `:1254`) — Blizzard does not retune a bonus it
+has deactivated. No line in the 12.1 notes disables S1 set bonuses.
+
+*(Corrected 2026-08-20. This file previously said the S1 set was "historical as
+of 12.1", which read as "inactive" and was wrong — it was an inference from the
+arrival of the S2 set, not a sourced claim.)*
 
 **Acquisition changed in 12.1 (Tier 1):**
 

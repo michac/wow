@@ -1,11 +1,11 @@
 ---
 title: Encomplete – Kil'jaeden (US) — main character snapshot
-patch: 12.0.7
-fetched: 2026-07-19
-reviewed: 2026-07-19
+patch: 12.1
+fetched: 2026-08-20
+reviewed: 2026-08-20
 sources:
   - https://us.api.blizzard.com/profile/wow/character/kiljaeden/encomplete?namespace=profile-us
-  - PlannerState /ps dump + Syndicator (currencies), 2026-07-19
+  - PlannerState /ps dump + Syndicator (currencies + items), 2026-08-20
 confidence: high
 ---
 
@@ -19,222 +19,242 @@ confidence: high
 > `bonus_id` strings. Use the in-game **SimulationCraft addon** (`/simc`,
 > or `/simc [item link]` for a single piece) and paste the export.
 >
-> **Δ since 2026-07-16 (re-sync 07-19):** ★★ **HERO OF THE DAWN — EARNED.**
-> Both prior holdouts got replaced with Hero-track pieces and crested to 276:
-> **Neck** → *Void-Laced Pendant* (276 Hero 6/6), **Ring 2** → *Void-Laced Ring*
-> (276 Hero 6/6). **All 16 slots are now ≥ 276** → the *Hero of the Dawn*
-> achievement fired (Dawn ladder now **Hero ✓**, only **Myth ✗** left) → **50%
-> Hero-Dawncrest discount is live warband-wide**. Equipped ilvl **276 → 279**;
-> **Waist** crested **Myth 2/6 → 5/6 (285)** and **Feet Myth 2/6 → 4/6 (282)**
-> (the Myth-track push). **Spec swapped back Affliction → Demonology** (hero tree
-> **Soul Harvester → Diabolist**; Aff + Destro loadouts still saved). **M+ rating
-> 1434.5 → 1723.7** (new timed runs: +8 Maisara Caverns, +5 Windrunner Spire).
-> **Ritual Sites renown 4 (467 → 2060/2500)** — nearly renown 5. Crest spend to
-> fund all this: **Myth 64 → 9** (−55), **Champion 84 → 36** (−48), **Field
-> Accolade 911 → 11** (−900, the neck/ring buys); **Hero 97 → 118** (still
-> building). Gold **12,386 → 14,575**. Currencies fresh (last login 2026-07-19
-> 05:18 UTC). **Two empty gem sockets** (Neck + Ring 2) — see the new **Gems &
-> sockets** subsection.
+> **Δ since 2026-07-19 — this is the first post-12.1 / post-season-turnover
+> snapshot, so most numbers moved for structural reasons, not just play.**
+> **Patch 12.1 shipped 08-11 and Midnight Season 2 opened 08-18**; the crest
+> currency changed (**Dawncrest → Mistcrest**), the upgrade-achievement ladder
+> changed (**"…of the Dawn" → "…of the Mist"**), and the M+ season reset.
+> Headlines: **equipped ilvl 279 → 294** (API avg 297) on a mostly-new S2 kit
+> (Pyrewalker's head/waist/wrist at 295, **Anguine Gyre** ring at 305, both
+> trinkets replaced with **305 S-tier** pieces, weapon **295 → 318**).
+> **M+ rating 1723.7 → 794.0** is a *season reset*, not a fall — 11 S2 runs
+> already logged including a **timed +11**. **★ The S1 "Hero of the Dawn"
+> discount is now inert** (Dawncrests are dead currency) and Encomplete has
+> **not** earned any "…of the Mist" rung — see *Mist ladder* below.
+> Gold **14,575 → 30,072**. Currencies fresh (last login 2026-08-20 05:56 UTC).
 
 **The user's current main.**
 
 ## Identity
 
 - Gnome **Warlock**, active spec **Demonology** (hero tree **Diabolist**)
-  — **swapped back from Affliction/Soul Harvester since the 07-16 snapshot**.
-  Affliction + Destruction loadouts still saved (all three present via API).
+  — unchanged since 07-19. Affliction + Destruction loadouts still saved.
 - Level **90** (cap), Alliance, guild **Dungeon Dojo**
-- Title: Champion of the Frozen Wastes · 8,185 achievement points (+85)
-- Last login at fetch: 2026-07-19 05:18 UTC (fresh)
+- Titles: *Encomplete, Champion of the Frozen Wastes* · 8,725 achievement
+  points (+540 since 07-19)
+- Last login at fetch: 2026-08-20 05:56 UTC (fresh)
 
-## Gear (equipped ilvl 279, API 2026-07-19)
+## Gear (equipped ilvl 294, API avg 297 — 2026-08-20)
 
-**2026-07-19 update:** ★ *Hero of the Dawn* completed — **Neck** and **Ring 2**,
-the last two 263 Champion-capped holdouts, were **replaced** with fresh
-**Void-Laced** Hero-track pieces and crested to **276 Hero 6/6**. **All 16 slots
-are now ≥ 276.** Myth-track push continued: **Waist Myth 5/6 (285)** and **Feet
-Myth 4/6 (282)**. Weapon reads **295** (Myth-capped Aln'hara Cane). 4pc tier
-**Abyssal Immolator's** + 285 crafted back unchanged.
+**Season-2 turnover.** Eleven of the fifteen gear slots are new or re-tracked
+since 07-19. The four that are **not** are the S1 **Abyssal Immolator's** tier
+pieces, still sitting at **276 with no upgrade track** — they are the only thing
+below 282 and they cannot be crested, only replaced (see *Mist ladder*).
 
-| Slot | ilvl | Track | id | Item |
-|---|---|---|---|---|
-| Head | 276 | Hero 6/6 | 250042 | Abyssal Immolator's Smoldering Flames *(tier)* |
-| Neck | 276 | Hero 6/6 | 263891 | **Void-Laced Pendant** *(new — was 263 Nocturnal Thorncharm; **empty gem socket**)* |
-| Shoulders | 276 | Hero 6/6 | 250040 | Abyssal Immolator's Fury *(tier)* |
-| Chest | 276 | Hero 6/6 | 250045 | Abyssal Immolator's Dreadrobe *(tier)* — ench: Mark of the Worldsoul |
-| Waist | 285 | Myth 5/6 | 276794 | Archmage's Cord of Light *(2/6 → 5/6)* |
-| Legs | 276 | Hero 6/6 | 250041 | Abyssal Immolator's Pillars *(tier)* — ench: +41 Int |
-| Feet | 282 | Myth 4/6 | 258584 | Lightbinder Treads *(2/6 → 4/6)* |
-| Wrist | 276 | Hero 6/6 | 263849 | Void Nemesis' Bracers |
-| Hands | 276 | Hero 6/6 | 263813 | Handguards of Voidcendence |
-| Ring 1 | 276 | Hero 6/6 | 259912 | Preyseeker's Signet — ench: Eyes of the Eagle · **gem: Flawless Quick Garnet** |
-| Ring 2 | 276 | Hero 6/6 | 263890 | **Void-Laced Ring** *(new — was 263 Vibrant Wilderloop; **empty gem socket**)* |
-| Trinket 1 | 276 | Hero 6/6 | 248583 | Drum of Renewed Bonds |
-| Trinket 2 | 276 | Hero 6/6 | 251784 | Sylvan Wakrapuku |
-| Back | 285 | — | 239656 | Adherent's Silken Shroud *(crafted)* |
-| Main Hand | 295 | — | 245770 | Aln'hara Cane — ench: Acuity of the Ren'dorei |
+| Slot | ilvl | Track | id | Item | Ench |
+|---|---|---|---|---|---|
+| Head | 295 | Champion 2/6 | 272234 | Pyrewalker's Miter | — |
+| Neck | 292 | Champion 1/6 | 251142 | Pendant of Malefic Fury | *(n/a)* |
+| Shoulders | **276** | — | 250040 | Abyssal Immolator's Fury *(S1 tier)* | — |
+| Chest | **276** | — | 250045 | Abyssal Immolator's Dreadrobe *(S1 tier)* | Mark of the Worldsoul |
+| Waist | 295 | Champion 2/6 | 272237 | Pyrewalker's Obi | *(n/a)* |
+| Legs | **276** | — | 250041 | Abyssal Immolator's Pillars *(S1 tier)* | +41 Int & +4% Mana |
+| Feet | 285 | — | 258584 | Lightbinder Treads | — |
+| Wrist | 295 | Champion 2/6 | 272238 | Pyrewalker's Wraps | *(n/a)* |
+| Hands | **276** | — | 250043 | Abyssal Immolator's Grasps *(S1 tier)* | *(n/a)* |
+| Ring 1 | 295 | Champion 2/6 | 275528 | Preyhunter's Ring | — |
+| Ring 2 | 305 | Hero 1/6 | 272148 | Anguine Gyre | — |
+| Trinket 1 | 305 | Champion 5/6 | 250215 | Freightrunner's Flask | *(n/a)* |
+| Trinket 2 | 305 | Champion 5/6 | 273649 | Stormbound Emblem of Dazar | *(n/a)* |
+| Back | 292 | Champion 1/6 | 275524 | Preyhunter's Rugged Stole | — |
+| Main Hand | 318 | — | 245770 | Aln'hara Cane | Acuity of the Ren'dorei |
 
-Enchanted slots: chest, legs, ring1, weapon. **Missing enchants (5):** helm,
-shoulders, feet, ring2, cloak/back. *(Corrected 2026-07-19 — the prior snapshot
-wrongly listed neck + wrist here: **neck** isn't enchantable in Midnight (takes a
-gem), and **wrist** takes an added socket, not an enchant. It also missed **helm
-+ shoulders**, which ARE enchantable in Midnight. Enchantable slots per the
-warlock gearing guides: helm, shoulders, cloak, chest, legs, feet, both rings,
-weapon.)* With all 16 slots at 276+, the remaining gains are **Myth-track
-upgrades (waist 5/6 & feet 4/6 → 285/6), vault/M+, the Myth rung**, plus closing
-the five bare enchants and the two open gem sockets (+ optionally adding sockets
-to wrist/waist). (Encomplete leveled **Enchanting** — see Professions — so those
-enchants are self-craftable as skill/recipes allow.)
+*(Shirt 6097 and Tabard 43157 are cosmetic and excluded from every count here.)*
 
-### Gems & sockets (2026-07-19)
+**Trinkets are now both S-tier for Demonology.** *Freightrunner's Flask* (250215)
+and *Stormbound Emblem of Dazar* (273649) are both on the S-tier line of
+`../classes/warlock/demonology/gearing.md`; the previous pair included
+*Sylvan Wakrapuku*, which that same table rates **Junkyard**. This is the single
+biggest quality jump in the kit and it is already done.
 
-Three socketed items; **two sockets are empty** — the "open slots" to fill:
+**Enchants — 3 of 9 enchantable slots filled.** Filled: **chest, legs, weapon**.
+**Bare (6): head, shoulders, feet, cloak, ring 1, ring 2.** (Enchantable slots in
+Midnight: helm, shoulders, cloak, chest, legs, feet, both rings, weapon. Neck
+takes a gem, not an enchant; wrist takes an added socket.) Encomplete has
+**Midnight Enchanting 25/100**, so these are self-craftable as recipes unlock —
+still the cheapest gains on the character.
 
-| Slot | Socket | Gem |
+**Gems/sockets: none detected, and the S1 socketed pieces are all gone.** The API
+item data returned no gems on any slot; the three socketed S1 items (Preyseeker's
+Signet, Void-Laced Pendant, Void-Laced Ring) have all been replaced. Whether the
+new neck/rings carry prismatic sockets is **not visible in this data** —
+@verify-ingame: check the neck (251142), Ring 1 (275528) and Ring 2 (272148)
+tooltips for empty sockets.
+
+### Mist ladder — nothing earned yet (2026-08-20)
+
+⚠ **The S1 "…of the Dawn" achievements are still on the account (Adventurer ✓ ·
+Veteran ✓ · Champion ✓ · Hero ✓ · Myth ✗) but they are now INERT.** The discount
+is per-crest-currency and Dawncrests are dead from S2 onward — see
+`../endgame/dawncrests.md` § *The "…of the Mist" achievements*. The ladder reset
+to zero for everybody on 08-18.
+
+⚠ **`wowkb.character` still prints the S1 ladder.** Its digest reports
+*"Champion 50% discount: LIVE — every slot ≥ 263"*, which is the hardcoded S1
+gate (263 / achievement 42768) in `tools/wowkb/character.py:494`. **That line is
+stale for Season 2 and must not be quoted.** Filed in `../_meta/kb-inbox.md`.
+
+The live S2 ladder, and where Encomplete stands:
+
+| Rung | Needs (high watermark, every slot) | Status |
 |---|---|---|
-| Ring 1 (Preyseeker's Signet) | Prismatic | **Flawless Quick Garnet** (Haste) — filled |
-| **Neck** (Void-Laced Pendant) | Prismatic | **EMPTY** |
-| **Ring 2** (Void-Laced Ring) | Prismatic | **EMPTY** |
+| Adventurer of the Mist | **282** | ✗ — **4 slots short** |
+| Veteran of the Mist | **295** | ✗ |
+| Champion of the Mist | **308** | ✗ |
+| Hero of the Mist | **321** | ✗ |
+| Myth of the Mist | **331** average | ✗ |
 
-Recommendation is in the **gems** answer accompanying this sync; short version for
-the file: the two Void-Laced pieces each carry one prismatic socket, both empty.
-Per the KB, use the unique **Eversong Diamond** in one and a spec-appropriate
-secondary cut in the other (**Demo wants Crit/Mastery = Deadly/Masterful**, not
-the Versatile Garnet the Demo `gearing.md` gem list currently prints — that line
-conflicts with Demo's own Mastery≈Crit>>Vers stat priority; flagged for KB fix).
-Encomplete can also **add up to 3 more sockets** (Helm, Wrists, Waist) via
-**Radiant Jewelbinder** (item 263897) from the Great Vault Vendor.
+**The only blockers on the first rung are the four S1 tier pieces**
+(Shoulders / Chest / Legs / Hands, all **276**, all **no track**). They cannot be
+crested — a trackless S1 piece has to be **replaced**. Any 282+ drop or a
+Season-2 class-set piece in those four slots clears *Adventurer of the Mist* and
+turns on the 50% warband Adventurer-Mistcrest discount.
 
-### Hero of the Dawn — DONE (2026-07-19)
+**Encomplete has ZERO Season 2 class-set pieces.** The four *(tier)*-flagged
+items above are the **Season 1** *Abyssal Immolator's* set, whose bonuses are
+historical as of 12.1. The S2 Demonology set (2pc: Wild Imp +10% / Implosion
++20%; 4pc: imp self-detonation) is bought from **Kirana**, who moved to **next to
+the Catalyst in Silvermoon** and sells it for **Slumbering Coil Curios**. So the
+same four slots are simultaneously the Mist-ladder blocker *and* the missing 4pc
+— they are the whole gearing story right now.
 
-★ **Earned this reset.** *Hero of the Dawn* (achievement **42769**) fires when
-**every slot is ≥ 276** (the Hero-track ceiling). Encomplete replaced the two
-263 Champion-capped holdouts (Neck, Ring 2) with **Void-Laced Hero-track** pieces
-and crested both to **276 (6/6)** → **16/16 at 276+** → achievement popped. Reward
-now live: **50% Hero-Dawncrest discount warband-wide** + the Vaskarn **Hero → Myth**
-trade unlocked (see `../endgame/dawncrests.md`). The **next** (and last) Dawn rung
-is **Myth of the Dawn** (every slot ≥ 285) — Dawn ladder is now
-Adventurer ✓ · Veteran ✓ · Champion ✓ · **Hero ✓** · **Myth ✗**.
+## Season 2 progress
 
-- **How it was funded:** the neck+ring buys drained **Field Accolade 911 → 11**
-  (−900); the Myth-track waist/feet crest-ups drained **Myth Dawncrest 64 → 9**
-  (−55) and **Champion 84 → 36** (−48).
-- **Toward Myth of the Dawn:** every slot needs to reach 285 (Myth 6/6 or a 285
-  drop). Only Waist (285) is there; the other 15 slots are 276–282. This is a
-  long Myth-crest grind — **Hero 118 in the bank**, but Myth is down to **9** and
-  Myth crests are the gate. Not a near-term milestone the way Hero was.
+- **Mythic+**: **Season 17 rating 794.0**, 11 runs on record. *(The 1723.7 in the
+  prior snapshot was Season 1 and does not carry — this is a fresh ladder, and
+  794 after two days is a strong start, not a regression.)*
+  Best runs: **+11 Seat of the Triumvirate (timed, 28.7m)**, +10 Skyreach (timed),
+  +9 Nexus-Point Xenas (timed), +8 Maisara Caverns (timed), +7 Windrunner Spire
+  (timed). Untimed: +10 Algeth'ar Academy, +6 Magisters' Terrace, +6 Skyreach.
+- **Raids**: **Sporefall [Normal] 1/1**. The Venomous Abyss (S2 raid) shows **no
+  progress** — it opened 08-18. Naxx / Obsidian Sanctum entries are Wrath-era.
 
-## Season 1 progress
-
-- **Mythic+**: **rating 1723.7 — up from 1434.5** (+289; new timed runs
-  logged this sync). 8 runs on record: **+11 Seat of the Triumvirate (timed)**,
-  **+8 Maisara Caverns (timed)**, +7 Skyreach (timed), +6 Skyreach (over time),
-  +5 Algeth'ar Academy (timed), **+5 Windrunner Spire (timed)**, +4 Magisters'
-  Terrace (timed), +4 Nexus-Point Xenas (timed).
-- **Raids**: **Sporefall [Normal] 1/1** (Rotmire down on Normal). Older
-  Naxx/Obsidian entries are Wrath-era.
-
-### Renown (API, 2026-07-19)
+### Renown (API, 2026-08-20)
 
 Midnight-relevant factions (older-expansion renowns omitted):
 
-| Faction | Renown | Δ since 07-16 |
+| Faction | Renown | Δ since 07-19 |
 |---|---|---|
-| Silvermoon Court | 14 (870/2500) | — |
-| The Singularity | 9 (937/2500) | — |
-| Amani Tribe | 9 (1995/2500) | — |
-| Hara'ti | 8 (2180/2500) | — |
-| Ritual Sites | 4 (2060/2500) | **+1593 pts** — nearly renown 5 |
+| Silvermoon Court | 15 (1357/2500) | **+1** |
+| The Singularity | 10 (812/2500) | **+1** |
+| Amani Tribe | 10 (295/2500) | **+1** |
+| Hara'ti | 10 (5/2500) | **+2** |
+| Ritual Sites | 5 (515/2500) | **+1** |
+| Zul'jarra's Forces | 5 (130/2500) | **new to this snapshot** |
+| Flame's Radiance | 1 (0/2500) | **new to this snapshot** |
+| Gallagio Loyalty Rewards Club | 1 (0/2500) | new to this snapshot |
 | The K'aresh Trust | 1 (0/2500) | — |
 
 Maxed (25): The Severed Threads, The Assembly of the Deeps, Hallowfall Arathi,
 Council of Dornogal. Cartels of Undermine **20**.
-Companion/delve tracks: **Brann Bronzebeard lvl 45**, **Valeera Sanguinar
-lvl 52** (was 49 on 07-16 — continued delve activity).
+Companions: **Valeera Sanguinar lvl 56** (was 52 — continued delve activity),
+**Brann Bronzebeard lvl 45** (unchanged).
 
-### Currencies (Syndicator SavedVariables, snapshot 2026-07-19)
+### Currencies (Syndicator SavedVariables, snapshot 2026-08-20)
 
-> Source: the **Syndicator** addon writes a per-character `currencyID →
-> amount` table to disk; IDs resolved to names via wago.tools
-> `CurrencyTypes` DB2 (tier-1). Reflects the character's last in-game
-> `/reload` or logout (fresh — last login 2026-07-19 05:18 UTC).
-> Deltas below are vs the 2026-07-16 snapshot.
+> Source: the **Syndicator** addon writes a per-character `currencyID → amount`
+> table to disk; IDs resolved to names via wago.tools `CurrencyTypes` DB2
+> (Tier-1). Reflects the character's last in-game `/reload` or logout — **fresh**
+> (last login 2026-08-20 05:56 UTC). Deltas are vs the 2026-07-19 snapshot.
 
-- **Dawncrests: Adventurer 318 · Veteran 75 · Champion 36 · Hero 118 ·
-  Myth 9.** A big *spend* week (the mirror of 07-16's rebuild): **Myth 64 → 9**
-  (−55) and **Champion 84 → 36** (−48) funded the Myth-track waist/feet crest-ups;
-  **Hero 97 → 118** (+21) still building. The **50% Champion discount stays LIVE**
-  and now the **50% Hero discount is LIVE too** (Hero of the Dawn earned — see the
-  Gear section). See `../endgame/dawncrests.md`.
-- **Field Accolade 11** (was 911 — **−900**; spent on the Void-Laced neck/ring
-  that completed Hero of the Dawn).
-- Coffer Key Shards **99** (was 96) · Restored Coffer Key **2** (was 4) ·
-  Nebulous Voidcore **10**
-- Undercoin **21,757** · Voidlight Marl **25,179** · Remnant of Anguish
-  **3,384** · Brimming Arcana **590** · Radiant Spark Dust **20** ·
-  Dawnlight Manaflux **7** · Untainted Mana-Crystals **520** (was 340) ·
-  Shard of Dundun **8**
-- Artisan Tailor's Moxie **700** · Artisan Enchanter's Moxie **55** ·
-  Artisan Skinner's Moxie **15**
-- Community Coupons **211** · Trader's Tender 4,200 · Resonance Crystals 380
-- Gold **14,575g** (was 12,386 — **+2.2k**)
-- **Crafting mats (from Syndicator items):** Sparks of Radiance **12** ·
-  Ascendant Voidshards **1**. *(Items, read from Syndicator's bag/bank/warband
-  inventory. Catalyst charges = Dawnlight Manaflux, currency 3378, listed above.)*
+- **Mistcrests (the Season 2 currency): Adventurer 186 · Veteran 169 ·
+  Champion 140 · Hero 28 · Myth 20.** These are a *new* currency, not a
+  continuation — the S1 Dawncrest balances are gone and are not comparable.
+  **No "…of the Mist" discount is active**, so upgrades cost the full **20 crests
+  per rank** (`../endgame/dawncrests.md`). Champion 140 is the useful stock: the
+  295 Champion 2/6 pieces cost 20/rank to push toward the 308 ceiling.
+- **Field Accolade 1,235** (was 11 — **+1,224**, fully rebuilt after the S1
+  Void-Laced spend).
+- **Voidlight Marl 40,208** (was 25,179) · **Remnant of Anguish 4,341**
+  (was 3,384) · **Undercoin 2,829** (was 21,757 — **−18.9k**, a large delve-vendor
+  spend) · **Coffer Key Shards 298** (was 99) · Brimming Arcana 590 ·
+  Shard of Dundun 8 · **Corrosive Coin 471** (new) · **Tidal Spark Dust 4** (new,
+  the S2 spark-dust line) · **Venomblight Manaflux 1** (new — the S2 Catalyst
+  charge currency, replacing Dawnlight Manaflux)
+- Artisan Tailor's Moxie **925** (was 700) · Artisan Enchanter's Moxie **70**
+  (was 55) · Artisan Skinner's Moxie 15
+- Community Coupons **484** (was 211) · Trader's Tender 4,200 ·
+  Resonance Crystals 380 · Dragon Isles Supplies 133 · Garrison Resources 140 ·
+  Champion's Seal 35
+- Gold **30,072g** (was 14,575 — **+15.5k**)
+- **Crafting mats (from Syndicator items):** Sparks of Radiance **13** (was 12) ·
+  Ascendant Voidshards **1** (unchanged). *(Items, read from Syndicator's
+  bag/bank/warband inventory — not currencies.)*
+- ⚠ **Absent from this dump vs 07-19:** Dawnlight Manaflux, Untainted
+  Mana-Crystals, Nebulous Voidcore, Restored Coffer Key, Radiant Spark Dust.
+  These are S1 currencies; the dump reports no balance, which may mean *zero* or
+  *retired*. Do not plan spends against them.
 
-### This reset (PlannerState, 2026-07-19)
+### This reset (PlannerState, 2026-08-20)
 
 - **Great Vault columns filled:** dungeon **3/3**, world **0/3**, raid **2/3**.
-- **World bosses killed this reset:** 0.
-- **Active events:** Timewalking Dungeon Event · Turbulent Timeways · PvP Brawl:
-  Deep Six.
+  *(The dump also emits a fourth column keyed `5` at `1/2` — unidentified; the
+  vault doc doesn't name it. @verify-ingame: open the vault and record what the
+  fourth row is.)*
+- **World bosses killed this reset:** 0. **World vault row is empty (0/3)** —
+  the cheapest unfilled vault progress on the character.
+- **Active events:** PvP Brawl: Warsong Scramble · The Venomous Abyss ·
+  Battleground Bonus Event.
+- **Turbulent Timeways: ✓ complete** (Spawn of Vyranoth mount).
+- ★ **Important quests flagged (purple-!):** Feathering the Nest ·
+  Midnight: World Tour · Prismatic Potential · Veteran Symposium.
 - Weeklies still open include prey_weekly, void_assault ×2, ritual_sites_weekly,
   delve_call_weekly, nalorakk_weekly, several special_assignments, and the
-  Midnight world-tour / ritual-arcana knowledge-week chains (full list in the
-  `/ps` dump).
+  Midnight world-tour chains (full list in the `/ps` dump).
 
-### Season journeys (in-game Journeys UI, 2026-06-03 — STALE; delve/prey ranks have almost certainly advanced, cf. Brann 45 / Valeera 52 above)
+### Season journeys — ⚠ SEASON 1 DATA, SUPERSEDED
 
-- **Prey: Season 1 — rank 3, progress 0/4000 to rank 4.** Rank 4 rewards:
-  **Prey: Nightmare Mode** + "A Plinth Above the Rest I".
-- **Delves: Season 1 — rank 3 ("Treasure Hunter"), 1160/4200 to rank 4
-  ("Gilded Jackpot"** — the Myth-crest gilded stashes).
+The figures below were read from the in-game Journeys UI on **2026-06-03**, in
+**Season 1**. Season 2 opened 2026-08-18 and reset these tracks. They are kept
+only as a historical calibration point and must not be quoted as current.
 
-Delve tier / Brann level: not exposed by API.
-User-reported 2026-06-03: **clears T9 delves solo at ~236, but some
-pulls are rough** — calibration point for content recommendations.
+- *(S1)* Prey rank 3, 0/4000 to rank 4 · Delves rank 3 "Treasure Hunter",
+  1160/4200 to rank 4.
+- *(S1, user-reported 2026-06-03)* cleared T9 delves solo at ~236 ilvl, some
+  pulls rough — the only datapoint we have on solo-delve tuning for this
+  character.
 
-## Professions (API 2026-07-19 — unchanged since 07-16)
+## Professions (API 2026-08-20)
 
-- **Tailoring — Midnight tier MAXED (100/100)** (all older tiers maxed
-  too). Can **self-craft Midnight spark gear** (belt/wrist/boots/cloak
-  + the 2H staff, both embellishments) instead of using crafting orders.
-- **Enchanting — Midnight 21/100** (replaces the old Skinning slot).
-  Encomplete can now **self-enchant** the missing slots (helm/shoulders/feet/
-  ring2/cloak) as the profession levels — closes the enchant gap noted above.
+- **Tailoring — Midnight tier MAXED (100/100)** (all older tiers maxed too).
+  Self-crafts Midnight spark gear + both embellishments; no crafting orders
+  needed.
+- **Enchanting — Midnight 25/100** (was 21). Self-enchanting the six bare slots
+  is gated on this leveling.
 - Cooking 214/300, Fishing 135/300 (Classic tiers).
 
 ## Implications for advice
 
-- **Gearing phase: equipped ilvl 279**, 4pc tier + 295 weapon + 285 crafted
-  back, **all 16 slots ≥ 276, Hero of the Dawn earned**. Upgrades now come from
-  **Myth-track (waist 5/6, feet 4/6 → 285/6), M+ vault, and Heroic raid/ritual-site
-  Myth gear** — the target ladder has moved to the **Myth of the Dawn** rung (all
-  slots 285), a long Myth-crest grind (Myth stock is down to 9).
-- **Quick wins left:** the two **empty gem sockets** (Neck + Ring 2) and the
-  five **bare enchants** (helm/shoulders/feet/ring2/cloak — self-craftable via
-  Enchanting as skill/recipes allow). Optionally **add sockets** to Wrist +
-  Waist via Radiant Jewelbinder from the Great Vault Vendor, then gem them. See
-  the **Gems & sockets** subsection.
-- **Enchants are now self-served** — Encomplete leveled Enchanting; the
-  five bare slots (helm/shoulders/feet/ring2/cloak) are among the cheapest gains
-  left. (Neck is *not* enchantable — it takes a gem.)
-- **Tailoring is maxed (Midnight 100/100)** — self-crafts spark gear and
-  both embellishments; no longer needs crafting orders.
+- **Gearing phase: equipped ilvl 294** on a fresh S2 kit with **both trinkets
+  already S-tier** and a **318 weapon**. The kit is in good shape *except* for
+  one cluster.
+- **★ The one thing to fix: the four S1 tier slots (shoulders/chest/legs/hands,
+  276, trackless).** They are simultaneously (a) the only slots below 282, so
+  they alone block *Adventurer of the Mist* and its 50% warband discount, and
+  (b) the reason there is **no Season 2 set bonus**. Route: Kirana (next to the
+  Catalyst in Silvermoon) for **Slumbering Coil Curios**, the Catalyst, or any
+  282+ drop in those slots. ⚠ The Catalyst now **preserves the source item's
+  secondaries**, so *which* piece is fed to it is a real choice.
+- **Cheap gains, in order:** the **six bare enchants**
+  (head/shoulders/feet/cloak/ring1/ring2 — self-craftable), the **empty world
+  vault row (0/3)**, and confirming whether the new neck/rings have sockets.
+- **Crest stock:** Champion Mistcrest **140** is the spendable pile — enough to
+  take a 295 Champion 2/6 piece to its **308** ceiling twice over at 20/rank.
+  Hero **28** and Myth **20** are thin; Hero/Myth crests come from **M+ +4–8 /
+  +9 and up** and **Heroic/Mythic Venomous Abyss** respectively.
 - Spec context for KB lookups: `knowledge/classes/warlock/demonology/`
-  (**active spec as of 2026-07-19, Diabolist hero tree** — swapped back from
-  Affliction/Soul Harvester; Affliction + Destruction loadouts also saved, see the
-  other `warlock/*` dirs).
+  (**active spec, Diabolist hero tree**; Affliction + Destruction loadouts also
+  saved).
 
 > **Active plan moved to `encomplete-plan.md`** (priority checklist,
 > weekly rotation, spend rules, milestones). Section below kept as the

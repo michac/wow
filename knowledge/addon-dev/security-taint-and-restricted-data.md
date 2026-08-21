@@ -123,6 +123,14 @@ post archived on the wiki:
 > permalink `discord.com/channels/327414731654692866/1422999311410790541` is
 > **not independently verifiable, see §6**
 
+**Read that second goal as a design brief, because it is one.** The two goals name two
+different verbs. The seal is on *reasoning* — "complex logic based off combat information" —
+while the stated second goal is that *display* keeps working, combat UIs explicitly included.
+Nothing in the 12.0 layer was built to stop an addon **showing** you something; it was built
+to stop the addon **deciding** for you from it. So the question a sealed datum raises is not
+"is this lost" but **"which channel still carries it, and what does that channel cost?"**
+§4.0 names the channels; §4.8 and §4.11 are where the answers live.
+
 ---
 
 ## 1. Protected actions and combat lockdown
@@ -1076,6 +1084,33 @@ at least twice during its own PTR — `AddAuraFrame` removed,
 
 ## 4. Secret values — the 12.0 addition
 
+### 4.0 Three channels — and only the first one is sealed
+
+A secret closes exactly one route: the value entering your Lua. Before reading any roster in
+this section as a list of losses, hold the three routes apart.
+
+| | Channel | The value… | Documented in |
+|---|---|---|---|
+| 1 | **Read** | enters your Lua, where you may compare, score or branch on it | **the only one a secret refuses** — §4.1–§4.7 |
+| 2 | **Display** | is evaluated in C by a sink you hand it to, and the *result* is drawn | §4.8 (curves, durations), §3.5 (`AuraContainer`) |
+| 3 | **Verdict** | was already read by Blizzard's untainted code, which left its *decision* in ordinary widget state | §4.11 |
+
+Two consequences worth having before the detail:
+
+- **A threshold is not a comparison.** *"Paint this red below 20%"* ships as an authored curve
+  the client evaluates; the answer never enters Lua and nothing was circumvented. Channel 2
+  carries **conditional** display, not merely raw display — which is why *"I need to branch on
+  it"* is so often a mis-statement of *"I need to show two different things."*
+- **Sealed for reading is not sealed for the player.** The player can see their own health bar.
+  A datum an addon may not read is frequently one the player is already looking at, and the
+  remaining work is putting it where it decides something — which is channel 2's entire job.
+
+⚠ **The channels are neither free nor equal.** Channel 2 is API and carries an API's stability.
+Channel 3 is an implementation detail at a pinned build, with four preconditions and a silent
+failure mode (§4.11) — reach for it second, and never without its bind-time capability check.
+And a channel that carries a value for *display* genuinely cannot be turned back into a value
+for *logic*: §4.8.1 ran four negative controls and all four refused.
+
 ### 4.1 What a secret is
 
 > The easiest way to think of Secret Values (Secrets) is that they are like
@@ -1595,7 +1630,19 @@ The distinction that most sources get wrong:
   `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`
   (`SpellDocumentation.lua:249`).
 
-⚠ **`UnitInRange` being on that list does not mean range checking is lost.**
+**What this roster establishes is that channel 1 is closed** — see the three channels in
+§4.0. Two of the eighteen have a documented route on another channel, and the two are
+different kinds of route:
+
+**1. `UnitHealthPercent` is itself the flagship display sink.** The same function this list
+calls unconditionally secret takes an optional curve — `UnitHealthPercent(unit, usePredicted,
+curve)` — and returns *the curve's output*, evaluated in C (§4.8). So health is unreadable and
+first-class **paintable** through one call, including conditionally: an authored break point in
+the curve is a paint, not a comparison. The roster entry and the mechanism are the same line of
+Blizzard documentation, read for two different purposes; a reader who takes only the first
+reading concludes health is gone, and is wrong about everything except the branch.
+
+**2. `UnitInRange` has an unpredicated sibling — range checking is not lost.**
 `C_Spell.IsSpellInRange(spellIdentifier, targetUnit)` carries **no secret
 predicate at all** (`SpellDocumentation.lua:841-855`, only
 `SecretArguments = "AllowedWhenTainted"`) and returns true / false / **nil**
@@ -1606,6 +1653,15 @@ working range check under restriction. ⚠ Resolve each id through
 `C_SpellBook.FindSpellOverrideByID` first, or a talent-replaced base id silently
 answers `nil` and reads as "out of range". [Tier 1 for the predicates; the ladder
 pattern seen working in EllesmereUI 8.7.5, read for API discovery only.]
+
+**The other sixteen are unexamined here, not closed.** Nothing in this file has gone looking
+for a channel-2 or channel-3 route for them, and a route this file does not name is not a
+route the client does not have — §4.11's whole subject is decisions the client leaves lying in
+readable widget state, and no such search has been run against this roster. Anyone about to
+write "X is impossible because its getter is on the 18-list" owes that search first.
+`[searched 2026-08-20: predicate annotations in SecretPredicatesDocumentation +
+UnitDocumentation only — no display-sink or widget-state search was run for the remaining
+sixteen]`
 
 Observed application counts (`grep -rh '<predicate> = true' … | wc -l`), at
 **12.1.0.69273** with the 12.0.7.68887 figure beside it where it moved
@@ -2985,6 +3041,17 @@ brackets is the evidence the rule rests on.
 
 ## Changelog
 
+- 2026-08-20 — **framing fix, no claim changed.** The file stated the seal accurately and
+  framed it as loss, which is a different error from being wrong: §4.7's roster of 18
+  `SecretReturns` functions read as eighteen closed doors, while §4.8 two hundred lines later
+  documents `UnitHealthPercent`'s curve argument as the flagship display sink — the **same
+  function**, presented as a wall in one place and as the mechanism in the other, with no
+  cross-reference between them. New **§4.0** puts the three channels (read / display / verdict)
+  ahead of every roster, §0 reads Blizzard's own stated secondary goal as the design brief it
+  is, and the roster now names its two documented routes and tags the remaining sixteen
+  `[searched]` as *unexamined*, not closed. The rule that fell out of it, worth keeping: a
+  threshold is a paint, not a comparison, so "I must branch on it" is usually a mis-statement
+  of "I must show two different things."
 - 2026-08-19 — new **§3.5.1**: the AuraContainer route FLOWN from tainted addon code. Every
   construction step succeeds in and out of combat, `includeSpellIDs` is honoured on a
   hostile target (so a per-spec DoT display is buildable), and the icon and duration-bar

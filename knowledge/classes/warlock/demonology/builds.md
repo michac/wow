@@ -2,14 +2,14 @@
 title: Demonology Warlock — M+ & Delve builds (talents / loadouts)  (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-19
 sources:
   - ../../../_meta/patch-notes/12.1.md  # tier 1 VERBATIM archive — the Demo + Diabolist tuning below (CLASSES ▶ WARLOCK, l.1197-1207)
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, "Curse of Ula'tek" Content Update Notes (12.1, 2026-08-11)
   - https://www.icy-veins.com/wow/demonology-warlock-pve-dps-spec-builds-talents  # tier 3, upd. 2026-08-10 for 12.1 — post-nerf hero-tree split + both import strings
   - ./talents.md  # tier 1, generated from Blizzard Game Data API + wago Trait* DB2 @ 12.1.0.68914 — the talent-existence floor
   - ./ability-inventory.md  # tier 1, generated from wago DB2 + Blizzard /data/wow/spell @ 12.1.0.69214 — live 12.1 tooltips
-  - simc midnight branch profiles/MID1/MID1_Warlock_Demonology.simc  # tier 1 APL, commit 48103ef 2026-05-18 — ⚠ PRE-12.1, awaiting re-pull
+  - ./simc-apl.md  # tier 1, GENERATED — simc warlock.cpp `demonology` block, commit 51d49d5 (2026-08-12), post-12.1. Settles the ROTATION structure per tree; carries no talents= string and no profileset results, so it does not settle the hero-tree pick
   - https://murlok.io/warlock/demonology/diabolist/m+  # tier 2 top-player aggregation, fetched 2026-06-13 — ⚠ SEASON 1 data
   - https://www.wowhead.com/guide/classes/warlock/demonology/talent-builds-pve-dps  # NotWarlock, upd. 2026-03-30 — stale
   - https://www.method.gg/guides/demonology-warlock/talents
@@ -101,6 +101,12 @@ deliberately not reflected in anything below.
   12.1) has Soul Harvester "tuned around 3% higher than Diabolist in pure
   single-target, but suffers from a substantial lack of cleave in comparison."
   This is a change from 12.0.7, where Diabolist was the answer everywhere.
+  **Reopening condition:** Season-2 logs or a regenerated `sims.md` putting Soul
+  Harvester ahead in *M+* would flip the M+ half — the single-target half is
+  already flipped. ⚠ The 12.1 APL (`./simc-apl.md`, commit `51d49d5`) settles
+  neither: it ships **both** branches (`actions.diabolist` and
+  `actions.soulharvest`) and carries no profileset results, so it is evidence
+  about each tree's *rotation*, not about which tree wins.
 - **Apex: Dominion of Argus** — big Summon Demonic Tyrant buff; the Diabolist
   build is still constructed around the 1-min Tyrant window (the nerfs reduced
   its size, they did not remove it).
@@ -255,9 +261,14 @@ the defensive side of it:
       Shadowfury this file recommends.
 - [x] Soul-Harvester ST/raid import string pulled (Icy Veins, 12.1, above) —
       resolves the 2026-07-14 open item.
-- [ ] **Re-pull the Tier-1 simc APL + talent hash at the 12.1 SHA**
-      (`wowkb.simc warlock demonology`) and replace the pre-12.1 Diabolist
-      string above. Until then the only 12.1-current strings here are Tier 3.
+- [x] **Re-pull the Tier-1 simc APL at the 12.1 SHA** — done 2026-08-19.
+      `./simc-apl.md` is generated from the `demonology` block of simc's
+      `warlock.cpp` @ `51d49d5` (2026-08-12) and `wowkb.simc --kb … --check`
+      passes.
+- [ ] **A 12.1 Tier-1 talent hash is still missing.** A module APL carries no
+      `talents=` string, so the Diabolist loadout string above is still the
+      pre-12.1 profile's and the only 12.1-current strings here are Tier 3.
+      Closing this needs a regenerated MID1 *profile*, not the module.
 - [ ] Confirm the **20s DR reset actually applies to PvE trash** (time two
       Shadowfurys on the same M+ pack). The Tier-1 line is global but its
       developers' note is written entirely about PvP; hedged in the body until

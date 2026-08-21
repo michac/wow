@@ -112,6 +112,29 @@ SPECS_BUILT = {
         # treatment these no longer stand for anything — the first is simply the default.
         "scan_samples": ["Metamorphosis", "Blade Dance", "Fel Rush", "Immolation Aura"],
     },
+    "demonology": {
+        "catalog": SPECS / "demonology" / "catalog.md",
+        "scenarios": SPECS / "demonology" / "scenarios.md",
+        "sidecar": SIDECARS / "demonology-scenarios.json",
+        "out": PREVIEWS / "demonology-stepper.html",
+        "title": "Demonology",
+        # Sample subjects for the primitives gallery: real art to hang a swatch on. One per
+        # role lane plus the spec's own signature button — under one treatment these no longer
+        # stand for anything and the first is simply the default.
+        "scan_samples": ["Summon Demonic Tyrant", "Hand of Gul'dan", "Shadow Bolt",
+                         "Demonbolt"],
+    },
+    "destruction": {
+        "catalog": SPECS / "destruction" / "catalog.md",
+        "scenarios": SPECS / "destruction" / "scenarios.md",
+        "sidecar": SIDECARS / "destruction-scenarios.json",
+        "out": PREVIEWS / "destruction-stepper.html",
+        "title": "Destruction",
+        # Sample subjects for the primitives gallery: real art to hang a swatch on. One per
+        # role lane plus the spec's charge row — under one treatment these no longer stand for
+        # anything and the first is simply the default.
+        "scan_samples": ["Summon Infernal", "Chaos Bolt", "Incinerate", "Conflagrate"],
+    },
     "retribution": {
         "catalog": SPECS / "retribution" / "catalog.md",
         "scenarios": SPECS / "retribution" / "scenarios.md",
@@ -124,6 +147,33 @@ SPECS_BUILT = {
         # and the first is simply the default.
         "scan_samples": ["Avenging Wrath", "Divine Storm", "Crusader Strike",
                          "Blade of Justice"],
+    },
+    "devourer": {
+        "catalog": SPECS / "devourer" / "catalog.md",
+        "scenarios": SPECS / "devourer" / "scenarios.md",
+        "sidecar": SIDECARS / "devourer-scenarios.json",
+        "out": PREVIEWS / "devourer-stepper.html",
+        "title": "Devourer",
+        # Sample subjects for the primitives gallery: real art to hang a swatch on. The first is
+        # simply the default. Collapsing Star is deliberately among them — it is the first
+        # VIRTUAL row any spec has, and the gallery should be able to draw one.
+        "scan_samples": ["Void Metamorphosis", "Void Ray", "Reap", "Collapsing Star"],
+        # Page-level honesty banners. Devourer is AUTHORED BUT NEVER FLOWN and two of its own
+        # premises are recorded as provisional, so the page says so before the reader forms an
+        # opinion from it — the per-scenario `⚠ UNSURE` blocks say the rest.
+        "notes": [
+            "<b>Devourer is authored and has never been built or flown.</b> This page exists to "
+            "be reviewed and argued with, not to record a decision. No <code>Catalogs/"
+            "Devourer.lua</code> exists; nothing here has run in the client.",
+            "<b>Two premises under it are provisional</b> (<code>catalog.md</code> §1): the "
+            "hero-tree call (Void-Scarred over Annihilator, contested between sources) and the "
+            "branch (<code>!talent.the_hunt</code>). A different call re-authors the roster, not "
+            "just the numbers.",
+            "<b>The open facts are open</b> (<code>catalog.md</code> §8). The load-bearing one is "
+            "item 3: what clears Collapsing Star's gated row is an unmeasured "
+            "<code>C_Spell.IsSpellUsable</code> read, and it also carries Void Metamorphosis's "
+            "bank hold and Voidblade's rung-1 hold.",
+        ],
     },
 }
 
@@ -146,6 +196,20 @@ ICON_FDID = {
     383328: 461860,    # Final Verdict    (Templar's Verdict's permanent override)
     24275: 7439209,    # Hammer of Wrath  (Judgment's execute-range override)
     407480: 1109508,   # Templar Strike   (Crusader Strike's Templar Strikes override)
+    # The two Warlock Diabolist transforms — same lookup, same table. Both are Midnight-new
+    # and neither resolves through the media endpoint.
+    433891: 841220,    # Infernal Bolt    (Shadow Bolt's / Incinerate's Mother-of-Chaos override)
+    433885: 135803,    # Ruination        (Hand of Gul'dan's / Chaos Bolt's Pit-Lord override)
+    1276452: 5178162,  # Grimoire: Imp Lord
+    1276467: 136217,   # Grimoire: Fel Ravager
+    1276672: 615103,   # Summon Doomguard
+    # Devourer's six override identities — same lookup, same table (SpellMisc @ 12.1.0.69214).
+    1245453: 7554202,  # Cull             (Reap's Void Metamorphosis override)
+    1225826: 7554203,  # Eradicate        (Reap's upgraded form)
+    1239123: 7554211,  # Hungering Slash  (Voidblade's live form)
+    1245483: 1355117,  # Pierce the Veil  (Voidblade's in-Meta Voidsurge cast)
+    1245470: 1273724,  # Reaper's Toll    (Voidblade's other in-Meta cast)
+    1217610: 7554204,  # Devour           (Consume's Void Metamorphosis override)
 }
 
 # --------------------------------------------------------------------------- Blizzard's baseline
@@ -300,8 +364,16 @@ def load_roster(catalog: Path) -> dict:
         key, base_id = m.group("key"), int(m.group("spell"))
         out[m.group("name")] = {"key": key, "spell": base_id, "lane": lane,
                                 "charges": charges}
-        ov = OVERRIDE_RE.match(m.group("override"))
-        if ov:
+        # EVERY override in the column, not just the first. A row can wear more than two faces
+        # — Devourer's Voidblade has three, one per live form — and a scenario writes whichever
+        # one the client would be showing, so binding only the first would leave the others
+        # unresolvable names. Split on the `/` the column already uses; a face with no id of its
+        # own (Retribution's "Templar Slash") simply does not match and stays unbound, which is
+        # the same behaviour it had before.
+        for part in m.group("override").split("/"):
+            ov = OVERRIDE_RE.match(part.strip())
+            if not ov:
+                continue
             out[ov.group("name").strip()] = {
                 "key": key,
                 "spell": int(ov.group("spell")),
@@ -338,12 +410,47 @@ def _flat(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+#: V12's seam. A spec whose press has no Cooldown Manager frame writes its cap-owned panel on
+#: either side of the Essential line, and marks the join with `‖`. The composed reading order is
+#: the authored left-to-right order (devourer/scenarios.md §7.1), so a virtual entry takes part in
+#: elimination exactly like any other — the seam changes how the entry is DRAWN, never its rank.
+SEAM = "‖"
+
+
 def parse_row(raw: str) -> list[dict]:
-    """The `- **CDM row.**` bullet's fixed grammar → an ordered list of row entries."""
+    """The `- **CDM row.**` bullet's fixed grammar → an ordered list of row entries.
+
+    `·` separates entries. `‖` also separates entries AND marks a surface boundary: everything
+    outside the seams is a **virtual row** — a cap-owned icon with no Cooldown Manager frame
+    (render-shelf.md V12) — and everything between them is the CDM line.
+
+    ⚠ **Exactly two seams, or none.** The shape this understands is the one §7.1 authorises:
+    `[gated panel] ‖ [the Essential line] ‖ [standing panel]`, either panel possibly empty. One
+    seam is ambiguous — it cannot say which side is cap's — and three is a geometry nothing has
+    authored. Both are refused rather than guessed at.
+    """
     row = _flat(raw).rstrip(".")
+    seams = row.count(SEAM)
+    if seams not in (0, 2):
+        _die(f"CDM row has {seams} `{SEAM}` seam(s): {row!r}\n"
+             f"       A virtual panel is written `[gated] {SEAM} [the CDM line] {SEAM} "
+             "[standing]` — two seams or none.\n"
+             "       One seam cannot say which side cap owns, and three is a geometry no spec "
+             "has authored.")
+    segments = row.split(SEAM) if seams else [row]
     entries = []
-    for chunk in row.split(" · "):
-        chunk = chunk.strip()
+    for seg_i, segment in enumerate(segments):
+        # With two seams the segments alternate virtual / CDM / virtual, so an even index is
+        # cap's own surface. With no seam there is one segment and nothing is virtual.
+        virtual = bool(seams) and seg_i % 2 == 0
+        entries += _parse_segment(segment, virtual)
+    return entries
+
+
+def _parse_segment(segment: str, virtual: bool) -> list[dict]:
+    entries = []
+    for chunk in segment.split(" · "):
+        chunk = chunk.strip().strip("·").strip()
         if not chunk:
             continue
         if DEAD_GROUP_RE.search(chunk):
@@ -370,6 +477,8 @@ def parse_row(raw: str) -> list[dict]:
             # from `starved` the two could never disagree, and "does cap's badge add anything
             # to the client's own mark?" would be unanswerable by construction.
             entry["client"] = groups["client"].strip()
+        if virtual:
+            entry["virtual"] = True
         entries.append(entry)
     return entries
 
@@ -422,9 +531,12 @@ def parse_walk(raw: str, row_names: list[str]) -> list[dict]:
     return [{"names": s["names"], "html": _inline(s["raw"])} for s in steps]
 
 
-# Each spec names its own scenario prefix — Havoc walks `ST-n` / `AoE-n`, Retribution `RET-n`.
-# The prefix carries no meaning here beyond ordering the stepper, so it is matched by shape.
-HEADING_RE = re.compile(r"^###\s+(?P<id>[A-Z][A-Za-z]{1,4}-\d+)\s+·\s+(?P<title>.+?)\s*$", re.M)
+# Each spec names its own scenario prefix — Havoc walks `ST-n` / `AoE-n`, Retribution `RET-n`,
+# Devourer `B-n` / `M-n`. The prefix carries no meaning here beyond ordering the stepper, so it is
+# matched by shape. ⚠ A ONE-LETTER prefix is allowed: the bound used to be two and Devourer's
+# build/window split is `B`/`M`, which would have forced a spec to rename its scenarios — and the
+# ids are cited by section number across three files.
+HEADING_RE = re.compile(r"^###\s+(?P<id>[A-Z][A-Za-z]{0,4}-\d+)\s+·\s+(?P<title>.+?)\s*$", re.M)
 
 
 def scrape_scenarios(path: Path) -> list[dict]:
@@ -1656,6 +1768,37 @@ def root_css(tokens: dict) -> str:
             f"{(tokens.get('preview') or {}).get('hotkey_outline_px', 1)}px;",
         ]
 
+    # PREVIEW-ONLY chrome, and both live under `tokens.preview` for the same reason the hotkey
+    # outline colour does: `NOT_THE_STYLE` excludes that key from `Style.lua`, so neither of these
+    # can reach the addon. The virtual tick compensates for a geometry the PREVIEW loses (V12's
+    # panel is a separate surface in the client and one flat row here); the unsure block is a note
+    # to the author about the doc, not a mark on a button.
+    prev = tokens.get("preview") or {}
+    vm = prev.get("virtual_mark")
+    if vm:
+        lines += [
+            "",
+            "  /* V12 · virtual-row tick — PREVIEW ONLY. Says 'cap owns this frame; the",
+            "     Cooldown Manager has no row for it', which the client says by geometry. */",
+            f"  --virtual-rgb: {rgba(vm['rgb'])};",
+            f"  --virtual-size: {vm['size_px']}px;",
+            f"  --virtual-line: {vm['line_px']}px;",
+            # It HANGS OFF the corner, the way a badge overhangs the top-right, because the scan
+            # edge already owns the rim: a tick drawn inside the rect competes with a 2px gold
+            # line on exactly the pixels it needs, and on bright art it loses.
+            f"  --virtual-out: {vm['overhang_px']}px;",
+        ]
+    uns = prev.get("unsure")
+    if uns:
+        lines += [
+            "",
+            "  /* ⚠ UNSURE annotation — PREVIEW ONLY. Loud on purpose: it marks a claim the",
+            "     authoring docs themselves doubt, and it must not read as a footnote. */",
+            f"  --unsure-rgb: {rgba(uns['rgb'])};",
+            f"  --unsure-bg: {rgba(uns['bg_rgb'], uns.get('bg_alpha', 1.0))};",
+            f"  --unsure-line: {uns['line_px']}px;",
+        ]
+
     promo = tokens.get("promotion")
     if promo:
         lines += [
@@ -1956,7 +2099,10 @@ def build(spec: str, tokens: dict, when: str) -> str:
         for name in used
     }
 
-    notes = []
+    # A spec may carry standing banners of its own — what the page is and is not evidence for.
+    # They are page-level because they are true of every scenario on it; a caveat that is true of
+    # ONE scenario belongs in that scenario's `⚠ UNSURE` extras bullet, where the row is.
+    notes = list(cfg.get("notes") or [])
     open_frames = sorted(n for n, f in frames.items() if f["open"])
     if open_frames:
         notes.append(
@@ -1977,10 +2123,14 @@ def build(spec: str, tokens: dict, when: str) -> str:
         "scenarios": scenarios,
         "notes": notes,
         "frames": frames,
+        # ⚠ `lab_stripes` is a LEGACY NAME, not a lab payload: it is V11's hatch sheet, which
+        # the lab owned until L4 was promoted on 2026-08-16 and took it into `tokens.hatch`.
+        # Same for `promotion`, which is V14's. Both are the style's and both stay.
+        #
+        # What left with the lab page are the genuinely lab-only assets — sprites, VFX sheets and
+        # font candidates. A spec page carried all three for as long as the lab was appended to
+        # it, which is most of why an experiment could add half a megabyte to every spec at once.
         "lab_stripes": stripes,
-        "lab_sprites": lab_sprite_assets(tokens),
-        "lab_fonts": lab_font_assets(tokens),
-        "lab_vfx": vfx_assets(tokens),
         "promotion": promotion_asset(tokens),
         "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, ring, total,
                                            when),
@@ -2243,6 +2393,83 @@ def _specs_of(args) -> list[str]:
 
 
 INDEX_OUT = PREVIEWS / "index.html"
+LAB_OUT = PREVIEWS / "lab.html"
+
+
+def build_lab(tokens: dict, when: str) -> str:
+    """Part 7 as its own page.
+
+    ⚠ IT IS NOT A SPEC AND MUST NOT BECOME ONE. Lab cells resolve against `SHELF_ROSTER_SPEC`'s
+    roster and always did — Part 7 is one gallery belonging to `render-shelf.md`, and its cells
+    are not a claim about any spec's rotation. It used to be appended to every spec page, which
+    made that claim look spec-shaped and duplicated the larger half of the page into all of them.
+
+    It ships no scenarios, and `stepper.js` renders the stepper only when there are some.
+    """
+    roster = load_roster(SPECS_BUILT[SHELF_ROSTER_SPEC]["catalog"])
+    names = set()
+    for key, entry in ((k, e) for k, e in (tokens.get("lab") or {}).items()
+                       if not k.startswith("_")):
+        for cell in entry.get("cells", []):
+            names |= set(cell.get("abilities", []))
+            if cell.get("ability"):
+                names.add(cell["ability"])
+    missing = sorted(n for n in names if n not in roster)
+    if missing:
+        _die(f"lab cells name {missing}, which are not in "
+             f"{SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].relative_to(ROOT)}'s bound-abilities "
+             "table (Part 7 draws from the shelf's reference roster)")
+    # An EMPTY lab embeds nothing. Every asset below exists to be drawn by an entry, so with no
+    # entries they are half a megabyte of payload behind a page that says "the lab is empty" —
+    # which is also the state the lab is supposed to spend most of its life in.
+    used = sorted(names)
+    icons = icon_assets(used, roster, tokens) if used else {}
+    frames = badge_assets(tokens) if used else {}
+    fakes = (tokens.get("preview") or {}).get("hotkeys") or []
+    at = {name: i for i, name in enumerate(roster)}
+    data = {
+        "built": when,
+        "client_paint": CLIENT_PAINT,
+        "abilities": {
+            name: {"key": roster[name]["key"], "spell": roster[name]["spell"],
+                   "hotkey": (fakes[at[name] % len(fakes)] if fakes else ""),
+                   "lane": roster[name]["lane"],
+                   "charges": roster[name].get("charges", 0), "icon": icons[name]["uri"]}
+            for name in used},
+        # No scenarios and no scan samples: this page has no row to walk and no press to lead the
+        # eye to. Both are the shelf's, and the shelf is not what the lab is asking about.
+        "scenarios": [], "scan_samples": [], "notes": [],
+        "frames": frames,
+        "lab_stripes": hatch_asset(tokens) if used else None,
+        "lab_sprites": lab_sprite_assets(tokens) if used else {},
+        "lab_vfx": vfx_assets(tokens) if used else {},
+        "lab_fonts": lab_font_assets(tokens),
+        "promotion": promotion_asset(tokens) if used else None,
+        "provenance_html": lab_provenance_html(tokens, icons, when),
+    }
+    page = (TEMPLATE / "lab.html").read_text(encoding="utf-8")
+    page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
+    page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))
+    page = page.replace("/*__STEPPER_JS__*/", (TEMPLATE / "stepper.js").read_text(encoding="utf-8"))
+    page = page.replace("/*__TOKENS_JSON__*/", json.dumps(tokens, separators=(",", ":")))
+    page = page.replace("/*__DATA_JSON__*/", json.dumps(data, separators=(",", ":")))
+    return BUILT_MARK.format(date=when) + "\n" + page
+
+
+def lab_provenance_html(tokens: dict, icons: dict, when: str) -> str:
+    entries = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
+    rows = [
+        ("render-shelf.md", f"sha {_sha(SHELF)} · Part 7, {len(entries)} "
+                            f"{'entry' if len(entries) == 1 else 'entries'}"),
+        ("reference roster", f"{SHELF_ROSTER_SPEC} · "
+                             f"{SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].name}"),
+        ("icons", f"{len(icons)} × {tokens['assets']['icon_size']}px "
+                  f"{tokens['assets']['encode']}"),
+        ("authority", "<b>none</b> — Part 7 rule 3. A treatment leaves by being MOVED into "
+                      "Parts 1–6, never by being cited from here."),
+        ("built", when),
+    ]
+    return ("<table>" + "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in rows) + "</table>")
 
 
 def build_index(when: str) -> str:
@@ -2285,6 +2512,9 @@ def build_index(when: str) -> str:
         "  <p>One page per spec, all generated by <code>wowkb.capart build --all</code> from\n"
         "     <code>specs/render-shelf.md</code> and each spec&rsquo;s <code>scenarios.md</code>.</p>\n"
         "  <ul>\n" + "\n".join(rows) + "\n  </ul>\n"
+        # ONE more link, and deliberately below the specs rather than among them: the lab is not
+        # a spec and the list above is what this page is for.
+        "  <p><a href=\"lab.html\">The lab</a> — Part 7, experiments with no authority.</p>\n"
         "</main>\n")
 
 
@@ -2301,6 +2531,11 @@ def cmd_build(args) -> None:
         if len(page) / 1024 > cap:
             _warn(f"{out.name} is over the {cap} KB budget in tokens.budget — "
                   "run `wowkb.capart assets` for the per-asset table")
+    lab_page = build_lab(tokens, when)
+    LAB_OUT.write_text(lab_page, encoding="utf-8")
+    entries = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
+    print(f"wrote {LAB_OUT.relative_to(ROOT)} · {len(lab_page) / 1024:.0f} KB · "
+          f"{len(entries)} lab {'entry' if len(entries) == 1 else 'entries'}")
     INDEX_OUT.write_text(build_index(when), encoding="utf-8")
     print(f"wrote {INDEX_OUT.relative_to(ROOT)} · {len(SPECS_BUILT)} specs")
 
@@ -2664,6 +2899,42 @@ def _page_data(out: Path) -> dict | None:
         return None
 
 
+def _check_shared() -> list[str]:
+    """The two pages that belong to no spec: the lab and the index.
+
+    ⚠ THIS GATE EXISTS BECAUSE ONE OF THEM HAD NO GATE AT ALL. `index.html` has been generated by
+    `build --all` and checked by nothing since it shipped, so a newly registered spec could be
+    missing from the front door indefinitely and the run would still read green. `lab.html` would
+    have inherited the same hole the day it was split out — the per-spec staleness gate is inside
+    the per-spec loop, and neither of these is a spec.
+    """
+    tokens = load_tokens()
+    fails = []
+    for out, rebuild, what in ((LAB_OUT, build_lab, "lab.html"),
+                               (INDEX_OUT, lambda t, w: build_index(w), "index.html")):
+        if not out.exists():
+            fails.append(f"no {what} at {out.relative_to(ROOT)} — run: wowkb.capart build --all")
+            continue
+        committed = out.read_text(encoding="utf-8")
+        m = BUILT_RE.search(committed)
+        if not m:
+            fails.append(f"{what} carries no build stamp — rebuild it")
+        elif rebuild(tokens, m.group(1)) != committed:
+            fails.append(f"{what} is stale — rebuild: wowkb.capart build --all")
+    # The index is the front door and a spec missing from it is invisible, which is the one
+    # failure a byte-compare of a self-generated file cannot catch on its own.
+    if INDEX_OUT.exists():
+        listing = INDEX_OUT.read_text(encoding="utf-8")
+        for spec, cfg in sorted(SPECS_BUILT.items()):
+            if cfg["out"].name not in listing:
+                fails.append(f"{spec} is registered in SPECS_BUILT but the index does not link "
+                             f"{cfg['out'].name} — run: wowkb.capart build --all")
+        if "lab.html" not in listing:
+            fails.append("the index does not link lab.html — Part 7 would be unreachable from "
+                         "the front door")
+    return fails
+
+
 def cmd_check(args) -> None:
     specs = _specs_of(args)
     if len(specs) > 1:
@@ -2680,6 +2951,17 @@ def cmd_check(args) -> None:
                 if exc.code:
                     bad.append(spec)
             sys.stdout.flush()
+        shared = _check_shared()
+        if shared:
+            print("── shared pages")
+            print("FAIL")
+            for line in shared:
+                print(f"  {line}")
+            bad.append("shared pages")
+        else:
+            print("── shared pages")
+            print("ok · lab.html and index.html are current, and the index links every "
+                  "registered spec plus the lab")
         if bad:
             sys.exit(f"FAILED: {', '.join(bad)}")
         return

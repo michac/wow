@@ -42,21 +42,34 @@ local hooked = {}         -- item frame -> true, so a re-scan does not double-ho
 
 --- Is this cooldownID one the viewers actually laid out? That is the whole bound/hidden
 --- axis: the provider is the single source of truth the live viewer reads from.
+--- Which cooldownIDs actually reached an ITEM FRAME. That is the bound/hidden axis, and it
+--- is ground truth rather than inference: `RefreshLayout` acquires one frame per entry of the
+--- ordered list and `RefreshData` either assigns a cooldownID or calls `ClearCooldownID()`
+--- [T1 src @12.1: CooldownViewer.lua:2021-2031, 2071-2080], so a frame carrying the id IS the
+--- definition of bound — and it is the same object the alert hook attaches to, which is what
+--- makes it the right question to ask.
+---
+--- ⚠ The settings provider's ordered list is NOT this. Reconciling against
+--- `GetOrderedCooldownIDsForCategory` returned the row in both halves of an enable/disable A/B
+--- `[client 2026-08-19]`, so it answers something other than "will this raise an edge".
 local function boundIDs()
-  local out = {}
-  -- Probed BY STRING: whether this global exists is part of the question, and naming it as
-  -- an identifier is what the lab's `ns.G` rule exists to prevent.
-  local settings = ns.G("CooldownViewerSettings")
-  local prov = settings and settings.GetDataProvider and settings:GetDataProvider()
-  if not (prov and prov.GetOrderedCooldownIDsForCategory and Enum and Enum.CooldownViewerCategory) then
-    return out, "provider unavailable"
-  end
-  for _, cat in pairs(Enum.CooldownViewerCategory) do
-    local ok, ids = pcall(prov.GetOrderedCooldownIDsForCategory, prov, cat)
-    if ok and type(ids) == "table" then
-      for _, id in ipairs(ids) do out[id] = true end
+  local out, frames = {}, 0
+  for _, name in ipairs(VIEWERS) do
+    local viewer = ns.G(name)
+    local pool = viewer and viewer.itemFramePool
+    if pool and pool.EnumerateActive then
+      for item in pool:EnumerateActive() do
+        frames = frames + 1
+        if item.GetCooldownID then
+          local ok, cid = pcall(item.GetCooldownID, item)
+          -- A cleared frame answers nil, which is exactly the "laid out but bound to nothing"
+          -- case and must not count.
+          if ok and type(cid) == "number" then out[cid] = true end
+        end
+      end
     end
   end
+  if frames == 0 then return out, "no active item frames — is the Cooldown Manager enabled?" end
   return out
 end
 
@@ -66,7 +79,7 @@ end
 local function hookFrames()
   local n = 0
   for _, name in ipairs(VIEWERS) do
-    local viewer = _G[name]
+    local viewer = ns.G(name)
     local pool = viewer and viewer.itemFramePool
     if pool and pool.EnumerateActive then
       for item in pool:EnumerateActive() do
@@ -138,9 +151,9 @@ ns.Test{
     -- prediction and needs the other half of the pair to mean anything.
     if not anyBound then
       out.measured = false
-      out.why = "neither watched row is bound — this run records the HIDDEN half. Add "
-        .. "Expurgation to your tracked buffs in the Cooldown Manager and fly again for "
-        .. "the other half."
+      out.why = "neither watched row has an item frame — this run records the HIDDEN half. "
+        .. "Add Expurgation to your tracked buffs in the Cooldown Manager and fly again for "
+        .. "the other half; BOUND should flip, and it did not with the previous detector."
       return out
     end
     if #edges == 0 then

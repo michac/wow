@@ -2,7 +2,7 @@
 title: Crests — Mistcrests (Midnight S2) & Dawncrests (S1, historical)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-20
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24295085   # Lairs preview — Tidebound Grotto reward table, the Tier-1 Mistcrest names + track 1/6 ilvls
   - https://us.forums.blizzard.com/en/wow/posts/29833350       # S1 ending / S2 information — pre-season week reward caps
@@ -14,7 +14,8 @@ sources:
   - https://www.method.gg/guides/mistcrests-from-mythic-dungeons-and-raid-bosses-in-wow-midnight-season-2  # T3 — M+/raid amounts (2026-08-10)
   - https://www.icy-veins.com/wow/news/these-five-mistcrests-decide-how-fast-your-gear-climbs-in-midnight-season-2/
   - https://www.wowhead.com/news/upgrade-achievements-cut-crest-costs-by-50-in-midnight-380457  # 50% discount, achievement-gated (Feb 2026)
-  - IN-GAME field test 2026-07-10 (Uncomplete) — full crests charged; TWW 0-crest same-slot rule is GONE
+  - IN-GAME field test 2026-07-10 (Uncomplete) — CROSS-ALT same-slot upgrade charges full crests (alt does NOT inherit the main's watermark)
+  - IN-GAME 2026-08-19 (Encomplete) — SAME-CHARACTER same-slot upgrade to the slot's high watermark is FREE; the mechanic is alive
   - IN-GAME 2026-07-11 (Encomplete) — all-slots-263 → Champion of the Dawn → 50% Champion **Dawncrest** discount (S1 only; does not carry to S2)
   - https://blizzardwatch.com/2026/03/02/upgrade-gear-midnight-no-valorstones-required/   # Valorstones removed
   - https://www.wowhead.com/currency=3343/champion-dawncrest         # S1 Champion track 246→263
@@ -211,10 +212,23 @@ Each threshold is exactly that track's 6/6 ceiling — "outgrow this crest tier"
 
 Hard-won S1 lessons that still apply verbatim:
 
-- ❌ **There is no "0-crest same-slot upgrade."** The TWW high-watermark rule
-  (*"same slot up to the main's ilvl = free"*) did **not** carry into Midnight —
-  field-tested 2026-07-10, the UI charged full crests. Any guide still saying
-  same-slot upgrades are free is **stale TWW carryover; reject it.**
+- ✅ **The 0-crest same-slot upgrade DOES exist — but only on the SAME CHARACTER.**
+  On one character, a slot whose **high watermark** is already at some ilvl will
+  re-upgrade any item in that slot **up to that watermark for free**. Confirmed
+  **in-game 2026-08-19 (Encomplete)**. This is a live, plannable mechanic: gear a
+  slot high once, and every later item in that slot rides up to the watermark at
+  zero crest cost.
+  - ⚠ **It does NOT cross characters.** An alt does not inherit the main's
+    watermark — field-tested **2026-07-10 (Uncomplete)**, where the UI charged
+    full crests. That test is what this file previously — and wrongly —
+    generalised into "the rule is gone entirely"; it only ever measured the
+    **cross-alt** case. *(Corrected 2026-08-20.)*
+  - The **warband** lever for alts is therefore the **"…of the Mist" 50% discount**
+    (below), not a shared watermark. Two different mechanisms; don't conflate them.
+  - ⚠ Still **unmeasured**: whether the free ride is capped at the watermark
+    exactly or at the item's own track ceiling, and whether it applies across
+    different *tracks* in the same slot (e.g. a Hero-track watermark freeing a
+    Champion-track item's climb). @verify-ingame
 - **All-or-nothing gate:** *some* slots at the ceiling is not enough. One lagging
   slot → the achievement never fires → your alt pays full price.
 - ⚠ **Crafted gear is the classic blocker:** a spark-crafted piece below the

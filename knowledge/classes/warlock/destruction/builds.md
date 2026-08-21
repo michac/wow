@@ -2,10 +2,11 @@
 title: Destruction Warlock — Talents & Builds (Midnight, 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-19
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes (CLASSES ▶ WARLOCK ▶ Destruction), 2026-08-11
-  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warlock_Destruction.simc  # tier 1, simc midnight profile talent string, pulled 2026-07-11 (12.0.7-era — re-pull at 12.1)
+  - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Warlock_Destruction.simc  # tier 1, simc midnight profile — the TALENT STRING below only, pulled 2026-07-11 (12.0.7-era; a module APL carries no talents= string, so this is the only source for it and it is still pre-12.1)
+  - ./simc-apl.md  # tier 1, GENERATED — simc warlock.cpp `destruction` block, commit 8ec56ea (2026-08-18), post-12.1. Settles the ROTATION structure per tree; carries no profileset results, so it does not settle the hero-tree pick
   - https://www.method.gg/guides/destruction-warlock/talents  # tier 3, upd. 2026-06-16, read 2026-07-11 (pre-12.1)
   - https://www.method.gg/guides/destruction-warlock/playstyle-and-rotation  # tier 3, read 2026-07-11 (pre-12.1)
 confidence: medium
@@ -91,7 +92,35 @@ Diabolist cleave pattern more than the Hellcaller DoT pattern. Directionally
 that is a **Hellcaller buff on both ST and priority-target-in-AoE**, but no S2
 sim or log set exists yet. Do not read a new default into it here.
 
-## simc profile talent string (tier 1, midnight branch — 12.0.7 pull)
+### Where the 12.1 APL leaves the split — and the reopening condition
+
+**The post-12.1 module (`./simc-apl.md`, commit `8ec56ea`, 2026-08-18) is
+Diabolist-shaped, and that is the strongest current evidence — but it is
+structural, not comparative.** Three Tier-1 observations, none of them a sim
+result:
+
+- `actions.default`, the single-target list, **is** the Diabolist list: its
+  second spender rung is `chaos_bolt,if=talent.diabolic_ritual&(demonic_art|…)`
+  and it carries `ruination` and `infernal_bolt`.
+- The Hellcaller branch is reached only through
+  `call_action_list,name=aoe_hc,if=active_enemies>=2&talent.wither` — i.e. it is
+  an **AoE** list, gated on the talent.
+- Nothing in either list ranks the trees against each other. A module carries no
+  profileset results and no `talents=` string.
+
+Corroborating at Tier 3: maxroll's M+ guide (recaptured 2026-08-11) recommends
+Diabolist and offers Hellcaller only for predominantly-AoE play; `rotation.md`
+reads the same way. Against it: method.gg (Tier 3, pre-12.1) preferred
+Hellcaller, and 12.1's Blackened Soul rework was an explicit Hellcaller
+priority-target buff.
+
+**Working call: Diabolist is the default.** ⚠ **Reopening condition:** Season-2
+logs or a regenerated `sims.md` putting Hellcaller ahead in M+. That is a real,
+plausible outcome given the Blackened Soul rework — it is *not* settled here,
+and the balance of Tier-1 structural evidence is simply the best thing available
+until S2 data exists.
+
+## simc profile talent string (tier 1, midnight branch — ⚠ still a 12.0.7 pull)
 
 ```
 CsQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZjhZmZmlZxMzMLGjFzAAgZmxMzsYBzMjZWWGNzMsNsNbNWYAAgxAjNAMzMzAzMGDAAAzMzMAAGDD
@@ -273,8 +302,13 @@ Relevant if you skin or read the CDM (`projects/combat-assist/`, `wowkb.cdmp`):
       directly with crit chance (Conflagration of Chaos). Owned by `gearing.md`,
       flagged here because it changes which talents are worth taking
       (Devastation, Backlash, Ruin).
-- [ ] Re-pull the simc MID1 talent string at the 12.1 SHA
-      (`wowkb.simc warlock destruction`) and refresh `sims.md`.
+- [ ] Re-pull the simc MID1 **talent string** at a 12.1 SHA and refresh
+      `sims.md`. ⚠ The **APL** is already re-pulled and current
+      (`./simc-apl.md`, `warlock.cpp` `destruction` block @ `8ec56ea`,
+      2026-08-18) — but a module APL carries no `talents=` string and no
+      profileset results, so the loadout string above and every number in
+      `sims.md` are still 12.0.7-era. Closing this needs a regenerated MID1
+      *profile*.
 - [x] Gearing/stat/consumables split into **`gearing.md`** (2026-07-14,
       backfilled from maxroll Tier-3; sim-verify numbers). builds.md is now
       talents/loadouts/hero-tree only.

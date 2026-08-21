@@ -165,6 +165,37 @@ Stage 2's filter: **an ability with no named player problem gets no row.** Eight
 Essential rows, one Utility row, and two **virtual rows** (§6.1). The role tiers are
 `../spec.md` §3.1's.
 
+### 5.0 Bound abilities
+
+The same table Havoc and Retribution carry, and the one `wowkb.capart` parses: it is what binds a
+display name to a spell id, a role lane and a charge count, so nothing below has to restate any of
+them. Base ids are `abilities.md` / `ability-inventory.tsv`; override ids are resolved live by R7
+and the numbers here are reference. **Both a base name and every override name are keys**, because
+a scenario row writes whatever the client would *display* at that moment.
+
+⚠ **Lanes are §5.1 / §5.2's, transcribed and not re-decided.** The two virtual rows are in the
+table because they are drawable buttons cap owns (§6.1); the **Surface** column is what says a row
+has no Cooldown Manager frame at all.
+
+| Key | Ability | Base spell ID | Live override | Lane | Charges | Surface | Cues |
+| --- | --- | ---: | --- | --- | --- | --- | --- |
+| `void_metamorphosis` | Void Metamorphosis | `1217605` | — | COOLDOWN | — | CDM Essential | the Eradicate-setup hold (D) + the sealed soul-bank readout (C) |
+| `reap` | Reap | `1226019` | Cull `1245453` / Eradicate `1225826` | ROTATION | — | CDM Essential | — (identity spine only) |
+| `void_ray` | Void Ray | `473728` | — | ROTATION | — | CDM Essential | starved (A) |
+| `soul_immolation` | Soul Immolation | `1241937` | — | ROTATION | — | CDM Essential | the drain save (B) |
+| `voidblade` | Voidblade | `1245412` | Pierce the Veil `1245483` / Hungering Slash `1239123` / Reaper's Toll `1245470` | ROTATION | — | CDM Essential | — (see `scenarios.md` §7.5, misordering 2) |
+| `collapsing_star` | Collapsing Star | `1221167` | — | ROTATION | — | **virtual · gated** (§6.1) | — (V12: the hatch and nothing else) |
+| `consume` | Consume | `473662` | Devour `1217610` | ROTATION | — | **virtual · standing** (§6.1) | — (V12: no verdict at all) |
+| `vengeful_retreat` | Vengeful Retreat | `198793` | — | COOLDOWN | — | CDM Utility | — (cue E deleted, §6) |
+
+⚠ **Collapsing Star's cast carries two ids** — `1221150` and `1221167` (§3) — and neither is in a
+Cooldown Manager category. `1221167` is the one bound here because it is the id §6.1 and
+`../render-shelf.md` V12 both name; the other is recorded in §3 and used nowhere.
+
+⚠ **Voidblade's override column lists Pierce the Veil first**, which is the face `scenarios.md`
+§7.4 walks. The order in this column is not a claim about which form is live — R7 resolves that at
+runtime, and all three are keys.
+
 ### 5.1 The Essential rows (the scanned line)
 
 - **Void Metamorphosis** (`1217605`, rung 2). *Problem:* it is **not a cooldown** — it is

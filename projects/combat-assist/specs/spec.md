@@ -64,9 +64,10 @@ cap is built for the author first and may be published later. It has chosen defa
 settings panel. The player may move its independent surface and set single-target or AoE mode;
 those are inputs, not a way to rewrite cap's opinions.
 
-Specs are added one at a time. The first pilot is Demonology Warlock / Diabolist. A spec or
-build cap has not deliberately authored is completely inert: no generic recommendations, no
-fallback skin and no guesses.
+Specs are added one at a time, and **the unit is a spec-and-hero pair** (`authoring.md` §0). A
+spec or build cap has not deliberately authored is completely inert: no generic recommendations,
+no fallback skin and no guesses. Which specs are authored, transcribed or flown is
+`backlog.md` → `## Status` and is deliberately not restated here.
 
 cap is meant to work in the restrictive case—combat, instances and PvP—not only on a target
 dummy in a city. Out of combat it is quiet apart from setup controls.
@@ -226,34 +227,59 @@ report only which path cap armed—not what appeared on screen.
 The bar is an experiment, not a required surface for every cooldown; play decides whether it
 stays.
 
-### 3.4 Demonology pilot
+### 3.4 Demonology Warlock / Diabolist
 
-The first pilot is deliberately small:
+**Authored to the comprehensive standard** (§3.7) as three files under `specs/demonology/` — a
+definition, its proof and its safety case. **Those documents own the roster and every rule in it;
+this section owns only what is approved behaviour and does not restate a roster.**
 
-| Ability | Player problem | Initial hypothesis |
-| --- | --- | --- |
-| **Demonbolt** | Blizzard's proc glow says available even when using the proc would waste readable Soul Shards. | Put a live proc in ROTATION; use the readable shard count as a cue that dims it where spending the proc would overcap shards. Exact threshold and stock-glow handling are chosen through play. |
-| **Summon Demonic Tyrant** | Readiness alone does not show whether familiar setup pieces are present. | Put a ready Tyrant in COOLDOWN. Add separate readable markers for Dreadstalkers and Grimoire setup facts; do not combine them into a single verdict. |
-| **Tyrant bar** | The icon may be too small to make the next burst window legible. | Test one independent countdown bar as described in §3.3. |
+It began as a *deliberately tiny proof* — four entries demonstrating readable readiness plus a
+readable marker — and was replaced on 2026-08-19. That history is §3.7 and `notes.md`; **nothing
+in it is a present-tense rule.** Two of the pilot's three hypotheses were carried and one was
+corrected, on evidence:
 
-Everything else begins absent. An ability is added only after naming the player problem its
-hint solves. Gameplay facts come from authoritative rotation sources; usefulness comes from
-play.
+- **Demonbolt's overcap threshold was three Soul Shards and is four.** The APL term is
+  `soul_shard<4`; at three shards a Demonbolt leaves exactly five, which is full and is not waste.
+  The shape of the hypothesis — Blizzard's proc glow says *available* where spending would waste a
+  readable resource, so cap marks the waste — is unchanged and shipped.
+- **A ready Tyrant in COOLDOWN survives**, and the "familiar setup pieces" markers it proposed do
+  not. The setup facts the pilot wanted to draw (Dreadstalkers' and Grimoire's commitment state)
+  turned out to be weaker than the one the priority actually gates on: **enter the window at five
+  shards.** Soul Shards are never-secret, so that is an exact Lua comparison and it is the
+  catalog's centrepiece.
+- **The Tyrant countdown bar is not authored.** §3.3 still owns the bar's safe-state semantics and
+  the permission is unchanged; the catalog declares none, because the fact it would draw is
+  Tyrant's own **sealed** cooldown remaining and the row already carries the **readable** half of
+  the same decision.
 
-### 3.5 Destruction authoring proof
+**A spec-and-hero pair is the unit.** Soul Harvester is a separate future catalog, never an
+overlay on this one; the reopening condition is stated in the catalog that declines it.
 
-Destruction / Diabolist is the second deliberately small catalog. It enhances only
-Conflagrate and adds Backdraft as an independent context dependency:
+### 3.5 Destruction Warlock / Diabolist
 
-| Ability | Player problem | Initial hypothesis |
-| --- | --- | --- |
-| **Conflagrate** | Its native count and swipe do not add readable Soul Shard context. Exact charges seal once recharge begins. | From an exact out-of-combat seed, put an estimated available charge in ROTATION, with the readable shard count as a cue that dims it above four shards. Withhold the tier when the estimate is zero or unknown. |
-| **Backdraft** | The native aura count may be away from the Conflagrate row where the choice is made. | Let Blizzard display the application count at two stacks as independent context. It does not change Conflagrate's tier and does not encode press or hold. |
+**Authored to the comprehensive standard** (§3.7) as three files under `specs/destruction/`, on
+the same terms as §3.4. It began as the *authoring proof* for the sealed-display sink — two
+entries, Conflagrate and Backdraft — and was replaced on 2026-08-19.
 
-The charged-readiness estimate is intentionally small: exact current/max/recharge seed out of
-combat, successful player casts as debits, and accepted `ChargeGained` alerts as credits. It
-is clamped and re-seeded when combat ends. Captures distinguish exact `live` state from the
-in-combat `napkin`.
+Two of the proof's three claims survive and one is **withdrawn**:
+
+- **Backdraft is sealed, and Blizzard's AuraContainer owns its whole display.** Unchanged, and
+  still the shipped precedent other catalogs cite. What changed is that the single-target rotation
+  **does not need it**: its Conflagrate rungs ask whether Backdraft is *absent*, which is a
+  boolean the Cooldown-Manager aura latch answers. The sealed count is the right shape for the AoE
+  rung that asks for two stacks, and that rung is not authored here.
+- **Conflagrate is the charge row.** Unchanged.
+- **The charged-readiness estimate is withdrawn.** The proof proposed recovering a live charge
+  *count* — exact out-of-combat seed, debit on a cast, credit on an accepted `ChargeGained` alert,
+  clamp, re-seed at combat end, with captures distinguishing exact `live` from in-combat
+  `napkin`. **No rung in the 12.1 priority wants the number.** The one Conflagrate rung that reads
+  charges asks `charges>=2`, and `pattern-shelf.md` R6 reads exactly that and only that — charges
+  are readable at full and seal below it. The recipe stays on the shelf, unbuilt, for a spec that
+  needs a number; the `live` / `napkin` capture labels have no producer.
+
+**A spec-and-hero pair is the unit**, and here the pick itself is provisional: Hellcaller is a
+separate future catalog and the condition that would make it the next one is stated in the
+catalog that declines it.
 
 ### 3.6 Safety boundary
 
@@ -366,7 +392,9 @@ capture names developer-actionable failures without turning them into player-fac
 
 ### 3.7 Havoc Demon Hunter — the first comprehensive catalog
 
-Demonology and Destruction were deliberately tiny proofs. Havoc is the first catalog authored
+Demonology and Destruction **began** as deliberately tiny proofs; both were replaced by
+comprehensive catalogs on 2026-08-19 (§3.4), so this section records where the standard came from
+rather than a current difference between specs. Havoc is the first catalog authored
 to be **comprehensive**: it covers the spec's whole rotational roster, because the pattern shelf
 now exists and adding a spec is meant to be "which known recipes apply," not another tour of the
 APIs. Comprehensive does not mean exhaustive of every button — it means every ability with a

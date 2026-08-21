@@ -2,8 +2,8 @@
 title: Altar of Fangs — Midnight S2 M+ dungeon guide (day-1 stub)
 patch: 12.1
 build: 12.1.0.69214
-fetched: 2026-08-11
-reviewed: 2026-08-11
+fetched: 2026-08-20
+reviewed: 2026-08-20
 sources:
   - https://us.api.blizzard.com/data/wow/journal-instance/1322   # tier 1 — instance, bosses, modes, location
   - https://us.api.blizzard.com/data/wow/journal-encounter/2878  # tier 1 — Rav'i
@@ -12,6 +12,8 @@ sources:
   - https://worldofwarcraft.blizzard.com/news/24293281           # tier 1 — Curse of Ula'tek content update notes
   - https://worldofwarcraft.blizzard.com/news/24294369           # tier 1 — Midnight Season 2 overview
   - https://us.forums.blizzard.com/en/wow/posts/29833350         # tier 1 — S1 ending / S2 pre-season information
+  - https://www.wowhead.com/spell=1306345/messy-eater            # game data — Messy Eater tooltip (chunk soak)
+  - https://www.wowhead.com/spell=1307700/carrion-burst          # game data — Carrion Burst tooltip (stacking Nature DoT)
 confidence: medium
 ---
 
@@ -97,7 +99,7 @@ on it, she escalates into a **Feeding Frenzy** instead.
 | **Ssscavenging** (1298221) | Begun when Rav'i runs out of energy; she eats from the nearest Carrion Pile. Continuously applies **Carrion Burst** to all players until stopped. **Stops when her absorb shield is removed.** | burn-window; raid-damage | 🟠 | all |
 | **Feeding Frenzy** (1307765) | The escalated form of Ssscavenging, entered if the pile she eats from holds **Fresh Meat**. Also applies **Carrion Burst** to everyone until stopped; likewise ends when the absorb is broken. | burn-window; raid-damage | 🔴 | all |
 | **Carrion Burst** (1307700) | Stacking group damage applied continuously while Rav'i is eating — journal calls out "increasing applications". | pulsing-aura | 🔴 | healer |
-| **Messy Eater** (1306345) | While eating, Rav'i is a "Messy Eater" — additional Carrion Burst on top. | pulsing-aura | 🔵 | healer |
+| **Messy Eater** (1306345) | Her chomping throws chunks of rotting meat across the pit; each chunk hits enemies within **3.5 yd** of its impact for Nature damage, and **every chunk not caught by a player explodes into a Carrion Burst** on the group. | soak | 🟠 | all |
 | **Ravenous Stomp** (1307915) | Drops **Fresh Meat** (1307703) onto some Carrion Piles. Fresh Meat carries **Scent of Blood** (1310378). | positional-gimmick | 🟠 | tank |
 | **Regurgitate** (1296069) | Hurls waves of acid **in a player's direction**. | frontal-cone | 🟠 | all |
 | **Triple Shot** (1297876) | Damage around **3 players** over time. | spread-out | 🔵 | healer |
@@ -107,6 +109,14 @@ on it, she escalates into a **Feeding Frenzy** instead.
 Feeding Frenzy) **ends when her absorb shield is removed** — so the group's job
 is burst the shield off, and the tank's job is to manage where Fresh Meat lands
 so she does not reach a fed pile.
+
+**Messy Eater is a soak, not just healer damage.** The spell tooltip is explicit:
+while she eats, chunks of meat land around the pit, and **a chunk nobody stands
+in explodes into a Carrion Burst** — the stacking group-wide Nature DoT (29,095
+per 3 s for 9 s, stacking). So the small circles that appear during her eating
+phases are caught on purpose: each player eats one 3.5-yd hit instead of the
+whole group eating another Carrion Burst stack. Journal callout tiers are
+role-agnostic here — everyone soaks.
 
 ### The Writhing Coil <!-- enc:2879 -->
 
@@ -258,3 +268,11 @@ Fill from these, in trust order, once they exist:
 5. **`systems/mechanic-archetypes.md`** — once trash lands, feed the archetype
    tags into the mplus_memory pipeline; the S2 pool change is already flagged
    there as CHANGED.
+
+## Changelog
+
+- **2026-08-20** — **Messy Eater** was written as a pulsing healer-damage aura
+  ("additional Carrion Burst on top"), which is what the Adventure Guide says.
+  The spell tooltip says it drops **soakable chunks** and that an unsoaked chunk
+  is what causes the extra Carrion Burst. Row rewritten (`pulsing-aura`/healer →
+  `soak`/all) and the mechanic spelled out under Rav'i.

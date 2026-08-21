@@ -857,3 +857,32 @@ carried.
 5. **Immolation Aura's high rung requires Burning Wound as well as A Fire Inside, and
    nobody says why.** `rotation.md` marks the "capping risks letting the debuff lapse"
    explanation as an inference. Worth confirming against a sim or a class source.
+
+---
+
+## `wowkb.character` still prints the Season 1 "…of the Dawn" ladder *(2026-08-20)*
+
+Found while re-syncing Encomplete on the first post-Season-2 pull. The digest's
+`## Upgrade tracks & "…of the Dawn" discount` section is hardcoded to the
+**Season 1** ladder: it lists the S1 Dawn achievements and computes the discount
+off a **263-in-every-slot** gate against achievement **42768**
+(`tools/wowkb/character.py:477-510`; the same constant is duplicated in
+`tools/wowkb/goalboard.py:56-57, 358-365` and referenced from `plan.py:326-329`).
+
+For Season 2 that output is **actively misleading** — it printed
+*"Champion 50% discount: LIVE — every slot ≥ 263"* for a character that has in
+fact earned **no** "…of the Mist" rung and gets **no** discount. Dawncrests are
+dead currency from S2 onward; the discount is per-crest-currency, so an S1
+achievement carries nothing forward (`endgame/dawncrests.md` § *The "…of the
+Mist" achievements*).
+
+**Fix:** re-point the section at the S2 ladder — thresholds **282 / 295 / 308 /
+321** per-slot high watermark and **331 average** for Myth, achievement IDs
+**62410 / 62411 / 62412 / 62414 / 62416**, currency **Mistcrest**. Both the
+per-slot gate list ("which slots are below the gate") and `goalboard`'s
+cheapest-character-to-earn heuristic need the same numbers. Ideally the
+thresholds move out of the code into `endgame/dawncrests.md`'s table so the next
+season turnover is a KB edit, not a code edit.
+
+⚠ Until it is fixed, **do not quote the tool's discount line** — read the
+Mist ladder off `endgame/dawncrests.md` and the gear table by hand.
