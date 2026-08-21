@@ -1,0 +1,295 @@
+# Encomplete - Demonology - 2026-08-20 11:12 - US/Kil'jaeden
+# SimC Addon 12.1.0-03
+# WoW 12.1.0.69382, TOC 120100
+# Requires SimulationCraft 1000-01 or newer
+
+warlock="Encomplete"
+level=90
+race=gnome
+region=us
+server=kiljaeden
+role=spell
+professions=tailoring=100/enchanting=25
+spec=demonology
+# loot_spec=demonology
+
+talents=CoQAMrNP5kak+EBqLfUa3dMm+yMjZGNbmZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzYDAAMmZGzwwyMGwA
+
+# Saved Loadout: Method.gg: Demonology Dia M+
+# talents=CoQAMrNP5kak+EBqLfUa3dMm+yMjZGmNzMbzMjZZAAAAAAAAjZMsADsNsghFjZGLz2MzMmBAmZMmZmZAGzYGbAAgxMzYGGWmxAGA
+# Saved Loadout: Demonology: Mythic
+# talents=CoQAMrNP5kak+EBqLfUa3dMm+yMjZGmFzYxMjZZAAAAAAAGLLDMgBMDbAjNjZGLjZMzMDAMzMjxAMzMmZMzGAAYMzMzMGsNzAMA
+# Saved Loadout: Method.gg: Demonology SH M+
+# talents=CoQAMrNP5kak+EBqLfUa3dMm+yMzMzwsxYzMjZZAAAAAAAGbLDMgBMDbAjNjZGLjZmxMDAMzMzYGgZmxMmZ2AAAjZmxMGsNzAMA
+
+omnium_talents=136814:1/136815:1/136817:1/136819:1/136822:1
+
+# Pyrewalker's Miter (295)
+head=,id=272234,bonus_id=12834/6652/13696/13662,content_tuning=6013
+# Pendant of Malefic Fury (292)
+neck=,id=251142,bonus_id=12833/13439/6652/13668/12699,content_tuning=3025
+# Abyssal Immolator's Fury (276)
+shoulder=,id=250040,bonus_id=6652/13340/13574/12798
+# Preyhunter's Rugged Stole (292)
+back=,id=275524,bonus_id=12833/6652/13662,content_tuning=5236
+# Abyssal Immolator's Dreadrobe (276)
+chest=,id=250045,enchant_id=7987,bonus_id=6652/13336/13575/12798
+# Acolyte's Shirt (1)
+shirt=,id=6097
+# Tabard of the Kirin Tor (14)
+tabard=,id=43157
+# Pyrewalker's Wraps (295)
+wrist=,id=272238,bonus_id=12834/6652/13696/13662,content_tuning=6015
+# Abyssal Immolator's Grasps (276)
+hands=,id=250043,bonus_id=6652/12798/13337/13574/3161
+# Pyrewalker's Obi (295)
+waist=,id=272237,bonus_id=12834/6652/13696/13662,content_tuning=6015
+# Abyssal Immolator's Pillars (276)
+legs=,id=250041,enchant_id=7937,bonus_id=6652/13339/13575/12798
+# Lightbinder Treads (285)
+feet=,id=258584,bonus_id=13440/6652/13577/12699/12805
+# Preyhunter's Ring (295)
+finger1=,id=275528,bonus_id=6652/13668/12834,content_tuning=5236
+# Anguine Gyre (305)
+finger2=,id=272148,bonus_id=12841/6652/13668,content_tuning=6014
+# Freightrunner's Flask (305)
+trinket1=,id=250215,bonus_id=13439/6652/12699/12837,content_tuning=3025
+# Stormbound Emblem of Dazar (305)
+trinket2=,id=273649,bonus_id=13439/6652/12699/12837,content_tuning=3595
+# Aln'hara Cane (318)
+main_hand=,id=245770,enchant_id=8039,bonus_id=12214/12497/13751/12693/8960/8791/13835,content_tuning=3615,crafted_stats=32/36,crafting_quality=5
+
+### Gear from Bags
+#
+# Venom-Cursed Dragonhawk's Plumage (289)
+# head=,id=277792,bonus_id=6652/13696/13662/12828,content_tuning=5381
+#
+# Tarnished Dawnlit Sentinel's Cover (253)
+# head=,id=258931,bonus_id=13900/13663,drop_level=90,content_tuning=5381
+#
+# Venom-Cursed Dragonhawk's Plumage (279)
+# head=,id=277792,bonus_id=12825/6652/13696/13662
+#
+# Venom-Cursed Dragonhawk's Plumage (279)
+# head=,id=277792,bonus_id=12825/42/13696/13662
+#
+# Abyssal Immolator's Smoldering Flames (276)
+# head=,id=250042,bonus_id=13338/6652/12667/13575/12798
+#
+# Ophidian General's Warbonnet (263)
+# head=,id=278884,bonus_id=13844/13845/13615,content_tuning=5381
+#
+# Nocturnal Thorncharm (263)
+# neck=,id=249626,gem_id=240906,bonus_id=6652/13668/12790,content_tuning=4898
+#
+# Farstrider's Pendant (279)
+# neck=,id=256969,bonus_id=12825/6652/13668,content_tuning=4240
+#
+# Choker of Anger (256)
+# neck=,id=279195,bonus_id=13844/13668,content_tuning=5381
+#
+# Void-Laced Pendant (276)
+# neck=,id=263891,gem_id=240983,bonus_id=6652/13668/12798,content_tuning=3321
+#
+# Tarnished Dawnlit Spellbinder's Pads (253)
+# shoulder=,id=258917,bonus_id=13900/13663,drop_level=90,content_tuning=5381
+#
+# Amice of the Sacrificer (256)
+# shoulder=,id=278888,bonus_id=13844,content_tuning=5381
+#
+# Abyssal Immolator's Fury (263)
+# shoulder=,id=250040,bonus_id=13340/6652/13574/12790
+#
+# Poisoner's Pauldrons (295)
+# shoulder=,id=251227,bonus_id=12834/13440/40/13662/12699,content_tuning=1279
+#
+# Nysarra's Mantle (263)
+# shoulder=,id=251213,bonus_id=12794/13440/6652/13577/12699,content_tuning=1279
+#
+# Bladed Twilight Spaulder (1)
+# shoulder=,id=264852,content_tuning=3313
+#
+# Rigid Scale Greatcloak (272)
+# back=,id=258575,bonus_id=12801/13440/6652/13577/12699
+#
+# Venom-Cursed Bear's Greatcloak (279)
+# back=,id=279223,bonus_id=12825/6652/13662
+#
+# Adherent's Silken Shroud (285)
+# back=,id=239656,bonus_id=12214/13667/12497/12066/8960/12384/8791/13622,content_tuning=3615,crafted_stats=32/40,crafting_quality=5
+#
+# Primordial Robe of Rites (259)
+# chest=,id=273785,bonus_id=13661/13437/6652/13663,content_tuning=5381
+#
+# Venom-Cursed Dragonhawk's Robes (292)
+# chest=,id=277795,bonus_id=12833/6652/13662
+#
+# Shadowclaw Jerkin (266)
+# chest=,id=276014,bonus_id=12817/6652/13663/11311,content_tuning=5381
+#
+# Crypt Cleanser Raiment (263)
+# chest=,id=278880,bonus_id=13844/13845/13615,content_tuning=5381
+#
+# Wraps of Umbral Descent (272)
+# chest=,id=251120,bonus_id=12801/13440/6652/13577/12699
+#
+# Abyssal Immolator's Dreadrobe (263)
+# chest=,id=250045,bonus_id=6652/13333/13336/13575/12790
+#
+# Tabard of the Ebon Blade (14)
+# tabard=,id=43155
+#
+# Deepvine Bracers (279)
+# wrist=,id=256968,bonus_id=12825/6652/13696/13662,content_tuning=5381
+#
+# Pyrewalker's Wraps (272)
+# wrist=,id=272238,bonus_id=12819/6652/13696/13663,content_tuning=6013
+#
+# Tarnished Dawnlit Spellbinder's Bands (253)
+# wrist=,id=258919,bonus_id=13900/13663,drop_level=90,content_tuning=5381
+#
+# Void Nemesis' Bracers (276)
+# wrist=,id=263849,bonus_id=6652/12667/13577/12798,content_tuning=3321
+#
+# Pyrewalker's Gloves (282)
+# hands=,id=272233,bonus_id=12826/6652/11215/13662,content_tuning=6015
+#
+# Fangsmasher Grips (256)
+# hands=,id=278900,bonus_id=13844,content_tuning=5381
+#
+# Tomb-Sealed Sash (256)
+# waist=,id=278908,bonus_id=13844,content_tuning=5381
+#
+# Pyrewalker's Obi (276)
+# waist=,id=272237,bonus_id=6652/13696/13663/12820,content_tuning=6014
+#
+# Archmage's Cord of Light (285)
+# waist=,id=276794,bonus_id=6652/12667/13577/13335/12805,content_tuning=3313
+#
+# Lightblossom Cinch (292)
+# waist=,id=251185,bonus_id=12833/13439/6652/13696/13662/12699,content_tuning=3025
+#
+# Sprawling Rhizomecord (263)
+# waist=,id=249635,bonus_id=6652/12667/13577/12790,content_tuning=6015
+#
+# Pyrewalker's Treads (282)
+# legs=,id=272235,bonus_id=12826/6652/11215/13662,content_tuning=6014
+#
+# Swampdredger Trousers (263)
+# legs=,id=278904,bonus_id=13844/13845/13615,content_tuning=5381
+#
+# Wind Soarer's Breeches (295)
+# legs=,id=193750,bonus_id=12834/13440/6652/13662/12699,content_tuning=1279
+#
+# Void-Gorged Kickers (266)
+# feet=,id=264569,bonus_id=12817/6652/13663/11311,content_tuning=4280
+#
+# Faithleaper's Slippers (263)
+# feet=,id=278896,bonus_id=13844/13845/13615,content_tuning=5381
+#
+# Voidwind Boots (276)
+# feet=,id=263783,bonus_id=6652/13577/12798,content_tuning=3321
+#
+# Forest Hunter's Hoop (279)
+# finger1=,id=256985,bonus_id=12825/6652/13668,content_tuning=4240
+#
+# Void-Laced Ring (276)
+# finger1=,id=263890,enchant_id=7967,gem_id=240904,bonus_id=6652/13668/12798,content_tuning=3321
+#
+# Preyseeker's Signet (276)
+# finger1=,id=259912,enchant_id=7967,gem_id=240906,bonus_id=40/13668/12798
+#
+# Forest Hunter's Hoop (295)
+# finger1=,id=256985,bonus_id=6652/13668/12830,content_tuning=6146
+#
+# Vibrant Wilderloop (263)
+# finger1=,id=249620,gem_id=240982,bonus_id=6652/13668/12790,content_tuning=6011
+#
+# Void-Reaper's Libram (295)
+# trinket1=,id=251785,bonus_id=12834/41,content_tuning=6014
+#
+# Drum of Renewed Bonds (276)
+# trinket1=,id=248583,bonus_id=13183/6652/12798
+#
+# Eye of the Drowning Void (276)
+# trinket1=,id=250257,bonus_id=13440/6652/12699/12802
+#
+# Sylvan Wakrapuku (276)
+# trinket1=,id=251784,bonus_id=6652/12798,content_tuning=6015
+#
+# Insignia of the Alliance (13)
+# trinket1=,id=18858
+#
+# Breath of Jan'alai (279)
+# trinket1=,id=280377,bonus_id=12825/6652
+#
+# Lost Idol of the Hash'ey (305)
+# trinket1=,id=251783,bonus_id=12841/6652,content_tuning=6011
+#
+# Breath of Jan'alai (263)
+# trinket1=,id=280377,bonus_id=13844/13845/13615,content_tuning=5381
+#
+# Spirit-Rending Poison (279)
+# trinket1=,id=274497,bonus_id=6652/12825
+#
+# Drum of Renewed Bonds (295)
+# trinket1=,id=248583,bonus_id=13183/12834/40,content_tuning=6013
+#
+# Sylvan Wakrapuku (279)
+# trinket1=,id=251784,bonus_id=6652/11215/12821,content_tuning=6011
+#
+# Forgotten Sword of Vilaldoun (1)
+# main_hand=,id=276288,content_tuning=7331
+#
+# Exorcised Spellblade (256)
+# main_hand=,id=279282,bonus_id=13844,content_tuning=5381
+#
+# Ancient Amani Spellblade (263)
+# main_hand=,id=279233,bonus_id=13844/13845/13615,content_tuning=5381
+#
+# Void-Channeler's Spire (266)
+# main_hand=,id=264912,bonus_id=12817/6652/11311,content_tuning=6157
+#
+# Final Grade (272)
+# main_hand=,id=193707,bonus_id=12801/13440/6652/12701
+#
+# Tarnished Dawnlit Dagger (260)
+# main_hand=,id=258947,bonus_id=13901/6652,drop_level=90,content_tuning=5381
+#
+# Umbral Spire of Zuraal (272)
+# main_hand=,id=258514,bonus_id=12801/13440/40/12701
+#
+# Gilded Serpent's Tooth (292)
+# main_hand=,id=159137,bonus_id=12833/13439/6652/12701,content_tuning=3025
+#
+# Soulsinger's Horn (295)
+# off_hand=,id=272275,bonus_id=12834/6652,content_tuning=6015
+
+### Weekly Reward Choices
+#
+# Sylvan Wakrapuku (302)
+# trinket1=,id=251784,bonus_id=12836/6652
+#
+# hands=,id=275500,bonus_id=40/13662/12825
+#
+# hands=,id=251129,bonus_id=12836/13439/6652/13662/12699
+#
+# hands=,id=273773,bonus_id=12836/13439/6652/13662/12699
+#
+# trinket1=,id=250224,bonus_id=12836/13439/6652/12699
+#
+### End of Weekly Reward Choices
+
+### Additional Character Info
+#
+# catalyst_currencies=2813:8/3269:8/3116:8/3378:8/3465:1
+#
+# upgrade_currencies=c:3442:186/c:3445:28/c:3443:169/c:3444:140/c:3446:20/i:268552:2/i:232875:13
+#
+# slot_high_watermarks=0:295:295/1:292:305/2:295:295/3:292:292/4:295:295/5:295:295/6:285:285/7:295:295/8:276:276/9:295:295/10:305:305/11:292:292/12:318:318/13:292:292/14:246:285/15:62:276/16:295:298
+#
+# upgrade_achievements=42767/42768/42769/61809
+#
+# bonus_roll_currencies=3418:0/3511:0
+
+# Checksum: f6096dd7

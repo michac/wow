@@ -57,8 +57,11 @@ import sys
 
 import requests
 
-from ._common import save_raw
 from .kbpass import current as current_pass, stamped
+
+# `_common` pulls in python-dotenv; `save_raw` is imported lazily at its two call
+# sites so this module (and `wowkb.sim`, which reads its alias tables) stays
+# importable from a stdlib-only test runner.
 
 # A real browser UA — raw.githubusercontent.com is fine with anything, but the
 # GitHub API is friendlier to a named client; keep it consistent with maxroll.
@@ -182,10 +185,14 @@ def _titleseg(token: str, aliases: dict) -> str:
     return "_".join(w.capitalize() for w in key.split("_"))
 
 
-def profile_filename(class_token: str, spec_token: str, variant: str | None) -> str:
+def profile_filename(class_token: str, spec_token: str, variant: str | None,
+                     tier: str = "MID1") -> str:
+    """`MID1_Warlock_Demonology.simc`. `tier=` because the naming rule is shared: this
+    module fetches MID1 from upstream, `wowkb.sim` resolves MID2 off a local checkout,
+    and two copies of one filename convention is how they drift apart."""
     cls = _titleseg(class_token, CLASS_ALIASES)
     spec = _titleseg(spec_token, SPEC_ALIASES)
-    name = f"MID1_{cls}_{spec}"
+    name = f"{tier}_{cls}_{spec}"
     if variant:
         # Variant segment is kept as-given (may carry hyphens, e.g. Void-Scarred).
         name += "_" + variant.strip().strip("_")
@@ -656,6 +663,7 @@ def fetch_module(class_token: str, spec_token: str, want_sha: bool) -> None:
     named spec's block and unwraps it back into plain APL lines, so the output reads
     like a profile's `actions` section and can be distilled the same way.
     """
+    from ._common import save_raw
     cls = _titleseg(class_token, CLASS_ALIASES).lower()
     spec = _titleseg(spec_token, SPEC_ALIASES).lower()
     url = APL_MODULE.format(class_lower=cls)
@@ -818,6 +826,7 @@ def sync_kb(class_tokens: list[str], spec_token: str | None,
 
 
 def fetch(class_token: str, spec_token: str, variant: str | None, want_sha: bool) -> None:
+    from ._common import save_raw
     filename = profile_filename(class_token, spec_token, variant)
     url = f"{RAW_BASE}/{filename}"
 
