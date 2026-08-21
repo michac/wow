@@ -1901,7 +1901,7 @@ def cmd_compare(args) -> int:
               "nothing to fire, no validation run needed")
 
     print("\n  other gates")
-    print_overrides(built, "    ")
+    print_overrides(frames[0].built, "    ")
     if leaks:
         print(f"    ❌ FAIL  reference-profile gear leaked into: {', '.join(leaks)}")
     else:

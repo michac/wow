@@ -63,20 +63,21 @@ OBS = KB / "observations.md"
 
 # A question whose registry row expects a test to exist — `built`, and only `built`.
 #
-# AN ANSWERED QUESTION'S TEST IS DELETED WITH THE CLAIM IT PRODUCED. That is house rule 2
-# (probe code dies in the commit that writes its KB claim), applied to the lab, and the
-# cross-check enforces it in both directions so the suite cannot silently re-accumulate.
-# The older rule kept the test "to re-check the answer on a later patch" — but nothing
-# re-checks it: `show` refuses to print a verdict by design and `drain` refuses an
-# answered question, so 32 tests re-measured settled facts on every pull and no
-# regression could ever have been noticed. Patch-day re-verification is owned by
-# `<version>-ptr-heads-up.md` and the `/update` sweep; the `answered` row keeps the
-# question, the `expect` and the OBS id, which is the recipe if it is ever worth re-asking.
+# A DRAINED QUESTION'S ROW IS REMOVED, AND ITS TEST IS DELETED WITH THE CLAIM IT PRODUCED.
+# House rule 2 (probe code dies in the commit that writes its KB claim), applied to the lab.
+# `cmd_drain` deletes the row on drain — questions.json stays a live worklist of OPEN
+# questions only, shrinking on drain exactly like the T_*.lua files. The OBS entry the drain
+# mints (observations.md) plus git together archive the question, its `expect`, the run and
+# the verdict — everything the old retained `answered` row held, in richer form — so the row
+# was pure duplication. (Patch-day re-verification is owned by `<version>-ptr-heads-up.md`
+# and the `/update` sweep, not by a kept row: `show` refuses to print a verdict by design,
+# so a retained test re-measured settled facts on every pull and caught no regression.)
 HAS_TEST = ("built",)
 
-# The whole status vocabulary. Four, and a row outside them is a loud error in the
-# cross-check: the collapse from six only holds if nothing can re-introduce a seventh.
-STATUSES = ("answered", "built", "parked", "not-answerable")
+# The whole status vocabulary. `answered` is GONE — a drained question is removed, not
+# restatused (see cmd_drain / HAS_TEST). A row outside these three is a loud error in the
+# cross-check: the collapse holds only if nothing can re-introduce a fourth.
+STATUSES = ("built", "parked", "not-answerable")
 
 # ns.Test{ id = "X" ... }  and  ns.Test{ id="X" ... }
 _ID_ASSIGN = re.compile(r'\bid\s*=\s*"([^"]+)"')
@@ -185,31 +186,26 @@ def cross_check() -> tuple[bool, list[str]]:
     missing_tests = sorted(tested_set - lua_set)
     if missing_tests:
         ok = False
-        msgs.append("built/answered questions with NO ns.Test{} in the Lua "
+        msgs.append("built questions with NO ns.Test{} in the Lua "
                     f"({len(missing_tests)}): {', '.join(missing_tests)}")
 
-    # A drained question whose test is still in the Lua is called out by name rather than
-    # lumped in with a typo'd id: it is a different mistake with a different fix, and it
-    # is the one that quietly grows the suite back.
-    answered = {q["id"] for q in data["questions"] if q.get("status") == "answered"}
-    stale = sorted(lua_set & answered)
-    if stale:
-        ok = False
-        msgs.append(f"ANSWERED question(s) whose test is still in the Lua ({len(stale)}): "
-                    f"{', '.join(stale)}. Delete the test — its claim is in the KB, and "
-                    "nothing re-checks it here (see HAS_TEST).")
-
-    orphan_tests = sorted(lua_set - tested_set - answered)
+    # A Lua id with no `built` row. Since a drained question's row is REMOVED (not kept as
+    # `answered`), a test left behind after its claim was written lands here too — which is
+    # the direction the suite quietly grows back. The message names that case because it is
+    # the common one and its fix (delete the test — its claim is in the KB) differs from a
+    # typo'd id's.
+    orphan_tests = sorted(lua_set - tested_set)
     if orphan_tests:
         ok = False
         msgs.append("Lua ids with no `built` question in questions.json "
-                    f"({len(orphan_tests)}): {', '.join(orphan_tests)}")
+                    f"({len(orphan_tests)}): {', '.join(orphan_tests)}. If one was just "
+                    "drained, delete its test — the claim is in the KB and nothing "
+                    "re-checks it here (see HAS_TEST).")
 
     if ok:
         msgs.append(f"registry cross-check OK — {len(lua_set)} ids match "
                     f"{len(tested_set)} built questions, both directions "
-                    f"({len(tests)} tests, {len(asks)} visual checks). "
-                    f"{len(answered)} answered question(s) correctly carry no test.")
+                    f"({len(tests)} tests, {len(asks)} visual checks).")
     return ok, msgs
 
 
@@ -566,14 +562,12 @@ def cmd_drain(args) -> int:
     data, byid = load_questions()
     q = byid.get(args.id)
     if not q:
-        print(f"error: no question '{args.id}' in questions.json", file=sys.stderr)
+        # A drained question's row is removed (wipe-on-answer), so a missing id is either a
+        # typo or an already-drained question — whose OBS in observations.md is the record.
+        print(f"error: no question '{args.id}' in questions.json — a typo, or already "
+              "drained (the row is removed on drain; its OBS in observations.md is the "
+              "record).", file=sys.stderr)
         return 1
-
-    if q.get("status") == "answered" and not args.again:
-        a = q.get("answered", {})
-        print(f"{args.id} is already answered ({a.get('obs', '?')}, run "
-              f"{a.get('run', '?')}). Pass --again to mint a second observation.")
-        return 0
 
     visual = bool(_EYEBALL.search(f"{q.get('expect', '')}\n{q.get('question', '')}"))
     runs = load_runs(args.wow_path)
@@ -684,17 +678,19 @@ def cmd_drain(args) -> int:
     ]
     OBS.write_text(obs_text.rstrip("\n") + "\n" + "\n".join(entry) + "\n", encoding="utf-8")
 
-    q["status"] = "answered"
-    q["answered"] = {"run": run.started, "version": run.version, "obs": obs_id,
-                     "tag": f"[client {stamp}]"}
+    # Wipe-on-answer: the drained row is REMOVED, not retained as `answered`. The OBS minted
+    # above plus git together archive the question, its `expect`, the run and the verdict, so
+    # the row was pure duplication; questions.json stays a live worklist of OPEN questions.
+    data["questions"] = [x for x in data["questions"] if x.get("id") != args.id]
     # indent=1 matches the file as authored — a drain must produce a one-question diff,
     # not a whole-file reformat that buries what changed.
     QUESTIONS.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n",
                          encoding="utf-8")
 
-    print(f"{obs_id} minted in knowledge/addon-dev/observations.md")
-    print(f"  questions.json: {args.id} -> answered "
-          f"(run {run.started}, v{run.version})")
+    print(f"{obs_id} minted in knowledge/addon-dev/observations.md "
+          f"(tag `[client {stamp}]`)")
+    print(f"  questions.json: {args.id} -> REMOVED "
+          f"(OBS {obs_id} + git archive the question; run {run.started}, v{run.version})")
     print()
     if res.eyeball:
         asked = res.value.get("asked") if isinstance(res.value, dict) else None

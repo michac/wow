@@ -13,12 +13,17 @@ Report.lua
 Dumps.lua
 Autorun.lua
 Ask.lua
-T_CooldownManager.lua
-T_TargetAuras.lua
-T_AuraEdges.lua
-T_AuraFormatter.lua
-T_AuraPandemic.lua
 
+# DRAINED 2026-08-21 — questions answered, claims written, rows removed from questions.json.
+# The suite is empty, which is its correct resting state (a T_ file holds only what is OPEN).
+# Recover any of these from git if a patch reopens the question:
+#   git show HEAD~1:projects/addon-lab/ClientLab/<name>.lua
+#   T_CooldownManager.lua  (conflagrate-charge-context-displays)
+#   T_TargetAuras.lua      (auracontainer-{constructs-from-addon,initializeframe-count-does-not-track-auras,shows-target-dots})
+#   T_AuraEdges.lua        (cdm-aura-edges-need-a-bound-row)
+#   T_AuraFormatter.lua    (aura-container-rule-formatter)
+#   T_AuraPandemic.lua     (aura-container-pandemic-region)
+#
 # DELETED ON 12.1, recover from git — do not re-create:
 #   git show 671fb68^:projects/addon-lab/ClientLab/<name>.lua
 #

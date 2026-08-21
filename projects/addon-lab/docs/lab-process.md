@@ -162,7 +162,7 @@ one of the two values above.
 ```bash
 cd ~/code/fun/wow/tools
 uv run python -m wowkb.lab show            # result BESIDE expect — no verdict, by design
-uv run python -m wowkb.lab drain <id>      # mints OBS-nnn, sets `answered`
+uv run python -m wowkb.lab drain <id>      # mints OBS-nnn, REMOVES the row from questions.json
 uv run python -m wowkb.obs drain OBS-nnn   # after the topic file is edited
 ```
 
@@ -171,6 +171,12 @@ human reads result beside `expect` and decides. `drain` then prints the edits it
 make for you — rewrite the claim in place, **drop `@pending-test`**, tag
 `[client YYYY-MM-DD]` (the date of the *run*, not today), **delete the test**, then close
 the observation.
+
+**Drain REMOVES the row; it does not restatus it to `answered`.** questions.json is a live
+worklist of OPEN questions only — it shrinks on drain exactly like the `T_*.lua` files do.
+The `OBS-nnn` the drain minted (observations.md) plus git together hold the question, its
+`expect`, the run and the verdict, so a retained row would only duplicate them. There is no
+`answered` status.
 
 A test that flew and could not answer (`skipped`, `measured = false`) **keeps its marker**
 and flies again next pull. `drain` refuses those loudly — skipped is never a pass, and
@@ -191,25 +197,27 @@ questions in `show` output. **Patch-day re-verification is owned elsewhere**, by
 `<version>-ptr-heads-up.md` and the `/update` sweep, which name the exact lines that go
 false.
 
-What survives is the `answered` row: the question, the `expect`, the method, the run, and
-the `OBS-nnn`. That is the recipe if a patch ever makes the question worth re-asking, and
-it is cheaper to keep than the code.
+What survives is the **`OBS-nnn` entry** (plus git): the question, the `expect`, the method,
+the run and the verdict, with its drains-to anchors. That is the recipe if a patch ever makes
+the question worth re-asking — a richer record than a kept questions.json row, which merely
+duplicated it. So the row is **removed** on drain, not retained; the OBS is the archive.
 
 Adopting the rule swept **32 answered questions** out at once — 57 registered ids down to
 **25**, with `T_Module.lua` and `T_CooldownManager.lua` deleted entirely because every
 question they held was settled.
 
-## 5. The four statuses
+## 5. The three statuses
 
 | status | means | test required | gated |
 |---|---|---|---|
-| `answered` | measured, drained, KB rewritten | **no — the test is deleted with the claim** | `deploy --check` fails if one lingers |
 | `built` | a `ns.Test{}` exists; flies next pull | yes | reported by `deploy --check` |
 | `parked` | written out, nobody is testing it | no | **never** |
 | `not-answerable` | no instrument can settle it; the reason is in `expect` | no | no |
 
-`deploy --check` refuses a status outside these four — the collapse from six only holds if
-nothing can re-introduce a seventh.
+There is no `answered` status: a drained question's row is **removed** (its OBS + git are the
+archive), and its test is deleted with the claim it produced — so a test left behind shows up
+as an orphan in `deploy --check` (a Lua id with no `built` row) and fails by name, which is the
+direction the suite grows back. `deploy --check` refuses a status outside these three.
 
 ⚠ **A `parked` row is not required for an unknown to be recorded.** A bare marker on a
 claim is a perfectly good parked question. Rows exist where the reasoning was worth keeping

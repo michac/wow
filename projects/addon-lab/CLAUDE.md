@@ -63,14 +63,16 @@ Full process doc: [`docs/lab-process.md`](docs/lab-process.md).
    `built`, promote the marker on the claim to `` `@pending-test: <id>` ``, `lab deploy`.
 3. **Nothing is scheduled.** `Autorun` flies every `built` test on the next login/pull —
    writing the test *is* queuing it.
-4. **`wowkb.lab show` → `drain <id>`** clears it: rewrite the claim, drop `@pending-test`,
-   tag `[client YYYY-MM-DD]`, **and delete the test** (house rule 2 — probe code dies in
-   the edit that writes its claim; `deploy --check` fails by name until it does). Delete
-   the file and its `.toc` line too if that was its last test. **The suite shrinks as the
-   KB grows.**
-5. **Four statuses only:** `answered` · `built` · `parked` · `not-answerable` (`deploy
-   --check` refuses a fifth). Nothing ages an open marker — the trigger is **use**, not age.
-   `wowkb.lab blocked` groups the untested rows by the capability each waits on.
+4. **`wowkb.lab show` → `drain <id>`** clears it: `drain` mints the `OBS-nnn` and **REMOVES
+   the row from questions.json** (the OBS + git are the archive — no `answered` status is
+   kept), then you rewrite the claim, drop `@pending-test`, tag `[client YYYY-MM-DD]`, **and
+   delete the test** (house rule 2 — probe code dies in the edit that writes its claim;
+   `deploy --check` fails by name until it does). Delete the file and its `.toc` line too if
+   that was its last test. **The suite AND the registry shrink as the KB grows.**
+5. **Three statuses only:** `built` · `parked` · `not-answerable` (`deploy --check` refuses a
+   fourth). A drained question is **removed**, not restatused. Nothing ages an open marker —
+   the trigger is **use**, not age. `wowkb.lab blocked` groups the untested rows by the
+   capability each waits on.
 
 **`expect` lives only in the JSON and is never compared in-game.** The lab
 *discovers* an unknown answer; it does not *assert* a known one (that is what
@@ -80,9 +82,9 @@ PASS/FAIL would be the instrument grading its own subject.
 
 **Registry cross-check (both directions).** `deploy` refuses to copy unless every
 `status: "built"` question has a matching `ns.Test{}` and every `ns.Test{}` id is a
-built question. An unmatched id is a loud error, never a silent skip. An **`answered`**
-id still present in the Lua fails **by name** — that is the direction the suite grows
-back in.
+built question. An unmatched id is a loud error, never a silent skip. A **drained** id
+whose test is still in the Lua now shows up as an **orphan** (a Lua id with no `built`
+row) and fails **by name** — that is the direction the suite grows back in.
 
 ## Test-authoring rules (learned, not optional)
 
@@ -169,16 +171,19 @@ identifiers.
 
 ## What is here now
 
-**A `T_*.lua` file holds only what is still OPEN**, so this list is a live measure of what
-the KB does not yet know — it shrinks with every drain, and a file disappears when its last
-question is settled. `T_Module.lua` and `T_CooldownManager.lua` are gone that way; expect
-more to follow. Current split: `wowkb.lab deploy --check`.
+**A `T_*.lua` file holds only what is still OPEN**, so the set of them is a live measure of
+what the KB does not yet know — it shrinks with every drain, and a file disappears when its
+last question is settled. **As of 2026-08-21 the suite is EMPTY** — the last five files
+(`T_CooldownManager` / `T_TargetAuras` / `T_AuraEdges` / `T_AuraFormatter` / `T_AuraPandemic`)
+were drained and deleted — which is its correct resting state, not a defect: every question
+they held has an answer in `knowledge/addon-dev/` and a `git log` entry. A refilled lab is the
+system working. The current set is always `wowkb.lab deploy --check`, never a list here.
 ```
 projects/addon-lab/
   CLAUDE.md            this file
   docs/lab-process.md  THE PROCESS — how an unknown becomes a KB claim
   docs/w1-plan.md      the harness design
-  questions.json       THE REGISTRY
+  questions.json       THE REGISTRY (open questions only — built/parked/not-answerable)
   .luacheckrc          read_globals curated for the lab
   runs/                archived pre-standard runs (provenance for drained claims)
   ClientLab/
@@ -191,9 +196,7 @@ projects/addon-lab/
     Report.lua         chat rendering of the last run + the coverage goals
     Dumps.lua          the DUMP PANEL — /clab, [print] and [copy]
     Autorun.lua        the driver: the lab runs itself, nothing to type
-    T_ApiEvents.lua    tests, ONE FILE PER KB TOPIC FILE
-    T_Libraries.lua
-    T_Security.lua     what is still open in the §4.2 secret-op table
+    T_<Topic>.lua      one file per KB topic file — NONE open right now (see above)
 ```
 
 ## The panel — `/clab`

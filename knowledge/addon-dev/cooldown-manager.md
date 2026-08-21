@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-19   # 12.1.0 source reads (§3.1.1, §3.4), plus THREE 12.1.0 observations: a 12.1.0 client capture (§4.2), an eyeball reading of the Templar transform on a live row [client 2026-08-18], and the sealed-aura-predicate nil measured in combat [client 2026-08-19]. Every OTHER [client] tag below is 12.0.7 and was not restamped — read each tag, never this line
+reviewed: 2026-08-21   # 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
 sources:
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1917,8 +1917,9 @@ The shipped surface separately offers a sealed display string through
 `C_Spell.GetSpellChargeDuration`; `FontString:SetText` and
 `Cooldown:SetCooldownFromDurationObject` are their corresponding sinks. Source inspection
 supports both compositions and ordinary Cooldown styling remains available around the
-duration sink, but their actual restricted-combat pixels are a visual question.
-`@pending-test: conflagrate-charge-context-displays`
+duration sink. Both are in use in cap and were retired as validated-in-cap `[client 2026-08-21]`
+— ⚠ this drain carries no separate eyeball detail, so treat the specific restricted-combat
+pixels as **confirmed-by-use**, not freshly measured; re-fly if a build regresses them.
 
 **`C_Spell.GetSpellCooldownDuration` bypasses the CDM entirely and survives restricted
 combat.** It takes a spell identifier and `ignoreGCD` and returns a `LuaDurationObject`

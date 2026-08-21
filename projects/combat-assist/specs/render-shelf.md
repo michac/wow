@@ -1345,9 +1345,16 @@ cap-owned frames with no secret in sight. So they draw **no cells**, and the pag
 say *"drawn in the client only"* for each.
 
 **They graduate on a flight, not on being looked at.** `count_band` and `count_polarity` on
-`aura-container-rule-formatter`; `pandemic_mark` on `aura-container-pandemic-region`. Until those
-fly, the numbers in their tokens are *proposals with citations* — the mechanism is Tier-1
-(`../pattern-shelf.md` S7–S9), the pixel is unmeasured, and nothing may reach for them.
+`aura-container-rule-formatter`; `pandemic_mark` on `aura-container-pandemic-region`. **All three
+FLEW and PASSED `[client 2026-08-21]`** — the formatter is honoured (including the complement and
+inline colour escapes), and `AddPandemicRegion` drives a cap-owned texture off Blizzard's real
+window. The mechanism is measured, not a proposal; the drained findings and their working Lua are
+`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5.2, and `../pattern-shelf.md`
+S7–S9 are now `FLOWN`. **What remains is PROMOTION** — moving these three into Parts 1–6 with their
+numbers and deleting them here (rule 4). That is a cap-pipeline step, not a prose edit: it re-runs
+`capart export`, lifts `Catalog.lua:192`'s `min = 2`, and needs a cap release — **ask-first, not
+yet done**. Until then they stay in the lab as *flown-and-passed*, and the tokens are measured
+rather than proposed.
 
 ### L1 · `count_band` — a number that appears only inside a band
 
@@ -1364,8 +1371,10 @@ including 1. That control is the load-bearing part: Blizzard's default never pri
 lone `1` on screen is the only unambiguous proof the formatter ran. Without it, "our rules were
 ignored" and "our rules correctly hid a low number" look identical, and the flight learns nothing.
 
-**If it flies:** `Catalog.lua`'s `min = 2` lifts to "a positive integer", S7 promotes into Part 2,
-and the first two consumers are Demonology's Core-at-4 and Implosion's six-imp gate.
+**It flew and passed `[client 2026-08-21]`** — tile B drew a lone `1`, so a cap-authored ruleset
+runs. Promoting it: `Catalog.lua`'s `min = 2` lifts to "a positive integer" and S7 moves into
+Part 2, first consumers Demonology's Core-at-4 and Implosion's six-imp gate (the cap-pipeline +
+release step above).
 
 ### L2 · `count_polarity` — two meanings in one count
 

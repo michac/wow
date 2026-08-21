@@ -334,7 +334,7 @@ slots, so a loop sized by it can miss an occupied 5th slot (exactly the Dreadsta
 - ⚠ The API facts are settled, but no totem-duration → sink *render* has been eyeballed — only
   S5's aura channel has (OBS-035). The pixel is a design/desktop hypothesis until flown.
 
-### S7 · Aura stack count in a BAND — **Candidate / sealed-display, UNFLOWN**
+### S7 · Aura stack count in a BAND — **Settled / sealed-display, FLOWN `[client 2026-08-21]`**
 
 S2 shows a count at or above one threshold. S7 is the general form: **cap authors a piecewise
 function from the secret count to a string, and the client evaluates it.** That is what makes
@@ -368,7 +368,9 @@ fontString:SetText(text)
 
 ⚠ **The `min = 2` in `Catalog.Check` is not a platform limit.** It mirrors that `elseif
 applications > 1` — Blizzard's behaviour when **no formatter is passed**, which is what cap has
-always passed. Lift it when S7 flies; do not treat S2's threshold as the shelf's ceiling.
+always passed. **S7 has now flown `[client 2026-08-21]`, so lifting it is unblocked** — `min = 2`
+→ "any positive integer" is a cap change (`Catalog.lua:192` + a release, ask-first); do not treat
+S2's threshold as the shelf's ceiling.
 
 - **An empty `format` is the whole point.** It is the only way to express *absence*, and both
   known consumers are absence-shaped. Neither `SecondsFormatter` nor
@@ -380,10 +382,16 @@ always passed. Lift it when S7 flies; do not treat S2's threshold as the shelf's
   It is a pure-Lua lookalike with nearly the same method names, used all over Blizzard's own
   addons via `CreateFromMixins`, and it does its arithmetic **in script** — feed it a secret and
   it dies. The secret-safe objects are `Userdata` and come only from `C_StringUtil.Create*`.
-- ⚠ **Unflown.** The shapes are Tier 1; whether a **tainted-created** formatter is honoured on
-  Blizzard's apply path has never been executed. `@pending-test: aura-container-rule-formatter`
+- ✅ **Flown, and honoured `[client 2026-08-21]`.** A tainted-created `NumericRuleFormatter`,
+  built in `initializeFrame` and passed as `SetApplicationCount(fs, {formatter=f})`, drives
+  Blizzard's apply path. Five Backdraft tiles read exactly as authored: the control (blank
+  below 2), a band showing a lone **`1`** (the discriminator — the default never prints a 1, so
+  the 1 proves cap's ruleset ran), a `MAX` word-band, per-band colour escapes, **and the
+  complement (`1` then blank)** — the low-shown/high-hidden shape S2 below had recorded as
+  *impossible*. The exact working chain is drained to
+  `knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5.2.
 
-### S8 · Per-band COLOUR on a banded count — **Candidate / sealed-display, UNFLOWN**
+### S8 · Per-band COLOUR on a banded count — **Settled / sealed-display, FLOWN `[client 2026-08-21]`**
 
 S7 with polarity. Two routes, and they differ in what they cost:
 
@@ -417,10 +425,13 @@ one static hue needs no markup at all. Per-*band* hue is what needs the escapes.
   `EscapeQuotedCodes` and `StripHyperlinks(…, maintainTextures, maintainAtlases)`
   `[T1 docs: StringUtilDocumentation.lua]`, which proves the client sanitises markup from
   untrusted strings *somewhere*; whether `NumericRuleFormatter` strips it is invisible from Lua.
-  **The font route survives that failure and the escape route does not** — prefer it.
-  `@pending-test: aura-container-rule-formatter`
+  **The font route survives that failure and the escape route does not** — but the escape
+  route flew: tile D drew its numbers **red at one stack, green at two** `[client 2026-08-21]`,
+  so `NumericRuleFormatter` did **not** strip the `|c…|r` markup on this build. The escape route
+  is therefore usable today; the font route remains the more robust fallback if a later build
+  starts sanitising. The static-hue floor (`SetTextColor` at setup) is unchanged and still ours.
 
-### S9 · Pandemic window as a client-drawn texture — **Candidate / sealed-display, UNFLOWN**
+### S9 · Pandemic window as a client-drawn texture — **Settled / sealed-display, FLOWN `[client 2026-08-21]`**
 
 R8's readable boolean is a **CDM tab-1 row** fact (`item.PandemicIcon ~= nil`). S9 is the same
 window on the **AuraContainer** channel, which needs no CDM row and works on a player buff:
@@ -446,8 +457,15 @@ end
   not attach it speculatively.
 - **Any Region qualifies** — a Texture, so cap's existing badge art is usable directly. This is
   the one primitive in Part 2 that reaches cap-owned art without a font trick.
-- ⚠ **Unflown, and no consumer yet.** Demonology's Doom is the obvious first subject; Affliction
-  is most of a spec. `@pending-test: aura-container-pandemic-region`
+- ✅ **Flown `[client 2026-08-21]`.** A Texture handed to `AddPandemicRegion` on an Immolate
+  slot stayed hidden for most of the DoT's duration and switched on **only near the end**, then
+  cleared when the DoT was refreshed inside the window — i.e. the client drove its own real
+  pandemic window onto cap's texture, no threshold authored. ⚠ **The one trap the flight cost:
+  the aura id is not the cast id** — Immolate casts as `348` but applies aura `157736`, Wither
+  casts `445468` → aura `445474`; `includeSpellIDs` must carry the aura id or it matches nothing
+  forever, looking exactly like a refused call. Still **no consumer yet** — Demonology's Doom is
+  the obvious first subject. Drained with the working chain to
+  `knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5.2.
 
 ⚠ **All three share one gate, and it is the same gate.** `initializeFrame` is the only window in
 which any of them may be built: it runs **before** `ApplyAccessRestrictions`

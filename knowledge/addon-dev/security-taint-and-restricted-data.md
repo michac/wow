@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-08-19   # §3.5.1 and §4.7.1 are 12.1 client measurements taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
+reviewed: 2026-08-21   # §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1079,6 +1079,79 @@ at least twice during its own PTR — `AddAuraFrame` removed,
 `SetAuraLayout*` renamed to `SetFlowLayout*`, `CustomAuraContainer` folded into
 `ManagedAuraContainer`. Treat the mixin names as correct at 12.1.0.69273 and the
 *behaviour outside that focused result* as unverified. `@verify-ingame`
+
+#### 3.5.2 Two authored sealed-displays, flown `[client 2026-08-21]`
+
+§3.5.1 proved the container DISPLAYS. These two prove cap can **author what it displays** —
+choose which stack values show a number, and drive its own art off Blizzard's pandemic window —
+without ever reading the sealed value. Both are Destruction-at-a-dummy human-eyeball verdicts
+(the outputs are sealed, so reading them back would invalidate the test).
+
+**1 · A tainted-created `NumericRuleFormatter` IS honoured on `SetApplicationCount`.** Build the
+formatter in `initializeFrame` (it is plain authored data, no secret in it) and hand it in as an
+option; the client evaluates it against the secret count and draws the result:
+
+```lua
+-- C_StringUtil resolved by string (it is not in .luacheckrc's curated std).
+local su  = C_StringUtil
+local fmt = su and su.CreateNumericRuleFormatter and su.CreateNumericRuleFormatter()
+fmt:SetBreakpoints({ { threshold = 0, format = "%d" } })          -- show the count at EVERY value
+button:SetApplicationCount(countFontString, { formatter = fmt })  -- the sink honours it
+```
+
+Four band tables, all confirmed on the Backdraft tiles (117828, HELPFUL, unit `player`):
+
+| bands | drew | why it matters |
+|---|---|---|
+| `{{threshold=0,format="%d"}}` | `1` at one stack | **the proof** — Blizzard's no-formatter default is `elseif applications > 1` and NEVER prints a lone `1`, so a `1` on screen is unambiguous evidence cap's ruleset ran |
+| `{{0,""},{2,"MAX"}}` | blank, then `MAX` | a band may emit a fixed **word/glyph**, not just a number |
+| `{{0,"\|cffff4040%d\|r"},{2,"\|cff40ff70%d\|r"}}` | **red 1, green 2** | inline colour escapes are **not stripped** by the formatter on this build (pattern-shelf S8) |
+| `{{0,"%d"},{2,""}}` | `1`, then blank | **the complement** — low-shown/high-hidden, the shape pattern-shelf S2 had recorded as *impossible* |
+
+So cap can author which stack values carry a number, in any hue — the `min = 2` cap has always
+lived under is Blizzard's zero-config default, not a platform limit. `SetApplicationCount` adds
+only `Text` and `Shown` aspects (`:59-68`), **not `VertexColor`**, so a static hue via
+`SetTextColor` at setup stays cap's regardless of the formatter.
+
+**2 · `AddPandemicRegion` drives a cap-owned Texture off Blizzard's own refresh window.** Hand any
+Region to the button; the client adds `SecretAspect.Shown` to it and calls
+`SetShown(IsInPandemicWindow())` on it every frame (`:236-248`, `:567-573`). The window is
+Blizzard's real one — `GetRefreshExtendedDuration − GetAuraBaseDuration` (`:612-628`), **not** the
+community 30 % — so cap authors **no threshold at all**, the one sealed form with nothing to get
+wrong, and the only one that reaches cap-owned **art** rather than text:
+
+```lua
+-- Target-DoT slot. HARMFUL, unit "target".
+local c = CreateFrame("AuraContainer", nil, parent, "CustomAuraContainerTemplate")
+c:SetAllPoints(parent)                       -- a SLOT runs no layout; the caller sizes + anchors
+c:AddAuraSlot("dot", "HARMFUL", {
+  candidateFilters = { includeSpellIDs = { [157736] = true } },   -- ⚠ AURA id, not cast id
+  initializeFrame = function(button)
+    button:SetSize(44, 44); button:SetAllPoints(c)                -- FIRST, or it draws 0×0
+    local mark = button:CreateTexture(nil, "OVERLAY")
+    mark:SetColorTexture(1.0, 0.72, 0.20, 0.85)
+    button:AddPandemicRegion(mark)           -- accepted; client owns its visibility hereafter
+  end,
+})
+c:SetUnit("target"); c:UpdateAllAuras()      -- SetUnit LAST of the wiring calls
+```
+
+Confirmed: the orange block stayed hidden for most of Immolate's duration and switched on **only
+near the end**, then cleared when the DoT was refreshed inside the window.
+
+⚠ **The trap this flight cost, worth its own line: the aura id is not the cast id.**
+`includeSpellIDs` matches the aura sitting on the target, not the spell you press — Immolate casts
+as `348` and applies aura `157736`; Wither casts `445468` and applies `445474`. Filter on the cast
+id and the slot matches nothing forever, indistinguishable from a refused call (this is the same
+cast-row/DoT-row split `cooldown-manager.md:588-596` draws for the CDM's two Immolate rows).
+
+⚠ **Costs:** the pandemic sink is the only one carrying an `OnUpdate`, and its enablement is itself
+`secretwrap`ped (`:634-641`) because whether your update loop runs would otherwise leak the aura's
+presence. Budget one `OnUpdate` per armed tile; do not attach speculatively.
+
+Both routes are **display-only** — the button stays forbidden and `IsShown` stays secret, so there
+is still no path to *branch* on a stack value or a pandemic state (§3.5.1's standing limit). The
+first consumer for either is Demonology (Core-at-4 for the count band, Doom for the pandemic mark).
 
 ---
 

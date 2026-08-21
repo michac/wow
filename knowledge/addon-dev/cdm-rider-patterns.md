@@ -2,7 +2,7 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-19   # §11 re-grounded on shipped 12.1 source (base-spell contract, nil return, macro/stance/pet coverage gap, combat safety, display formatting) — it had been mined-only; the rest not re-checked
+reviewed: 2026-08-21   # 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
@@ -1222,8 +1222,9 @@ globals' active item frames and read `GetCooldownID()` on each; a frame carrying
 what an alert hook attaches to, and a cleared frame answers `nil`. Reconciling against the
 settings provider's `GetOrderedCooldownIDsForCategory` instead returns the row **whether or
 not the player enabled it** `[client 2026-08-19]`, so it answers a different question than the
-one being asked. `@pending-test: cdm-aura-edges-need-a-bound-row` — the frame-enumeration form
-is derived from source and has not yet been shown to flip across an enable/disable pair.
+one being asked. The frame-enumeration form is in use in cap and was retired as validated-in-cap
+`[client 2026-08-21]` — ⚠ **confirmed-by-use, not a controlled enable/disable measurement**; if
+you need proof it flips across an enable/disable pair, re-fly it (recover the test from git).
 
 ⚠ **Whatever you build, it has to be able to say "I cannot hear this one."** The remedy is one
 tracked-buff toggle, and the player has no way to know it is needed unless something tells them.
