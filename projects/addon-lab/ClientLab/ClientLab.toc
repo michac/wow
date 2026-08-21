@@ -2,7 +2,7 @@
 ## Title: ClientLab
 ## Notes: Scratch lab addon — answers knowledge/addon-dev questions by running one line of Lua in the client. NOT a product; never depend on it.
 ## Author: Michael Christiansen
-## Version: 0.2.6
+## Version: 0.2.7
 ## SavedVariables: ClientLabDB, ClientLabScratchDB
 
 Core.lua
@@ -16,6 +16,8 @@ Ask.lua
 T_CooldownManager.lua
 T_TargetAuras.lua
 T_AuraEdges.lua
+T_AuraFormatter.lua
+T_AuraPandemic.lua
 
 # DELETED ON 12.1, recover from git — do not re-create:
 #   git show 671fb68^:projects/addon-lab/ClientLab/<name>.lua

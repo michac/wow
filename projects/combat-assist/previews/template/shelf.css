@@ -170,6 +170,23 @@ a { color: var(--accent); }
  * The whole fill arrives as one value, flat colour or gradient, because that is the one property
  * the two candidates differ in. It runs the full width and therefore UNDER the badge stack, which
  * overhangs the same corner — deliberately, and the badge cell is where that gets judged. */
+/* V12 · the virtual-row tick — PREVIEW ONLY (render-shelf.md V12, `tokens.preview.virtual_mark`).
+ * In the client a virtual row lives in cap's own panel and the separation says "cap owns this
+ * frame"; one flat preview row loses that, so the tick carries it. Bottom-left: the badges flow
+ * from the top-right and the hotkey holds the top-left, so this corner is contested by nothing. */
+.item .virtual-mark {
+  position: absolute;
+  left: calc(-1 * var(--virtual-out)); bottom: calc(-1 * var(--virtual-out));
+  width: var(--virtual-size); height: var(--virtual-size);
+  border-left: var(--virtual-line) solid var(--virtual-rgb);
+  border-bottom: var(--virtual-line) solid var(--virtual-rgb);
+  /* Off the corner, not on it: V13's scan edge already owns the rim, and a tick drawn inside the
+     rect competes for those pixels and loses on bright art. The plate is the badge stack's, so
+     the tick survives a light icon without introducing a second dark of its own. */
+  filter: drop-shadow(0 0 2px var(--plate));
+  pointer-events: auto;
+}
+
 .item .hotkey-bar {
   top: 0;
   left: 0;
@@ -420,6 +437,18 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 
 .aside { margin-top: 1rem; font-size: .88rem; color: var(--ink-dim); }
 .aside b { color: var(--ink); font-weight: 600; }
+
+/* An `⚠ UNSURE` note: a claim the authoring docs themselves doubt. Loud on purpose — the page
+   exists so the author can see these without reading the markdown, and a grey footnote is read
+   past. It marks the DOC, never the button: no polarity, no rank, no part in either reading pass. */
+.aside[data-unsure] {
+  background: var(--unsure-bg);
+  border-left: var(--unsure-line) solid var(--unsure-rgb);
+  border-radius: 0 6px 6px 0;
+  padding: .6rem .85rem;
+  color: var(--unsure-rgb);
+}
+.aside[data-unsure] b { color: var(--unsure-rgb); }
 
 .note {
   border: 1px solid var(--warn); background: var(--warn-bg); color: var(--warn);

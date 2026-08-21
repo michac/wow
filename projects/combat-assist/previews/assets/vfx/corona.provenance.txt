@@ -1,0 +1,10 @@
+corona.png
+  source      ../raw/uiart/Artifacts-PerkRing-MainProc-Glow.png
+  source size 120x120
+  grid        source 1x1, kept 1 in 1 -> 1 cols x 1 rows = 1 frames
+  cell        128px -> sheet 128x128 (power-of-two; unused cells are transparent and never addressed)
+  alpha       STRAIGHT — use BLEND (SYNTHESISED from luminance)
+  exposure    1.0 (EXR tonemap gain; ignored for LDR sources)
+
+NOT reproducible from this repo: the source is a local download. Re-run
+`python -m wowkb.vfxsheet` against the same file to regenerate.

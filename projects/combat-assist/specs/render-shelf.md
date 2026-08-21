@@ -666,6 +666,15 @@ engaged the way re-anchoring another viewer's frames would be: the Cooldown Mana
 written to nor rearranged, and a virtual row appears beside it rather than inside it. The
 precedent is `Bars.lua`'s independent countdown, which is likewise cap-owned and additive.
 
+⚠ **The preview draws a virtual row INLINE, and marks it.** In the client the panel is a separate
+surface and that separation is what says *cap owns this frame*; a stepper page is one flat row, so
+the separation is gone and the icon would read as a Cooldown Manager row cap has no right to. The
+preview therefore draws every virtual entry in row order with a corner tick from
+`tokens.preview.virtual_mark`, and a scenario writes the seam as `‖` on either side of the
+Essential line. **This is a preview affordance and nothing else** — `preview` is excluded from
+`Style.lua` by construction, so the addon cannot draw the tick and the panel geometry above is
+unchanged.
+
 **Not flown.** Part 5 question 8.
 
 ---
@@ -1137,7 +1146,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
   "hotkey": {
     "_comment": "V15. CHROME, not a cue (spec.md \u00a73.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion \u2014 and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",
     "font": "Interface\\AddOns\\CombatAssistPlus\\Media\\fonts\\CapKeyMono.ttf",
-    "size": 14,
+    "size": 16,
     "outline": "THICKOUTLINE",
     "rgb": [0.92, 0.92, 0.90],
     "alpha": 0.85,
@@ -1160,7 +1169,21 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "license_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/OFL.txt",
       "shippable": true
     },
-    "hotkey_font_stack": "'CapKeyMono', 'Trebuchet MS', var(--sans)"
+    "hotkey_font_stack": "'CapKeyMono', 'Trebuchet MS', var(--sans)",
+    "virtual_mark": {
+      "_comment": "PREVIEW ONLY, and it exists because the preview COMPRESSES a geometry the game does not have. In the client a virtual row (V12) lives in cap's own panel, physically separate from the Cooldown Manager, and the separation is what says 'cap owns this frame'. A stepper page draws one flat left-to-right row, so that separation is gone and the icon would read as a CDM row cap has no right to. The tick restores the one bit the compression lost. It is in `preview` deliberately: nothing here can reach Style.lua, and the addon must never draw it.",
+      "rgb": [0.55, 0.82, 1.00],
+      "size_px": 13,
+      "line_px": 2,
+      "overhang_px": 2,
+      "corner": "bottom-left"
+    },
+    "unsure": {
+      "_comment": "PREVIEW ONLY. The loud treatment for an `\u26a0 UNSURE` annotation under a row \u2014 a claim the authoring docs themselves doubt, drawn so it cannot be read past. Amber block, not a grey footnote. It says nothing about the press and takes no part in either reading pass; it is a note to the author about the DOC, not a mark on the button.",
+      "rgb": [1.00, 0.74, 0.30],
+      "bg_rgb": [0.23, 0.17, 0.06],
+      "line_px": 2
+    }
   },
   "panel": {
     "icon_px": 50, "gap_px": 6,
@@ -1194,7 +1217,48 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
   "budget": { "max_base64_kb": 300 },
 
   "lab": {
-    "_comment": "NO AUTHORITY. Part 7. EMPTY, which is its correct resting state and not a defect. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there \u2014 which is what happened to every entry this block used to hold. A new idea gets a `lab` key, an `asks`, and a section in Part 7."
+    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. \u26a0 The three entries below are FLIGHT-GATED, not look-gated: they draw no cells because what they ask is whether the CLIENT honours a rule cap authored, and Part 7 rule 2 already says a preview cannot answer that. They graduate on `aura-container-rule-formatter` / `aura-container-pandemic-region`, not on being looked at in a browser.",
+
+    "count_band": {
+      "asks": "Does a tainted-created NumericRuleFormatter get honoured on SetApplicationCount, so cap can author WHICH stack values show a number \u2014 including the complement and a middle band \u2014 rather than inheriting Blizzard's show-above-1 default?",
+      "draws": "client-only",
+      "pending_test": "aura-container-rule-formatter",
+      "form": "S7",
+      "font": "FRIZQT__.TTF", "size": 14, "outline": "OUTLINE",
+      "anchor": "TOP", "y": 1,
+      "bands": [
+        { "threshold": 0, "format": "" },
+        { "threshold": 4, "format": "%d" }
+      ],
+      "control_band": [
+        { "threshold": 0, "format": "%d" }
+      ]
+    },
+
+    "count_polarity": {
+      "asks": "Can ONE count FontString carry two meanings \u2014 a negative band and a positive band in different hues \u2014 and if inline colour escapes are stripped, does a cap-shipped symbol font carry the same distinction as a SHAPE instead?",
+      "draws": "client-only",
+      "pending_test": "aura-container-rule-formatter",
+      "form": "S8",
+      "font": "FRIZQT__.TTF", "size": 14, "outline": "OUTLINE",
+      "low_rgb": [1.00, 0.25, 0.25],
+      "high_rgb": [0.25, 1.00, 0.44],
+      "escape_bands": [
+        { "threshold": 0, "format": "|cffff4040%d|r" },
+        { "threshold": 6, "format": "|cff40ff70%d|r" }
+      ],
+      "static_fallback": "SetTextColor at setup carries ONE hue for the whole string and needs no markup at all; SetApplicationCount adds only Text and Shown, so VertexColor stays cap's."
+    },
+
+    "pandemic_mark": {
+      "asks": "Does AddPandemicRegion drive a cap-owned texture from Blizzard's own refresh window, giving cap real ART out of a sealed fact with no curve and no ruleset to get wrong?",
+      "draws": "client-only",
+      "pending_test": "aura-container-pandemic-region",
+      "form": "S9",
+      "rgb": [1.00, 0.72, 0.20],
+      "alpha": 0.85,
+      "note": "The only Part 2 form that reaches cap-owned art without a font trick, and the only one that costs an OnUpdate."
+    }
   }
 }
 ```
@@ -1233,9 +1297,17 @@ being adopted.
 1. **Nothing in `verdicts` or `cues` may name anything in `lab`.** The lab is unreachable from
    `havoc/scenarios.md` by construction — a scenario cannot accidentally start depending on an
    experiment. `capart build` errors if the reference exists (`validate_lab_isolation`).
-2. **The lab never draws in a CDM row.** It renders in its own section of the preview, under its
-   own heading, after the declared primitives — **and, since 2026-08-16, it may also be drawn by
-   the in-game `/cap style` gallery.** The gallery is exempt because it is not a live row: it draws
+2. **The lab never draws in a CDM row.** It renders on **its own page** — `previews/lab.html`,
+   since 2026-08-19, rather than appended to every spec's page — **and, since 2026-08-16, it may
+   also be drawn by the in-game `/cap style` gallery.**
+   ⚠ **The split has a consequence for how an entry is written.** The declared style used to be
+   one scroll away, so an entry could lean on the reader having just seen it. It cannot now:
+   **an entry that needs a comparison must draw its own control cell**, the way `hotkey-l1` did.
+   That convention was optional while the lab rode along beneath the style and is load-bearing
+   now.
+   The page is one for every spec because the lab is one for every spec: its cells resolve against
+   the **shelf's reference roster**, never the spec being built, so a lab cell was never a claim
+   about a spec's rotation — and drawing it under a spec's heading invited exactly that reading. The gallery is exempt because it is not a live row: it draws
    on cap-owned frames, in a panel you opened on purpose, and shows nobody a CDM row. That exemption
    exists because you cannot judge whether a treatment *renders* — how a mask tiles, what a
    `SetVertexColor` multiply actually looks like over Blizzard's own icon art — from a browser. A
@@ -1258,9 +1330,84 @@ being adopted.
 
 Each entry carries an `asks` — the question it exists to answer. An entry that cannot say what it
 is asking is decoration and should be deleted.
-**The lab is empty, and that is its correct resting state** — an empty lab means every idea that
-was drawn here has either been adopted or answered, not that nobody is trying anything. It was
-emptied on 2026-08-19, when the last open question in it was settled.
+
+**The lab was empty from 2026-08-19 until 2026-08-20**, when the three entries below were added.
+An empty lab means every idea drawn here has been adopted or answered, not that nobody is trying
+anything — and a lab that fills up again is the system working.
+
+⚠ **These three are a different KIND of entry from every one in the ledger below, and the
+difference matters.** Every previous entry was a *taste* question — five fonts, three stripe
+phases, four glows — and the preview settled it by drawing them side by side. These three are
+**capability** questions: they ask whether the client will honour a rule cap authored against a
+secret. **Rule 2 already says a preview cannot answer that** ("a preview is an argument about the
+client; the gallery is the client"), and here even the gallery cannot, because the gallery draws on
+cap-owned frames with no secret in sight. So they draw **no cells**, and the page will correctly
+say *"drawn in the client only"* for each.
+
+**They graduate on a flight, not on being looked at.** `count_band` and `count_polarity` on
+`aura-container-rule-formatter`; `pandemic_mark` on `aura-container-pandemic-region`. Until those
+fly, the numbers in their tokens are *proposals with citations* — the mechanism is Tier-1
+(`../pattern-shelf.md` S7–S9), the pixel is unmeasured, and nothing may reach for them.
+
+### L1 · `count_band` — a number that appears only inside a band
+
+**Asks:** does a tainted-created `NumericRuleFormatter` get honoured on `SetApplicationCount`?
+
+S2 draws a count above one fixed threshold, and cap has always read that threshold as the
+platform's. It is not: it is `elseif applications > 1`, Blizzard's behaviour when **no formatter is
+passed** (`Blizzard_CustomAuraButton.lua:351-368`). Passing one replaces it with a piecewise
+function cap authors — so "blank until 4, then 4" is two breakpoints, and so are the complement
+("blank above 1") and a middle band.
+
+The entry declares its bands **and a control band** that shows the number at *every* value
+including 1. That control is the load-bearing part: Blizzard's default never prints a "1", so a
+lone `1` on screen is the only unambiguous proof the formatter ran. Without it, "our rules were
+ignored" and "our rules correctly hid a low number" look identical, and the flight learns nothing.
+
+**If it flies:** `Catalog.lua`'s `min = 2` lifts to "a positive integer", S7 promotes into Part 2,
+and the first two consumers are Demonology's Core-at-4 and Implosion's six-imp gate.
+
+### L2 · `count_polarity` — two meanings in one count
+
+**Asks:** can one FontString carry a negative band and a positive band in different hues — and if
+inline colour escapes are stripped, does a symbol font carry the distinction as a **shape**?
+
+Two routes, deliberately drawn as one entry because they are the same question asked of two
+mechanisms. `escape_bands` puts `|c…|r` inside each band's format; the font route puts a PUA
+codepoint there instead. `C_StringUtil` ships `EscapeQuotedCodes` and `StripHyperlinks`, so the
+client sanitises markup *somewhere* — whether the formatter does is invisible from Lua.
+
+⚠ **The routes have different blast radii and the entry exists to separate them.** A stripped
+escape costs colour; a font that does not render costs the whole treatment. `static_fallback`
+records what survives either failure: `SetApplicationCount` adds only `Text` and `Shown`
+(`:59-68`), **not** `VertexColor`, so one static hue via `SetTextColor` at setup needs no markup
+and cannot be stripped. That is the floor, and it is already ours.
+
+⚠ **A font is a second art channel this repo does not own.** `render-shelf` → `capart export
+badges` → `capart check` is what stops the preview and the addon drifting; a TTF sits outside it.
+Adopting L2's font route means the shelf declares the glyph set and `check` gates the font the way
+it gates badge TGAs. **That is a pipeline change, not a token change**, and it is the reason this
+entry is not simply "add a font".
+
+### L3 · `pandemic_mark` — cap-owned art from a sealed window
+
+**Asks:** does `AddPandemicRegion` drive a cap-owned texture from Blizzard's own refresh window?
+
+This is the odd one out and the most interesting. Every other sealed form makes cap author a
+threshold — a curve break point, a breakpoint table — and every authored threshold is a thing to
+get wrong. This one has **none**: the client computes the window itself as
+`GetRefreshExtendedDuration − GetAuraBaseDuration` (`:612-628`), which is Blizzard's real
+pandemic, not the community's 30 %, and simply calls `SetShown` on any Region cap registered
+(`:567-573`).
+
+**It is also the only sealed form that reaches cap's existing badge art directly** — a Texture
+qualifies, so no font trick and no numeral. If L3 flies, the "sealed facts can only become text"
+limit stops being general.
+
+Two costs, both real: it is the only sink that carries an `OnUpdate` (`:634-641`, and Blizzard
+`secretwrap`s even the *enablement*, because whether your update loop runs would otherwise leak the
+aura's presence), and it has **no consumer yet** — Demonology's Doom is the obvious first, and
+Affliction is most of a spec.
 
 ### What has left, and where it went
 

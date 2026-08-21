@@ -1,0 +1,1767 @@
+<!-- capart built: 2026-08-21 -->
+<title>cap render lab</title>
+<style>
+/* GENERATED from specs/render-shelf.md Part 6 — do not edit here, edit the shelf. */
+:root {
+  --icon: 56px;
+  --row-gap: 6px;
+  --border-px: 1px;
+  --swipe-color: rgba(0,0,0,0.72);
+  /* A scenario states `cd`, never a time, so the dial is drawn at a nominal
+     fraction: it means "ruled out", nothing more. Not a shelf value. */
+  --swipe-frac: 0.62turn;
+
+  /* V2 · in the scan. One hue, no roles, no motion: an icon either participates in
+     the read or it does not. Additive at full brightness on a restrained AREA — a hot
+     edge, not a wash — and drawn ON the rect, so no row gap can be too small. */
+  --ready-rgb: 255,219,115;
+  --ready-alpha: 1.00;
+  --ready-line: 2px;
+
+  /* V5 · corner badges, flowing DOWN. The first overhangs the top-right corner by
+     --badge-over; each further badge steps --badge-step down the right edge. */
+  --badge-d: 22.40px;
+  --badge-over: 2px;
+  --badge-step: 25.40px;
+  --badge-inset: 16%;
+  --badge-tint: rgba(242,76,76,1.0);
+  --plate: rgba(0,0,0,0.78);
+  --plate-scale: 1.12;
+  --badge-halo-stop: 70%;
+  --cue-capped-tint: rgba(255,199,64,1.0);
+  --cue-capped-glow-dur: 0.8333s;
+  --cue-capped-glow-a0: 0.15;
+  --cue-capped-glow-a1: 0.55;
+  --cue-capped-glow-scale: 1.55;
+  --cue-priority-tint: rgba(255,199,64,1.0);
+  --cue-priority-glow-dur: 0.8333s;
+  --cue-priority-glow-a0: 0.15;
+  --cue-priority-glow-a1: 0.55;
+  --cue-priority-glow-scale: 1.55;
+
+  /* V11 + Part 7 · the stripe sheet. The mask URI is set inline by stepper.js (it
+     is a build-time data: URI, not a shelf value); the geometry is the shelf's. */
+  --lab-stripe-tile: 128px;
+  --lab-stripe-pitch: 16px;
+  --hatch-rgb: rgba(0,0,0,0.5);
+  --hatch-phase: 8.00px;
+  --hatch-skip-rgb: rgba(242,76,76,0.45);
+  --hatch-skip-phase: 0.00px;
+  --hatch-skip-over: 2px;
+  --hatch-skip-line: 2px;
+  --hatch-skip-edge: rgba(242,76,76,1.0);
+
+  /* V15 · hotkey text — chrome. Names the row; asserts nothing about the press. */
+  --hotkey-size: 16px;
+  --hotkey-color: rgba(235,235,230,0.85);
+  --hotkey-x: 2px;
+  --hotkey-y: 2px;
+  --hotkey-outline: rgba(0,0,0,1.0);
+  --hotkey-font: 'CapKeyMono', 'Trebuchet MS', var(--sans);
+  --hotkey-outline-px: 2px;
+
+  /* V12 · virtual-row tick — PREVIEW ONLY. Says 'cap owns this frame; the
+     Cooldown Manager has no row for it', which the client says by geometry. */
+  --virtual-rgb: rgba(140,209,255,1.0);
+  --virtual-size: 13px;
+  --virtual-line: 2px;
+  --virtual-out: 2px;
+
+  /* ⚠ UNSURE annotation — PREVIEW ONLY. Loud on purpose: it marks a claim the
+     authoring docs themselves doubt, and it must not read as a footnote. */
+  --unsure-rgb: rgba(255,189,76,1.0);
+  --unsure-bg: rgba(59,43,15,1.0);
+  --unsure-line: 2px;
+
+  /* V14 · promotion ring */
+  --promo-rgb: 255,209,69;
+  --promo-alpha: 1.00;
+  --promo-spread: 2.00;
+  --promo-cols: 8;
+  --promo-rows: 4;
+}
+
+/* V15 · the SHIPPED font, https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf — the same subset file the addon carries, so the preview measures exactly the advance widths the game does. */
+@font-face {
+  font-family: 'CapKeyMono';
+  src: url(data:font/ttf;base64,AAEAAAANAIAAAwBQR1BPU0R2THUAABvEAAAAIEdTVUIWfSiFAAAb5AAAADBPUy8ybttm+QAAAVgAAABgY21hcAavBowAAAJsAAAAqmdhc3AAAAAQAAAbvAAAAAhnbHlmKMc/SQAAA8wAABZAaGVhZATYyz4AAADcAAAANmhoZWEHTAMqAAABFAAAACRobXR4EqsQUwAAAbgAAAC0bG9jYfGr968AAAMYAAAAtG1heHAAZwCxAAABOAAAACBuYW1lIGY5lgAAGgwAAAGQcG9zdP+VADMAABucAAAAIAABAAAAAQDFW0l7tl8PPPUAAwPoAAAAANAki+wAAAAA0cj7Pf/i/xUD8gNXAAAABwACAAAAAAAAAAEAAAN1/w4AAAQ4/+L/4gPyAAEAAAAAAAAAAAAAAAAAAAABAAEAAABZAIkACAAmAAMAAQAAAAAAAAAAAAAAAAACAAEAAwIgAZAABQAAAooCWAAAAEsCigJYAAABXgAyASwAAAILBQkFAAACAAQAAAABAAAAAAAAAAAAAAAAVUtXTgBAACAAfgN1/w4AAAN1APIAAAABAAAAAAH0ArwAAAAgAAMCHABUAAAALQBVAG0AUgBnAGoAXgBQAIgAfQBRAHMANQBPAEYAWgBGAEYAZABDAE0AOAAzADMALABXAEMAVwB4AFQAXgBjAEgAVwBQAIkAYABGACsAVwBTAFcAVABkAHYAawBdAEAAIwBBAD8AagBcAGYAaQB5AFcAdwBhAGgAVgBgAEYAMgDIANwAUADcAN4AyAAyAKUApQCqAKoAawBpAGQAUABQAFAADABPAB0AUwBHAKMAAAACAAAAAwAAABQAAwABAAAAFAAEAJYAAAAWABAAAwAGACEALwA5AD4AQABaAF4AYAB6AH7//wAAACAAIwAwADsAQABBAFsAYABhAH7//wAAAAAABgAAABX/wQAA//j/u//RAAEAFgAYAAAALgAAAAAAMAAAAAAAAAAAAAEAQwBEAE4AUwBWAEYASwBMAEAAVABCAE0ARQBIAEcAUgBQAFEASQBBAEoAVwAAAAAAFAAUAC0AYQB/AKEAtwDLAO4BBQEbATMBTQFdAXcBjAG8AeACFQI9Am0CfgKeArACzQLmAvsDEQNJA3IDjwO5A+QEBwRGBGgEgASfBLYEzgUCBSMFUQV8BaQFwgXxBg8GMAZCBl4GdgaWBqsG4Qb2BxwHSwdkB4cHugfLCBoITQhrCHkIhwibCMQI0AjfCPQJAgkUCSUJRQllCXIJpwnPCeMJ9goJCmYKegrNCwALEgsgAAIAVAAAAcgCvAADAAcAACEhESEFETMRAcj+jAF0/tfeArxI/dQCLAACAC0AAAHvArwABwAKAAA3ByMTMxMjJycDA60nWalzplkmEFJRsbECvP1EsUsBfv6CAAMAVQAAAccCvAAOABgAIgAAJAYjIxEzMhYVFRQHFhUVAiYjIxUzMjY1NRImIyMVMzI2NTUBx09byLxZUzdBYSMmcXEfKgooIXt6JiRISAK8SFQ5TSckV1oBsSLdKCFM/vkn/iMmbQAAAQBtAAABrwK8ABMAADImNRE0NjMzFSMiBhURFBYzMxUjyl1dV46YJS4uJZiOVVUBaFVVTCwf/nIfLEwAAgBSAAABygK8AAkAEwAAJAYjIxEzMhYVEQImIyMRMzI2NREByk9bzsJaXFcoIYGAJiRISAK8SVP+fgGsJ/3aIyYBlQABAGcAAAG1ArwACwAAARUjFTMVIxUzFSERAbX33t73/rICvEnlSfxJArwAAAEAagAAAbgCvAAJAAABFSMRIxEhFSMVAZ/eVwFO9wGESf7FArxJ7wABAF4AAAG9ArwAFwAAMiY1ETQ2MzMVIyIGFREUFjMzNSM1MxEju11dV42XJS4uJWJXqqtVVQFoVVVMLB/+ch8s2Uv+kAAAAQBQAAABzAK8AAsAABMRIxEzETMRMxEjEadXV85XVwFC/r4CvP7QATD9RAFCAAEAiAAAAZMCvAALAAA3ESM1IRUjETMVITXiWgELWlr+9UkCKklJ/dZJSQAAAQB9AAABmgK8AA0AACQGIyM1MzI2NREjNTMRAZpdV2lzJS6h+FVVTCwfAdpL/e4AAQBRAAAB0QK8AAsAABMRIxEzERMzAxMjA6hXV75fwc1knwEC/v4CvP7SAS7+y/55ATsAAAEAcwAAAakCvAAFAAATETMVIRHK3/7KArz9kEwCvAAAAQA1AAAB6AK8AAwAACUjAxEjETMTEzMRIxEBNlNiTItQUYdO6wGJ/YwCvP6aAWb9RAJ0AAEATwAAAcwCvAAJAAAzIxEzExEzESMDoFGOnlGPnQK8/Y4Ccv1EAnIAAAIARgAAAdYCvAAPAB8AACQGIyMiJjURNDYzMzIWFRECJiMjIgYVERQWMzMyNjURAdZdVyhXXV1XKFddVy4lPCUuLiU8JS5VVVVVAWhVVVVV/pgBmiwsH/5yHywsHwGOAAIAWgAAAcMCvAALABUAAAAGIyMRIxEzMhYVFSYmIyMRMzI2NTUBw1ZUaFe9VVdXIyZyciYjAV1N/vACvEtRcqEi/uojJoUAAAIARv/FAggCvAATACMAACAjIyImNRE0NjMzMhYVERQHFwcnAiYjIyIGFREUFjMzMjY1EQFbOShXXV1XKFddF0k5TQMuJTwlLi4lPCUuVVUBaFVVVVX+mDsoSTlNAjIsLB/+ch8sLB8BjgACAEYAAAHfArwADQAXAAATESMRMzIWFRUUBxMjAxImIyMRMzI2NTWdV7xVV1qLX4FYIyZxcSYjASL+3gK8S1FgcRz+zQEiAS0i/vwjJnMAAAEAZAAAAbcCvAAjAAAkBiMjNTMyNjU1NCYjIyImNTU0NjMzFSMiBhUVFBYzMzIWFRUBt11XjpglLh8fHkpWXVePmSUuKCAeR09VVUwsH2geJVdTJlVVTCwfTB8pUlNCAAEAQwAAAdgCvAAHAAAzESM1IRUjEeKfAZWfAnBMTP2QAAABAE0AAAHOArwAEwAAJAYjIyImNREzERQWMzMyNjURMxEBzl1XGVddVy4lLSUuV1VVVVUCEv3bHywsHwIl/e4AAQA4AAAB3wK8AAYAABMzExMzAyM4WHiBVp13Arz9nAJk/UQAAQAzAAAB5QK8AAwAAAEDIwMzExMzExMzAyMBDD94IkoeUz5VH0UifgEc/uQCvP2PAUr+tgJx/UQAAAEAMwAAAekCvAALAAAzIxMDMxc3MwMTIwORXq6eX25yXaKsYngBagFS7e3+r/6VAQcAAQAsAAAB7wK8AAgAADMRAzMTEzMDEd+zYISEW7YBRQF3/t0BI/6J/rsAAQBXAAABwwK8AAkAACEhNQEjNSEVASEBuf6eARL7AVX+7wEHWAIaSlj95gACAEMAAAHYAfQAHAApAAAgJicGIyMiJjU1NDMzNTQmIyM1MzIWFRUUFjMVIyY2NTUjIgYVFRQWMzMBlB8LFyZZTEWSfCYlm5FXUxcbN2AQfRoiGBpZEA4ePUoUmzIfIktMVPAPD0ZLHBZuIhoyGhgAAgBXAAABxQK8AA0AGgAAJAYjIxEzFTYzMzIWFRUCBhURMzI2NTU0JiMjAcVTV8RVHi0kWFL5IHklJiYlOExMArzcFEtVtAEJIxT+2SIf3B8iAAEAeAAAAaMB9AATAAAyJjU1NDYzMxUjIgYVFRQWMzMVI8pSU1eBiyUmJiWLgUtVtFRMSyIf3B8iSwACAFQAAAHHArwADwAcAAAgIyMiJjU1NDYzMzUzESM1JjY1ESMiBhUVFBYzMwFWLylYUlNXdFVQJSB+JSYmJT1LVbRUTMj9RBc0IxQBJyIf3B8iAAACAF4AAAG9AfQAEwAdAAAyJjU1NDYzMzIWFRUhFRQWMzMVIxM0JiMjIgYVFTOwUkpWL0dJ/vYmJZ+VYiIaOiQdt0tVtFZKT0yCSx8iSwFtGiIhIEYAAAEAYwAAAbgCvAAXAAAABhUVMxUjETMVITUzESM1MzU0NjMzFSMBIBOhoXn+3VVVVToumIgCcRENX0v+oktLAV5LWjM7SwACAEj/VgHTAfQAIQAuAAAEBiMjNTMyNjU1NCYjIzUmJjU1NDYzMxUUBiMjFTMyFhUVAjY3NSMiBhUVFBYzMwHTUVbQ2iQkJCStISBTV9JSRFBOVlGGIAKHJSYmJUZnQ0scFiAXG4oSRDYZVEy5S1UrQ0QMAQkoFoUiH0EfIgABAFcAAAHFArwAFAAAExU2MzMyFhURIxE0JiMjIgYHESMRrB4tLlFPVSMeQiAgAVUCvNwUTFT+rAFoHiMhE/6LArwAAAIAUAAAAcwCvAADAAsAAAEVIzUDNTMRMxUjEQE9X47olOkCvFpa/u1L/ldLAakAAAIAif9WAZICvAADABEAAAEVIzUCNjURIzUzERQGIyM1MwGSXw0Tk+g6Lp2NArxaWvzlEQ0B6kv90DM7SwAAAQBgAAABywK8AAsAADcVIxEzETczBxMjJ7VVVZ1rrrxpk9bWArz+hrLF/tH0AAEARgAAAdYCvAANAAAgJjURIzUzERQWMzMVIwEMM5PoEBOFqDA0Ag1L/a0QDksAAAEAKwAAAfEB9AAjAAATFTYzMzIXNjMzMhYVESMRNCYjIyIGBxEjETQmIyMiBgcRIxF2GiQGRh0hNgY9OlARHgYeFwFQFBoGHhgBUAH0FxcoKD5P/pkBaCkgKRn+kQFoKh8jFv6IAfQAAQBXAAABxQH0ABQAABMVNjMzMhYVESMRNCYjIyIGFREjEacfMS5RT1UjHkIhIFUB9BgYTFT+rAFoHiMjFP6OAfQAAgBTAAAByAH0AA8AHwAAJAYjIyImNTU0NjMzMhYVFSYmIyMiBhUVFBYzMzI2NTUByFNXIVdTU1chV1NVJiU1JSYmJTUlJkxMTFS0VExMVLTnIiIf3B8iIh/cAAACAFf/VgHFAfQADwAcAAATFTYzMzIWFRUUBiMjFSMRFgYVETMyNjU1NCYjI6cfMSRYUlNXb1V1IHklJiYlOAH0GBhLVbRUTKoCnksjFP7ZIh/cHyIAAAIAVP9WAccB9AANABoAACAjIyImNTU0NjMzESM1JjY1ESMiBhUVFBYzMwFTLClYUlNXyVUgIH4lJiYlPUtVtFRM/WK+NyMUASciH9wfIgAAAQBkAAABtAH0ABIAADcRIzUzFTYzMxUjIgYHETMVITWtSZkhL2dxICABbf71SwFeSxsbUCkV/uVLSwAAAQB2AAABpgH0ACIAACQGIyM1MzI2NTU0IyMiJjU1NDYzMxUjIgYVFRQWMzMyFhUVAaZNSZWfGxwrJUZFTEqGkBkeGxUiQ0Y+PksXFjUtPUIdQztLFxYkFxZBQC0AAAEAawAAAbECbAATAAAgJjURIzUzNTMVMxUjERQWMzMVIwEANl9fVZKSFhdlfkI2ATFLeHhL/soWEksAAAEAXQAAAb8B9AAUAAAgIyMiJjURMxEUFjMzMjY3ETMRIzUBTi8iUU9VIx42IB8CVVBMVAFU/pgeIyAUAXX+DBcAAAEAQAAAAdwB9AAGAAATMxMTMwMjQFx1clmQewH0/lEBr/4MAAEAIwAAAfkB9AAMAAAlByMDMxMTMxMTMwMjARA2XVpVOUJBPDlQWWD7+wH0/nMBM/7NAY3+DAAAAQBBAAAB2gH0AAsAADMjEyczFzczBxMjJ59enJBjX2Fdkp9kaQEC8qio7v76vQAAAQA//1YB3AH0ABEAABY2NzcjAzMTEzMDDgIjIzUzzBgGDhSlXH1tV5sNJi8lMCpfEhY3AfT+XQGj/dYzMg9LAAEAagAAAbIB9AAJAAAhITUTIzUhFQMzAaj+wurWATTo3lABWkpZ/q8AAAMAXAAAAcACvAAPABgAIQAAJAYjIyImNRE0NjMzMhYVEQImIyMiBhUREwIWMzMyNjURAwHAW00UTVtaThROWlUvJBQkL7q6LyQUJC+6V1dXUwFoVFZWVP6YAZotLR/+8QEP/lMtLR8BDv7yAAEAZgAAAbUCvAAKAAA3EQc1NzMRMxUhNfONg19t/rtLAiI0UTL9j0tLAAEAaQAAAbMCvAAYAAABPgI1NTQmIyM1MzIWFRUUBgYHBzMVITUBCSAXCC4leG5XXQ4aHpTu/rYBPC4nKCZGHyxMVVUqMj4wK9FMWAABAHkAAAGjArwAIgAAJAYjIzUzMjY1NTQmIyM1MzI2NTU0JiMjNTMyFhUVFAcWFRUBo1BagIkmJCgha2EfKiMmgHRVVzdBS0tLIyZnISdLKCFSJiJLS1E/TSckV1QAAQBXAAABxQK8AA4AACE1IzUTMwMzNTMVMxUjFQElzmtRZnhVS0ucVgHK/ink5EmcAAABAHcAAAGkArwAFwAAJAYjIzUzMjY1NTQmIyMRIRUjFTMyFhUVAaRQWoOMJiQoIYMBFL8pTVhLS0sjJn8hJwFhS8tMUGwAAgBhAAABwAK8ABYAIwAAJAYjIyImNRE0NjMzFSMiBhUVMzIWFRUEFjMzMjY1NTQmIyMVAcBaRCNEWltXfYclLmJWUv72KiQZJColJGxYWFhSAWhVVUwsH21MVG4zLCwglB8j1gAAAQBoAAABrQK8AAYAAAEjNSEVAyMBWvIBRbBZAnFLYf2lAAMAVgAAAcYCvAAZACkAOQAAJAYjIyImNTU0NyY1NTQ2MzMyFhUVFAcWFRUCBhUVFBYXMzI2NTU0JiMjEiYjIyIGFRUUFjMzMjY1NQHGUFocWlBBNVROFE5UNUHwHSUcIh8oISYkdyghMCEoICI2JiRLS0tTVFckJU8/UExMUD9PJSRXVAHSIyRSICcCKCFSJiL+qycnIWclJCMmZwAAAgBgAAABvwK8ABYAIwAAEjYzMzIWFREUBiMjNTMyNjU1IyImNTUkJiMjIgYVFRQWMzM1YFpEI0RaW1dzfSUuYlZSAQoqJBkkKiUkbAJkWFhS/phVVUwsH21MVG4zLCwglB8j1gAAAQBGAVQB1gLSAA4AAAEnByc3JzcXJzMHNxcHFwFlWFtGa5EbjQ1aDY8Zk2oBVI6ONXogUDmYmDdPH3sAAQAy/5IB6gMqAAMAAAUjATMB6lT+nFRuA5gAAAEAyP90AVQAZAAFAAAzNTMVByPwZD5OZGSMAAACANwAAAFAArwAAwAHAAABESMRExUjNQE4VV1kArz+FAHs/ahkZAAAAgBQAAABzAK8ABsAHwAAITUjFSM1IzUzNSM1MzUzFTM1MxUzFSMVMxUjFSczNSMBNlBQRkZGRlBQUEZGRkagUFC0tLRLyEuqqqqqS8hLtP/IAAEA3AAAAUAAZAADAAAlFSM1AUBkZGRkAAEA3gHFAT0CvAAFAAATNTMVByPeXxQ3AmJaWp0AAAIAyP90AVQB9AADAAkAAAEVIzURNTMVByMBVGRkPk4B9GRk/gxkZIwAAAEAMv+SAeoDKgADAAABMwEjAZZU/pxUAyr8aAABAKX/iAF3AzQABwAAARUjETMVIxEBd4KC0gM0S/zqSwOsAAABAKX/iAF3AzQABwAABREjNTMRIzUBJ4LS0i0DFkv8VEsAAQCq/4gBcgM0ABEAABI2NzMOAhURFBYWFyMmJjURqjs1WDAuFRUuMFg1OwJtkDc6T2JO/sZOYk86N5B0ATYAAAEAqv+IAXIDNAARAAAkBgcjPgI1ETQmJiczFhYVEQFyOzVYMC4VFS4wWDU7T5A3Ok9iTgE6TmJPOjeQdP7KAAABAGsBEwGwAV4AAwAAARUhNQGw/rsBXktLAAEAaf+SAbIDDAAoAAAzNTMyNjU1NCYjIyImNTU0NzUzFTMVIyIGFRUUFjMzMhYVFRQGBxUjNXqOJS4fHxRKVnpVao8lLiggFEdPPztVTCwfVB4lV1Mcihp0bkwsH0IfKVJTLkVTDXNuAAABAGQBBgG4AX0AGQAAEjYzMzIXFjMzMjY3FQYGIyMiJyYjIyIGBzVwSQwPDTY0DAoHRAwLQgsPBi9BDAoJSw0BYB0UFB4GUAYdERceBlAAAAIAUACvAcwBwgADAAcAAAEVITUFFSE1Acz+hAF8/oQBwktLyEtLAAABAFAAaQHMAjQABgAAASU1BRUFNQGM/sQBfP6EAVCIXLNpr14AAAEAUABpAcwCNAAGAAABFQUFFSU1Acz+ygE2/oQCNFyIiV6vaQAABQAMAAACDwK8AA8AHwAjADMAQwAAAAYjIyImNTU0NjMzMhYVFSYmIyMiBhUVFBYzMzI2NTUFFQU1AAYjIyImNTU0NjMzMhYVFSYmIyMiBhUVFBYzMzI2NTUBIUA6CDpAQDoIOkBGGhoIGhoaGggaGgE0/f0B50A6CDpAQDoIOkBGGhoIGhoaGggaGgHVQUE/KD9BQT8oTCAgGT4ZICAZPqc+ST7+6kFBPyg/QUE/KEwgIBk+GSAgGT4AAQBPAHYBzAH8AAsAADc1IzUzNTMVMxUjFeaXl1CWlnadS56eS50AAAIAHQAAAf8CvAAyAD4AADImNRE0NjMzMhYVERQGIyImJwYGIyImNTU0NjYzMxEUFjMyNjURNCYjIyIGFREUMzMVIzY2NTUjIgYVFRQWM19CS1WlVEkxMyErAw8kHjMuHkE7SA0REwwkKbkrJUO5uXgaDysgDxdBSwGaT0dFUf65PDAfHRAPM0CQNjsX/rgVFBIcAVgmJyYn/lJDP8ofFeQdLJwYGwACAFMAAAHwArwAGgAkAAAyJjU1NDcmNTU0NjMzFSMiBhUVFBYzMxUjESMCBhUVFBYzMxEjo1BBN1dVanYmIyof80+kKygkJlxdS1N+VyQnTRVRS0siJighKEv+kwFtJyGRJiMBIgABAEcBpAHUAvgABgAAEyMTMxMjA59YkHKLW2gBpAFU/qwBGAABAKMCRAFzAssAAwAAARcjJwELaFZ6AsuHhwAAAAAHAFoAAwABBAkAAAD6AAAAAwABBAkAAQAUAPoAAwABBAkAAgAOAQ4AAwABBAkAAwAUAPoAAwABBAkABAAUAPoAAwABBAkABQAaARwAAwABBAkABgAUAPoAQwBvAHAAeQByAGkAZwBoAHQAIAAoAGMAKQAgADIAMAAxADIALAAgAEMAYQByAHIAbwBpAHMAIABUAHkAcABlACAARABlAHMAaQBnAG4ALAAgAFIAYQBsAHAAaAAgAGQAdQAgAEMAYQByAHIAbwBpAHMAIAAoAHAAbwBzAHQAQABjAGEAcgByAG8AaQBzAC4AYwBvAG0AIAB3AHcAdwAuAGMAYQByAHIAbwBpAHMALgBjAG8AbQApACwAIAB3AGkAdABoACAAUgBlAHMAZQByAHYAZQBkACAARgBvAG4AdAAgAE4AYQBtAGUAIAAnAFMAaABhAHIAZQAnAEMAYQBwAEsAZQB5AE0AbwBuAG8AUgBlAGcAdQBsAGEAcgBWAGUAcgBzAGkAbwBuACAAMQAuADAAMAAzAAMAAAAAAAD/kgAyAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQAB//8ADwABAAAACgAcAB4AAURGTFQACAAEAAAAAP//AAAAAAAAAAEAAAAKACwALgADREZMVAAUZ3JlawAebGF0bgAeAAQAAAAA//8AAAAAAAAAAAAA) format('truetype');
+  font-display: block;
+}
+</style>
+<style>
+/* Combat Assist Plus — preview stylesheet.
+ *
+ * ⚠ NO LITERAL COLORS, SIZES OR RATES BELOW, except inside the CHROME block, which is
+ * page furniture (paper, ink, rules) and not cap's look. Everything that describes how
+ * cap draws comes through a custom property that `wowkb.capart` emits from
+ * `specs/render-shelf.md` Part 6. `capart check --strict-css` enforces this: a literal
+ * hex outside the chrome block fails the build, which is what stops this file from
+ * quietly re-acquiring the opinions the shelf is supposed to own.
+ */
+
+/* ===== CHROME START — page furniture, exempt from --strict-css ===== */
+:root {
+  --paper: #14161c;
+  --paper-2: #1b1e26;
+  --paper-3: #232733;
+  --rule: #333a4a;
+  --ink: #e6e9f0;
+  --ink-dim: #9aa3b6;
+  --ink-faint: #6b7488;
+  --accent: #8fb8ff;
+  --warn: #ffc766;
+  --warn-bg: #3a2f14;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+:root[data-theme="light"] {
+  --paper: #f7f8fa;
+  --paper-2: #ffffff;
+  --paper-3: #eef0f5;
+  --rule: #d3d8e2;
+  --ink: #171a21;
+  --ink-dim: #545c6e;
+  --ink-faint: #838b9c;
+  --accent: #2b5fbf;
+  --warn: #8a5a00;
+  --warn-bg: #fdf1d6;
+}
+/* ===== CHROME END ===== */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 68rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+h1 { font-size: 1.65rem; margin: 0 0 .35rem; letter-spacing: -.01em; }
+h2 {
+  font-size: 1.05rem; margin: 3rem 0 .75rem; padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule); letter-spacing: .02em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+h3 { font-size: 1rem; margin: 1.75rem 0 .5rem; }
+p { margin: .55rem 0; }
+code { font-family: var(--mono); font-size: .87em; background: var(--paper-3); padding: .1em .35em; border-radius: 3px; }
+a { color: var(--accent); }
+.lede { color: var(--ink-dim); max-width: 46rem; }
+.muted { color: var(--ink-faint); font-size: .82rem; }
+
+/* ---------------------------------------------------------------- the CDM row
+ * A Cooldown Manager item, at the size the client draws it. Every dimension is a
+ * token; nothing here is chosen by this file.
+ */
+
+.stage {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.5rem 1.25rem;
+  overflow-x: auto;
+}
+
+.cdm-row {
+  display: flex;
+  gap: var(--row-gap);
+  align-items: center;
+  width: max-content;
+  min-height: calc(var(--icon) * 2);
+  padding: calc(var(--icon) * .5) calc(var(--icon) * .5);
+}
+.cdm-row[data-zoom="2"] { zoom: 2; }
+
+.item {
+  position: relative;
+  width: var(--icon);
+  height: var(--icon);
+  flex: 0 0 auto;
+  transform: scale(var(--item-scale, 1));
+  transition: transform .12s ease;
+}
+
+.item .art {
+  position: absolute; inset: 0;
+  border-radius: 2px;
+  overflow: hidden;
+  /* the CDM icon's own thin edge — Blizzard's furniture, drawn from the chrome palette */
+  border: var(--border-px) solid var(--rule);
+  background-size: cover;
+  /* Blizzard's own baseline, both channels of it (cooldown-manager.md §3.4). `--desat` is
+   * desaturate-on-cooldown; the multiply is RefreshIconColor's vertex tint, and it is a
+   * MULTIPLY because SetVertexColor is one. Both are set inline from `D.client_paint`, which
+   * is why no value appears here: these are Blizzard's numbers, not this file's opinions. */
+  filter: grayscale(var(--desat, 0));
+  background-blend-mode: multiply;
+}
+
+/* Blizzard's own dial. cap does not draw it and does not restyle it (shelf V7); it is
+ * here so the row reads like the row. A scenario states "on cooldown", never a time, so
+ * the sweep is drawn at a nominal fraction and means nothing more than "ruled out". */
+.item .swipe {
+  position: absolute; inset: 0;
+  border-radius: 2px;
+  background: conic-gradient(var(--swipe-color) 0turn var(--swipe-frac), transparent var(--swipe-frac) 1turn);
+}
+
+/* V15 · the keybind hint — chrome, not a cue. Top-left, the corner the badge stack never flows
+ * into, so the two never negotiate a place. Every value is the shelf's: there is no literal here
+ * and `strict_css` would fail one. It is static — nothing animates it, and `tokens.text`'s
+ * flicker limits bind text that changes, which this does not.
+ *
+ * The dark edge is a real STROKE, which is what the client's font flag actually is.
+ *
+ * ⚠ It used to be eight offset `text-shadow` copies, and that was wrong in a way that showed:
+ * every copy is antialiased, the overlaps accumulate alpha into a fuzzy halo, and the diagonal
+ * copies sit at 2.83px where the axial ones sit at 2 — so a 2px ring rendered as a smudge with
+ * lumpy corners. The client computes OUTLINE/THICKOUTLINE from the glyph outline (from its SDF),
+ * uniform and crisp, and nothing made of offset copies converges on that. `paint-order` puts the
+ * stroke UNDER the fill, so it reads as an outward edge rather than eating the letterform —
+ * which is also what the client does.
+ *
+ * The stroke is drawn at twice `--hotkey-outline-px` because a centred stroke spends half its
+ * width inside the glyph; the outward half is what that variable names.
+ * ⚠ It only ever takes the ONE value matching the declared flag. A wider edge would make the
+ * preview more readable than the game can be, which is the one thing this may not do. */
+.item .hotkey {
+  position: absolute;
+  /* The plate grows AROUND the glyph rather than pushing it: the padding is subtracted from the
+   * anchor offset, so a plated candidate and a bare one put their first letter on exactly the
+   * same pixel and the comparison is about the plate alone. Both default to 0. */
+  top: calc(var(--hotkey-y) - var(--hotkey-plate-y, 0px));
+  left: calc(var(--hotkey-x) - var(--hotkey-plate-x, 0px));
+  padding: var(--hotkey-plate-y, 0px) var(--hotkey-plate-x, 0px);
+  /* Square corners, and not for want of a border-radius. The client's analogue is one
+   * `SetColorTexture` rect behind the FontString; rounding it would need an art file, which is a
+   * different (and shippable-asset) proposition. The preview may not draw a shape the addon
+   * cannot. */
+  background: var(--hotkey-plate, transparent);
+  pointer-events: none;
+  font-family: var(--hotkey-font);
+  font-size: var(--hotkey-size);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--hotkey-color);
+  paint-order: stroke fill;
+  -webkit-text-stroke: calc(var(--hotkey-outline-px) * 2) var(--hotkey-outline);
+  white-space: nowrap;
+}
+
+/* Part 7 · the title-bar candidates. A strip across the icon's top edge with the label in it,
+ * rather than a plate sized to the label. It is a different OBJECT, not a bigger plate: constant
+ * width on every row, so the eye stops hunting for it, and a field of fixed size says nothing
+ * about what is written in it — which is what chrome is supposed to say.
+ *
+ * The whole fill arrives as one value, flat colour or gradient, because that is the one property
+ * the two candidates differ in. It runs the full width and therefore UNDER the badge stack, which
+ * overhangs the same corner — deliberately, and the badge cell is where that gets judged. */
+/* V12 · the virtual-row tick — PREVIEW ONLY (render-shelf.md V12, `tokens.preview.virtual_mark`).
+ * In the client a virtual row lives in cap's own panel and the separation says "cap owns this
+ * frame"; one flat preview row loses that, so the tick carries it. Bottom-left: the badges flow
+ * from the top-right and the hotkey holds the top-left, so this corner is contested by nothing. */
+.item .virtual-mark {
+  position: absolute;
+  left: calc(-1 * var(--virtual-out)); bottom: calc(-1 * var(--virtual-out));
+  width: var(--virtual-size); height: var(--virtual-size);
+  border-left: var(--virtual-line) solid var(--virtual-rgb);
+  border-bottom: var(--virtual-line) solid var(--virtual-rgb);
+  /* Off the corner, not on it: V13's scan edge already owns the rim, and a tick drawn inside the
+     rect competes for those pixels and loses on bright art. The plate is the badge stack's, so
+     the tick survives a light icon without introducing a second dark of its own. */
+  filter: drop-shadow(0 0 2px var(--plate));
+  pointer-events: auto;
+}
+
+.item .hotkey-bar {
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  height: var(--hotkey-bar-h);
+  display: flex;
+  align-items: center;
+  justify-content: var(--hotkey-bar-align);
+  background: var(--hotkey-bar);
+  border-bottom: var(--hotkey-bar-rule);
+  box-sizing: border-box;
+}
+
+/* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining lab entries.
+ *
+ * ⚠ This block used to say "LAB, not the style, nothing above Part 7 draws this." That stopped
+ * being true on 2026-08-16, when L4 was promoted to V11 and took the sheet with it. The rule that
+ * still holds is the one below: no shared striped state.
+ *
+ * The same tint recipe `.item .sprite` uses, with the mask REPEATING instead of contained: one
+ * tileable white-alpha sheet, `background-color` supplying the colour the way SetVertexColor's
+ * multiply would, and `mask-position` supplying the phase the way SetTexCoord would. Both the
+ * colour and the phase arrive per-layer as `--stripe-*`, which `stepper.js` points at ONE render's
+ * own custom properties — there is no shared striped state for two renders to collide in.
+ */
+.item .stripes, .lab-sheet {
+  position: absolute; inset: 0; pointer-events: none; border-radius: 2px;
+  background-color: var(--stripe-rgb);
+  -webkit-mask-size: var(--lab-stripe-tile); mask-size: var(--lab-stripe-tile);
+  -webkit-mask-repeat: repeat; mask-repeat: repeat;
+  -webkit-mask-position: var(--stripe-phase) 0; mask-position: var(--stripe-phase) 0;
+}
+/* The bare sheet, shown as its own swatch so pitch and angle are visible rather than inferred. */
+.lab-sheet {
+  position: relative;
+  width: var(--icon); height: var(--icon);
+  border: var(--border-px) solid var(--rule);
+}
+
+/* V5 · corner badges — OS-notification style, hung off the TOP-RIGHT corner.
+ *
+ * Slot 1's right edge sits --badge-over past the icon's right edge and its top edge the same
+ * distance above the top, so it reads as ON the icon rather than inside it. Slot 2 steps one
+ * diameter+padding left along the top; slot 3 the same distance down the right.
+ */
+.item .slot {
+  position: absolute;
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  pointer-events: none;
+  /* Own stacking context, so the glow's z-index:-1 puts it behind the plate WITHIN the badge
+   * rather than behind the ability icon, where it would be invisible. */
+  isolation: isolate;
+}
+/* V5 · the badge stack FLOWS down the right edge. Every badge shares the right offset; only
+   the vertical one moves, by its index in the stack. No fixed slots, so no ceiling. */
+.item .slot { right: calc(var(--badge-over) * -1); }
+.item .slot[data-index="0"] { top: calc(var(--badge-over) * -1); }
+.item .slot[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
+.item .slot[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
+.item .slot[data-index="3"] { top: calc(var(--badge-step) * 3 - var(--badge-over)); }
+.item .slot[data-index="4"] { top: calc(var(--badge-step) * 4 - var(--badge-over)); }
+
+/* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is the
+ * cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
+.item .slot::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+/* The sprite, inset inside the disc so a square glyph fits within the circle instead of poking
+ * out at the corners. White-with-shape-in-alpha art tinted by mask + background-color, which for
+ * white art IS what SetVertexColor's multiply produces. Not a hue-rotate. */
+.item .sprite {
+  position: absolute; inset: var(--badge-inset);
+  background-color: var(--slot-tint, var(--badge-tint));
+  -webkit-mask-image: var(--frame); mask-image: var(--frame);
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
+
+/* The glow, drawn UNDER the plate and the glyph so it reads as light escaping from behind the
+ * badge rather than as a wash over it. Only the halo breathes — the glyph holds full alpha, so
+ * the fact the cue carries never blinks. The one positive cue in the vocabulary is the only
+ * thing that wears this, by design: it is the "you are losing something right now" channel and
+ * it is allowed to move because it must survive peripheral vision. */
+.item .slot .glow {
+  position: absolute; inset: 0; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, var(--slot-tint, var(--badge-tint)) 0%, transparent var(--badge-halo-stop));
+  transform: scale(var(--g-scale));
+  animation: capglow var(--g-dur) ease-in-out infinite alternate;
+}
+@keyframes capglow {
+  from { opacity: var(--g-a0); }
+  to   { opacity: var(--g-a1); }
+}
+
+/* An `open` primitive draws, but never without saying it is unproven. Nothing declares `open`
+ * today; the mechanism is kept because it is how the preview refuses to lie about an unmeasured
+ * primitive, and the next one that needs it will find it working. */
+.item .slot[data-open="1"] { outline: 1px dashed var(--warn); outline-offset: 1px; }
+
+.item[data-open="1"]::after {
+  content: "⚠";
+  position: absolute; right: -.35rem; bottom: -.55rem;
+  font-size: .62rem; line-height: 1;
+  background: var(--warn-bg); color: var(--warn);
+  border-radius: 2px; padding: .1em .2em;
+}
+
+/* ---------------------------------------------------------------- row labels */
+
+/* A lane is EXACTLY one icon wide. Nothing in it may be wider, or the row stops
+ * reproducing the client's fixed icon pitch — which is what a caption did until
+ * 2026-08-18. The name and the verdict live in the hover tip instead: printing the
+ * answer beside the icon defeats the row, whose whole question is whether the
+ * decorations carry it unaided. */
+.lane {
+  width: var(--icon);
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+}
+/* The walk's cursor. A mark, not a label — it names nothing. */
+.lane[data-active="1"]::after {
+  content: ""; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%); margin-top: .3rem;
+  width: 60%; height: 2px; border-radius: 1px; background: var(--ink);
+}
+.lane[data-dimmed="1"] { opacity: .45; }
+
+/* ---------------------------------------------------- Part 7 · the readiness treatments
+ *
+ * `mix-blend-mode: plus-lighter` is the exact CSS analogue of SetBlendMode("ADD") — it ADDS
+ * the layer's light rather than compositing over. That difference is the whole reason these
+ * entries exist: an ADD layer at low alpha reads as dim LIGHT, where a BLEND layer at low
+ * alpha reads as a faded sticker. Blizzard's loud proc flipbook is BLEND with bright art; its
+ * quiet cues (SpellHighlightTexture, the RotationHelper glow) are ADD at 0.4–0.6.
+ *
+ * ⚠ Additive over a DARK page flatters itself. In client the row sits over arbitrary world
+ * art, and a halo that reads beautifully here can vanish over a lit floor. That is a gallery
+ * question, not a browser one.
+ */
+
+/* An OUTER shadow is clipped out from under its own border-box, so every pixel of it lands
+ * OUTSIDE the icon — none is spent under art that would hide it, and the peak sits AT the
+ * icon edge where the light should be brightest. A centred radial-gradient gets this exactly
+ * wrong: its core hides under the icon and only the faint tail escapes. */
+.ready-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 var(--rg-spread) rgba(var(--rg-rgb), .9);
+  mix-blend-mode: plus-lighter;
+  opacity: var(--rg-rest);
+  pointer-events: none;
+}
+/* The flare is a one-shot that DECAYS TO THE FLOOR, not to nothing — `forwards` is what
+   leaves the resting glow standing once the animation is done. */
+.ready-glow[data-flare="1"] {
+  animation: ready-flare var(--rg-decay) ease-out forwards;
+}
+@keyframes ready-flare {
+  0%   { opacity: var(--rg-flare);
+         box-shadow: 0 0 var(--rg-flare-spread) rgba(var(--rg-rgb), .9); }
+  100% { opacity: var(--rg-rest);
+         box-shadow: 0 0 var(--rg-spread) rgba(var(--rg-rgb), .9); }
+}
+/* The breathe never reaches zero: a floor is what separates "varying" from "blinking". */
+.ready-glow[data-breathe="1"] {
+  animation: ready-breathe var(--rg-period) ease-in-out infinite alternate;
+  animation-delay: var(--rg-phase, 0s);
+}
+@keyframes ready-breathe {
+  from { opacity: var(--rg-rest); }
+  to   { opacity: var(--rg-peak); }
+}
+/* Burst, then loop — the same hand-off the client makes, where ProcStartAnim's OnFinished
+ * starts ProcLoop. Here the loop is simply DELAYED by the burst's own duration: an animation
+ * with the default `fill-mode` does not touch its property before it starts, so the flare owns
+ * the opacity alone until it has decayed, and the cycle takes over from the floor it landed on.
+ * Two attribute selectors, so this outranks the single-treatment rules above. */
+.ready-glow[data-flare="1"][data-breathe="1"] {
+  animation: ready-flare var(--rg-decay) ease-out forwards,
+             ready-breathe var(--rg-period) ease-in-out
+               calc(var(--rg-decay) + var(--rg-phase, 0s)) infinite alternate;
+}
+
+/* Area, not alpha. A hairline sits ON the icon edge at full brightness and has no falloff,
+   so it cannot bleed into a neighbour at any gutter. */
+.ready-line {
+  position: absolute; inset: 0;
+  border: var(--rl-line) solid rgba(var(--rl-rgb), var(--rl-rest));
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+}
+
+/* A readiness row draws its icons at the REAL pitch — icon + row gap — because the only
+   honest version of the candles test is the spacing the client actually uses. */
+.ready-row { display: flex; gap: var(--row-gap); }
+/* The halo overhangs its icon, so the stage may not clip it. */
+.lab-stage { overflow: visible; }
+
+#tip {
+  position: fixed; z-index: 50; pointer-events: none;
+  display: none; gap: .5rem; align-items: baseline;
+  padding: .3rem .5rem;
+  background: var(--paper-3); border: 1px solid var(--rule); border-radius: 3px;
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--ink); white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+}
+#tip[data-on="1"] { display: flex; }
+#tip .tip-verdict { color: var(--accent); }
+#tip .tip-cues { color: var(--ink-dim); }
+
+/* ---------------------------------------------------------------- controls + walk */
+
+.controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1rem 0; }
+button {
+  font: inherit; font-size: .82rem;
+  background: var(--paper-3); color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 5px;
+  padding: .3rem .7rem; cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button[aria-pressed="true"], button.on { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+select { font: inherit; font-size: .82rem; background: var(--paper-3); color: var(--ink);
+         border: 1px solid var(--rule); border-radius: 5px; padding: .3rem .5rem; }
+
+.walk { margin-top: 1.25rem; display: grid; gap: .4rem; }
+.step {
+  display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem;
+  padding: .5rem .7rem; border-radius: 6px;
+  border: 1px solid transparent;
+  color: var(--ink-dim);
+}
+.step .n { font-family: var(--mono); font-size: .8rem; color: var(--ink-faint); }
+.step[data-active="1"] { background: var(--paper-3); border-color: var(--rule); color: var(--ink); }
+.step[data-future="1"] { opacity: .45; }
+
+.state {
+  background: var(--paper-3); border-left: 2px solid var(--rule);
+  padding: .6rem .85rem; border-radius: 0 6px 6px 0; margin: .75rem 0;
+  font-size: .9rem; color: var(--ink-dim);
+}
+
+.aside { margin-top: 1rem; font-size: .88rem; color: var(--ink-dim); }
+.aside b { color: var(--ink); font-weight: 600; }
+
+/* An `⚠ UNSURE` note: a claim the authoring docs themselves doubt. Loud on purpose — the page
+   exists so the author can see these without reading the markdown, and a grey footnote is read
+   past. It marks the DOC, never the button: no polarity, no rank, no part in either reading pass. */
+.aside[data-unsure] {
+  background: var(--unsure-bg);
+  border-left: var(--unsure-line) solid var(--unsure-rgb);
+  border-radius: 0 6px 6px 0;
+  padding: .6rem .85rem;
+  color: var(--unsure-rgb);
+}
+.aside[data-unsure] b { color: var(--unsure-rgb); }
+
+.note {
+  border: 1px solid var(--warn); background: var(--warn-bg); color: var(--warn);
+  border-radius: 6px; padding: .6rem .85rem; font-size: .85rem; margin: 1rem 0;
+}
+
+/* ---------------------------------------------------------------- gallery */
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 1rem; }
+.swatch {
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 1.1rem .75rem .75rem;
+  display: flex; flex-direction: column; align-items: center; gap: .55rem;
+}
+.swatch .name { font-family: var(--mono); font-size: .72rem; color: var(--ink); text-align: center; }
+.swatch .why  { font-size: .72rem; color: var(--ink-faint); text-align: center; line-height: 1.35; }
+
+/* ---------------------------------------------------------------- provenance */
+
+.prov { margin-top: 3rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+.prov table { border-collapse: collapse; width: 100%; font-size: .78rem; font-family: var(--mono); }
+.prov td, .prov th { text-align: left; padding: .28rem .6rem .28rem 0; vertical-align: top;
+                     border-bottom: 1px solid var(--rule); color: var(--ink-dim); }
+.prov th { color: var(--ink-faint); font-weight: 500; }
+.scroll { overflow-x: auto; }
+
+/* ---------------------------------------------------------------- Part 7 · the lab
+ *
+ * Experiments. Same rule as everything else in this file: no number here, every value arrives as
+ * a custom property that capart emitted from the shelf's `lab` block. The visual separation is
+ * deliberate — a reader must never mistake a lab entry for the style.
+ *
+ * The stripe rules themselves live beside `.item .sprite` above, because they are a variation on
+ * that one tint recipe and splitting them apart would hide that. What is here is the section's
+ * own furniture: the entry box, its cells, and the "nothing here" note an empty lab still needs.
+ */
+
+.labtag {
+  font-family: var(--mono); font-size: .6rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--warn); background: var(--warn-bg);
+  border: 1px solid var(--warn); border-radius: 999px;
+  padding: .12rem .5rem; vertical-align: middle; margin-left: .5rem;
+}
+
+.lab-entry { margin: 2rem 0; border: 1px dashed var(--warn); border-radius: 10px;
+             background: var(--paper-2); padding: 1rem 1.1rem 1.2rem; }
+.lab-entry > h3 { margin: 0 0 .2rem; font-size: 1rem; }
+.lab-entry > h3 .key { font-family: var(--mono); font-size: .78rem; color: var(--ink-faint); }
+.lab-entry .asks { margin: .1rem 0 1rem; font-size: .82rem; color: var(--ink-dim);
+                   border-left: 2px solid var(--warn); padding-left: .7rem; }
+.lab-entry .asks b { color: var(--ink); }
+.lab-empty { border: 1px dashed var(--rule); border-radius: 10px; background: var(--paper-2);
+             padding: 1rem 1.1rem; color: var(--ink-dim); font-size: .88rem; }
+.lab-empty b { color: var(--ink); }
+
+.lab-row { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: flex-start; }
+.lab-cell { display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            width: 10.5rem; }
+.lab-cell .cap { font-size: .7rem; color: var(--ink-faint); text-align: center; line-height: 1.4; }
+.lab-cell .cap b { color: var(--ink-dim); font-weight: 600; }
+.lab-cell .cap code { font-family: var(--mono); font-size: .95em; }
+.lab-stage { padding: .9rem; }
+
+/* ---------------------------------------------------------------- swatch furniture */
+
+.swatch-stage { display: flex; align-items: center; justify-content: center;
+                gap: var(--row-gap); }
+.frames { display: flex; gap: .35rem; align-items: center; justify-content: center; }
+.frames .f { width: 1.4rem; height: 1.4rem; border-radius: 50%; position: relative;
+             background: var(--paper-3); }
+.frames .f i { position: absolute; inset: 18%; display: block; }
+
+/* ---------------------------------------------------------------- Part 7 · the blaze
+ *
+ * A promotion that SHOUTS. Two entries, one difference: what shape the light has.
+ * Nothing here holds a colour or a rate — every value arrives as a --bl-* variable the
+ * renderer wires to the shelf's --lab-<entry>-* tokens.
+ */
+.item .blaze-badge {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  pointer-events: none;
+  isolation: isolate;
+}
+
+/* The bright field, BEHIND the glyph in both entries. Scaled by --bl-spread so the light
+ * reaches past the badge; the scale is shared by both shapes so the two entries differ in
+ * silhouette and in nothing else. */
+.item .blaze-badge .blaze {
+  position: absolute; inset: 0;
+  transform: scale(var(--bl-spread));
+  background-color: rgba(var(--bl-rgb), var(--bl-flare));
+  z-index: -1;
+}
+/* behind the FLAME — the field takes the sprite's own silhouette. */
+.item .blaze-badge[data-behind="glyph"] .blaze {
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  filter: blur(2px);
+}
+/* behind the BADGE as REAL ART — a ring, or a walked flipbook. The badge KEEPS its plate:
+   the layering is glyph on top, dark disc under it, effect behind that. Letting the art's own
+   dark centre stand in for the plate loses the badge's identity and its contrast job.
+   Sizing and frame position are set per node by stepper.js; this file may hold no numbers. */
+.item .blaze-badge[data-behind="sheet"] .blaze,
+.item .blaze-badge[data-behind="corona"] .blaze {
+  /* ADDITIVE, which is what these effects are and what the client draws them with. Without it
+     the layer composites normally and a luminance-derived alpha reads as a translucent decal
+     you can see the icon through -- rather than as light, which does not occlude anything.
+     `plus-lighter` is the closest CSS has to SetBlendMode("ADD"). */
+  mix-blend-mode: plus-lighter;
+}
+.item .blaze-badge[data-behind="sheet"] .blaze {
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+.item .blaze-badge[data-behind="sheet"] .blaze[data-tint="lane"] {
+  background-image: none !important;
+  background-color: rgba(var(--bl-rgb), var(--bl-flare));
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.item .blaze-badge[data-behind="corona"] .blaze {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+/* behind the BLACK CIRCLE — a hard-edged disc, with the plate drawn over it. */
+.item .blaze-badge[data-behind="plate"] .blaze {
+  border-radius: 50%;
+}
+.item .blaze-badge[data-behind="plate"]::before,
+.item .blaze-badge[data-behind="corona"]::before,
+.item .blaze-badge[data-behind="sheet"]::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+
+/* The glyph. Full alpha, always — the thing that breathes is the light behind it. */
+.item .blaze-badge .blaze-sprite {
+  position: absolute; inset: var(--badge-inset);
+  background-color: rgba(var(--bl-glyph), 1);
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .item .blaze-badge[style*="--bl-period"] .blaze {
+    animation: blaze-breathe var(--bl-period) ease-in-out infinite alternate;
+  }
+}
+@keyframes blaze-breathe {
+  from { opacity: calc(var(--bl-rest) / var(--bl-flare)); }
+  to   { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------- Part 7 · icon-scale VFX
+ *
+ * The proc-glow family. These surround the ICON, not the badge — Blizzard's own proc glow
+ * surrounds the whole button and half of why it reads is that it is big.
+ *
+ * A flipbook is stepped with background-position on a steps() timeline: the CSS analogue of
+ * SetTexCoord walking a grid. The sheet is padded to a power of two for the client, so the
+ * background is sized to the GRID and the padding is never addressed.
+ */
+.item .vfx {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 100%; height: 100%;
+  transform: translate(-50%, -50%) scale(var(--vfx-scale));
+  pointer-events: none;
+  background-repeat: no-repeat;
+  /* ADD, not `screen`. Both let dark pixels drop out, but `screen` asymptotes toward white and
+     flattens the bright core of an effect into a wash — the "faded photograph" look. These
+     sheets are additive renders (mostly low alpha BY DESIGN: glow art is meant to be added as
+     light, not stamped down as a decal), so `plus-lighter` is both the truthful analogue of
+     SetBlendMode("ADD") and the one that keeps the hot centre hot. */
+  mix-blend-mode: plus-lighter;
+}
+/* Sizing and stepping are set per node by stepper.js — they are arithmetic over the declared
+   grid, and this file may not hold numbers. */
+.item .vfx[data-tint="lane"] {
+  background-image: none !important;
+  background-color: rgba(var(--vfx-rgb), 1);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* A single-frame entry cannot shimmer, so it breathes instead — which is the honest
+     comparison: shape isolated from motion. */
+  .item .vfx[style*="--vfx-period"] {
+    animation: vfx-breathe var(--vfx-period) ease-in-out infinite alternate;
+  }
+}
+@keyframes vfx-breathe { from { opacity: 0.45; } to { opacity: 1; } }
+
+/* ---------------------------------------------------------------- V14 · promotion ring
+ *
+ * A ring around the BADGE of a row wearing a positive cue. A measured replica of Blizzard's
+ * proc glow — see render-shelf.md V14 for the four properties it was built to. It does not
+ * pulse: the animation is hot spots travelling the rim at constant total brightness, walked
+ * per frame by stepper.js. Additive, because it is light.
+ */
+.item .slot .promo-ring {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 100%; height: 100%;
+  transform: translate(-50%, -50%) scale(var(--promo-spread));
+  pointer-events: none;
+  background-color: rgba(var(--promo-rgb), var(--promo-alpha));
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mix-blend-mode: plus-lighter;
+  z-index: -1;
+}
+
+/* V11 · cap's half of the ruled-out hatch overhangs the icon rect and carries its own border,
+   so a ruled-out row's red replaces V13's yellow scan edge rather than sitting inside it. */
+.item .stripes.skip-hatch {
+  inset: calc(var(--hatch-skip-over) * -1);
+  border: var(--hatch-skip-line) solid var(--hatch-skip-edge);
+  box-sizing: border-box;
+}
+
+</style>
+
+<div class="wrap">
+
+  <h1>The lab <span class="labtag">no authority</span></h1>
+  <p class="lede">
+    <b>Nothing on this page is the style.</b> These are experiments &mdash; drawn so they can be
+    looked at, not adopted. Nothing a scenario can reach may reference them
+    (<code>capart build</code> errors if it does), they never appear in a CDM row on any spec
+    page, and a treatment leaves here by being <em>moved</em> into the declared style, never by
+    being cited from here. Each entry states the question it exists to answer.
+  </p>
+  <p class="lede">
+    ⚠ <b>An entry is judged against its own control cell, not against the page next door.</b> The
+    lab used to be appended to every spec page, where the declared style happened to be one scroll
+    away; it is not any more. So an entry that needs a comparison has to <em>draw</em> it &mdash;
+    the way <code>hotkey-l1</code> did as the explicit control &mdash; rather than relying on the
+    reader remembering what the shipped treatment looks like.
+  </p>
+  <p class="muted">
+    Rendered from <code>specs/render-shelf.md</code> Part&nbsp;7 alone. Its cells draw the
+    <b>shelf&rsquo;s reference roster</b>, which is why this is one page and not one per spec: a
+    lab cell is never a claim about a spec&rsquo;s rotation. Back to the
+    <a href="index.html">spec previews</a>.
+  </p>
+
+  <div id="lab"></div>
+
+  <div class="prov" id="prov"></div>
+
+</div>
+
+<script type="application/json" id="cap-tokens">{"version":2,"ready":{"_comment":"IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA: additive, so it reads as a hot edge rather than as a wash, and it sits ON the icon rect so it can never bleed into a neighbour at any row gap.","rgb":[1.0,0.86,0.45],"alpha":1.0,"line_px":2},"ring":{"texture":"ring","tile_px":64,"grid":4,"frames":16,"thickness_px":2,"corner_px":4,"travel_px":5,"gutter_px":1,"tint":"shelf"},"motion":{"tick_s":0.025},"arrival":{"from_scale":2.0,"duration_s":0.4,"smoothing":"OUT","from_alpha":0.0},"text":{"max_hz":2.0,"duty":0.7,"alpha_floor":0.65},"badges":{"diameter_pct":40,"overhang_px":2,"padding_px":3,"sprite_inset_pct":16,"rgb":[0.95,0.3,0.3],"tint":"shelf","plate":{"rgb":[0.0,0.0,0.0],"alpha":0.78,"scale":1.12},"halo_falloff":0.7,"asset_root":"previews/assets/kenney","flow":{"anchor":"top-right-corner","direction":"down"}},"cues":{"blocked":{"means":"held for a cooldown, or a readable dependency says the press would be wasted. The sweep is a steady pace, NOT elapsed time.","polarity":"negative","frames":["timer_0","timer_CW_25","timer_CW_50","timer_CW_75","timer_100"],"duration_s":2.0,"loop":"REPEAT","rank":3,"open":false,"budgeted":true},"starved":{"means":"you cannot afford it","polarity":"negative","frames":["flask_empty","flask_half"],"duration_s":1.2,"loop":"BOUNCE","rank":4,"open":false,"budgeted":false},"st_only":{"means":"the single-target spender, while AoE mode is on \u2014 the other one is the answer here","polarity":"negative","frames":["pawn"],"duration_s":1.2,"loop":"HOLD","rank":6,"open":false,"budgeted":false},"aoe_only":{"means":"the AoE spender, in single target \u2014 the other one is the answer here","polarity":"negative","frames":["pawns"],"duration_s":1.2,"loop":"HOLD","rank":7,"open":false,"budgeted":false},"overcap":{"means":"pressing would waste resource","polarity":"negative","frames":["flask_half","flask_full"],"duration_s":1.2,"loop":"BOUNCE","rank":5,"open":false,"budgeted":false},"capped":{"means":"charges are at max and the recharge is stalled \u2014 you are losing one right now","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["cards_stack","cards_stack_high"],"duration_s":1.2,"loop":"BOUNCE","rank":2,"open":false,"budgeted":false},"priority":{"means":"press this one \u2014 the scan would reach it late, or only after stepping over more skips than a reader can hold at once","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["fire"],"duration_s":1.2,"loop":"HOLD","rank":1,"open":false,"budgeted":false}},"hatch":{"texture":"stripes","tile_px":128,"pitch_px":16,"duty":0.5,"direction":"down","rgb":[0.0,0.0,0.0],"alpha":0.5,"phase_pct":50,"tint":"shelf","skip":{"rgb":[0.95,0.3,0.3],"alpha":0.45,"phase_pct":0,"overhang_px":2,"border":{"rgb":[0.95,0.3,0.3],"alpha":1.0,"line_px":2}}},"promotion":{"texture":"procring","cols":8,"rows":4,"cell":64,"frames":32,"fps":30,"rgb":[1.0,0.82,0.27],"alpha":1.0,"spread":2.0,"tint":"lane"},"hotkey":{"_comment":"V15. CHROME, not a cue (spec.md \u00a73.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion \u2014 and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.","font":"Interface\\AddOns\\CombatAssistPlus\\Media\\fonts\\CapKeyMono.ttf","size":16,"outline":"THICKOUTLINE","rgb":[0.92,0.92,0.9],"alpha":0.85,"anchor":"TOPLEFT","offset":{"x":2,"y":-2}},"preview":{"_comment":"NOT THE STYLE, and structurally incapable of becoming it: `preview` is in capart.NOT_THE_STYLE, so nothing here can reach Style.lua. It exists so the previews can draw a keybind hint before one exists in the game \u2014 the point of V15's preview is judging how the text sits in the corner, and that cannot be judged against an empty string. The strings are what `Binds.Shorten` PRODUCES, not what the client hands it: lowercase modifier letters closed up against the key (the client's own `SHIFT_KEY_TEXT_ABBR` is `s`), and `M4`/`N5` where the client would say `Mouse Button 4`/`Num Pad 5`.","hotkeys":["3","s2","M4","csF1","1","4","sE","M5","2","a3","5","s4","c1","M3","sF","6","asQ","MU"],"hotkey_outline_rgb":[0.0,0.0,0.0],"hotkey_outline_px":2,"hotkey_font":{"_comment":"The font V15 draws with, and the ONE third-party asset cap redistributes. The preview embeds this exact subset and the addon ships this exact subset, so the page and the game measure the same advance widths. `ship_as` is not a preference: the upstream family carries the Reserved Font Name 'Share', a subset is a Modified Version, and OFL 1.1 clause 3 forbids a Modified Version from using it \u2014 so the shipped file is renamed and `license_url` travels beside it.","url":"https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf","family":"ShareTechMono","ship_as":"CapKeyMono","rfn":"Share","license":"OFL 1.1","license_url":"https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/OFL.txt","shippable":true},"hotkey_font_stack":"'CapKeyMono', 'Trebuchet MS', var(--sans)","virtual_mark":{"_comment":"PREVIEW ONLY, and it exists because the preview COMPRESSES a geometry the game does not have. In the client a virtual row (V12) lives in cap's own panel, physically separate from the Cooldown Manager, and the separation is what says 'cap owns this frame'. A stepper page draws one flat left-to-right row, so that separation is gone and the icon would read as a CDM row cap has no right to. The tick restores the one bit the compression lost. It is in `preview` deliberately: nothing here can reach Style.lua, and the addon must never draw it.","rgb":[0.55,0.82,1.0],"size_px":13,"line_px":2,"overhang_px":2,"corner":"bottom-left"},"unsure":{"_comment":"PREVIEW ONLY. The loud treatment for an `\u26a0 UNSURE` annotation under a row \u2014 a claim the authoring docs themselves doubt, drawn so it cannot be read past. Amber block, not a grey footnote. It says nothing about the press and takes no part in either reading pass; it is a note to the author about the DOC, not a mark on the button.","rgb":[1.0,0.74,0.3],"bg_rgb":[0.23,0.17,0.06],"line_px":2}},"panel":{"icon_px":50,"gap_px":6,"anchor":"BOTTOM","x":0,"y":190,"grow":"RIGHT"},"verdicts":{"cd":{"scan":false,"swipe":true,"hatch":true,"cues":[]},"weave":{"scan":true,"swipe":false,"cues":[]},"hold-readable":{"scan":true,"swipe":false,"cues":["blocked"]},"hold-sealed":{"scan":true,"swipe":false,"cues":["blocked"]},"starved":{"scan":true,"swipe":false,"cues":["starved"]},"overcap":{"scan":true,"swipe":false,"cues":["overcap"]},"off-mode":{"scan":true,"swipe":false,"cues":[]},"press":{"scan":true,"swipe":false,"cues":[]},"press-promoted":{"scan":true,"swipe":false,"cues":[]},"below":{"scan":true,"swipe":false,"cues":[]}},"surfaces":{"icon_px":56,"row_gap_px":6,"border_px":1,"swipe":{"color":[0.0,0.0,0.0],"alpha":0.72},"count_tile":{"font":"FRIZQT__.TTF","size":14,"outline":"OUTLINE"},"proc_glow_alpha":0.5},"assets":{"icon_size":56,"encode":"webp","quality":90},"budget":{"max_base64_kb":300},"lab":{"_comment":"NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. \u26a0 The three entries below are FLIGHT-GATED, not look-gated: they draw no cells because what they ask is whether the CLIENT honours a rule cap authored, and Part 7 rule 2 already says a preview cannot answer that. They graduate on `aura-container-rule-formatter` / `aura-container-pandemic-region`, not on being looked at in a browser.","count_band":{"asks":"Does a tainted-created NumericRuleFormatter get honoured on SetApplicationCount, so cap can author WHICH stack values show a number \u2014 including the complement and a middle band \u2014 rather than inheriting Blizzard's show-above-1 default?","draws":"client-only","pending_test":"aura-container-rule-formatter","form":"S7","font":"FRIZQT__.TTF","size":14,"outline":"OUTLINE","anchor":"TOP","y":1,"bands":[{"threshold":0,"format":""},{"threshold":4,"format":"%d"}],"control_band":[{"threshold":0,"format":"%d"}]},"count_polarity":{"asks":"Can ONE count FontString carry two meanings \u2014 a negative band and a positive band in different hues \u2014 and if inline colour escapes are stripped, does a cap-shipped symbol font carry the same distinction as a SHAPE instead?","draws":"client-only","pending_test":"aura-container-rule-formatter","form":"S8","font":"FRIZQT__.TTF","size":14,"outline":"OUTLINE","low_rgb":[1.0,0.25,0.25],"high_rgb":[0.25,1.0,0.44],"escape_bands":[{"threshold":0,"format":"|cffff4040%d|r"},{"threshold":6,"format":"|cff40ff70%d|r"}],"static_fallback":"SetTextColor at setup carries ONE hue for the whole string and needs no markup at all; SetApplicationCount adds only Text and Shown, so VertexColor stays cap's."},"pandemic_mark":{"asks":"Does AddPandemicRegion drive a cap-owned texture from Blizzard's own refresh window, giving cap real ART out of a sealed fact with no curve and no ruleset to get wrong?","draws":"client-only","pending_test":"aura-container-pandemic-region","form":"S9","rgb":[1.0,0.72,0.2],"alpha":0.85,"note":"The only Part 2 form that reaches cap-owned art without a font trick, and the only one that costs an OnUpdate."}}}</script>
+<script type="application/json" id="cap-data">{"built":"2026-08-21","client_paint":{"_source":"CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273","_doc":"knowledge/addon-dev/cooldown-manager.md \u00a73.4","tints":{"out-of-range":{"rgb":[0.64,0.15,0.15],"constant":"ITEM_NOT_IN_RANGE_COLOR","means":"the target is out of range \u2014 outranks every other branch"},"not-enough-power":{"rgb":[0.5,0.5,1.0],"constant":"ITEM_NOT_ENOUGH_MANA_COLOR","means":"you cannot pay for it \u2014 C_Spell.IsSpellUsable's second return"},"unusable":{"rgb":[0.4,0.4,0.4],"constant":"ITEM_NOT_USABLE_COLOR","means":"unusable for some other reason"}},"usable_constant":"ITEM_USABLE_COLOR","cooldown_desaturates":true},"abilities":{},"scenarios":[],"scan_samples":[],"notes":[],"frames":{},"lab_stripes":null,"lab_sprites":{},"lab_vfx":{},"lab_fonts":{},"promotion":null,"provenance_html":"<table><tr><th>render-shelf.md</th><td>sha 6fd3a92ec5ae \u00b7 Part 7, 3 entries</td></tr><tr><th>reference roster</th><td>havoc \u00b7 catalog.md</td></tr><tr><th>icons</th><td>0 \u00d7 56px webp</td></tr><tr><th>authority</th><td><b>none</b> \u2014 Part 7 rule 3. A treatment leaves by being MOVED into Parts 1\u20136, never by being cited from here.</td></tr><tr><th>built</th><td>2026-08-21</td></tr></table>"}</script>
+<script>
+/* Combat Assist Plus — preview behavior.
+ *
+ * This file holds NO colors, rates or sizes. Everything it draws with comes from the
+ * embedded token block, which `wowkb.capart` lifted verbatim out of
+ * `specs/render-shelf.md` Part 6. If a swatch looks wrong, the fix is a shelf edit and a
+ * rebuild — never an edit here, and never an edit to the generated HTML.
+ */
+(function () {
+  "use strict";
+
+  var T = JSON.parse(document.getElementById("cap-tokens").textContent);
+  var D = JSON.parse(document.getElementById("cap-data").textContent);
+
+  function rgb(c, a) {
+    var f = function (v) { return Math.round(v * 255); };
+    return "rgba(" + f(c[0]) + "," + f(c[1]) + "," + f(c[2]) + "," + (a === undefined ? 1 : a) + ")";
+  }
+  function el(tag, cls) { var n = document.createElement(tag); if (cls) n.className = cls; return n; }
+
+  /* ------------------------------------------------------------------ badge sprites
+   * A cue is a filled disc with one sprite frame showing at a time. The client walks a
+   * FlipBook; we walk the same frame list at the same rate, so what you see is the art's real
+   * cadence and not a CSS easing. BOUNCE plays forward then back, exactly as the animation
+   * system does.
+   */
+  // Row badges are rebuilt on every step, so their timers must be reaped or they pile up one
+  // set per keypress. Gallery badges are built once and must NOT be reaped with them — hence
+  // the collector rather than a single global list.
+  var ROW_TIMERS = [];
+  var COLLECT = null;
+
+  function animateSprite(sprite, cue) {
+    var n = cue.frames.length;
+    var i = 0, dir = 1;
+    // A single-frame cue (loop HOLD) is a still image. Setting an interval on it would burn a
+    // timer to re-assign the same url forever, so bind the one frame and stop.
+    if (n < 2) {
+      var only = D.frames[cue.frames[0]];
+      if (only) sprite.style.setProperty("--frame", "url(" + only.uri + ")");
+      return;
+    }
+    function tick() {
+      var f = D.frames[cue.frames[i]];
+      if (f) sprite.style.setProperty("--frame", "url(" + f.uri + ")");
+      if (cue.loop === "BOUNCE") {
+        if (i + dir < 0 || i + dir >= n) dir = -dir;
+        i += dir;
+      } else {
+        i = (i + 1) % n;
+      }
+    }
+    tick();
+    var id = setInterval(tick, (cue.duration_s / n) * 1000);
+    if (COLLECT) COLLECT.push(id);
+  }
+
+  function badgeNode(key, index) {
+    var cue = T.cues[key] || {};
+    var slot = el("div", "slot");
+    slot.setAttribute("data-index", String(index || 0));
+    slot.title = key + " — " + (cue.means || "") + (cue.open ? " (open — unverified in client)" : "");
+    if (cue.open) slot.setAttribute("data-open", "1");
+    slot.setAttribute("data-polarity", cue.polarity || "negative");
+    // Per-cue hue, falling back to the shared badge red. The negatives all take the fallback on
+    // purpose: one red for every "skip this" is what makes the row readable without decoding.
+    if (cue.rgb) slot.style.setProperty("--slot-tint", "var(--cue-" + key + "-tint)");
+    // The GLOW pulses BEHIND the glyph, and the glyph itself never changes alpha. A cue that
+    // faded would make its own information blink, which is the thing the text limits exist to
+    // forbid; a halo can breathe without the fact it carries ever going away.
+    if (cue.glow) {
+      var glow = el("div", "glow");
+      glow.style.setProperty("--g-dur", "var(--cue-" + key + "-glow-dur)");
+      glow.style.setProperty("--g-a0", "var(--cue-" + key + "-glow-a0)");
+      glow.style.setProperty("--g-a1", "var(--cue-" + key + "-glow-a1)");
+      glow.style.setProperty("--g-scale", "var(--cue-" + key + "-glow-scale)");
+      slot.appendChild(glow);
+    }
+    var sprite = el("div", "sprite");
+    slot.appendChild(sprite);
+    if (cue.frames) animateSprite(sprite, cue);
+    return slot;
+  }
+
+  /* ------------------------------------------------------------------ V13 · the scan edge
+   *
+   * One hue, no roles, no motion. Its numbers come from `tokens.ready`, emitted as --ready-* by
+   * capart, so no value appears in this file. There is no art and nothing to walk: the ring
+   * flipbook the retired V2 border stepped through is Part 7's now, and only the in-game
+   * `/cap style` gallery can draw it (CSS has no four-strip ring).
+   */
+
+  function scanMark() {
+    var n = el("div", "ready-line");
+    n.style.setProperty("--rl-rgb", "var(--ready-rgb)");
+    n.style.setProperty("--rl-rest", "var(--ready-alpha)");
+    n.style.setProperty("--rl-line", "var(--ready-line)");
+    return n;
+  }
+
+  /* ------------------------------------------------------------------ one CDM item */
+
+  function itemNode(entry, index) {
+    var ab = D.abilities[entry.name] || {};
+    var rule = T.verdicts[entry.verdict] || {};
+
+    var item = el("div", "item");
+
+    var art = el("div", "art");
+    if (ab.icon) art.style.backgroundImage = "url(" + ab.icon + ")";
+    clientPaint(art, entry, rule);
+    item.appendChild(art);
+
+    if (rule.swipe) item.appendChild(el("div", "swipe"));
+
+    // V11 · the cooldown hatch. Over the icon and the swipe, under the badges — it states a
+    // condition about the whole button, and the marks that say *why* must stay legible on top.
+    // DEDUPED. A cue named twice is ONE badge -- that is how the band grammar expresses an OR,
+    // and it holds just as much when the second mention comes from the verdict rather than from
+    // a second marker. Without this, an entry whose verdict already implies `blocked` and which
+    // also declares it draws two identical discs, which reads as two different reasons.
+    var cueList = (rule.cues || []).concat(entry.cues || []).filter(function (k, i, all) {
+      return all.indexOf(k) === i;
+    });
+    if (rule.hatch) item.appendChild(hatchLayer());
+    // V11's second cause: cap's own verdict. A row wearing ANY negative cue is ruled out, and
+    // the hatch is Part 0.5's pass 2 drawn -- until this shipped, a swiped row was unmistakably
+    // out while a badged one relied on the reader noticing a 22px disc.
+    var ruledOut = cueList.some(function (k) {
+      return (T.cues[k] || {}).polarity !== "positive";
+    });
+    if (ruledOut) item.appendChild(skipLayer());
+
+    // Every non-`cd` row is IN THE SCAN and wears the edge. `press`, `press-promoted` and
+    // `below` render IDENTICALLY, and that is the point: the press is "the leftmost thing not
+    // ruled out", not a thing cap draws (render-shelf.md Part 0.5). The edge goes OVER the art
+    // — it is a rim on the button, not a layer across it.
+    if (rule.scan) item.appendChild(scanMark());
+
+    // V15 · the keybind hint. CHROME, not a cue (spec.md §3.8): it names the row and takes no
+    // part in the scan, so it holds the top-left corner the badges never flow into and no
+    // verdict can add or remove it. ⚠ The key is SIMULATED — `tokens.preview.hotkeys` by roster
+    // position — because the point of drawing it here is judging how the text sits in the corner
+    // before any of it reaches the game, and an empty corner cannot be judged.
+    if (ab.hotkey) {
+      var hk = el("div", "hotkey");
+      hk.textContent = ab.hotkey;
+      item.appendChild(hk);
+    }
+
+    // V12 · the virtual-row tick. PREVIEW ONLY, and it exists because this page compresses a
+    // geometry the client does not have: in game a virtual row sits in cap's own panel, and that
+    // physical separation is what says "cap owns this frame, the Cooldown Manager has no row for
+    // it". One flat row loses the separation, so the tick carries the bit instead. It is CHROME
+    // in the strictest sense -- it asserts nothing about the press, wears no polarity and takes
+    // no part in either reading pass -- and it holds the bottom-left corner, which no badge
+    // (top-right, flowing down) and no hotkey (top-left) can claim.
+    if (entry.virtual) {
+      var vm = el("div", "virtual-mark");
+      vm.title = "cap-owned icon — this ability has no Cooldown Manager frame";
+      item.appendChild(vm);
+    }
+
+    var open = false;
+    // Sorted by the cue's RANK, not by the order the catalog happened to name them, so two rows
+    // wearing the same pair always stack them the same way round. Positives rank above
+    // negatives, so a promotion lands on the corner (render-shelf.md Part 1).
+    var cues = cueList.slice().sort(function (a, b) {
+      return ((T.cues[a] || {}).rank || 99) - ((T.cues[b] || {}).rank || 99);
+    });
+    cues.forEach(function (k, i) {
+      if ((T.cues[k] || {}).open) open = true;
+      var node = badgeNode(k, i);
+      // V14 rides the badge it belongs to, so it moves with the stack rather than being
+      // anchored to the corner independently.
+      if ((T.cues[k] || {}).polarity === "positive") node.insertBefore(promoRing(), node.firstChild);
+      item.appendChild(node);
+    });
+    if (open) item.setAttribute("data-open", "1");
+
+    var col = el("div", "lane");
+    col.appendChild(item);
+    // The name and the verdict are the ANSWER, and the row exists to ask whether the
+    // decorations carry it unaided — so they hover rather than print. They also used to size
+    // the lane (a caption wider than the icon set the lane width), which made the icon pitch
+    // uneven and misreported the client's fixed-pitch row.
+    col.setAttribute("data-name", entry.name);
+    col.setAttribute("data-verdict", entry.verdict);
+    if (entry.virtual) col.setAttribute("data-virtual", "1");
+    if ((entry.cues || []).length) col.setAttribute("data-cues", entry.cues.join(" "));
+    return col;
+  }
+
+  /* The one tooltip, fixed-position on <body> so no ancestor's overflow can clip it. */
+
+  var tipEl = el("div", "tip");
+  tipEl.id = "tip";
+  document.body.appendChild(tipEl);
+
+  function tipShow(col) {
+    var cues = col.getAttribute("data-cues");
+    tipEl.innerHTML = "<b>" + col.getAttribute("data-name") + "</b>" +
+      "<span class=\"tip-verdict\">" + col.getAttribute("data-verdict") + "</span>" +
+      (col.getAttribute("data-virtual")
+        ? "<span class=\"tip-cues\">virtual row — cap-owned icon, no CDM frame</span>" : "") +
+      (cues ? "<span class=\"tip-cues\">" + cues + "</span>" : "");
+    tipEl.setAttribute("data-on", "1");
+    var r = col.getBoundingClientRect(), t = tipEl.getBoundingClientRect();
+    var x = r.left + r.width / 2 - t.width / 2;
+    tipEl.style.left = Math.max(4, Math.min(x, window.innerWidth - t.width - 4)) + "px";
+    tipEl.style.top = (r.bottom + 8) + "px";
+  }
+  function tipHide() { tipEl.removeAttribute("data-on"); }
+
+  document.addEventListener("mouseover", function (e) {
+    var col = e.target.closest && e.target.closest(".lane[data-name]");
+    if (col) tipShow(col); else tipHide();
+  });
+  // NOT capture-phase: mouseleave does not bubble, but a capture listener on `document`
+  // still sees every descendant's, so moving between an icon and its own badge would
+  // flicker the tip away. Un-captured, this fires only when the pointer leaves the page.
+  document.addEventListener("mouseleave", tipHide);
+  window.addEventListener("scroll", tipHide, true);
+
+  /* ------------------------------------------------------------------ page sections
+   *
+   * ONE script serves TWO pages: a spec's scenario stepper and the lab. Each section renders only
+   * where its host exists, so a spec page carries no lab markup and the lab page carries no
+   * scenario stepper — which is the whole point of splitting them, since the lab was the larger
+   * half of every spec page and was duplicated into all of them.
+   *
+   * A section this page does not have gets a DETACHED node instead of a null, so the code that
+   * fills it neither branches nor throws. A missing host is a page boundary, never an error.
+   * ⚠ `document.createElement`, not `el()` — a class name here would be a class the stylesheet
+   * has no rule for, which is exactly what `smoke_dom` fails on.
+   */
+  var DETACHED = document.createElement("div");
+  function host(id) { return document.getElementById(id) || DETACHED; }
+
+  /* ------------------------------------------------------------------ the stepper */
+
+  var pick = host("pick");
+  var rowEl = host("row");
+  var walkEl = host("walk");
+  var stateEl = host("state");
+  var extrasEl = host("extras");
+
+  var current = 0, step = 0;
+
+  D.scenarios.forEach(function (s, i) {
+    var o = el("option");
+    o.value = String(i);
+    o.textContent = s.id + " · " + s.title;
+    pick.appendChild(o);
+  });
+
+  function reachedThrough(sc, upto) {
+    // How far along the row the walk has got: the furthest row entry named by any step
+    // shown so far. `upto < 0` means "the whole row", the resting view.
+    if (upto < 0) return sc.row.length;
+    var furthest = 0;
+    for (var i = 0; i <= upto && i < sc.steps.length; i++) {
+      sc.steps[i].names.forEach(function (n) {
+        for (var j = 0; j < sc.row.length; j++) if (sc.row[j].name === n && j + 1 > furthest) furthest = j + 1;
+      });
+    }
+    return furthest;
+  }
+
+  function clearRowTimers() { ROW_TIMERS.forEach(clearInterval); ROW_TIMERS = []; }
+
+  function render() {
+    var sc = D.scenarios[current];
+    var reach = reachedThrough(sc, step - 1);
+
+    stateEl.innerHTML = "<b>State.</b> " + sc.state;
+
+    clearRowTimers();
+    COLLECT = ROW_TIMERS;
+    rowEl.innerHTML = "";
+    sc.row.forEach(function (entry, i) {
+      var col = itemNode(entry, i);
+      if (i >= reach && step > 0) col.setAttribute("data-dimmed", "1");
+      if (step > 0 && i === reach - 1) col.setAttribute("data-active", "1");
+      rowEl.appendChild(col);
+    });
+    COLLECT = null;
+
+    walkEl.innerHTML = "";
+    sc.steps.forEach(function (s, i) {
+      var n = el("div", "step");
+      if (step > 0 && i === step - 1) n.setAttribute("data-active", "1");
+      if (step > 0 && i > step - 1) n.setAttribute("data-future", "1");
+      var num = el("div", "n"); num.textContent = String(i + 1);
+      var body = el("div"); body.innerHTML = s.html;
+      n.appendChild(num); n.appendChild(body);
+      walkEl.appendChild(n);
+    });
+
+    extrasEl.innerHTML = "";
+    (sc.extras || []).forEach(function (x) {
+      var n = el("div", "aside");
+      // An `⚠ UNSURE` bullet is a claim the authoring docs themselves doubt, and the whole point
+      // of this page is that the author can SEE those without reading the markdown. So it draws
+      // as a block, not as a grey footnote. The label carries it -- no separate field -- because
+      // the doc grammar already has exactly one place to put a label and inventing a second
+      // would put the loudness somewhere the doc cannot state it.
+      if (x.label.indexOf("⚠ UNSURE") === 0) n.setAttribute("data-unsure", "1");
+      n.innerHTML = "<b>" + x.label + ".</b> " + x.html;
+      extrasEl.appendChild(n);
+    });
+  }
+
+  pick.addEventListener("change", function () { current = +pick.value; step = 0; render(); });
+  host("next").addEventListener("click", function () {
+    var sc = D.scenarios[current];
+    step = Math.min(step + 1, sc.steps.length);
+    render();
+  });
+  host("prev").addEventListener("click", function () {
+    step = Math.max(step - 1, 0); render();
+  });
+  host("all").addEventListener("click", function () { step = 0; render(); });
+  host("zoom").addEventListener("click", function () {
+    var on = rowEl.getAttribute("data-zoom") === "2";
+    rowEl.setAttribute("data-zoom", on ? "1" : "2");
+    this.setAttribute("aria-pressed", on ? "false" : "true");
+  });
+
+  /* ------------------------------------------------------------------ gallery */
+
+  // ------------------------------------------------------------------ Blizzard's baseline
+  // What the client already paints on this icon, before cap draws anything. It goes on `.art`
+  // itself rather than into a layer of its own, because that is where the client puts it — a
+  // SetVertexColor on the icon texture — and because everything cap adds (swipe, hatch, border,
+  // badges) is a sibling drawn OVER `.art`, so the stacking falls out for free.
+  //
+  // ⚠ Read from `D.client_paint`, never from `T`. These numbers are Blizzard's, transcribed from
+  // its source; they are not shelf tokens and nothing here may treat them as tunable.
+  function clientPaint(art, entry, rule) {
+    var paint = D.client_paint || {};
+    // Desaturation means ON COOLDOWN and nothing else, so it follows the `cd` verdict rather
+    // than a declaration. `--desat` is the grayscale filter `.art` already carries.
+    if (rule.swipe && paint.cooldown_desaturates) art.style.setProperty("--desat", "1");
+
+    var state = entry.client;
+    if (!state) return;                      // no declaration = ITEM_USABLE_COLOR = untouched
+    var tint = (paint.tints || {})[state];
+    if (!tint) return;
+    // SetVertexColor MULTIPLIES. So does this. A filter/hue-rotate would look similar and would
+    // be able to produce colours the client cannot, which is the one lie a reproduction may not
+    // tell (see this tool's header).
+    art.style.backgroundColor = rgb(tint.rgb);   // 0..1 floats, same scale as the shelf's
+    art.style.backgroundBlendMode = "multiply";
+    art.title = "client: " + tint.constant + " — " + tint.means;
+  }
+
+  function swatch(name, why, build) {
+    var s = el("div", "swatch");
+    var host = el("div", "swatch-stage");
+    host.style.height = "calc(" + T.surfaces.icon_px + "px * 1.6)";
+    host.appendChild(build());
+    s.appendChild(host);
+    var n = el("div", "name"); n.textContent = name; s.appendChild(n);
+    var w = el("div", "why"); w.innerHTML = why; s.appendChild(w);
+    return s;
+  }
+
+  var gallery = host("gallery");
+
+  // The swatch's border comes from whichever ability it borrows art from, exactly as it does in
+  // a scenario row — so a gallery swatch and a live row can never diverge.
+  function bareItem(name, verdict, opts) {
+    opts = opts || {};
+    return itemNode({ name: name, verdict: verdict, cues: opts.cues }, 0).firstChild;
+  }
+
+  var SCAN_SAMPLES = D.scan_samples || [];
+
+  // V2 · in the scan. One swatch, because there is one treatment: an icon either participates
+  // in the read or it does not. What used to be four hue-coded lanes is now carried by row
+  // order plus elimination, which is what the reading rule already used.
+  gallery.appendChild(swatch(
+    "in the scan · V2",
+    "a <b>" + T.ready.line_px + "px</b> additive edge at alpha " + T.ready.alpha + ", drawn ON " +
+      "the icon rect. Additive is why full brightness reads as a <b>hot line</b> rather than a " +
+      "painted one, and the restrained area is why full brightness is not loud. Every " +
+      "non-swiped row wears it <em>identically</em> — the press is the leftmost thing not " +
+      "ruled out, not a thing cap draws. It has no falloff, so it cannot reach a neighbour.",
+    function () { return bareItem(D.scan_sample, "press"); }
+  ));
+
+
+  gallery.appendChild(swatch("swipe", "Blizzard's own dial — cap draws nothing here, and does " +
+    "not restyle it. The cheapest possible “ruled out”.",
+    function () { return bareItem(D.scan_sample, "cd"); }));
+
+  // V5 · one swatch per cue, then the full three slots, so "do three badges crowd the face?"
+  // is answerable rather than asserted.
+  var cueKeys = Object.keys(T.cues);
+  cueKeys.forEach(function (key) {
+    var cue = T.cues[key];
+    gallery.appendChild(swatch(
+      "cue · " + key + (cue.open ? " ⚠" : ""),
+      (cue.open ? "<b>declared, unverified in client — produces no hint yet.</b> " : "") +
+        cue.means + " <em>(rank " + cue.rank + ", " + cue.frames.length + " frames @ " +
+        cue.duration_s + "s " + cue.loop + ")</em>",
+      function () { return bareItem(D.scan_sample, "below", { cues: [key] }); }
+    ));
+  });
+
+  // The stack FLOWS, so there are no slots to show one-per. What this has to answer instead is
+  // "how far down the icon does a full stack reach, and does it still read?" — so it draws every
+  // cue in the vocabulary at once, which is the worst case by construction rather than by a
+  // number someone has to keep up to date.
+  var stack = cueKeys.slice().sort(function (a, b) {
+    return (T.cues[a].rank || 99) - (T.cues[b].rank || 99);
+  });
+  gallery.appendChild(swatch("badges · the full stack",
+    "Every cue at once, in rank order — the deepest stack the vocabulary can produce, which is " +
+    "the crowding question worth answering now that there is no ceiling. Positives rank first " +
+    "and sit on the corner, so a promotion is the badge the eye reaches before any skip. " +
+    "Shown: " + stack.join(" · ") + ".",
+    function () { return bareItem(D.scan_sample, "below", { cues: stack }); }));
+
+  // A badge overhanging the corner can collide with the next icon. That is arithmetic, and
+  // arithmetic in a caption is an assertion; drawn in a real row it is a finding.
+  var over = T.badges.overhang_px, gap = T.surfaces.row_gap_px;
+  gallery.appendChild(swatch("badges · in a real row",
+    "overhangs <b>" + over + "px</b> past the edge; the row gap is <b>" + gap + "px</b>" +
+      (over > gap ? " — <b>they collide.</b>" : " — <b>they clear.</b>"),
+    function () {
+      var strip = el("div", "swatch-stage");
+      SCAN_SAMPLES.slice(0, 3).forEach(function (name, i) {
+        strip.appendChild(bareItem(name, "below",
+          { cues: [cueKeys[i % cueKeys.length]] }));
+      });
+      return strip;
+    }));
+
+  // The frame strips, so the art itself is inspectable rather than only seen in motion.
+  var framesHost = host("frames");
+  cueKeys.forEach(function (key) {
+    var cue = T.cues[key];
+    var s = el("div", "swatch");
+    var strip = el("div", "frames");
+    cue.frames.forEach(function (fn) {
+      var f = D.frames[fn];
+      var d = el("div", "f");
+      var g = el("i");
+      if (f) {
+        g.style.backgroundColor = rgb(T.badges.rgb);
+        g.style.webkitMaskImage = g.style.maskImage = "url(" + f.uri + ")";
+        g.style.webkitMaskSize = g.style.maskSize = "contain";
+        g.style.webkitMaskRepeat = g.style.maskRepeat = "no-repeat";
+        g.style.webkitMaskPosition = g.style.maskPosition = "center";
+      }
+      d.appendChild(g);
+      strip.appendChild(d);
+    });
+    s.appendChild(strip);
+    var n = el("div", "name"); n.textContent = key; s.appendChild(n);
+    var w = el("div", "why");
+    w.innerHTML = cue.frames.join(" → ") + " · " + cue.loop.toLowerCase();
+    s.appendChild(w);
+    framesHost.appendChild(s);
+  });
+
+  /* ------------------------------------------------------------------ tables */
+
+  var vt = host("verdicts");
+  var head = "<tr><th>verdict</th><th>in the scan</th><th>swipe</th><th>hatch</th>" +
+    "<th>cues</th></tr>";
+  vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
+    var r = T.verdicts[k];
+    return "<tr><td>" + k + "</td><td>" + (r.scan ? "yes" : "—") + "</td><td>" +
+           (r.swipe ? "yes" : "—") + "</td><td>" + (r.hatch ? "yes" : "—") + "</td><td>" +
+           ((r.cues && r.cues.length) ? r.cues.join(", ") : "—") + "</td></tr>";
+  }).join("");
+
+  /* ------------------------------------------------------------------ Part 7 · the lab
+   *
+   * Experiments, drawn so they can be looked at. Nothing here is the style, and nothing a
+   * scenario can reach may reference it — `capart build` enforces that, this just draws it.
+   */
+
+  function labEntry(key, spec) {
+    var box = el("div", "lab-entry");
+    var h = el("h3");
+    h.innerHTML = (spec.title || key) + ' <span class="key">lab.' + key + "</span>";
+    box.appendChild(h);
+    var asks = el("p", "asks");
+    asks.innerHTML = "<b>Asks:</b> " + (spec.asks || "<em>nothing — Part 7 says an entry that " +
+      "cannot say what it is asking is decoration</em>");
+    box.appendChild(asks);
+    // A font entry says where its face came from and what it costs, because "could we ship our
+    // own font" is a licence question before it is a taste question.
+    var f = LAB_FONTS[key];
+    if (f) {
+      var prov = el("p", "asks");
+      prov.innerHTML = "<b>" + f.family + "</b> · " + f.origin + " · " + f.license +
+        " · <b>" + (f.shippable ? "ours to ship" : "preview only") + "</b> · " +
+        (f.source_bytes / 1024).toFixed(0) + " KB, subset to " +
+        (f.subset_bytes / 1024).toFixed(1) + " KB";
+      box.appendChild(prov);
+    }
+    var row = el("div", "lab-row");
+    box.appendChild(row);
+    return { box: box, row: row };
+  }
+
+  function labCell(node, caption) {
+    var c = el("div", "lab-cell");
+    var stage = el("div", "lab-stage");
+    stage.appendChild(node);
+    c.appendChild(stage);
+    var cap = el("div", "cap");
+    cap.innerHTML = caption || "";
+    c.appendChild(cap);
+    return c;
+  }
+
+  /* Diagonal stripes — V11's cooldown hatch, and Part 7's remaining entries.
+   *
+   * ONE tileable white-alpha sheet, generated at build time from `tokens.hatch`; every render
+   * asks it for something DIFFERENT. `background-color` + `mask-image` is the faithful CSS
+   * analogue of SetVertexColor multiplying white art, and `mask-position` is the SetTexCoord
+   * offset that makes a complementary phase possible.
+   *
+   * There is deliberately no shared "is this striped" flag: a layer is built from ONE render's
+   * own colour and phase, and a cell that needs two conditions shown gets two layers.
+   */
+  function maskedStripe(cls, rgbVar, phaseVar) {
+    var n = el("div", cls);
+    n.style.setProperty("--stripe-rgb", rgbVar);
+    n.style.setProperty("--stripe-phase", phaseVar);
+    // ⚠ Resolved AT CALL TIME, never hoisted into a module-scope `var`. The gallery is built
+    // before the Part 7 section of this file executes, so a `var SHEET = D.lab_stripes` above
+    // was still `undefined` when a cue swatch asked for it — and an unmasked stripe layer is
+    // not a missing treatment, it is a FLAT RED FIELD that looks like a deliberate different
+    // one. Measured 2026-08-19: gallery `mask-image: none`, scenario rows masked correctly.
+    var sheet = D.lab_stripes;
+    if (sheet) {
+      n.style.webkitMaskImage = n.style.maskImage = "url(" + sheet.uri + ")";
+    }
+    return n;
+  }
+
+  function hatchLayer() {
+    return maskedStripe("stripes", "var(--hatch-rgb)", "var(--hatch-phase)");
+  }
+
+  // The same sheet, cap's own colour and phase. One geometry, two verdicts (V11).
+  function skipLayer() {
+    // Its own class as well as the shared one: cap's half of V11 overhangs the icon rect and
+    // carries a border, so that a ruled-out row's red REPLACES V13's yellow scan edge instead of
+    // sitting inside it. Two treatments making opposite statements about one row, with the
+    // yellow reading louder because it is a hard line, is the thing this prevents.
+    var n = maskedStripe("stripes skip-hatch", "var(--hatch-skip-rgb)",
+                         "var(--hatch-skip-phase)");
+    return n;
+  }
+
+  /* V14 · the promotion ring — a glowing ring around the badge of a row wearing a positive cue.
+   * A measured replica of Blizzard's proc glow: it does NOT pulse, it never covers the icon, and
+   * its falloff is asymmetric. See render-shelf.md V14 for what was measured and why. */
+  function promoRing() {
+    var art = D.promotion || {};
+    var n = el("div", "promo-ring");
+    if (!art.uri) return n;
+    var sc = art.w / 64, sr = art.h / 64;
+    n.style.webkitMaskImage = n.style.maskImage = "url(" + art.uri + ")";
+    n.style.webkitMaskSize = n.style.maskSize = (sc * 100) + "% " + (sr * 100) + "%";
+    var i = 0;
+    var stepX = sc > 1 ? 100 / (sc - 1) : 0, stepY = sr > 1 ? 100 / (sr - 1) : 0;
+    var cols = T.promotion.cols, frames = T.promotion.frames;
+    function tick() {
+      var c = i % cols, r = Math.floor(i / cols);
+      n.style.webkitMaskPosition = n.style.maskPosition = (c * stepX) + "% " + (r * stepY) + "%";
+      i = (i + 1) % frames;
+    }
+    tick();
+    var id = setInterval(tick, 1000 / T.promotion.fps);
+    if (COLLECT) COLLECT.push(id);
+    return n;
+  }
+
+  function stripeLayer(key) {
+    return maskedStripe("stripes", "var(--lab-" + key + "-rgb)",
+                        "var(--lab-" + key + "-phase)");
+  }
+
+  // The bare sheet, so pitch and angle are directly visible rather than only inferable from an
+  // icon that is also doing five other things.
+  function sheetSwatch(key) {
+    return maskedStripe("lab-sheet", "var(--lab-" + key + "-rgb)",
+                        "var(--lab-" + key + "-phase)");
+  }
+
+  function stripedItem(key, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var layers = cell.stripes || [];
+    // Inserted BEFORE the first badge slot, so the stripes lie over the icon and the swipe but
+    // under the corner badges — the badges are the thing that says *why* and must stay legible.
+    var anchor = item.querySelector(".slot");
+    layers.forEach(function (which) {
+      var layer = stripeLayer(which === "self" ? key : which);
+      if (anchor) item.insertBefore(layer, anchor); else item.appendChild(layer);
+    });
+    return item;
+  }
+
+  /* Part 7 · the flipbook entries — icon-scale VFX, the proc-glow family.
+   *
+   * These sit on the ICON RECT, not on a badge: Blizzard's proc glow surrounds the whole
+   * button, and half of why it reads is that it is big. `scale` is a multiple of the icon.
+   *
+   * A sheet is stepped with `background-position` on a `steps()` animation, which is the CSS
+   * analogue of SetTexCoord walking a grid. Baked-hue sheets draw as-is; a neutral one is
+   * masked and tinted so it takes the lane's own colour.
+   */
+  var VFX = D.lab_vfx || {};
+
+  function flipbookLayer(key, spec) {
+    var art = VFX[spec.sheet] || {};
+    var n = el("div", "vfx");
+    n.setAttribute("data-fit", spec.frames > 1 ? "sheet" : "single");
+    n.style.setProperty("--vfx-scale", "var(--lab-" + key + "-scale)");
+    n.style.setProperty("--vfx-dur", "var(--lab-" + key + "-dur)");
+    n.style.setProperty("--vfx-cols", "var(--lab-" + key + "-cols)");
+    n.style.setProperty("--vfx-rows", "var(--lab-" + key + "-rows)");
+    if (spec.period_s) n.style.setProperty("--vfx-period", "var(--lab-" + key + "-period)");
+    if (!art.uri) return n;
+
+    // ⚠ The CELL SIZE IS DECLARED, never assumed. The sheet is padded to a power of two, so
+    // neither `art.w / cols` nor a fixed 64 is right: `corona` is one 128px frame in a 128x128
+    // sheet, and `energy` is an 8x3 grid of 64px cells in a 512x256 one with a quarter of the
+    // height unused. Assuming 64 drew the corona as a 2x2 grid and showed one corner of it.
+    var cell = spec.cell;
+    var sheetCols = art.w / cell, sheetRows = art.h / cell;
+    // Scale the sheet so ONE cell covers the layer, then walk it by whole cells.
+    var bgW = sheetCols * 100, bgH = sheetRows * 100;
+
+    if (spec.tint === "lane") {
+      n.setAttribute("data-tint", "lane");
+      n.style.setProperty("--vfx-rgb", "var(--lab-" + key + "-rgb)");
+      n.style.webkitMaskImage = n.style.maskImage = "url(" + art.uri + ")";
+      n.style.webkitMaskSize = n.style.maskSize = bgW + "% " + bgH + "%";
+    } else {
+      n.style.backgroundImage = "url(" + art.uri + ")";
+      n.style.backgroundSize = bgW + "% " + bgH + "%";
+    }
+
+    if (spec.frames > 1) walkSheet(n, spec, sheetCols, sheetRows);
+    return n;
+  }
+
+  // Step a flipbook by setting background-position per frame, the same way `animateSprite`
+  // steps the badge frames. CSS `steps()` cannot walk a 2-D grid without generated keyframes,
+  // and generating keyframes per entry puts layout arithmetic into a stylesheet that is not
+  // allowed to hold numbers.
+  function walkSheet(node, spec, sheetCols, sheetRows) {
+    var i = 0;
+    // `background-position` in % is a RATIO, not an offset: 100% means "align the image's right
+    // edge with the box's right edge". So one cell of travel is 100/(cells-1), over the sheet's
+    // OWN cell count -- including the padding cells, which is why the frame count is what bounds
+    // the walk and the grid is only what shapes it.
+    var stepX = sheetCols > 1 ? 100 / (sheetCols - 1) : 0;
+    var stepY = sheetRows > 1 ? 100 / (sheetRows - 1) : 0;
+    function tick() {
+      var c = i % spec.cols, r = Math.floor(i / spec.cols);
+      var pos = (c * stepX) + "% " + (r * stepY) + "%";
+      if (spec.tint === "lane") {
+        node.style.webkitMaskPosition = node.style.maskPosition = pos;
+      } else {
+        node.style.backgroundPosition = pos;
+      }
+      i = (i + 1) % spec.frames;
+    }
+    tick();
+    var id = setInterval(tick, 1000 / (spec.fps || 30));
+    if (COLLECT) COLLECT.push(id);
+  }
+
+  function flipbookItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: [] });
+    if (cell.treat === false) return item;
+    // BEFORE the badge slots, so a corner badge stays legible over the effect — the badge is
+    // the thing that says *why*, and an effect that buries it has taken information away.
+    var anchor = item.querySelector(".slot");
+    var layer = flipbookLayer(key, spec);
+    if (anchor) item.insertBefore(layer, anchor); else item.appendChild(layer);
+    return item;
+  }
+
+  /* Part 7 · the blaze. A promotion that SHOUTS instead of pointing.
+   *
+   * Two entries differ in one thing: what shape the light has. `behind: "glyph"` masks the
+   * bright field to the sprite's own silhouette, so the flame appears to be the source.
+   * `behind: "plate"` puts it behind the badge's dark disc, so the light has a hard circular
+   * edge and the plate keeps doing its contrast job.
+   *
+   * No number is in this file — `spread`, the two alphas and the period all arrive as CSS
+   * variables from the shelf, same discipline as the stripe and readiness renders.
+   */
+  var LAB_SPRITES = D.lab_sprites || {};
+
+  function blazeItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: [] });
+    // A CONTROL cell draws the icon and nothing else. Without this every cell wore the
+    // treatment, including the one captioned "the same icon untreated" -- which makes the
+    // comparison the entry exists for impossible to actually make.
+    if (cell.treat === false) return item;
+    var art = LAB_SPRITES[spec.sprite] || {};
+    var badge = el("div", "blaze-badge");
+    badge.setAttribute("data-behind", spec.behind || "glyph");
+    badge.style.setProperty("--bl-rgb", "var(--lab-" + key + "-rgb)");
+    badge.style.setProperty("--bl-rest", "var(--lab-" + key + "-rest)");
+    badge.style.setProperty("--bl-flare", "var(--lab-" + key + "-flare)");
+    badge.style.setProperty("--bl-spread", "var(--lab-" + key + "-spread)");
+    badge.style.setProperty("--bl-glyph", "var(--lab-" + key + "-glyph)");
+    if (spec.period_s) badge.style.setProperty("--bl-period", "var(--lab-" + key + "-period)");
+
+    // The bright field, in one of THREE shapes -- which is the only thing separating these
+    // entries. Masked to the GLYPH, a plain DISC behind the plate, or a RING from real art.
+    // All three sit behind the sprite, and none ever touches the sprite's own alpha: a
+    // promotion whose glyph blinks is a promotion that hides its own information.
+    var behind = spec.behind || "glyph";
+    var blaze = el("div", "blaze");
+    if (behind === "glyph" && art.uri) {
+      blaze.style.webkitMaskImage = blaze.style.maskImage = "url(" + art.uri + ")";
+    } else if (behind === "corona" || behind === "sheet") {
+      // Real art as the field. A ring or a flipbook, drawn rather than tinted, because both
+      // carry their own falloff and a flat colour through a mask would lose the part that reads
+      // as heat. `sheet` walks its frames; `corona` is a single frame and simply sits there.
+      var art2 = VFX[spec.sheet] || {};
+      if (art2.uri) {
+        var sc = art2.w / spec.cell, sr = art2.h / spec.cell;
+        if (spec.tint === "lane") {
+          // The one neutral field: masked and tinted, so it takes the lane's colour.
+          blaze.style.webkitMaskImage = blaze.style.maskImage = "url(" + art2.uri + ")";
+          blaze.style.webkitMaskSize = blaze.style.maskSize = (sc * 100) + "% " + (sr * 100) + "%";
+          blaze.setAttribute("data-tint", "lane");
+        } else {
+          blaze.style.backgroundImage = "url(" + art2.uri + ")";
+          blaze.style.backgroundSize = (sc * 100) + "% " + (sr * 100) + "%";
+        }
+        if (spec.frames > 1) walkSheet(blaze, spec, sc, sr);
+      }
+    }
+    badge.appendChild(blaze);
+
+    var sprite = el("div", "blaze-sprite");
+    if (art.uri) {
+      sprite.style.webkitMaskImage = sprite.style.maskImage = "url(" + art.uri + ")";
+    }
+    badge.appendChild(sprite);
+
+    item.appendChild(badge);
+    return item;
+  }
+
+  /* The readiness treatments. Each entry supplies its own numbers and nothing is shared
+   * between them — same discipline as the stripe renders above. `draws` picks the layer;
+   * the CSS variables carry the values, so no number appears in this file. */
+
+  function readyGlow(key, spec, index) {
+    var n = el("div", "ready-glow");
+    n.style.setProperty("--rg-rgb", "var(--lab-" + key + "-rgb)");
+    n.style.setProperty("--rg-rest", "var(--lab-" + key + "-rest)");
+    n.style.setProperty("--rg-flare", "var(--lab-" + key + "-flare)");
+    n.style.setProperty("--rg-spread", "var(--lab-" + key + "-glow)");
+    if (spec.flare_mult) {
+      n.style.setProperty("--rg-flare-spread", "var(--lab-" + key + "-flare-glow)");
+      n.style.setProperty("--rg-decay", "var(--lab-" + key + "-decay)");
+      n.setAttribute("data-flare", "1");
+    }
+    if (spec.period_s) {
+      n.style.setProperty("--rg-period", "var(--lab-" + key + "-period)");
+      // The cycle's top. An entry that declares no `peak_alpha` breathes up to its flare value,
+      // which is what a breathe-only entry means by it.
+      n.style.setProperty("--rg-peak", spec.peak_alpha
+        ? "var(--lab-" + key + "-peak)" : "var(--lab-" + key + "-flare)");
+      // Out of phase on purpose: four breathing in lockstep read as one region blinking.
+      n.style.setProperty("--rg-phase", (-(index || 0) * 0.37) + "s");
+      n.setAttribute("data-breathe", "1");
+    }
+    return n;
+  }
+
+  // A cell may override the width, so one entry can show the ladder side by side rather than
+  // needing an entry per value. The number is still the shelf's; this only chooses which.
+  function readyLine(key, cell) {
+    var n = el("div", "ready-line");
+    n.style.setProperty("--rl-rgb", "var(--lab-" + key + "-rgb)");
+    n.style.setProperty("--rl-rest", "var(--lab-" + key + "-rest)");
+    n.style.setProperty("--rl-line", (cell && cell.line_px)
+      ? cell.line_px + "px" : "var(--lab-" + key + "-line)");
+    return n;
+  }
+
+  // The glow goes UNDER the icon art — it is light spilling out from behind the button, not a
+  // wash over its face. The hairline goes over, because it is an edge.
+  function readyItem(key, spec, cell, ability, index) {
+    var item = bareItem(ability, cell.verdict || "below", { cues: cell.cues || [] });
+    // These entries ask what the GLOW or the HAIRLINE says. The declared scan edge is a second
+    // answer in the same frame and at icon size it is the louder one, so an entry may drop it and
+    // be judged alone. ⚠ It strips `.ready-line`, the class `itemNode` appends for `rule.scan` —
+    // this used to strip `.edge`, a class the DOM has not carried since the collapse, so every
+    // readiness cell was silently judged with a 2px gold line composited over it.
+    if (spec.inner_border === false) {
+      var mark = item.querySelector(":scope > .ready-line");
+      if (mark) mark.remove();
+    }
+    if (spec.draws === "ready-line") {
+      item.appendChild(readyLine(key, cell));
+    } else {
+      item.insertBefore(readyGlow(key, spec, index), item.firstChild);
+    }
+    return item;
+  }
+
+  function readyRow(key, spec, cell) {
+    var row = el("div", "ready-row");
+    (cell.abilities || []).forEach(function (ability, i) {
+      row.appendChild(readyItem(key, spec, cell, ability, i));
+    });
+    return row;
+  }
+
+  /* Part 7 · the font candidates for V15's hotkey text.
+   *
+   * The cell is a REAL row — same icon, same verdict, same badges — with the label overridden to
+   * this entry's family and dials. Judging a font on its own line proves nothing: the question is
+   * whether four characters survive the art under them and the badge beside them, and only a row
+   * asks that. ⚠ Every family here is SUBSET to the keybind alphabet at build time, so the
+   * advance widths are the real ones and the page still weighs what it weighed.
+   */
+  function hotkeyItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "press", { cues: cell.cues || [] });
+    var hk = item.querySelector(":scope > .hotkey");
+    if (!hk) {
+      hk = el("div", "hotkey");
+      item.appendChild(hk);
+    }
+    hk.textContent = cell.key || "3";
+    hk.style.setProperty("--hotkey-font", "var(--lab-" + key + "-hk-font)");
+    hk.style.setProperty("--hotkey-size", "var(--lab-" + key + "-hk-size)");
+    hk.style.setProperty("--hotkey-outline-px", "var(--lab-" + key + "-hk-outline)");
+    if (spec.bar) {
+      // A bar is a different object from a corner label, so it takes its own rule rather than
+      // overloading `.hotkey`'s. Everything positional in that rule is overridden.
+      hk.className = "hotkey hotkey-bar";
+      hk.style.setProperty("--hotkey-bar", "var(--lab-" + key + "-hk-bar)");
+      hk.style.setProperty("--hotkey-bar-h", "var(--lab-" + key + "-hk-bar-h)");
+      hk.style.setProperty("--hotkey-bar-align", "var(--lab-" + key + "-hk-bar-align)");
+      hk.style.setProperty("--hotkey-bar-rule", "var(--lab-" + key + "-hk-bar-rule)");
+    }
+    if (spec.plate) {
+      hk.style.setProperty("--hotkey-plate", "var(--lab-" + key + "-hk-plate)");
+      hk.style.setProperty("--hotkey-plate-x", "var(--lab-" + key + "-hk-plate-x)");
+      hk.style.setProperty("--hotkey-plate-y", "var(--lab-" + key + "-hk-plate-y)");
+    }
+    return item;
+  }
+
+  var LAB_FONTS = D.lab_fonts || {};
+
+  var LAB = T.lab || {};
+  var labHost = host("lab");
+  var labKeys = Object.keys(LAB).filter(function (k) { return k.charAt(0) !== "_"; });
+
+  if (!labKeys.length) {
+    // An empty lab is a lab, not a defect — and the page should say so rather than render a
+    // silent gap that reads as a missing section.
+    var empty = el("div", "lab-empty");
+    empty.innerHTML = "<b>The lab is empty, and that is its correct resting state.</b> " +
+      "Everything it held has either been promoted into the declared style — the only way a " +
+      "treatment leaves (Part 7, rule 4) — or deleted because the question it asked got an " +
+      "answer. <code>V2</code>, <code>V5</code>, <code>V11</code>, <code>V13</code>, " +
+      "<code>V14</code> and <code>V15</code> were all chosen here and are drawn above, as the " +
+      "style. Part 7 keeps the ledger of what left and where it went; <code>git log</code> " +
+      "keeps the entries themselves with their <code>asks</code> intact, which is where a " +
+      "revived idea should be read from. The next idea gets a <code>lab</code> key, an " +
+      "<code>asks</code>, and a section here.";
+    labHost.appendChild(empty);
+  } else {
+    labKeys.forEach(function (key) {
+      var spec = LAB[key];
+      var e = labEntry(key, spec);
+      // An entry with no cells is not half-authored: some treatments have no CSS analogue at
+      // all — a four-strip ring being scaled is one — and those are drawn by the in-game
+      // gallery instead. Say so, rather than leaving a gap that reads as a broken build.
+      if (!(spec.cells || []).length) {
+        var only = el("p", "asks");
+        only.innerHTML = "<b>Drawn in the client only</b> — <code>/cap style</code>, under " +
+          "<em>lab</em>. This treatment has no faithful CSS analogue, so the preview would be " +
+          "an argument about the client rather than the client. See Part 7.";
+        e.box.appendChild(only);
+      }
+      (spec.cells || []).forEach(function (cell) {
+        var cap = cell.caption || "";
+        if (cell.kind === "sheet") {
+          e.row.appendChild(labCell(sheetSwatch(key), cap));
+          return;
+        }
+        if (cell.kind === "row") {
+          e.row.appendChild(labCell(readyRow(key, spec, cell), cap));
+          return;
+        }
+        if (spec.draws === "hotkey") {
+          var headK = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "press") +
+                      "</code><br>";
+          e.row.appendChild(labCell(hotkeyItem(key, spec, cell), headK + cap));
+          return;
+        }
+        if (spec.draws === "flipbook") {
+          var headF = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(flipbookItem(key, spec, cell), headF + cap));
+          return;
+        }
+        if (spec.draws === "blaze") {
+          var headB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(blazeItem(key, spec, cell), headB + cap));
+          return;
+        }
+        if (spec.draws === "ready-glow" || spec.draws === "ready-line") {
+          var head1 = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code><br>";
+          e.row.appendChild(labCell(readyItem(key, spec, cell, cell.ability, 0),
+                                    head1 + cap));
+          return;
+        }
+        var head = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                   "</code><br>";
+        e.row.appendChild(labCell(stripedItem(key, cell), head + cap));
+      });
+      labHost.appendChild(e.box);
+    });
+  }
+
+  host("prov").innerHTML = D.provenance_html;
+
+  // A build-time honesty flag: art drawn through a path we have not verified in client, or a
+  // declared lane no ability in this catalog can actually draw.
+  (D.notes || []).forEach(function (msg) {
+    var n = el("div", "note");
+    n.innerHTML = "⚠ " + msg;
+    var anchor = document.getElementById("state");
+    if (anchor) anchor.parentNode.insertBefore(n, anchor);
+  });
+
+  // The honest condition, rather than a test on which page this is: with no scenarios there is
+  // nothing to walk, and the lab page ships none.
+  if (D.scenarios.length) render();
+})();
+
+</script>

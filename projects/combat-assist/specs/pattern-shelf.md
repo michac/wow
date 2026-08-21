@@ -254,6 +254,11 @@ count FontString is empty below threshold and shows the number at/above it — t
 it from the secret; Lua never reads it. OBS-065 (`observations.md:1161`, Backdraft 117828,
 human verdict: 1 stack = icon/swipe only, 2 = the number "2").
 
+⚠ **The threshold of 2 is Blizzard's no-formatter DEFAULT, not the form's limit** — the apply
+path is `elseif applications > 1` when `options.formatter` is absent
+`[T1 src: Blizzard_CustomAuraButton.lua:351-368]`, and cap has always passed no options. **S7 is
+the general form**; treat S2 as its zero-configuration case and do not cite "2" as a ceiling.
+
 - **Eye-catch:** the value **appearing** is itself the draw-the-eye event; add motion only if
   play asks (a pulse/scale on the FontString, or a glow-lib flipbook — `cdm-rider…` §12).
 - **"Value-as-alpha" trick:** to hide a widget when a secret count is zero, write the count
@@ -284,12 +289,22 @@ threshold itself is secret (e.g. `UnitSpellHaste` in instanced combat), guard an
 **first** (assume unhasted; GCD floor 0.75) before building the curve. Canonical shape:
 `Channel.Threshold` (`Channel.lua:76-89`).
 
-### S5 · An aura's remaining DURATION as a FontString in a custom place — **Settled / sealed-display, renders in combat**
+### S5 · An aura's remaining DURATION as a FontString in a custom place — **CLOSED at 12.1 / kept for its duration-object facts**
 
 `C_UnitAuras.GetAuraDuration(unit, auraInstanceID)` → `LuaDurationObject` →
 `durObj:FormatRemainingDuration(formatter, Enum.DurationTimeModifier.RealTime)` → secret
-string → `FontString:SetText(...)`, which **ticks in combat**. The `auraInstanceID` is read
-plain off `item.auraDataCached.auraInstanceID` even when the aura's numbers are secret.
+string → `FontString:SetText(...)`, which **ticks in combat**.
+
+⛔ **This route is closed to cap at 12.1 and the entry is kept for its duration-object facts
+only.** It needs a **plain** `auraInstanceID` (`AllowedWhenUntainted`), and the 12.0.7 measurement
+that supplied one — `item.auraDataCached.auraInstanceID` reading plain off a CDM item frame while
+the aura's magnitudes were secret (`cooldown-manager.md:1744-1760`, `[client 2026-08-05]`) — no
+longer holds: aura instance IDs are secret at 12.1 (`projects/addon-lab/questions.json:1186`,
+which parks the old CAP route as obsolete for exactly this reason). **The replacement is the
+AuraContainer's own duration sinks** — `SetDurationCooldown` / `SetDurationText`
+`[T1 src: Blizzard_CustomAuraButton.lua:139-192]` — where the duration object is handed to the
+sink by the client and cap never holds an instance ID at all. @verify-ingame — the 12.1 secrecy of
+`auraInstanceID` is carried on our own registry note, not on a `[client]` measurement.
 
 - **Two args, unit + auraInstanceID** (NOT a spellID); **both must be plain** or it refuses.
 - FontString must be a leaf; for a bar sink call `SetMinMaxValues(0,1)` **before**
@@ -319,6 +334,132 @@ slots, so a loop sized by it can miss an occupied 5th slot (exactly the Dreadsta
 - ⚠ The API facts are settled, but no totem-duration → sink *render* has been eyeballed — only
   S5's aura channel has (OBS-035). The pixel is a design/desktop hypothesis until flown.
 
+### S7 · Aura stack count in a BAND — **Candidate / sealed-display, UNFLOWN**
+
+S2 shows a count at or above one threshold. S7 is the general form: **cap authors a piecewise
+function from the secret count to a string, and the client evaluates it.** That is what makes
+"blank until 4, then 4", "blank above 1" (the complement), and a middle band all one primitive.
+
+The rule object is a **`NumericRuleFormatter`**, not a curve:
+
+- `C_StringUtil.CreateNumericRuleFormatter()` — *"converts numbers to strings with flexible
+  rulesets"* `[T1 docs: StringUtilDocumentation.lua:21-29]`.
+- A breakpoint is `{ threshold, format, step, rounding, min, max, components }`; `threshold` is
+  *"Minimum input value that this rule applies to"* and `format` *"The format string to apply at
+  this threshold"* `[T1 docs: NumericRuleFormatterSharedDocumentation.lua:19-30]`. `min`/`max`
+  are input **clamps**, not visibility thresholds — the name collides with S2's and means
+  something else.
+- `AddBreakpoint` / `SetBreakpoints` / `GetBreakpoints` / `ClearBreakpoints` / `Copy`
+  `[T1 docs: NumericRuleFormatterAPIDocumentation.lua:11-67]`. Breakpoints are plain authored
+  numbers, so building one is ordinary addon code; `Copy` is `ReturnsNeverSecret`, so one
+  configured template can be cloned per row.
+- The evaluator is `FormatNumber(number) -> string`, `ConstSecretAccessor = true`
+  `[T1 docs: NumericFormatterAPIDocumentation.lua:11-27]` — secret in, secret out, no aspect
+  applied to the formatter.
+
+It reaches the pixel through S2's existing sink `[T1 src: Blizzard_CustomAuraButton.lua:351-368]`:
+
+```lua
+local formatter = options.formatter
+if formatter then text = formatter:FormatNumber(applications)
+elseif applications > 1 then text = applications end
+fontString:SetText(text)
+```
+
+⚠ **The `min = 2` in `Catalog.Check` is not a platform limit.** It mirrors that `elseif
+applications > 1` — Blizzard's behaviour when **no formatter is passed**, which is what cap has
+always passed. Lift it when S7 flies; do not treat S2's threshold as the shelf's ceiling.
+
+- **An empty `format` is the whole point.** It is the only way to express *absence*, and both
+  known consumers are absence-shaped. Neither `SecondsFormatter` nor
+  `AbbreviatedNumberFormatter` can emit nothing, so this is the one of the three factories
+  that matters to us.
+- **`format` need not carry a specifier at all**, so a band may emit a fixed string (`MAX`) or
+  a single glyph rather than the number.
+- ⚠ **Do not reach for `SecondsFormatterMixin`** `[T1 src: Blizzard_SharedXML/TimeUtil.lua:95]`.
+  It is a pure-Lua lookalike with nearly the same method names, used all over Blizzard's own
+  addons via `CreateFromMixins`, and it does its arithmetic **in script** — feed it a secret and
+  it dies. The secret-safe objects are `Userdata` and come only from `C_StringUtil.Create*`.
+- ⚠ **Unflown.** The shapes are Tier 1; whether a **tainted-created** formatter is honoured on
+  Blizzard's apply path has never been executed. `@pending-test: aura-container-rule-formatter`
+
+### S8 · Per-band COLOUR on a banded count — **Candidate / sealed-display, UNFLOWN**
+
+S7 with polarity. Two routes, and they differ in what they cost:
+
+- **Inline colour escapes in the band's `format`** — `{threshold=0, format="|cffff4040%d|r"}`,
+  `{threshold=6, format="|cff40ff70%d|r"}`. One sink, one FontString, both polarities. Escapes
+  in a format string are precedented in Blizzard's own code: the gamepad key labels expand to
+  `|A:Gamepad_%s_32:14:14|a`, markup and a specifier in one string
+  `[T1 src: SharedConstants.lua:56-58]`.
+- **Two slots on one spell ID**, each with a complementary ruleset and its own statically
+  coloured FontString. Costs a second container button and is unverified, but needs no markup
+  to survive the formatter.
+
+**What makes the colour ours at all:** `SetApplicationCount` adds only `Text` and `Shown`
+`[T1 src: Blizzard_CustomAuraButton.lua:59-68]` — **not `Alpha`, not `VertexColor`**. Compare
+`SetDurationText` (`:158-192`), which adds `Text`, `Alpha` *and* `VertexColor` because its colour
+curve drives them. So on the **count** FontString `SetTextColor` stays cap's to call at setup, and
+one static hue needs no markup at all. Per-*band* hue is what needs the escapes.
+
+- **A symbol font is the same primitive.** `SetFont` runs in `initializeFrame`, before lockdown,
+  and carries `RequiresValidFontAsset` + `RequiresValidFontHeight` with the FontString variant
+  returning `success: bool` `[T1 docs: SimpleFontStringAPIDocumentation.lua — SetFont]` — a
+  checkable result while we can still read one. A band emitting a PUA codepoint in a cap-shipped
+  TTF draws a **shape**, tintable through the text-colour path and outline-able via the
+  `"OUTLINE"` flag. This is the only known way to get cap-owned *art* out of a stack count: no
+  API evaluates a curve against an aura's applications, so `SetAlpha`/`SetVertexColor` on a
+  sprite cannot be driven by one.
+  ⚠ It is a **second art channel** the `render-shelf` → `capart export` pipeline does not own
+  today. Adopting it means the shelf declares the glyph set and `capart check` gates the font
+  the way it gates badge TGAs, or the preview↔addon guarantee lapses.
+- ⚠ **Unflown, and it has a distinct failure mode from S7.** `C_StringUtil` ships
+  `EscapeQuotedCodes` and `StripHyperlinks(…, maintainTextures, maintainAtlases)`
+  `[T1 docs: StringUtilDocumentation.lua]`, which proves the client sanitises markup from
+  untrusted strings *somewhere*; whether `NumericRuleFormatter` strips it is invisible from Lua.
+  **The font route survives that failure and the escape route does not** — prefer it.
+  `@pending-test: aura-container-rule-formatter`
+
+### S9 · Pandemic window as a client-drawn texture — **Candidate / sealed-display, UNFLOWN**
+
+R8's readable boolean is a **CDM tab-1 row** fact (`item.PandemicIcon ~= nil`). S9 is the same
+window on the **AuraContainer** channel, which needs no CDM row and works on a player buff:
+
+`AddPandemicRegion(region)` `[T1 src: Blizzard_CustomAuraButton.lua:236-248]` registers any
+Region and adds `SecretAspect.Shown` to it. The client then drives its visibility directly
+`[T1 src: :567-573]`:
+
+```lua
+local isInPandemicTime = self:IsInPandemicWindow()
+for _index, pandemicRegion in ipairs(self.pandemicRegions) do
+    region:SetShown(isInPandemicTime)
+end
+```
+
+- **The window is Blizzard's, not the community's 30 %.** It is computed as
+  `GetRefreshExtendedDuration - GetAuraBaseDuration`, and exists only when that carry-over is
+  positive `[T1 src: :612-628]`. cap authors no threshold here at all — this is the one sealed
+  form with **no curve and no ruleset**, which also means nothing to get wrong.
+- **It is the only sink that costs an `OnUpdate`**, and the enablement is itself `secretwrap`ped
+  `[T1 src: :634-641]`, with Blizzard's own note that *"the enablement of our OnUpdate script is
+  inferred (partly) through presence of an aura."* Budget one `OnUpdate` per armed tile and do
+  not attach it speculatively.
+- **Any Region qualifies** — a Texture, so cap's existing badge art is usable directly. This is
+  the one primitive in Part 2 that reaches cap-owned art without a font trick.
+- ⚠ **Unflown, and no consumer yet.** Demonology's Doom is the obvious first subject; Affliction
+  is most of a spec. `@pending-test: aura-container-pandemic-region`
+
+⚠ **All three share one gate, and it is the same gate.** `initializeFrame` is the only window in
+which any of them may be built: it runs **before** `ApplyAccessRestrictions`
+`[T1 src: Blizzard_AuraContainerFrameProviders.lua:74-92]`, and the restriction applied a beat
+later is `DenyTaintedAccessWhenAurasAreSecret`
+`[T1 src: Blizzard_AuraContainerShared.lua:105-108]`. Every sink widget must be a **descendant of
+the button** or the registration `error()`s outright
+`[T1 src: Blizzard_AuraContainerUtil.lua:255-270]`. And frames are created in **batches of 10** to
+obfuscate how many auras you have — *"Must be sufficiently high to obfuscate the number of auras
+as this invokes initialization callbacks"* `[T1 src: Blizzard_AuraContainerShared.lua:105]` — so
+**never infer anything from how many times your callback fires.**
+
 ---
 
 ## Part 3 — Mechanism seams (small helpers, written per-slice)
@@ -328,8 +469,10 @@ consumer needs it.
 
 - **Duration acquisition.** Four sources, one return type (`LuaDurationObject`): spell
   cooldown `GetSpellCooldownDuration(id, ignoreGCD)`, charge recharge
-  `GetSpellChargeDuration(id)`, aura `GetAuraDuration(unit, auraInstanceID)`, totem
-  `GetTotemDuration(slot)`. Keep source-specific **identity + liveness** work explicit; share
+  `GetSpellChargeDuration(id)`, totem `GetTotemDuration(slot)` — and, for auras, **not**
+  `GetAuraDuration(unit, auraInstanceID)`, which needs a plain instance ID cap cannot hold at
+  12.1 (S5): the container hands its own duration object to `SetDurationCooldown` /
+  `SetDurationText` instead. Keep source-specific **identity + liveness** work explicit; share
   only the curve/sink plumbing.
 - **Curve guard.** Feature-gate `C_CurveUtil.CreateCurve` / `Enum.LuaCurveType.Step` /
   `Enum.DurationTimeModifier.RealTime`; on any missing piece return the inert path. Curves and

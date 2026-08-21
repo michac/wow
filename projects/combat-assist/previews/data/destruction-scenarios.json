@@ -1,0 +1,1135 @@
+{
+  "_comment": "SEEDED by `wowkb.capart import scenarios destruction` from projects/combat-assist/specs/destruction/scenarios.md, then reviewed by eye. The DOC leads: `capart check` re-scrapes the CDM-row bullets and fails if they disagree with this file. Edit the doc, re-import, review.",
+  "spec": "destruction",
+  "source": "projects/combat-assist/specs/destruction/scenarios.md",
+  "scenarios": [
+    {
+      "id": "DES-1",
+      "title": "Opener — Conflagrate at two charges",
+      "state": "The pull. Soul Fire was pre-cast and is on cooldown; <b>Conflagrate is at 2/2 charges</b>; Summon Infernal, Cataclysm and Havoc are all up. Immolate is not yet on the target. Single-target mode.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "press-promoted",
+          "cues": [
+            "capped"
+          ]
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "below"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "below"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "below"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "below",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire"
+          ],
+          "html": "⚠ <b>This scenario is read by pass 1, not by elimination.</b>"
+        },
+        {
+          "names": [
+            "Conflagrate"
+          ],
+          "html": "<b>Conflagrate</b> wears the gold <code>capped</code> badge → <b>press.</b> Rung 2, <code>conflagrate,if=action.conflagrate.charges&gt;=2</code>, which sits second in the whole priority and carries no other term."
+        },
+        {
+          "names": [
+            "Summon Infernal",
+            "Immolate",
+            "Cataclysm",
+            "Chaos Bolt",
+            "Shadowburn",
+            "Incinerate",
+            "Rain of Fire",
+            "Havoc"
+          ],
+          "html": "Everything else is read only if the eye goes looking."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>This is the cleanest <code>capped</code> in any catalog, and the reason is a measurement.</b> R6 says <code>C_Spell.GetSpellCharges</code> is readable <b>only at full</b> — OBS-066 measured Conflagrate specifically, and below 2/2 the count seals and <code>isActive</code> cannot tell castable-1 from dead-0. The one state cap can read exactly is the one state this rung asks about. The positive cue is not being stretched here; it is being spent on the case it was defined for."
+        },
+        {
+          "label": "Cue set",
+          "html": "Banked charge (B) → <b>have</b>, readable. Single-target skip (J) → <b>have</b>, on both AoE buttons."
+        }
+      ]
+    },
+    {
+      "id": "DES-2",
+      "title": "Summon Infernal — the burst window",
+      "state": "One global later. <b>Conflagrate is at 1/2 and Backdraft is up</b> from the cast. Soul Fire still on cooldown. Summon Infernal is ready, 4 shards.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "press"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "below"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "below"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "below",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire"
+          ],
+          "html": "<b>Soul Fire</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Conflagrate"
+          ],
+          "html": "<b>Conflagrate</b> — available at 1/2, but <code>blocked</code> lights from <code>conflag_backdraft</code>: Backdraft is up, so rungs 4 and 10&#x27;s <code>buff.backdraft.stack&lt;1</code> is false and a second Conflagrate would stack a buff you have not spent. The <code>capped</code> gate is off at 1/2, so the two cues do not collide → skip."
+        },
+        {
+          "names": [
+            "Summon Infernal"
+          ],
+          "html": "<b>Summon Infernal</b> — ready, nothing rules it out → <b>press.</b> Rung 5."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>The Backdraft rung asks <code>stack&lt;1</code> — absent — and that is why this cue is readable at all.</b> The Destruction pilot sealed Backdraft as a <em>count</em> at two stacks (<code>../spec.md</code> §3.5), which is the right shape for <code>aoe_dia</code> rung 13 and the wrong question for the single-target list. A plain <code>aura</code> latch answers <em>absent</em>, and the sealed count is not needed anywhere in this catalog."
+        },
+        {
+          "label": "Cue set",
+          "html": "Backdraft hold (C) → <b>have</b>, readable."
+        }
+      ]
+    },
+    {
+      "id": "DES-3",
+      "title": "Immolate is not on the target",
+      "state": "Mid-fight. Soul Fire, Conflagrate (0 charges) and Summon Infernal are all on cooldown. <b>Immolate has fallen off the target.</b> 3 shards.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "press"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "below"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "below",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal"
+          ],
+          "html": "<b>Soul Fire … Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>immolate_up</code> requires the DoT to be <b>on</b> the target and it is not, so the badge is dark → <b>press.</b> Rung 9."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "The badge going <em>out</em> is what says &quot;now&quot;, the same shape as Demonology&#x27;s five-shard Tyrant hold. Row 4 is the only row in this catalog whose hold releases on a fact the fight changes for you rather than one you spend."
+        },
+        {
+          "label": "Cue set",
+          "html": "DoT hold (E) → correctly <b>dark</b>."
+        }
+      ]
+    },
+    {
+      "id": "DES-4",
+      "title": "Immolate up, Cataclysm ready",
+      "state": "As DES-3, but <b>Immolate is ticking</b> and <b>Cataclysm is ready</b>. Lake of Fire is talented.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "press"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "below"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "below",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal"
+          ],
+          "html": "<b>Soul Fire … Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code> from <code>immolate_up</code>: the DoT is on the target → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — ready, and <code>cata_awaits_talent</code> is never authored on a Lake of Fire build → <b>press.</b> Rung 12."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ **Cue F is a marker that exists to <em>not</em> be there.** On a Lake of Fire build rung 12 is unconditional and position 5 is simply right; on a build without it, Cataclysm is not in the single-target priority at all and the row would otherwise stop the walk. A talent-gated marker is the cheapest way to say &quot;this row belongs to a different build&quot;, and it is the same shape as Retribution&#x27;s cue F."
+        },
+        {
+          "label": "Density",
+          "html": "One <code>blocked</code> hold before the press, well inside Part 0.5&#x27;s budget of two."
+        },
+        {
+          "label": "Cue set",
+          "html": "DoT hold (E) → <b>have</b>. Talent gate (F) → correctly <b>not authored</b>."
+        }
+      ]
+    },
+    {
+      "id": "DES-5",
+      "title": "4 shards, Immolate up — Chaos Bolt is the dump",
+      "state": "Mid-fight, single target. <b>4 shards</b>, Immolate ticking, <b>Conflagrate at 1/2 with Backdraft up</b>, Cataclysm on cooldown, no Art armed, no proc.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "press"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "hold-readable",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire"
+          ],
+          "html": "<b>Soul Fire</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Conflagrate"
+          ],
+          "html": "<b>Conflagrate</b> — <code>blocked</code>, Backdraft up → skip."
+        },
+        {
+          "names": [
+            "Summon Infernal"
+          ],
+          "html": "<b>Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code>, the DoT is up → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Chaos Bolt"
+          ],
+          "html": "<b>Chaos Bolt</b> — affordable at four shards against a cost of two, and nothing rules it out → <b>press.</b> Rung 13, the ordinary shard dump."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>Rung 13&#x27;s real condition is <code>variable.ritual_length&gt;4</code>, and cap cannot see it.</b> That is a <b>sum of three sealed aura remaining times</b> and there is no aura-remaining band on the shelf (<code>catalog.md</code> → <em>Defeats</em>, item 2). What makes position 6 defensible anyway is that the ritual wheel is continuous — exactly one Diabolic Ritual stage is always up — so <code>ritual_length</code> is only in the dead zone between the cast time (~2.5 s) and 4 s for a sliver of each ~13 s stage. <b>A documented misordering with a bounded cost</b>, not an un-eliminable row."
+        },
+        {
+          "label": "Density",
+          "html": "Two <code>blocked</code> holds before the press (rows 2 and 4), which is Part 0.5&#x27;s budget exactly."
+        },
+        {
+          "label": "Cue set",
+          "html": "Backdraft hold (C) → <b>have</b>. DoT hold (E) → <b>have</b>. Shadowburn hold (H) → <b>have</b>, and note it is to the <em>right</em> of the press so it costs the reader nothing here."
+        }
+      ]
+    },
+    {
+      "id": "DES-6",
+      "title": "5 shards — two generators stand down at once",
+      "state": "As DES-5, but <b>5 shards</b> (capped) and <b>Backdraft is down</b>, with Conflagrate at 1/2. <b>Soul Fire is ready.</b>",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "overcap"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "press"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "hold-readable",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire"
+          ],
+          "html": "<b>Soul Fire</b> — ready, and <code>overcap</code> lights on the exact readable predicate <code>resource &gt;= 5</code>. Rung 1 is <code>soul_fire,if=soul_shard&lt;=4</code>, and pressing a generator at cap throws its whole shard yield away → skip."
+        },
+        {
+          "names": [
+            "Conflagrate"
+          ],
+          "html": "<b>Conflagrate</b> — Backdraft is down, so cue C is dark, but <code>overcap</code> lights for the same reason: rungs 4 and 10 read <code>soul_shard&lt;=4.2</code> / <code>&lt;=4.4</code> → skip. ⚠ The <code>capped</code> gate is off at 1/2, which is what lets the red badge appear at all."
+        },
+        {
+          "names": [
+            "Summon Infernal"
+          ],
+          "html": "<b>Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code>, the DoT is up → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Chaos Bolt"
+          ],
+          "html": "<b>Chaos Bolt</b> — the spender, and the only row on the board that <em>reduces</em> the shard count → <b>press.</b>"
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>This is the state five shards actually is, and it is why <code>capped</code> is not spent on it.</b> Two rows going red says <em>&quot;stop building&quot;</em> in the negative voice the vocabulary is built around; a gold badge on Chaos Bolt would say <em>&quot;spend&quot;</em>, which is a <b>rank</b> claim the left-to-right scan already carries. Retribution makes the same argument about five Holy Power and it holds here unchanged."
+        },
+        {
+          "label": "Density",
+          "html": "One budgeted hold (row 4). <code>overcap</code> is not budgeted — it restates a resource already on the player&#x27;s own bar, on rows that were not worth pressing anyway."
+        },
+        {
+          "label": "Cue set",
+          "html": "Soul Fire overcap (A) → <b>have</b>. Conflagrate overcap (D) → <b>have</b>. DoT hold (E) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "DES-7",
+      "title": "Ruination armed — row 6 is a different button",
+      "state": "Diabolic Ritual has cycled to <b>Pit Lord</b> and its Art is armed, so <b>row 6 is displaying Ruination</b>. Single target, <b>1 shard</b>, Immolate ticking, Conflagrate at 0 charges.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Ruination",
+          "verdict": "press"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "starved",
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal"
+          ],
+          "html": "<b>Soul Fire … Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code>, the DoT is up → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Ruination"
+          ],
+          "html": "<b>Ruination</b> — <b>press.</b> Rung 11, above the ordinary Chaos Bolt dump and below everything else, which is where row 6 already sits — so the identity carries it with no cue."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b><code>cb_starved</code> stays dark at one shard, and that is the whole reason it reads the live id.</b> <code>Sense.buildReads</code> asks affordability of <code>info.override or row.primary</code>, so on the transformed row this is <b>Ruination&#x27;s</b> cost, which is none. Read on the base id it would light at one shard against Chaos Bolt&#x27;s two, and the walk would step past a free press onto a Shadowburn it cannot afford. One marker covers both lives of the row correctly, and it is the same argument Retribution makes about Hammer of Light."
+        },
+        {
+          "label": "Cue set",
+          "html": "Identity (R7) → <b>have</b>. Starved (G) → <b>have</b>, on Shadowburn, and correctly <b>dark</b> on row 6."
+        }
+      ]
+    },
+    {
+      "id": "DES-8",
+      "title": "Fiendish Cruelty proc — Shadowburn jumps the queue",
+      "state": "Mid-fight, single target. A <b>Fiendish Cruelty proc is up</b>, so the next Shadowburn is free and usable on any target regardless of health. Immolate is ticking, Conflagrate is on cooldown, 3 shards, no Art armed.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "below"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "press-promoted",
+          "cues": [
+            "priority"
+          ]
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal",
+            "Immolate",
+            "Cataclysm",
+            "Chaos Bolt"
+          ],
+          "html": "⚠ <b>This scenario is read by pass 1, not by elimination.</b>"
+        },
+        {
+          "names": [
+            "Shadowburn"
+          ],
+          "html": "<b>Shadowburn</b> wears the gold <code>priority</code> badge → <b>press.</b> Rung 7, whose second conjunct <code>(buff.fiendish_cruelty.up|talent.conflagration_of_chaos)</code> is satisfied by the proc."
+        },
+        {
+          "names": [
+            "Incinerate",
+            "Rain of Fire",
+            "Havoc"
+          ],
+          "html": "Elimination alone would stop at <b>Chaos Bolt</b>, position 6 — rung 13 — which is a real press and the wrong one."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>This is a <code>priority</code> spent on rank a fixed row order genuinely cannot carry, and it is the position that pays for it.</b> Shadowburn&#x27;s rung is above Immolate (9) and both Chaos Bolt rungs (3 and 13), but <em>reaching</em> that rung needs either this proc or something cap cannot see, so in every other state position 7 is right. The alternative — hoisting Shadowburn to position 4 and badging Immolate, Cataclysm and Chaos Bolt down in the common case — would add three markers to remove one. Part 0.5&#x27;s test for a promotion is that it should <b>remove</b> authored vocabulary; this one does. ⚠ <b>The proc is readable through one plain boolean.</b> <code>SpellActivationOverlay</code> row 4888 has Fiendish Cruelty <code>1245664</code> highlighting Shadowburn <code>17877</code> by class mask <em>[T1 DB2 @ 12.1.0.69214]</em>, so <code>IsSpellOverlayed(17877)</code> is the whole term. Blizzard is already glowing this button; cap&#x27;s badge says the glow <b>outranks the rows to its left</b>, which is the part the glow does not say. ⚠ <b>Conflagrate must not be at 2/2 here</b>, and it is not. Two positive cues on one row is what pass 1 forbids; two on <em>different</em> rows is fine, but the leftmost wins — so a banked Conflagrate charge would correctly take precedence, and this scenario is authored after it was spent."
+        },
+        {
+          "label": "Cue set",
+          "html": "Shadowburn promotion (I) → <b>have</b>. DoT hold (E) → <b>have</b>, and it costs nothing under pass 1."
+        }
+      ]
+    },
+    {
+      "id": "DES-9",
+      "title": "Infernal Bolt armed at 1 shard — the filler row is a builder",
+      "state": "Diabolic Ritual has cycled to <b>Mother of Chaos</b> and its Art is armed, so <b>row 8 is displaying Infernal Bolt</b>. Single target, <b>1 shard</b>, Immolate ticking, Conflagrate at 0 charges, no Fiendish Cruelty proc.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "starved",
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "hold-readable",
+          "client": "unusable"
+        },
+        {
+          "name": "Infernal Bolt",
+          "verdict": "press"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal"
+          ],
+          "html": "<b>Soul Fire … Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code>, the DoT is up → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Chaos Bolt"
+          ],
+          "html": "<b>Chaos Bolt</b> — <code>starved</code>: one shard against a cost of two, which Blizzard has already tinted the icon for → skip."
+        },
+        {
+          "names": [
+            "Shadowburn"
+          ],
+          "html": "<b>Shadowburn</b> — <code>blocked</code> from <code>sb_awaits_proc</code>: no Fiendish Cruelty proc and Conflagration of Chaos is not talented, so rung 7&#x27;s second conjunct is false and the rung cannot fire → skip. ⚠ Note the client has <b>also</b> greyed it, for a different and stricter reason."
+        },
+        {
+          "names": [
+            "Infernal Bolt"
+          ],
+          "html": "<b>Infernal Bolt</b> — row 8 reads <code>identity == transformed</code>, so band 1 gives it <b>ROTATION</b> instead of FALLBACK → <b>press.</b> Rung 14, and it generates three shards, which is exactly what a one-shard board needs."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>This transform costs no marker, and Demonology&#x27;s costs one — the difference is position.</b> There, Infernal Bolt rides the <em>rightmost</em> row and outranks its left-hand neighbour, so Demonbolt has to be stood down by a cross-row <code>identity</code> marker. Here, rungs 14 and 15 are adjacent and the row is last, so the identity changes the row&#x27;s <b>kind</b> and nothing about the order. The two Warlock catalogs share a transform and spend different vocabulary on it. ⚠ <b>The row&#x27;s base name is one no Destruction warlock ever sees.</b> Its <code>cooldownID</code> binds Shadow Bolt <code>686</code>; Incinerate permanently overrides it (<code>SpecializationSpells</code> 7291, <code>OverridesSpellID = 686</code>, T1 DB2); Infernal Bolt overrides that. <b>Three deep</b>, and the catalog binds a stable id union rather than any live id."
+        },
+        {
+          "label": "Density",
+          "html": "Two budgeted holds (rows 4 and 7) before the press. At budget, not over."
+        },
+        {
+          "label": "Cue set",
+          "html": "Starved (G) → <b>have</b>. Shadowburn hold (H) → <b>have</b>. DoT hold (E) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "DES-10",
+      "title": "Zero shards — everything demotes itself",
+      "state": "Single target, <b>0 shards</b>, Immolate ticking, every cooldown down, no Art armed, no proc. Row 8 is Incinerate.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "starved",
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "starved",
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "press"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal"
+          ],
+          "html": "<b>Soul Fire … Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code>, the DoT is up → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Chaos Bolt",
+            "Shadowburn"
+          ],
+          "html": "<b>Chaos Bolt / Shadowburn</b> — both <code>starved</code> at zero shards → skip."
+        },
+        {
+          "names": [
+            "Incinerate"
+          ],
+          "html": "<b>Incinerate</b> — <b>press.</b> Rung 15, the filler, reached entirely by subtraction."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>Shadowburn wears <code>starved</code> rather than <code>blocked</code> here, and that is not a cosmetic choice.</b> <code>sb_awaits_proc</code> would also be true — no proc, no Conflagration of Chaos — but a row already unaffordable is a row the player cannot press for a reason they can see on their own bar. Slot 2 carries it; naming the hold as well would put two red badges on one icon to say one thing. <code>Catalog.Check</code>&#x27;s one-cue-per-slot rule keeps them apart and the walk reads the outer one."
+        },
+        {
+          "label": "Density",
+          "html": "One budgeted hold (row 4). <code>starved</code> is not budgeted."
+        },
+        {
+          "label": "Cue set",
+          "html": "Starved (G) → <b>have</b>, twice. DoT hold (E) → <b>have</b>."
+        }
+      ]
+    },
+    {
+      "id": "DES-11",
+      "title": "Conflagrate as the builder — Backdraft down",
+      "state": "Single target, <b>2 shards</b>, Immolate ticking, <b>Conflagrate at 1/2 and Backdraft is down</b>. Soul Fire and Summon Infernal on cooldown.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "press"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "below"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "below"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "below"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "below",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Havoc",
+          "verdict": "off-mode",
+          "cues": [
+            "aoe_only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire"
+          ],
+          "html": "<b>Soul Fire</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Conflagrate"
+          ],
+          "html": "<b>Conflagrate</b> — all three of its cues are dark: charges are not full (B), Backdraft is absent (C), and two shards is under the cap (D) → <b>press.</b> Rung 4, <code>conflagrate,if=soul_shard&lt;=4.2&amp;buff.backdraft.stack&lt;1</code>."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>This is the row with the most vocabulary in the catalog and the point of the scenario is that all of it is off.</b> Three cues, three different facts — a charge count, an aura&#x27;s presence, a resource level — and a row whose badges only ever light is a row nobody can read. The gating structure is what makes them a ladder rather than a pile: cues C and D are both gated on <code>!capped(conflagrate)</code>, so the gold badge and the red ones can never contradict each other on one icon."
+        },
+        {
+          "label": "Cue set",
+          "html": "Nothing fires."
+        }
+      ]
+    },
+    {
+      "id": "DES-12",
+      "title": "AoE mode on, 4 targets — Chaos Bolt, still",
+      "state": "The player has flipped cap&#x27;s AoE toggle; <b>four targets</b>, an Art armed, <b>3 shards</b>, Immolate on the current target, one Immolate out. Conflagrate on cooldown, Summon Infernal on cooldown.",
+      "row": [
+        {
+          "name": "Soul Fire",
+          "verdict": "cd"
+        },
+        {
+          "name": "Conflagrate",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Infernal",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolate",
+          "verdict": "hold-readable"
+        },
+        {
+          "name": "Cataclysm",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Bolt",
+          "verdict": "press"
+        },
+        {
+          "name": "Shadowburn",
+          "verdict": "below",
+          "client": "unusable"
+        },
+        {
+          "name": "Incinerate",
+          "verdict": "below"
+        },
+        {
+          "name": "Rain of Fire",
+          "verdict": "below"
+        },
+        {
+          "name": "Havoc",
+          "verdict": "below"
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Soul Fire",
+            "Conflagrate",
+            "Summon Infernal"
+          ],
+          "html": "<b>Soul Fire … Summon Infernal</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Immolate"
+          ],
+          "html": "<b>Immolate</b> — <code>blocked</code>, the DoT is on the current target → skip."
+        },
+        {
+          "names": [
+            "Cataclysm"
+          ],
+          "html": "<b>Cataclysm</b> — on cooldown → skip."
+        },
+        {
+          "names": [
+            "Chaos Bolt"
+          ],
+          "html": "<b>Chaos Bolt</b> — <b>press.</b> <code>aoe_dia</code> rung 2, <code>chaos_bolt,if=talent.diabolic_ritual&amp;(demonic_art|…)&amp;(active_enemies&lt;=(10-2*talent.destructive_rapidity))</code> — <b>Diabolist keeps pressing Chaos Bolt a long way into AoE</b>, which is the whole reason the two hero trees have different AoE lists."
+        },
+        {
+          "names": [
+            "Rain of Fire"
+          ],
+          "html": "<b>Rain of Fire</b> — the <code>aoe_only</code> pawn is dark now the toggle is on, and it never gets the chance to compete because the press is three positions to its left."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Eye-direction",
+          "html": "⚠ <b>The target-count threshold is the player&#x27;s, not cap&#x27;s.</b> <code>aoe_dia</code> is entered at <code>active_enemies&gt;=2</code> and its Rain of Fire rung wants 3 with a pooling term, and <b>cap models no enemy count</b> — the toggle is the whole interface, as it is on Havoc and Retribution. This scenario says what the badges do once the toggle is on, not when to flip it. ⚠ <b>Rain of Fire at position 9 is a documented misordering</b>, and it is deliberate. <code>aoe_dia</code> ranks it 3; at <em>very</em> high target counts it genuinely outranks Chaos Bolt, and position 9 cannot say so. <code>rotation.md</code>&#x27;s Tier-3 colour is the reason the row order takes the Diabolist side — <em>&quot;don&#x27;t cast Rain of Fire until ~8+ targets&quot;</em>, because Chaos Bolt feeds the ritual — and cap could not take the other side anyway without an enemy count. ⚠ <b>The <code>3.5</code> in that rung is not Rain of Fire&#x27;s cost</b>, which is three whole shards on both ids. <code>3.5 - 0.1 × active_dot.immolate</code> is a hand-tuned pooling heuristic with no stated rationale (<code>rotation.md</code> carries the full note), and no marker in this catalog reads it."
+        },
+        {
+          "label": "Density",
+          "html": "One budgeted hold. <b>Cue set.</b> Single-target skip (J) → correctly <b>dark</b> on both AoE rows. DoT hold (E) → <b>have</b>. ---"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+flame.png
+  source      /mnt/c/Users/mchris/Downloads/SmallFlame01-mini-flipbooks/SmallFlame01-mini_16x4.tga
+  source size 2048x1024
+  grid        source 16x4, kept 1 in 2 -> 8 cols x 4 rows = 32 frames
+  cell        64px -> sheet 512x256 (power-of-two; unused cells are transparent and never addressed)
+  alpha       STRAIGHT — use BLEND
+  exposure    1.0 (EXR tonemap gain; ignored for LDR sources)
+
+NOT reproducible from this repo: the source is a local download. Re-run
+`python -m wowkb.vfxsheet` against the same file to regenerate.

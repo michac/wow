@@ -1759,6 +1759,17 @@ same seam every sibling field on this frame sits on. Secrecy is tagged per value
 time, and Blizzard reading them from untainted code says nothing about us reading them from
 tainted code — that was the whole risk in the lead, and it is what the measurement found.
 
+⚠ **The plain `auraInstanceID` row above was measured on 12.0.7 and has not been re-read on
+12.1.** `[client 2026-08-05]` predates the live patch (12.1.0, 2026-08-11), and this is the one
+row in the table whose value a patch could flip without any other symptom: everything downstream
+of it — the duration-object route below, and every plan that holds an instance ID — reads exactly
+the same whether it is still plain or now secret, right up until the call refuses. It is marked
+rather than rewritten because **no 12.1 run has been made either way.** `@verify-ingame` — re-read
+`.auraInstanceID`'s class off a bound row in a 12.1 pull, in combat, on both a player buff and a
+target debuff. Until then prefer the route that never holds one: the managed AuraContainer's own
+duration sinks (`SetDurationCooldown` / `SetDurationText`) are handed the duration object by the
+client `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua:139-192]`.
+
 **But the record's plain `auraInstanceID` opens the duration-object route, and that DOES
 work — on both sides.** `[client 2026-08-05]`, Destruction, in combat, 30 item frames:
 

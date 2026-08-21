@@ -1,9 +1,31 @@
 # cap previews — one server, one directory, one file per spec
 
 Everything in this directory is **generated**. `wowkb.capart build <spec>` writes the
-`<spec>-stepper.html` pages and `data/<spec>-scenarios.json`; `template/` and `assets/` are the
-inputs it assembles from. **Never hand-edit a `*-stepper.html`** — `capart check <spec>` rebuilds
-it and fails if the committed file differs, so a hand edit is reverted the next time anyone looks.
+`<spec>-stepper.html` pages and `data/<spec>-scenarios.json`; `build --all` additionally writes
+`lab.html` and `index.html`; `template/` and `assets/` are the inputs it assembles from.
+**Never hand-edit a generated page** — `capart check` rebuilds each one and fails if the committed
+file differs, so a hand edit is reverted the next time anyone looks.
+
+## Three kinds of page, and only one of them is per-spec
+
+- **`<spec>-stepper.html`** — the scenario walk for one spec. One per registered spec.
+- **`lab.html`** — Part 7, on its own page since 2026-08-19. It is **not a spec**: its cells
+  resolve against the shelf's reference roster (`SHELF_ROSTER_SPEC`), so a lab cell is never a
+  claim about a spec's rotation. It used to be appended to *every* spec page, which made that
+  claim look spec-shaped and duplicated the larger half of the page into all of them — an
+  experiment could add half a megabyte to every spec at once.
+- **`index.html`** — the front door, listing every registered spec plus the lab. Deliberately
+  minimal.
+
+⚠ **`lab_stripes` and `promotion` in a spec page's data are LEGACY NAMES, not lab payloads.** They
+are V11's hatch sheet and V14's ring, both of which the lab owned until they were promoted. What
+actually left the spec pages with the lab are the lab-only assets: sprites, VFX sheets and font
+candidates.
+
+⚠ **The two non-spec pages are gated outside the per-spec loop** (`_check_shared`), because the
+staleness gate that covers a spec page runs *inside* it. `index.html` had no gate at all until
+2026-08-19 — a newly registered spec could have been missing from the front door indefinitely with
+the run still reading green.
 
 ## The serving model — do not add a second server
 
@@ -12,9 +34,12 @@ on **one** port serves all of them, and a new spec needs no new server and no ne
 already correct; it just has to be left alone.
 
 ```
-http://127.0.0.1:8765/                        — the index, listing every spec
+http://127.0.0.1:8765/                        — the index: every spec, plus the lab
 http://127.0.0.1:8765/havoc-stepper.html
 http://127.0.0.1:8765/retribution-stepper.html
+http://127.0.0.1:8765/devourer-stepper.html   — the first page drawing a virtual row (V12)
+http://127.0.0.1:8765/demonology-stepper.html
+http://127.0.0.1:8765/lab.html                — Part 7, one page for every spec
 ```
 
 ⚠ **Running a second server on another port to "give a spec its own preview" is a mistake, and it

@@ -1,0 +1,10 @@
+procloop.png
+  source      ../raw/uiart/ui-hud-actionbar-proc-loop-flipbook.png
+  source size 333x400
+  grid        source 5x6, kept 1 in 1 -> 8 cols x 4 rows = 30 frames
+  cell        64px -> sheet 512x256 (power-of-two; unused cells are transparent and never addressed)
+  alpha       STRAIGHT — use BLEND
+  exposure    1.0 (EXR tonemap gain; ignored for LDR sources)
+
+NOT reproducible from this repo: the source is a local download. Re-run
+`python -m wowkb.vfxsheet` against the same file to regenerate.

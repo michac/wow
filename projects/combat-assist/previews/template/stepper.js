@@ -147,6 +147,19 @@
       item.appendChild(hk);
     }
 
+    // V12 · the virtual-row tick. PREVIEW ONLY, and it exists because this page compresses a
+    // geometry the client does not have: in game a virtual row sits in cap's own panel, and that
+    // physical separation is what says "cap owns this frame, the Cooldown Manager has no row for
+    // it". One flat row loses the separation, so the tick carries the bit instead. It is CHROME
+    // in the strictest sense -- it asserts nothing about the press, wears no polarity and takes
+    // no part in either reading pass -- and it holds the bottom-left corner, which no badge
+    // (top-right, flowing down) and no hotkey (top-left) can claim.
+    if (entry.virtual) {
+      var vm = el("div", "virtual-mark");
+      vm.title = "cap-owned icon — this ability has no Cooldown Manager frame";
+      item.appendChild(vm);
+    }
+
     var open = false;
     // Sorted by the cue's RANK, not by the order the catalog happened to name them, so two rows
     // wearing the same pair always stack them the same way round. Positives rank above
@@ -172,6 +185,7 @@
     // uneven and misreported the client's fixed-pitch row.
     col.setAttribute("data-name", entry.name);
     col.setAttribute("data-verdict", entry.verdict);
+    if (entry.virtual) col.setAttribute("data-virtual", "1");
     if ((entry.cues || []).length) col.setAttribute("data-cues", entry.cues.join(" "));
     return col;
   }
@@ -186,6 +200,8 @@
     var cues = col.getAttribute("data-cues");
     tipEl.innerHTML = "<b>" + col.getAttribute("data-name") + "</b>" +
       "<span class=\"tip-verdict\">" + col.getAttribute("data-verdict") + "</span>" +
+      (col.getAttribute("data-virtual")
+        ? "<span class=\"tip-cues\">virtual row — cap-owned icon, no CDM frame</span>" : "") +
       (cues ? "<span class=\"tip-cues\">" + cues + "</span>" : "");
     tipEl.setAttribute("data-on", "1");
     var r = col.getBoundingClientRect(), t = tipEl.getBoundingClientRect();
@@ -205,13 +221,28 @@
   document.addEventListener("mouseleave", tipHide);
   window.addEventListener("scroll", tipHide, true);
 
+  /* ------------------------------------------------------------------ page sections
+   *
+   * ONE script serves TWO pages: a spec's scenario stepper and the lab. Each section renders only
+   * where its host exists, so a spec page carries no lab markup and the lab page carries no
+   * scenario stepper — which is the whole point of splitting them, since the lab was the larger
+   * half of every spec page and was duplicated into all of them.
+   *
+   * A section this page does not have gets a DETACHED node instead of a null, so the code that
+   * fills it neither branches nor throws. A missing host is a page boundary, never an error.
+   * ⚠ `document.createElement`, not `el()` — a class name here would be a class the stylesheet
+   * has no rule for, which is exactly what `smoke_dom` fails on.
+   */
+  var DETACHED = document.createElement("div");
+  function host(id) { return document.getElementById(id) || DETACHED; }
+
   /* ------------------------------------------------------------------ the stepper */
 
-  var pick = document.getElementById("pick");
-  var rowEl = document.getElementById("row");
-  var walkEl = document.getElementById("walk");
-  var stateEl = document.getElementById("state");
-  var extrasEl = document.getElementById("extras");
+  var pick = host("pick");
+  var rowEl = host("row");
+  var walkEl = host("walk");
+  var stateEl = host("state");
+  var extrasEl = host("extras");
 
   var current = 0, step = 0;
 
@@ -268,22 +299,28 @@
     extrasEl.innerHTML = "";
     (sc.extras || []).forEach(function (x) {
       var n = el("div", "aside");
+      // An `⚠ UNSURE` bullet is a claim the authoring docs themselves doubt, and the whole point
+      // of this page is that the author can SEE those without reading the markdown. So it draws
+      // as a block, not as a grey footnote. The label carries it -- no separate field -- because
+      // the doc grammar already has exactly one place to put a label and inventing a second
+      // would put the loudness somewhere the doc cannot state it.
+      if (x.label.indexOf("⚠ UNSURE") === 0) n.setAttribute("data-unsure", "1");
       n.innerHTML = "<b>" + x.label + ".</b> " + x.html;
       extrasEl.appendChild(n);
     });
   }
 
   pick.addEventListener("change", function () { current = +pick.value; step = 0; render(); });
-  document.getElementById("next").addEventListener("click", function () {
+  host("next").addEventListener("click", function () {
     var sc = D.scenarios[current];
     step = Math.min(step + 1, sc.steps.length);
     render();
   });
-  document.getElementById("prev").addEventListener("click", function () {
+  host("prev").addEventListener("click", function () {
     step = Math.max(step - 1, 0); render();
   });
-  document.getElementById("all").addEventListener("click", function () { step = 0; render(); });
-  document.getElementById("zoom").addEventListener("click", function () {
+  host("all").addEventListener("click", function () { step = 0; render(); });
+  host("zoom").addEventListener("click", function () {
     var on = rowEl.getAttribute("data-zoom") === "2";
     rowEl.setAttribute("data-zoom", on ? "1" : "2");
     this.setAttribute("aria-pressed", on ? "false" : "true");
@@ -328,7 +365,7 @@
     return s;
   }
 
-  var gallery = document.getElementById("gallery");
+  var gallery = host("gallery");
 
   // The swatch's border comes from whichever ability it borrows art from, exactly as it does in
   // a scenario row — so a gallery swatch and a live row can never diverge.
@@ -401,7 +438,7 @@
     }));
 
   // The frame strips, so the art itself is inspectable rather than only seen in motion.
-  var framesHost = document.getElementById("frames");
+  var framesHost = host("frames");
   cueKeys.forEach(function (key) {
     var cue = T.cues[key];
     var s = el("div", "swatch");
@@ -430,7 +467,7 @@
 
   /* ------------------------------------------------------------------ tables */
 
-  var vt = document.getElementById("verdicts");
+  var vt = host("verdicts");
   var head = "<tr><th>verdict</th><th>in the scan</th><th>swipe</th><th>hatch</th>" +
     "<th>cues</th></tr>";
   vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
@@ -829,7 +866,7 @@
   var LAB_FONTS = D.lab_fonts || {};
 
   var LAB = T.lab || {};
-  var labHost = document.getElementById("lab");
+  var labHost = host("lab");
   var labKeys = Object.keys(LAB).filter(function (k) { return k.charAt(0) !== "_"; });
 
   if (!labKeys.length) {
@@ -903,15 +940,18 @@
     });
   }
 
-  document.getElementById("prov").innerHTML = D.provenance_html;
+  host("prov").innerHTML = D.provenance_html;
 
   // A build-time honesty flag: art drawn through a path we have not verified in client, or a
   // declared lane no ability in this catalog can actually draw.
   (D.notes || []).forEach(function (msg) {
     var n = el("div", "note");
     n.innerHTML = "⚠ " + msg;
-    document.getElementById("state").parentNode.insertBefore(n, document.getElementById("state"));
+    var anchor = document.getElementById("state");
+    if (anchor) anchor.parentNode.insertBefore(n, anchor);
   });
 
-  render();
+  // The honest condition, rather than a test on which page this is: with no scenarios there is
+  // nothing to walk, and the lab page ships none.
+  if (D.scenarios.length) render();
 })();

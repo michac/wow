@@ -1,0 +1,10 @@
+energy.png
+  source      /mnt/c/Users/mchris/Downloads/Energy_Burst_11_Front_4K_6x6.exr
+  source size 4096x4096
+  grid        source 6x6, kept 1 in 2 -> 8 cols x 3 rows = 18 frames
+  cell        64px -> sheet 512x256 (power-of-two; unused cells are transparent and never addressed)
+  alpha       STRAIGHT — use BLEND (SYNTHESISED from luminance)
+  exposure    2.0 (EXR tonemap gain; ignored for LDR sources)
+
+NOT reproducible from this repo: the source is a local download. Re-run
+`python -m wowkb.vfxsheet` against the same file to regenerate.
