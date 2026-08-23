@@ -6,8 +6,20 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/addon-skill-reminder.py 2>/dev/null || true",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}\"/.claude/hooks/addon-skill-reminder.py 2>/dev/null || true",
             "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}\"/.claude/hooks/precompact-snapshot.py",
+            "timeout": 30
           }
         ]
       }
