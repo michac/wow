@@ -231,6 +231,11 @@ ICON_FDID = {
 #   [T1 src @12.1.0: CooldownViewer.lua:1204-1233] — the four-way ladder, in priority order
 #   [T1 src @12.1.0: CooldownViewer.lua:14-22]     — the constants
 #   [T1 src @12.1.0: CooldownViewer.lua:1195-1202] — desaturation, which means ON COOLDOWN only
+#: The sealed-display kinds a scenario may name in a `{sealed: …}` group. The same closed list
+#: `Catalog.DISPLAYS` holds on the Lua side, minus the two GRADED kinds — those draw a cue and are
+#: stated as one (`hold-sealed`), where these three draw their own art.
+SEALED_DISPLAYS = ("count-bands", "count-bar", "refresh-window")
+
 CLIENT_PAINT = {
     "_source": "CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273",
     "_doc": "knowledge/addon-dev/cooldown-manager.md §3.4",
@@ -390,7 +395,7 @@ def load_roster(catalog: Path) -> dict:
 
 
 ENTRY_RE = re.compile(r"^(?P<name>.+?)\s+`(?P<verdict>[a-z-]+)`(?P<ann>.*)$")
-GROUP_RE = re.compile(r"\{(?P<kind>cues|client):\s*(?P<body>[^}]*)\}")
+GROUP_RE = re.compile(r"\{(?P<kind>cues|client|sealed):\s*(?P<body>[^}]*)\}")
 # The retired `{dots: X go, Y wait}` group. It is matched separately and rejected by NAME,
 # because a silently-ignored group would let a scenario keep asserting a cue the style no
 # longer draws — which is exactly the doc↔render divergence this tool exists to catch.
@@ -471,6 +476,13 @@ def _parse_segment(segment: str, virtual: bool) -> list[dict]:
         entry = {"name": m.group("name").strip(), "verdict": m.group("verdict")}
         if "cues" in groups:
             entry["cues"] = [c.strip() for c in groups["cues"].split(",") if c.strip()]
+        if "sealed" in groups:
+            # A SEALED DISPLAY on this row: art the CLIENT draws from a rule cap authored and
+            # never reads back. Its own channel rather than a cue, because a cue is a badge cap
+            # shows and this is not one — and its own channel rather than part of the verdict,
+            # because a display that ELIMINATES (`ruled-sealed`) and one that merely informs are
+            # the same machinery pointed at different facts.
+            entry["sealed"] = [c.strip() for c in groups["sealed"].split(",") if c.strip()]
         if "client" in groups:
             # What BLIZZARD paints on this icon in this state, independent of anything cap
             # concluded. Authored separately from the verdict on purpose: if it were derived
@@ -630,6 +642,19 @@ def validate(scenarios: list[dict], tokens: dict, roster: dict) -> None:
             for c in e.get("cues", []):
                 if c not in cues:
                     _die(f"{sc['id']}: cue {c!r} is not declared in render-shelf.md tokens.cues")
+            for kind in e.get("sealed", []):
+                if kind not in SEALED_DISPLAYS:
+                    _die(f"{sc['id']}: sealed display {kind!r} on {e['name']!r} is not one of "
+                         f"cap's display kinds ({', '.join(sorted(SEALED_DISPLAYS))}).\n"
+                         "       A scenario names the SINK, never the picture — the picture is "
+                         "render-shelf.md's.")
+            if e["verdict"] == "ruled-sealed" and not e.get("sealed"):
+                _die(f"{sc['id']}: {e['name']!r} is `ruled-sealed` but names no {{sealed: …}} "
+                     "display.\n"
+                     "       That verdict says a CLIENT-drawn band ruled the row out; without a "
+                     "display there is\n"
+                     "       nothing drawing it, and the row would be silently un-eliminated in "
+                     "the client.")
             cl = e.get("client")
             if cl is not None and cl not in CLIENT_PAINT["tints"]:
                 _die(f"{sc['id']}: client state {cl!r} on {e['name']!r} is not one of Blizzard's "
@@ -729,6 +754,34 @@ def assert_tintable(what: str, source: str, tint: str, sat, tintable) -> bool:
     return tint == "desaturate+shelf"
 
 
+#: Token groups OUTSIDE the cue vocabulary that draw a sprite off the badge sheet, as
+#: (group, key-holding-the-frame-name). V16's banded mark and V19's refresh badge both point at a
+#: name they do not ship, on the stated grounds that "every name here is already on the cue
+#: vocabulary's sheet list" (`addon_style`).
+#:
+#: ⚠ THAT WAS A COINCIDENCE, NOT A GUARANTEE, AND IT BROKE. On 2026-08-23 the negative cues were
+#: made still (V5.1), which dropped `timer_CW_75` off `blocked`'s frame list — and `timer_CW_75` is
+#: the sprite V19's pandemic badge draws. Nothing named the dependency, so the failure would have
+#: been a badge that silently stopped shipping: no missing file, no failing gate, just a corner of
+#: the overlay that went blank. Declaring the borrow here means a frame list can be edited without
+#: reading every other token group first, and a borrowed name that no longer exists on disk dies in
+#: `badge_assets` like any other.
+BORROWED_FRAMES: tuple[tuple[str, str], ...] = (
+    ("count", "mark"),
+    ("pandemic", "frame"),
+)
+
+
+def borrowed_frames(tokens: dict) -> list[tuple[str, str]]:
+    """Every badge-sheet sprite named by a non-cue token group, as (frame, who-named-it)."""
+    out = []
+    for group, key in BORROWED_FRAMES:
+        name = (tokens.get(group) or {}).get(key)
+        if name:
+            out.append((name, f"tokens.{group}.{key}"))
+    return out
+
+
 def badge_assets(tokens: dict) -> dict:
     """The cue sprite frames (V5), from files we vendor rather than from CASC.
 
@@ -745,33 +798,34 @@ def badge_assets(tokens: dict) -> dict:
     root = ROOT / "projects" / "combat-assist" / badges["asset_root"]
     tint = badges.get("tint", "none")
     out: dict[str, dict] = {}
-    for key, cue in tokens["cues"].items():
-        for frame in cue["frames"]:
-            if frame in out:
-                continue
-            if frame in GENERATED_FRAMES:
-                img, where = GENERATED_FRAMES[frame](), f"generated ({frame})"
-            else:
-                path = root / f"{frame}.png"
-                if not path.exists():
-                    _die(f"cue {key!r} names frame {frame!r}, not found at "
-                         f"{(root / f'{frame}.png').relative_to(ROOT)} and not in "
-                         f"GENERATED_FRAMES — tokens.badges.asset_root is "
-                         f"{badges['asset_root']!r}")
-                img, where = Image.open(path).convert("RGBA"), str(path.relative_to(ROOT))
-            measure = uiart.tintability(img)
-            open_flag = assert_tintable(
-                f"badge sprite {frame!r} (cue {key!r})", where,
-                tint, measure["mean_saturation"], measure["tintable"],
-            )
-            buf = io.BytesIO()
-            img.save(buf, "PNG", optimize=True)
-            uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
-            out[frame] = {
-                "uri": uri, "bytes": len(uri), "size": list(img.size),
-                "mean_saturation": measure["mean_saturation"],
-                "tintable": measure["tintable"], "tint": tint, "open": open_flag,
-            }
+    wanted = [(f, f"cue {key!r}") for key, cue in tokens["cues"].items() for f in cue["frames"]]
+    wanted += borrowed_frames(tokens)
+    for frame, who in wanted:
+        if frame in out:
+            continue
+        if frame in GENERATED_FRAMES:
+            img, where = GENERATED_FRAMES[frame](), f"generated ({frame})"
+        else:
+            path = root / f"{frame}.png"
+            if not path.exists():
+                _die(f"{who} names frame {frame!r}, not found at "
+                     f"{(root / f'{frame}.png').relative_to(ROOT)} and not in "
+                     f"GENERATED_FRAMES — tokens.badges.asset_root is "
+                     f"{badges['asset_root']!r}")
+            img, where = Image.open(path).convert("RGBA"), str(path.relative_to(ROOT))
+        measure = uiart.tintability(img)
+        open_flag = assert_tintable(
+            f"badge sprite {frame!r} ({who})", where,
+            tint, measure["mean_saturation"], measure["tintable"],
+        )
+        buf = io.BytesIO()
+        img.save(buf, "PNG", optimize=True)
+        uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+        out[frame] = {
+            "uri": uri, "bytes": len(uri), "size": list(img.size),
+            "mean_saturation": measure["mean_saturation"],
+            "tintable": measure["tintable"], "tint": tint, "open": open_flag,
+        }
     return out
 
 
@@ -800,6 +854,25 @@ def addon_style(tokens: dict) -> dict:
     # exactly as V11's stripe sheet moved on 2026-08-16.
     if "promotion" in out:
         out["promotion"] = dict(out["promotion"], texture_root=MEDIA_TEXTURE_ROOT)
+    # V16/V17 and V19 name BADGE art — the mark, the plate, the window's sprite — so their root is
+    # the badge directory rather than Media/. They ship no file of their own; they BORROW off the
+    # cue vocabulary's sheet, and that borrow is declared in `BORROWED_FRAMES` rather than left to
+    # coincide with some cue's frame list (see the ⚠ there — the coincidence broke on 2026-08-23).
+    for key in ("count", "pandemic"):
+        if key in out:
+            out[key] = dict(out[key], texture_root=BADGE_TEXTURE_ROOT)
+    # V16/V17's band builder needs three FILE NAMES it must not restate: the plate is the shape
+    # `shape_images` generates, and the hatch is V11's own sheet under a different root. Injected
+    # here rather than declared in the shelf, so a rename in one place cannot leave the band
+    # naming a texture that no longer ships.
+    if "count" in out:
+        # ⚠ The names the BAND actually points at are the PRE-TINTED crops, not the neutral
+        # source art. A band cannot recolour what it names (`|c` tints text and not an inline
+        # texture, measured 2026-08-22), so the hue is in the file. `_pos` / `_neg` are the
+        # polarity pair; the plate is `_ink` and has no polarity, because contrast is not
+        # polarity (V5.1).
+        out["count"] = dict(out["count"], plate=PLATE_TEXTURE + "_ink",
+                            hatch=tokens["hatch"]["texture"], hatch_root=MEDIA_TEXTURE_ROOT)
     return out
 
 
@@ -918,12 +991,19 @@ def lab_lua(tokens: dict) -> str:
 
 
 def badge_frames(tokens: dict) -> list[str]:
-    """Every sprite frame the cue vocabulary names, in declaration order, deduplicated."""
+    """Every sprite frame the badge sheet ships, in declaration order, deduplicated.
+
+    The cue vocabulary first, then the groups that BORROW off the same sheet — see
+    `BORROWED_FRAMES` for why the borrow is declared instead of inferred.
+    """
     out = []
     for cue in tokens["cues"].values():
         for frame in cue["frames"]:
             if frame not in out:
                 out.append(frame)
+    for frame, _who in borrowed_frames(tokens):
+        if frame not in out:
+            out.append(frame)
     return out
 
 
@@ -1345,6 +1425,132 @@ def export_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     if licence.exists():
         (BADGE_DIR / "LICENSE.txt").write_text(licence.read_text(encoding="utf-8"),
                                                encoding="utf-8")
+    written += _prune_badges(tokens)
+    return written
+
+
+def _prune_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Delete badge TGAs the shelf no longer names, and say which.
+
+    ⚠ THE EXPORT IS THE ONE DOOR, SO IT OWNS DELETION TOO. A frame dropped from the vocabulary
+    used to keep shipping forever — `chevron_1`/`chevron_2` were retired with the `priority` glyph
+    on 2026-08-19 and were still in the addon four days later, and making the negatives still
+    (V5.1, 2026-08-23) orphaned four more. None of them draws anything; they are payload in a
+    released addon that no code can reach, which is the same defect as a stale generated file and
+    is invisible for the same reason: nothing looks at what is NOT named.
+
+    ⚠ THE KEEP SET COMES FROM THE TOKENS, NOT FROM WHAT THIS RUN WROTE. `export badges` and
+    `export lua` write into the same directory from different generators, so pruning against one
+    run's output deletes the other's — measured immediately, the first draft of this took out
+    V16's three pre-tinted crops. What is legal in `Media/badges/` is a property of the shelf, and
+    only the shelf gets to answer it.
+    """
+    keep = set(badge_frames(tokens)) | set(shape_images(tokens))
+    keep |= {name for name in count_frames(tokens) if not name.startswith(tokens["hatch"]["texture"])}
+    gone = []
+    for path in sorted(BADGE_DIR.glob("*.tga")):
+        if path.stem not in keep:
+            path.unlink()
+            gone.append((path.stem + " (pruned)", (0, 0)))
+    return gone
+
+
+#: V16/V17's pre-tinted crops. One file per (art, hue), because a band's art CANNOT be recoloured
+#: at draw time: measured `[client 2026-08-22]`, a `|cAARRGGBB…|r` escape tints the band's TEXT and
+#: leaves an inline `|T…|t` at full white. `SetVertexColor` is not available either — the sink owns
+#: a FontString, and the art inside it is named by a path rather than held as a texture object.
+#:
+#: So the hue has to be BAKED, which render-shelf L5 predicted before any of it shipped: "a
+#: pre-composited crop is no longer neutral white-in-alpha art… the hue has to be baked, which
+#: means capart export generates one crop per hue, exactly as it already generates the badge TGAs.
+#: That is a token change and a generator change, not a new art channel."
+COUNT_HUES = ("pos", "neg")
+
+
+def count_tinted(img: Image.Image, rgb: list) -> Image.Image:
+    """Neutral white-in-alpha art multiplied by one authored colour — what `SetVertexColor` does,
+    done at export time because the draw-time channel is not there."""
+    r, g, b = (max(0.0, min(1.0, c)) for c in rgb[:3])
+    out = img.convert("RGBA")
+    src = out.split()
+    return Image.merge("RGBA", (
+        src[0].point(lambda v, k=r: round(v * k)),
+        src[1].point(lambda v, k=g: round(v * k)),
+        src[2].point(lambda v, k=b: round(v * k)),
+        src[3],
+    ))
+
+
+def band_hatch(tokens: dict) -> Image.Image:
+    """V17's hatch as a SINGLE CROP, pre-rendered at the size it will be drawn.
+
+    ⚠ An inline `|T…|t` escape **cannot tile — it stretches** `[client 2026-08-22]`. `Paint.Hatch`
+    draws V11's sheet with `SetTexCoord` past 1 so the stripes keep their authored pitch at any
+    icon size; an escape has no such control and crams the whole 128px sheet into whatever box it
+    is given, so the same file came out coarse and squashed two icons from a correct one.
+
+    So the band gets its own crop, generated at `tokens.count.hatch_px` with the pitch chosen so
+    the ON-SCREEN result matches V11's. It is not tileable and does not need to be: it is drawn
+    exactly once, at one size, and seaming is a property of repetition.
+    """
+    cnt, h = tokens["count"], tokens["hatch"]
+    px = cnt["hatch_px"]
+    # The file is power-of-two (the client wants it); the pitch is scaled so that squeezing the
+    # file into `hatch_px` lands the stripes on V11's own pitch.
+    size = 1 << (px - 1).bit_length()
+    # The pitch that would land exactly on V11's on-screen spacing once the file is squeezed into
+    # `hatch_px` — then snapped to a divisor of the tile, because `hatch_sheet` refuses a pitch
+    # that would seam. Seaming cannot happen here (the crop is drawn once, never repeated), but
+    # the guard is worth keeping honest rather than bypassing, and the nearest divisor is within
+    # a couple of pixels at icon scale.
+    target = h["pitch_px"] * size / px
+    divisors = [d for d in range(2, size + 1) if size % d == 0]
+    pitch = min(divisors, key=lambda d: abs(d - target))
+    return hatch_sheet(dict(h, tile_px=size, pitch_px=pitch))
+
+
+def count_frames(tokens: dict) -> dict:
+    """`{ filename: Image }` for every pre-tinted crop V16/V17 names, or `{}` if `count` is absent.
+
+    The plate is deliberately NOT hue-varied: its job is contrast, not polarity (V5.1 — hue
+    carries polarity and only polarity), so it is baked once at the badge plate's own colour.
+    """
+    cnt = tokens.get("count")
+    if not cnt:
+        return {}
+    shapes = shape_images(tokens)
+    badges = tokens["badges"]
+    src = ROOT / "projects" / "combat-assist" / badges["asset_root"]
+
+    def load(name: str) -> Image.Image:
+        if name in shapes:
+            return shapes[name]
+        path = src / f"{name}.png"
+        if not path.exists():
+            _die(f"tokens.count names art {name!r}, missing at {path.relative_to(ROOT)}")
+        img = Image.open(path).convert("RGBA")
+        return img.resize((SPRITE_PX, SPRITE_PX), Image.LANCZOS) if img.size[0] > SPRITE_PX else img
+
+    # ⚠ The source names are the SHELF's, not `Style.lua`'s. `addon_style` injects `plate` and
+    # `hatch` onto the count group for the addon's benefit; here we are upstream of that, so the
+    # neutral art is named from where it is actually declared.
+    sheet = tokens["hatch"]["texture"]
+    out = {}
+    for hue, rgb in (("pos", cnt["rgb"]), ("neg", cnt["low_rgb"])):
+        out[f"{cnt['mark']}_{hue}"] = count_tinted(load(cnt["mark"]), rgb)
+        out[f"{sheet}_{hue}"] = count_tinted(band_hatch(tokens), rgb)
+    # One plate, no hue: contrast is not polarity.
+    out[f"{PLATE_TEXTURE}_ink"] = count_tinted(shapes[PLATE_TEXTURE],
+                                               badges["plate"]["rgb"])
+    return out
+
+
+def export_count(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Ship V16/V17's pre-tinted crops beside the neutral badge art they are derived from."""
+    written = []
+    for name, img in count_frames(tokens).items():
+        dest = MEDIA_DIR if name.startswith(tokens["hatch"]["texture"]) else BADGE_DIR
+        written.append((name, _write_tga(img, name, dest)))
     return written
 
 
@@ -1644,6 +1850,11 @@ def icon_assets(names: list[str], roster: dict, tokens: dict) -> dict:
 # --------------------------------------------------------------------------- CSS
 
 
+#: `SetBlendMode` → the CSS compositing operator that reproduces it. Only the two the shelf
+#: actually uses are here: an unlisted mode is a KeyError rather than a silently wrong preview.
+CSS_BLEND = {"BLEND": "normal", "ADD": "plus-lighter"}
+
+
 def root_css(tokens: dict) -> str:
     s = tokens["surfaces"]
     b = tokens["badges"]
@@ -1665,12 +1876,14 @@ def root_css(tokens: dict) -> str:
         "     fraction: it means \"ruled out\", nothing more. Not a shelf value. */",
         "  --swipe-frac: 0.62turn;",
         "",
-        "  /* V2 · in the scan. One hue, no roles, no motion: an icon either participates in",
-        "     the read or it does not. Additive at full brightness on a restrained AREA — a hot",
-        "     edge, not a wash — and drawn ON the rect, so no row gap can be too small. */",
+        "  /* V13 · in the scan. One hue, no roles, no motion: an icon either participates in",
+        "     the read or it does not. Full brightness on a restrained AREA, drawn ON the rect,",
+        "     so no row gap can be too small. The blend mode is a token because ADD could not",
+        "     carry the hue: see the shelf's V13 ruling. */",
         f"  --ready-rgb: {','.join(str(round(x * 255)) for x in rd['rgb'])};",
         f"  --ready-alpha: {rd['alpha']:.2f};",
         f"  --ready-line: {rd['line_px']}px;",
+        f"  --ready-blend: {CSS_BLEND[rd['blend']]};",
     ]
 
     # The first badge hangs off the top-right corner: its right edge sits `overhang` past the
@@ -1810,6 +2023,55 @@ def root_css(tokens: dict) -> str:
             f"  --promo-cols: {promo['cols']};",
             f"  --promo-rows: {promo['rows']};",
         ]
+    # V16/V17 · the banded count. The per-band HUE deliberately does not appear as one variable:
+    # in the client it lives inside the band's own `format` string (`|cffRRGGBB…|r`), because the
+    # count sink adds `Text` and `Shown` and never `VertexColor`, so there is nowhere else to put
+    # it. What is emitted is the TYPE plus the two polarity hues the bands are written from.
+    cnt = tokens.get("count")
+    if cnt:
+        lines += [
+            "",
+            "  /* V16/V17 · banded count — a sealed number as a numeral, a mark, or both */",
+            f"  --count-size: {cnt['size']}px;",
+            f"  --count-outline: 1px;",
+            f"  --count-rgb: {rgba(cnt['rgb'])};",
+            f"  --count-low: {rgba(cnt['low_rgb'])};",
+            f"  --count-mark: {cnt['mark_px']}px;",
+            f"  --count-mark-x: {cnt['mark_offset_px'][0]}px;",
+            f"  --count-mark-y: {cnt['mark_offset_px'][1]}px;",
+            f"  --count-plate: {cnt['plate_px']}px;",
+            f"  --count-hatch: {cnt['hatch_px']}px;",
+            f"  --count-pulse-dur: {cnt['pulse']['duration_s']}s;",
+            f"  --count-pulse-a0: {cnt['pulse']['alpha'][0]};",
+            f"  --count-pulse-a1: {cnt['pulse']['alpha'][1]};",
+            f"  --count-pulse-scale: {cnt['pulse']['scale']};",
+        ]
+    # V18 · the sealed radial. A bar has a TRACK as well as a fill, and the track is the half that
+    # decides whether an empty one reads as "nothing yet" or as clutter — which is the whole cost
+    # of a primitive that has no blank state.
+    arc = tokens.get("arc")
+    if arc:
+        lines += [
+            "",
+            "  /* V18 · sealed radial — the same secret as a shape */",
+            f"  --arc-inset: {arc['inset_px']}px;",
+            f"  --arc-rgb: {rgba(arc['rgb'], arc.get('alpha', 1.0))};",
+            f"  --arc-track: {rgba(arc['track_rgb'], arc.get('track_alpha', 1.0))};",
+            f"  --arc-full: {rgba(arc['full_rgb'])};",
+        ]
+    # V19 · the refresh window. Every number here is cap's; the one thing that is not is the only
+    # thing that matters — whether the region is shown, which the client owns outright.
+    pd = tokens.get("pandemic")
+    if pd:
+        lines += [
+            "",
+            "  /* V19 · refresh window — a badge the client alone shows and hides */",
+            f"  --pd-rgb: {rgba(pd['rgb'])};",
+            f"  --pd-size: {pd['size_px']}px;",
+            f"  --pd-pulse-dur: {pd['pulse']['duration_s']}s;",
+            f"  --pd-pulse-a0: {pd['pulse']['alpha'][0]};",
+            f"  --pd-pulse-a1: {pd['pulse']['alpha'][1]};",
+        ]
     lab = tokens.get("lab") or {}
     if sheet:
         for key, entry in lab.items():
@@ -1879,6 +2141,87 @@ def root_css(tokens: dict) -> str:
         if "rgb" in entry:
             lines.append(f"{pre}rgb: "
                          f"{','.join(str(round(x * 255)) for x in entry['rgb'])};")
+    # Part 7 · the count entries — a secret aura APPLICATION COUNT reaching a pixel. Two shapes
+    # and they are genuinely different mechanisms, so they emit different variables:
+    #   `count`     — the NumericRuleFormatter's banded string, drawn as text. Per-band hue lives
+    #                 inside the band's own `format` (`|cffRRGGBB…|r`), which is where the client
+    #                 reads it from too, so the renderer resolves it per cell rather than from a
+    #                 variable here. What IS emitted is the type: size, outline, and the static
+    #                 hue that needs no markup at all.
+    #   `count-bar` — SetApplicationBar's fill, drawn as art. A bar has a track as well as a
+    #                 fill, and the track is the half that decides whether an empty one reads as
+    #                 "nothing yet" or as clutter.
+    for key, entry in lab.items():
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        if entry.get("draws") == "count":
+            pre = f"  --lab-{key}-cn-"
+            lines += [
+                "",
+                f"  /* Part 7 · {key} — banded count text */",
+                f"{pre}size: {entry['size_px']}px;",
+                f"{pre}outline: {entry['outline_px']}px;",
+                f"{pre}rgb: {rgba(entry['rgb'])};",
+            ]
+        elif entry.get("draws") == "count-bar":
+            pre = f"  --lab-{key}-cb-"
+            lines += [
+                "",
+                f"  /* Part 7 · {key} — count-driven fill */",
+                f"{pre}h: {entry['height_px']}px;",
+                f"{pre}rgb: {rgba(entry['rgb'])};",
+                f"{pre}track: {rgba(entry['track_rgb'], entry.get('track_alpha', 1.0))};",
+                f"{pre}ring: {entry.get('ring_px', 3)}px;",
+            ]
+        elif entry.get("draws") in ("count-glyph", "duration"):
+            # A band whose `format` carries a texture escape. The MARK is the drawn thing, so
+            # the entry declares its size and its hue; the plate, when a cell asks for one, is
+            # the badge stack's own and is deliberately not re-declared here.
+            pre = f"  --lab-{key}-cg-"
+            lines += [
+                "",
+                f"  /* Part 7 · {key} — a banded texture escape */",
+                f"{pre}size: {entry['size_px']}px;",
+                f"{pre}rgb: {rgba(entry['rgb'])};",
+                f"{pre}alt: {rgba(entry['alt_rgb'])};",
+                f"{pre}pulse-dur: {entry['pulse']['duration_s']}s;",
+                f"{pre}pulse-a0: {entry['pulse']['alpha'][0]};",
+                f"{pre}pulse-a1: {entry['pulse']['alpha'][1]};",
+                f"{pre}pulse-scale: {entry['pulse']['scale']};",
+            ]
+        elif entry.get("draws") == "composite":
+            # A composite cell stacks several sinks on one row, so its palette is named rather
+            # than positional: a layer says `green`, and which green is the entry's business.
+            pre = f"  --lab-{key}-cx-"
+            lines += ["", f"  /* Part 7 · {key} — several sinks on one row */"]
+            for hue, val in entry["hues"].items():
+                lines.append(f"{pre}{hue}: {rgba(val)};")
+            lines += [
+                f"{pre}arc-track: {rgba(entry['arc_track_rgb'], entry['arc_track_alpha'])};",
+                f"{pre}arc-inset: {entry['arc_inset_px']}px;",
+                f"{pre}size: {entry['size_px']}px;",
+                f"{pre}pulse-dur: {entry['pulse']['duration_s']}s;",
+                f"{pre}pulse-a0: {entry['pulse']['alpha'][0]};",
+                f"{pre}pulse-a1: {entry['pulse']['alpha'][1]};",
+                f"{pre}pulse-scale: {entry['pulse']['scale']};",
+            ]
+        elif entry.get("draws") == "pandemic":
+            # The client owns Shown; every number here is the addon's. `alpha` is the wash's,
+            # which is the one treatment that covers icon art rather than sitting beside it.
+            pre = f"  --lab-{key}-pd-"
+            lines += [
+                "",
+                f"  /* Part 7 · {key} — art gated by Blizzard's refresh window */",
+                f"{pre}rgb: {rgba(entry['rgb'])};",
+                f"{pre}wash: {rgba(entry['rgb'], entry['wash_alpha'])};",
+                f"{pre}edge: {entry['edge_px']}px;",
+                f"{pre}foot: {entry['foot_px']}px;",
+                f"{pre}size: {entry['size_px']}px;",
+                f"{pre}pulse-dur: {entry['pulse']['duration_s']}s;",
+                f"{pre}pulse-a0: {entry['pulse']['alpha'][0]};",
+                f"{pre}pulse-a1: {entry['pulse']['alpha'][1]};",
+            ]
+
     # Part 7 · the font candidates. Each hotkey entry names its own family and its own two
     # dials, so the entries can be read side by side at the same size or at different ones.
     for key, entry in (tokens.get("lab") or {}).items():
@@ -1986,6 +2329,58 @@ def smoke_dom(js: Path, css: Path, root: str) -> list[str]:
             bad.append(f"{js.name}: class {name!r} is built or queried but no rule in "
                        f"{css.name} names it — a dead lookup, or an element nobody can see.")
     return bad
+
+
+SEALED_KIND_RE = re.compile(r'kind\s*===\s*"([a-z-]+)"')
+GALLERY_SEALED_RE = re.compile(r'sealed:\s*\[([^\]]*)\]')
+
+
+def gallery_covers_sealed(js: Path) -> list[str]:
+    """Every sealed display `sealedNode` can draw must have a swatch in the primitives gallery.
+
+    ⚠ This is the ONE gate the preview's own seam earned, and it is deliberately narrow. The
+    defect it is written against (2026-08-23) is that all four sealed displays were reachable
+    ONLY from inside a scenario row — and V16, the count band in its ordinary non-eliminating
+    direction, is drawn by no scenario in any catalog at all. So the gallery section, whose own
+    copy promises "every primitive the shelf declares, INCLUDING the ones no scenario above
+    exercises", quietly did not, and a shelf edit to those tokens landed nowhere anyone looks.
+
+    ⚠ It is NOT a rendering gate, and no rendering gate belongs here. The sibling defect found
+    the same day — `.sealed-run` computing to 22x22 because `inset` does not override an
+    inherited `width` — is invisible to any static check: the class existed, the rule existed,
+    the rule was simply wrong. Catching that means running a browser inside `check`, which is a
+    large dependency for a tool whose job is to assemble a page. That measurement stays MANUAL.
+
+    ⚠ Scoped to the sealed kinds and not to "every art-bearing token group", which was the wider
+    rule considered first. `tokens.ring` and `tokens.promotion` also carry art and are correctly
+    absent from the gallery — ring is retired, promotion is drawn from Part 7 — so the wider gate
+    would fail on two primitives that are right, which is worse than not having it.
+    """
+    text = js.read_text(encoding="utf-8")
+    # Scoped to sealedNode's OWN body: `kind === "row"` and `kind === "sheet"` live in the Part 7
+    # lab further down the file and are not sealed displays. A gate reporting those as missing
+    # swatches would be crying wolf on the two cases it is least qualified to judge.
+    fn = text.find("function sealedNode(")
+    nxt = text.find("\n  function ", fn + 1)
+    if fn < 0:
+        return [f"{js.name}: cannot find sealedNode — this gate has lost its subject."]
+    kinds = set(SEALED_KIND_RE.findall(text[fn:nxt if nxt > fn else len(text)]))
+    # The fall-through: `sealedNode` returns the count-band run when no branch matched, so that
+    # kind is named in the sidecar and never in a `kind ===` comparison.
+    kinds.add("count-bands")
+
+    start = text.find('var gallery = host("gallery")')
+    end = text.find('var framesHost = host("frames")')
+    if start < 0 or end < 0 or end < start:
+        return [f"{js.name}: cannot find the gallery section — this gate has lost its subject."]
+    drawn = {k.strip().strip('"\'')
+             for m in GALLERY_SEALED_RE.findall(text[start:end])
+             for k in m.split(",") if k.strip()}
+
+    return [f"{js.name}: the sealed display {k!r} is drawn by sealedNode but no gallery swatch "
+            f"builds it — the section promises every primitive the shelf declares, and a "
+            f"primitive only a scenario reaches is one a shelf edit changes invisibly."
+            for k in sorted(kinds - drawn)]
 
 
 def strict_css(path: Path) -> list[str]:
@@ -2170,10 +2565,11 @@ def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> 
     rd = tokens["ready"]
     rows.append((
         "in the scan · V2",
-        f"one treatment, no roles, no motion — a {rd['line_px']}px additive edge at "
-        f"alpha {rd['alpha']:.2f}, drawn ON the icon rect. Additive is why it reads as a hot "
-        "line rather than a painted one; the restrained area is why full brightness is not "
-        "loud. It has no falloff, so it cannot bleed into a neighbour at any row gap. Rank is "
+        f"one treatment, no roles, no motion — a {rd['line_px']}px {rd['blend']} edge at "
+        f"alpha {rd['alpha']:.2f}, drawn ON the icon rect. The blend mode is declared because "
+        "ADD clipped this hue to white on a bright icon; the restrained area is why full "
+        "brightness is not loud. It has no falloff, so it cannot bleed into a neighbour at any "
+        "row gap. Rank is "
         "carried by row order and elimination, not by hue."
     ))
     rows.append(("icons", f"{len(icons)} × {tokens['assets']['icon_size']}px "
@@ -2243,7 +2639,7 @@ def cmd_tokens(args) -> None:
     r, g, b = (round(x * 255) for x in rd["rgb"])
     print("  V2 · the scan edge (ONE binary treatment: in the scan, or not)")
     print(f"    edge     rgb({r:>3},{g:>3},{b:>3}) · {rd['line_px']}px · alpha {rd['alpha']:.2f} · "
-          "ADD, drawn ON the icon rect")
+          f"{rd['blend']}, drawn ON the icon rect")
     print("    rank     row order plus elimination — there is no hue ladder and no motion")
 
     ring, a = tokens.get("ring"), tokens["arrival"]
@@ -2561,6 +2957,9 @@ def cmd_export(args) -> None:
         for name, size in export_ring(tokens):
             print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
                   f"{MEDIA_DIR.relative_to(ROOT)}")
+    if what in ("count", "all"):
+        for name, size in export_count(tokens):
+            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → pre-tinted (V16/V17)")
     if what in ("hatch", "all"):
         for name, size in export_hatch(tokens):
             print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
@@ -2663,6 +3062,12 @@ def elimination_gate(scenarios: list[dict], tokens: dict) -> list[str]:
                 continue                     # ruled out natively by Blizzard's own dial
             if eliminating(rule.get("cues")) or eliminating(e.get("cues")):
                 continue                     # ruled out by a red badge
+            if rule.get("eliminates"):
+                # ⚠ THE THIRD ELIMINATING SIGNAL, since 2026-08-22. `ruled-sealed` is a band the
+                # CLIENT evaluated against a secret: it draws V11's hatch and a negative mark out
+                # of one FontString, so the row reads exactly as ruled out and carries no cue at
+                # all. The gate has to know that or it walks straight past a hatched row.
+                continue
             first = e
             break
         if first is None:
@@ -2976,6 +3381,7 @@ def _check_one(args) -> None:
     for line in strict_css(TEMPLATE / "shelf.css"):
         fails.append(line)
     fails += smoke_dom(TEMPLATE / "stepper.js", TEMPLATE / "shelf.css", root_css(tokens))
+    fails += gallery_covers_sealed(TEMPLATE / "stepper.js")
 
     # 0z · the OTHER subcommands still run. `tokens` and `assets` read the token block on paths
     # `build` does not, and both sat dead behind a KeyError for a week while `check` reported
@@ -2997,7 +3403,11 @@ def _check_one(args) -> None:
     # each time — which is exactly what the lane→scan collapse did to it: `tokens.badges.tint`
     # changed value, the guard matched a literal, and the badge sprites went unguarded while this
     # gate stayed green on the ring alone. So it is checked per primitive, not as an any-of.
-    for name in ("badges", "ring", "hatch"):
+    # ⚠ `promotion`, `count` and `pandemic` were added 2026-08-22. The first two words of this
+    # comment are the finding: V14 shipped declaring `tint: "lane"`, a value from the retired lane
+    # vocabulary that `assert_tintable` does not match — so the primitive whose whole advantage
+    # over Blizzard's own proc glow is that it is NEUTRAL was the one going unguarded.
+    for name in ("badges", "ring", "hatch", "promotion", "count", "pandemic"):
         art = tokens.get(name)
         if art is None:
             continue
@@ -3129,6 +3539,24 @@ def _check_one(args) -> None:
         if len(set(ranks.values())) != len(ranks):
             fails.append("two cues share a `rank` — the stack order would depend on dict order, "
                          "so two rows wearing the same pair could stack them differently.")
+
+    # 0e · A NEGATIVE CUE DOES NOT MOVE. Motion is the third polarity carrier (render-shelf.md
+    # V5.1, 2026-08-23), and it is the one the other two cannot cover: hue and glow are read where
+    # the eye already is, motion pulls it. A negative is up for as long as its skip is true, which
+    # in a pull is most of the fight, so animating one spends the player's attention on precisely
+    # the rows that wanted none of it. That was the player's own report on the first Demonology
+    # flight — the blinking negatives were "too much" — and it is the kind of ruling that decays
+    # back into prose the moment someone adds a cue and copies the two-frame `BOUNCE` off a
+    # neighbour, so it is a gate rather than a paragraph.
+    for key, cue in sorted(tokens["cues"].items()):
+        if cue.get("polarity") == "positive":
+            continue
+        if len(cue.get("frames") or []) > 1:
+            fails.append(
+                f"negative cue {key!r} declares {len(cue['frames'])} frames — a negative cue is a "
+                "STILL IMAGE (render-shelf.md V5.1). Motion carries polarity: gold + halo + "
+                "animation says act, red + still says skip. Pick the one frame that states the "
+                "condition on its own and drop the rest.")
 
     # 0f · the SHIPPED font is the one the shelf declares, byte for byte.
     #
@@ -3350,7 +3778,7 @@ def main() -> None:
     e = sub.add_parser("export",
                        help="write the shelf into the addon (Style.lua + badge art + Lab.lua)")
     e.add_argument("what", nargs="?", default="all",
-                   choices=["lua", "badges", "ring", "hatch", "promotion", "lab", "all"])
+                   choices=["lua", "badges", "ring", "hatch", "promotion", "count", "lab", "all"])
     e.set_defaults(func=cmd_export)
 
     c = sub.add_parser("check", help="doc-vs-sidecar and preview-staleness gates")

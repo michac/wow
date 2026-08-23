@@ -128,6 +128,11 @@
     var ruledOut = cueList.some(function (k) {
       return (T.cues[k] || {}).polarity !== "positive";
     });
+    // ⚠ THE THIRD ELIMINATING SIGNAL (render-shelf.md V17). `ruled-sealed` is a band the CLIENT
+    // evaluated against a secret cap never saw. It draws the same stripe sheet, out of the same
+    // FontString that draws the mark, so it reads exactly as ruled out — and it carries no cue,
+    // because a cue is a badge cap shows and this is not one.
+    if (rule.eliminates) ruledOut = true;
     if (ruledOut) item.appendChild(skipLayer());
 
     // Every non-`cd` row is IN THE SCAN and wears the edge. `press`, `press-promoted` and
@@ -159,6 +164,14 @@
       vm.title = "cap-owned icon — this ability has no Cooldown Manager frame";
       item.appendChild(vm);
     }
+
+    // The SEALED DISPLAYS (render-shelf.md V16-V19). Every one of them is art the client draws
+    // from a rule cap authored and never reads back, so the preview draws the SHAPE and states
+    // the value nowhere: a scenario names the sink, and what value the client found is exactly
+    // the thing cap cannot know.
+    (entry.sealed || []).forEach(function (kind) {
+      item.appendChild(sealedNode(kind, entry));
+    });
 
     var open = false;
     // Sorted by the cue's RANK, not by the order the catalog happened to name them, so two rows
@@ -371,19 +384,24 @@
   // a scenario row — so a gallery swatch and a live row can never diverge.
   function bareItem(name, verdict, opts) {
     opts = opts || {};
-    return itemNode({ name: name, verdict: verdict, cues: opts.cues }, 0).firstChild;
+    return itemNode({ name: name, verdict: verdict, cues: opts.cues,
+                      sealed: opts.sealed, count: opts.count }, 0).firstChild;
   }
 
   var SCAN_SAMPLES = D.scan_samples || [];
 
-  // V2 · in the scan. One swatch, because there is one treatment: an icon either participates
+  // V13 · in the scan. One swatch, because there is one treatment: an icon either participates
   // in the read or it does not. What used to be four hue-coded lanes is now carried by row
   // order plus elimination, which is what the reading rule already used.
+  //
+  // ⚠ The blend mode is READ OFF THE TOKEN, never restated here. It was `ADD` until 2026-08-23
+  // and this caption still said "additive" after the shelf had stopped saying it — a caption
+  // that names a value the token owns is a second copy that drifts.
   gallery.appendChild(swatch(
-    "in the scan · V2",
-    "a <b>" + T.ready.line_px + "px</b> additive edge at alpha " + T.ready.alpha + ", drawn ON " +
-      "the icon rect. Additive is why full brightness reads as a <b>hot line</b> rather than a " +
-      "painted one, and the restrained area is why full brightness is not loud. Every " +
+    "in the scan · V13",
+    "a <b>" + T.ready.line_px + "px</b> edge at alpha " + T.ready.alpha + ", blended <b>" +
+      T.ready.blend + "</b>, drawn ON the icon rect. The restrained <em>area</em> is what lets " +
+      "full brightness sit at alpha " + T.ready.alpha + " without the row shouting. Every " +
       "non-swiped row wears it <em>identically</em> — the press is the leftmost thing not " +
       "ruled out, not a thing cap draws. It has no falloff, so it cannot reach a neighbour.",
     function () { return bareItem(D.scan_sample, "press"); }
@@ -435,6 +453,59 @@
           { cues: [cueKeys[i % cueKeys.length]] }));
       });
       return strip;
+    }));
+
+  /* V16-V19 · the sealed displays.
+   *
+   * ⚠ These are here because the gallery's own copy promises every primitive the shelf declares
+   * — INCLUDING the ones no scenario exercises — and for a long time it did not keep that
+   * promise for these four: they were reachable only inside scenario rows, and V16 (a count
+   * band in its ordinary, non-eliminating direction) appears in no scenario at all. A primitive
+   * a shelf edit cannot be SEEN to change is a primitive nobody reviews.
+   *
+   * All four draw through the same `sealedNode` a scenario row uses, so a swatch and a live row
+   * cannot diverge. Every one of them states a SHAPE and no value: which band the client found
+   * is exactly the thing cap never learns.
+   */
+  gallery.appendChild(swatch("sealed · count bands · V16",
+    "the ordinary direction: the hatch across the face, the <code>" + T.count.mark + "</code> " +
+    "mark on the corner and the client's own <code>%d</code> on its plate — three separate " +
+    "FontStrings on three separate anchors, sharing an advance width with nothing. <b>No " +
+    "scenario draws this direction</b>, which is why it is here.",
+    function () {
+      return bareItem(D.scan_sample, "press", { sealed: ["count-bands"], count: 4 });
+    }));
+
+  gallery.appendChild(swatch("sealed · count bands · V17 (complement)",
+    "the same sink at <code>verdict: ruled-sealed</code> — the band that ELIMINATES, in " +
+    "<code>count.low_rgb</code>. Not a fifth primitive: V16's own escape read the other way, " +
+    "which is why hatch and mark change hue together. ⚠ Only honest where <em>low is bad</em>; " +
+    "on a rising resource it would invert a fact the player experiences as progress.",
+    function () {
+      return bareItem(D.scan_sample, "ruled-sealed", { sealed: ["count-bands"], count: 3 });
+    }));
+
+  gallery.appendChild(swatch("sealed · count bar · V18",
+    "the same sealed number as a <b>shape</b> — a radial <code>StatusBar</code> inset <b>" +
+    T.arc.inset_px + "px</b>, at a nominal fraction on purpose. ⚠ A bar has <b>no blank " +
+    "state</b>: <code>SetValue</code> clamps into [0, max], so the track is on the row at every " +
+    "value including zero — the straight trade against V16, which can be silent and cannot be " +
+    "a shape. It takes the pixel the first badge would.",
+    function () { return bareItem(D.scan_sample, "press", { sealed: ["count-bar"] }); }));
+
+  gallery.appendChild(swatch("sealed · refresh window · V19",
+    "<code>" + T.pandemic.frame + "</code> at <b>" + T.pandemic.size_px + "px</b>, breathing " +
+    "on a <b>" + T.pandemic.pulse.duration_s + "s</b> loop. ⚠ The one sealed display cap " +
+    "authors <b>no threshold</b> for: the client computes <code>GetRefreshExtendedDuration " +
+    "&minus; GetAuraBaseDuration</code> per spell and seals <code>Shown</code>, so the badge " +
+    "appears and vanishes on Blizzard's real window, not on our guess at one.",
+    function () { return bareItem(D.scan_sample, "press", { sealed: ["refresh-window"] }); }));
+
+  gallery.appendChild(swatch("sealed · V18 + V19 on one corner",
+    "both client-drawn displays in the badge stack's own pixel — the state DEM-8 is flown for. " +
+    "Whether that reads as one statement or as a mess is a question for the eye, not a gate.",
+    function () {
+      return bareItem(D.scan_sample, "press", { sealed: ["count-bar", "refresh-window"] });
     }));
 
   // The frame strips, so the art itself is inspectable rather than only seen in motion.
@@ -543,6 +614,79 @@
       n.style.webkitMaskImage = n.style.maskImage = "url(" + sheet.uri + ")";
     }
     return n;
+  }
+
+  /* One sealed display, drawn as the shape it is rather than at a value it cannot have.
+   *
+   *   count-bands    — V16/V17. The plate and the mark the fired band names, in the corner. When
+   *                    the row is `ruled-sealed` the hatch above is the same band's other escape,
+   *                    which is why nothing extra is drawn for it here.
+   *   count-bar      — V18. The radial, inside the badge plate. Drawn at a nominal fraction: a
+   *                    bar has no blank state, so "there is an arc here" is the whole claim.
+   *   refresh-window — V19. The badge the client shows and hides on Blizzard's own window.
+   */
+  function sealedNode(kind, entry) {
+    var negative = entry.verdict === "ruled-sealed";
+    if (kind === "count-bar") {
+      var bar = el("div", "sealed sealed-count-bar");
+      var arc = el("div", "sealed-arc");
+      arc.style.setProperty("--sx-frac", "62%");
+      bar.appendChild(el("div", "sealed-plate"));
+      bar.appendChild(arc);
+      return bar;
+    }
+    if (kind === "refresh-window") {
+      var w = el("div", "sealed sealed-refresh-window");
+      w.appendChild(el("div", "sealed-plate"));
+      var wm = el("div", "sealed-mark");
+      var wa = (D.frames || {})[T.pandemic.frame];
+      if (wa && wa.uri) wm.style.webkitMaskImage = wm.style.maskImage = "url(" + wa.uri + ")";
+      wm.style.setProperty("--sx-ink", "var(--pd-rgb)");
+      w.appendChild(wm);
+      return w;
+    }
+
+    /* count-bands. THREE ELEMENTS, THREE SLOTS — the hatch across the face, the badge on the
+     * corner, the numeral on the badge's plate. Each is its own AuraContainer slot with its own
+     * button, FontString and band table (`Channel.CountElements`), so nothing here shares an
+     * advance width with anything.
+     *
+     * ⚠ It was drawn as a flowing RUN until 2026-08-23, and that was correct for the design it
+     * was written against: measured [client 2026-08-22], an escape's `:xoff:yoff` displaces a
+     * mark but does not remove it from the line, so four escapes in one string came to ~96px on
+     * a 56px button. `UpdateAura` offering every aura to every slot removed the premise — and
+     * this comment outlived it, which is the failure mode a preview has: it kept drawing a
+     * picture the client had stopped producing, and a preview that MALIGNS the style is as
+     * useless as one that flatters it.
+     */
+    var run = el("div", "sealed sealed-run");
+    var hatch = el("div", "sealed-band-hatch");
+    hatch.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
+    // Same sheet, same call-time resolution, same reason as `maskedStripe`: `D.lab_stripes` is
+    // a build-time data: URI and a module-scope hoist of it is still undefined when the gallery
+    // runs. Without it this layer is a flat field of the escape's colour over the whole icon.
+    var stripes = D.lab_stripes;
+    if (stripes) {
+      hatch.style.webkitMaskImage = hatch.style.maskImage = "url(" + stripes.uri + ")";
+    }
+    run.appendChild(hatch);
+
+    var badge = el("div", "sealed-band-badge");
+    badge.appendChild(el("div", "sealed-plate"));
+    var mark = el("div", "sealed-mark");
+    var art = (D.frames || {})[T.count.mark];
+    if (art && art.uri) mark.style.webkitMaskImage = mark.style.maskImage = "url(" + art.uri + ")";
+    mark.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
+    badge.appendChild(mark);
+    run.appendChild(badge);
+
+    // The numeral, which is the client's `%d` and therefore the one element that can never be a
+    // fixed-width baked crop. It is why the run's width moves at all.
+    var n = el("div", "sealed-band-count");
+    n.textContent = entry.count != null ? String(entry.count) : "2";
+    n.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
+    run.appendChild(n);
+    return run;
   }
 
   function hatchLayer() {
@@ -863,6 +1007,336 @@
     return item;
   }
 
+  /* Part 7 · a secret aura APPLICATION COUNT reaching a pixel.
+   *
+   * Two renderers, because the client offers two genuinely different sinks for the same fact.
+   *
+   * `countItem` is the NumericRuleFormatter route: cap authors a breakpoint table, the client
+   * evaluates it against the sealed count and calls SetText with the result. This function does
+   * exactly what `ApplyApplicationCount` does — pick the highest breakpoint whose threshold the
+   * value reaches, clamp, format — because that is the only way the cell can be an argument
+   * about the client rather than about this file.
+   *
+   * ⚠ The value is drawn from the cell, never read back from anything. In the client the number
+   * is SECRET: cap hands over a rule and never learns which band fired. A cell says "at 4
+   * stacks" so a reader can judge the look; it is not a claim cap can know that.
+   */
+  function bandFor(bands, value) {
+    var hit = null;
+    (bands || []).forEach(function (b) {
+      if (value >= b.threshold && (!hit || b.threshold >= hit.threshold)) hit = b;
+    });
+    return hit;
+  }
+
+  function bandText(bands, value) {
+    var b = bandFor(bands, value);
+    if (!b) return { text: "", rgb: null };
+    var v = value;
+    if (b.step) v = Math.round(v / b.step) * b.step;
+    if (b.min != null && v < b.min) v = b.min;
+    if (b.max != null && v > b.max) v = b.max;
+    // The client's own colour escape, resolved the way the client resolves it. The hue lives in
+    // the band's format string because that is where cap has to put it -- the count sink adds
+    // Text and Shown and never VertexColor, so per-band hue has nowhere else to go.
+    var rgb = null;
+    var fmt = b.format || "";
+    var esc = fmt.match(/^\|c[fF]{2}([0-9a-fA-F]{6})(.*)\|r$/);
+    if (esc) {
+      rgb = "#" + esc[1];
+      fmt = esc[2];
+    }
+    return { text: fmt.replace("%d", String(v)), rgb: rgb };
+  }
+
+  /* `countMarkItem` is the same formatter, with a TEXTURE ESCAPE in the band instead of a
+   * numeral. Measured 2026-08-21: `|T…|t` and `|A:…|a` inside a band's `format` RENDER as art.
+   *
+   * ⚠ The interesting cells are the COMPOSITED ones. A plate cap draws is an ordinary texture
+   * with no sink on it, so it draws at every value including the ones the band blanks (see the
+   * `place: "badge"` cells in L1). But the escape may name art that ALREADY CONTAINS the plate —
+   * one crop, disc and glyph together — and then the plate's visibility rides the band for free.
+   * That is the difference between a badge that appears and a badge that is always there and
+   * sometimes has a glyph in it.
+   */
+  // ⚠ ALL escapes, not the first. One format string may carry several -- the long form takes
+  // `:xoff:yoff` after the size, which is how a real UI places more than one mark in one
+  // FontString instead of letting them flow side by side. So "hatch the whole icon AND put a
+  // badge in the corner" is ONE band, not two sinks: there is only one count FontString per
+  // button and it has to carry everything the count says.
+  var ESCAPE = /\|[AT]:?([A-Za-z0-9_\\/.-]+):(\d+):(\d+)(?::(-?\d+):(-?\d+))?[^|]*\|[at]/g;
+
+  function marksFromFormat(fmt) {
+    var out = [], rest = fmt, m;
+    ESCAPE.lastIndex = 0;
+    while ((m = ESCAPE.exec(fmt)) !== null) {
+      out.push({ frame: m[1].split(/[\\/]/).pop(), h: +m[2], w: +m[3] });
+      rest = rest.replace(m[0], "");
+    }
+    return { marks: out, rest: rest };
+  }
+
+  function countMarkItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    // The BAND INPUT is whatever the sink is driven by. The count sinks band on
+    // `auraData.applications`; `SetDurationText` bands on a DurationTextBindingProperty --
+    // RemainingPercent here -- through the same NumericFormatter object. One renderer, because
+    // it is one formatter: what changes is which sealed number the client feeds it.
+    var value = (cell.remaining_pct != null) ? cell.remaining_pct : cell.stacks;
+    var b = bandFor(cell.bands, value);
+    var fmt = (b && b.format) || "";
+    var parsed = marksFromFormat(fmt);
+    var corner = [];
+    parsed.marks.forEach(function (mk) {
+      // The hatch sheet is a mark like any other -- it is just 56x56 and centred, so it covers
+      // the icon instead of sitting on a corner. Nothing about the sink changes; only the size
+      // in the escape does. This is why "hatch the row" needs no extra layer and no second
+      // frame: it is one more texture a band can name.
+      if (mk.frame === "stripes") item.appendChild(skipLayer());
+      else corner.push(mk);
+    });
+
+    var host = el("div", cell.place === "badge" ? "mark-slot" : "mark-centre");
+    if (cell.composited) host.classList.add("composited");
+    if (cell.motion === "pulse") {
+      host.classList.add("pulsing");
+      host.style.setProperty("--mk-dur", "var(--lab-" + key + "-cg-pulse-dur)");
+      host.style.setProperty("--mk-a0", "var(--lab-" + key + "-cg-pulse-a0)");
+      host.style.setProperty("--mk-a1", "var(--lab-" + key + "-cg-pulse-a1)");
+      host.style.setProperty("--mk-scale", "var(--lab-" + key + "-cg-pulse-scale)");
+    }
+    host.style.setProperty("--mk-size", "var(--lab-" + key + "-cg-size)");
+    host.style.setProperty("--mk-rgb", cell.alt_hue
+      ? "var(--lab-" + key + "-cg-alt)" : "var(--lab-" + key + "-cg-rgb)");
+
+    corner.forEach(function (mk) {
+      var art = (D.frames || {})[mk.frame];
+      var sprite = el("div", "mark-sprite");
+      if (art && art.uri) {
+        sprite.style.webkitMaskImage = sprite.style.maskImage = "url(" + art.uri + ")";
+      }
+      host.appendChild(sprite);
+    });
+    // A band may carry BOTH — `"%d|T…|t"` was accepted and drawn. The numeral sits beside the
+    // mark rather than under it, because a band that says "5, and here is the mark" is one
+    // statement.
+    var textPart = parsed.rest;
+    if (textPart) {
+      var n = el("div", "mark-text");
+      n.textContent = textPart.replace("%d", String(value));
+      n.style.setProperty("--cn-size", "var(--lab-" + key + "-cg-size)");
+      n.style.setProperty("--cn-outline", "1px");
+      n.style.setProperty("--cn-rgb", "var(--lab-" + key + "-cg-rgb)");
+      host.appendChild(n);
+    }
+    // ⚠ EMPTY IS A RESULT. A band drawing nothing appends the host anyway, so a composited cell
+    // at a resting value shows an EMPTY CORNER rather than an empty disc -- which is the whole
+    // finding and would be invisible if the host were skipped.
+    if (!corner.length && !textPart) host.classList.add("blank");
+    item.appendChild(host);
+    return item;
+  }
+
+  /* `pandemicItem` is the odd one out and the only sink where the CLIENT owns visibility.
+   * `AddPandemicRegion(region)` takes any Region -- a Frame with children included -- seals its
+   * `Shown`, and calls SetShown(inPandemicWindow) every frame off Blizzard's own
+   * GetRefreshExtendedDuration - GetAuraBaseDuration. So cap authors NO threshold, and every
+   * treatment below is cap-owned art whose only sealed property is whether it is on screen.
+   */
+  function pandemicItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    if (!cell.in_window) {
+      // The out-of-window cell draws the row with nothing added, which is the correct picture:
+      // the client has hidden the region, and a hidden region is not a faint one.
+      var off = el("div", "pd-off");
+      item.appendChild(off);
+      return item;
+    }
+    var shape = cell.shape || "wash";
+    var n = el("div", "pd-" + shape);
+    n.style.setProperty("--pd-rgb", "var(--lab-" + key + "-pd-rgb)");
+    n.style.setProperty("--pd-wash", "var(--lab-" + key + "-pd-wash)");
+    n.style.setProperty("--pd-edge", "var(--lab-" + key + "-pd-edge)");
+    n.style.setProperty("--pd-foot", "var(--lab-" + key + "-pd-foot)");
+    n.style.setProperty("--pd-size", "var(--lab-" + key + "-pd-size)");
+    if (cell.motion === "pulse") {
+      n.classList.add("pulsing");
+      n.style.setProperty("--mk-dur", "var(--lab-" + key + "-pd-pulse-dur)");
+      n.style.setProperty("--mk-a0", "var(--lab-" + key + "-pd-pulse-a0)");
+      n.style.setProperty("--mk-a1", "var(--lab-" + key + "-pd-pulse-a1)");
+    }
+    if (shape === "badge") {
+      var art = (D.frames || {})[cell.frame];
+      var sp = el("div", "mark-sprite");
+      sp.style.setProperty("--mk-rgb", "var(--lab-" + key + "-pd-rgb)");
+      if (art && art.uri) sp.style.webkitMaskImage = sp.style.maskImage = "url(" + art.uri + ")";
+      n.appendChild(sp);
+    }
+    item.appendChild(n);
+    return item;
+  }
+
+  /* `compositeItem` draws a row wearing SEVERAL sinks at once, which is the only way to judge
+   * whether a design survives contact with a real row. Each layer names the sink that would
+   * draw it in the client, because the point of the cell is the combination and not the parts:
+   *
+   *   hatch  -> a 56x56 texture escape in the count FontString's band
+   *   arc    -> SetApplicationBar (or SetDurationBar) in Radial render mode
+   *   ring   -> a full static crop from the count band, covering the arc when the threshold IS
+   *             the maximum -- which is why no texture ever has to crop angularly
+   *   mark   -> a composited plate+glyph crop from the same band
+   *   count  -> `%d` in the same band, beside the mark
+   *   absent -> the aura is not up, so the CLIENT has hidden the button and no sink draws
+   */
+  function compositeItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var v = function (h) { return "var(--lab-" + key + "-cx-" + h + ")"; };
+
+    if (cell.absent) {
+      item.classList.add("cx-absent");
+      // The hatch for an absent aura is cap's OWN frame on the readable `aura` latch, not a
+      // sink -- so it is drawn here even though everything else on the row is not.
+      if (cell.hatch) item.appendChild(maskedStripe("stripes skip-hatch", v(cell.hatch),
+                                                    "var(--hatch-skip-phase)"));
+      return item;
+    }
+    if (cell.hatch) {
+      item.appendChild(maskedStripe("stripes skip-hatch", v(cell.hatch),
+                                    "var(--hatch-skip-phase)"));
+    }
+
+    var slot = el("div", "cx-slot");
+    var any = false;
+    // The PLATE goes down first whenever anything occupies the corner. Every badge on a cap row
+    // wears one -- light art over busy icon work washes out, and contrast is the cheap fix --
+    // so an arc badge that skipped it was the odd one out and looked like a floating ring.
+    if (cell.arc || cell.ring || cell.mark || cell.count != null || cell.plate) {
+      slot.appendChild(el("div", "cx-plate"));
+      any = true;
+    }
+    if (cell.arc) {
+      var arc = el("div", "cx-arc");
+      arc.style.setProperty("--cx-inset", v("arc-inset"));
+      arc.style.setProperty("--cx-hue", v(cell.arc.hue));
+      arc.style.setProperty("--cx-track", v("arc-track"));
+      arc.style.setProperty("--cx-frac", cell.arc.pct + "%");
+      slot.appendChild(arc); any = true;
+    }
+    if (cell.ring) {
+      var ring = el("div", "cx-ring");
+      ring.style.setProperty("--cx-hue", v(cell.ring));
+      ring.style.setProperty("--cx-inset", v("arc-inset"));
+      slot.appendChild(ring); any = true;
+    }
+    if (cell.mark) {
+      var host = el("div", "cx-mark");
+      var art = (D.frames || {})[cell.mark.frame];
+      var sp = el("div", "mark-sprite");
+      sp.style.setProperty("--mk-rgb", v(cell.mark.hue));
+      sp.style.setProperty("--cx-size", v("size"));
+      if (art && art.uri) sp.style.webkitMaskImage = sp.style.maskImage = "url(" + art.uri + ")";
+      host.appendChild(sp);
+      slot.appendChild(host); any = true;
+    }
+    if (cell.count != null) {
+      var n = el("div", "cx-count");
+      n.textContent = String(cell.count);
+      n.style.setProperty("--cx-size", v("size"));
+      n.style.setProperty("--cx-ink", v(cell.count_hue || "ink"));
+      slot.appendChild(n); any = true;
+    }
+    // The pulse rides the SLOT, so everything gated by the band breathes together on one clock.
+    // Two loops at different rates on one row read as malfunction.
+    if (cell.pulse) {
+      slot.classList.add("pulsing");
+      slot.style.setProperty("--mk-dur", v("pulse-dur"));
+      slot.style.setProperty("--mk-a0", v("pulse-a0"));
+      slot.style.setProperty("--mk-a1", v("pulse-a1"));
+      slot.style.setProperty("--mk-scale", v("pulse-scale"));
+    }
+    if (any) item.appendChild(slot);
+    return item;
+  }
+
+  function countItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var n = el("div", "count-band");
+    var out = bandText(cell.bands, cell.stacks);
+    n.textContent = out.text;
+    n.style.setProperty("--cn-size", "var(--lab-" + key + "-cn-size)");
+    n.style.setProperty("--cn-outline", "var(--lab-" + key + "-cn-outline)");
+    // Three hue sources, in the order the client resolves them: a band's own escape wins, then a
+    // cell's static SetTextColor, then the entry's default. A cell drawing nothing keeps whatever
+    // it would have had -- an empty string has no colour to argue about.
+    n.style.setProperty("--cn-rgb", out.rgb ? out.rgb
+      : cell.static_rgb ? rgbCss(cell.static_rgb)
+      : "var(--lab-" + key + "-cn-rgb)");
+    if (cell.size_px) n.style.setProperty("--cn-size", cell.size_px + "px");
+    // `place: "badge"` puts the string inside the badge stack's own disc, at the badge stack's
+    // own corner. The plate is a plain cap texture with no sink on it -- so unlike the numeral
+    // it cannot be driven by the sealed count, and it draws at every value including the ones
+    // the band blanks. A cell at a blanked value is drawn for exactly that reason.
+    if (cell.place === "badge") {
+      var disc = el("div", "count-plate");
+      disc.appendChild(n);
+      item.appendChild(disc);
+      return item;
+    }
+    item.appendChild(n);
+    return item;
+  }
+
+  /* `countBarItem` is SetApplicationBar: the client sets min/max from cap's authored
+   * `maxApplications` and SetValue's the sealed count into it. The fill is a texture cap chose,
+   * which is why this is the only count route that reaches a SHAPE rather than a numeral.
+   *
+   * ⚠ It has no blank state and the cells are written to show that. SetValue clamps into
+   * [0, max], so at zero the track is still drawn -- there is no band, no complement, and no
+   * "nothing until N". That is the trade against the formatter, and it is the whole question.
+   */
+  function countBarItem(key, spec, cell) {
+    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var max = Math.max(cell.max || 1, 1);
+    var frac = Math.min(Math.max((cell.stacks || 0) / max, 0), 1);
+    // Three shapes, and the third is a different RENDER MODE rather than a different look:
+    // Radial drives the texture's radial progress percent instead of moving its anchors. Same
+    // SetValue, same sealed BarValue, an arc instead of a waterline.
+    if (cell.shape === "radial") {
+      var arc = el("div", "count-radial");
+      arc.style.setProperty("--cb-rgb", "var(--lab-" + key + "-cb-rgb)");
+      arc.style.setProperty("--cb-track", "var(--lab-" + key + "-cb-track)");
+      arc.style.setProperty("--cb-frac", (frac * 100).toFixed(1) + "%");
+      item.appendChild(arc);
+      return item;
+    }
+    if (cell.shape === "ring") {
+      // The arc drawn as a RING around the whole icon rather than as a corner disc: the same
+      // radial render mode, hung on the perimeter, where it competes with the badge stack for
+      // nothing. ⚠ It competes with V13's scan edge for the border instead.
+      var ring = el("div", "count-ring");
+      ring.style.setProperty("--cb-rgb", "var(--lab-" + key + "-cb-rgb)");
+      ring.style.setProperty("--cb-track", "var(--lab-" + key + "-cb-track)");
+      ring.style.setProperty("--cb-ring", "var(--lab-" + key + "-cb-ring)");
+      ring.style.setProperty("--cb-frac", (frac * 100).toFixed(1) + "%");
+      item.appendChild(ring);
+      return item;
+    }
+    var track = el("div", cell.shape === "disc" ? "count-disc" : "count-bar-track");
+    track.style.setProperty("--cb-h", "var(--lab-" + key + "-cb-h)");
+    track.style.setProperty("--cb-track", "var(--lab-" + key + "-cb-track)");
+    var fill = el("div", "count-fill");
+    fill.style.setProperty("--cb-rgb", "var(--lab-" + key + "-cb-rgb)");
+    fill.style.setProperty("--cb-frac", (frac * 100).toFixed(1) + "%");
+    track.appendChild(fill);
+    item.appendChild(track);
+    return item;
+  }
+
+  function rgbCss(t) {
+    return "rgba(" + Math.round(t[0] * 255) + "," + Math.round(t[1] * 255) + "," +
+           Math.round(t[2] * 255) + ",1)";
+  }
+
   var LAB_FONTS = D.lab_fonts || {};
 
   var LAB = T.lab || {};
@@ -905,6 +1379,42 @@
         }
         if (cell.kind === "row") {
           e.row.appendChild(labCell(readyRow(key, spec, cell), cap));
+          return;
+        }
+        if (spec.draws === "count") {
+          var headC = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code> · at <b>" + cell.stacks + "</b> stacks<br>";
+          e.row.appendChild(labCell(countItem(key, spec, cell), headC + cap));
+          return;
+        }
+        if (spec.draws === "count-glyph") {
+          var headCG = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                       "</code> · at <b>" + cell.stacks + "</b> stacks<br>";
+          e.row.appendChild(labCell(countMarkItem(key, spec, cell), headCG + cap));
+          return;
+        }
+        if (spec.draws === "composite") {
+          var headX = "<b>" + cell.ability + "</b> · <code>" + (cell.state || "") + "</code><br>";
+          e.row.appendChild(labCell(compositeItem(key, spec, cell), headX + cap));
+          return;
+        }
+        if (spec.draws === "duration") {
+          var headD = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                      "</code> · <b>" + cell.remaining_pct + "%</b> of its duration left<br>";
+          e.row.appendChild(labCell(countMarkItem(key, spec, cell), headD + cap));
+          return;
+        }
+        if (spec.draws === "pandemic") {
+          var headPD = "<b>" + cell.ability + "</b> · <code>" +
+                       (cell.in_window ? "IN the refresh window" : "outside it") + "</code><br>";
+          e.row.appendChild(labCell(pandemicItem(key, spec, cell), headPD + cap));
+          return;
+        }
+        if (spec.draws === "count-bar") {
+          var headCB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+                       "</code> · <b>" + cell.stacks + "</b> of <b>" + cell.max +
+                       "</b><br>";
+          e.row.appendChild(labCell(countBarItem(key, spec, cell), headCB + cap));
           return;
         }
         if (spec.draws === "hotkey") {

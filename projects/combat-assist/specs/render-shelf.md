@@ -224,12 +224,22 @@ a design choice, not a platform constraint, unless marked otherwise.
 | Surface | Where | Carries | Notes |
 | --- | --- | --- | --- |
 | **Icon face** | the art itself | nothing — cap draws no treatment here | **Desaturation is Blizzard's and cap does not draw it.** The CDM already desaturates and re-tints the icon on its own refresh — `SPELL_UPDATE_USABLE` drives icon colour continuously (`cooldown-manager.md:700, :755`), which is the client's built-in "you cannot cast this" channel. cap adding a second one would restate a signal the player already has. |
-| **Scan edge** | a thin additive line on the icon edge | one bit: the row is in the scan, or it is not | Static — nothing about it moves (V13). Drawn on cap's own frame, sized to the icon rect, so it needs no host scale-up and cannot reach a neighbour. |
+| **Scan edge** | a thin opaque line on the icon edge | one bit: the row is in the scan, or it is not | Static — nothing about it moves (V13). Drawn on cap's own frame, sized to the icon rect, so it needs no host scale-up and cannot reach a neighbour. |
 | **Corner badge stack** | discs hung off the **top-right** corner, flowing **down** the right edge | one cue each, as many as the row wears | Filled circles at `tokens.badges.diameter_pct` of icon width, overhanging by `tokens.badges.overhang_px` (V5). The first badge always sits on the corner; further badges pack downward in `rank` order. **Polarity is carried by hue and glow, not by position** (V5). |
 | **Hotkey text** | the icon's **top-left** corner | the key bound to this ability — nothing else | **Chrome, not a cue** (`spec.md` §3.8): it names the row and takes no part in the scan. One static outlined FontString on cap's own frame (V15), drawn from `tokens.hotkey`. Blank when the ability is unbound or reached only through a macro. It sits at the corner opposite the badge flow, so the two never negotiate a place. |
 | **Cooldown swipe** | the radial dial | remaining time | Can be *restyled* without knowing the time (see V7). |
 | **Count tile** | Blizzard's own aura count position | a sealed stack number | Client-owned; cap never learns the value. |
 | **Independent bar** | anywhere on screen | one duration, large | Off-icon surface. |
+
+⚠ **And they stack in one DECLARED order: an ELIMINATING mark draws over an INCLUDING one.**
+Several of these surfaces sit on the same pixels — a scan edge saying *this row is in the read*
+and a hatch saying *this row is out* are contradictory statements about one icon, and the reader
+resolves the contradiction by whichever is on top. Until 2026-08-23 neither frame declared a
+level, so the client resolved it by construction order: the yellow edge drew over the red hatch,
+which is the wrong way round, and it was wrong by accident rather than by argument. The container
+that carries an eliminating mark now sets its own frame level explicitly above the row's, so the
+skip always wins the overlap. **Draw order across frames is decided by frame level, not by draw
+layer**, so this cannot be expressed by choosing a layer and hoping.
 
 **What Blizzard already occupies on a CDM item** — read off `Blizzard_CooldownViewer` at
 **12.0.7**, under a standing ⚠ *12.1 rewrote this system and this has not been re-flown*:
@@ -375,7 +385,7 @@ reads as *on top of* the icon rather than *inside* it.
   white-with-shape-in-alpha art that composite **is** what `SetVertexColor`'s multiply produces. It
   is not a hue-rotate.
 
-### V5.1 · The four cues
+### V5.1 · The cue vocabulary
 
 The whole vocabulary. Each is a **single state** that either draws or does not — never a two-state
 marker whose satisfied state happens to be invisible. `spec.md` §3.2 says *"a catalog form that
@@ -386,9 +396,9 @@ loads successfully and then renders nothing is a defect"*, and that test only ke
 | --- | --- | --- | --- | --- | --- |
 | **`priority`** | **positive** | `fire` (still — V14's ring is what moves) | `HOLD` | 1 | press this one — the scan would reach it late, or only after stepping over more skips than a reader can hold at once |
 | **`capped`** | **positive** | `cards_stack → cards_stack_high` | `BOUNCE` | 2 | charges are at max and the recharge is stalled — you are losing one right now |
-| **`blocked`** | negative | `timer_0 → CW_25 → CW_50 → CW_75 → timer_100` | `REPEAT` | 3 | held for a cooldown, or a readable dependency says the press would be wasted |
-| **`starved`** | negative | `flask_empty → flask_half` | `BOUNCE` | 4 | you cannot afford it |
-| **`overcap`** | negative | `flask_half → flask_full` | `BOUNCE` | 5 | pressing would waste resource |
+| **`blocked`** | negative | `timer_CW_50` (still) | `HOLD` | 3 | held for a cooldown, or a readable dependency says the press would be wasted |
+| **`starved`** | negative | `flask_empty` (still) | `HOLD` | 4 | you cannot afford it |
+| **`overcap`** | negative | `flask_full` (still) | `HOLD` | 5 | pressing would waste resource |
 | **`st_only`** | negative | `pawn` (still) | `HOLD` | 6 | the single-target spender while AoE mode is on |
 | **`aoe_only`** | negative | `pawns` (still) | `HOLD` | 7 | the AoE spender in single target |
 
@@ -416,11 +426,40 @@ claim they have to take on trust.
 eye lands. `check` asserts the ordering rather than the absolute positions, which is what lets the
 vocabulary grow without renegotiating geometry.
 
-**`capped` animates exactly like the two flask cues** — a two-frame `BOUNCE` at the same
-`duration_s`, a thin stack growing to a full one. Frame cadence is the *shared* idiom of the badge
-vocabulary and carries no polarity; what separates this cue from the negatives is its hue, its
-slot, and the glow below. Making it a still image had it reading as a different **kind** of widget
-rather than a different **kind of statement**, which is not the distinction that matters.
+⚠ **Every negative is a STILL IMAGE, and motion is the third polarity carrier.** Until 2026-08-23
+the negatives animated — `blocked` swept a clock through five frames, `starved` and `overcap`
+bounced a flask — and frame cadence was declared the *shared* idiom of the vocabulary, carrying no
+polarity. That was wrong, and the thing that proved it is **dwell time**. A positive cue is up for
+the moment you are meant to act on; a negative is up for as long as the skip is true, which in a
+real pull is most of the fight. Motion the eye cannot finish reading is motion it keeps returning
+to, so a vocabulary whose *skips* move spends the player's attention on exactly the rows that
+wanted none of it. Stillness is not a downgrade here — it is the correct rendering of "nothing is
+happening on this row."
+
+So the carriers run **hue, glow, motion**, and all three agree: gold + halo + animation says act,
+red + still says skip. `priority` was already still by this logic before there was a rule for it
+(V14's promotion ring is what moves), and `st_only` / `aoe_only` were still from the day they were
+authored. This ruling generalises what those three were already doing rather than inventing
+anything, and `capart check` gate **0e** enforces it — a negative cue declaring more than one frame
+is a hard failure, because this is exactly the rule that decays back into prose the moment someone
+adds a cue and copies the two-frame `BOUNCE` off a neighbour.
+
+**It also removed a real collision.** `starved` bounced `flask_empty → flask_half` and `overcap`
+bounced `flask_half → flask_full`, so the two cues **shared a frame**: at any instant either could
+be showing the identical half-full flask, and the only way to tell "you cannot afford it" from
+"pressing would waste it" was to watch which way the animation was travelling. Two negatives with
+opposite meanings were distinguishable only over time. The stills — empty for starved, full for
+overcap — are unambiguous in a glance, which is the only budget a corner badge has.
+
+⚠ **Dropping `blocked` to one frame took `timer_CW_75` off the badge sheet, and V19 draws it.**
+The pandemic badge names a sprite it does not ship, borrowing off the cue vocabulary's frame list;
+nothing declared the borrow, so it would have silently stopped shipping — no missing file, no
+failing gate, a corner of the overlay simply blank. `capart.BORROWED_FRAMES` declares it now, and
+`export badges` prunes what the shelf no longer names.
+
+**`capped` keeps its `BOUNCE`** and is now the only cue in the vocabulary whose glyph moves at all:
+a thin stack growing to a full one, which is the loss it is warning about, drawn. It is positive,
+it is up for as long as you are wasting a charge, and it is meant to be chased.
 
 ⚠ **The positive cues glow; no negative does.** This is the second polarity carrier, and with
 position no longer carrying it (V5) the two that remain are load-bearing: a negative cue that
@@ -429,7 +468,8 @@ between `alpha_min` and `alpha_max` at `hz`. The **glyph itself holds full alpha
 faded would blink the fact it carries, which is exactly what the `tokens.text` flicker limits exist
 to forbid, and those limits (`max_hz` 2.0) are the ceiling this rate sits under. The halo may
 breathe; the information may not. The glow is what earns the extra attention impending loss needs
-in peripheral vision; the frame bounce is just the house style.
+in peripheral vision, and since 2026-08-23 the frame bounce reinforces it rather than being house
+style a negative also wore.
 
 **How the frames step.** One shared `C_Timer.NewTicker` walks every visible badge; each one
 shows frame `floor(elapsed / (duration_s / #frames))` mapped through its `loop`, so the cadence is
@@ -688,11 +728,18 @@ nothing. There is no ladder, no hue, no thickness variation and no motion — **
 left-to-right row order plus elimination** (Part 0.5), which is the only ranking channel that
 survives a player not having memorised a legend.
 
-- **Additive, at full brightness, on a restrained area.** `SetBlendMode("ADD")`, so the edge reads
-  as a *hot line lit over* the icon rather than as a painted frame around it. Perceived glow is
-  roughly luminance × area: this keeps the luminance and spends the area, which is what lets
-  `tokens.ready.alpha` sit at 1.00 without the row shouting. (`SetBlendMode`'s five values are
-  Tier-1 — `frames-textures-animation.md` §5.2.)
+- **Opaque, at full brightness, on a restrained area.** `SetBlendMode(tokens.ready.blend)`, which
+  reads `BLEND`. Perceived glow is roughly luminance × area: this keeps the luminance and spends
+  the area, which is what lets `tokens.ready.alpha` sit at 1.00 without the row shouting.
+  (`SetBlendMode`'s five values are Tier-1 — `frames-textures-animation.md` §5.2.)
+
+  ⚠ **`ADD` was a correction, not a preference, and the shelf now declares the mode so it cannot
+  be re-chosen in Lua.** Additive is destination + source, so it can only ever brighten toward
+  white — and adding `rgb(1.00, 0.86, 0.45)` saturates red unconditionally, green above 0.14 and
+  blue above 0.55. On any icon that is not near-black the line clipped to **WHITE**, measured on
+  Demonology's purple roster `[client 2026-08-23]`. The colour declared three lines above this was
+  not reaching a pixel. A blend mode that makes the authored hue undrawable is the thing that gives
+  way, not the hue.
 - **It sits ON the icon rect**, not outside it. It therefore has no falloff to overlap with, and
   **cannot bleed into a neighbour at any row gap** — the failure the retired V1 ring and the V2
   arrival were both priced against. cap's overlay frame is the item's own rect for the same reason;
@@ -709,15 +756,17 @@ survives a player not having memorised a legend.
   -- Four colour strips, built once, out of combat. No texture file, no tex-coords, no group.
   for _, t in ipairs(Paint.buildRing(edge, T.ready.line_px)) do
     t:SetColorTexture(T.ready.rgb[1], T.ready.rgb[2], T.ready.rgb[3], T.ready.alpha)
-    t:SetBlendMode("ADD")
+    t:SetBlendMode(T.ready.blend)
   end
 
   edge:SetShown(inScan)          -- the only in-combat write this primitive makes
   ```
   The in-combat surface is one `Show`/`Hide`. Everything else happens when the roster is bound.
 - **Preview reproduction.** A 1-element `box-shadow: inset 0 0 0 var(--ready-line)` in
-  `--ready-rgb` at `--ready-alpha`, composited `screen` — the CSS analogue of an additive multiply
-  on white. Same rect, same width, same colour, and nothing animates it there either.
+  `--ready-rgb` at `--ready-alpha`, composited `mix-blend-mode: var(--ready-blend)` — `capart` maps
+  the client's mode to the CSS one (`BLEND` → `normal`, `ADD` → `plus-lighter`), so the preview
+  cannot show a hue the client would clip. Same rect, same width, same colour, and nothing animates
+  it there either.
 
 ### V15 · Hotkey text — the row's name
 
@@ -797,13 +846,197 @@ two thoughts the player has to join by memory.
   (`C-S-F1`): the corner has to be judged against the label that stresses it, not only against
   `3`.
 
+### V16 · Banded count — a sealed number as a numeral, a mark, or both
+
+**A secret aura application count reaches pixels through a rule cap authored and the client
+alone evaluated.** cap builds a `C_StringUtil.CreateNumericRuleFormatter()`, hands it a rising
+list of `{ threshold, format }` breakpoints, and passes it to `SetApplicationCount(fontString,
+{ formatter = … })`. The client compares the secret against those thresholds and writes the
+winning format into the FontString. **cap never receives the count, never compares it, and never
+reads the text back** — which is why this is a display and not a read. Promoted out of the lab
+2026-08-22 per Part 7 rule 4, out of `count_band` (L1), `count_polarity` (L2) and `count_mark`
+(L5).
+
+**A band is authored as MEANING, never as a format string.** A catalog picks from a closed
+vocabulary and the shelf owns what each one resolves to:
+
+| `draw` | What the client draws for a value in this band |
+| --- | --- |
+| `none` | nothing at all — the resting state, and the thing a bar cannot do |
+| `count` | the number, while *how many more* is still the live question |
+| `mark` | one badge — plate and glyph — once *how many more* has stopped mattering |
+| `count+mark` | both, which the client accepts out of a single band |
+
+plus `polarity`, which picks the hue (V5.1 — hue carries polarity and only polarity), and `hatch`,
+which lays V11's stripe sheet across the face. `hatch` is the only item on that list that changes
+the elimination walk: it says the row is **ruled out**, not decorated. The format strings are built
+in `Channel.CountRules` out of `tokens.count`, and that is the only place pixels enter.
+
+⚠ **`threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the
+UPPER band.** Bands must be authored in rising order and the first must be `0`. Rising order is
+*required* rather than sorted at build time: a table that does not rise is a table whose author
+believed something false about what draws, and silently repairing it would hide that.
+
+⚠ **ONE AURA CONTAINER SLOT PER ELEMENT, and this is a platform property rather than a trick.**
+`AuraContainerAuraSlotManagerMixin:UpdateAura` offers **every aura to every slot** — it walks the
+whole slot list with no consume — while `ShouldIncludeAuraInSlot` evaluates each slot's own
+`filterString` `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_AuraContainerSlots.lua —
+UpdateAura, ShouldIncludeAuraInSlot]`. So several slots filtered to the same spell each take it
+independently, each gets its own button, and each button takes its own count sink. The hatch, the
+mark and the numeral are therefore **three FontStrings with three band tables**, each anchored
+where it belongs — not three escapes crammed into one string. That erased the whole of the earlier
+design: the ~96px advance run, the offset arithmetic, and the stacking rules were consequences of
+forcing several statements through one string, not of the sink.
+
+⚠ **Within one element, several escapes in one band is still the trick.** A band's `format` may
+carry `|T…|t` / `|A:…|a` and it renders; the second and later ones take `:xoff:yoff` and are
+*placed* rather than flowed. So one band can hatch the face and hang a badge on the corner, and
+the band above the threshold clears both together — one client decision, several marks.
+
+⚠ **A colour escape does not reach art** `[client 2026-08-22]`. `|cAARRGGBB…|r` tints the band's
+**text** and leaves an inline `|T…|t` at full white — measured as an A/B against `SetVertexColor`
+on the same stripe sheet, which came out correctly red two icons away. There is no texture object
+to recolour either: the sink owns a FontString and the art inside it is named by a path. So every
+mark names a **pre-tinted file** (`capart export count` generates one crop per hue) and only the
+numeral is wrapped in an escape. The plate is deliberately *not* hue-varied — its job is contrast,
+and contrast is not polarity.
+
+⚠ **Motion comes free and is gated on nothing.** The sink adds `Text` and `Shown` to the
+FontString and nothing else, so the animation channel is still cap's: a `Paint.Breathe` group
+created at setup and looped forever is **invisible while the band draws nothing**, and the mark
+arrives already breathing. There is no threshold in that anywhere — the client's own blank is the
+gate. Part 3's one-motion-per-region rule still binds, so **only the mark breathes**, never the
+hatch and never the numeral.
+
+**The floor, if a later build starts sanitising markup.** `SetApplicationCount` seals `Text` and
+`Shown` and never `VertexColor`, so one static hue set with `SetTextColor` at setup needs no markup
+at all and cannot be stripped. That is already ours and it is what V16 degrades to, rather than to
+nothing.
+
+- **Lua:**
+  ```lua
+  -- One SLOT, one FontString, one band table — repeated per element (hatch / mark / count).
+  local fs = button:CreateFontString(nil, "OVERLAY")
+  fs:SetFont(T.count.font, T.count.size, T.count.outline)
+  fs:SetPoint("CENTER", host, "TOPRIGHT", Paint.BadgeCentre())
+
+  local formatter = C_StringUtil.CreateNumericRuleFormatter()
+  formatter:SetBreakpoints(Channel.CountRules(plan.bands, T.count, size, element))
+  button:SetApplicationCount(fs, { formatter = formatter })   -- the client owns Text + Shown
+
+  -- Free, gated on nothing: invisible while the band is blank (the mark only — Part 3).
+  if element == "mark" then Paint.Breathe(fs, T.count.pulse):Play() end
+  ```
+  cap makes the widget and the rule. Every in-combat write after this is the client's.
+- **Preview reproduction.** `--count-size`, `--count-rgb`, `--count-low`, `--count-mark`,
+  `--count-mark-x`, `--count-mark-y`, `--count-plate`, `--count-hatch`, and the breath as
+  `--count-pulse-dur` / `--count-pulse-a0` / `--count-pulse-a1` / `--count-pulse-scale`. The
+  preview draws the band the scenario declares, because it has no secret to evaluate against —
+  which is the one thing the client does that a browser cannot.
+
+### V17 · The complement — a row that rules ITSELF out below a threshold
+
+**The same machinery, authored the other way round: the marks draw BELOW the threshold and the
+band above clears them.** A row wearing this is ruled out until the count reaches the number the
+catalog named, and at that number it goes clean and becomes a live candidate. Promoted out of the
+lab 2026-08-22 per Part 7 rule 4, out of `count_complement` (L6).
+
+**It is the third eliminating signal, and that is the whole novelty.** Until 2026-08-22 a row
+could be eliminated by Blizzard's swipe or by cap's own negative badge, and both are things cap
+either reads or decides. This one is neither: **the client evaluated cap's rule against a secret
+and drew the hatch itself.** The reading model gained an eliminator that no Lua branch stands
+behind.
+
+⚠ **Its verdict is `ruled-sealed`, and it carries NO cue.** There is nothing for a cue key to
+name — the hatch and the mark come out of a FontString the client writes, and a cue is a badge cap
+shows. `tokens.verdicts["ruled-sealed"]` declares `eliminates: true` so that `capart check`'s
+elimination gate counts it, which is what keeps the mostly-negative vocabulary safe: a scenario
+whose press sits behind a self-ruled-out row must still lead the eye to the press.
+
+**What it buys is the state a threshold cue could never say.** Implosion below six Wild Imps is
+not *held*, not *unaffordable* and not *the wrong mode* — it is simply not worth pressing yet, on a
+number nobody may read. Before this, that row drew nothing and the player was expected to count
+imps. Its `blank at 6` band is the whole statement.
+
+### V18 · Sealed radial — the same secret as a SHAPE
+
+**`SetApplicationBar` drives a StatusBar from the sealed count, so the number becomes an arc
+instead of a numeral.** cap creates the bar, its track, its fill and its size as ordinary setup
+calls; the client sets the range from cap's own `maxApplications` and the value from the secret.
+**Only `BarValue` is sealed** — the aspect goes on the value, not on the widget. Promoted out of
+the lab 2026-08-22 per Part 7 rule 4, out of `count_bar` (L4).
+
+**Radial is a RENDER MODE, not a mask.** `Enum.StatusBarRenderMode.Radial` gives a circular fill
+with no `MaskTexture` anywhere, which is why the arc costs one texture and not a stencil. A client
+that does not have the mode gets the linear fill rather than nothing: the value is the fact, and
+the circle is only how it is drawn.
+
+⚠ **A BAR HAS NO BLANK STATE, and this is the straight trade against V16.** `SetValue` clamps
+into `[0, max]`, so at zero the **track still draws**. V16 can be silent and cannot be a shape;
+V18 is a shape and is always on the row. That is why the track's colour and alpha are declared
+rather than incidental — the track is what decides whether an empty arc reads as *nothing yet* or
+as clutter, and it is on screen for every value the ability ever has.
+
+**`max` is what turns "or more" into "full".** The clamp is the expression: a catalog that wants
+*four Cores is everything* declares `max = 4`, and five Cores is a full circle rather than an
+overflow cap has to detect.
+
+⚠ **It ships no art at all** — the fill is a flat colour — so it is absent from Part 4's tint
+guard subject list on purpose, not by omission.
+
+- **Lua:**
+  ```lua
+  local bar = CreateFrame("StatusBar", nil, button)
+  bar:SetPoint("TOPRIGHT", button, "TOPRIGHT", Paint.StackOffset(0))
+  track:SetColorTexture(T.arc.track_rgb[1], T.arc.track_rgb[2], T.arc.track_rgb[3],
+                        T.arc.track_alpha)          -- on screen at EVERY value, including zero
+  fill:SetColorTexture(T.arc.rgb[1], T.arc.rgb[2], T.arc.rgb[3], T.arc.alpha)
+  bar:SetStatusBarTexture(fill)
+  pcall(bar.SetRenderMode, bar, Enum.StatusBarRenderMode.Radial)   -- linear if absent, not blank
+  button:SetApplicationBar(bar, { maxApplications = plan.max })
+  ```
+- **Preview reproduction.** `--arc-inset`, `--arc-rgb`, `--arc-track`, `--arc-full`, drawn as a
+  `conic-gradient` inside the badge plate.
+
+### V19 · Refresh window — a badge the client alone shows and hides
+
+**`AddPandemicRegion` takes any Region — a Frame with children included — seals its `Shown`, and
+drives it off the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell.** So
+a whole badge, plate and glyph together, appears and vanishes on Blizzard's real refresh window.
+Promoted out of the lab 2026-08-22 per Part 7 rule 4, out of `pandemic_mark` (L3).
+
+⚠ **It is the ONE sealed display cap authors no threshold for.** Every other form here makes cap
+name a number — a breakpoint table, a curve break point — and every authored number is a thing to
+get wrong. This one has none. It is also **Blizzard's real pandemic** rather than the community's
+30 %, computed per spell by the code that owns the spell.
+
+**A Frame, not a texture, and that is what makes it a badge.** The client seals `Shown` and
+nothing else, so a plate and a sprite parented under the region appear and vanish together — the
+same picture the cue vocabulary draws, out of a fact cap may not read. Its breath is gated for free
+exactly as V16's is: the client hides the region, so a loop running forever on it is invisible
+until the window opens.
+
+⚠ **Two real costs.** It is the only sink carrying an `OnUpdate`, and Blizzard `secretwrap`s even
+the **enablement** — whether cap's update loop runs would otherwise leak the aura's presence. So
+**budget one per armed tile and never attach speculatively.**
+
+- **Lua:**
+  ```lua
+  local region = CreateFrame("Frame", nil, button)   -- a FRAME, so plate + glyph travel together
+  region:SetPoint("TOPRIGHT", button, "TOPRIGHT", Paint.StackOffset(0))
+  -- …plate and sprite parented under `region`, from T.pandemic and T.badges.plate…
+  Paint.Breathe(region, T.pandemic.pulse):Play()     -- invisible until the client shows it
+  button:AddPandemicRegion(region)                   -- no threshold anywhere in this file
+  ```
+- **Preview reproduction.** `--pd-rgb`, `--pd-size`, and the breath as `--pd-pulse-dur` /
+  `--pd-pulse-a0` / `--pd-pulse-a1`.
 ---
 
 ## Part 2.5 — Composing a row
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
-hatch, a scan edge and badges** — the icon face is not cap's (Part 1), and nothing else takes part
-in the composition. Chrome sits beside that rather than inside it: the hotkey text (V15) holds a
+hatch, a scan edge, badges, and whatever sealed display it declares** — the icon face is not cap's
+(Part 1), and nothing else takes part in the composition. Chrome sits beside that rather than inside it: the hotkey text (V15) holds a
 corner no cue may claim, carries no condition, and so has nothing to stack with or against. The
 rule below is about conditions competing for a surface, and a label is not a condition.
 
@@ -812,6 +1045,14 @@ rule below is about conditions competing for a surface, and a label is not a con
 2. **The scan edge** (V13), or none. It is one bit and has nothing to stack with.
 3. **A badge per cue** (V5/V5.1), each in the slot its cue owns. A cue named twice is one badge —
    that is how a catalog authors an OR without an OR.
+4. **A sealed display** (V16–V19), or none. Its widgets are the client's to show, so cap places
+   them and stops: a banded count takes the badge corner and the icon face, the radial takes the
+   corner plate, the refresh badge takes the corner. **At most one per entry** — the three sinks
+   all need an AuraContainer slot and a marker is at most one of them (`Channel.ContainerPlan`).
+
+⚠ **An ELIMINATING mark draws over an INCLUDING one, and the frame level says so** (Part 1). The
+sealed hatch and the scan edge occupy the same pixels and make opposite statements; the skip wins,
+declared rather than left to construction order.
 
 **One condition, one surface.** Every skip a row carries is carried by a mark of its own, in a
 place of its own, and by nothing else — so two conditions on one button are two marks rather than
@@ -826,10 +1067,17 @@ edges — and nothing else writes to it. What the rule forbids is a *shared* sur
 conditions feed; what it permits is as many surfaces as there are conditions. The count of surfaces
 was never the invariant.
 
-**The hatch is invisible to the elimination walk, by construction.** It is drawn exactly where the
-swipe is drawn, so every row wearing it was already ruled out by *swiped* in pass 2 and no reading
-changes. It adds emphasis to a decision the walk had already made — which is why `elimination_gate`
-stays a two-term test and does not learn about it.
+**V11's hatch is invisible to the elimination walk, by construction.** It is drawn exactly where
+the swipe is drawn, so every row wearing it was already ruled out by *swiped* in pass 2 and no
+reading changes. It adds emphasis to a decision the walk had already made — which is why
+`elimination_gate` stays a two-term test over `swiped` and `wearing a negative badge`, and does not
+learn about it.
+
+⚠ **V17's hatch is the exception, and it is the one place a THIRD eliminator exists.** A row that
+rules itself out on a sealed count was not swiped and wears no badge, so neither term of that test
+covers it. Its verdict `ruled-sealed` declares `eliminates: true` and the gate reads that flag
+explicitly. This is the only signal in the style that eliminates without cap having decided
+anything — the client evaluated cap's rule against a secret and drew the mark itself.
 
 ### The graded cue's curve drives its badge
 
@@ -938,7 +1186,8 @@ published under blocks every external host), so a CDN `<img src>` renders nothin
 | total base64 over `tokens.budget.max_base64_kb` | a **warning printed by `build`** (and a per-asset table from `capart assets`), never a blocked rebuild; `check` does not test it |
 
 **The tint guard is the shelf's one mechanical promise and it is deliberately art-agnostic.** It
-started life guarding the flipbook rings; it now guards the badge sprites and V11's stripe sheet,
+started life guarding the flipbook rings; it now guards the badge sprites, V11's stripe sheet,
+V14's promotion ring and the art V16 and V19 draw through the client's own sinks,
 because the claim it enforces was never about rings — it is *"art the shelf recolors must be art
 `SetVertexColor` can actually recolor."* **`tint: "shelf"` is the token spelling of that claim**,
 and the spelling is deliberately colour-source-neutral: it says the colour comes from this file
@@ -961,17 +1210,23 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    as informative, or as furniture the eye stops seeing after ten minutes?
 2. **Does the scan edge separate in-scan from out-of-scan at a glance?** V13 spends the whole
    emphasis budget on one bit, so its failure mode is the opposite of the retired V2's: not "a hue
-   nobody decodes" but "a line nobody notices". The louder and quieter candidates are in the lab as
-   `ready-*` and are meant to be judged beside it in `/cap style`. If a lit row and an unlit row are
-   hard to tell apart in a pull, the fix is **area or blend, not a second colour** — a ladder is
-   what V2 was retired for.
-3. **Do the badges read without a legend at 56 px?** Specifically: does the timer sweep read as
-   "waiting" or as a countdown? A countdown reading is a failure of the cue, not of the player.
-4. **Does one shared red across three badges under-differentiate?** The shapes are meant to carry
-   the distinction. If they do not, the fix is different shapes, not a second hue.
-5. **Does elimination alone lead the eye?** The four scenarios with something to the *left* of the
-   press (ST-7, ST-10, AoE-2, AoE-3) are the test. If a scenario needs a positive cue to be
-   readable, that is the finding that un-parks the positive vocabulary.
+   nobody decodes" but "a line nobody notices". The louder and quieter candidates were deleted with
+   the `ready-*` entries on 2026-08-19 rather than kept drawn beside the winner, so this is a
+   question about the **shipped** treatment and there is nothing to A/B it against. If a lit row
+   and an unlit row are hard to tell apart in a pull, the fix is **area, not a second colour** — a
+   ladder is what V2 was retired for, and the blend is now spent (V13, 2026-08-23: `ADD` clipped
+   the authored hue to white, so there is no headroom left on that axis).
+3. **Do the badges read without a legend at 56 px?** Every negative is a still image since
+   2026-08-23, which removed the version of this question that used to matter most — whether a
+   sweeping clock read as *waiting* or as a countdown. What is left is the harder half: does a
+   **motionless** red glyph in a corner get noticed at all in a pull, or does stillness cost the
+   thing it was meant to buy?
+4. **Does one shared red across five negative badges under-differentiate?** The shapes are meant to
+   carry the distinction. If they do not, the fix is different shapes, not a second hue.
+5. **Does elimination alone lead the eye where no positive cue fires?** Most rows wear no promotion,
+   and for those the walk is the whole reading. The scenarios with something to the *left* of the
+   press are the test. If a scenario is unreadable without a positive cue that its catalog cannot
+   honestly declare, that is a finding about the walk rather than about the vocabulary.
 6. Does desaturate-then-tint produce a clean hue on baked art? — **open**, needs the client.
    Nothing declares it today; the question stays because the escape hatch is worth having priced.
 7. **Does the cooldown hatch add to the swipe or just restate it — and does it read as stripes at
@@ -1030,9 +1285,14 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
 {
   "version": 2,
   "ready": {
-    "_comment": "IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA: additive, so it reads as a hot edge rather than as a wash, and it sits ON the icon rect so it can never bleed into a neighbour at any row gap.",
-    "rgb": [1.00, 0.86, 0.45],
-    "alpha": 1.00,
+    "_comment": "IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA, drawn ON the icon rect so it can never bleed into a neighbour at any row gap. `blend` is NORMAL and that is a correction: under additive the edge could not carry the hue declared right here. Adding rgb(1.00, 0.86, 0.45) to a destination saturates red unconditionally, green above 0.14 and blue above 0.55, so on any icon that is not near-black the line clipped to WHITE — measured on Demonology's purple roster [client 2026-08-23]. The declared colour was not reaching a pixel, so the blend mode gave way rather than the colour.",
+    "blend": "BLEND",
+    "rgb": [
+      1.0,
+      0.86,
+      0.45
+    ],
+    "alpha": 1.0,
     "line_px": 2
   },
   "ring": {
@@ -1050,14 +1310,14 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "tick_s": 0.025
   },
   "arrival": {
-    "from_scale": 2.00,
-    "duration_s": 0.40,
+    "from_scale": 2.0,
+    "duration_s": 0.4,
     "smoothing": "OUT",
-    "from_alpha": 0.00
+    "from_alpha": 0.0
   },
   "text": {
     "max_hz": 2.0,
-    "duty": 0.70,
+    "duty": 0.7,
     "alpha_floor": 0.65
   },
   "badges": {
@@ -1065,59 +1325,135 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "overhang_px": 2,
     "padding_px": 3,
     "sprite_inset_pct": 16,
-    "rgb": [0.95, 0.30, 0.30],
+    "rgb": [
+      0.95,
+      0.3,
+      0.3
+    ],
     "tint": "shelf",
-    "plate": { "rgb": [0.00, 0.00, 0.00], "alpha": 0.78, "scale": 1.12 },
-    "halo_falloff": 0.70,
+    "plate": {
+      "rgb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "alpha": 0.78,
+      "scale": 1.12
+    },
+    "halo_falloff": 0.7,
     "asset_root": "previews/assets/kenney",
-    "flow": { "anchor": "top-right-corner", "direction": "down" }
+    "flow": {
+      "anchor": "top-right-corner",
+      "direction": "down"
+    }
   },
   "cues": {
     "blocked": {
-      "means": "held for a cooldown, or a readable dependency says the press would be wasted. The sweep is a steady pace, NOT elapsed time.",
+      "means": "held for a cooldown, or a readable dependency says the press would be wasted",
       "polarity": "negative",
-      "frames": ["timer_0", "timer_CW_25", "timer_CW_50", "timer_CW_75", "timer_100"],
-      "duration_s": 2.00, "loop": "REPEAT", "rank": 3, "open": false, "budgeted": true
+      "frames": [
+        "timer_CW_50"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 3,
+      "open": false,
+      "budgeted": true
     },
     "starved": {
       "means": "you cannot afford it",
       "polarity": "negative",
-      "frames": ["flask_empty", "flask_half"],
-      "duration_s": 1.20, "loop": "BOUNCE", "rank": 4, "open": false, "budgeted": false
+      "frames": [
+        "flask_empty"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 4,
+      "open": false,
+      "budgeted": false
     },
     "st_only": {
       "means": "the single-target spender, while AoE mode is on — the other one is the answer here",
       "polarity": "negative",
-      "frames": ["pawn"],
-      "duration_s": 1.20, "loop": "HOLD", "rank": 6, "open": false, "budgeted": false
+      "frames": [
+        "pawn"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 6,
+      "open": false,
+      "budgeted": false
     },
     "aoe_only": {
       "means": "the AoE spender, in single target — the other one is the answer here",
       "polarity": "negative",
-      "frames": ["pawns"],
-      "duration_s": 1.20, "loop": "HOLD", "rank": 7, "open": false, "budgeted": false
+      "frames": [
+        "pawns"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 7,
+      "open": false,
+      "budgeted": false
     },
     "overcap": {
       "means": "pressing would waste resource",
       "polarity": "negative",
-      "frames": ["flask_half", "flask_full"],
-      "duration_s": 1.20, "loop": "BOUNCE", "rank": 5, "open": false, "budgeted": false
+      "frames": [
+        "flask_full"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 5,
+      "open": false,
+      "budgeted": false
     },
     "capped": {
       "means": "charges are at max and the recharge is stalled — you are losing one right now",
       "polarity": "positive",
-      "rgb": [1.00, 0.78, 0.25],
-      "glow": { "hz": 1.2, "alpha_min": 0.15, "alpha_max": 0.55, "scale": 1.55 },
-      "frames": ["cards_stack", "cards_stack_high"],
-      "duration_s": 1.20, "loop": "BOUNCE", "rank": 2, "open": false, "budgeted": false
+      "rgb": [
+        1.0,
+        0.78,
+        0.25
+      ],
+      "glow": {
+        "hz": 1.2,
+        "alpha_min": 0.15,
+        "alpha_max": 0.55,
+        "scale": 1.55
+      },
+      "frames": [
+        "cards_stack",
+        "cards_stack_high"
+      ],
+      "duration_s": 1.2,
+      "loop": "BOUNCE",
+      "rank": 2,
+      "open": false,
+      "budgeted": false
     },
     "priority": {
       "means": "press this one — the scan would reach it late, or only after stepping over more skips than a reader can hold at once",
       "polarity": "positive",
-      "rgb": [1.00, 0.78, 0.25],
-      "glow": { "hz": 1.2, "alpha_min": 0.15, "alpha_max": 0.55, "scale": 1.55 },
-      "frames": ["fire"],
-      "duration_s": 1.20, "loop": "HOLD", "rank": 1, "open": false, "budgeted": false
+      "rgb": [
+        1.0,
+        0.78,
+        0.25
+      ],
+      "glow": {
+        "hz": 1.2,
+        "alpha_min": 0.15,
+        "alpha_max": 0.55,
+        "scale": 1.55
+      },
+      "frames": [
+        "fire"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 1,
+      "open": false,
+      "budgeted": false
     }
   },
   "hatch": {
@@ -1126,42 +1462,177 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "pitch_px": 16,
     "duty": 0.5,
     "direction": "down",
-    "rgb": [0.00, 0.00, 0.00],
-    "alpha": 0.50,
+    "rgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "alpha": 0.5,
     "phase_pct": 50,
     "tint": "shelf",
     "skip": {
-      "rgb": [0.95, 0.30, 0.30], "alpha": 0.45, "phase_pct": 0,
+      "rgb": [
+        0.95,
+        0.3,
+        0.3
+      ],
+      "alpha": 0.45,
+      "phase_pct": 0,
       "overhang_px": 2,
-      "border": { "rgb": [0.95, 0.30, 0.30], "alpha": 1.00, "line_px": 2 }
+      "border": {
+        "rgb": [
+          0.95,
+          0.3,
+          0.3
+        ],
+        "alpha": 1.0,
+        "line_px": 2
+      }
     }
   },
   "promotion": {
     "texture": "procring",
-    "cols": 8, "rows": 4, "cell": 64, "frames": 32, "fps": 30,
-    "rgb": [1.00, 0.82, 0.27],
-    "alpha": 1.00,
-    "spread": 2.00,
-    "tint": "lane"
+    "cols": 8,
+    "rows": 4,
+    "cell": 64,
+    "frames": 32,
+    "fps": 30,
+    "rgb": [
+      1.0,
+      0.82,
+      0.27
+    ],
+    "alpha": 1.0,
+    "spread": 2.0,
+    "tint": "shelf"
+  },
+  "count": {
+    "_comment": "V16/V17. A SEALED aura application count reaching a pixel. cap hands the Cooldown Manager a FontString and a NumericRuleFormatter it AUTHORED; the client evaluates the bands against the secret and calls SetText, and cap never learns which band fired. The sink seals `Text` and `Shown` and nothing else — which is why the hue below is reachable through a static SetTextColor as well as through a band's own escape, and why the FontString's animation channel is still cap's. `threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the UPPER band.",
+    "font": "FRIZQT__.TTF",
+    "size": 15,
+    "outline": "OUTLINE",
+    "rgb": [
+      1.0,
+      0.78,
+      0.25
+    ],
+    "low_rgb": [
+      0.95,
+      0.3,
+      0.3
+    ],
+    "mark": "cards_stack_high",
+    "mark_px": 15,
+    "mark_offset_px": [
+      20,
+      -18
+    ],
+    "plate_px": 25,
+    "plate_offset_px": [
+      20,
+      -18
+    ],
+    "hatch_px": 56,
+    "hatch_offset_px": [
+      2,
+      0
+    ],
+    "pulse": {
+      "duration_s": 1.9,
+      "alpha": [
+        0.72,
+        1.0
+      ],
+      "scale": 1.1
+    },
+    "tint": "shelf"
+  },
+  "arc": {
+    "_comment": "V18. The same sealed number as a SHAPE. SetApplicationBar drives a StatusBar from the count and SetDurationBar from the remaining duration; only the VALUE is sealed, so texture, size, orientation and colour stay ordinary setup calls. Radial is a RENDER MODE (Enum.StatusBarRenderMode.Radial), not a masked fill, so the circle needs no MaskTexture. ⚠ A bar has NO BLANK STATE: SetValue clamps into [0, max], so at zero the track still draws. That is the straight trade against V16, which can be silent and cannot be a shape. It ships no art at all — the fill is a flat colour — so it is absent from the tint guard's subject list on purpose.",
+    "inset_px": 3,
+    "rgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": 0.85,
+    "track_rgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "track_alpha": 0.55,
+    "full_rgb": [
+      1.0,
+      0.78,
+      0.25
+    ]
+  },
+  "pandemic": {
+    "_comment": "V19. The refresh window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge, plate and sprite together, appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively.",
+    "frame": "timer_CW_75",
+    "size_px": 15,
+    "rgb": [
+      1.0,
+      0.78,
+      0.25
+    ],
+    "pulse": {
+      "duration_s": 1.6,
+      "alpha": [
+        0.62,
+        1.0
+      ]
+    },
+    "tint": "shelf"
   },
   "hotkey": {
-    "_comment": "V15. CHROME, not a cue (spec.md \u00a73.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion \u2014 and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",
+    "_comment": "V15. CHROME, not a cue (spec.md §3.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion — and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",
     "font": "Interface\\AddOns\\CombatAssistPlus\\Media\\fonts\\CapKeyMono.ttf",
     "size": 16,
     "outline": "THICKOUTLINE",
-    "rgb": [0.92, 0.92, 0.90],
+    "rgb": [
+      0.92,
+      0.92,
+      0.9
+    ],
     "alpha": 0.85,
     "anchor": "TOPLEFT",
-    "offset": { "x": 2, "y": -2 }
+    "offset": {
+      "x": 2,
+      "y": -2
+    }
   },
   "preview": {
-    "_comment": "NOT THE STYLE, and structurally incapable of becoming it: `preview` is in capart.NOT_THE_STYLE, so nothing here can reach Style.lua. It exists so the previews can draw a keybind hint before one exists in the game \u2014 the point of V15's preview is judging how the text sits in the corner, and that cannot be judged against an empty string. The strings are what `Binds.Shorten` PRODUCES, not what the client hands it: lowercase modifier letters closed up against the key (the client's own `SHIFT_KEY_TEXT_ABBR` is `s`), and `M4`/`N5` where the client would say `Mouse Button 4`/`Num Pad 5`.",
-    "hotkeys": ["3", "s2", "M4", "csF1", "1", "4", "sE", "M5", "2", "a3",
-                "5", "s4", "c1", "M3", "sF", "6", "asQ", "MU"],
-    "hotkey_outline_rgb": [0.00, 0.00, 0.00],
+    "_comment": "NOT THE STYLE, and structurally incapable of becoming it: `preview` is in capart.NOT_THE_STYLE, so nothing here can reach Style.lua. It exists so the previews can draw a keybind hint before one exists in the game — the point of V15's preview is judging how the text sits in the corner, and that cannot be judged against an empty string. The strings are what `Binds.Shorten` PRODUCES, not what the client hands it: lowercase modifier letters closed up against the key (the client's own `SHIFT_KEY_TEXT_ABBR` is `s`), and `M4`/`N5` where the client would say `Mouse Button 4`/`Num Pad 5`.",
+    "hotkeys": [
+      "3",
+      "s2",
+      "M4",
+      "csF1",
+      "1",
+      "4",
+      "sE",
+      "M5",
+      "2",
+      "a3",
+      "5",
+      "s4",
+      "c1",
+      "M3",
+      "sF",
+      "6",
+      "asQ",
+      "MU"
+    ],
+    "hotkey_outline_rgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
     "hotkey_outline_px": 2,
     "hotkey_font": {
-      "_comment": "The font V15 draws with, and the ONE third-party asset cap redistributes. The preview embeds this exact subset and the addon ships this exact subset, so the page and the game measure the same advance widths. `ship_as` is not a preference: the upstream family carries the Reserved Font Name 'Share', a subset is a Modified Version, and OFL 1.1 clause 3 forbids a Modified Version from using it \u2014 so the shipped file is renamed and `license_url` travels beside it.",
+      "_comment": "The font V15 draws with, and the ONE third-party asset cap redistributes. The preview embeds this exact subset and the addon ships this exact subset, so the page and the game measure the same advance widths. `ship_as` is not a preference: the upstream family carries the Reserved Font Name 'Share', a subset is a Modified Version, and OFL 1.1 clause 3 forbids a Modified Version from using it — so the shipped file is renamed and `license_url` travels beside it.",
       "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf",
       "family": "ShareTechMono",
       "ship_as": "CapKeyMono",
@@ -1173,41 +1644,124 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "hotkey_font_stack": "'CapKeyMono', 'Trebuchet MS', var(--sans)",
     "virtual_mark": {
       "_comment": "PREVIEW ONLY, and it exists because the preview COMPRESSES a geometry the game does not have. In the client a virtual row (V12) lives in cap's own panel, physically separate from the Cooldown Manager, and the separation is what says 'cap owns this frame'. A stepper page draws one flat left-to-right row, so that separation is gone and the icon would read as a CDM row cap has no right to. The tick restores the one bit the compression lost. It is in `preview` deliberately: nothing here can reach Style.lua, and the addon must never draw it.",
-      "rgb": [0.55, 0.82, 1.00],
+      "rgb": [
+        0.55,
+        0.82,
+        1.0
+      ],
       "size_px": 13,
       "line_px": 2,
       "overhang_px": 2,
       "corner": "bottom-left"
     },
     "unsure": {
-      "_comment": "PREVIEW ONLY. The loud treatment for an `\u26a0 UNSURE` annotation under a row \u2014 a claim the authoring docs themselves doubt, drawn so it cannot be read past. Amber block, not a grey footnote. It says nothing about the press and takes no part in either reading pass; it is a note to the author about the DOC, not a mark on the button.",
-      "rgb": [1.00, 0.74, 0.30],
-      "bg_rgb": [0.23, 0.17, 0.06],
+      "_comment": "PREVIEW ONLY. The loud treatment for an `⚠ UNSURE` annotation under a row — a claim the authoring docs themselves doubt, drawn so it cannot be read past. Amber block, not a grey footnote. It says nothing about the press and takes no part in either reading pass; it is a note to the author about the DOC, not a mark on the button.",
+      "rgb": [
+        1.0,
+        0.74,
+        0.3
+      ],
+      "bg_rgb": [
+        0.23,
+        0.17,
+        0.06
+      ],
       "line_px": 2
     }
   },
   "panel": {
-    "icon_px": 50, "gap_px": 6,
-    "anchor": "BOTTOM", "x": 0, "y": 190, "grow": "RIGHT"
+    "icon_px": 50,
+    "gap_px": 6,
+    "anchor": "BOTTOM",
+    "x": 0,
+    "y": 190,
+    "grow": "RIGHT"
   },
   "verdicts": {
-    "cd":             { "scan": false, "swipe": true,  "hatch": true, "cues": [] },
-    "weave":          { "scan": true,  "swipe": false, "cues": [] },
-    "hold-readable":  { "scan": true,  "swipe": false, "cues": ["blocked"] },
-    "hold-sealed":    { "scan": true,  "swipe": false, "cues": ["blocked"] },
-    "starved":        { "scan": true,  "swipe": false, "cues": ["starved"] },
-    "overcap":        { "scan": true,  "swipe": false, "cues": ["overcap"] },
-    "off-mode":       { "scan": true,  "swipe": false, "cues": [] },
-    "press":          { "scan": true,  "swipe": false, "cues": [] },
-    "press-promoted": { "scan": true,  "swipe": false, "cues": [] },
-    "below":          { "scan": true,  "swipe": false, "cues": [] }
+    "cd": {
+      "scan": false,
+      "swipe": true,
+      "hatch": true,
+      "cues": []
+    },
+    "weave": {
+      "scan": true,
+      "swipe": false,
+      "cues": []
+    },
+    "hold-readable": {
+      "scan": true,
+      "swipe": false,
+      "cues": [
+        "blocked"
+      ]
+    },
+    "hold-sealed": {
+      "scan": true,
+      "swipe": false,
+      "cues": [
+        "blocked"
+      ]
+    },
+    "ruled-sealed": {
+      "_comment": "V17. The row is RULED OUT by a sealed count band — the client evaluated cap's own rule against a secret and drew the hatch and the mark itself. It carries no `cues` because there is no cue: the marks come out of one FontString the client writes, and a cue is a badge cap shows. It eliminates anyway, which is the whole novelty — this is the first eliminating signal that is neither Blizzard's swipe nor cap's own badge.",
+      "scan": true,
+      "swipe": false,
+      "eliminates": true,
+      "cues": []
+    },
+    "starved": {
+      "scan": true,
+      "swipe": false,
+      "cues": [
+        "starved"
+      ]
+    },
+    "overcap": {
+      "scan": true,
+      "swipe": false,
+      "cues": [
+        "overcap"
+      ]
+    },
+    "off-mode": {
+      "scan": true,
+      "swipe": false,
+      "cues": []
+    },
+    "press": {
+      "scan": true,
+      "swipe": false,
+      "cues": []
+    },
+    "press-promoted": {
+      "scan": true,
+      "swipe": false,
+      "cues": []
+    },
+    "below": {
+      "scan": true,
+      "swipe": false,
+      "cues": []
+    }
   },
   "surfaces": {
     "icon_px": 56,
     "row_gap_px": 6,
     "border_px": 1,
-    "swipe": { "color": [0.00, 0.00, 0.00], "alpha": 0.72 },
-    "count_tile": { "font": "FRIZQT__.TTF", "size": 14, "outline": "OUTLINE" },
+    "swipe": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "alpha": 0.72
+    },
+    "count_tile": {
+      "font": "FRIZQT__.TTF",
+      "size": 14,
+      "outline": "OUTLINE"
+    },
     "proc_glow_alpha": 0.5
   },
   "assets": {
@@ -1215,50 +1769,162 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "encode": "webp",
     "quality": 90
   },
-  "budget": { "max_base64_kb": 300 },
-
+  "budget": {
+    "max_base64_kb": 300
+  },
   "lab": {
-    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. \u26a0 The three entries below are FLIGHT-GATED, not look-gated: they draw no cells because what they ask is whether the CLIENT honours a rule cap authored, and Part 7 rule 2 already says a preview cannot answer that. They graduate on `aura-container-rule-formatter` / `aura-container-pandemic-region`, not on being looked at in a browser.",
-
-    "count_band": {
-      "asks": "Does a tainted-created NumericRuleFormatter get honoured on SetApplicationCount, so cap can author WHICH stack values show a number \u2014 including the complement and a middle band \u2014 rather than inheriting Blizzard's show-above-1 default?",
-      "draws": "client-only",
-      "pending_test": "aura-container-rule-formatter",
-      "form": "S7",
-      "font": "FRIZQT__.TTF", "size": 14, "outline": "OUTLINE",
-      "anchor": "TOP", "y": 1,
-      "bands": [
-        { "threshold": 0, "format": "" },
-        { "threshold": 4, "format": "%d" }
+    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. ⚠ ONE entry since 2026-08-22, and it is the leftover of an eight-entry intake whose other seven were promoted (V16-V19) or deleted. `duration_band` bands a CLOCK rather than a count, which is why no composite needed it and why it did not go with them. Its cells draw the `RemainingPercent` route, which is a SOURCE READ and has never been flown \u2014 the flown route (a bare `textFormatter`) gives thresholds in seconds. So every percentage in it is a proposal about a mechanism, clearly labelled, exactly as `count_bar` was before its flight settled it.",
+    "duration_band": {
+      "title": "L7 · duration_band — the same bands, on the DoT's CLOCK instead of a count",
+      "asks": "`SetDurationText` takes a `textFormatter` of type NumericFormatter — the same object the count sink takes — bound to a DurationTextBindingProperty such as RemainingPercent. If a rule formatter is accepted there, every band shape L5 and L6 draw becomes available on a DoT's remaining time, INCLUDING the inversion `AddPandemicRegion` structurally cannot express. What does that cost, and is it worth authoring the threshold the pandemic sink computes for you?",
+      "draws": "duration",
+      "form": "S12",
+      "flown": "2026-08-21",
+      "size_px": 15,
+      "rgb": [
+        0.45,
+        0.86,
+        0.85
       ],
-      "control_band": [
-        { "threshold": 0, "format": "%d" }
+      "alt_rgb": [
+        0.95,
+        0.3,
+        0.3
+      ],
+      "pulse": {
+        "duration_s": 1.9,
+        "alpha": [
+          0.72,
+          1.0
+        ],
+        "scale": 1.1
+      },
+      "cells": [
+        {
+          "ability": "Immolation Aura",
+          "verdict": "below",
+          "remaining_pct": 80,
+          "place": "centre",
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "%d"
+            }
+          ],
+          "caption": "<b>control — the sink's own job</b>. `SetDurationText` normally draws a countdown, and with no rule it is Blizzard's seconds formatter. Everything to the right replaces that text with a rule cap wrote."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "below",
+          "remaining_pct": 20,
+          "place": "badge",
+          "composited": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "|A:timer_CW_75:15:15|a"
+            },
+            {
+              "threshold": 31,
+              "format": ""
+            }
+          ],
+          "caption": "<b>the pandemic mark, re-created</b> — a mark only in the last 30 %. Same picture as L3's badge, and ⚠ NOT the same fact: this threshold is cap's guess, where L3's is the client computing `GetRefreshExtendedDuration − GetAuraBaseDuration` per spell."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "below",
+          "remaining_pct": 80,
+          "place": "badge",
+          "composited": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "|A:timer_CW_75:15:15|a"
+            },
+            {
+              "threshold": 31,
+              "format": ""
+            }
+          ],
+          "caption": "<b>the same rule, early in the DoT</b> — clear, because 80 % takes the upper band. The pair to its left is the whole of L3's behaviour reproduced out of two breakpoints."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "below",
+          "remaining_pct": 80,
+          "place": "badge",
+          "bands": [
+            {
+              "threshold": 0,
+              "format": ""
+            },
+            {
+              "threshold": 31,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
+            }
+          ],
+          "caption": "<b>THE INVERSION</b> — hatched while there is plenty left, which is `do not refresh yet`. This is the direction `AddPandemicRegion` cannot express at all: it calls `SetShown(inWindow)` with no rule to flip."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "press",
+          "remaining_pct": 20,
+          "place": "badge",
+          "bands": [
+            {
+              "threshold": 0,
+              "format": ""
+            },
+            {
+              "threshold": 31,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
+            }
+          ],
+          "caption": "<b>the inversion, refreshable</b> — the hatch clears as the DoT enters the last 30 %, so the row becomes a live candidate exactly when refreshing it stops clipping. Read it against the cell to its left."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "below",
+          "remaining_pct": 80,
+          "place": "badge",
+          "composited": true,
+          "alt_hue": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": ""
+            },
+            {
+              "threshold": 31,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t|A:timer_CW_75:15:15:20:-18|a"
+            }
+          ],
+          "caption": "<b>hatch and badge, inverted</b> — two escapes, one band, the second offset onto the corner. Identical machinery to L6's imp shape; the only difference is which sealed number the client feeds the formatter."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "below",
+          "remaining_pct": 45,
+          "place": "badge",
+          "composited": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "|A:timer_CW_75:15:15|a"
+            },
+            {
+              "threshold": 31,
+              "format": ""
+            },
+            {
+              "threshold": 61,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
+            }
+          ],
+          "caption": "<b>three bands, mid-DoT</b> — hatched above 60 %, SILENT between 30 and 60, marked below 30. The quiet middle is the shape only a band table can draw: neither `do not` nor `now`, which is most of a DoT's life."
+        }
       ]
-    },
-
-    "count_polarity": {
-      "asks": "Can ONE count FontString carry two meanings \u2014 a negative band and a positive band in different hues \u2014 and if inline colour escapes are stripped, does a cap-shipped symbol font carry the same distinction as a SHAPE instead?",
-      "draws": "client-only",
-      "pending_test": "aura-container-rule-formatter",
-      "form": "S8",
-      "font": "FRIZQT__.TTF", "size": 14, "outline": "OUTLINE",
-      "low_rgb": [1.00, 0.25, 0.25],
-      "high_rgb": [0.25, 1.00, 0.44],
-      "escape_bands": [
-        { "threshold": 0, "format": "|cffff4040%d|r" },
-        { "threshold": 6, "format": "|cff40ff70%d|r" }
-      ],
-      "static_fallback": "SetTextColor at setup carries ONE hue for the whole string and needs no markup at all; SetApplicationCount adds only Text and Shown, so VertexColor stays cap's."
-    },
-
-    "pandemic_mark": {
-      "asks": "Does AddPandemicRegion drive a cap-owned texture from Blizzard's own refresh window, giving cap real ART out of a sealed fact with no curve and no ruleset to get wrong?",
-      "draws": "client-only",
-      "pending_test": "aura-container-pandemic-region",
-      "form": "S9",
-      "rgb": [1.00, 0.72, 0.20],
-      "alpha": 0.85,
-      "note": "The only Part 2 form that reaches cap-owned art without a font trick, and the only one that costs an OnUpdate."
     }
   }
 }
@@ -1332,93 +1998,63 @@ being adopted.
 Each entry carries an `asks` — the question it exists to answer. An entry that cannot say what it
 is asking is decoration and should be deleted.
 
-**The lab was empty from 2026-08-19 until 2026-08-20**, when the three entries below were added.
-An empty lab means every idea drawn here has been adopted or answered, not that nobody is trying
-anything — and a lab that fills up again is the system working.
+**The lab was empty from 2026-08-19 until 2026-08-20**, when eight entries were added at once —
+the first *capability* questions the lab had ever held. Seven of them left on 2026-08-22: **six
+were promoted into four primitives** (V16–V19 — three of them fold into V16 alone) and one,
+`composites`, was deleted as an argument its subject had overtaken. **One remains**, and an
+empty-or-nearly-empty lab means every idea drawn here has been adopted or answered, not that
+nobody is trying anything.
 
-⚠ **These three are a different KIND of entry from every one in the ledger below, and the
-difference matters.** Every previous entry was a *taste* question — five fonts, three stripe
-phases, four glows — and the preview settled it by drawing them side by side. These three are
-**capability** questions: they ask whether the client will honour a rule cap authored against a
+⚠ **That intake was a different KIND of entry from most of the ledger below, and the difference
+matters.** Almost every earlier entry was a *taste* question — five fonts, three stripe phases,
+four glows — and the preview settled it by drawing them side by side. Those eight were
+**capability** questions: they asked whether the client would honour a rule cap authored against a
 secret. **Rule 2 already says a preview cannot answer that** ("a preview is an argument about the
 client; the gallery is the client"), and here even the gallery cannot, because the gallery draws on
-cap-owned frames with no secret in sight. So they draw **no cells**, and the page will correctly
-say *"drawn in the client only"* for each.
+cap-owned frames with no secret in sight. So a capability entry **graduates on a flight, not on
+being looked at** — and once the flight has answered *will this work at all*, what is left is a
+look question and the entry starts drawing cells again.
 
-**They graduate on a flight, not on being looked at.** `count_band` and `count_polarity` on
-`aura-container-rule-formatter`; `pandemic_mark` on `aura-container-pandemic-region`. **All three
-FLEW and PASSED `[client 2026-08-21]`** — the formatter is honoured (including the complement and
-inline colour escapes), and `AddPandemicRegion` drives a cap-owned texture off Blizzard's real
-window. The mechanism is measured, not a proposal; the drained findings and their working Lua are
-`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5.2 (the formatter's own surface is
-§3.5), which `authoring.md`'s recipe index reaches as `S7`–`S9`. **What remains is PROMOTION** — moving these three into Parts 1–6 with their
-numbers and deleting them here (rule 4). That is a cap-pipeline step, not a prose edit: it re-runs
-`capart export`, lifts `Catalog.lua:192`'s `min = 2`, and needs a cap release — **ask-first, not
-yet done**. Until then they stay in the lab as *flown-and-passed*, and the tokens are measured
-rather than proposed.
+⚠ **The 2026-08-22 promotion taught the one thing worth carrying forward: nothing new was learned
+about the client to make it possible.** Every measurement was in hand on 2026-08-21. What was in
+the way was rule 1 — a catalog may not cite a lab entry — so the fact was expressible and unusable
+at the same time. **Promotion is a pipeline step, and it was the entire cost.** Budget it as work,
+not as paperwork.
 
-### L1 · `count_band` — a number that appears only inside a band
+### L7 · `duration_band` — the same bands, on the DoT's CLOCK instead of a count
 
-**Asks:** does a tainted-created `NumericRuleFormatter` get honoured on `SetApplicationCount`?
+**Asks:** `SetDurationText` takes a `textFormatter` of type `NumericFormatter` — the same object
+the count sink takes — bound to a `DurationTextBindingProperty` such as `RemainingPercent`. If a
+rule formatter is accepted there, every band shape V16 and V17 draw becomes available on a DoT's
+**remaining time**, including the inversion `AddPandemicRegion` structurally cannot express. What
+does that cost, and is it worth authoring the threshold the pandemic sink computes for you?
 
-S2 draws a count above one fixed threshold, and cap has always read that threshold as the
-platform's. It is not: it is `elseif applications > 1`, Blizzard's behaviour when **no formatter is
-passed** (`Blizzard_CustomAuraButton.lua:351-368`). Passing one replaces it with a piecewise
-function cap authors — so "blank until 4, then 4" is two breakpoints, and so are the complement
-("blank above 1") and a middle band.
+**It survived the promotion because no composite needed it**, not because it lost. V16–V19 all
+band a *count*; this bands a *clock*, and no built spec has yet wanted one badly enough to pay for
+it. Havoc's `buff.demonsurge.remains < gcd.max` is the nearest real subject.
 
-The entry declares its bands **and a control band** that shows the number at *every* value
-including 1. That control is the load-bearing part: Blizzard's default never prints a "1", so a
-lone `1` on screen is the only unambiguous proof the formatter ran. Without it, "our rules were
-ignored" and "our rules correctly hid a low number" look identical, and the flight learns nothing.
+⚠ **Its open half is a route, not a look.** `SetDurationText` reached through a bare
+`textFormatter` gives thresholds in **SECONDS**, measured `[client 2026-08-21]`. The
+`RemainingPercent` route — via `options.textFormat`'s `{property, formatter}` components, which is
+what the cells below draw — is **source-read only** and has never been flown. Every percentage in
+this entry is therefore a proposal about a mechanism, and the entry says so rather than quietly
+drawing what it hopes for.
 
-**It flew and passed `[client 2026-08-21]`** — tile B drew a lone `1`, so a cap-authored ruleset
-runs. Promoting it: `Catalog.lua`'s `min = 2` lifts to "a positive integer" and S7 moves into
-Part 2, first consumers Demonology's Core-at-4 and Implosion's six-imp gate (the cap-pipeline +
-release step above).
+⚠ **The duration sink seals MORE than the count sink does, and it costs the free motion.**
+`SetApplicationCount` adds `Text` and `Shown`, which is what leaves V16's animation channel in
+cap's hands. `SetDurationText` adds `Text`, **`Alpha`** and **`VertexColor`** — so an alpha
+animation cannot run on a FontString whose `Alpha` the client owns. **No cell here pulses, and
+that is not an oversight.** What cap gets instead is `SetTextColorCurve`, bound to the same clock:
+colour that moves with the remaining time rather than a breath the sink would overwrite. That
+asymmetry is the strongest argument against assuming the two sinks are interchangeable just
+because they take the same formatter object.
 
-### L2 · `count_polarity` — two meanings in one count
-
-**Asks:** can one FontString carry a negative band and a positive band in different hues — and if
-inline colour escapes are stripped, does a symbol font carry the distinction as a **shape**?
-
-Two routes, deliberately drawn as one entry because they are the same question asked of two
-mechanisms. `escape_bands` puts `|c…|r` inside each band's format; the font route puts a PUA
-codepoint there instead. `C_StringUtil` ships `EscapeQuotedCodes` and `StripHyperlinks`, so the
-client sanitises markup *somewhere* — whether the formatter does is invisible from Lua.
-
-⚠ **The routes have different blast radii and the entry exists to separate them.** A stripped
-escape costs colour; a font that does not render costs the whole treatment. `static_fallback`
-records what survives either failure: `SetApplicationCount` adds only `Text` and `Shown`
-(`:59-68`), **not** `VertexColor`, so one static hue via `SetTextColor` at setup needs no markup
-and cannot be stripped. That is the floor, and it is already ours.
-
-⚠ **A font is a second art channel this repo does not own.** `render-shelf` → `capart export
-badges` → `capart check` is what stops the preview and the addon drifting; a TTF sits outside it.
-Adopting L2's font route means the shelf declares the glyph set and `check` gates the font the way
-it gates badge TGAs. **That is a pipeline change, not a token change**, and it is the reason this
-entry is not simply "add a font".
-
-### L3 · `pandemic_mark` — cap-owned art from a sealed window
-
-**Asks:** does `AddPandemicRegion` drive a cap-owned texture from Blizzard's own refresh window?
-
-This is the odd one out and the most interesting. Every other sealed form makes cap author a
-threshold — a curve break point, a breakpoint table — and every authored threshold is a thing to
-get wrong. This one has **none**: the client computes the window itself as
-`GetRefreshExtendedDuration − GetAuraBaseDuration` (`:612-628`), which is Blizzard's real
-pandemic, not the community's 30 %, and simply calls `SetShown` on any Region cap registered
-(`:567-573`).
-
-**It is also the only sealed form that reaches cap's existing badge art directly** — a Texture
-qualifies, so no font trick and no numeral. If L3 flies, the "sealed facts can only become text"
-limit stops being general.
-
-Two costs, both real: it is the only sink that carries an `OnUpdate` (`:634-641`, and Blizzard
-`secretwrap`s even the *enablement*, because whether your update loop runs would otherwise leak the
-aura's presence), and it has **no consumer yet** — Demonology's Doom is the obvious first, and
-Affliction is most of a spec.
-
+**What the cells are for.** The three that matter are the last three: the **inversion** — hatched
+while there is plenty of DoT left, clearing as it enters the refresh window — and the **quiet
+middle**, three bands where the row says neither *do not* nor *now* for most of the DoT's life.
+V19 cannot express either. It calls `SetShown(inWindow)` and has no rule to flip, which is the
+straight trade against it authoring no threshold at all: `AddPandemicRegion` is right for free and
+cannot be asked a different question.
 ### What has left, and where it went
 
 Every row is rule 4 in action: moved into Parts 1–6 with its numbers, or deleted because the
@@ -1434,6 +2070,11 @@ question it asked got an answer. Nothing here is cited by the style; this is a l
 | `blaze-*`, `procglow-*` | 2026-08-19 | **V14**, the promotion ring, was picked out of this set — generated by `wowkb.procring` against four properties measured off Blizzard's own proc glow. The losing candidates are deleted rather than kept: they were alternatives to a decision that has been made, and a lab full of settled arguments is a lab nobody reads. |
 | `arrival-*` | 2026-08-19 | Deleted with their subject. The arrival questions belonged to V2's animated border; **V13's scan edge is static**, so there is no snap to judge and the entries had outlived the thing they were asking about. |
 | `ready-*` | 2026-08-19 | **V13**, the scan edge, was picked out of this set. Part 5 question 2 still asks whether a static line is loud enough in a pull — but that is a question about the *shipped* treatment, and it is asked there, not by keeping three unadopted alternatives drawn beside it. |
+| `count_band` (L1), `count_polarity` (L2), `count_mark` (L5) | 2026-08-22 | → **V16**, the banded count and its mark, with `tokens.count`. L5's composited crop won: put the plate inside the art the escape names so the whole badge rides the band, where L1's `place: "badge"` cells left an empty disc at every resting value. L2's hue question came with it — per-band escape, static floor, or no hue at all — and V16 answers it by spending hue only on polarity, which is V5.1's rule rather than a new one. |
+| `count_complement` (L6) | 2026-08-22 | → **V17**. It is the same sink as V16 and it is a separate primitive because it is a separate *statement*: the row rules ITSELF out, which made a sealed fact the third eliminating signal and forced `capart check`'s elimination gate to learn about it. |
+| `count_bar` (L4) | 2026-08-22 | → **V18**, `tokens.arc`. Its cells had been drawn as an explicitly-labelled proposal off a source read; the flight settled it. What promotion added is the honest half — a bar has no blank state, so the track is declared rather than incidental. |
+| `pandemic_mark` (L3) | 2026-08-22 | → **V19**, `tokens.pandemic`. The only sealed display cap authors no threshold for, and the only one whose cost is a per-tile `OnUpdate`. |
+| `composites` (L8) | 2026-08-22 | **Deleted, not promoted.** It was the argument that the four above compose on one row — three whole Demonology scenarios built out of them. Once Demonology was built its subject became a real spec's walk, drawn by `demonology-stepper.html` against a shipped catalog. An argument that has been overtaken by the thing it argued for is not an experiment. |
 | `hotkey-l1` … `hotkey-l10` | 2026-08-19 | **V15**'s font, size and dark edge were chosen out of this set of ten — five faces, then a plate, then a title bar. The winner is `tokens.hotkey`; what the losers cost is written into V15 itself, which is the point of promotion rather than citation. |
 
 ⚠ **A deleted entry is not a refuted one.** Nothing in this table is a claim that the treatment

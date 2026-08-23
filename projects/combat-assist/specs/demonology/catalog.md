@@ -4,7 +4,7 @@
 the normative catalog document: the thing a future `Catalogs/Demonology.lua` transcribes.
 It is a provisional product characterization for play, not a claim the rules are universally
 correct. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
-`../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
+`../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S11`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
 definition; `scenarios.md` beside it is the walk that proves it, and `fact-classification.md` is
@@ -253,14 +253,15 @@ ROTATION row to its left by a cue rather than by position.
 - **Power Siphon** (`264130`, rung 1). *Problem:* it converts two Wild Imps into Demonic Cores,
   so pressing it on top of Cores you already hold throws the conversion away — and the icon
   cannot say how many you hold. *Facts:* `ready` (R2) for the lane; `buff.demonic_core.stack<=1`
-  for the rung, which is a **count**. *Treatment:* COOLDOWN, **no cue**, plus an optional sealed
-  **context** display (S2, `player-aura-stacks` on Demonic Core `264173`) that lets the client
-  paint the count beside the row. The count is context and **does not eliminate** —
-  *Two rows elimination cannot rule out*, below.
-  ⚠ `player-aura-stacks` is shipped but is **hard-limited to `min = 2`** (`Catalog.lua`'s
-  `Catalog.Check`: *"player-aura-stacks currently supports min = 2"*), which happens to be the
-  exact threshold this row wants — `stack<=1` is the complement of `stack>=2`. So the *display*
-  is expressible today and only the *badge* is not.
+  for the rung, which is a **count**. *Treatment:* COOLDOWN, **no cue**, plus a sealed
+  **eliminating** display —
+  - `ps_cores_banked` — **sealed** `sealed-count-bands` (S7 + S11, `../render-shelf.md` V16) on
+    Demonic Core `264173`. Two bands: silent below two, and at two a hatch plus a negative mark,
+    both named by the band itself so both clear together. That is `buff.demonic_core.stack<=1`
+    read as a hold, and cap never learns which band fired.
+  ⚠ **This row has no readable cue at all and the display does the whole of the work**, which is
+  the first time that is true anywhere in the project. It also closes this catalog's second
+  defeat — see *Defeats*, item 2 — and DEM-14 is the scenario it made writable.
 - **Grimoire: Imp Lord / Grimoire: Fel Ravager** (`1276452` / `1276467`, rungs 3 and 4).
   *Problem:* none a cue solves — press on cooldown. *Fact:* `ready` (R2). *Treatment:* COOLDOWN,
   no cues. ⚠ **This is a choice node, not a transform**, and the two ids go in the catalog's
@@ -306,11 +307,21 @@ ROTATION row to its left by a cue rather than by position.
     `!talent(to_hell_and_back)`. That is the second half of rung 9's gate, negated. The talent
     term is what makes it safe: To Hell and Back makes Implosion correct at any target count, so
     on that build the skip is never authored at all.
-  - plus the same sealed **context** display as Power Siphon (S2 on Wild Imp `296553`, a
-    Category-2 row in set 60 at OrderIndex 47) — the count appearing beside the row *is* the
-    "now" signal, painted by the client with Lua reading nothing.
-  ⚠ **The count does not eliminate**, so in AoE mode below six imps the walk stops here.
-  *Two rows elimination cannot rule out*.
+  - `implosion_imps_short` — **sealed** `sealed-count-bands` (S7 + S8 + S11,
+    `../render-shelf.md` V16/**V17**) on Wild Imp `296553`, a Category-2 row in set 60 at
+    OrderIndex 47. It is the **complement**: below six the band draws a hatch, a plate, a mark and
+    the number out of one FontString; at six it emits the empty string and all four clear. That is
+    `buff.wild_imps.stack>=6` read as an elimination.
+  - `implosion_no_imps` — **readable** `blocked`: `!aura(wild_imp)`. ⚠ **The one state the band
+    cannot reach.** With no Wild Imp there is no aura, so the client hides the whole button and
+    every sink on it draws nothing — which would leave a ready Implosion un-ruled-out at zero
+    imps, the worst kind of hole because it looks like a live candidate. The `aura` latch is
+    readable and an unbound row reads UNKNOWN rather than false, so it stays dark rather than
+    asserting the imps are gone.
+  ⚠ **A complement is only correct where the low band is a REAL elimination.** A red mark on a
+  rising count inverts a fact the player experiences as progress; it is truthful here because
+  below six imps Implosion is literally a damage loss, and it would be a lie on Demonic Core,
+  where "not yet at four" is not a reason to skip anything.
 - **Hand of Gul'dan / Ruination** (`105174` → `433885`, rungs 2, 11 / 10). *Problem:* two
   problems on one row, pointing the same way for once. *Fact (the spend):* `affordable` (R1) and
   Tyrant's sealed cooldown remaining. *Fact (Ruination):* `identity` (R7). *Treatment:* ROTATION
@@ -353,9 +364,27 @@ ROTATION row to its left by a cue rather than by position.
   `../spec.md` §3.1's readable-relationship rule applied to R7 rather than to `ready`. It needs
   no new predicate — `identity` has arity 2 and takes a subject — but it is the first time a
   subject is a *different* entry, and that is worth a test.
+  - `db_core_charge` — **sealed** `sealed-count-bar` (S10, `../render-shelf.md` V18) on Demonic
+    Core, `max = 4`. *How many* Cores are banked, as a radial fill inside the badge plate. ⚠ It is
+    **graded and has no blank state** — `SetValue` clamps into `[0, max]`, so the track is on the
+    row for as long as the aura is up. `max` is the number that MATTERS rather than the aura's
+    real cap, which is what turns "or more" into "full".
+  - `db_doom_window` — **sealed** `sealed-refresh-window` (S9, `../render-shelf.md` V19) on Doom
+    `460553`, **gated on the readable `talent(doom)`**. The one sealed display cap authors no
+    threshold for: the client computes `GetRefreshExtendedDuration − GetAuraBaseDuration` itself,
+    per spell, which is Blizzard's real pandemic rather than the community's 30 %.
+    ⚠ **The gate is why this is the catalog's readable-gate example.** Without Doom talented the
+    fact does not exist, and a display armed for it would sit dark forever with no way to tell
+    that from a client refusal. A gate contributes no cue — it decides only whether the client may
+    paint the sealed display at all.
+    ⚠ **cap does not read the DoT and never learns whether the window is open.** What it reads is
+    whether the talent is taken.
   **Badge-slot arithmetic:** cues C and D both raise `blocked` (slot 1) and union onto one badge;
   cue B raises `overcap` (slot 2). `starved` is never declared on this row, so
   `Catalog.Check`'s one-cue-per-slot rule is satisfied.
+  ⚠ **This is the densest corner in the catalog** — two sealed displays land in the badge stack's
+  own pixel at once (DEM-8), which nothing else here does. Whether that reads as one statement or
+  as a mess is a flight question, not a document one.
 
 ### FALLBACK lane
 
@@ -374,26 +403,34 @@ ROTATION row to its left by a cue rather than by position.
 
 ---
 
-## Two rows elimination cannot rule out
+## The one row elimination cannot rule out
 
 ⚠ **This is the honest finding of the pass, and it is stated here rather than buried in the
-walk.** `../render-shelf.md` Part 0.5's reading model has exactly two eliminating signals —
-Blizzard's swipe and cap's negative badge. Two rows in this catalog can be lit, be the wrong
-press, and wear neither:
+walk.** `../render-shelf.md` Part 0.5's reading model has **three** eliminating signals since
+2026-08-22 — Blizzard's swipe, cap's negative badge, and a **sealed band the client evaluates**
+(V17). One row in this catalog can be lit, be the wrong press, and wear none of them:
 
-1. **Call Dreadstalkers**, ready, on a Reign of Tyranny build, while Tyrant's cooldown is
-   between roughly 10.5 s and 21.5 s.
-2. **Power Siphon**, ready, while two or more Demonic Cores are banked.
+1. **Call Dreadstalkers**, ready, on a Reign of Tyranny build, while Tyrant's cooldown is between
+   roughly 10.5 s and 21.5 s.
 
-Both are named in *Defeats* with the rung that failed and what would reopen them. Neither is
-drawn as a guess, and **no scenario in `scenarios.md` claims a press to the right of a row in
-one of these states** — a walk that quietly stepped over an un-badged row would be asserting a
-reading the player cannot perform.
+It is named in *Defeats* with the rung that failed and what would reopen it. It is not drawn as a
+guess, and **no scenario in `scenarios.md` claims a press to the right of a row in that state** —
+a walk that quietly stepped over an un-badged row would be asserting a reading the player cannot
+perform.
 
-The **sealed count displays** on Power Siphon and Implosion are the ladder's second rung
-(`../spec.md` §3.6): the client paints the number, cap learns nothing, and the *appearance* of
-the number is the eye-catch (S2's own note). They are real cues and they are useful. They are
-simply not *eliminating*, and this document does not pretend otherwise.
+⚠ **There were TWO until 2026-08-22, and the second was Power Siphon with Cores banked.** It is
+now DEM-14, and what closed it is worth being precise about, because the obvious reading is wrong:
+**nothing new was learned about the client.** The rule route existed and was measured on
+2026-08-21. What was in the way was cap's own pipeline — a catalog may not cite a lab entry, so
+the treatment was expressible and unusable at the same time — and the fix was a **promotion** into
+`../render-shelf.md` Parts 1–6. The same primitive, run in its complement direction, closed the
+below-six-imps state as DEM-13.
+
+**The sealed count displays are no longer merely context.** `../spec.md` §3.6's ladder puts a
+threshold on a secret at its second rung: cap authors a rule, the client evaluates it against the
+secret, and cap never learns which branch fired. That is what these two rows now do, and the
+difference from the old count display is the whole of it — a number appearing beside a row was
+useful and did not eliminate; a hatch and a negative mark do.
 
 ---
 
@@ -408,7 +445,11 @@ simply not *eliminating*, and this document does not pretend otherwise.
 | **E** starved | Hand of Gul'dan wears `starved` when its **live** id is unaffordable — three shards as itself, none as Ruination | `insufficientPower` on the live id | marker (readable) | R1 + R7 | corner badge, slot 2 |
 | **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, rank 3 |
 | **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, slot 1 |
-| — | Power Siphon and Implosion may carry a **client-painted count** (Demonic Core, Wild Imps) | the aura's application count | sealed display | S2 `player-aura-stacks` | AuraContainer FontString |
+| — | Power Siphon **rules itself out** at two or more Demonic Cores: the client draws a hatch and a red mark | the aura's application count | sealed display | S7 + S11 `sealed-count-bands` | AuraContainer FontString → V16 |
+| — | Implosion **rules itself out** below six Wild Imps, and clears at six | the aura's application count | sealed display | S7 + S8 + S11 `sealed-count-bands` (complement) | AuraContainer FontString → V16/V17 |
+| — | Demonbolt carries a **radial** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
+| — | Demonbolt carries a **badge while Doom's refresh window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-refresh-window` + the `talent` predicate | AuraContainer Region → V19 |
+| **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, slot 1 |
 
 **Three cue keys, one red.** `blocked`, `starved` and `overcap` share a hue
 (`../render-shelf.md` V5.1); nothing here asks for a primitive the shelf does not have, and no
@@ -434,27 +475,42 @@ here it is short, because the two candidates fail for different structural reaso
 
 ## New mechanism this catalog implies
 
-Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, `proc`,
-`identity`, `capped`, `affordable`, `resource`, `talent`, `aura`, `aoe`; `Catalog.DISPLAYS` =
-`player-aura-stacks`, `sealed-power-percent`, `sealed-cooldown-range`):
+Measured against the source vocabulary as it stood before this pass (`Catalog.PREDICATES` =
+`ready`, `proc`, `identity`, `capped`, `affordable`, `resource`, `talent`, `aura`, `aoe`;
+`Catalog.DISPLAYS` = `player-aura-stacks`, `sealed-power-percent`, `sealed-cooldown-range`):
 
-1. **No new predicate and no new display kind.** Every readable term above is one of the nine,
-   and the one sealed band is `sealed-cooldown-range` in its existing `within` sense.
-   `sealed-power-percent` is not used at all — Soul Shards are readable, so there is no graded
-   resource curve anywhere in this catalog.
+1. **No new predicate.** Every readable term above is one of the nine, and the one sealed *band*
+   is `sealed-cooldown-range` in its existing `within` sense. `sealed-power-percent` is not used
+   at all — Soul Shards are readable, so there is no graded resource curve anywhere here.
 2. **First use of `identity` on a subject that is a different entry** (cue D). The predicate
-   already has arity 2 and takes a subject (`Catalog.PREDICATES.identity`), and `Signal.subject`
-   resolves it the same way, so this should need no engine change — but no shipped catalog has
-   done it, and that is worth a test.
+   already has arity 2 and takes a subject, and `Signal.subject` resolves it the same way — but no
+   shipped catalog had done it, and it now has a test.
 3. **First use of the two-band identity mechanism to change a row from FALLBACK to ROTATION.**
-   Retribution's row 3 goes COOLDOWN → ROTATION; this goes the other direction on the ladder.
-   The mechanism is unchanged (`Signal.tier` takes the first band whose condition holds).
-4. **No new marker shape or channel pairing**, so under `../authoring.md`'s **marker seam** (stage 6's renderer test, the definition-of-done for Phase 9.4)
-   this spec should edit **nothing** in `Treatment.lua` / `Overlay.lua` and be authored purely as
-   catalog data. If a renderer edit turns out to be needed, that is a finding about the seam.
-5. **One S-form is wanted twice and is not written** — see *Defeats*, items 1 and 2. It is not
-   prebuilt (`../authoring.md`'s standing rules), and it is described precisely enough that the
-   next spec that wants it does not have to rediscover the shape.
+   Retribution's row 3 goes COOLDOWN → ROTATION; this goes the other direction on the ladder. The
+   mechanism is unchanged (`Signal.tier` takes the first band whose condition holds).
+4. **THREE new display kinds, and they are a renderer change rather than catalog data.**
+   `sealed-count-bands` (V16/V17), `sealed-count-bar` (V18) and `sealed-refresh-window` (V19)
+   replace `player-aura-stacks` and its `min = 2` guard — which was never a platform limit, but
+   Blizzard's behaviour when **no formatter is passed**.
+   ⚠ **This paragraph used to say the opposite**, and the correction is the finding rather than an
+   embarrassment: it read *"no new marker shape or channel pairing, so this spec should edit
+   nothing in `Treatment.lua` / `Overlay.lua`"*. All three treatments are new marker shapes, so
+   `Catalog.lua`, `Channel.lua` and `Overlay.lua` all moved. Per `../authoring.md` (stage 6's
+   marker seam) a renderer edit **is** the finding, not a failure — and what it found is that
+   three sinks needed one seam, which is `Channel.ContainerPlan` beside the existing
+   `Channel.GradedPlan`.
+5. **A CONTAINER display may now carry a readable gate**, which it silently could not before:
+   `Overlay.configure` tested `not marker.when`, so a marker with both a `when` and a `display`
+   fell through every branch and armed nothing at all. `Signal` had always computed
+   `verdict.gates` for exactly that shape and only the graded path consumed it. `db_doom_window`
+   is the first consumer.
+6. **A band table is authored as MEANING, never as a format string.** A catalog names `draw`,
+   `polarity` and `hatch`; `Channel.CountRules` builds the client's `format` out of
+   `ns.Style.count`. A catalog that wrote the string directly would put the style in the gameplay
+   file, where nothing regenerates it.
+7. **One S-form is still wanted and is not written** — the two-sided band, *Defeats* item 1. It is
+   not prebuilt (`../authoring.md`'s standing rules), and it is described precisely enough that
+   the next spec that wants it does not have to rediscover the shape.
 
 ---
 
@@ -481,27 +537,37 @@ would reopen it**. None of these is a bare "cannot".
    a five-point step list and the machinery already evaluates one; nothing about the platform is
    in the way. It is **not built here**, because the standing rule is not to prebuild vocabulary
    until a spec needs it — and this is the note that says one now does.
-2. **A stack count as a hold, wanted twice.**
+2. **A stack count as a hold, wanted twice — CLOSED 2026-08-22.**
    *Scenario A:* Power Siphon is ready with two or more Demonic Cores banked (rung 1's
    `buff.demonic_core.stack<=1` is false). *Scenario B:* AoE mode is on, Implosion is ready, and
    fewer than six Wild Imps are out (rung 9's `buff.wild_imps.stack>=6` is false).
-   *Rung it died on:* **the shelf.** cap has exactly one aura-stack form, `player-aura-stacks`
-   (S2), and it is a **count display** — an AuraContainer slot whose FontString is empty below a
-   threshold and shows the number at or above it. It paints; it does not badge, and it cannot
-   paint the *complement*. It is additionally hard-limited to `min = 2` in `Catalog.Check`.
-   the `aura` latch gives a readable **boolean** (are there any Cores / any
-   imps), which is not the question either rung asks. **This is not a platform limit** — the
-   secret is a number and `spec.md` §3.6 says a threshold on a secret is expressible as an
-   authored curve the client evaluates; nobody has written the curve for a stack count.
-   *What would reopen it:* an S-form that evaluates a step curve on an **aura application count**
-   the way S4 already does on a cooldown-remaining duration — `AddPoint(0, 1)`,
-   `AddPoint(n, 1)`, `AddPoint(n + ε, 0)` → alpha — plus lifting the `min = 2` limit. ⚠ The
-   input needs checking first: S4's curve is evaluated by a `LuaDurationObject`, and an
-   application count is a plain secret number, so the evaluation path may be `C_CurveUtil` +
-   `SetAlpha` rather than the duration route. **That check is the first step, not the last.**
-   ⚠ **Three of this pass's four Warlock sealed facts are stack counts** — Demonic Core, Wild
-   Imps, and Destruction's Backdraft — so this one form is the single highest-value thing on the
-   shelf's unwritten list.
+
+   *Rung it died on, and it was never the client.* cap's one aura-stack form was
+   `player-aura-stacks`: an AuraContainer slot whose FontString was empty below a threshold and
+   showed the number at or above it. It painted; it did not badge, it could not paint the
+   *complement*, and it was hard-limited to `min = 2` in `Catalog.Check`. The `aura` latch gave a
+   readable **boolean** — are there any Cores, any imps — which is not the question either rung
+   asks.
+
+   *What reopened it, in two steps.* First the client: a `NumericRuleFormatter` handed to
+   `SetApplicationCount` replaces Blizzard's default with a piecewise function cap authors, and a
+   tainted-created one **is honoured** `[client 2026-08-21]`; a band's `format` may carry a
+   texture escape and several escapes fit in one band. So `min = 2` was Blizzard's *no-formatter
+   default* and never a ceiling. Then — and this is the half worth remembering — **cap's own
+   pipeline**: the treatment was being chosen in `../render-shelf.md` Part 7, and a catalog may
+   not cite a lab entry, so the fact was expressible and unusable at the same time. Promotion into
+   Parts 1–6 (V16/V17) is what actually closed it, together with `Catalog.DISPLAYS`,
+   `Channel.CountRules` and a release.
+
+   ✅ **Both scenarios are now in the walk.** Scenario A is **DEM-14** and scenario B is
+   **DEM-13**, and they use the same primitive in opposite directions: A draws at and above its
+   threshold, B draws below it and clears at it. Destruction's Backdraft rides the same kind.
+
+   ⚠ **One state the band structurally cannot reach**, and it is not a gap in the primitive: with
+   **no aura at all** there is no button, so no sink on it draws anything. Implosion at zero imps
+   is covered by a readable `aura` marker instead (`implosion_no_imps`), and Demonbolt at zero
+   Cores by the readable `proc` it already had.
+
 3. **`target_if` — choosing which enemy to hit.**
    *Scenario:* Doom is talented, several enemies are up, and rung 13 reads
    `demonbolt,target_if=(!debuff.doom.up),if=soul_shard<4&buff.demonic_core.react` — cast
@@ -568,13 +634,18 @@ An ability with no named player problem gets no row; so does one with no Cooldow
   (R1), `identity` (R7), `resource` (R3 — Soul Shards, never-secret), `proc` (the
   spell-activation overlay boolean), `talent` (the trait config), and `aoe` — which is not a
   game read at all but cap's own toggle.
-- **Cues carry sealed facts to client-owned sinks:** one `sealed-cooldown-range` band on Summon
-  Demonic Tyrant's cooldown (cue F), plus two optional `player-aura-stacks` count displays. cap
-  authors the window in seconds, the client evaluates the curve, and cap reports `offered` /
-  `armed` / `refused` and never reads back. **Accepted is not drawn**
+- **Cues and displays carry sealed facts to client-owned sinks:** one `sealed-cooldown-range`
+  band on Summon Demonic Tyrant's cooldown (cue F); two `sealed-count-bands` tables, on Demonic
+  Core and on Wild Imp; one `sealed-count-bar` on Demonic Core; and one `sealed-refresh-window` on
+  Doom. cap authors the window in seconds, the breakpoints in whole counts, and the bar's maximum
+  — and nothing else. The client evaluates every one of them and cap reports `offered` / `armed` /
+  `refused` and never reads back. **Accepted is not drawn**
   (`../authoring.md` → *Accepted is not drawn*).
 - **No cooldown remaining, no aura duration, no aura stack count and no target state ever enters
-  a Lua condition**, in either polarity.
+  a Lua condition**, in either polarity. ⚠ **That still holds with the counts drawing**, and it is
+  the whole design: a band table is a rule cap hands over, not a comparison cap performs, and cap
+  never learns which band fired. The one readable thing about an aura anywhere here is the `aura`
+  latch's boolean — *is there one at all* — which is a different fact from *how many*.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable`,
   `resource`, `proc`, `identity` or `talent` withholds; it does not assert the opposite. This is
   load-bearing for cue **C**, whose whole content is a negation: a refused `proc` must leave
@@ -607,3 +678,22 @@ transform. Five things the pass established that were not written down anywhere:
   away from not defeating it.
 - **`player-aura-stacks` is a count display hard-limited to `min = 2`**, and three of the four
   Warlock sealed facts in this pass are stack counts. One unwritten S-form covers all three.
+
+**2026-08-22 — built** (stages 6–7 of `../authoring.md`), replacing the 2026-era pilot in
+`Catalogs/Demonology.lua`. Three sealed-display primitives were promoted out of
+`../render-shelf.md` Part 7 to make it possible — V16 the banded count, V17 its complement, V18
+the sealed radial, V19 the refresh window — and four things the transcription established:
+
+- **`player-aura-stacks` and its `min = 2` guard are gone**, replaced by `sealed-count-bands`.
+  The guard was never a platform limit: `applications > 1` is what the client does when **no
+  formatter is passed**. Destruction's Backdraft migrated with it and draws exactly what it did.
+- **The second defeat is closed and both of its scenarios are in the walk** (DEM-13, DEM-14). What
+  closed it was a promotion into Parts 1–6, not new client knowledge — the measurement had been in
+  hand since 2026-08-21 and a catalog may not cite a lab entry.
+- **A container display could not carry a readable gate.** `Overlay.configure` tested
+  `not marker.when`, so a marker with both fell through every branch and armed nothing, silently.
+  `Signal` had computed `verdict.gates` for that shape all along.
+- **Item 4 of *New mechanism* was wrong and is rewritten.** It predicted no renderer edit; all
+  three treatments are new marker shapes and `Catalog.lua`, `Channel.lua` and `Overlay.lua` all
+  moved. Per stage 6 that is the finding rather than a failure, and what it found is that three
+  sinks share one seam.

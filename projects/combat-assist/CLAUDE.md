@@ -60,11 +60,11 @@ it), but **never in a CDM row**: it reaches the addon only as `ns.LabStyle` in t
 quietly becoming load-bearing). A treatment leaves the lab by being **moved** into Parts 1–6, never
 by being cited from there. Each entry carries an `asks` — the question it exists to answer.
 
-**The lab is EMPTY as of 2026-08-19, which is its correct resting state and not a defect.** Every
-entry it held has either been promoted into Parts 1–6 or deleted because the question it asked got
-an answer — V2, V5, V11, V13, V14 and V15 were all chosen out of it. `render-shelf.md` Part 7 keeps
-the ledger of what left and where it went; `git log` keeps the entries themselves, with their
-`asks` intact, which is where a revived idea should be read from.
+**An EMPTY lab is its correct resting state and not a defect** — every entry it holds has either
+been promoted into Parts 1–6 or deleted because the question it asked got an answer. V2, V5, V11,
+V13, V14, V15 and V16–V19 were all chosen out of it. `render-shelf.md` Part 7 keeps the ledger of
+what left and where it went; `git log` keeps the entries themselves, with their `asks` intact,
+which is where a revived idea should be read from.
 
 **Do not restate the lab's contents here when it is next populated** — run
 `uv run python -m wowkb.capart export lab`, which prints every entry, or read Part 7. A count in

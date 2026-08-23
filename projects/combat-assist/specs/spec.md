@@ -326,10 +326,26 @@ one discipline is **restore-on-exit**: cap records whatever it changes about the
 Blizzard's settings and reverts it when disabled, so the player is never left holding a state cap
 made and does not own.
 
-The first sealed form is `player-aura-stacks`: a declared player-aura dependency and a
-minimum of two. Blizzard's AuraContainer writes the application text directly into a static,
-outlined FontString. CAP may report only `offered`, `armed`, or `refused`; it cannot report
-whether the secret-driven glyph appeared.
+The first sealed form is **`sealed-count-bands`**: a declared aura dependency and a table of
+breakpoints cap authored. Blizzard's AuraContainer evaluates the table against the application
+count and writes the result into a FontString cap handed it — which may draw a number, a mark, a
+hatch across the whole icon, or nothing at all. CAP may report only `offered`, `armed`, or
+`refused`; it cannot report whether the secret-driven glyph appeared.
+
+⚠ **This replaced `player-aura-stacks` on 2026-08-22, and the difference is the whole of it.**
+That form declared a *minimum of two*, which read as a platform limit and is not one: `applications
+> 1` is Blizzard's behaviour when **no formatter is passed**. Passing one replaces it with a
+piecewise function cap authors, so a threshold anywhere, a complement, a fixed glyph and a
+texture escape are all one form. And because a band may draw the hatch, **a sealed fact can now
+ELIMINATE a row** rather than only decorate it — the third eliminating signal, beside Blizzard's
+swipe and cap's own badge.
+
+Two further count forms ride the same slot. **`sealed-count-bar`** drives a StatusBar from the
+same sealed count (only `BarValue` is sealed, so the shape is cap's) and says *how far toward N*
+where the bands say *yes or no* — at the cost of having **no blank state**.
+**`sealed-refresh-window`** is the odd one and the safest: `AddPandemicRegion` seals a Region's
+`Shown` and drives it from the client's own per-spell refresh arithmetic, so cap authors **no
+threshold at all**, and a Frame with children appears and vanishes whole.
 
 The Havoc catalog (§3.7) adds two further sealed forms, and neither one lets Lua learn the
 value it acts on:
@@ -362,7 +378,7 @@ value it acts on:
   together and the conjunction is read on screen. What is unsolved is folding them into one mark.
   That is an operator nobody has designed yet, not a limit the client imposes.
 
-Both obey the same rule as `player-aura-stacks`: the value flows only into a client-owned sink,
+Both obey the same rule as the count forms: the value flows only into a client-owned sink,
 CAP reports `offered` / `armed` / `refused`, and only an eyeball proves a pixel appeared.
 
 **One secret per curve; readable gates without limit.** A sealed form carries exactly **one**

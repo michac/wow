@@ -8,7 +8,7 @@ Everything here is downstream of `spec.md` §1. Where a stage restates a rule, t
 is the authority and this file is the reminder of *when* it applies.
 
 **Who owns what.** `spec.md` owns approved behavior. **This file owns the recipe namespace**
-(`R1`…`R10`, `S1`…`S9`, the mechanism seams) — see *The recipe index* below — while every recipe's
+(`R1`…`R10`, `S1`…`S11`, the mechanism seams) — see *The recipe index* below — while every recipe's
 *evidence* lives in `knowledge/addon-dev/`, which the index points into.
 `backlog.md` → `## Status` owns what is built and what has flown. `notes.md` owns dated history.
 `discussion.md` owns undecided product questions. This file owns the order the work happens in.
@@ -295,6 +295,8 @@ unmeasured, route it per stage 5.
 | `S7` | Aura stack count in a BAND | sealed-display | `security-taint-and-restricted-data.md` §3.5 → the `NumericRuleFormatter` surface (breakpoints, the `min`/`max` input-clamp trap, the `SecondsFormatterMixin` lookalike); §3.5.2 for the flight that proved a tainted-created formatter is honoured |
 | `S8` | Per-band COLOUR on a banded count | sealed-display | `security-taint-and-restricted-data.md` §3.5.2 → inline colour escapes survived the formatter on this build, the static-hue floor via `SetTextColor`, and the bundled-font fallback if a later build starts sanitising |
 | `S9` | Pandemic window as a client-drawn texture | sealed-display | `security-taint-and-restricted-data.md` §3.5.2 → `AddPandemicRegion`, Blizzard's own window rather than the community 30 %, the `OnUpdate` cost, and the aura-id-is-not-the-cast-id trap |
+| `S10` | A stack count as a client-drawn **fill** (art, not a numeral) | sealed-display | `security-taint-and-restricted-data.md` §3.5 → `SetApplicationBar`: the client sets the bar's range from the addon's own `maxApplications` and its value from the sealed count, and only `BarValue` is sealed. The bar **crops** its texture, so a banded fill expresses a threshold the range cannot; `StatusBarRenderMode.Radial` gives a circular fill with no mask. ⚠ It is **graded, with no blank state** — the trade against `S7`'s bands. |
+| `S11` | A stack count as a **texture**, gated on a threshold the addon authored | sealed-display | `security-taint-and-restricted-data.md` §3.5 → a band's `format` may carry `|T…|t` / `|A:…|a` and it RENDERS; a band may mix specifier and mark. §3.5.3 → the sink seals only `Text` and `Shown`, so an always-looping animation on the FontString is **invisible while the band is blank** and the mark arrives already in motion. The only route that is both threshold-gated **and** reaches art. |
 
 ⚠ **All three AuraContainer forms share one gate**: `initializeFrame` is the only window in which
 any sink may be registered, every sink widget must be a descendant of the button, and buttons are

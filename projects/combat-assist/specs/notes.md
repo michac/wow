@@ -128,3 +128,65 @@ already superseded:
 git show 671fb68:projects/combat-assist/specs/notes.md
 git show a33e152:projects/combat-assist/specs/notes.md
 ```
+
+## 2026-08-22 — Demonology built, and three sealed-display primitives promoted
+
+`Catalogs/Demonology.lua` of the current design ships: nine entries in the authored priority
+order, transcribed from `demonology/catalog.md`, with fourteen scenarios in `scenarios.md`.
+`authoring.md` stages 6 and 7 have run; stage 8 has not. The pilot is gone from the addon, and the
+engine specs that had been riding it now ride `tests/fixtures/engine_catalog.lua` instead — an
+engine guarantee that rests on a shipped roster breaks the day that roster is authored.
+
+Four treatments left `render-shelf.md` Part 7 to make it possible, as **V16** (the banded count
+and its mark), **V17** (the complement), **V18** (the sealed radial) and **V19** (the refresh
+window). `composites` was deleted rather than promoted: it was the argument that those four
+compose on one row, and its subject is now a real spec's walk. `duration_band` stays.
+
+Three things worth remembering:
+
+- **Nothing new was learned about the client.** Every measurement was in hand on 2026-08-21. What
+  was in the way was that a catalog may not cite a lab entry, so the fact was expressible and
+  unusable at the same time. Promotion is a pipeline step and it was the whole cost.
+- **A sealed fact can now eliminate a row.** The reading model has three eliminating signals
+  instead of two, and `capart check`'s elimination gate knows about the third explicitly. That
+  closed `demonology/catalog.md`'s second defeat and made DEM-13 and DEM-14 writable.
+- **`player-aura-stacks`'s `min = 2` was never a platform limit** — it is what the client does
+  when no formatter is passed. The kind is retired; Destruction's Backdraft migrated mechanically
+  and draws exactly what it did.
+
+Two defects the work surfaced and fixed, neither of which had a symptom: a container display
+carrying a readable gate armed **nothing at all** (`Overlay.configure` tested `not marker.when`,
+and only the graded path consumed `verdict.gates`), and V14's `tint: "lane"` meant the one
+primitive whose whole advantage is being neutral was the one going unguarded by the tint guard.
+
+## 2026-08-22 — v0.12.0 drew nothing, and a pure suite could not have caught it
+
+The Demonology flight got no flight: cap loaded, Anchor re-ordered the viewer, and **not one
+pixel drew** — no badges, no scan edges, no hatches, no keybind labels.
+
+`wowkb.capture cap tier` named it in one line:
+`# listener-error i:3 Overlay.lua:232 attempt to call a nil value`. `badge:SetPoint` does not
+exist. `Paint.Badge` returns a plain TABLE with `Show`, `Hide` and `Step`, and the flowing badge
+stack (2026-08-19) started re-anchoring through a method nobody added.
+
+**It shipped invisible for three days because the only catalog anyone ran declared no cues.** The
+Demonology *pilot*'s two markers carried none, so `wanted` was always empty and the stack loop
+only ever reached its `badge:Hide()` branch. The first catalog with cues took the whole of
+`paint()` down on its first row — and `Sense.fireVerdicts` pcall-protects its listeners by
+design, so the error reached the capture and nobody's screen. Havoc and Retribution would have
+hit it identically; neither had flown since.
+
+Three things worth keeping:
+
+- **A pure suite is structurally blind to this.** `mock_ns.lua` is right that nothing needing a
+  `CreateFrame` stub belongs in it, and the consequence is that no test here can ever construct a
+  badge. So *cap calling a method its own constructor does not define* had no guard at all.
+  `tests/spec/engine/surface_spec.lua` is that guard and it is deliberately **textual** — it
+  checks the source, because there is nowhere else to check.
+- **The protective pcall is correct and it is also what hid this.** A bare error on the 10 Hz
+  tick re-throws forever, so the guard has to be there; what it costs is that a total draw
+  failure looks like silence. The capture is the only thing that closed the gap between "nothing
+  works" and a file and a line — which is the whole argument for the capture standard.
+- **The reachability, not the code, was the risk.** The call was wrong the day it was written;
+  what changed was a catalog declaring a cue. A branch no shipped data reaches is untested no
+  matter how many tests pass.

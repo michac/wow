@@ -34,7 +34,13 @@
   --accent: #2b5fbf;
   --warn: #8a5a00;
   --warn-bg: #fdf1d6;
+
+  /* A mask STENCIL, not a colour. `mask` needs an opaque paint and never renders it, so this
+     is page furniture rather than a token the shelf declares -- and putting it here keeps the
+     strict-css gate meaningful instead of teaching it an exception. */
+  --stencil: #000;
 }
+
 /* ===== CHROME END ===== */
 
 * { box-sizing: border-box; }
@@ -381,7 +387,7 @@ a { color: var(--accent); }
 .ready-line {
   position: absolute; inset: 0;
   border: var(--rl-line) solid rgba(var(--rl-rgb), var(--rl-rest));
-  mix-blend-mode: plus-lighter;
+  mix-blend-mode: var(--ready-blend);
   pointer-events: none;
 }
 
@@ -678,4 +684,408 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   inset: calc(var(--hatch-skip-over) * -1);
   border: var(--hatch-skip-line) solid var(--hatch-skip-edge);
   box-sizing: border-box;
+}
+
+/* Part 7 · a secret aura APPLICATION COUNT reaching a pixel. Two sinks, two rules.
+ *
+ * `.count-band` is the NumericRuleFormatter's string. It is a FontString in the client, so it
+ * gets the same real stroke V15's hotkey gets and for the same reason: the client's OUTLINE flag
+ * is a glyph-outline stroke, and offset shadow copies do not converge on one. Anchored TOP-CENTRE
+ * because that is where Blizzard's own aura buttons put an application count, and a treatment
+ * that moved it would be arguing about placement when the question is the band.
+ *
+ * ⚠ Nothing here blinks. `tokens.text`'s flicker ceiling binds any text cap changes, and a count
+ * changes on its own whenever the aura does — so animating it as well would put a number under
+ * two independent clocks. The value appearing IS the event.
+ */
+.item .count-band {
+  position: absolute;
+  top: 1px; left: 0; right: 0;
+  text-align: center;
+  font: 700 var(--cn-size) / 1 var(--hotkey-font);
+  color: var(--cn-rgb);
+  -webkit-text-stroke: calc(var(--cn-outline) * 2) var(--hotkey-outline);
+  paint-order: stroke fill;
+  pointer-events: none;
+}
+
+/* A count wearing the BADGE's own geometry — the plate, the corner, the overhang. The plate is
+ * cap's ordinary texture and cap never learns which band fired, so it draws whether or not the
+ * numeral does. That permanence is the cost, and the blank cell below is drawn so it is visible
+ * rather than argued about. Geometry is shared with `.slot` deliberately: if this ships it is in
+ * the badge stack's pixel, not beside it. */
+.item .count-plate {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  pointer-events: none;
+  isolation: isolate;
+}
+.item .count-plate::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+.item .count-plate .count-band {
+  position: absolute; inset: 0;
+  top: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* `.count-bar-track` / `.count-disc` are SetApplicationBar's StatusBar. The client sets the bar's
+ * min/max from cap's authored `maxApplications` and its value from the sealed count; everything
+ * about how it LOOKS — texture, size, orientation — stays an ordinary setup call, which is why
+ * this is the only count route that reaches a shape.
+ *
+ * ⚠ There is no blank state and the rules below do not fake one: a track always draws, including
+ * at zero. That is the trade against the formatter's bands, and hiding it in the preview would
+ * hide the whole question.
+ */
+.item .count-bar-track {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--cb-h);
+  background: var(--cb-track);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.item .count-bar-track .count-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: var(--cb-frac);
+  background: var(--cb-rgb);
+}
+
+/* The disc is the same bar wearing V5's badge geometry and filling UPWARD, so a count reads as a
+ * badge charging rather than as a meter. It hangs off the top-right corner exactly where the
+ * first badge would, which is deliberate: if this treatment ships it competes for that pixel. */
+.item .count-disc {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  background: var(--cb-track);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The RADIAL form is not the disc with a different fill — it is a different render mode. At 12.1
+ * `StatusBar:SetRenderMode(Enum.StatusBarRenderMode.Radial)` drives the managed texture's radial
+ * progress percent "instead of resizing the texture anchors", so the same SetValue sweeps an arc
+ * rather than raising a waterline. Drawn as a conic gradient for the same reason the waterline is
+ * drawn as a clipped rect: it is the client's arithmetic, not a new opinion. */
+.item .count-radial {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  background: conic-gradient(var(--cb-rgb) var(--cb-frac), var(--cb-track) 0);
+  pointer-events: none;
+}
+
+.item .count-disc .count-fill {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--cb-frac);
+  background: var(--cb-rgb);
+}
+
+/* ── Part 7 · a sealed count reaching ART, and a window reaching a badge ───────────────────
+ *
+ * `.mark-*` is the texture-escape family: a band's `format` carrying `|T…|t` / `|A:…|a`, which
+ * RENDERS rather than printing as text. The mark is drawn as a mask so the hue is a multiply
+ * over white-in-alpha art — the same thing SetVertexColor does in the client, not a hue-rotate.
+ *
+ * ⚠ `.composited` is the whole argument. Without it the plate is a separate cap texture with no
+ * sink on it and draws at every value; with it the plate is INSIDE the crop the escape names, so
+ * plate and glyph appear and vanish together. The `.blank` cells are drawn to show the
+ * difference at a resting value, where one treatment leaves an empty disc and the other leaves
+ * nothing at all. */
+.item .mark-slot {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  pointer-events: none;
+  isolation: isolate;
+  display: flex; align-items: center; justify-content: center; gap: 1px;
+}
+/* The plate, drawn ONLY when the art itself carries one. A composited crop is disc-and-glyph in
+   one texture, so this rule is the preview's stand-in for that single crop. */
+.item .mark-slot.composited::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+/* A blank band on a composited mark leaves NOTHING — no disc, no outline, no reserved pixel. */
+.item .mark-slot.blank::before { content: none; }
+
+.item .mark-centre {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+  pointer-events: none;
+}
+
+.item .mark-sprite {
+  width: var(--mk-size, var(--pd-size)); height: var(--mk-size, var(--pd-size));
+  background-color: var(--mk-rgb);
+  -webkit-mask-image: inherit; mask-image: inherit;
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
+
+.item .mark-text {
+  font: 700 var(--cn-size) / 1 var(--hotkey-font);
+  color: var(--cn-rgb);
+  -webkit-text-stroke: calc(var(--cn-outline) * 2) var(--hotkey-outline);
+  paint-order: stroke fill;
+}
+
+/* MOTION FOR FREE. The animation runs unconditionally; the band decides whether there is
+ * anything to animate. An empty band draws nothing, and a throb of nothing is nothing — so the
+ * mark arrives already breathing without the addon ever branching on the sealed count.
+ * ⚠ One motion per region. Bands choose WHAT is drawn, never HOW it moves. */
+.item .pulsing {
+  animation: capmark var(--mk-dur) ease-in-out infinite alternate;
+}
+@keyframes capmark {
+  from { opacity: var(--mk-a0); transform: scale(1); }
+  to   { opacity: var(--mk-a1); transform: scale(var(--mk-scale, 1.08)); }
+}
+
+/* `.pd-*` is the pandemic family. The CLIENT owns visibility here — cap authors no threshold at
+ * all — so the out-of-window cell draws the row with nothing added, which is the honest picture:
+ * a hidden region is absent, not faint. */
+.item .pd-off { display: none; }
+
+.item .pd-wash {
+  position: absolute; inset: 0;
+  background: var(--pd-wash);
+  pointer-events: none;
+}
+.item .pd-badge {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  isolation: isolate;
+}
+.item .pd-badge::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+/* The BOTTOM edge, which nothing else on a cap row claims: the scan edge owns the border, the
+   hatch owns the face, the badge stack owns the right, the hotkey owns its corner. */
+.item .pd-underline {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: var(--pd-foot);
+  background: var(--pd-rgb);
+  pointer-events: none;
+}
+.item .pd-edge {
+  position: absolute; inset: 0;
+  border: var(--pd-edge) solid var(--pd-rgb);
+  pointer-events: none;
+}
+
+/* The count arc drawn as a RING on the icon's perimeter rather than as a corner disc. Same
+ * radial render mode; a different pixel. It leaves the badge stack alone and takes the border
+ * instead, which is V13's. */
+.item .count-ring {
+  position: absolute; inset: 0;
+  padding: var(--cb-ring);
+  background: conic-gradient(var(--cb-rgb) var(--cb-frac), var(--cb-track) 0);
+  -webkit-mask: linear-gradient(var(--stencil) 0 0) content-box exclude, linear-gradient(var(--stencil) 0 0);
+  mask: linear-gradient(var(--stencil) 0 0) content-box exclude, linear-gradient(var(--stencil) 0 0);
+  pointer-events: none;
+}
+
+/* ── Part 7 · COMPOSITE — several sinks on one row ────────────────────────────────────────
+ *
+ * Every other lab family shows ONE treatment in isolation, which is the right way to judge a
+ * treatment and the wrong way to judge a row. A real row wears several at once: a hatch from
+ * one band, an arc from the application bar, a mark from the count FontString, and whatever
+ * the client is drawing on its own. These rules stack them in the order the client would.
+ *
+ * ⚠ The corner is SHARED. Arc, ring and mark all want the badge stack's pixel, and they are
+ * drawn on top of each other here deliberately — if that reads as a mess, that is the finding.
+ */
+.item .cx-slot {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  pointer-events: none;
+  isolation: isolate;
+}
+/* An arc badge is a BADGE first: the same black plate every other badge wears, with the arc
+   running inside it at a smaller radius. Without that it reads as a floating ring rather than
+   as a member of the badge stack, which is the thing that made the corner look inconsistent. */
+.item .cx-arc {
+  position: absolute; inset: var(--cx-inset); border-radius: 50%;
+  background: conic-gradient(var(--cx-hue) var(--cx-frac), var(--cx-track) 0);
+}
+/* The ARRIVAL, and the reason nothing here needs a texture to crop angularly: when the
+   threshold IS the maximum the fired state is always the COMPLETE shape, so it is one static
+   crop that either draws or does not. It covers the arc beneath it exactly. */
+.item .cx-ring {
+  position: absolute; inset: var(--cx-inset); border-radius: 50%;
+  background: var(--cx-hue);
+}
+.item .cx-plate {
+  position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+.item .cx-mark {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center; gap: 1px;
+}
+.item .cx-mark .mark-sprite { width: var(--cx-size); height: var(--cx-size); }
+.item .cx-count {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 var(--cx-size) / 1 var(--hotkey-font);
+  color: var(--cx-ink);
+  -webkit-text-stroke: 2px var(--hotkey-outline);
+  paint-order: stroke fill;
+}
+/* A row whose aura is ABSENT. The client hides the whole button, so nothing a sink drives is
+   there at all — and this is the one state no sink can decorate, which is why the treatment
+   for it has to come from cap's own readable latch instead. */
+.item.cx-absent .cx-slot { display: none; }
+
+/* ---------------------------------------------------------------------------
+ * V16–V19 · the sealed displays, on a live CDM row.
+ *
+ * Every one of these is art the CLIENT draws from a rule cap authored and never reads back, so
+ * the preview draws the SHAPE and states no value: a scenario names the sink, and which band
+ * fired is exactly the thing cap cannot know. They flow into the badge stack's own corner
+ * because that is where they land in the client — V16's marks come out of a band's `:xoff:yoff`
+ * onto the badge corner, and V18/V19 are anchored there outright.
+ * ------------------------------------------------------------------------ */
+.item .sealed {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  pointer-events: none;
+  isolation: isolate;
+}
+/* The plate is named BY THE BAND (V16), which is the whole finding: a plate cap drew as an
+   ordinary texture has no sink on it and would stay on the row at every value the band blanks. */
+.item .sealed-plate {
+  position: absolute; inset: 0; border-radius: 50%;
+  transform: scale(var(--plate-scale));
+  background: var(--plate);
+}
+.item .sealed-mark {
+  position: absolute; inset: 0;
+  width: var(--count-mark); height: var(--count-mark);
+  margin: auto;
+  background: var(--sx-ink);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
+}
+/* V18 · the radial, drawn at a nominal fraction on purpose. A bar has NO BLANK STATE — SetValue
+   clamps into [0, max], so the track is on the row at every value including zero — and "there is
+   an arc in this corner" is the whole of what a scenario can claim about it. */
+.item .sealed-arc {
+  position: absolute; inset: var(--arc-inset); border-radius: 50%;
+  background: conic-gradient(var(--arc-rgb) var(--sx-frac), var(--arc-track) 0);
+}
+/* V19 · the refresh window breathes, and it is gated for free: the client hides the region, so
+   a loop running forever on it is invisible until the window opens. */
+.item .sealed-refresh-window {
+  animation: sealed-breathe var(--pd-pulse-dur) ease-in-out infinite;
+}
+@keyframes sealed-breathe {
+  0%, 100% { opacity: var(--pd-pulse-a0); }
+  50%      { opacity: var(--pd-pulse-a1); }
+}
+
+/* V16/V17 · the band's layout, which is ONE SLOT PER ELEMENT.
+ *
+ * ⚠ This block used to draw a flowing RUN, and that was right for the design it was written
+ * against: measured [client 2026-08-22], `:xoff:yoff` displaces an escape but does NOT remove it
+ * from the line, so four escapes in one string cost the sum of their parts — ~96px on a 56px
+ * button. `Channel.CountElements` removed the premise. `UpdateAura` offers every aura to every
+ * slot, so the hatch, the mark and the numeral are three separate FontStrings with three separate
+ * anchors, and no advance width is shared by anything.
+ *
+ * ⚠ The container is FULL SIZE and must stay that way. It was left shrink-to-fit
+ * (`width: auto; right: auto`) after the elements became absolute, which computed to 0×56 — so
+ * the hatch drew at zero width and the corner elements anchored 20px off the LEFT edge. A
+ * container whose only children are absolutely positioned has no content to size itself from.
+ *
+ * ⚠ `width`/`height` are reset EXPLICITLY, and `right` deliberately is NOT. This element also
+ * carries `.sealed`, which sizes the CORNER badges at `--badge-d`; `inset: 0` sets four offsets
+ * and does not override a width, so without the two lines below the container computed to 22×22
+ * and the hatch — the whole point of a V17 row — drew at badge size in the wrong corner. The
+ * earlier `right: auto` is what produced the 0×56 case, so it stays out. */
+.item .sealed-run {
+  position: absolute;
+  inset: 0;
+  width: auto; height: auto;
+  pointer-events: none;
+  z-index: 6;
+}
+/* Each element is its own slot, placed on its own. The hatch is the whole icon.
+ *
+ * ⚠ The mask URI is set INLINE by stepper.js, at call time, exactly as `.item .stripes` gets
+ * its own — it is a build-time `data:` URI, not a shelf value, so it cannot come from a custom
+ * property. This rule named `var(--stripe-mask)` and `var(--hatch-tile)`, neither of which
+ * `capart.root_css` emits, until 2026-08-23; an undefined mask is not a missing treatment, it
+ * is a FLAT FIELD of the escape's colour across the whole icon — invisible while the container
+ * was wrongly 22×22, and unmistakable the moment it computed to 56×56.
+ *
+ * No `opacity` here on purpose: the escape's alpha is the one the shelf bakes into
+ * `count.rgb` / `count.low_rgb`, and a second alpha invented in the stylesheet would be the
+ * preview making up a value the client never receives. */
+.item .sealed-band-hatch {
+  position: absolute; inset: 0;
+  background-color: var(--sx-ink);
+  -webkit-mask-size: var(--lab-stripe-tile); mask-size: var(--lab-stripe-tile);
+  -webkit-mask-repeat: repeat; mask-repeat: repeat;
+}
+/* Its own slot, anchored on the badge corner. It costs no advance width anywhere, because it
+   shares its FontString with nothing. */
+.item .sealed-band-badge {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+}
+/* The numeral shares the badge's pixel — it belongs ON the plate, which is the mark's. */
+.item .sealed-band-count {
+  position: absolute;
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
+  width: var(--badge-d); height: var(--badge-d);
+  display: flex; align-items: center; justify-content: center;
+  font: 700 var(--count-size) / 1 var(--hotkey-font);
+  color: var(--sx-ink);
+  -webkit-text-stroke: var(--count-outline) var(--hotkey-outline);
+  paint-order: stroke fill;
+}
+
+/* V18 · the radial sits in the badge stack's corner — deliberately the pixel the first badge
+   would take, so the competition for it is visible now rather than discovered later. Named
+   explicitly rather than left to `.sealed` alone: the class is written as a literal in
+   stepper.js, and `capart check` requires every literal class to have a rule. */
+.item .sealed-count-bar {
+  top: calc(var(--badge-over) * -1);
+  right: calc(var(--badge-over) * -1);
 }

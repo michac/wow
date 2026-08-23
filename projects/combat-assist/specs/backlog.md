@@ -58,12 +58,11 @@ and nothing about how it was measured.
   press. A scenario that stops leading the eye to its press fails **by name**.
 - The two Warlock context dots (`dreadstalkers`, `grimoire`) are still evaluated and still reported
   in the `draw` capture's `M{}`, but **draw nothing**: the cue set is closed and they have no key.
-- **Part 7's lab holds ten entries in three families**, drawn and deciding nothing: two
-  diagonal-stripe (`stripes-l3-hold`, `stripes-l5-starved`, borrowing V11's shipped sheet rather
-  than keeping a second copy), four `arrival-*` (the retired snap and what it draws beside
-  neighbours — gallery-only, since CSS has no four-strip ring), and four `ready-*`, which is the
-  family **V13 came out of**: the shipped scan edge is `ready-hairline` at 2 px, and the other
-  three are the louder and quieter candidates it was chosen over on paper.
+- **Part 7's lab holds ONE entry** (2026-08-22): `duration_band`, the same band tables on a DoT's
+  clock rather than on a count. Seven others were added 2026-08-20, flew on 2026-08-21 and left on
+  2026-08-22 — four promoted as **V16–V19** and one (`composites`) deleted as the argument that
+  those four compose. Part 7's ledger says where each went; do not restate a count here, because it
+  goes stale the first time anyone tries an idea. `capart export lab` prints the current set.
 
 ### The client seam
 
@@ -123,19 +122,35 @@ and nothing about how it was measured.
 - **The Havoc row flew once, 2026-08-15** (cap v0.4.0, Fel-Scarred, on EllesmereUI), against the
   pre-APL catalog. Its structural finding — the reading model assumes the CDM's row order matches
   the authored priority — is what `Anchor.lua` was built to answer.
-- **Demonology / Diabolist and Destruction / Diabolist are authored and have never been built or
-  flown** (2026-08-19). Three files each — `catalog.md` / `scenarios.md` /
-  `fact-classification.md` — twelve scenarios each, and generated `demonology-stepper.html` /
-  `destruction-stepper.html` previews registered in `capart.SPECS_BUILT`. There is no
-  `Catalogs/Demonology.lua` or `Catalogs/Destruction.lua` **of the current design**: the two
-  files in the addon are the *pilot* catalogs and predate these documents, so what the addon draws
-  on either spec is the old four-entry / two-entry proof and **not** what `specs/**` now says.
-  ⚠ **That is the one place in the project where a shipped catalog and its document disagree**,
-  and it is deliberate — `authoring.md` stage 6 has not run. Do not read either `.lua` as the
-  design.
-  - **They replaced the two pilots**, which were single-mechanism proofs rather than rosters
-    (`spec.md` §3.4 / §3.5 record what carried, what was corrected and what was withdrawn).
-  - **Neither has ever flown as a cap build**, in either form.
+- **Demonology / Diabolist is BUILT and has never flown** (2026-08-22). `Catalogs/Demonology.lua`
+  is the roster its three documents describe — nine entries in the authored priority order,
+  fourteen scenarios, and `demonology-stepper.html` generated from them. `authoring.md` stages 6
+  and 7 have run; stage 8 has not.
+  - It carries **three new sealed-display kinds**, promoted out of Part 7 as V16–V19:
+    `sealed-count-bands` (Power Siphon and Implosion, the second in its complement direction),
+    `sealed-count-bar` (Demonbolt's Core radial) and `sealed-refresh-window` (Doom, gated on the
+    talent). `player-aura-stacks` and its `min = 2` guard are retired; Destruction's Backdraft was
+    migrated mechanically and draws exactly what it did.
+  - **A sealed fact can now ELIMINATE a row**, which is the substantive change: the reading model
+    has three eliminating signals instead of two. `catalog.md`'s second defeat is closed and its
+    two states are DEM-13 and DEM-14.
+  - ⚠ **Nothing about the client was learned to make this possible.** The measurements were in
+    hand on 2026-08-21; what was in the way was that a catalog may not cite a lab entry, so the
+    fact was expressible and unusable at once. **Promotion is a pipeline step, and it was the
+    whole cost.**
+- **Destruction / Diabolist is authored and has never been built or flown** (2026-08-19). Three
+  files — `catalog.md` / `scenarios.md` / `fact-classification.md` — twelve scenarios, and a
+  generated `destruction-stepper.html` registered in `capart.SPECS_BUILT`. There is no
+  `Catalogs/Destruction.lua` **of the current design**: the file in the addon is the *pilot*
+  catalog and predates those documents, so what the addon draws on Destruction is the old
+  two-entry proof and **not** what `specs/**` now says.
+  ⚠ **That is the one place left in the project where a shipped catalog and its document
+  disagree**, and it is deliberate — `authoring.md` stage 6 has not run for it. Do not read the
+  `.lua` as the design. It wants the same count primitive for Backdraft that Demonology now uses,
+  which is now a transcription rather than a promotion.
+  - **It replaced a pilot**, which was a single-mechanism proof rather than a roster
+    (`spec.md` §3.5 records what carried and what was withdrawn).
+  - **It has never flown as a cap build**, in either form.
 - **Retribution / Templar is authored and has never flown.** Three files
   (`catalog.md` / `scenarios.md` / `fact-classification.md`, split 2026-08-19), 13 scenarios, and a
   generated `retribution-stepper.html` preview.
@@ -144,6 +159,20 @@ and nothing about how it was measured.
   not exist and that the addon drew nothing; that was wrong, and the correction is recorded here
   rather than left as a note under a dead claim. What is still true is that **nothing about it has
   been judged in play** — `authoring.md` stage 8 has not run.
+  - **A recorder rides the next flight** (2026-08-22). Its one unexpressible rung — hold a FREE
+    Hammer of Light, press an ordinary one on sight — turns on a separation cap does not have
+    (*Open facts* 3), and two candidate separators are on the table with **neither measured**.
+    The first, that a free Hammer glows without transforming its row, was contradicted by direct
+    player observation the same day. So `Sense.lua` now writes proc-glow edges and identity flips
+    (with the row's own cooldown state) to the `edge` stream and **nothing reads them**:
+    no predicate, no verdict, no pixel. `flight-reading.md` owns how to read the lines.
+    ⚠ The 60-stack counter behind the free cast is **not** logged and cannot be — an aura's
+    application count is sealed in combat. The player watches it on a Tracked Buff row.
+  - ⚠ **`Sense.lua`'s `proc` reads the BASE spell id** while `capped` and `affordable` two lines
+    below read the LIVE one, so `proc(wake_of_ashes)` polls a spell that never glows. It looks
+    accidental rather than authored. **Deliberately not changed in the same pass** — it would move
+    what draws on the live Havoc spec on an inference, and the recorder above is about to say
+    whether it matters.
 - **Devourer is authored and has never been built or flown**, on the same terms: three files, and
   the first spec whose definition needed **V12's virtual row** (Collapsing Star has no CDM frame at
   all). No catalog Lua. **It does now have a preview** — registered in `SPECS_BUILT` on 2026-08-19,

@@ -20,11 +20,32 @@ and its safety case.
 
 ## 1. The answer, first
 
-**No sealed fact appears in any proposed Lua condition, in either polarity.** The catalog uses
-exactly one sealed value — Summon Demonic Tyrant's cooldown *remaining*, cue **F** — and it goes
-straight to a client-owned sink as an authored range curve (`sealed-cooldown-range`,
-`within = 5`). Every other term in every marker is `ready`, `affordable`, `identity`, `resource`,
-`proc`, `talent` or `aoe`.
+**No sealed fact appears in any Lua condition, in either polarity.** The catalog uses **five**
+sealed values and every one of them goes straight to a client-owned sink:
+
+| Sealed value | Sink | Where |
+| --- | --- | --- |
+| Summon Demonic Tyrant's cooldown *remaining* | `sealed-cooldown-range`, `within = 5` | cue **F** |
+| Demonic Core application count | `sealed-count-bands`, two breakpoints | Power Siphon |
+| Wild Imp application count | `sealed-count-bands`, two breakpoints (the complement) | Implosion |
+| Demonic Core application count | `sealed-count-bar`, `max = 4` | Demonbolt |
+| Doom's refresh window | `sealed-refresh-window` — **the client's own predicate** | Demonbolt |
+
+Every other term in every marker is `ready`, `affordable`, `identity`, `resource`, `proc`,
+`talent`, `aura` or `aoe`.
+
+⚠ **Three of those five are new since 2026-08-22, and two of them ELIMINATE**, which is the one
+thing a sealed display had never done before: below six imps Implosion draws V11's hatch and a
+negative mark, and at two Cores so does Power Siphon. **The boundary is unchanged and this is why
+it holds:** cap hands the client a *band table* — whole numbers and what to draw at each — and the
+client evaluates it against the count. cap never receives the count, never compares it, and never
+learns which band fired. What changed is not what cap reads; it is what the client is willing to
+draw on cap's behalf.
+
+⚠ **The fifth authors no threshold at all.** `AddPandemicRegion` computes
+`GetRefreshExtendedDuration − GetAuraBaseDuration` per spell inside the client, so cap does not
+even supply the number — which makes it the *safest* sealed display in the catalog and not the
+riskiest.
 
 Two optional **count displays** (Demonic Core, Wild Imps) are sealed and are also sink-only. They
 are context, not conditions: cap hands the AuraContainer a filter and a threshold and never reads
@@ -49,10 +70,13 @@ recipes).
 | Whether To Hell and Back is taken | **readable** | the `talent` predicate | node 110199 / entry 136728 (`ability-inventory.tsv` @ 12.1.0.69214); ⚠ the `C_Traits` call shape is `[gap]` — Havoc's *Open facts* 7 | cue **G** |
 | Whether Reign of Tyranny is taken | **readable** | the `talent` predicate | node 110201 / entry 136730 | nothing yet — it gates a band that is not authored (§5.1) |
 | **Summon Demonic Tyrant cooldown remaining** | **sealed-display** | S4 → `sealed-cooldown-range` | `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`; the duration object carries the secrecy | cue **F** (`within = 5`) |
-| **Demonic Core application count** | **sealed-display** (count only) | S2 → `player-aura-stacks` | the managed AuraContainer owns the display; OBS-065 is the verified precedent (Backdraft). ⚠ `Catalog.Check` limits `min = 2`, which is exactly this row's threshold | Power Siphon's context display. **Not a condition** |
-| **Wild Imp application count** | **sealed-display** (count only) | S2 → `player-aura-stacks` | as above; Wild Imp `296553` is a Category-2 row in set 60 (OrderIndex 47) *[T1 DB2]* | Implosion's context display. **Not a condition** |
-| `buff.demonic_core.stack <= 1` **as a hold** | **open** | — no form | the count is sealed and the only aura-stack form paints a number, not a badge; §5.2 | rung 1. **No hint.** |
-| `buff.wild_imps.stack >= 6` **as a hold** | **open** | — no form | as above | rung 9. **No hint.** |
+| **Demonic Core application count** | **sealed-display** | S7 + S11 → `sealed-count-bands`; S10 → `sealed-count-bar` | the managed AuraContainer owns the display; a tainted-created `NumericRuleFormatter` is honoured `[client 2026-08-21]` and a band's `format` may carry a texture escape | Power Siphon's eliminating band **and** Demonbolt's radial. **Not a condition** |
+| **Wild Imp application count** | **sealed-display** | S7 + S8 + S11 → `sealed-count-bands` (complement) | as above; Wild Imp `296553` is a Category-2 row in set 60 (OrderIndex 47) *[T1 DB2]* | Implosion's eliminating band. **Not a condition** |
+| **Doom's refresh window** | **sealed-display** | S9 → `sealed-refresh-window` | `AddPandemicRegion` seals a Region's `Shown` and drives it from the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell — cap authors no threshold | Demonbolt, gated on `talent(doom)`. **Not a condition** |
+| `buff.demonic_core.stack <= 1` **as a hold** | **sealed-display** | S7 + S11 | two breakpoints: silent below two, hatch plus a negative mark at two. §5.2 | rung 1, drawn. DEM-14 |
+| `buff.wild_imps.stack >= 6` **as a hold** | **sealed-display** | S7 + S8 + S11 | the same table run the other way: drawn below six, cleared at six. §5.2 | rung 9, drawn. DEM-13 |
+| **Whether any Wild Imp is out at all** | **readable** | R2's alert edges → the `aura` latch | a Category-2 row raises `OnAuraApplied` / `OnAuraRemoved`; an unbound row reads UNKNOWN, never false | cue **H** — the one state a sealed display structurally cannot reach, because with no aura there is no button |
+| **Whether Doom is taken** | **readable** | the `talent` predicate | node 110200 / entry 136729 (`talents.json` @ 12.1) | the readable gate on Demonbolt's refresh-window display |
 | `buff.dominion_of_argus.up` | **open** | the `aura` latch, unmeasured on this row class | `1276166` is a Category-**3** (TrackedBar) row in set 60, OrderIndex 50 *[T1 DB2]*; the latch is built on TrackedBuff `OnAuraApplied` / `OnAuraRemoved` edges and no measurement covers TrackedBar. `[searched 2026-08-19: CooldownSetSpell @ 12.1.0.69214, SpellActivationOverlay @ 12.1.0.69214, Track.lua's edge table, cdm-rider-patterns.md §6]` | rung 2. **No hint.** |
 | **Which Demonic Art is armed**, when it is Overlord | **open** | — | Pit Lord and Mother of Chaos are visible through R7 (they change a button); Overlord changes none. `428514` holds two Category-2 rows in set 60 and which is the armed Art is unmeasured | nothing — noted because it is one measurement from closing |
 | `cooldown.summon_demonic_tyrant.remains` as a **two-sided band** | **sealed, no authored form** | S4 refuses it | `Catalog.Check`: *"sealed-cooldown-range needs exactly one of within or beyond"*; `Channel.HoldPlan` returns `nil` when both are set | rungs 6 / 7. **No hint.** §5.1 |
@@ -123,27 +147,50 @@ in both polarities on one row.
 
 ---
 
-## 4. The sealed count displays, and why they are in the safety case at all
+## 4. The sealed displays, and why they are in the safety case at all
 
-Two rows may carry a `player-aura-stacks` display (S2): Power Siphon (Demonic Core `264173`,
-threshold 2) and Implosion (Wild Imp `296553`, threshold 6 — ⚠ above the shipped `min = 2`
-limit, see §5.2). They are in this file because they are the one place a reader might reasonably
-suspect a branch, and they are not one:
+**Four rows-worth of display, on three sinks.** Power Siphon (`sealed-count-bands` on Demonic Core
+`264173`), Implosion (`sealed-count-bands` on Wild Imp `296553`, the complement), Demonbolt
+(`sealed-count-bar` on Demonic Core, `max = 4`, **and** `sealed-refresh-window` on Doom `460553`).
+They are in this file because they are the one place a reader might reasonably suspect a branch,
+and they are not one:
 
 - The managed AuraContainer owns the **whole** display. cap registers a slot with
-  `candidateFilters.includeSpellIDs = { [auraSpellID] = true }` on unit `player`, styles it
-  inside `initializeFrame`, and never touches the subtree again — it is a **forbidden object**
+  `candidateFilters.includeSpellIDs = { [auraSpellID] = true }`, styles it inside
+  `initializeFrame`, and never touches the subtree again — it is a **forbidden object**
   after that window, for reads as well as writes.
-- The count FontString is empty below the threshold and shows the number at or above it. **The
-  client draws it from the secret; Lua never reads it.**
+- **A band table is a rule, not a comparison.** cap builds a list of `{ threshold, format }` out
+  of whole numbers it authored and hands it to a `NumericRuleFormatter`. The client calls
+  `FormatNumber(applications)` and `SetText`. cap never receives the count, never compares it, and
+  never learns which band fired. `FormatNumber` is documented `ConstSecretAccessor` precisely so
+  the client may do this on cap's behalf.
+- **The bar seals only its VALUE.** `SetApplicationBar` adds `Enum.SecretAspect.BarValue` to the
+  StatusBar's value, so the texture, size, orientation, colour and render mode stay ordinary cap
+  calls made at setup — and none of them is a function of the count.
+- **The refresh window seals only `Shown`, and cap authors no threshold for it at all.** The
+  client computes `GetRefreshExtendedDuration − GetAuraBaseDuration` itself, per spell.
 - cap reports `offered` / `armed` / `refused` and never `drew`. **Accepted is not drawn**
-  (`../authoring.md` → *Accepted is not drawn*) — whether either number ever appears is an eyeball, not a
-  capture.
+  (`../authoring.md` → *Accepted is not drawn*) — whether any of it ever appears is an eyeball,
+  not a capture.
 
-**They do not eliminate.** `../render-shelf.md` Part 0.5's reading model has two eliminating
-signals, Blizzard's swipe and cap's negative badge, and a client-painted number is neither. That
-is why `catalog.md` names two rows the walk cannot rule out, and why `scenarios.md` writes no
-state that steps past them.
+⚠ **TWO OF THEM ELIMINATE, and that is genuinely new.** `../render-shelf.md` Part 0.5's reading
+model had two eliminating signals — Blizzard's swipe and cap's negative badge — and since
+2026-08-22 it has three: a **band the client evaluated**. Power Siphon at two Cores and Implosion
+below six imps both wear V11's hatch and a negative mark, drawn out of the one FontString the
+count sink owns, and `scenarios.md` writes states that step past them (DEM-13, DEM-14).
+
+**Why that does not move the boundary.** The eliminating decision is *the client's*, made against
+a value cap never sees, from a rule cap wrote in whole numbers. The alternative — cap reading the
+count and deciding — is what §3.6 forbids and what nothing here does. The thing to watch is not
+safety but **truthfulness**: a band table is an authored threshold, and an authored threshold is a
+thing to get wrong. The boundary case is documented (`threshold` is the *minimum* input a rule
+applies to, so a value on it takes the upper band) and pinned in a test, because an off-by-one
+here is invisible until it is wrong in a pull.
+
+⚠ **A band cannot rule out a row whose subject does not exist.** With no aura there is no aura
+button, so no sink on it draws anything. That state is covered by the readable `aura` latch (cue
+**H** on Implosion) and by the readable `proc` (Demonbolt), which is a different fact answering a
+different question — *is the subject present*, not *how many* — and is the correct tool for it.
 
 ---
 
@@ -161,19 +208,31 @@ Rungs 6 / 7's Reign-of-Tyranny window. **Not an open fact and not a client limit
 shelf gap, argued in full at `catalog.md` → *Defeats*, item 1. Recorded here so the safety case
 is complete: nothing sealed is compared, because nothing is authored.
 
-### 5.2 The aura stack count as a hold
+### 5.2 The aura stack count as a hold — CLOSED 2026-08-22
 
-Rungs 1 and 9. Full argument at `catalog.md` → *Defeats*, item 2. The relevant safety point is
-that both rungs' gates are **numbers**, that cap holds no route to a number, and that the
-catalog therefore draws **nothing** rather than substituting the boolean the `aura` latch could
-give it. `aura(demonic_core)` would be true at one Core and at three; substituting it would badge
-Power Siphon in a state where the APL presses it. **A weaker true fact is not a substitute for a
-stronger one**, and using it would be exactly the unknown-becoming-confidence failure §6 forbids.
+Rungs 1 and 9. Full history at `catalog.md` → *Defeats*, item 2. Both gates are **numbers**, and
+what changed is that cap now has a route to a number: it hands the client a **band table** and the
+client evaluates it. So the catalog draws these facts rather than drawing nothing, and it still
+performs no comparison.
 
-⚠ `player-aura-stacks` is hard-limited to `min = 2` in `Catalog.Check`, so Implosion's threshold
-of 6 is **not** expressible even as a count display today. Power Siphon's threshold of 2 is.
-Recorded because the two displays are not equally available and the catalog should not read as if
-they were. @verify-ingame
+⚠ **The old defeat's reasoning is preserved because it is still the right reasoning.** It was:
+*cap holds no route to a number, so the catalog draws nothing rather than substituting the boolean
+the `aura` latch could give it — `aura(demonic_core)` is true at one Core and at three, and
+substituting it would badge Power Siphon in a state where the APL presses it.* **A weaker true
+fact is not a substitute for a stronger one**, and that rule is unchanged. What changed is that
+the stronger fact is now reachable, so the substitution is not even tempting.
+
+⚠ **The `aura` latch is still used, and for exactly the state the band cannot reach.** With **no
+aura at all** there is no aura button, so no sink on it draws anything — a band cannot rule out a
+row whose subject does not exist. Implosion at zero Wild Imps is covered by cue **H**, a readable
+`!aura(wild_imp)`, and Demonbolt at zero Cores by the readable `proc` it already had. That is not
+the weaker-fact substitution above: it is a *different fact* (is there one at all) answering a
+*different question* (is the subject present), and it is the correct tool for it.
+
+⚠ **`min = 2` is gone.** It was `Catalog.Check`'s guard and it is retired, because it was never a
+platform limit: `applications > 1` is what the client does when **no formatter is passed**.
+Implosion's threshold of 6 was recorded here as inexpressible; it is expressed as a breakpoint at
+6 and DEM-13 is the scenario.
 
 ### 5.3 Target selection
 

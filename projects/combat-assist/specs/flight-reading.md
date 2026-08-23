@@ -17,7 +17,7 @@ and usefulness.
 | --- | --- |
 | `wowkb.capture cap bind` | resolved CDM rows and binding health, plus the row-order note |
 | `wowkb.capture cap tier` | the readable signal; the legacy stream name remains during migration |
-| `wowkb.capture cap edge` | accepted and refused CDM alert edges |
+| `wowkb.capture cap edge` | accepted and refused CDM alert edges, proc-glow edges, and identity flips |
 | `wowkb.capture cap draw` | the static overlay and Tyrant-bar paths cap attempted |
 | `wowkb.capture cap anchor` | **probe** — CDM frame re-anchoring: drawn position against the authored order |
 
@@ -30,6 +30,58 @@ catalog's left-to-right reading model does not hold for, which makes elimination
 wrong button everywhere at once. It is written once per change of finding and echoed to chat.
 **Its ABSENCE on a flight that bound a full roster is the positive result** — that is the check
 that the whole reading model rests on.
+
+### ⚠ A reload IN COMBAT produces a blank cap, and it is not a regression
+
+Observed 2026-08-23 and it cost a false alarm: cap came back from `/reload` drawing nothing at
+all, and came right by itself after zoning broke combat. Binding is fenced behind
+`InCombatLockdown()`, so a reload taken in a pull has nothing to bind against and the roster stays
+empty until the fence lifts.
+
+The trap is that Demonology holds combat for a long time on a training dummy — the player reported
+staying flagged halfway across the map — so "I was not fighting anything" is not evidence of being
+out of combat. **Check `# combat start` / `# combat end` in the `bind` stream before reading a
+blank session as a defect.**
+
+⚠ And a session's lines reach disk only on the NEXT `/reload` or logout. A stream whose newest
+session names the PREVIOUS build is the normal state right after a deploy, not a failed install —
+`wowkb.addon list` says what is installed; the capture cannot.
+
+### The free-Hammer probe, on the `edge` stream (2026-08-22)
+
+Two line kinds were added to answer one question, and **only** that question: can cap tell a
+FREE Hammer of Light from an ordinary one? `specs/retribution/catalog.md` *Open facts* 3 owns
+the question; this says how to read the answer.
+
+```
+t412.6 glow:on  spell:427453
+t412.6 identity wake_of_ashes base/255937->transformed/427453 cd:true
+```
+
+- **`glow:on|off spell:<id>`** — every `SPELL_ACTIVATION_OVERLAY_GLOW_*` event, carrying the
+  **empowered** spell's id. Not filtered to the catalog: an id cap has no row for is exactly the
+  interesting case, so filtering would discard the evidence.
+- **`identity <ability> <was>-><now> cd:<bool>`** — a row's resolved identity changed, with what
+  it became and **whether that row's own cooldown was already running when it happened**. The
+  `cd:` term is the point: it is what a timing separator would be built on.
+
+**How to read it.** Find the `glow:on spell:427453` lines. For each, look at the nearest
+preceding `identity wake_of_ashes` flip:
+
+- flip and glow **at the same instant, `cd:` turning true together** → an ordinary Hammer,
+  arriving with the Wake of Ashes press.
+- flip arriving **seconds later, with `cd:true` already standing** → a free Hammer, and the gap
+  is a separator cap can author on. This is the outcome that reopens the defeat.
+- **no flip at all beside the glow** → the row never transformed, which the player's own
+  2026-08-22 observation says should not happen. If it does, both earlier readings are wrong.
+
+⚠ **These lines feed nothing.** No predicate reads them, `readProc` still polls the base id, and
+no verdict changes because of them. They may not grow a branch until they have been read.
+
+⚠ **The stack count behind the free cast is not here and cannot be.** Light's Deliverance banks
+60 stacks and an aura's application count is sealed in combat. Add it to **Tracked Buffs** before
+flying: the player watches the counter climb, which is what makes an empty log mean *"it never
+fired"* rather than *"the recorder is broken."*
 
 ## Readable signal
 
