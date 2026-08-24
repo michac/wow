@@ -24,8 +24,16 @@ local frame, current
 -- Option rows: full width, stacked, left-aligned, wrapping. Sized for the longest
 -- option any question declares rather than the shortest, because a truncated option is
 -- worse than a wordy one — the person cannot tell what they are agreeing to.
-local OPTION_H, MAX_OPTIONS = 26, 5
-local OPTION_AREA = OPTION_H * MAX_OPTIONS + 6
+-- ⚠ OPTION_H is a MINIMUM, not a row height, and the option area is MEASURED rather than
+-- budgeted. It used to be `OPTION_H * MAX_OPTIONS + 6` with the loop uncapped, which failed
+-- two ways at once and silently: a 6th option drew past the area and through the nav row,
+-- and any option that WRAPPED drew through the option under it. Both look like a mangled
+-- panel rather than like a layout bug, so the person answering blames the question.
+local OPTION_H = 26
+local OPTION_GAP, OPTION_PAD = 3, 8
+-- A hard ceiling, asserted at Register time rather than truncated at draw time. Truncating
+-- would hide options from the one person whose job is to choose between them.
+local MAX_OPTIONS = 8
 -- The header (title + question + note) never occupies less than this, so a short question
 -- does not leave the canvas floating at the top of the frame.
 local HEADER_MIN = 110
@@ -33,6 +41,24 @@ local HEADER_MIN = 110
 --- Register a visual question. `setup(canvas)` draws the stimulus; `question` is what
 --- the person is being asked; `options` default to yes/no/can't tell.
 function A.Register(def)
+  -- ⚠ Asserted at LOAD, not at draw. An overflowing option list used to render past the
+  -- panel and through the nav row, which reads as a broken panel rather than as an authoring
+  -- mistake -- and the author is not the person who sees it.
+  -- ⚠ THE PANEL IS A STIMULUS, NOT A BRIEFING. Measured 2026-08-21: a ~700-character `note`
+  -- rendered as a grey wall above the tiles, and the author's verdict came back as prose in chat
+  -- because the panel was not worth reading. Long-form belongs in questions.json's `expect`,
+  -- which is written for the person DRAINING the run, not for the person flying it.
+  assert(type(def) ~= "table" or type(def.note) ~= "string" or #def.note <= 300,
+    "Ask.Register '" .. tostring(def and def.id) .. "': `note` is " ..
+    #(def and def.note or "") .. " chars; keep it under 300. What to do, not why it matters — "
+    .. "the reasoning goes in questions.json `expect`.")
+  assert(type(def) ~= "table" or type(def.question) ~= "string" or #def.question <= 200,
+    "Ask.Register '" .. tostring(def and def.id) .. "': `question` is " ..
+    #(def and def.question or "") .. " chars; keep it under 200. One question. If it needs "
+    .. "four clauses it is four questions, and the tile labels can carry them.")
+  assert(type(def) ~= "table" or type(def.options) ~= "table" or #def.options <= MAX_OPTIONS,
+    "Ask.Register '" .. tostring(def and def.id) .. "': at most " .. MAX_OPTIONS
+    .. " options; a longer list is a sign the question is really two questions")
   assert(type(def) == "table" and def.id and def.question and def.setup,
          "Ask.Register: id + question + setup required")
   if not registry[def.id] then order[#order + 1] = def.id end
@@ -78,7 +104,10 @@ end
 local function build()
   local UI = ns.UI
   local root = CreateFrame("Frame", nil, UIParent)
-  root:SetSize(480, 500)
+  -- ⚠ WIDER AND BIGGER-TYPED THAN IT LOOKS LIKE IT NEEDS TO BE. Measured 2026-08-21: at 480px
+  -- with GameFont*Small everywhere, the person answering had to put their face to the monitor,
+  -- and a panel nobody can read is a panel whose verdicts are guesses.
+  root:SetSize(620, 520)
   root:SetFrameStrata("DIALOG")
   root:SetMovable(true)
   root:EnableMouse(true)
@@ -97,13 +126,13 @@ local function build()
   UI.button(root, "×", 20, 20, function() root:Hide() end)
       :SetPoint("TOPRIGHT", root, "TOPRIGHT", -8, -8)
 
-  root.question = root:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  root.question = root:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
   root.question:SetPoint("TOPLEFT", root, "TOPLEFT", 10, -32)
   root.question:SetPoint("TOPRIGHT", root, "TOPRIGHT", -10, -32)
   root.question:SetJustifyH("LEFT")
   root.question:SetWordWrap(true)
 
-  root.note = root:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+  root.note = root:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   root.note:SetPoint("TOPLEFT", root.question, "BOTTOMLEFT", 0, -6)
   root.note:SetPoint("TOPRIGHT", root.question, "BOTTOMRIGHT", 0, -6)
   root.note:SetJustifyH("LEFT")
@@ -117,7 +146,10 @@ local function build()
   -- longer than that budget silently drew ON TOP of the stimulus — and the stimulus is the
   -- entire point of this panel. A header may now push the canvas down; it may not overlap it.
   canvas:SetPoint("TOPLEFT", root, "TOPLEFT", 10, -HEADER_MIN)
-  canvas:SetPoint("BOTTOMRIGHT", root, "BOTTOMRIGHT", -10, 34 + OPTION_AREA)
+  -- A PLACEHOLDER extent only. `A.Show` re-anchors this from the option area it actually
+  -- measured, exactly as it re-anchors the top from the header's real height -- there is no
+  -- fixed option budget any more, so `build` cannot know the bottom either.
+  canvas:SetPoint("BOTTOMRIGHT", root, "BOTTOMRIGHT", -10, 34 + OPTION_H)
   local cbg = canvas:CreateTexture(nil, "BACKGROUND")
   cbg:SetAllPoints(canvas)
   cbg:SetColorTexture(0.02, 0.02, 0.03, 1)
@@ -130,10 +162,10 @@ local function build()
   root.verdictRow = CreateFrame("Frame", nil, root)
   root.verdictRow:SetPoint("BOTTOMLEFT", root, "BOTTOMLEFT", 10, 32)
   root.verdictRow:SetPoint("BOTTOMRIGHT", root, "BOTTOMRIGHT", -10, 32)
-  root.verdictRow:SetHeight(OPTION_AREA)
+  root.verdictRow:SetHeight(OPTION_H)
   root.verdictButtons = {}
 
-  root.nav = root:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+  root.nav = root:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
   root.nav:SetPoint("BOTTOMLEFT", root, "BOTTOMLEFT", 12, 12)
 
   UI.button(root, "next >", 60, 20, function() A.Step(1) end)
@@ -174,9 +206,13 @@ local function optionButton(parent)
   bg:SetAllPoints(b)
   bg:SetColorTexture(0.16, 0.16, 0.20, 0.9)
   ns.UI.edge(b, 0.4, 0.4, 0.5, 0.8)
-  local fs = b:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-  fs:SetPoint("LEFT", b, "LEFT", 8, 0)
-  fs:SetPoint("RIGHT", b, "RIGHT", -8, 0)
+  -- ⚠ TOP-anchored, not LEFT-anchored. A vertically-centred wrapping FontString grows in
+  -- BOTH directions out of a fixed-height button, so its second line lands on the button
+  -- above and its third on the one below. Anchored to the top it grows downward only, and
+  -- the button is then sized to it.
+  local fs = b:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  fs:SetPoint("TOPLEFT", b, "TOPLEFT", OPTION_PAD, -OPTION_PAD / 2)
+  fs:SetPoint("TOPRIGHT", b, "TOPRIGHT", -OPTION_PAD, -OPTION_PAD / 2)
   fs:SetJustifyH("LEFT")
   fs:SetWordWrap(true)
   b.text = fs
@@ -185,8 +221,12 @@ local function optionButton(parent)
   return b
 end
 
+-- Returns the height the options actually needed. The caller anchors the canvas above it,
+-- so a long option list pushes the stimulus UP rather than drawing on top of the chrome.
 local function setVerdictButtons(def)
   for _, b in ipairs(frame.verdictButtons) do b:Hide() end
+  local rowW = frame.verdictRow:GetWidth()
+  if not rowW or rowW <= 0 then rowW = frame:GetWidth() - 20 end
   local y = 0
   for i, opt in ipairs(def.options) do
     local b = frame.verdictButtons[i]
@@ -194,33 +234,42 @@ local function setVerdictButtons(def)
       b = optionButton(frame.verdictRow)
       frame.verdictButtons[i] = b
     end
+    -- Width BEFORE text, or GetStringHeight measures an unwrapped single line and every
+    -- multi-line option reports one line tall.
+    b.text:SetWidth(rowW - OPTION_PAD * 2)
     b.text:SetText(opt)
     b:SetScript("OnClick", function()
       record(def, opt)
       A.Refresh()
     end)
+    local textH = b.text:GetStringHeight() or 0
+    local h = textH + OPTION_PAD
+    if h < OPTION_H - 4 then h = OPTION_H - 4 end
     b:ClearAllPoints()
     b:SetPoint("TOPLEFT", frame.verdictRow, "TOPLEFT", 0, -y)
     b:SetPoint("TOPRIGHT", frame.verdictRow, "TOPRIGHT", 0, -y)
-    b:SetHeight(OPTION_H - 4)
+    b:SetHeight(h)
     b:Show()
-    y = y + OPTION_H
+    y = y + h + OPTION_GAP
   end
+  frame.verdictRow:SetHeight(math.max(y, OPTION_H))
+  return math.max(y, OPTION_H)
 end
 
 -- Push the canvas below whatever the header actually needed, then make sure what is left
 -- is still big enough to judge a stimulus in — growing the window rather than shrinking the
 -- picture, since the picture is the evidence.
 local MIN_CANVAS_H = 210
-local function layoutCanvas()
+local function layoutCanvas(optionArea)
   if not frame then return end
+  optionArea = optionArea or frame.verdictRow:GetHeight() or OPTION_H
   local header = 32 + (frame.question:GetStringHeight() or 0)
                     + 6 + (frame.note:GetStringHeight() or 0) + 10
   if header < HEADER_MIN then header = HEADER_MIN end
   frame.canvas:ClearAllPoints()
   frame.canvas:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -header)
-  frame.canvas:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 34 + OPTION_AREA)
-  local need = header + MIN_CANVAS_H + 34 + OPTION_AREA
+  frame.canvas:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 34 + optionArea + 6)
+  local need = header + MIN_CANVAS_H + 34 + optionArea + 6
   if frame:GetHeight() < need then frame:SetHeight(need) end
 end
 
@@ -234,7 +283,11 @@ function A.Show(idx)
   frame.question:SetText(def.question)
   frame.note:SetText(def.note or "")
   clearCanvas()
-  layoutCanvas()
+  -- ⚠ Options FIRST. The canvas is anchored above them, so its rect is not knowable until
+  -- their measured height is -- and `setup` draws into that rect, so it must be final
+  -- before the stimulus runs or every tile is placed against a stale size.
+  local optionArea = setVerdictButtons(def)
+  layoutCanvas(optionArea)
 
   -- A stimulus with an unmet precondition must say so instead of drawing something
   -- that looks like the real thing. Answering "no" to a blank canvas would be a
@@ -257,7 +310,6 @@ function A.Show(idx)
     return
   end
 
-  setVerdictButtons(def)
   -- Say where you are in the set AND that next wraps: a silently-wrapping `next` reads
   -- as "there are more questions", and re-answering one you already answered by mistake
   -- overwrites a good verdict.

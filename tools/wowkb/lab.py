@@ -44,6 +44,7 @@ import argparse
 import json
 import re
 import shutil
+import subprocess
 import sys
 import textwrap
 from dataclasses import dataclass, field
@@ -766,6 +767,35 @@ def cmd_blocked(args) -> int:
 # ---------------------------------------------------------------------- `deploy`
 
 
+def luacheck() -> tuple[bool, list[str]]:
+    """Lint the lab's Lua before it can reach the client.
+
+    ⚠ THIS EXISTS BECAUSE THE GAME WAS THE LINTER. Measured 2026-08-21: an edit to `Ask.lua`
+    deleted a constant and left two uses of it behind; `deploy` copied the file, and the first
+    thing to notice was `attempt to perform arithmetic on global 'OPTION_AREA' (a nil value)`
+    thrown at the person trying to answer a visual check. The same pass also left a test
+    filtering an aura slot on a table keyed by a STRING, which matches nothing forever and is
+    indistinguishable from a refused slot — the one failure this whole suite is built to avoid.
+
+    `luac -p` would not have caught either: both are syntactically fine. Undefined globals and
+    unused locals are exactly what luacheck reads, and `.luacheckrc` beside the addon already
+    declares the WoW environment. A missing luacheck is reported and does NOT block — a linter
+    nobody has installed must not stop a deploy — but a FAILING one does.
+    """
+    rc = SRC.parent / ".luacheckrc"
+    if shutil.which("luacheck") is None:
+        return True, ["luacheck not on PATH — skipped (install it: the game is the fallback "
+                      "linter and it reports at the worst possible moment)"]
+    # `-q` drops the per-file OK lines. Without it a single bad file reports behind nine good
+    # ones and the actual message scrolls off — which is how a linter gets ignored.
+    cmd = ["luacheck", "-q", str(SRC)] + (["--config", str(rc)] if rc.exists() else [])
+    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=str(SRC.parent))
+    if proc.returncode == 0:
+        return True, ["luacheck clean"]
+    lines = [ln.rstrip() for ln in (proc.stdout or proc.stderr).splitlines() if ln.strip()]
+    return False, ["luacheck FAILED — not deploying:"] + lines[:20]
+
+
 def deploy(wow_path: str) -> tuple[bool, str]:
     """Mirror ClientLab/ into <wow>/Interface/AddOns/ClientLab/ (deletions too)."""
     dest_root = Path(wow_path) / "Interface" / "AddOns"
@@ -788,6 +818,12 @@ def cmd_deploy(args) -> int:
         print(("  " if ok else "ERROR: ") + m, file=(sys.stdout if ok else sys.stderr))
     if not ok:
         print("registry cross-check FAILED — not deploying.", file=sys.stderr)
+        return 1
+
+    lok, lmsgs = luacheck()
+    for m in lmsgs:
+        print(("  " if lok else "ERROR: ") + m, file=(sys.stdout if lok else sys.stderr))
+    if not lok:
         return 1
 
     if args.check:

@@ -1021,12 +1021,241 @@ Likewise `step` (*"the input value is rounded to multiples of this step before p
 `rounding` (`Nearest` / `Up` / `Down`), and `components`, which splits one value across several
 specifiers via per-component `div` / `mod`.
 
+**A band's `format` may carry an inline TEXTURE escape, and it RENDERS** `[client 2026-08-21]`.
+`|T<path>:<h>:<w>|t` and the atlas form `|A:<atlas>:<h>:<w>|a` were both accepted by
+`SetBreakpoints` and both drew as art — not as literal text — with a mark in the fired band and a
+different mark in the complement band, each keyed to a count the addon never read.
+
+**This is the only route on this surface that is conditional on an authored threshold *and*
+reaches a texture.** The bar below has no blank state, and the pandemic region's predicate is the
+client's rather than the addon's; a band emitting `""` below the threshold and an escape at it is
+neither. So "a sealed count can only become text" is false: the *string* is the sink, and what the
+string draws is the addon's choice of art.
+
+- `format` need not be only an escape. A band mixing a specifier with a mark (`"%d|T…|t"`) was
+  accepted and drawn.
+- **A single band may carry SEVERAL escapes, placed rather than flowed** `[client 2026-08-21]`.
+  The long form's `:xoff:yoff` after the size offsets a mark from where the text would sit, so
+  one format string drew a large mark and a small one beside it, and the band above the threshold
+  cleared **both at once**. This matters out of proportion to its size: `SetApplicationCount`
+  takes exactly one FontString per button, so everything a sealed count has to say must fit in
+  one string, and without offsets several marks would simply run left to right.
+- **A button takes the count sink and the bar sink together** `[client 2026-08-21]` — both
+  accepted on one button, with the bar observed drawing. ⚠ The probe sized its bar to the whole
+  button, so at full it occluded the FontString beneath it and the count's own drawing was not
+  separately seen — the open half is whether the count ALSO drew, and a bar confined to a corner
+  badge does not raise the question. `@verify-ingame`
+- The art is **static**. An escape names a texture; nothing about it advances or loops. Motion, if
+  wanted, belongs on the FontString rather than in the string (§3.5.3).
+- ⚠ **A `|cAARRGGBB…|r` colour escape tints the TEXT and NOT an inline texture**
+  `[client 2026-08-22]`. Measured as an A/B on one row: the same stripe sheet drawn by
+  `SetVertexColor` on an addon texture came out red, and drawn as `|T…|t` inside a colour-wrapped
+  band came out **full white**, with the numeral in the same band correctly red. So the hue
+  channel that reaches a band's text does **not** reach a band's art, and neutral white-in-alpha
+  art — the kind `SetVertexColor` exists for — is the wrong art to name from a format string. A
+  coloured mark has to be a **pre-tinted file**, one per hue.
+- ⚠ **An offset escape is DISPLACED but still consumes its ADVANCE WIDTH** `[client 2026-08-22]`,
+  and this is the constraint that actually bounds the design. `:xoff:yoff` moves a mark from where
+  it would have sat; it does not remove it from the line's layout. So a band carrying a 56x56
+  hatch, a 25px plate and a 15px mark lays out a run about **96px wide** whatever the offsets say,
+  and on a 56px button that run hangs off the edge onto the neighbouring icon.
+- ⚠ **An escape's size literal is in the FONTSTRING'S COORDINATE SPACE, not in screen pixels**
+  `[client 2026-08-22]`. A mark authored from a screen-pixel constant therefore overhangs its
+  button by the effective scale: flown against a Cooldown Manager whose icons measure **56 screen
+  pixels** in a screenshot, the size that actually fitted was **42**, which is the same icon
+  expressed in the frame's own units. So a full-icon mark must take its size from `GetWidth()` on
+  the frame it is drawn in — the same space the literal is read in — and never from the style's
+  nominal icon size. At a size matched that way the mark needs **no vertical offset at all**,
+  which also means the apparent "it rides the baseline and climbs" effect was mostly oversize
+  rather than anchoring.
+  A consequence worth planning for: the image is fixed and the draw size is not, so any
+  **pattern** inside it (a stripe pitch, a hatch's density) scales with the button — where a
+  texture drawn through `SetTexCoord` holds its pitch instead.
+  `[searched 2026-08-22: TextureAPIDocumentation.lua, SimpleFontStringAPIDocumentation.lua,
+  the 12.1 UI source for an escape-side tiling or auto-fit parameter]` — the escape grammar
+  exposes size, offset and texel crop and nothing that repeats or fits.
+  ⚠ **AND THE WIDTH IS A CONSTRAINT ON A STRING, NOT ON THE SINK.** There is one count FontString
+  per **button**; there is no limit on **slots**.
+  `AuraContainerAuraSlotManagerMixin:UpdateAura` loops the entire slot list for every aura with no
+  consume — `hasMatchedFilterString` is never flipped inside the loop — and
+  `ShouldIncludeAuraInSlot` evaluates each slot's own `filterString` and `candidateFilters`
+  `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_AuraContainerSlots.lua — UpdateAura,
+  ShouldIncludeAuraInSlot]`. So **several slots keyed to the same aura each take it**, each gets
+  its own button, and each button takes its own sink. A display that wants a full-icon mark AND a
+  corner badge AND a numeral takes **three slots**, each with its own string, its own placement
+  and its own breakpoint table — and `AddAuraSlot` returns the frame, which the addon may anchor.
+  The sum-of-parts width is then never reached.
+  ⚠ What that does **not** change: the hue is still baked (a colour escape still does not reach
+  art) and a crop's internal pattern still scales with its draw size (an escape still cannot
+  tile). Those are properties of an escape; the width was a property of crowding one string.
+  **Two consequences, both load-bearing.** A centre-anchored FontString **moves** whenever the
+  string's width changes — a count whose glyph width differs between values slides back and forth
+  under the player, which is motion carrying no information. And "one string can say several
+  things" is true about *drawing* and false about *space*: the string costs the sum of its parts,
+  so a full-icon mark and a corner mark cannot share one FontString without the line overflowing
+  the button. Anchor by a fixed edge rather than the centre, and budget the width.
+
 **An empty `format` string is how a band expresses absence** — the only way to say "draw nothing
 here" through this object, and the shape both known consumers want. `format` also need not carry
 a numeric specifier at all, so a band may emit a fixed word or glyph instead of the number.
 Neither of the other two factories can do either: `CreateSecondsFormatter` and
 `CreateAbbreviatedNumberFormatter` are documented as fixed transforms (*"93 -> '1m 33s'"*,
 *"123456 -> '123k'"*) `[T1 docs @12.1.0: StringUtilDocumentation.lua]`.
+
+**`SetApplicationBar` is the OTHER count sink, and it is the only one that reaches a SHAPE.**
+Every route above ends at a FontString, so a stack count could only ever become *text*. This one
+ends at a **StatusBar**, and a StatusBar's fill is a texture the addon chose — so a sealed
+application count can drive art without a formatter, without markup, and without a font
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+CustomAuraButtonSharedMixin:SetApplicationBar, CustomAuraButtonPrivateMixin:ApplyApplicationBar]`:
+
+```lua
+statusBar:AddSecretAspect(Enum.SecretAspect.BarValue);   -- in SetApplicationBar
+-- ...and, every update, in ApplyApplicationBar:
+local applications   = auraData and auraData.applications or 0;
+local maxApplications = options.maxApplications;
+statusBar:SetMinMaxValues(0, math.max(maxApplications, 1));
+statusBar:SetValue(applications, interpolation);
+```
+
+- **`maxApplications` is REQUIRED and it is the addon's own number**, documented as *"The maximum
+  number of aura applications represented by the bar"* and declared `Nilable = false`
+  `[T1 docs @12.1.0: AuraContainerUtilDocumentation.lua — CustomAuraButtonApplicationBarOptions]`.
+  The one other field is `interpolation`, a `StatusBarInterpolation` — `Immediate` or
+  `ExponentialEaseOut` `[T1 docs @12.1.0: SimpleStatusBarConstantsDocumentation.lua —
+  StatusBarInterpolation]` — and it is **forced to `Immediate` on any update mode that is not
+  `Enum.CustomAuraButtonUpdateMode.Update`**, so a fresh application snaps and only a change
+  eases.
+- ⚠ **It is a GRADED readout, not a threshold**, and that is the substantive difference from the
+  formatter. `SetValue` clamps into `[0, max]`, so setting `maxApplications` to the interesting
+  count makes the bar read **full at that count and above** — but it also draws every value below
+  it, proportionally. There is no band, no blank state, and no complement. If a design needs
+  "nothing until N", that is the formatter's job; if it needs "how far toward N", this is the only
+  form that says it.
+- **Only `BarValue` is sealed.** The aspect is added to the value, not to the widget, so the
+  bar's texture, size, orientation and colour stay ordinary addon calls made at setup — which is
+  what makes the fill a shape the addon owns rather than a Blizzard swatch. `SetStatusBarTexture`
+  returns a `success` bool that is easy to discard, and a texture that fails to resolve yields a
+  bar with nothing to fill (§4.8.1 finding 3).
+- **There is no `minApplications`.** `CustomAuraButtonApplicationBarOptions` declares exactly two
+  fields — `maxApplications` and `interpolation` — and the apply path's minimum is the literal
+  `0` in `SetMinMaxValues(0, math.max(maxApplications, 1))`, not an option. So a bar cannot
+  express a threshold through its range; shaping the fill **texture** is the only place a
+  threshold could live, which turns on whether the bar crops its texture or stretches it — itself
+  unmeasured.
+- **The bar CROPS its texture; it does not stretch it** `[client 2026-08-21]`. Measured with a
+  banded fill — amber for five sixths, green for the top sixth, hard edge, `maxApplications = 6` —
+  and the green segment appeared **only at six**. That is what makes a threshold expressible at
+  all here: it cannot live in the range, so it lives in the art.
+- **`Enum.StatusBarRenderMode.Radial` IS honoured on a bar the button has already claimed**
+  `[client 2026-08-21]` — the fill swept as an arc, driven by the sealed count, so
+  `AddSecretAspect(BarValue)` does not freeze the render path. It is documented as rendering *"by
+  driving the managed texture's radial progress fill percent instead of resizing the texture
+  anchors"* `[T1 docs @12.1.0: SimpleStatusBarConstantsDocumentation.lua — StatusBarRenderMode]`,
+  with the arc shaped by `SetRadialProgressBarStartOffset` / `EndOffset` / `Reverse` / `Feather`,
+  all `AllowedWhenUntainted`. So a circular fill needs no MaskTexture. ⚠ **No frame in the shipped
+  12.1 UI source uses it**, so there is still no reference implementation to copy — and the arc is
+  only as good as the texture behind it: an untextured swatch reads badly at badge size.
+- **`StatusBarRenderMode.Radial` also works on the DURATION bar** `[client 2026-08-21]` — the fill
+  swept as an arc off `SetTimerDuration`, with `GetRenderMode` reading back `1`. So a circular
+  countdown and a circular stack readout are the same setup call on two different sinks.
+- **A button takes BOTH count sinks at once** `[client 2026-08-21]`: `SetApplicationBar` and
+  `SetApplicationCount` were accepted on one button in one `initializeFrame`, which is what lets
+  an arc and a banded mark share a row without a second aura slot.
+- The same `initializeFrame`-only, descendant-of-the-button gate applies, exactly as it does to
+  every other sink here.
+
+**`SetDurationText` takes the SAME formatter object, bound to the aura's CLOCK.** Its options
+declare `textFormatter` as a **`NumericFormatter`** — the type `C_StringUtil.CreateNumericRuleFormatter()`
+returns and the type the count sink's `formatter` field also takes — alongside a `binding`, a
+`textFormat` and a `textColor` `[T1 docs @12.1.0: AuraContainerUtilDocumentation.lua —
+CustomAuraButtonDurationTextOptions]`. The binding's input is chosen from
+`DurationTextBindingProperty`: `RemainingDuration 0, RemainingPercent 1, ElapsedDuration 2,
+ElapsedPercent 3, TotalDuration 4, StartTime 5, EndTime 6` `[T1 docs @12.1.0:
+DurationTextBindingSharedDocumentation.lua — DurationTextBindingProperty]`, and
+`DurationTextBinding:SetFormatter(formatter)` installs it, replacing the default the button
+otherwise assigns — a `CreateSecondsFormatter` `[T1 src @12.1.0:
+Blizzard_AuraContainer/Blizzard_AuraContainerShared.lua — DefaultAuraDurationFormatter]`.
+
+**It is honoured** `[client 2026-08-21]`, and an inline **texture escape renders through it** —
+so every band shape the count sink offers applies to remaining time as well: a blank band, a
+complement, a mark instead of a numeral. The measurement is unambiguous because Blizzard's own
+seconds formatter cannot emit a texture, so a mark on that FontString is a supplied ruleset
+running.
+
+Two things the same run settled, both of which constrain the design:
+
+- ⚠ **`options.textFormatter` is the ONLY door. The binding object is not addon-reachable.**
+  `GetDurationTextBinding` is declared on `CustomAuraButtonPrivateMixin`, not the Shared mixin
+  `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+  CustomAuraButtonPrivateMixin:GetDurationTextBinding]`; calling it from an addon aborts the
+  enclosing function. A tile that did so drew its icon and then nothing, with no log line at all
+  — the failure looks like a rule that was silently ignored, which is a different and much more
+  misleading thing than an error.
+- ⚠ **An unconfigured binding samples the remaining duration in SECONDS, not percent.** Measured
+  by complement: two bands split at 31 drew as exact inverses for a whole DoT, which a percent
+  input starting at 100 could not produce. So a bare `textFormatter` gives thresholds in seconds,
+  and a rule written as though it were percent is silently wrong rather than refused.
+
+**The percent route exists and runs through a different field.** `options.textFormat` takes a
+`DurationTextBindingFormatOptions` — a `formatString` plus `components`, where each component is
+`{ property, formatter }` `[T1 docs @12.1.0: DurationTextBindingSharedDocumentation.lua —
+DurationTextBindingFormatComponent]`. So the property is selectable from the public options table
+after all, at the cost of `textFormat` overriding `textFormatter` entirely. That path is a source
+read; only the bare `textFormatter` has been run. `@verify-ingame`
+
+⚠ **Two things differ from the count sink, and both bite.**
+
+- **This sink seals three aspects.** `SetDurationText` adds `Text`, **`Alpha`** and
+  **`VertexColor`** `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+  CustomAuraButtonSharedMixin:SetDurationText]`, against `SetApplicationCount`'s `Text` and
+  `Shown`. So a static `SetTextColor` set at setup is **not** available here, and neither is
+  §3.5.3's always-running alpha animation — the addon does not own the channel it would use. The
+  sanctioned substitute is `DurationTextBinding:SetTextColorCurve(curve, property)`, which is a
+  curve the addon authors rather than a colour it sets.
+- **It is the addon's threshold, not the client's.** `AddPandemicRegion` is the only route where
+  the *predicate* is computed by the client
+  (`GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell); a band on `RemainingPercent` is
+  a number written into the addon. The two produce the same picture and are not the same claim.
+
+**And the pandemic sink cannot be inverted.** `ApplyPandemicRegions` calls
+`region:SetShown(self:IsInPandemicWindow())` with no options table, no formatter and no reverse
+flag `[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+CustomAuraButtonPrivateMixin:ApplyPandemicRegions]` — there is no seam to flip. Drawing something
+*outside* the refresh window means changing sinks, with the trade above.
+
+#### 3.5.3 Motion on a sealed display, without branching on it
+
+Every sink above draws something **static**: a string, a texture escape, a bar fill. The obvious
+reading is that a sealed fact can therefore never animate, because animating on a threshold would
+mean knowing the threshold was crossed — and the whole point of these sinks is that the addon
+never learns that.
+
+**It does not follow, and the reason is worth stating plainly: an animation that always plays is
+invisible while there is nothing to draw.**
+
+`SetApplicationCount` adds exactly two aspects to the FontString — `Text` and `Shown` — so the
+region's own animation channel stays the addon's `[T1 src @12.1.0:
+Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua — CustomAuraButtonSharedMixin:SetApplicationCount]`.
+A `FontString` is an `AnimatableObject` (`frames-textures-animation.md` §1.1), so an alpha or scale
+group may be created on it at setup and set to loop forever. While the count sits in a band whose
+`format` is `""` the string draws nothing, and an animation of nothing is nothing. When a band
+fires, the mark arrives already in motion.
+
+So the throb is **gated by the client's evaluation of a rule the addon authored**, and the addon
+branches on nothing at any point. The same holds for a Region handed to `AddPandemicRegion`, where
+the client owns `Shown` outright — there the gating is even cleaner, since the region is genuinely
+hidden rather than merely empty.
+
+Three limits, all real:
+
+- **The animation cannot differ per band.** It is one group on one region, started once; the bands
+  choose *what is drawn*, never *how it moves*. A design wanting two motions needs two regions, and
+  only the count FontString sink is single-region by construction.
+- **`SetApplicationBar` gets no gating from this**, because a bar has no blank state — its track
+  draws at zero, so an animation on it plays visibly at every value.
+- **It costs a permanently running animation per armed row.** Nothing here is free; it is simply
+  not a *branch*.
 
 ⚠ **Do not reach for `SecondsFormatterMixin` by mistake.** It is a pure-Lua lookalike in
 `Blizzard_SharedXML/TimeUtil.lua` with nearly the same method vocabulary, used across Blizzard's

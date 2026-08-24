@@ -924,3 +924,38 @@ patch-day sweep of one file at a time, highest-churn file first
 (`cooldown-manager.md`, then `security-taint-and-restricted-data.md`). New
 citations should be written symbol-anchored from the start; the gate enforces
 that they resolve.
+
+## ClientLab — parked 2026-08-21, mid-session
+
+Shelved deliberately: the useful next step is a **real cap flight on Demonology**, not another
+lab pull. Nothing here is urgent and nothing is broken.
+
+**Open question, narrowed and still `built`:** `aura-container-composite-layers` — tiles A and B
+only. Do TWO escapes in one band draw as two marks (a full-tile hatch plus a corner badge), and
+do an application BAR and an application COUNT both draw on one row? Both calls already recorded
+`accepted` `[client 2026-08-21]`; only the pixels are unproven. The pull that would have answered
+them was flown on **Destruction**, which has no Demonic Core, so both slots correctly matched
+nothing. Re-fly on Demonology with Cores up — **or let a real cap row answer it**, which is the
+better trade now that the composites are what we want to see.
+
+**Settled and drained the same day** (in `security-taint-and-restricted-data.md` §3.5):
+`AddPandemicRegion` takes a Frame with children · `StatusBarRenderMode.Radial` works on the
+duration bar · a button takes both count sinks at once · `SetDurationText` honours a rule
+formatter through `options.textFormatter`.
+
+**Two follow-ups nobody is on, both small:**
+- `options.textFormat`'s `{ property, formatter }` components are the only route to banding on
+  `RemainingPercent` rather than remaining seconds. Source read; marked `@verify-ingame` on the
+  claim.
+- `render-shelf.md` Part 7 L7's cells are captioned in **percent** and a bare `textFormatter`
+  bands on **seconds**. Right shape, wrong unit, and the entry says so — re-caption when the
+  percent route runs.
+
+**Lab harness changes made this session and NOT parked** (they are done, and they were the
+reason the session stalled): `wowkb.lab deploy` now runs `luacheck` and refuses on failure — the
+game had been the linter, reporting `attempt to perform arithmetic on global 'OPTION_AREA'` at
+the worst possible moment. `Ask.lua` is 620px wide with real font sizes, and `Ask.Register`
+now refuses a `note` over 300 chars or a `question` over 200: the panel is a stimulus, not a
+briefing, and the long form belongs in `questions.json`'s `expect`, which is written for whoever
+drains the run rather than whoever flies it.
+

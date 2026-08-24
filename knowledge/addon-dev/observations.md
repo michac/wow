@@ -1290,3 +1290,122 @@ there is nothing left to drain them from.
 **Drains to:** `cooldown-manager.md:§4.1`
 
 **Status:** drained 2026-08-16
+
+---
+
+## OBS-073 · 2026-08-21 · Does a NumericRuleFormatter breakpoint whose `format` carries an inline `|T…|t` texture 
+
+**Observed:** `aura-container-count-texture-escape` recorded **ok** — `{atlasAt6=accepted, cStringUtil=table, measured=true, textPlusTexture=accepted, textureAt6=accepted, twoTextures=accepted, why=Plumbing only. Whether the texture RENDERED is secret and is the ns.Ask's job.}`
+
+**Observed (visual):** the author, watching the panel on a Demonology warlock at a dummy,
+reported the **green checkmark drew where it was intended and the red X where it was intended,
+both keyed to the imp count**. So the escape did not merely pass through — it RENDERED, in both
+the fired band and the complement band. The oracle is prose rather than a button press, and that
+is the stronger record: the panel offered one exclusive choice across five tiles and a single
+verdict cannot describe five tiles.
+
+**How:** ClientLab run **2026-08-21 16:49:22** (v0.2.7, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** It renders. `format` is a plain authored string handed to `fontString:SetText` by `ApplyApplicationCount`, and inline colour escapes (`|c…|r`) inside a band were measured passing through `FormatNumber` untouched [client 2026-08-21] — so escapes are not sanitised on this path and a FontString renders `|T` escapes generally. ⚠ Every word of that is inference from the colour result; nothing has drawn a texture through this sink. THREE distinguishable outcomes and the panel is built to tell them apart: the mark renders (yes), the escape appears as LITERAL TEXT (passed through, not parsed — a different answer from no), or the tile is blank (refused, or the aura never matched, which tile A distinguishes). Method: five tiles on Wild Imp 296553 with a control on Demonic Core 264173; file-path and atlas forms both, plus a band mixing `%d` with a texture. ⚠ NO READBACK — `Text` carries a secret aspect, so the oracle is an EYEBALL.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1031`
+
+**Status:** drained 2026-08-21
+
+---
+
+## OBS-074 · 2026-08-21 · Does `SetApplicationBar` drive a cap-created StatusBar off a secret aura application cou
+
+**Observed:** `aura-container-application-bar` recorded **ok** — `{bandTexture=true, getRenderMode=function, interpolationEnum=present, measured=true, radialPercentSetter=function, renderModeEnum=present, setRenderMode=function, why=Plumbing only. Whether the bar FILLED, and how, is secret and is the ns.Ask's job. The panel's own per-tile acceptance lines are written into this log by setup().}`
+
+**Observed (visual):** the author reported all three tiles behaving: the **banded bar showed its
+green segment only at six**, which settles crop-versus-stretch in favour of **crop**; and the
+**radial tile filled as an arc, driven by the Demonic Core count** — so `StatusBarRenderMode.Radial`
+IS honoured on a bar the aura button has already claimed, and `AddSecretAspect(BarValue)` does not
+freeze the render path. Aesthetic note recorded because it bears on adoption rather than on
+capability: the radial fill "looked terrible" as drawn, with an untextured grey square as its
+source art.
+
+**How:** ClientLab run **2026-08-21 16:49:22** (v0.2.7, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** It fills, because `ApplyApplicationBar` is the same shape as the count sink that already flew: it reads `auraData.applications`, calls `SetMinMaxValues(0, math.max(maxApplications, 1))` and `SetValue(applications, interpolation)`, and the only secret aspect added is `BarValue` — texture, size, orientation and render mode stay ordinary setup calls. Every line of that is a SOURCE READ. TWO further questions ride along, neither inferable. (1) RADIAL: `Enum.StatusBarRenderMode.Radial` is documented as driving "the managed texture's radial progress fill percent instead of resizing the texture anchors", but NO frame in the shipped 12.1 UI source uses it — there is no reference implementation, and whether `AddSecretAspect(BarValue)` freezes the render path is unknown. `GetRenderMode` is plain and IS read back. (2) CROP vs STRETCH: the bar's texture is banded — amber for five sixths, green for the top sixth, hard edge — so a cropping bar shows green ONLY at 6/6 and a stretching bar shows it at every value. Those are opposite answers and they look nothing alike. It matters because the minimum is a literal 0 with no `minApplications` option, so shaping the ART is the only way a bar can express a threshold. Method: four tiles on Wild Imp 296553 (linear, banded, radial) with a control on Demonic Core 264173, `interpolation = Immediate` so an ease cannot walk through the bands mid-observation. ⚠ NO READBACK on the value — `GetValue` on a bar carrying `BarValue` is secret, so the oracle is an EYEBALL at a stack count the player knows. Watch a tile CHANGE: a bar at zero still draws its track, which is the whole trade against the formatter's blank state.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1091`
+
+**Status:** drained 2026-08-21
+
+---
+
+## OBS-075 · 2026-08-21 · Does `SetDurationText` honour a `CreateNumericRuleFormatter()` — through `options.textFo
+
+**Observed:** `aura-duration-text-rule-formatter` recorded **ok** — `{bindingProperty=present, cStringUtil=table, control=accepted, durationBands=accepted, formatter=userdata, measured=true, panelDrawn=true, probed=true, viaOptions_B mark late=accepted, viaOptions_C mark early=accepted, why=Plumbing only. Whether the band DREW is secret and is the ns.Ask's job.}`
+
+**Observed (visual + absence in the log):** the author reported tile A (control) drawing an icon
+and an ordinary seconds countdown; tile B drawing an icon and the **CHECKMARK**; tiles C and D
+drawing an icon and nothing. Read against the log:
+
+- **B proves the rule ran.** Blizzard's seconds formatter cannot emit a texture, so a checkmark
+  through this sink is a supplied ruleset being honoured — `viaOptions_B = accepted`.
+- **B and C behaved as exact COMPLEMENTS**, which fixes what the formatter's input is. B was
+  `{0 → check, 31 → ""}` and C the inverse; both took the *lower* band for the whole DoT. A
+  percent input would have started at 100 and shown the opposite pattern, so the property being
+  sampled is the **remaining duration in seconds**, not percent. Nothing selected it — that is
+  simply what an unconfigured binding samples.
+- **D is the one the eye could not resolve, and the log resolves it by ABSENCE.** Neither
+  `bindingObject` nor `viaBinding_*` was written at all, so the code never reached them:
+  `GetDurationTextBinding` is declared on **`CustomAuraButtonPrivateMixin`**, not the Shared one,
+  and the unprotected call aborted `initializeFrame` after `SetIcon` had already run — which is
+  exactly the icon-and-nothing-else the author saw. **The binding object is not addon-reachable;
+  `options.textFormatter` is the only door.**
+
+**How:** ClientLab run **2026-08-21 22:31:48** (v0.2.7, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** It is honoured. `CustomAuraButtonDurationTextOptions.textFormatter` is declared `NumericFormatter` — the same type as the count sink's `formatter` field, and the type `CreateNumericRuleFormatter` returns — and the button otherwise installs a `CreateSecondsFormatter` through the same `binding:SetFormatter` seam. ⚠ That is a TYPE-SIGNATURE read; nothing has been run, and `SetApplicationCount`'s formatter path being honoured [client 2026-08-21] is suggestive rather than transitive. Four distinguishable outcomes and the panel separates them: the rule runs (yes), the rule is IGNORED and every tile draws an ordinary countdown (a different answer from a refusal, and the likeliest failure), the call is REFUSED with an error under the tile, or Immolate never landed (tile A, the control, distinguishes this). Method: four tiles on a DoT SET on the target — `includeSpellIDs = {460553 Doom, 157736 Immolate, 445474 Wither}`, because Demonology does not cast Immolate and Doom is a talent, so no single id is safe on the target — a control with no options, the pandemic direction, the INVERSION, and the same rule installed via the binding object rather than the options table, because those two routes can disagree. ⚠ NO READBACK — `Text` is sealed, so the oracle is an EYEBALL, and the tile must be watched CHANGING as the DoT ticks rather than read once.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1119`
+
+**Status:** drained 2026-08-21
+
+---
+
+## OBS-076 · 2026-08-21 · The two tiles the 2026-08-21 flight could not exercise: (A) do TWO escapes in one band a
+
+**Observed:** `aura-container-composite-layers` recorded **ok** — `{A_twoEscapes=accepted, B_bar=accepted, B_count=accepted, C_frameRegion=accepted, D_durationBar=accepted, D_readBack=1, D_renderMode=accepted, measured=true, panelDrawn=true, probed=true, twoEscapeBand=accepted, why=Plumbing only. Whether the layers DREW, and whether they read as one row, is the ns.Ask's job.}`
+
+**Observed (visual):** flown a second time on **Demonology** with Demonic Cores up.
+
+- **Both tiles were blank with no Core and gained an icon when one was up**, which is
+  `ApplyVisibility`'s `SetShown(secretwrap(auraData ~= nil))` seen directly: the button is the
+  aura's presence, and with no aura there is nothing on the row for any sink to decorate.
+- **A · TWO ESCAPES IN ONE BAND DRAW AS TWO MARKS.** At 1–3 Cores the tile showed *"a green check
+  inside and a red X next to it"* — the second escape's `:xoff:yoff` placing it beside the first
+  rather than flowing after it — and at 4 Cores the upper band emitted `""` and **both marks
+  cleared together**. So one format string can carry a full-tile mark and a corner mark, and the
+  complement clears the whole set at once.
+- **B · the application BAR drew** — a vertical fill climbing 1→4, covering the icon at full.
+  ⚠ **Whether the count FontString also drew is NOT established, and the reason is the test's own
+  geometry rather than the client's behaviour**: the bar was `SetAllPoints(button)`, so at 4 it
+  occludes anything beneath it, and the band that would have drawn the mark fires at exactly 4.
+  Both calls recorded `accepted`, and the count sink is independently known to draw
+  (`aura-container-count-texture-escape`), so there is no evidence of one sink suppressing the
+  other — only of a probe that hid its own second subject. A design putting the bar in a corner
+  badge rather than over the whole icon does not have this problem.
+
+**How:** ClientLab run **2026-08-21 22:31:48** (v0.2.7, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Expected (questions.json):** Both draw. ⚠ ACCEPTANCE IS ALREADY MEASURED and is not the question: `A_twoEscapes`, `B_bar`, `B_count` and `twoEscapeBand` all recorded `accepted` [client 2026-08-21], and the same run confirmed the other two tiles outright — `AddPandemicRegion` takes a Frame with children, and `StatusBarRenderMode.Radial` works on the duration bar with `GetRenderMode` reading back 1. What is unanswered is whether A and B DREW, and the reason is mundane: the pull was flown on DESTRUCTION, which has no Demonic Core, so both tiles' slots correctly matched nothing and the buttons stayed hidden. An accepted call on a slot that never matched proves nothing about pixels. ⚠ Re-fly on DEMONOLOGY with Cores up. If A draws only one mark, a hatch and a corner badge cannot share one format string and each needs its own aura button; if B draws only one of bar and count, an arc and a mark cannot share a row.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1031`
+
+**Status:** drained 2026-08-21
+
+---
+
