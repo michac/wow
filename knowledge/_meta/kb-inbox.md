@@ -959,3 +959,25 @@ now refuses a `note` over 300 chars or a `question` over 200: the panel is a sti
 briefing, and the long form belongs in `questions.json`'s `expect`, which is written for whoever
 drains the run rather than whoever flies it.
 
+## 2026-08-22 — Demonology gem/enchant ordering, measured locally (evidence, not a KB claim)
+
+`wowkb.sim compare` on Encomplete's own gear, 40k iterations, 1T/300s + 5T/120s,
+raid-buffed, APL-APPEND branded. Parked here rather than written into
+`classes/warlock/demonology/gearing.md` because a sim result is evidence for an
+answer, not a sourced claim. The Tier-1 half of the finding (stone = primary stat)
+IS in the KB.
+
+- Bare → fully enchanted + 3 gems: **+7.8%** (1T and 5T alike). Enchants alone +5.6%.
+- Where the enchant DPS lives: chest + legs **+3.4%**, both rings **+2.2%**,
+  gems **+1.9%**. Head + shoulders + boots measured **−0.03% / +0.00% (NOISE)** —
+  those three slots' Midnight enchants are defensive/utility and carry no throughput.
+- Gem ordering, tight but consistent: Deadly Amethyst ≈ Quick Amethyst >
+  Deadly Garnet > Masterful Amethyst. Spread from best to worst is ~0.35%; the
+  mastery-primary Amethysts beat the crit-primary Garnets in both frames.
+- Ring enchant: Eyes of the Eagle beats Amani Mastery by **1.45%** — the biggest
+  single enchant choice on the character.
+- Weapon enchant: Acuity of the Ren'dorei beats Arcane Mastery (what upstream's own
+  MID2 profile ships) by **0.26%**. maxroll is right, upstream's profile is not BiS.
+- Midnight enchants have exactly **two** ranks (Tier1/Tier2), not three.
+
+

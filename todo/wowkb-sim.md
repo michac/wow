@@ -676,3 +676,42 @@ dump and a stale WoW install**. Lessons, all confirmed by the session:
 - **Verify game mechanics before asserting.** Claimed "Affli loot spec → more haste/crit
   gear"; a 30-second check showed **loot spec does not touch secondaries at all**. Cheap to
   verify, expensive to state wrong.
+
+### 2026-08-21 — "sim me on a target dummy" → `--dummy` / `--fixed-length` / `--distribution`
+
+The ask was a **dummy** reading (no raid buffs, no consumables, just the gear) plus an idea
+of run-to-run luck. The harness could express **neither**, and both failures were silent:
+
+- **The reference profile is a raid-buffed, flasked, potioned, oiled character** — that is
+  what a DPS ranking is measured under, and nothing in the output says so. Reading a
+  `compare` median as "what I do on a dummy" overstates Encomplete by **32%**
+  (112,997 → 85,646 at 1T/300s). Now `--dummy`.
+- **`flask=` (empty) does not clear a consumable the reference profile set**, and an unset
+  `potion=` makes the APL's `potion` rung pick a default rather than skip — the first probe
+  looked cleared and still ran 93,894. The only token that disables one is the literal
+  `disabled`. Raid buffs come from the SIM, not the profile: `optimal_raid=0` plus an
+  explicit `override.bloodlust=0`.
+- **New gate — `dummy_gate`.** Under `--dummy` the buff table is asserted empty of any
+  potion / well-fed / flask / rune / weapon-oil / raid-buff / bloodlust application, and
+  `optimal_raid` is re-read out of the sim's own options. A consumable that silently
+  re-defaults is invisible in the DPS number, which is the firing gate's failure mode
+  pointed the other way. It blocks the table like any other FAIL.
+- **`compare` now accepts zero variants.** "What do I do right now" is a legitimate
+  question and the only way to ask it was to invent a throwaway variant. The row is branded
+  `this IS the baseline` and a note says the run is absolute, not a comparison.
+- **`--distribution` + `--fixed-length`.** Per-pull spread comes from the base actor's
+  `collected_data.dps` (profilesets carry only summary metrics). Default runs carry simc's
+  **±20% fight-length variation**, which lands in the same σ and reads as luck when it is
+  not: 1T σ was 2.7% varying vs **2.2%** fixed, 5T 5.0% vs **3.1%**. Quoting the varying
+  number as "luck" would have overstated 5T spread by 60%.
+
+Measured, Encomplete (Demonology, ilvl ~301, 2026-08-20 export), dummy, fixed length:
+1T/300s median **86,504** (σ 2.2%, middle 80% 84.0k–89.0k) · 5T/120s median **285,502**
+(σ 3.1%, middle 80% 274k–297k). Raid-buffed for contrast: 112,997 / 408,912.
+
+Not built, and the reason the "what would a human hit" half of the question is an estimate
+rather than a measurement: the harness has **no execution model**. simc plays the APL with
+zero reaction time and perfect foresight; there is no knob here for latency, missed GCDs or
+late Tyrant windows. If that question keeps coming up, the honest version is a
+`--human` degradation frame (world_lag / reaction_time / a GCD-drop rate), not a fudge
+factor applied to the median after the fact.

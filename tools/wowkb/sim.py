@@ -762,6 +762,56 @@ def resolve_reference(cls: str, spec: str, hero: str | None,
 
 # ══ Profile building ═════════════════════════════════════════════════════════
 
+# ══ Target-dummy mode ════════════════════════════════════════════════════════
+#
+# "Sim me on a dummy, in my gear" is a DIFFERENT question from the one the reference
+# profile answers: the profile is a raid-buffed, flasked, potioned, oiled character,
+# because that is what a DPS ranking is measured under. A dummy reading with any of
+# that left on overstates by ~9% (measured 2026-08-21, Encomplete 1T/300s: 93,894 →
+# 85,459 with consumables off), and nothing in simc's output says which one you ran.
+#
+# Two facts the harness owns rather than re-discovering per session:
+#   · `flask=` (empty) does NOT clear a consumable the reference profile set, and an
+#     unset `potion=` makes the APL's `potion` rung pick a default rather than skip.
+#     The only token that disables one is the literal `disabled`. Measured 2026-08-21.
+#   · Raid buffs come from the SIM, not the profile — `optimal_raid=0`, plus an
+#     explicit `override.bloodlust=0` because Bloodlust is granted separately.
+DUMMY_CONSUMABLES = ("flask", "food", "augmentation", "potion", "temporary_enchant")
+
+DUMMY_SIM_OPTIONS = {"optimal_raid": 0, "override.bloodlust": 0}
+
+# Buff names that must NOT appear with any uptime under --dummy. Substring match, so a
+# renamed flask/food still trips it; the raid buffs are listed by their simc buff name.
+DUMMY_FORBIDDEN = ("potion_of_", "well_fed", "flask_of_", "augment_rune", "food",
+                   "arcane_intellect", "battle_shout", "mark_of_the_wild",
+                   "power_word_fortitude", "blessing_of_the_bronze", "skyfury",
+                   "bloodlust", "heroism", "chaos_brand", "mystic_touch",
+                   "phoenix_oil", "_oil")
+
+
+def dummy_lines() -> list[str]:
+    return ["", "# ── target dummy: every consumable explicitly disabled ──",
+            *(f"{c}=disabled" for c in DUMMY_CONSUMABLES)]
+
+
+def dummy_gate(data: dict) -> list[str]:
+    """Assert the dummy actually ran dry.
+
+    A cleared consumable that silently re-defaults is invisible in the DPS number and
+    would be read as "this is what I do on a dummy" — the same shape of silent no-op
+    the firing gate exists for, pointed the other way.
+    """
+    bad: list[str] = []
+    player = data["sim"]["players"][0]
+    for buff in player.get("buffs", []):
+        name = buff.get("name", "")
+        if any(k in name for k in DUMMY_FORBIDDEN) and (buff.get("start_count") or 0) > 0:
+            bad.append(f"{name} ({buff['start_count']:.2f} applications/iteration)")
+    if data["sim"]["options"].get("optimal_raid"):
+        bad.append("optimal_raid is on — the sim is applying raid buffs")
+    return bad
+
+
 def strip_reference(text: str) -> list[str]:
     """The reference profile minus everything we re-own: its player line, its identity,
     its gear, and its Gear Summary. What survives is the APL and the consumables — the
@@ -927,7 +977,8 @@ def resolve_apl_append(entry: dict) -> tuple[list[dict], list[str]]:
 def build_profile(export: dict, ref: dict, *, name: str | None = None,
                   overrides: dict[str, str] | None = None,
                   apl_override: list[str] | None = None,
-                  use_overrides: bool = True) -> tuple[str, dict]:
+                  use_overrides: bool = True,
+                  dummy: bool = False) -> tuple[str, dict]:
     """The base profile, plus a bookkeeping record of what was set where.
 
     Every canonical slot is emitted — assigned from the export or explicitly cleared —
@@ -994,6 +1045,9 @@ def build_profile(export: dict, ref: dict, *, name: str | None = None,
             lines += [f"actions.precombat+=/variable,name={o['name']},value={o['value']:g}"
                       for o in applied]
 
+    if dummy:
+        lines += dummy_lines()
+
     lines += ["", "# ── gear: every slot explicitly assigned or explicitly cleared ──"]
     assigned, cleared = {}, []
     for slot in CANON_SLOTS:
@@ -1010,7 +1064,8 @@ def build_profile(export: dict, ref: dict, *, name: str | None = None,
 
     return "\n".join(lines) + "\n", {"assigned": assigned, "cleared": cleared,
                                       "overrides": applied, "overrides_rejected": rejected,
-                                      "apl_append": appended, "override_spec_warn": spec_warn}
+                                      "apl_append": appended, "override_spec_warn": spec_warn,
+                                      "dummy": dummy}
 
 
 # ══ Running simc ═════════════════════════════════════════════════════════════
@@ -1427,16 +1482,22 @@ class Frame:
 
 def run_frame(export: dict, ref: dict, variants: dict, *, targets: int, time: int,
               iterations: int, tag: str, apl_override: list[str] | None = None,
-              use_overrides: bool = True) -> Frame:
+              use_overrides: bool = True, dummy: bool = False,
+              fixed_length: bool = False) -> Frame:
     profile, built = build_profile(export, ref, apl_override=apl_override,
-                                   use_overrides=use_overrides)
+                                   use_overrides=use_overrides, dummy=dummy)
     profile += "\n".join(
         ln.replace("{level}", str(export.get("level") or 90))
         for ln in profileset_lines(variants)) + "\n"
-    data, profile_file = run_simc(profile, {
-        "iterations": iterations, "fight_style": "Patchwerk",
-        "max_time": time, "desired_targets": targets,
-    }, RESULTS, tag)
+    options = {"iterations": iterations, "fight_style": "Patchwerk",
+               "max_time": time, "desired_targets": targets}
+    if dummy:
+        options.update(DUMMY_SIM_OPTIONS)
+    if fixed_length:
+        # Pure execution/RNG spread: simc otherwise varies each iteration's length by
+        # ±20%, which lands in the same std_dev and reads as luck when it is not.
+        options["vary_combat_length"] = 0
+    data, profile_file = run_simc(profile, options, RESULTS, tag)
     frame = Frame(tag, targets, time, data, profile, profile_file, built)
     missing = [n for n in [BASELINE, *variants] if n not in frame.results]
     if missing:
@@ -1514,17 +1575,19 @@ def variant_export(export: dict, overrides: dict[str, str]) -> dict:
 
 def gate_variants(export: dict, ref: dict, variants: dict, *,
                   iterations: int, targets: int, time: int,
-                  use_overrides: bool = True) -> dict[str, list[dict]]:
+                  use_overrides: bool = True,
+                  dummy: bool = False) -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = {}
     for name, overrides in variants.items():
         if not introduces_effects(export, overrides):
             continue
         sub = variant_export(export, overrides)
-        profile, _ = build_profile(sub, ref, use_overrides=use_overrides)
-        data, _ = run_simc(profile, {
-            "iterations": iterations, "fight_style": "Patchwerk",
-            "max_time": time, "desired_targets": targets,
-        }, RESULTS, f"gate-{tokenize(name)}")
+        profile, _ = build_profile(sub, ref, use_overrides=use_overrides, dummy=dummy)
+        opts = {"iterations": iterations, "fight_style": "Patchwerk",
+                "max_time": time, "desired_targets": targets}
+        if dummy:
+            opts.update(DUMMY_SIM_OPTIONS)
+        data, _ = run_simc(profile, opts, RESULTS, f"gate-{tokenize(name)}")
         out[name] = firing_gate(sub, ref, data)
     return out
 
@@ -1968,11 +2031,16 @@ def cmd_compare(args) -> int:
 
     use_overrides = not getattr(args, "no_overrides", False)
 
+    dummy = bool(getattr(args, "dummy", False))
+    fixed_length = bool(getattr(args, "fixed_length", False))
+    tag_bits = ("-dummy" if dummy else "") + ("-fixed" if fixed_length else "")
+
     def frame_for(targets: int, time: int) -> Frame:
         return run_frame(export, ref, variants, targets=targets, time=time,
                          iterations=args.iterations, apl_override=apl_override,
-                         tag=f"compare-{char}-{targets}t{time}s",
-                         use_overrides=use_overrides)
+                         tag=f"compare-{char}-{targets}t{time}s{tag_bits}",
+                         use_overrides=use_overrides, dummy=dummy,
+                         fixed_length=fixed_length)
 
     frames: list[Frame] = [frame_for(*styles[0])]
 
@@ -1984,14 +2052,15 @@ def cmd_compare(args) -> int:
     var_findings = gate_variants(export, ref, variants,
                                  iterations=args.gate_iterations,
                                  targets=frames[0].targets, time=frames[0].time,
-                                 use_overrides=use_overrides)
+                                 use_overrides=use_overrides, dummy=dummy)
+    dummy_leaks = dummy_gate(frames[0].data) if dummy else []
     on_gcd = apl_hygiene(frames[0].profile)
 
     fails = [f for f in base_findings if f["level"] == "FAIL"]
     fails += [f for fs in var_findings.values() for f in fs if f["level"] == "FAIL"]
     warns = [f for f in base_findings if f["level"] == "WARN"]
     warns += [f for fs in var_findings.values() for f in fs if f["level"] == "WARN"]
-    blocked = bool(fails or leaks)
+    blocked = bool(fails or leaks or dummy_leaks)
 
     if not blocked or args.accept_failing_gate:
         frames += [frame_for(*style) for style in styles[1:]]
@@ -2015,6 +2084,12 @@ def cmd_compare(args) -> int:
               f"{frame.profile_file.relative_to(ROOT)}")
     print(f"    variants      : {BASELINE} (current gear) + "
           f"{', '.join(variants) or 'none'}")
+    if dummy:
+        print("    profile       : TARGET DUMMY — optimal_raid=0, override.bloodlust=0, "
+              + "/".join(DUMMY_CONSUMABLES) + " disabled")
+    if fixed_length:
+        print("    fight length  : fixed (vary_combat_length=0) — the spread below is "
+              "execution/RNG only")
     for note in notes:
         print(f"    · {note}")
     if apl_override:
@@ -2045,6 +2120,14 @@ def cmd_compare(args) -> int:
         print(f"    ❌ FAIL  reference-profile gear leaked into: {', '.join(leaks)}")
     else:
         print("    ✅ no reference-profile gear leaked")
+    if dummy:
+        if dummy_leaks:
+            print("    ❌ FAIL  buffs the dummy should not have:")
+            for leak in dummy_leaks:
+                print(f"             {leak}")
+        else:
+            print("    ✅ dummy gate: no raid buff, flask, food, rune, potion or weapon "
+                  "oil was applied")
     if on_gcd:
         level = "⚠ WARN " if apl_override else "· NOTE "
         print(f"    {level} {len(on_gcd)} `use_item` rung(s) without {OFF_GCD}"
@@ -2062,8 +2145,8 @@ def cmd_compare(args) -> int:
     deltas = {f.id: frame_deltas(f) for f in frames}
 
     if blocked and not args.accept_failing_gate:
-        print(f"\n  VERDICT: FAIL — {len(fails) + len(leaks)} failure(s), "
-              f"{len(warns)} warning(s).")
+        print(f"\n  VERDICT: FAIL — {len(fails) + len(leaks) + len(dummy_leaks)} "
+              f"failure(s), {len(warns)} warning(s).")
         print("\n  ⛔ NO DPS PRINTED. A failing firing gate means the numbers measure "
               "an\n     effect that is not being used, which is precisely how the "
               "2026-08-20\n     session produced five confident wrong answers.")
@@ -2080,16 +2163,41 @@ def cmd_compare(args) -> int:
           "errors combined).\n")
     brand = ("⛔UNVALIDATED " if apl_override else "⚠ GATE-FAILED " if blocked else "")
     brand += override_brand(frames[0].built)
+    if dummy:
+        brand += "[dummy] "
     for line in _table(frames, deltas, brand):
         print("  " + line)
+
+    if not variants:
+        print("\n  · No variants given — this is an ABSOLUTE reading of the current "
+              "gear, not a\n    comparison. Δ is against itself and is 0 by "
+              "construction.")
+
+    if getattr(args, "distribution", False):
+        print("\n  per-pull spread (the base actor, one profileset's worth of "
+              "iterations)\n")
+        for frame in frames:
+            cd = frame.player["collected_data"]["dps"]
+            lo, hi = cd["mean"] - 1.282 * cd["std_dev"], cd["mean"] + 1.282 * cd["std_dev"]
+            print(f"    {frame.style}  n={cd['count']}  median {cd['median']:,.0f}  "
+                  f"mean {cd['mean']:,.0f}")
+            print(f"           σ {cd['std_dev']:,.0f} ({cd['std_dev'] / cd['mean']:.1%} "
+                  f"of mean)   middle 80% ≈ {lo:,.0f}–{hi:,.0f}")
+            print(f"           worst pull {cd['min']:,.0f}   best pull {cd['max']:,.0f}"
+                  f"   ({cd['min'] / cd['median'] - 1:+.1%} / "
+                  f"{cd['max'] / cd['median'] - 1:+.1%})")
+        if not fixed_length:
+            print("\n    ⚠ This spread includes simc's ±20% fight-length variation, not "
+                  "luck alone.\n      Re-run with --fixed-length to isolate "
+                  "execution/RNG.")
 
     if len(frames) == 1:
         print(f"\n  ⚠ ONE fight style only ({frames[0].style}). 1T and 5T disagreed on "
               "ordering\n    more than once on 2026-08-20 — drop --targets to get both.")
 
     verdict = "FAIL" if blocked else ("WARN" if warns else "PASS")
-    print(f"\n  VERDICT: {verdict} — {len(fails) + len(leaks)} failure(s), "
-          f"{len(warns)} warning(s).")
+    print(f"\n  VERDICT: {verdict} — {len(fails) + len(leaks) + len(dummy_leaks)} "
+          f"failure(s), {len(warns)} warning(s).")
     if args.json:
         print(json.dumps({"frames": [
             {"id": f.id, "style": f.style, "iterations": f.iterations,
@@ -3452,7 +3560,7 @@ Deltas across invocations are not merely discouraged, there is no code path for 
 `@<Item Name>` pulls the item string out of the export's own equipped/bag/vault rows
 (add `(<ilvl>)` when one name appears twice); a bare `<slot>=` strips the slot.""")
     cmp_.add_argument("character", help="character name, or a path to an export")
-    cmp_.add_argument("variants", nargs="+", metavar="NAME=CHANGES",
+    cmp_.add_argument("variants", nargs="*", metavar="NAME=CHANGES",
                       help="'<Name>=<slot>=<item>[; <slot>=<item> ...]'")
     cmp_.add_argument("--hero", help="hero-tree profile variant (e.g. Soulharvester)")
     cmp_.add_argument("--apl-source", choices=APL_SOURCES, default="auto")
@@ -3473,6 +3581,14 @@ Deltas across invocations are not merely discouraged, there is no code path for 
     cmp_.add_argument("--no-overrides", action="store_true",
                       help="ignore this character's sim_overrides.json entry (variables + "
                            "apl_append), i.e. run upstream unaided")
+    cmp_.add_argument("--dummy", action="store_true",
+                      help="target-dummy conditions: no raid buffs, no bloodlust, no "
+                           "flask/food/rune/potion/weapon oil — gear and talents only")
+    cmp_.add_argument("--fixed-length", action="store_true",
+                      help="vary_combat_length=0, so the per-pull spread is "
+                           "execution/RNG rather than fight length")
+    cmp_.add_argument("--distribution", action="store_true",
+                      help="also print the base actor's per-pull DPS spread")
     cmp_.add_argument("--json", action="store_true")
     cmp_.set_defaults(func=cmd_compare)
 

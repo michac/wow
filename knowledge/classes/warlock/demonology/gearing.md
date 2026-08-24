@@ -2,7 +2,7 @@
 title: Demonology Warlock — gearing (stats, trinkets, tier set, consumables) (Midnight S2)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-20
+reviewed: 2026-08-22
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" content update notes, Tier 1
   - https://worldofwarcraft.com/en-us/news/24294369  # Midnight Season 2 overview, Tier 1
@@ -11,6 +11,8 @@ sources:
   - https://murlok.io/warlock/demonology/diabolist/m+  # top-player secondary distribution, Tier 2 — Season 1 data
   - https://www.wowhead.com/item=273796  # item-name resolution (Wowhead item DB)
   - https://www.wowhead.com/item=271884  # item-name resolution (Wowhead item DB)
+  - https://wago.tools/db2/ItemSparse?build=12.1.0.69214  # Tier 1 — gem name/quality tiers (ilvl 278 vs 295) and the S2 Amani gems
+  - https://us.api.blizzard.com/data/wow/item/240900  # Tier 1 — gem_properties effect strings, stone-vs-adjective stat split
   - IN-GAME 2026-08-20 (Encomplete) — S1 "Reign of the Abyssal Immolator" set bonuses confirmed STILL ACTIVE in Season 2
   - simc @ a9c5673 (2026-08-20) engine/dbc/generated/item_set_bonus.inc:1104-1109 — S1 set modelled for specs 265/266/267; :1208-1211 — S2 Demo set "Abyssal Doomhound's Pursuit" (items 271535-271540)
 confidence: medium
@@ -274,13 +276,34 @@ maxroll (sim-verify):
 
 ## Gems
 
-maxroll (sim-verify):
+**Read the stone, not the adjective.** A Midnight gem's name is
+`Flawless <secondary> <stone>`, and it is the **stone** that carries the larger
+share: Amethyst = **Mastery**, Garnet = **Crit**, Peridot = **Haste**. The
+adjective is the smaller kicker — Masterful = Mastery, Deadly = Crit,
+Quick = Haste, Versatile = Versatility. So a "Quick Amethyst" is a **Mastery**
+gem with a haste kicker, not a haste gem, and a "Deadly Peridot" is a **Haste**
+gem despite sounding like crit. *(Tier 1, resolved from
+`GemProperties`/`ItemSparse` at build 12.1.0.69214 and confirmed against the
+Blizzard item endpoint 2026-08-22.)*
 
-- [Flawless Quick Amethyst](https://www.wowhead.com/item=240900) — ⚠ **changed**;
-  Season 1's pick was the Versatility gem (Flawless Versatile Garnet). A Haste
-  gem sits oddly against a Mastery ≈ Crit > Haste priority, so this is a prime
-  sim-verify candidate.
-- [Indecipherable Eversong Diamond](https://www.wowhead.com/item=240983) — Unique. (Unchanged.)
+For a Mastery ≈ Crit > Haste priority that makes the **Amethysts** the stat
+gems, and the **Peridots** the ones to avoid:
+
+- [Flawless Deadly Amethyst](https://www.wowhead.com/item=240898) — Mastery +
+  Crit. The both-good-stats gem.
+- [Flawless Quick Amethyst](https://www.wowhead.com/item=240900) — Mastery +
+  Haste; maxroll's listed pick. Effectively interchangeable with the above.
+- [Indecipherable Eversong Diamond](https://www.wowhead.com/item=240983) —
+  Unique-equipped, pure primary stat. (Unchanged.)
+
+Every gem exists at **two crafting qualities, ilvl 278 and ilvl 295**, under the
+same name. Buy the 295.
+
+⚠ **Season 2 added three Amani gems** — Roaring Amani Garnet (280762), Piercing
+Amani Lapis (279343), Opalescent Amani Peridot (279356), each with a
+jewelcrafting Design. Their **gem stats do not resolve** in client data as of
+12.1.0.69382 (simc: "No gem data for id 280762"). Do not plan around them until
+someone reads one off a live tooltip. @verify-ingame
 
 ## Consumables
 
@@ -301,9 +324,14 @@ and combat potions are also now trackable and pingable on the Cooldown Manager.
 
 ## TODO
 
-- [ ] sim-verify the Season 2 trinket order, tier-set values, and the Haste-gem
-      pick on Bloodmallet/Raidbots (currently day-one Tier-3 maxroll, on a spec
-      12.1 retuned hard). **Cannot be resolved before S2 opens 2026-08-18** — the
-      raid the BiS table draws from is not open.
+- [ ] sim-verify the Season 2 trinket order and tier-set values on
+      Bloodmallet/Raidbots (currently day-one Tier-3 maxroll, on a spec 12.1
+      retuned hard). The **gem** half of this is resolved — see Gems above; the
+      local measurement behind it is parked in `_meta/kb-inbox.md`, since a sim
+      result is evidence for an answer and not a sourced KB claim.
 - [ ] refresh the murlok top-player secondary distribution once Season 2 logs
       exist; the figures removed from "Stat priority" above were Season 1.
+
+## Changelog
+
+2026-08-22 — Gems section rewritten. The old entry flagged maxroll's Flawless Quick Amethyst as suspicious "because a Haste gem sits oddly against Mastery ≈ Crit > Haste". That reasoning was wrong: the STONE carries the larger stat (Amethyst = Mastery), so Quick Amethyst is a mastery gem. Added the full stone/adjective mapping, the 278-vs-295 quality split, and the three unresolvable S2 Amani gems.
