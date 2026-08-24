@@ -2,7 +2,7 @@
 title: Havoc Demon Hunter — Ability Inventory (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-22
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" Content Update Notes — the CLASSES > DEMON HUNTER > Havoc list
   - knowledge/_meta/patch-notes/12.1.md  # tier 1 verbatim archive of the above
@@ -180,7 +180,7 @@ not under Demon Hunter, and are easy to miss):
 | **The Hunt** | Major cooldown | Free | ~1.5s cast, **90s** `[T1]` | Charge that strikes for Chaos damage, roots for 1.5s, and leaves a 6s DoT on up to 5 enemies in your path; central burst button. For Aldrachi Reaver, guarantees a Reaver's Glaive proc. **12.1: damage +12%.** ⚠ **Eternal Hunt** does *not* reduce its cooldown — at 12.1 it makes The Hunt empower your next Eye Beam (+100% damage, wider area). *[Tier 1: spell 1270898 description @ 12.1.0.69214 — the old "reduced CD via Eternal Hunt" line here was wrong.]* |
 | **Throw Glaive** | Rotational / ranged | Free (charges) | Instant, ~9s recharge | Ranged glaive throw; becomes a rotational button with **Soulscar** / **Furious Throws** / **Screaming Brutality**. Turns into **Reaver's Glaive** for Aldrachi Reaver. **12.1: benefits from Serrated Glaive's new self-buff (+15% for 12s).** |
 | **Reaver's Glaive** | Rotational-spender enabler (AR) | Free | Instant | Aldrachi Reaver: replaces Throw Glaive after 6 soul fragments; applies **Reaver's Mark** and empowers the next Chaos Strike + Blade Dance. |
-| **Abyssal Gaze** | Major cooldown (FS) | ~30 Fury | ~2s channel | Fel-Scarred **Demonic Intensity** empowered Eye Beam during Metamorphosis. ⚠ The 12.1 API description transcribed for Demonic Intensity (452415) reads in Devourer terms ("Void Metamorphosis", "Voidsurge"); the 12.1 notes list no Fel-Scarred change, so treat this row as unchanged but unconfirmed. @verify-ingame (Demonic Intensity wording on Havoc) |
+| **Abyssal Gaze** | Major cooldown (FS) | ~30 Fury | ~2s channel | Fel-Scarred **Demonic Intensity** empowered Eye Beam during Metamorphosis, and a **separate spell id** (452497) that overrides Eye Beam rather than modifying it. Demonic Intensity (452415) is **spec-conditional text**, not Devourer-only: it reads `$?a212612[][Void ]Metamorphosis greatly empowers $?a212612[Eye Beam, Immolation Aura][The Hunt]`, so the Havoc branch is *"Metamorphosis greatly empowers Eye Beam, Immolation Aura"* and the Devourer branch is the Void/The Hunt one. *[Tier 1: `Spell` @ 12.1.0.69214.]* ⚠ **The magnitude is not readable.** 452497's own description is byte-identical to Eye Beam (198013) — same damage line, same Furious Gaze clause — and states no increase, so "greatly" lives in damage values or an aura this file cannot reach. @verify-ingame (Abyssal Gaze damage vs Eye Beam) ⚠ **Whether Eternal Hunt's empower carries across the override is unstated** — 1270898 reads *"The Hunt empowers your next **Eye Beam**"*, and Abyssal Gaze is a different spell. The 12.1 APL holds The Hunt for the demon-form cast **only on Fel-Scarred**, which implies it does carry, but no text says so. @verify-ingame (Eternal Hunt buff on Abyssal Gaze) |
 | **Consuming Fire** | Rotational-builder (FS) | Free | Instant | Fel-Scarred **Demonic Intensity** empowered Immolation Aura during Metamorphosis. |
 | **Demonsurge** | Passive/proc (FS) | — | — | Fel-Scarred proc from Eye Beam/Meta; makes the next Annihilation + Death Sweep hit harder (tracked as "demonsurge available"). |
 | **Glaive Tempest** | Passive | — | — | Talent: the final slash of Blade Dance/Death Sweep **consumes 25 Fury** at 3+ enemies to launch spinning glaives dealing Chaos damage over 3s (reduced beyond 8 targets). A passive, not a pressed button. |
@@ -226,3 +226,7 @@ this folder's `ability-inventory.tsv` @ 12.1.0.69214.]*
 They are Tier-3 `verbatim: true` captures and, as of the 12.1 recapture, several still
 recommend talents 12.1 deleted or moved. `talents.md` / `talents.json` (Tier 1, DB2 @
 12.1.0) are the floor for whether a talent exists and where it sits.
+
+## Changelog
+
+2026-08-22 — Abyssal Gaze row rewritten. The old text called Demonic Intensity's description Devourer-worded and unconfirmed for Havoc; it is spec-CONDITIONAL text with a Havoc branch that reads normally, so the row now carries the raw conditional. Two narrower unknowns replace the old blanket one: Abyssal Gaze's own description states no increase over Eye Beam, and Eternal Hunt's empower names "Eye Beam" while Abyssal Gaze is a separate spell id.

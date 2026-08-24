@@ -981,3 +981,25 @@ IS in the KB.
 - Midnight enchants have exactly **two** ranks (Tier1/Tier2), not three.
 
 
+## 2026-08-22 — no macro-semantics coverage in either KB
+
+A "write me a macro" question (Havoc: Vengeful Retreat → Eye Beam) found nothing in
+`knowledge/addon-dev/` — it covers addon Lua, not macro text — and nothing in the class
+KB either. Not routed anywhere yet; the question is whether macro semantics (the
+one-GCD-cast-per-press rule, `/castsequence` advance/reset, `!` and `#showtooltip`,
+which conditionals exist) is an addon-dev topic file or a class-KB one.
+
+Reusable Tier-1 method found while answering: **`SpellCooldowns.StartRecoveryTime` is the
+GCD flag** — 0 means the spell does not trigger the GCD. Measured @ 12.1.0.69214:
+Vengeful Retreat (198793) and Blur (198589) are **0** (off GCD); Eye Beam (198013),
+Chaos Strike, Blade Dance, Metamorphosis, The Hunt and Immolation Aura are **1500**;
+Fel Rush (195072) is **500**. `havoc/abilities.md` already reads the same table for
+cooldowns and calls these values "charge-ability artifacts" in its `~`-value note — which
+is right about `RecoveryTime` but leaves the GCD column unused and unexplained.
+
+Confirmed in game 2026-08-22 (user, Havoc): an off-GCD `/cast` followed by a
+`/castsequence` in the same macro fires both on one press, and the sequence starts
+normally — a preceding non-GCD cast does not block or consume it. The practical
+limit is positional, not macro-mechanical: Eye Beam roots for part of its channel,
+so the sequence's next entry (Blade Dance) fires out of melee range after a
+Vengeful Retreat even while running forward.
