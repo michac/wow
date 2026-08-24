@@ -13,7 +13,6 @@ Report.lua
 Dumps.lua
 Autorun.lua
 Ask.lua
-T_Security.lua
 
 # DRAINED 2026-08-21 — questions answered, claims written, rows removed from questions.json.
 # The suite is empty, which is its correct resting state (a T_ file holds only what is OPEN).
@@ -27,6 +26,8 @@ T_Security.lua
 #   T_AuraCountArt.lua     (aura-container-{count-texture-escape,application-bar})
 #   T_AuraDurationBand.lua (aura-duration-text-rule-formatter)
 #   T_AuraComposite.lua    (aura-container-composite-layers)
+#   T_Security.lua         (duration-object-swipe-ordering + the pandemic-region pair,
+#                           tests AND their visual checks; drained 2026-08-24, OBS-077..081)
 #
 # DELETED ON 12.1, recover from git — do not re-create:
 #   git show 671fb68^:projects/addon-lab/ClientLab/<name>.lua

@@ -182,6 +182,15 @@ A test that flew and could not answer (`skipped`, `measured = false`) **keeps it
 and flies again next pull. `drain` refuses those loudly — skipped is never a pass, and
 declined is never a pass either.
 
+**A visual question is closed by a HUMAN — through either channel.** The recorded panel
+click (`/clab` → visual checks) is one; `drain <id> --verdict '<what you saw>'` is the
+other, for a verdict the author states in prose. Both mint the same eyeball evidence class;
+a recorded click wins over `--verdict` when both exist, because the click is bound to the
+exact stimulus text and prose is not. The click-only rule was dropped 2026-08-24, when the
+author had stated a verdict — with a screenshot — and the tool was refusing it over which
+surface the words arrived on. What never changed: no programmatic run closes a visual
+question, and `--verdict` on a non-visual question is ignored.
+
 ### The suite shrinks as the KB grows
 
 **Deleting the test is a required step, not tidying.** It is house rule 2 — *probe code is

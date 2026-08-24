@@ -1457,16 +1457,49 @@ as `348` and applies aura `157736`; Wither casts `445468` and applies `445474`. 
 id and the slot matches nothing forever, indistinguishable from a refused call (this is the same
 cast-row/DoT-row split `cooldown-manager.md:588-596` draws for the CDM's two Immolate rows).
 
-**`AddPandemicRegion` takes a FRAME, not only a Texture** `[client 2026-08-21]`. A Frame is a
-`Region`, so a plate and a glyph parented under one wrapper are handed over together and the
-client's `SetShown` hides both — a complete badge that appears and vanishes whole. That is the
-one thing no count sink can do without baking the plate into the art it names.
-⚠ That `[client]` covers **acceptance only** — the flight that recorded it was flown on
-Destruction, whose slot matched nothing, so no tile was ever visible (`observations.md:1402`).
-The children **drawing and hiding as a unit** is still unwitnessed and no read-back can stand in
-for it: a child's own `IsShown` flag does not change when its parent is hidden, so the oracle is a
-human on Demonology with a dot ticking. `` @pending-test: pandemic-region-frame-with-children ``
-(that test re-measures the acceptance and the read-backs; it cannot see the pixels).
+**`AddPandemicRegion` takes a FRAME, not only a Texture — and the whole subtree draws and
+vanishes AS ONE UNIT** `[client 2026-08-24]`. A Frame is a `Region`, so a plate, a glyph and a
+child Frame parented under one wrapper are handed over together: acceptance measured with a
+texture + FontString + child Frame on the wrapper (`childFrames 1 / childRegions 2`,
+`button_IsShown` secret), and a human watching their own DoT tick down saw all three appear
+together only inside the refresh window and vanish together on refresh — a complete badge,
+whole in both directions. That is the one thing no count sink can do without baking the plate
+into the art it names.
+⚠ **With several of the player's DoTs on the target, the slot latches ONE aura and the badge
+follows that aura's window.** The same flight, on Affliction with a broad
+`isFromPlayerOrPlayerPet` filter, saw the badge arm for Haunt and never for Unstable
+Affliction — which is the latch choosing a different aura, or UA exposing no refresh window;
+the flight does not separate them. A real consumer pins the aura with `includeSpellIDs` (the
+aura id, not the cast id — the trap above) instead of a broad filter.
+
+**A handed-over region can carry our own animation — and the AnimationGroup path is the only
+one that survives combat** `[client 2026-08-24]`. A wrapper Frame given to `AddPandemicRegion`
+still takes an `AnimationGroup` (Alpha + Scale, looping): the handover is accepted, `:Play()`
+after the handover is accepted, out of combat the armed group reads `IsPlaying() = true`
+beside an identically-built never-handed-over control — and a human watched the badge PULSE
+on a live tile inside the refresh window, on two separate flights, both in combat. The other
+route DIED there both times: a 0.25 s `C_Timer` ticker recoloring the region's texture,
+through a reference captured before the handover, kept firing but changed nothing on screen —
+the in-combat forbidden-object seal (below) reaching writes as well as reads. Out of combat
+the ticker route is unwitnessed, and near-vacuously so: a visible pandemic badge implies an
+expiring hostile aura, which implies combat. **The rule for cap: motion on a handed-over
+region is baked into an AnimationGroup before the handover; per-frame Lua drives nothing
+there.**
+
+⚠ **And configure it before the pull: in combat the armed subtree reads as a FORBIDDEN
+OBJECT, not merely secret-valued** `[client 2026-08-24]`. Out of combat, reads on the armed
+wrapper and its children return `<secret>` (`IsShown`) or plain values (`GetAlpha`,
+`IsPlaying`); in combat the **same reads on the same objects** error with *"Attempt to access
+forbidden object from code tainted by an AddOn"* — every getter tried, the AnimationGroup's
+included. The control on the same host, never handed over, still read `IsPlaying() = true`
+in combat, so the boundary follows the armed wrapper — though the wrapper was **both**
+parented onto the client's aura button **and** registered via `AddPandemicRegion`, and this
+measurement does not separate which of the two seals it. It seals our **writes** as much as our
+reads: the ticker itself kept firing through the pull, but its pcall-wrapped recolor of the
+handed-over texture changed nothing on screen `[client 2026-08-24]` (the animation claim
+above). What it is NOT is a rendering limit — the client's own drawing and a pre-armed
+AnimationGroup both continue. Practically, a handed-over badge is fire-and-forget: armed out
+of combat, and in combat the addon can neither read state off it nor push new state into it.
 
 ⚠ **Costs:** the pandemic sink is the only one carrying an `OnUpdate`, and its enablement is itself
 `secretwrap`ped (`:634-641`) because whether your update loop runs would otherwise leak the aura's
@@ -2496,18 +2529,30 @@ the bar and snaps it to the target value"*
 `SetMinMaxValues(0, 1)` → `SetTimerDuration(dur, interp, RemainingTime)` →
 *`SetToTargetValue()` if newly shown*. *Confidence:* high.
 
-**6. `Cooldown:SetCooldownFromDurationObject` needs NO range-equivalent** — unlike
-the StatusBar, the duration object is passed bare and the swipe geometry comes
-from it (`FrameAPICooldownDocumentation.lua:305-314`; `clearIfZero` defaults
-`true`). Two riders: the swipe is drawn from the widget's **armed duration**, not
+**6. `Cooldown:SetCooldownFromDurationObject` needs NO range-equivalent — and it DRAWS,
+in combat, in both orders** `[client 2026-08-24]`. Unlike the StatusBar, the duration
+object is passed bare and the swipe geometry comes from it
+(`FrameAPICooldownDocumentation.lua:305-314`; `clearIfZero` defaults `true`). Measured
+end to end: it **accepts a `LuaDurationObject` from `C_Spell.GetSpellCooldownDuration`
+in combat and out, in both orders relative to `SetUseAuraDisplayTime(false)`, with
+neither call refused** — and a human, mid-combat, watched two widgets armed one per
+order **draw identical radial swipes AND countdown text** matching the source spell's
+actual remaining cooldown, beside a plain-`SetCooldown` control. So the full
+secret-safe pipeline — object out of `C_Spell`, straight into the widget, addon never
+reads the number — renders exactly like an unsealed cooldown, countdown numerals
+included. Two riders: the swipe is drawn from the widget's **armed duration**, not
 from the `SetDrawSwipe` flag, so `SetDrawSwipe(true)` on a cleared widget draws
-nothing; and a widget that may be showing aura display time needs
-`SetUseAuraDisplayTime(false)` first (`:545-554`) or it keeps drawing the aura
-timer. *Confidence:* high on the first, medium on the ordering rider.
-`` @pending-test: duration-object-swipe-ordering `` — both orders are armed on their own
-widget, so a refusal would name itself; ⚠ the sink is aspect-less with no read-back, so that
-test can only report acceptance and what the getters return, and whether the wrong order leaves
-the **aura** timer drawing stays an eyeball.
+nothing (*confidence:* high); and a widget that may be showing aura display time
+needs `SetUseAuraDisplayTime(false)` first (`:545-554`) or it keeps drawing the aura
+timer — order made no difference in refusals **or in pixels** on fresh widgets, so
+that rider now stands only for a widget that has actually shown aura display time,
+which no flight has exercised (*confidence:* medium, held as prose — not worth a test
+until a real widget hits it). One measured surprise rides along: the widget's own
+getters stayed **plain** — `GetCooldownDuration` / `GetCooldownTimes` read ordinary
+numbers even in combat, on widgets armed from Hearthstone's and Unending Resolve's
+objects `[client 2026-08-24]` — so arming from a duration object does not by itself
+seal the widget's read-backs (the panel leaned on this: it ranks candidates by the
+armed widget's read-back, the one cooldown read that works mid-pull).
 
 **7. A second text route: `GetRemainingDuration()` → `SetFormattedText`.**
 `GetRemainingDuration(modifier)` returns a `DurationSeconds`

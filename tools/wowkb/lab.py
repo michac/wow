@@ -574,7 +574,7 @@ def cmd_drain(args) -> int:
     runs = load_runs(args.wow_path)
     hits = [(run, r) for run in runs for r in run.results
             if r.id == args.id and (not args.slot or args.slot in run.label.lower())]
-    if not hits:
+    if not hits and not (visual and args.verdict):
         print(f"error: no stored result for '{args.id}' — has it been flown?",
               file=sys.stderr)
         return 1
@@ -612,17 +612,30 @@ def cmd_drain(args) -> int:
         # `error`. None may shadow a real answer in another run.
         hits.sort(key=lambda h: (h[1].status == "skipped", h[1].declined,
                                  h[1].status == "error", h[1].partial))
-        run, res = hits[0]
+        run, res = hits[0] if hits else (None, None)
 
-    if visual and not res.eyeball:
+    # An authored verdict: the human answered in PROSE instead of pressing the panel's
+    # option button. Same evidence class (a person decided), different channel — added
+    # 2026-08-24 when the click requirement proved to be ceremony: the author had already
+    # stated the verdict, with a screenshot, and the tool was refusing it over which
+    # surface the words arrived on. A recorded click still wins over --verdict, because
+    # the click is bound to the exact stimulus text and prose is not.
+    authored = bool(visual and args.verdict and not (eyeballs and res is not None
+                                                     and res.eyeball))
+    if args.verdict and eyeballs:
+        print("note: a recorded panel click exists — using it; --verdict ignored.",
+              file=sys.stderr)
+
+    if visual and not authored and (res is None or not res.eyeball):
         print(f"REFUSED: {args.id}'s `expect` says only an eyeball closes it, and no "
               "eyeball verdict is on record.", file=sys.stderr)
-        print("  A visual question can never go green off a programmatic run. In game: "
-              "/clab -> `visual checks`,", file=sys.stderr)
-        print("  LOOK at the stimulus, answer, then drain.", file=sys.stderr)
+        print("  A visual question can never go green off a programmatic run. Either "
+              "answer the panel in game", file=sys.stderr)
+        print("  (/clab -> `visual checks`) or state the verdict here: "
+              "drain <id> --verdict '<what you saw>'.", file=sys.stderr)
         return 2
 
-    if res.status == "skipped":
+    if res is not None and not authored and res.status == "skipped":
         print(f"REFUSED: {args.id} is `skipped` in every stored run — "
               "SKIPPED IS NEVER A PASS.", file=sys.stderr)
         print(f"  why: {res.why}", file=sys.stderr)
@@ -630,7 +643,7 @@ def cmd_drain(args) -> int:
               file=sys.stderr)
         return 2
 
-    if res.declined:
+    if res is not None and not authored and res.declined:
         why = res.value.get("why") if isinstance(res.value, dict) else None
         print(f"REFUSED: {args.id} reports `measured = false` in every stored run.",
               file=sys.stderr)
@@ -639,7 +652,7 @@ def cmd_drain(args) -> int:
               "its precondition met.", file=sys.stderr)
         return 2
 
-    stamp = run.started.split()[0] if run.started and run.started != "?" \
+    stamp = run.started.split()[0] if run and run.started and run.started != "?" \
         else date.today().isoformat()
     obs_text = OBS.read_text(encoding="utf-8")
     obs_id = next_obs_id(obs_text)
@@ -653,11 +666,24 @@ def cmd_drain(args) -> int:
         "",
         f"## {obs_id} · {date.today().isoformat()} · {title}",
         "",
-        (f"**Observed:** `{args.id}` — a **HUMAN VERDICT**: `{res.outcome}`"
+        (f"**Observed:** `{args.id}` — a **HUMAN VERDICT, reported in prose**: "
+         f"{args.verdict}"
+         if authored else
+         f"**Observed:** `{args.id}` — a **HUMAN VERDICT**: `{res.outcome}`"
          if res.eyeball else
          f"**Observed:** `{args.id}` recorded **{res.status}** — `{res.outcome}`"),
         "",
-        (f"**How:** ClientLab showed a stimulus and a person answered, "
+        ("**How:** the author looked at the ClientLab stimulus and stated the verdict "
+         "in conversation (`drain --verdict`) rather than pressing the panel's option "
+         "button"
+         + (f", beside run **{run.started}** (v{run.version}, interface "
+            f"{run.interface}), {'in combat' if run.combat else 'out of combat'}"
+            if run else "")
+         + ". ⚠ **This is an eyeball verdict, not an instrument reading** — the only "
+         "evidence class that can close this question, and it must never be cited as a "
+         "measurement. The prose here is the record; no runs-stream row exists for it."
+         if authored else
+         f"**How:** ClientLab showed a stimulus and a person answered, "
          f"**{run.started}** (v{run.version}, interface {run.interface}), "
          f"{'in combat' if run.combat else 'out of combat'}, instance `{run.instance}`. "
          "⚠ **This is an eyeball verdict, not an instrument reading** — it is the only "
@@ -691,9 +717,13 @@ def cmd_drain(args) -> int:
     print(f"{obs_id} minted in knowledge/addon-dev/observations.md "
           f"(tag `[client {stamp}]`)")
     print(f"  questions.json: {args.id} -> REMOVED "
-          f"(OBS {obs_id} + git archive the question; run {run.started}, v{run.version})")
+          f"(OBS {obs_id} + git archive the question; "
+          + (f"run {run.started}, v{run.version}" if run else "authored verdict, no run")
+          + ")")
     print()
-    if res.eyeball:
+    if authored:
+        print(f"  verdict (prose): {args.verdict}")
+    elif res.eyeball:
         asked = res.value.get("asked") if isinstance(res.value, dict) else None
         print(f"  verdict:  {res.verdict}")
         print(f"  asked:    {asked or '(not recorded)'}")
@@ -871,6 +901,10 @@ def main(argv=None) -> int:
     p.add_argument("id", help="question id, as in questions.json")
     p.add_argument("--slot", choices=["ooc", "combat"], help="drain from this run")
     p.add_argument("--title", help="observation heading (default: from the question)")
+    p.add_argument("--verdict", help="the author's eyeball verdict, stated in prose — "
+                   "closes a visual question WITHOUT a recorded panel click. The human "
+                   "requirement stands; the in-game button does not. Ignored when a "
+                   "recorded click exists (the click wins).")
     p.add_argument("--again", action="store_true",
                    help="mint a second observation for an already-answered question")
     p.set_defaults(fn=cmd_drain)

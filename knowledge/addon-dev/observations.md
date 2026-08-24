@@ -1409,3 +1409,108 @@ drawing an icon and nothing. Read against the log:
 
 ---
 
+## OBS-077 · 2026-08-24 · Does Cooldown:SetCooldownFromDurationObject accept a LuaDurationObject from C_Spell.GetS
+
+**Observed:** `duration-object-swipe-ordering` recorded **ok** — `{api=present, auraFirst={GetCooldownDuration=0, GetCooldownTimes=0, GetDrawSwipe=true, GetEffectiveAlpha=1, IsShown=false, order=SetUseAuraDisplayTime(false) FIRST, then SetCooldownFromDurationObject, preset=aura display time re-enabled, setCooldownFromDurationObject=accepted, setUseAuraDisplayTime=accepted}, candidates={Chaos Bolt (116858)=<userdata>, Demonbolt (264178)=<userdata>, Hearthstone (8690)=<userdata>, Immolate (348)=<userdata>, Shadow Bolt (686)=<userdata>}, chosen=Hearthstone (8690), eyeball=NOT MEASURED: whether a swipe was DRAWN, and whether the wrong order leaves the aura timer drawing instead. No getter on Cooldown reports the rendered arc; the only oracle is a human watching the widget. Acceptance is not pixels., measured=true, sinkFirst={GetCooldownDuration=0, GetCooldownTimes=0, GetDrawSwipe=true, GetEffectiveAlpha=1, IsShown=false, order=SetCooldownFromDurationObject FIRST, then SetUseAuraDisplayTime(false), preset=aura display time re-enabled, setCooldownFromDurationObject=accepted, setUseAuraDisplayTime=accepted}, why=Acceptance + refusal + read-backs only, both orders, on their own widget.}`
+
+**How:** ClientLab run **2026-08-24 08:52:02** (v0.2.7, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Observed (the combat re-runs, same session ring):** runs **08:52:16**, **08:53:41** and
+**08:56:37** (`combat=true`) repeated the measurement mid-pull: both orders `accepted` again,
+and the getters read **plain, not secret** — `GetCooldownDuration=1313`,
+`GetCooldownTimes=3.367e+08`, `IsShown=true`, `GetDrawSwipe=true` on both widgets. 1313 s is
+Hearthstone's cooldown (the chosen candidate), freshly armed by the sink call. Against the
+`expect` below: the "every getter reads secret or absent" prediction is measured WRONG for this
+widget/spell — arming from a duration object does not by itself seal the read-backs. Whether a
+combat-relevant spell's object seals them was not measured; the candidate walk stops at the
+first userdata and Hearthstone is listed first.
+
+**Expected (questions.json):** The source half is settled: GetSpellCooldownDuration returns a LuaDurationObject even in restricted combat [client 2026-08-09] (cooldown-manager.md:1933-1945). The sink is aspect-less with NO programmatic read-back, so ACCEPTANCE IS NOT PROOF OF PIXELS. Expect both orders to be accepted with no error, every getter on the widget to read secret or absent, and the ordering rider (KB confidence: medium) to be invisible here unless it manifests as a refusal. ⚠ THE REAL ANSWER NEEDS AN EYEBALL: whether a swipe was drawn at all, and whether the sink-first order leaves the AURA timer drawing instead, is a human watching the widget — no getter reports the rendered arc. Read `auraFirst`/`sinkFirst` for the calls and treat `eyeball` as the outstanding half. If the run DECLINES, no candidate spell id yielded an object: re-fly on a Warlock or add an id the character casts.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:2499`
+
+**Status:** drained 2026-08-24
+
+---
+
+## OBS-078 · 2026-08-24 · Can a Frame handed to AddPandemicRegion still carry an AnimationGroup and a SetTexCoord 
+
+**Observed:** `pandemic-region-animated-background` recorded **ok** — `{addPandemicRegion=function, armedPlayingIsAmbiguous=READ WITH CARE: a group stops when its frame is hidden, so armed_IsPlaying = false may mean the client closed the refresh window rather than that anything was refused. Only `handover`, `play`, `ticker` and the control are unambiguous here., armed_IsPaused=false, armed_IsPlaying=true, armed_wrap_GetAlpha=1, armed_wrap_IsShown=<secret>, button_IsShown=<secret>, container=table, controlPlay=accepted, control_IsPlaying=true, eyeball=NOT MEASURED: whether the pulse/flipbook is VISIBLE on the tile, and whether it resumes when the refresh window opens. No API reports rendered pixels on this sink; the only oracle is a human watching a dot run down., handover=accepted, initFired=1, measured=true, play=accepted, setUnit=ok, slot=table, ticker=userdata, tickerLive=userdata, tickerTicks=0, why=Acceptance, object creation and a controlled IsPlaying reading only.}`
+
+**How:** ClientLab run **2026-08-24 08:52:02** (v0.2.7, interface 120100), out of combat, instance `none`. A direct measurement in the client.
+
+**Observed (the combat re-runs, same session ring):** runs **08:52:16**, **08:53:41** and
+**08:56:37** (`combat=true`) re-read the SAME cached objects mid-pull, and every read on the
+armed subtree errored: `armed_IsPlaying`, `armed_IsPaused`, `armed_wrap_IsShown`,
+`armed_wrap_GetAlpha` and `button_IsShown` all returned *"ERROR: bad argument #1 to '?'
+(Attempt to access forbidden object from code tainted by an AddOn)"* — where the same reads
+out of combat returned `<secret>` or plain values. The CONTROL group, never handed over, still
+read `IsPlaying=true` in combat, and the flipbook ticker kept firing (`tickerTicks` 135 / 0 /
+86 across the three runs). So the armed wrapper flips from secret-valued to forbidden-object
+on the combat edge; the control does not. ⚠ The wrapper was both parented onto the client's
+aura button AND registered via `AddPandemicRegion` — this measurement does not separate which
+of the two seals it.
+
+**Expected (questions.json):** A [gap]: the KB makes NO claim about animating a pandemic region, so nothing here is being re-checked. The region's only sealed aspect is Shown, so alpha/scale/texcoord/animation on it and its children SHOULD stay ours; expect `handover: accepted`, `play: accepted`, a ticker object, and the CONTROL group (identically built, never handed over, on the same shown host) reading IsPlaying = true. ⚠ armed_IsPlaying IS AMBIGUOUS BY CONSTRUCTION and is labelled so in the row: a group stops when its frame is hidden, so false there may mean the client closed the refresh window rather than that anything was refused. Only handover / play / ticker / the control are unambiguous. ⚠ THE REAL ANSWER NEEDS AN EYEBALL: whether the pulse and flipbook are VISIBLE on the tile and resume when the window opens. Cost line to respect when this drains (security-taint-and-restricted-data.md:1471-1473): the pandemic sink is the only one carrying an OnUpdate and its enablement is secretwrapped — budget ONE per armed tile, do not attach speculatively. The test's own ticker is bounded at 600 ticks for the same reason.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1471`
+
+**Status:** drained 2026-08-24
+
+---
+
+## OBS-079 · 2026-08-24 · Is a Frame carrying child frames AND child regions accepted by AddPandemicRegion, and wh
+
+**Observed:** `pandemic-region-frame-with-children` — a **HUMAN VERDICT**: `{asked=Near the END of your DoT: do the blue plate, the white !, and the red corner square appear TOGETHER — and all vanish together when the DoT is refreshed or ends?, verdict=all three appear and vanish as ONE unit}`
+
+**How:** ClientLab showed a stimulus and a person answered, **2026-08-24 12:08:29** (v0.2.7, interface 120100), in combat, instance `none`. ⚠ **This is an eyeball verdict, not an instrument reading** — it is the only evidence class that can close this question, and it must never be cited as a measurement.
+
+**Expected (questions.json):** Acceptance is already [client 2026-08-21] and is NOT the question — this run re-establishes it on a wrapper that carries a texture, a FontString and a child FRAME (the earlier flight's wrapper is not described in that detail), and records what is still readable once the client owns SecretAspect.Shown on it. Expect `handover: accepted`, childFrames 1 / childRegions 2, and button_IsShown secret. ⚠ THE CLAIM'S LIVE HALF IS THE VISUAL ONE AND THIS TEST CANNOT SEE IT: whether plate + glyph + child frame appear and vanish AS A UNIT, only inside the refresh window. A child's own IsShown flag does not change when a parent is hidden, so no read-back can stand in. observations.md:1402 is the flight that missed exactly this — it was flown on DESTRUCTION, whose slot matched nothing, so no tile was ever visible. Needs a human on DEMONOLOGY with a dot ticking. Treat `eyeball` as the outstanding half; do not drain the visual claim off this run.
+
+**Observed (author's report, beside the verdict):** the flight ran on Affliction with several
+of the player's DoTs on the target under the panel's broad `isFromPlayerOrPlayerPet` filter,
+and the badge armed for **Haunt** but never for **Unstable Affliction**. The oracle is prose
+rather than a button press. Two worlds, not separated by this flight: the slot latched a
+different aura than the one being watched, or UA exposes no refresh window client-side.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1460`
+
+**Status:** drained 2026-08-24
+
+---
+
+## OBS-080 · 2026-08-24 · Is our AnimationGroup pulse VISIBLE on a handed-over pandemic region while the client sh
+
+**Observed:** `pandemic-region-animation-visible` — a **HUMAN VERDICT**: `{asked=While the badge is visible near the END of the DoT: does it PULSE (throb, shrink/grow) and cycle color — or sit static?, verdict=it pulses, but the color never changes (ticker writes lost)}`
+
+**How:** ClientLab showed a stimulus and a person answered, **2026-08-24 12:08:29** (v0.2.7, interface 120100), in combat, instance `none`. ⚠ **This is an eyeball verdict, not an instrument reading** — it is the only evidence class that can close this question, and it must never be cited as a measurement.
+
+**Expected (questions.json):** A VISUAL question; only an eyeball closes it. Acceptance, Play(), the ticker and the control's IsPlaying=true are already [client 2026-08-24]; what no API can report is pixels. The panel hands over a wrapper carrying a BOUNCE Alpha+Scale group and a 0.25s ticker cycling the texture blue/purple/green, on a big visible tile bound to any harmful aura from the player or pet. First fly 2026-08-24 (Drain Life, in combat) recorded: 'it pulses, but the color never changes' — the PULSE renders (the animation path survives handover and combat), and the dead color cycle is CONSISTENT with the in-combat forbidden-object finding [client 2026-08-24] reaching WRITES made through references captured before handover, which an earlier version of this expect wrongly predicted it would not. The re-fly's job: confirm the pulse on a proper DoT window (Immolate/Agony), and treat a dead color cycle in combat as expected — the likely settled answer is 'AnimationGroup yes, per-frame Lua writes no (in combat)', which is the design ruling cap needs: bake motion into AnimationGroups, never tickers. A dead PULSE would be the surprising result.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1471`
+
+**Status:** drained 2026-08-24
+
+---
+
+## OBS-081 · 2026-08-24 · Is a radial cooldown swipe actually DRAWN by SetCooldownFromDurationObject — in both ord
+
+**Observed:** `duration-object-swipe-drawn` — a **HUMAN VERDICT, reported in prose**: A and B both draw the same radial swipe as control C: each showed the swipe wedge and a 1:58 countdown matching Unending Resolve's actual remaining cooldown (confirmed against the action bar), identical to each other, in combat; C drew its own 45s control beside them. Screenshot on record with the author.
+
+**How:** the author looked at the ClientLab stimulus and stated the verdict in conversation (`drain --verdict`) rather than pressing the panel's option button. ⚠ **This is an eyeball verdict, not an instrument reading** — the only evidence class that can close this question, and it must never be cited as a measurement. The prose here is the record; no runs-stream row exists for it.
+
+**Expected (questions.json):** A VISUAL question; only an eyeball closes it (the sink is aspect-less, no getter reports the rendered arc, and acceptance in both orders is already [client 2026-08-24]). The panel arms widget A aura-display-off-first and widget B sink-first from the same live duration object, beside control C armed by plain SetCooldown — the control separates 'the sink drew nothing' from 'the panel is broken'. Expect both A and B to swipe identically. If only A swipes, the ordering rider (KB confidence: medium) is real in pixels and the claim's confidence rises with its wording; if neither does, the radial-countdown mechanism needs SetCooldown(GetTime(), remaining) instead — but remaining is secret in combat, so that fallback would only work out of combat and the primitive needs redesign. ⚠ This panel does NOT exercise the rider's original scenario (a widget that previously showed aura display time); both widgets are fresh. A clean both-swipe answer closes 'is a swipe drawn' and leaves the aura-display-handover corner to a future test if a real widget ever hits it.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:2535`
+
+**Status:** drained 2026-08-24
