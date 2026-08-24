@@ -131,54 +131,60 @@ def scan() -> tuple[list[dict], list[dict], list[dict]]:
     lines: list[dict] = []
 
     for md in sorted(KB.rglob("*.md")):
-        for i, line in enumerate(md.read_text(encoding="utf-8").splitlines(), 1):
-            for m in CITE.finditer(line):
-                body = m.group("body").strip()
-                ver = m.group("ver")
-                rec = {"file": md.relative_to(REPO).as_posix(),
-                       "line": i, "cite": m.group(0)}
+        # ⚠ Scanned as ONE STRING, not line by line. A citation naming a symbol is the longest
+        # kind there is, so it is the kind that wraps — and a per-line regex sees none of them.
+        # Measured 2026-08-21: a line-based scan found 11 symbol citations where the corpus held
+        # more, silently skipping every multi-line one. A gate that ignores its most informative
+        # subjects is worse than no gate, because the count reads like coverage.
+        text = md.read_text(encoding="utf-8")
+        for m in CITE.finditer(text):
+            body = " ".join(m.group("body").split())   # unwrap: a wrapped cite is one cite
+            ver = m.group("ver")
+            rec = {"file": md.relative_to(REPO).as_posix(),
+                   "line": text.count("\n", 0, m.start()) + 1,
+                   "cite": " ".join(m.group(0).split())}
 
-                if LINES_ONLY.match(body):
-                    lines.append(rec)
+            if LINES_ONLY.match(body):
+                lines.append(rec)
+                continue
+
+            hits = list(FILE.finditer(body))
+            if not hits:
+                # No file named at all — a corpus-count or wiki-shaped T1 cite. Not ours.
+                continue
+
+            # ONE CITATION MAY NAME SEVERAL FILES ("Interpolator.lua, EasingUtil.lua";
+            # "…Documentation.lua; T1 xsd: UI.xsd:702-713"). Each file owns the text up to
+            # the next one, so a later filename is never mistaken for a symbol of an
+            # earlier file — which is exactly what two false positives looked like.
+            clone = clone_for(ver)
+            for n, fm in enumerate(hits):
+                name = fm.group(0)
+                end = hits[n + 1].start() if n + 1 < len(hits) else len(body)
+                rest = body[fm.end():end]
+
+                # A line range after the filename is a line anchor, whatever else follows.
+                if re.match(r"^:\d", rest):
+                    lines.append(dict(rec))
                     continue
 
-                hits = list(FILE.finditer(body))
-                if not hits:
-                    # No file named at all — a corpus-count or wiki-shaped T1 cite. Not ours.
+                syms = symbols(rest)
+                if not syms:
+                    # Filename-only, or prose-only. Nothing to gate on beyond the file.
                     continue
 
-                # ONE CITATION MAY NAME SEVERAL FILES ("Interpolator.lua, EasingUtil.lua";
-                # "…Documentation.lua; T1 xsd: UI.xsd:702-713"). Each file owns the text up to
-                # the next one, so a later filename is never mistaken for a symbol of an
-                # earlier file — which is exactly what two false positives looked like.
-                clone = clone_for(ver)
-                for n, fm in enumerate(hits):
-                    name = fm.group(0)
-                    end = hits[n + 1].start() if n + 1 < len(hits) else len(body)
-                    rest = body[fm.end():end]
+                target = find_file(clone, name)
+                if target is None:
+                    fails.append(rec | {"why": f"file not found in {clone.name}: {name}"})
+                    continue
 
-                    # A line range after the filename is a line anchor, whatever else follows.
-                    if re.match(r"^:\d", rest):
-                        lines.append(dict(rec))
-                        continue
-
-                    syms = symbols(rest)
-                    if not syms:
-                        # Filename-only, or prose-only. Nothing to gate on beyond the file.
-                        continue
-
-                    target = find_file(clone, name)
-                    if target is None:
-                        fails.append(rec | {"why": f"file not found in {clone.name}: {name}"})
-                        continue
-
-                    hit = resolves(target, syms)
-                    if hit is None:
-                        fails.append(rec | {
-                            "why": f"none of {syms} found in {target.relative_to(clone)}"})
-                    else:
-                        passes.append(rec | {"sym": hit,
-                                             "target": target.relative_to(clone).as_posix()})
+                hit = resolves(target, syms)
+                if hit is None:
+                    fails.append(rec | {
+                        "why": f"none of {syms} found in {target.relative_to(clone)}"})
+                else:
+                    passes.append(rec | {"sym": hit,
+                                         "target": target.relative_to(clone).as_posix()})
     return fails, passes, lines
 
 
