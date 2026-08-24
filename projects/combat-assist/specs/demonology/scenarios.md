@@ -237,12 +237,13 @@ an omission — see *The state this walk does not contain*, at the end. Two othe
 - **Eye-direction.** The plainest state in the catalog, and it is worth having in the walk
   precisely because **three markers are simultaneously off**. A row whose badges only ever light
   is a row nobody can read.
-  ⚠ **This is also the densest corner in the catalog, and it is here on purpose.** Demonbolt is
-  wearing **two sealed displays at once** — V18's arc, which is how many Cores are banked, and
-  V19's refresh badge, which is the client saying that refreshing Doom now clips nothing. Both
-  land in the badge stack's own pixel. Whether that reads as one statement or as a mess is the
-  question the flight is for; nothing else in this walk stacks two client-drawn things on one
-  corner.
+  ⚠ **This is also the densest row in the catalog, and it is here on purpose.** Demonbolt is
+  wearing **two sealed displays at once** — V18's segmented bar on the bottom edge, which is how
+  many Cores are banked (red across its whole width at four: stop banking), and V19's refresh
+  badge on the corner, which is the client saying that refreshing Doom now clips nothing. They
+  no longer share a pixel — the bar left the corner when V18 was re-formed — so the question the
+  flight is for is whether the two together read as one statement, not whether they collide;
+  nothing else in this walk puts two client-drawn things on one row.
   ⚠ **The window badge is GATED ON THE TALENT, not on the aura.** Without Doom talented the fact
   does not exist, and a display armed for it would sit dark forever with no way to tell that from
   a client refusal. The gate is readable and contributes no cue — it decides only whether the

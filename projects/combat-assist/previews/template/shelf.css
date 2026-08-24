@@ -665,7 +665,8 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
  * pulse: the animation is hot spots travelling the rim at constant total brightness, walked
  * per frame by stepper.js. Additive, because it is light.
  */
-.item .slot .promo-ring {
+/* Also on V19's window badge: a promotion the client decides wears the promotion's ring. */
+.item .slot .promo-ring, .item .sealed-pandemic .promo-ring {
   position: absolute;
   left: 50%; top: 50%;
   width: 100%; height: 100%;
@@ -757,6 +758,25 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   left: 0; top: 0; bottom: 0;
   width: var(--cb-frac);
   background: var(--cb-rgb);
+}
+
+/* Part 7 · segment_bar: ticks are cap's own track art; the two full-state hues are the two
+ * mechanisms a sealed bar can recolour by (baked crop-revealed tip, band-drawn overlay). */
+.item .count-seg {
+  position: absolute; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--cb-track);
+}
+.item .count-fill.banded { background: none; overflow: hidden; }
+.item .count-fill.banded .count-fill-sheet {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: linear-gradient(90deg, var(--cb-rgb) 0 var(--cb-tip), var(--cb-full) var(--cb-tip));
+}
+.item .count-full-overlay {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: var(--cb-h);
+  background: var(--cb-full);
+  pointer-events: none;
 }
 
 /* The disc is the same bar wearing V5's badge geometry and filling UPWARD, so a count reads as a
@@ -999,21 +1019,43 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   -webkit-mask-position: center; mask-position: center;
   -webkit-mask-size: contain; mask-size: contain;
 }
-/* V18 · the radial, drawn at a nominal fraction on purpose. A bar has NO BLANK STATE — SetValue
-   clamps into [0, max], so the track is on the row at every value including zero — and "there is
-   an arc in this corner" is the whole of what a scenario can claim about it. */
-.item .sealed-arc {
-  position: absolute; inset: var(--arc-inset); border-radius: 50%;
-  background: conic-gradient(var(--arc-rgb) var(--sx-frac), var(--arc-track) 0);
+/* V18 · the segmented bar, on the row's BOTTOM edge — a surface nothing else on a cap row
+   claims. Nominal fill on scenario rows (a scenario states "there is a bar here", never a
+   value); the whole-bar red flip draws only where a swatch demonstrates it. A bar has NO BLANK
+   STATE — the track is on the row at every value including zero. */
+.item .sealed-bar {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--bar-h);
+  background: var(--bar-track);
+  pointer-events: none;
 }
-/* V19 · the pandemic window breathes, and it is gated for free: the client hides the region, so
-   a loop running forever on it is invisible until the window opens. */
-.item .sealed-pandemic {
-  animation: sealed-breathe var(--pd-pulse-dur) ease-in-out infinite;
+.item .sealed-bar .sealed-bar-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--bar-rgb);
 }
-@keyframes sealed-breathe {
-  0%, 100% { opacity: var(--pd-pulse-a0); }
-  50%      { opacity: var(--pd-pulse-a1); }
+.item .sealed-bar .sealed-bar-seg {
+  position: absolute; top: 0; bottom: 0;
+  width: var(--bar-seg);
+  background: var(--bar-track);
+}
+.item .sealed-bar .sealed-bar-full {
+  position: absolute; inset: 0;
+  background: var(--bar-full);
+}
+/* V19 · the badge holds cue-badge brightness exactly — no region pulse; the halo's breath is
+   its only motion, which is precisely `capped`'s look wearing the window's glyph. The isolation
+   is what lets the halo's z-index:-1 sit behind the plate WITHIN the badge, as a cue's does. */
+.item .sealed-pandemic { isolation: isolate; }
+/* V19 · the halo under the badge — the positive cues' own glow, borrowed with its grammar:
+   light escaping from behind a badge means "act now". Same gradient and falloff as `.slot .glow`;
+   in the client it is an Alpha AnimationGroup armed BEFORE the handover (§3.5.3). */
+.item .sealed-pd-glow {
+  position: absolute; inset: 0; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, var(--pd-rgb) 0%, transparent var(--badge-halo-stop));
+  transform: scale(var(--pd-glow-scale));
+  animation: capglow var(--pd-glow-dur) ease-in-out infinite alternate;
+  --g-a0: var(--pd-glow-a0); --g-a1: var(--pd-glow-a1);
 }
 
 /* V16/V17 · the band's layout, which is ONE SLOT PER ELEMENT.
@@ -1085,11 +1127,3 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   paint-order: stroke fill;
 }
 
-/* V18 · the radial sits in the badge stack's corner — deliberately the pixel the first badge
-   would take, so the competition for it is visible now rather than discovered later. Named
-   explicitly rather than left to `.sealed` alone: the class is written as a literal in
-   stepper.js, and `capart check` requires every literal class to have a rule. */
-.item .sealed-count-bar {
-  top: calc(var(--badge-over) * -1);
-  right: calc(var(--badge-over) * -1);
-}

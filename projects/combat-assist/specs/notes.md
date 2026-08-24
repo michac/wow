@@ -190,3 +190,39 @@ Three things worth keeping:
 - **The reachability, not the code, was the risk.** The call was wrong the day it was written;
   what changed was a catalog declaring a cue. A branch no shipped data reaches is untested no
   matter how many tests pass.
+
+## 2026-08-24 · AnimationGroups everywhere, and the DoT gets two states
+
+The drain pass's ruling — motion on a handed-over region survives only inside an AnimationGroup
+armed before the handover — became the house rule for ALL motion: `Paint.FlipBook` wraps the
+client's FlipBook animation, the promotion ring and the badge strips walk their sheets through
+it, and the shared `C_Timer` stepper plus `Paint.FrameIndex` are gone. `capart export badges`
+now bakes a `strip_<cue>` sheet for every multi-frame cue (one today: `capped`), and
+`style_spec` textually asserts Paint re-acquires no ticker. FlipBook's setters are Tier-1
+generated docs; its walk semantics are a source read, so the whole conversion is `--@unverified`
+until a flight eyeballs the capped badge and the ring.
+
+Review-driven shelf changes, three rounds in one day. V19 became a **two-state DoT pair**:
+aura up but outside its refresh window draws a gold do-not-refresh hatch (`SetDurationText`
+band tables on remaining seconds, threshold = an optional catalog `outside_s` — the seam
+against the client's real window edge is documented, and L7's seconds-form inversion is thereby
+promoted); inside the window, the badge at cue-badge brightness exactly — the `fire` glyph
+(deliberately shared with `priority`: both say "act now", and the window badge is a
+client-decided promotion; the old `timer_CW_75` glyph was a static clock whose baked wedge read
+as a live radial attached to nothing, retired for lying) with the FULL positive-cue treatment
+— V14's promotion ring plus the halo; the halo alone read as a faint gold mist beside a real
+promotion, which a frozen-phase A/B in the preview made undeniable. Two things were drawn on it and removed the same
+day: a flame flipbook (replaced by the halo, which carries the established light-behind-a-badge
+grammar) and a client-seconds countdown (the window's presence IS the statement; removing it
+also removed the unflown one-button sink-pair question). V16's positive direction lost its gold
+hatch (a hatch means *ruled out*, and `Channel.CountRules` now refuses `hatch` on a
+non-negative band); the numeral in both band directions sits on the badge plate, its own
+`plate` element/slot, because a plate escape cannot sit under text within one string; V17's
+gallery swatch states the count itself in red rather than a glyph. **V18 was re-formed** the
+same day out of the one-round lab entry `segment_bar`: the radial became a segmented
+left-to-right bar on the row's bottom edge, flipping the whole bar to the negative red at max
+via `Channel.BarFlipRules` + the generated `bar_full` crop (the crop-revealed-tip variant was
+rejected — a capped-stacks warning wants the whole bar), which also ended DEM-8's corner
+collision. The gallery block moved out of the shared stepper.js into `template/gallery.js`,
+embedded on primitives.html alone — its ~10 KB rode every spec page and havoc was over budget
+(`bareItem` stayed shared: the lab's cell builders read it too, which the split briefly broke).

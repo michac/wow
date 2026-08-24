@@ -58,11 +58,39 @@ and nothing about how it was measured.
   press. A scenario that stops leading the eye to its press fails **by name**.
 - The two Warlock context dots (`dreadstalkers`, `grimoire`) are still evaluated and still reported
   in the `draw` capture's `M{}`, but **draw nothing**: the cue set is closed and they have no key.
-- **Part 7's lab holds ONE entry** (2026-08-22): `duration_band`, the same band tables on a DoT's
-  clock rather than on a count. Seven others were added 2026-08-20, flew on 2026-08-21 and left on
-  2026-08-22 — four promoted as **V16–V19** and one (`composites`) deleted as the argument that
-  those four compose. Part 7's ledger says where each went; do not restate a count here, because it
-  goes stale the first time anyone tries an idea. `capart export lab` prints the current set.
+- **Motion is AnimationGroups only — the addon holds no ticker** (2026-08-24). Every sheet walk
+  is a client FlipBook animation (`Paint.FlipBook`): the badge strips (`capart export badges`
+  bakes `strip_<cue>` for every multi-frame cue), the promotion ring, and every strip to come. The
+  shared `C_Timer` stepper and `Paint.FrameIndex` are deleted; `style_spec` asserts Paint holds
+  no ticker. Motivated by the measured seal on handed-over regions (security-taint §3.5.3).
+  **Not flown** — FlipBook semantics are a source read (`--@unverified` on `Paint.FlipBook`), so
+  the capped badge and the promotion ring are in the next flight's acceptance set.
+- **V18 is the segmented bar, red at full** (2026-08-24, replacing the radial). The sealed
+  count draws as a left-to-right bar on the row's BOTTOM edge over a segment grid (cap's own
+  track art), and at `max` the **whole bar flips to the negative red** — a second slot's count
+  band (`Channel.BarFlipRules` → the pre-tinted `bar_full` crop) at threshold = max,
+  client-decided. First consumer: Demonic Core (full stacks = procs about to be wasted). The
+  move off the corner also ends the DEM-8 geometry conflict with V19's badge (Part 5 #10 is now
+  a readability question). Radial render mode retired from the style. **Not flown.**
+- **V19 is a two-state DoT pair; V16/V17 changed shape** (2026-08-24). Aura up but OUTSIDE its
+  refresh window: a gold do-not-refresh hatch, drawn by `SetDurationText` band tables on
+  remaining seconds off an optional catalog `outside_s` (the threshold is the catalog's; the
+  badge's edge stays the client's — the shelf carries the seam caveat). Inside the window: the
+  badge at **cue-badge brightness exactly** — the `fire` glyph (deliberately shared with the
+  `priority` cue: both mean "act now"; the old `timer_CW_75` glyph is retired from the sheet for
+  reading as a live radial attached to nothing), and the FULL positive-cue treatment — V14's
+  promotion ring around it plus the halo behind the plate; no region pulse, no countdown. The
+  halo alone read as a faint gold mist beside a real promotion, measured in the preview. Count bands: the hatch is
+  legal on **negative** bands only (`Channel.CountRules` refuses a positive hatch), and the
+  numeral rides ON the badge plate as its own `plate` element/slot (`Channel.CountElements` is
+  now hatch → plate → mark → count). No catalog declares `outside_s` yet. **Not flown.**
+- **Part 7's lab is populated and decides nothing.** The 2026-08-20 eight-entry intake flew on
+  2026-08-21 and left on 2026-08-22 — four promoted as **V16–V19**, one (`composites`) deleted as
+  the argument that those four compose — leaving `duration_band` (band tables on a DoT's clock;
+  its seconds-form inversion has since been promoted as V19's outside-window hatch).
+  `segment_bar` lived for one review round on 2026-08-24 and left the same day as V18's
+  re-form. Part 7's ledger says where everything went; do not restate a count here —
+  `capart export lab` prints the current set.
 
 ### The client seam
 

@@ -460,11 +460,13 @@ be showing the identical half-full flask, and the only way to tell "you cannot a
 opposite meanings were distinguishable only over time. The stills — empty for starved, full for
 overcap — are unambiguous in a glance, which is the only budget a corner badge has.
 
-⚠ **Dropping `blocked` to one frame took `timer_CW_75` off the badge sheet, and V19 draws it.**
-The pandemic badge names a sprite it does not ship, borrowing off the cue vocabulary's frame list;
-nothing declared the borrow, so it would have silently stopped shipping — no missing file, no
-failing gate, a corner of the overlay simply blank. `capart.BORROWED_FRAMES` declares it now, and
-`export badges` prunes what the shelf no longer names.
+⚠ **A non-cue group that names a sprite off the cue sheet must DECLARE the borrow.** The
+pandemic badge and the count mark both name sprites they do not ship, riding the cue
+vocabulary's frame list — and an undeclared borrow silently stops shipping the day the last cue
+drops the frame: no missing file, no failing gate, a corner of the overlay simply blank (found
+2026-08-23, when dropping `blocked` to one frame took V19's then-glyph off the sheet).
+`capart.BORROWED_FRAMES` declares both, and `export badges` prunes what the shelf no longer
+names — which is also what retired `timer_CW_75` entirely when V19 moved to `fire`.
 
 **`capped` keeps its `BOUNCE`** and is now the only cue in the vocabulary whose glyph moves at all:
 a thin stack growing to a full one, which is the loss it is warning about, drawn. It is positive,
@@ -636,7 +638,8 @@ the slot open.
 
 ### V14 · Promotion ring
 
-**A row wearing a positive cue draws a glowing ring around its badge**: `tokens.promotion`'s
+**A row wearing a positive cue draws a glowing ring around its badge — and so does V19's
+window badge, which is a promotion the client decides**: `tokens.promotion`'s
 flipbook, tinted `tokens.promotion.rgb`, at `tokens.promotion.spread` of the badge diameter,
 walked at `tokens.promotion.fps`. Promoted out of the lab 2026-08-19 per Part 7 rule 4.
 
@@ -894,6 +897,22 @@ which lays V11's stripe sheet across the face. `hatch` is the only item on that 
 the elimination walk: it says the row is **ruled out**, not decorated. The format strings are built
 in `Channel.CountRules` out of `tokens.count`, and that is the only place pixels enter.
 
+⚠ **`hatch` is therefore legal only on a NEGATIVE band.** A hatch means *ruled out* and a
+positive band means *enough* — one band declaring both is a contradiction wearing pixels, and it
+was on screen until 2026-08-24: the gallery's positive V16 swatch drew the face hatched in gold,
+which reads as "eliminated, but approvingly". The positive direction of this display is the badge
+corner and nothing else; the face stays clean, exactly as it does under a positive cue.
+
+**The numeral sits on the badge plate, like every other corner mark.** A bare digit floating on
+icon art is unreadable on half the roster; the plate is what buys the badge stack its contrast and
+the numeral was the one corner element not wearing it. It cannot ride in the numeral's own band
+string — the first escape in a string is *flowed*, so a plate escape before the digit pushes the
+digit off the plate rather than under it, and a plate escape after the digit paints over it — so
+**the plate is its own element**: one more AuraContainer slot with the same thresholds, whose
+bands draw the plate crop exactly when the numeral's draw `count`, built before the numeral's slot
+so it sits under the digit the way the hatch sits under both. Same mechanism as the flown
+hatch/mark/count split; the client blanks both together.
+
 ⚠ **`threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the
 UPPER band.** Bands must be authored in rising order and the first must be `0`. Rising order is
 *required* rather than sorted at build time: a table that does not rise is a table whose author
@@ -980,45 +999,61 @@ not *held*, not *unaffordable* and not *the wrong mode* — it is simply not wor
 number nobody may read. Before this, that row drew nothing and the player was expected to count
 imps. Its `blank at 6` band is the whole statement.
 
-### V18 · Sealed radial — the same secret as a SHAPE
+### V18 · Sealed bar — the same secret as a SEGMENTED bar, red at full
 
-**`SetApplicationBar` drives a StatusBar from the sealed count, so the number becomes an arc
-instead of a numeral.** cap creates the bar, its track, its fill and its size as ordinary setup
-calls; the client sets the range from cap's own `maxApplications` and the value from the secret.
-**Only `BarValue` is sealed** — the aspect goes on the value, not on the widget. Promoted out of
-the lab 2026-08-22 per Part 7 rule 4, out of `count_bar` (L4).
+**`SetApplicationBar` drives a StatusBar from the sealed count; drawn as a left-to-right bar on
+the row's BOTTOM edge, over a segment grid, flipping the whole bar to the negative red at full.**
+cap creates the bar, its track, its fill, its size and its segment ticks as ordinary setup calls;
+the client sets the range from cap's own `maxApplications` and the value from the secret. **Only
+`BarValue` is sealed** — the aspect goes on the value, not the widget. Promoted out of the lab
+2026-08-22 as the radial (`count_bar`, L4) and re-formed 2026-08-24 out of `segment_bar` (L8):
+the segment grid is what makes the value read as *N of 4* at a glance where an arc read only as
+fullness, and the bottom edge is a surface nothing else on a cap row claims — which also ends the
+corner collision with V19's badge that Part 5 used to carry as an open question.
 
-**Radial is a RENDER MODE, not a mask.** `Enum.StatusBarRenderMode.Radial` gives a circular fill
-with no `MaskTexture` anywhere, which is why the arc costs one texture and not a stencil. A client
-that does not have the mode gets the linear fill rather than nothing: the value is the fact, and
-the circle is only how it is drawn.
+**The segment grid is cap's own track art.** One tick per application boundary, drawn under the
+fill; nothing sealed touches it, and it is on the row at every value — which is what tells the
+reader a half bar is *2 of 4* rather than *some*.
+
+**Red at full is a WARNING, and it is the whole bar that flips.** Full stacks on the first
+consumer (Demonic Core) means *procs about to be wasted* — a negative statement, so it takes the
+negative red (V5.1: hue carries polarity and only polarity). The flip cannot be the fill
+recolouring — the value is sealed and `SetStatusBarTexture` is a setup call, not a curve sink —
+so it is **a second AuraContainer slot's count band** (V16's machinery, one slot per element)
+drawing a full-width pre-tinted red crop over the bar at `threshold = max`. The client decides,
+exactly as it decides every band; no Lua ever learns the count reached the cap.
+⚠ The rejected variant — the full-state hue baked into the fill art's last cell, revealed by the
+measured crop (*the bar crops its texture, it does not stretch it* `[client 2026-08-21]`) —
+changes only the tip, and a warning wants the whole bar. It cost nothing to keep expressible: the
+crop fact stands, and the flip band reuses it in spirit (the red exists before the count does).
 
 ⚠ **A BAR HAS NO BLANK STATE, and this is the straight trade against V16.** `SetValue` clamps
 into `[0, max]`, so at zero the **track still draws**. V16 can be silent and cannot be a shape;
-V18 is a shape and is always on the row. That is why the track's colour and alpha are declared
-rather than incidental — the track is what decides whether an empty arc reads as *nothing yet* or
-as clutter, and it is on screen for every value the ability ever has.
+V18 is a shape and is always on the row. The track's colour and alpha are declared rather than
+incidental — the track is what decides whether an empty bar reads as *nothing yet* or as clutter.
 
 **`max` is what turns "or more" into "full".** The clamp is the expression: a catalog that wants
-*four Cores is everything* declares `max = 4`, and five Cores is a full circle rather than an
-overflow cap has to detect.
+*four Cores is everything* declares `max = 4`, and five Cores is a full bar rather than an
+overflow cap has to detect. The flip band fires on the same number.
 
-⚠ **It ships no art at all** — the fill is a flat colour — so it is absent from Part 4's tint
-guard subject list on purpose, not by omission.
+**The radial render mode is retired with this form** — `Enum.StatusBarRenderMode.Radial` remains
+measured and available (`[client 2026-08-21]`), and nothing in the style draws it.
 
 - **Lua:**
   ```lua
+  -- Slot 1: the bar. Track, ticks and fill are ordinary setup art on the row's bottom edge.
   local bar = CreateFrame("StatusBar", nil, button)
-  bar:SetPoint("TOPRIGHT", button, "TOPRIGHT", Paint.StackOffset(0))
-  track:SetColorTexture(T.arc.track_rgb[1], T.arc.track_rgb[2], T.arc.track_rgb[3],
-                        T.arc.track_alpha)          -- on screen at EVERY value, including zero
-  fill:SetColorTexture(T.arc.rgb[1], T.arc.rgb[2], T.arc.rgb[3], T.arc.alpha)
-  bar:SetStatusBarTexture(fill)
-  pcall(bar.SetRenderMode, bar, Enum.StatusBarRenderMode.Radial)   -- linear if absent, not blank
+  bar:SetPoint("BOTTOMLEFT", host, "BOTTOMLEFT", 0, 0)
+  bar:SetPoint("BOTTOMRIGHT", host, "BOTTOMRIGHT", 0, 0)
+  bar:SetHeight(T.bar.height_px)
   button:SetApplicationBar(bar, { maxApplications = plan.max })
+  -- Slot 2: the flip. A count band drawing the red crop at threshold = max; client-decided.
+  formatter:SetBreakpoints(Channel.BarFlipRules(plan.max, T.bar, width))
+  button2:SetApplicationCount(fs, { formatter = formatter })
   ```
-- **Preview reproduction.** `--arc-inset`, `--arc-rgb`, `--arc-track`, `--arc-full`, drawn as a
-  `conic-gradient` inside the badge plate.
+- **Preview reproduction.** `--bar-h`, `--bar-rgb`, `--bar-track`, `--bar-full`, the ticks from
+  the scenario's own `max`, drawn at a nominal fraction — full only where a swatch demonstrates
+  the flip, because a scenario states "there is a bar here", never a value.
 
 ### V19 · Pandemic window — a badge the client alone shows and hides
 
@@ -1042,16 +1077,57 @@ until the window opens.
 the **enablement** — whether cap's update loop runs would otherwise leak the aura's presence. So
 **budget one per armed tile and never attach speculatively.**
 
+**The full positive-cue treatment: V14's promotion ring AND the halo.** The badge wears
+everything a promoted positive cue wears — the promotion ring blazing around it and the halo
+breathing behind the plate — because it IS a promotion, decided by the client instead of by
+cap: *the window is open* and *press this* are the same statement in the same grammar, and a
+badge with only the halo read as a faint gold mist beside a real promotion (measured on screen,
+which is what this file's preview exists for). Consistent with V5.1's polarity carrier: only
+positives glow. Both motions are **AnimationGroups armed before the handover** — the ring a
+FlipBook, the halo an Alpha loop — the only motion that survives on a handed-over region: in
+combat the armed subtree is a forbidden object and the seal covers writes
+(`security-taint-and-restricted-data.md` §3.5.3, `[client 2026-08-24]`). Gated for free: the
+client hides the region, so both loops are invisible until the window opens.
+
+**The pair: a running DoT has TWO states, and each draws its own way.** Aura up but **outside**
+its refresh window: a **gold hatch across the face** — *do not refresh yet*, an eliminating
+statement for the refresh press, in the window's own gold so it cannot be read as the cooldown's
+black or the skip's red. Aura up and **inside** the window: the badge above. The hatch cannot
+come from the pandemic sink — `ApplyPandemicRegions` calls `SetShown(inWindow)` with no reverse
+flag (§3.5.2, Tier 1) — so it rides `SetDurationText` band tables on the aura's remaining
+SECONDS, on a slot of its own (`{threshold 0 → blank, threshold outside_s → the gold hatch
+crop}`; the crop is the count vocabulary's pre-tinted positive hatch). ⚠ **The two edges are
+not the same fact**: the badge appears on Blizzard's real window, computed per spell; the hatch
+clears at `outside_s`, a number the **catalog** authors. They can disagree near the boundary —
+authoring `outside_s` at the ability's nominal window makes the seam small, and whether it is
+visible is a flight question. A catalog that declares no `outside_s` gets the badge alone.
+
+**The badge holds cue-badge brightness exactly, and carries no number.** Plate at
+`badges.plate.alpha`, sprite at full alpha, no region-wide pulse — and the glyph is **`fire`,
+deliberately shared with the `priority` cue**: both statements are "act now — press this", and
+the window badge is exactly a client-decided promotion of a DoT row, so giving it the
+promotion's glyph is the grammar agreeing with itself. ⚠ Its previous glyph, `timer_CW_75`, is
+retired from the sheet: a static Kenney clock whose baked 75 % wedge read as a **live radial
+attached to nothing** — a reader watched a timer that never moved. The halo's breath is the
+badge's only motion. A countdown was
+drawn here briefly and removed the same day: the window's presence IS the statement, a number
+invites reading mid-pull, and the halo already carries the attention the badge needs. (It also
+took the `AddPandemicRegion` + `SetDurationText` one-button pairing question with it — the
+outside hatch's duration sink rides its own slot, which is the measured pattern.)
+
 - **Lua:**
   ```lua
   local region = CreateFrame("Frame", nil, button)   -- a FRAME, so plate + glyph travel together
   region:SetPoint("TOPRIGHT", button, "TOPRIGHT", Paint.StackOffset(0))
-  -- …plate and sprite parented under `region`, from T.pandemic and T.badges.plate…
-  Paint.Breathe(region, T.pandemic.pulse):Play()     -- invisible until the client shows it
+  -- the FULL positive-cue treatment, armed BEFORE the handover (§3.5.3): V14's ring + the halo
+  Paint.PromotionRing(region):SetShown(true)
+  local halo = region:CreateTexture(nil, "OVERLAY", nil, 5)   -- badges.halo art, T.pandemic.glow
+  -- …plate and sprite parented under `region`, from T.pandemic and T.badges.plate,
+  --  at cue-badge brightness: no pulse, no countdown — the halo's breath is the only motion…
   button:AddPandemicRegion(region)                   -- no threshold anywhere in this file
   ```
-- **Preview reproduction.** `--pd-rgb`, `--pd-size`, and the breath as `--pd-pulse-dur` /
-  `--pd-pulse-a0` / `--pd-pulse-a1`.
+- **Preview reproduction.** `--pd-rgb`, `--pd-size`, and the halo as the cues' own
+  `--badge-halo-stop` gradient at `--pd-glow-*`.
 ---
 
 ## Part 2.5 — Composing a row
@@ -1267,15 +1343,19 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    does a *standing* row — permanently clear, forever — read as the terminus of the sweep or as
    wallpaper?
 
-10. **⚠ TWO SEALED DISPLAYS CANNOT SHARE A CORNER, and one catalog currently asks them to.**
-    V18's radial and V19's pandemic badge both anchor on badge slot 1 — the top-right corner, the
-    same pixel the first cue badge takes. Demonology's Demonbolt declares **both** (DEM-8), and
-    the scenario prose defers the question to a flight. Reviewed on screen 2026-08-24 the answer
-    came back before the flight: they overlap, and the reader gets one smeared mark rather than
-    two facts. This is not "does it read" — it is a geometry conflict the catalog is allowed to
-    author and nothing rejects. **Open: which of the two wins that corner, or whether a second
-    sealed anchor is declared.** Until it is answered no catalog should declare both on one row,
-    and `capart check` does not yet enforce that.
+10. **Does the segmented bar's bottom edge read as part of the row?** V18 moved off the badge
+    corner and onto the bottom edge when the radial was re-formed as the segmented bar — which
+    ended the corner collision with V19's badge that this question used to carry (DEM-8 declares
+    both, and they no longer share a pixel). What is left to look at: does a 6 px bar under the
+    icon read as *this row's* count, or as furniture between rows? And does the whole-bar red
+    flip at full read as *stop banking* in peripheral vision, which is its entire job?
+
+10. **Does the segmented bar's bottom edge read as part of the row?** V18 moved off the badge
+    corner and onto the bottom edge when the radial was re-formed as the segmented bar — which
+    ended the corner collision with V19's badge that this question used to carry (DEM-8 declares
+    both, and they no longer share a pixel). What is left to look at: does a 6 px bar under the
+    icon read as *this row's* count, or as furniture between rows? And does the whole-bar red
+    flip at full read as *stop banking* in peripheral vision, which is its entire job?
 
 9. **Does the hotkey read as a label or as another signal?** V15 is the only thing on a row that
    is not about the press, and its failure mode is being taken for one: a key the eye stops on
@@ -1539,7 +1619,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "tint": "shelf"
   },
   "count": {
-    "_comment": "V16/V17. A SEALED aura application count reaching a pixel. cap hands the Cooldown Manager a FontString and a NumericRuleFormatter it AUTHORED; the client evaluates the bands against the secret and calls SetText, and cap never learns which band fired. The sink seals `Text` and `Shown` and nothing else — which is why the hue below is reachable through a static SetTextColor as well as through a band's own escape, and why the FontString's animation channel is still cap's. `threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the UPPER band.",
+    "_comment": "V16/V17. A SEALED aura application count reaching a pixel. cap hands the Cooldown Manager a FontString and a NumericRuleFormatter it AUTHORED; the client evaluates the bands against the secret and calls SetText, and cap never learns which band fired. The sink seals `Text` and `Shown` and nothing else — which is why the hue below is reachable through a static SetTextColor as well as through a band's own escape, and why the FontString's animation channel is still cap's. `threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the UPPER band. Two rules added 2026-08-24: `hatch` is legal on NEGATIVE bands only (a hatch means ruled out; a positive band hatching the face is a contradiction wearing pixels), and the numeral sits on the badge PLATE — its own element/slot with the same thresholds, because a plate escape cannot sit under text within one string.",
     "font": "FRIZQT__.TTF",
     "size": 15,
     "outline": "OUTLINE",
@@ -1580,9 +1660,9 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     },
     "tint": "shelf"
   },
-  "arc": {
-    "_comment": "V18. The same sealed number as a SHAPE. SetApplicationBar drives a StatusBar from the count and SetDurationBar from the remaining duration; only the VALUE is sealed, so texture, size, orientation and colour stay ordinary setup calls. Radial is a RENDER MODE (Enum.StatusBarRenderMode.Radial), not a masked fill, so the circle needs no MaskTexture. ⚠ A bar has NO BLANK STATE: SetValue clamps into [0, max], so at zero the track still draws. That is the straight trade against V16, which can be silent and cannot be a shape. It ships no art at all — the fill is a flat colour — so it is absent from the tint guard's subject list on purpose.",
-    "inset_px": 3,
+  "bar": {
+    "_comment": "V18. The sealed count as a SEGMENTED left-to-right bar on the row's bottom edge. SetApplicationBar drives the fill; only BarValue is sealed, so track, ticks, size and colour are ordinary setup calls, and the segment grid (one tick per application boundary) is cap's own track art. The FULL state flips the WHOLE bar to the negative red as a warning — full stacks = waste imminent — not by recolouring the fill (the value is sealed; SetStatusBarTexture is a setup call, not a curve sink) but by a second slot's count band (V16's machinery) drawing the full-width pre-tinted red crop `bar_full` at threshold = max. The radial render mode is retired with this form. ⚠ A bar has NO BLANK STATE: the track draws at zero, which is the straight trade against V16.",
+    "height_px": 6,
     "rgb": [
       1.0,
       1.0,
@@ -1595,27 +1675,29 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       0.0
     ],
     "track_alpha": 0.55,
+    "seg_px": 1,
     "full_rgb": [
-      1.0,
-      0.78,
-      0.25
-    ]
+      0.95,
+      0.3,
+      0.3
+    ],
+    "full_alpha": 0.9,
+    "tint": "shelf"
   },
   "pandemic": {
-    "_comment": "V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge, plate and sprite together, appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively.",
-    "frame": "timer_CW_75",
+    "_comment": "V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge — halo, plate and sprite together — appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively. The badge holds cue-badge brightness exactly — plate at badges.plate.alpha, sprite at full alpha, NO region pulse and NO countdown — and it wears the `fire` glyph, DELIBERATELY the same glyph as the `priority` cue: both mean 'act now — press this', and the window badge is exactly a client-decided promotion of a DoT row. (Its previous glyph, timer_CW_75, was a static Kenney clock whose baked 75% wedge read as a live radial attached to nothing — retired for lying.) Its motion is the FULL positive-cue treatment: V14's promotion ring (armed before the handover, FlipBook) plus `glow`, the SAME halo the positive cues wear (badges.halo art, radial falloff from badges.halo_falloff), breathing behind the plate, armed before the handover since that is the only motion that survives the in-combat forbidden-object seal (§3.5.3). The OUTSIDE-window state of the pair deliberately has no token group: it reuses the count vocabulary's positive hatch crop and this group's gold, and its threshold (outside_s, seconds) is the CATALOG's number, never the shelf's.",
+    "frame": "fire",
     "size_px": 15,
     "rgb": [
       1.0,
       0.78,
       0.25
     ],
-    "pulse": {
-      "duration_s": 1.6,
-      "alpha": [
-        0.62,
-        1.0
-      ]
+    "glow": {
+      "hz": 1.2,
+      "alpha_min": 0.15,
+      "alpha_max": 0.55,
+      "scale": 1.55
     },
     "tint": "shelf"
   },
@@ -1806,7 +1888,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "max_base64_kb": 300
   },
   "lab": {
-    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. ⚠ ONE entry since 2026-08-22, and it is the leftover of an eight-entry intake whose other seven were promoted (V16-V19) or deleted. `duration_band` bands a CLOCK rather than a count, which is why no composite needed it and why it did not go with them. Its cells draw the `RemainingPercent` route, which is a SOURCE READ and has never been flown \u2014 the flown route (a bare `textFormatter`) gives thresholds in seconds. So every percentage in it is a proposal about a mechanism, clearly labelled, exactly as `count_bar` was before its flight settled it.",
+    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. ⚠ ONE entry. `duration_band` is the leftover of the eight-entry intake whose other seven were promoted (V16-V19) or deleted — it bands a CLOCK rather than a count, which is why no composite needed it; its SECONDS form has since been promoted as V19's outside-window hatch, leaving the RemainingPercent route as its open half. `segment_bar` (L8) left same-day for V18 — the ledger has the row. Its cells draw the `RemainingPercent` route, which is a SOURCE READ and has never been flown \u2014 the flown route (a bare `textFormatter`) gives thresholds in seconds. So every percentage in it is a proposal about a mechanism, clearly labelled, exactly as `count_bar` was before its flight settled it.",
     "duration_band": {
       "title": "L7 · duration_band — the same bands, on the DoT's CLOCK instead of a count",
       "asks": "`SetDurationText` takes a `textFormatter` of type NumericFormatter — the same object the count sink takes — bound to a DurationTextBindingProperty such as RemainingPercent. If a rule formatter is accepted there, every band shape L5 and L6 draw becomes available on a DoT's remaining time, INCLUDING the inversion `AddPandemicRegion` structurally cannot express. What does that cost, and is it worth authoring the threshold the pandemic sink computes for you?",
@@ -1855,7 +1937,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
           "bands": [
             {
               "threshold": 0,
-              "format": "|A:timer_CW_75:15:15|a"
+              "format": "|A:fire:15:15|a"
             },
             {
               "threshold": 31,
@@ -1873,7 +1955,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
           "bands": [
             {
               "threshold": 0,
-              "format": "|A:timer_CW_75:15:15|a"
+              "format": "|A:fire:15:15|a"
             },
             {
               "threshold": 31,
@@ -1930,7 +2012,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
             },
             {
               "threshold": 31,
-              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t|A:timer_CW_75:15:15:20:-18|a"
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t|A:fire:15:15:20:-18|a"
             }
           ],
           "caption": "<b>hatch and badge, inverted</b> — two escapes, one band, the second offset onto the corner. Identical machinery to L6's imp shape; the only difference is which sealed number the client feeds the formatter."
@@ -1944,7 +2026,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
           "bands": [
             {
               "threshold": 0,
-              "format": "|A:timer_CW_75:15:15|a"
+              "format": "|A:fire:15:15|a"
             },
             {
               "threshold": 31,
@@ -1959,6 +2041,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
         }
       ]
     }
+
   }
 }
 ```
@@ -2088,6 +2171,11 @@ middle**, three bands where the row says neither *do not* nor *now* for most of 
 V19 cannot express either. It calls `SetShown(inWindow)` and has no rule to flip, which is the
 straight trade against it authoring no threshold at all: `AddPandemicRegion` is right for free and
 cannot be asked a different question.
+
+⚠ **The inversion's SECONDS form has been promoted** — it is V19's outside-window hatch now, the
+authored-threshold half of the DoT pair. What keeps this entry open is the `RemainingPercent`
+route and the quiet-middle band shapes, neither of which the pair uses.
+
 ### What has left, and where it went
 
 Every row is rule 4 in action: moved into Parts 1–6 with its numbers, or deleted because the
@@ -2100,6 +2188,7 @@ question it asked got an answer. Nothing here is cited by the style; this is a l
 | `badge-slots` (L2) | 2026-08-13 | → **V5**, the corner badges, with the cue vocabulary rewritten negative-only. |
 | `stripes-l4-cooldown` (L4) | 2026-08-16 | → **V11**, taking the shared stripe sheet with it — `tokens.hatch` now, `Media/stripes.tga` in the addon. |
 | `stripes-l3-hold`, `stripes-l5-starved` | 2026-08-19 | Answered together when **V11 generalised** from "on cooldown" to "ruled out": a row wearing any negative cue stripes, which is Part 0.5's pass 2 drawn rather than merely stated. One rule answered both, so the family emptied. |
+| `segment_bar` (L8) | 2026-08-24 | → **V18 re-formed**: the radial became the segmented lateral bar with the whole-bar red flip at full. The crop-revealed-tip variant was not taken — it changes only the tip, and a capped-stacks warning wants the whole bar. Same-day promotion; the entry lived for one review round. |
 | `blaze-*`, `procglow-*` | 2026-08-19 | **V14**, the promotion ring, was picked out of this set — generated by `wowkb.procring` against four properties measured off Blizzard's own proc glow. The losing candidates are deleted rather than kept: they were alternatives to a decision that has been made, and a lab full of settled arguments is a lab nobody reads. |
 | `arrival-*` | 2026-08-19 | Deleted with their subject. The arrival questions belonged to V2's animated border; **V13's scan edge is static**, so there is no snap to judge and the entries had outlived the thing they were asking about. |
 | `ready-*` | 2026-08-19 | **V13**, the scan edge, was picked out of this set. Part 5 question 2 still asks whether a static line is loud enough in a pull — but that is a question about the *shipped* treatment, and it is asked there, not by keeping three unadopted alternatives drawn beside it. |

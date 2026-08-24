@@ -365,10 +365,12 @@ ROTATION row to its left by a cue rather than by position.
   no new predicate — `identity` has arity 2 and takes a subject — but it is the first time a
   subject is a *different* entry, and that is worth a test.
   - `db_core_charge` — **sealed** `sealed-count-bar` (S10, `../render-shelf.md` V18) on Demonic
-    Core, `max = 4`. *How many* Cores are banked, as a radial fill inside the badge plate. ⚠ It is
-    **graded and has no blank state** — `SetValue` clamps into `[0, max]`, so the track is on the
-    row for as long as the aura is up. `max` is the number that MATTERS rather than the aura's
-    real cap, which is what turns "or more" into "full".
+    Core, `max = 4`. *How many* Cores are banked, as a segmented bar on the row's bottom edge —
+    and **at four the whole bar flips to the negative red**: full stacks means procs about to be
+    wasted, which is exactly cue B's fear stated by the client instead of by a readable term. ⚠ It
+    is **graded and has no blank state** — `SetValue` clamps into `[0, max]`, so the track is on
+    the row for as long as the aura is up. `max` is the number that MATTERS rather than the
+    aura's real cap, which is what turns "or more" into "full" and fires the flip.
   - `db_doom_window` — **sealed** `sealed-pandemic` (S9, `../render-shelf.md` V19) on Doom
     `460553`, **gated on the readable `talent(doom)`**. The one sealed display cap authors no
     threshold for: the client computes `GetRefreshExtendedDuration − GetAuraBaseDuration` itself,
@@ -382,9 +384,10 @@ ROTATION row to its left by a cue rather than by position.
   **Badge-slot arithmetic:** cues C and D both raise `blocked` (slot 1) and union onto one badge;
   cue B raises `overcap` (slot 2). `starved` is never declared on this row, so
   `Catalog.Check`'s one-cue-per-slot rule is satisfied.
-  ⚠ **This is the densest corner in the catalog** — two sealed displays land in the badge stack's
-  own pixel at once (DEM-8), which nothing else here does. Whether that reads as one statement or
-  as a mess is a flight question, not a document one.
+  ⚠ **This row wears two sealed displays at once** (DEM-8), which nothing else here does — but
+  they no longer share a pixel: the bar took the row's bottom edge when V18 was re-formed, so
+  the window badge has the corner to itself. Whether the two together read as one statement is
+  still a flight question, just no longer a geometry conflict.
 
 ### FALLBACK lane
 

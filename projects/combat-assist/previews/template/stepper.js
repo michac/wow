@@ -367,186 +367,17 @@
     art.title = "client: " + tint.constant + " — " + tint.means;
   }
 
-  function swatch(name, why, build) {
-    var s = el("div", "swatch");
-    var host = el("div", "swatch-stage");
-    host.style.height = "calc(" + T.surfaces.icon_px + "px * 1.6)";
-    host.appendChild(build());
-    s.appendChild(host);
-    var n = el("div", "name"); n.textContent = name; s.appendChild(n);
-    var w = el("div", "why"); w.innerHTML = why; s.appendChild(w);
-    return s;
-  }
-
-  var gallery = host("gallery");
-
-  // The swatch's border comes from whichever ability it borrows art from, exactly as it does in
-  // a scenario row — so a gallery swatch and a live row can never diverge.
+  // One bare row item, shared by the gallery's swatches AND the lab's cell builders — so a
+  // swatch, a lab cell and a live row can never diverge. It lives HERE, not in gallery.js,
+  // because the lab page ships without the gallery.
   function bareItem(name, verdict, opts) {
     opts = opts || {};
     return itemNode({ name: name, verdict: verdict, cues: opts.cues,
-                      sealed: opts.sealed, count: opts.count }, 0).firstChild;
+                      sealed: opts.sealed, count: opts.count,
+                      outside: opts.outside, full: opts.full }, 0).firstChild;
   }
 
-  var SCAN_SAMPLES = D.scan_samples || [];
-
-  // V13 · in the scan. One swatch, because there is one treatment: an icon either participates
-  // in the read or it does not. What used to be four hue-coded lanes is now carried by row
-  // order plus elimination, which is what the reading rule already used.
-  //
-  // ⚠ The blend mode is READ OFF THE TOKEN, never restated here. It was `ADD` until 2026-08-23
-  // and this caption still said "additive" after the shelf had stopped saying it — a caption
-  // that names a value the token owns is a second copy that drifts.
-  gallery.appendChild(swatch(
-    "in the scan · V13",
-    "a <b>" + T.ready.line_px + "px</b> edge at alpha " + T.ready.alpha + ", blended <b>" +
-      T.ready.blend + "</b>, drawn ON the icon rect. The restrained <em>area</em> is what lets " +
-      "full brightness sit at alpha " + T.ready.alpha + " without the row shouting. Every " +
-      "non-swiped row wears it <em>identically</em> — the press is the leftmost thing not " +
-      "ruled out, not a thing cap draws. It has no falloff, so it cannot reach a neighbour.",
-    function () { return bareItem(D.scan_sample, "press"); }
-  ));
-
-
-  gallery.appendChild(swatch("swipe", "Blizzard's own dial — cap draws nothing here, and does " +
-    "not restyle it. The cheapest possible “ruled out”.",
-    function () { return bareItem(D.scan_sample, "cd"); }));
-
-  // V5 · one swatch per cue, then the full three slots, so "do three badges crowd the face?"
-  // is answerable rather than asserted.
-  var cueKeys = Object.keys(T.cues);
-  cueKeys.forEach(function (key) {
-    var cue = T.cues[key];
-    gallery.appendChild(swatch(
-      "cue · " + key + (cue.open ? " ⚠" : ""),
-      (cue.open ? "<b>declared, unverified in client — produces no hint yet.</b> " : "") +
-        cue.means + " <em>(rank " + cue.rank + ", " + cue.frames.length + " frames @ " +
-        cue.duration_s + "s " + cue.loop + ")</em>",
-      function () { return bareItem(D.scan_sample, "below", { cues: [key] }); }
-    ));
-  });
-
-  // The stack FLOWS, so there are no slots to show one-per. What this has to answer instead is
-  // "how far down the icon does a full stack reach, and does it still read?" — so it draws every
-  // cue in the vocabulary at once, which is the worst case by construction rather than by a
-  // number someone has to keep up to date.
-  var stack = cueKeys.slice().sort(function (a, b) {
-    return (T.cues[a].rank || 99) - (T.cues[b].rank || 99);
-  });
-  gallery.appendChild(swatch("badges · the full stack",
-    "Every cue at once, in rank order — the deepest stack the vocabulary can produce, which is " +
-    "the crowding question worth answering now that there is no ceiling. Positives rank first " +
-    "and sit on the corner, so a promotion is the badge the eye reaches before any skip. " +
-    "Shown: " + stack.join(" · ") + ".",
-    function () { return bareItem(D.scan_sample, "below", { cues: stack }); }));
-
-  // A badge overhanging the corner can collide with the next icon. That is arithmetic, and
-  // arithmetic in a caption is an assertion; drawn in a real row it is a finding.
-  var over = T.badges.overhang_px, gap = T.surfaces.row_gap_px;
-  gallery.appendChild(swatch("badges · in a real row",
-    "overhangs <b>" + over + "px</b> past the edge; the row gap is <b>" + gap + "px</b>" +
-      (over > gap ? " — <b>they collide.</b>" : " — <b>they clear.</b>"),
-    function () {
-      var strip = el("div", "swatch-stage");
-      SCAN_SAMPLES.slice(0, 3).forEach(function (name, i) {
-        strip.appendChild(bareItem(name, "below",
-          { cues: [cueKeys[i % cueKeys.length]] }));
-      });
-      return strip;
-    }));
-
-  /* V16-V19 · the sealed displays.
-   *
-   * ⚠ Each caption leads with WHAT THE ROW IS SAYING, then how it is drawn. The pixels are
-   * already on screen; what a reader cannot see is the statement, and a caption that only
-   * describes the drawing spends its whole length on the half you can check yourself.
-   *
-   * "Sealed" is not about auras. It means the VALUE cap hands the client is one Lua may never
-   * read or branch on: cap authors the rule, the client evaluates it against the secret and
-   * draws the result, and cap never learns which way it went. Everything above this point on
-   * the page is driven by a fact cap can read.
-   *
-   * All of them draw through the same `sealedNode` a scenario row uses, so a swatch and a live
-   * row cannot diverge.
-   */
-  gallery.appendChild(swatch("sealed · count bands · V16",
-    "<b>&ldquo;there are enough of these for the thing you are about to press.&rdquo;</b> " +
-    "A stack cap is not allowed to count reached a number the catalog cares about, and the " +
-    "client said so on cap's behalf. The band picks the mark <em>or</em> the numeral: the " +
-    "numeral while <em>how many more</em> is still the live question, the mark once the answer " +
-    "has stopped being a number. ⚠ <b>No scenario in any catalog draws this direction</b> — " +
-    "every shipped band eliminates — which is exactly why it is drawn here.",
-    function () {
-      return bareItem(D.scan_sample, "press", { sealed: ["count-bands"], count: 4 });
-    }));
-
-  gallery.appendChild(swatch("sealed · count bands · V17 (complement)",
-    "<b>&ldquo;not yet — there are not enough of these, so this row is out.&rdquo;</b> The same " +
-    "sink authored the other way round: the marks draw BELOW the threshold and clear at it, so " +
-    "the row rules <em>itself</em> out and becomes a candidate the moment the count arrives. " +
-    "This is the only eliminating signal that is neither Blizzard's swipe nor a badge cap " +
-    "decided to show. ⚠ Honest only where <em>low is bad</em>; on a rising resource it would " +
-    "call progress a fault.",
-    function () {
-      return bareItem(D.scan_sample, "ruled-sealed", { sealed: ["count-bands"] });
-    }));
-
-  gallery.appendChild(swatch("sealed · count bar · V18",
-    "<b>&ldquo;this is how full the thing you are watching is.&rdquo;</b> The same sealed " +
-    "number as a <em>shape</em>, for when the fact is a sense of progress rather than a " +
-    "threshold — you read it without counting. ⚠ The cost is that it can never be silent: " +
-    "<code>SetValue</code> clamps into [0, max], so the track is on the row at every value " +
-    "including zero. That is the straight trade against V16, which can say nothing at all.",
-    function () { return bareItem(D.scan_sample, "press", { sealed: ["count-bar"] }); }));
-
-  gallery.appendChild(swatch("sealed · pandemic window · V19",
-    "<b>&ldquo;refreshing this now clips nothing.&rdquo;</b> The badge is present exactly while " +
-    "Blizzard's own pandemic window is open, and gone the rest of the time — so its presence " +
-    "IS the statement and there is nothing to read. ⚠ cap authors <b>no threshold</b> for it: " +
-    "the client computes <code>GetRefreshExtendedDuration &minus; GetAuraBaseDuration</code> " +
-    "per spell, which is the real window rather than the community's 30&nbsp;%. Reproducing it " +
-    "from a duration band would be cap's guess wearing the same pixels.",
-    function () { return bareItem(D.scan_sample, "press", { sealed: ["pandemic"] }); }));
-
-  // The frame strips, so the art itself is inspectable rather than only seen in motion.
-  var framesHost = host("frames");
-  cueKeys.forEach(function (key) {
-    var cue = T.cues[key];
-    var s = el("div", "swatch");
-    var strip = el("div", "frames");
-    cue.frames.forEach(function (fn) {
-      var f = D.frames[fn];
-      var d = el("div", "f");
-      var g = el("i");
-      if (f) {
-        g.style.backgroundColor = rgb(T.badges.rgb);
-        g.style.webkitMaskImage = g.style.maskImage = "url(" + f.uri + ")";
-        g.style.webkitMaskSize = g.style.maskSize = "contain";
-        g.style.webkitMaskRepeat = g.style.maskRepeat = "no-repeat";
-        g.style.webkitMaskPosition = g.style.maskPosition = "center";
-      }
-      d.appendChild(g);
-      strip.appendChild(d);
-    });
-    s.appendChild(strip);
-    var n = el("div", "name"); n.textContent = key; s.appendChild(n);
-    var w = el("div", "why");
-    w.innerHTML = cue.frames.join(" → ") + " · " + cue.loop.toLowerCase();
-    s.appendChild(w);
-    framesHost.appendChild(s);
-  });
-
-  /* ------------------------------------------------------------------ tables */
-
-  var vt = host("verdicts");
-  var head = "<tr><th>verdict</th><th>in the scan</th><th>swipe</th><th>hatch</th>" +
-    "<th>cues</th></tr>";
-  vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
-    var r = T.verdicts[k];
-    return "<tr><td>" + k + "</td><td>" + (r.scan ? "yes" : "—") + "</td><td>" +
-           (r.swipe ? "yes" : "—") + "</td><td>" + (r.hatch ? "yes" : "—") + "</td><td>" +
-           ((r.cues && r.cues.length) ? r.cues.join(", ") : "—") + "</td></tr>";
-  }).join("");
+  /*__GALLERY_JS__*/
 
   /* ------------------------------------------------------------------ Part 7 · the lab
    *
@@ -628,15 +459,43 @@
   function sealedNode(kind, entry) {
     var negative = entry.verdict === "ruled-sealed";
     if (kind === "count-bar") {
-      var bar = el("div", "sealed sealed-count-bar");
-      var arc = el("div", "sealed-arc");
-      arc.style.setProperty("--sx-frac", "62%");
-      bar.appendChild(el("div", "sealed-plate"));
-      bar.appendChild(arc);
-      return bar;
+      /* V18: the segmented bar on the row's bottom edge. A scenario states "there is a bar
+       * here", never a value, so the fill is a nominal 2-of-4 — full (and the whole-bar red
+       * flip, a second slot's count band at threshold = max) only where a swatch passes
+       * `full` to demonstrate it. */
+      var sbMax = 4;
+      var sb = el("div", "sealed-bar");
+      var sbFill = el("div", "sealed-bar-fill");
+      sbFill.style.width = (entry.full ? 100 : 50) + "%";
+      sb.appendChild(sbFill);
+      for (var sbi = 1; sbi < sbMax; sbi++) {
+        var tick = el("div", "sealed-bar-seg");
+        tick.style.left = (100 * sbi / sbMax).toFixed(1) + "%";
+        sb.appendChild(tick);
+      }
+      if (entry.full) sb.appendChild(el("div", "sealed-bar-full"));
+      return sb;
     }
     if (kind === "pandemic") {
+      /* The pair's OTHER state: aura up, OUTSIDE the window — the gold do-not-refresh hatch,
+       * off SetDurationText bands on remaining seconds. Catalog threshold, client badge (V19). */
+      if (entry.outside) {
+        var orun = el("div", "sealed sealed-run");
+        var oh = el("div", "sealed-band-hatch");
+        oh.style.setProperty("--sx-ink", "var(--pd-rgb)");
+        var ost = D.lab_stripes;
+        if (ost) {
+          oh.style.webkitMaskImage = oh.style.maskImage = "url(" + ost.uri + ")";
+        }
+        orun.appendChild(oh);
+        return orun;
+      }
       var w = el("div", "sealed sealed-pandemic");
+      /* The FULL positive-cue treatment — V14's promotion ring AND the halo — because this
+       * badge is a client-decided promotion and must read as bright as one. Both are armed
+       * BEFORE the handover in the client (§3.5.3). */
+      w.appendChild(promoRing());
+      w.appendChild(el("div", "sealed-pd-glow"));
       w.appendChild(el("div", "sealed-plate"));
       var wm = el("div", "sealed-mark");
       var wa = (D.frames || {})[T.pandemic.frame];
@@ -656,18 +515,27 @@
      * for both draws a digit on top of a glyph. `entry.count` picks which one this row states.
      */
     var run = el("div", "sealed sealed-run");
-    var hatch = el("div", "sealed-band-hatch");
-    hatch.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
-    // Same sheet, same call-time resolution, same reason as `maskedStripe`: `D.lab_stripes` is
-    // a build-time data: URI and a module-scope hoist of it is still undefined when the gallery
-    // runs. Without it this layer is a flat field of the escape's colour over the whole icon.
-    var stripes = D.lab_stripes;
-    if (stripes) {
-      hatch.style.webkitMaskImage = hatch.style.maskImage = "url(" + stripes.uri + ")";
+    /* The hatch draws for the ELIMINATING direction only (V16, 2026-08-24): a hatch means
+     * "ruled out" — a gold hatch on the positive direction was a contradiction wearing pixels. */
+    if (negative) {
+      var hatch = el("div", "sealed-band-hatch");
+      hatch.style.setProperty("--sx-ink", "var(--count-low)");
+      // Same sheet, same call-time resolution, same reason as `maskedStripe`: `D.lab_stripes` is
+      // a build-time data: URI and a module-scope hoist of it is still undefined when the gallery
+      // runs. Without it this layer is a flat field of the escape's colour over the whole icon.
+      var stripes = D.lab_stripes;
+      if (stripes) {
+        hatch.style.webkitMaskImage = hatch.style.maskImage = "url(" + stripes.uri + ")";
+      }
+      run.appendChild(hatch);
     }
-    run.appendChild(hatch);
 
     if (entry.count != null) {
+      // The plate is its OWN element/slot (V16, 2026-08-24): a plate escape cannot sit under
+      // text within one string. Same thresholds; the client blanks both together.
+      var pbadge = el("div", "sealed-band-badge");
+      pbadge.appendChild(el("div", "sealed-plate"));
+      run.appendChild(pbadge);
       // The numeral, which is the client's `%d` — the one element that can never be a baked crop,
       // and the one the shelf lets a colour escape reach, because it is text.
       var n = el("div", "sealed-band-count");
@@ -1325,8 +1193,34 @@
     var fill = el("div", "count-fill");
     fill.style.setProperty("--cb-rgb", "var(--lab-" + key + "-cb-rgb)");
     fill.style.setProperty("--cb-frac", (frac * 100).toFixed(1) + "%");
+    if (cell.banded) {
+      /* The full-state hue baked into the fill art's last cell: the bar CROPS its texture
+       * [client 2026-08-21], so the tip is revealed only at max. */
+      fill.classList.add("banded");
+      var sheet = el("div", "count-fill-sheet");
+      sheet.style.setProperty("--cb-full", "var(--lab-" + key + "-cb-full)");
+      sheet.style.setProperty("--cb-tip", (100 * (max - 1) / max).toFixed(1) + "%");
+      if (frac > 0) sheet.style.width = (10000 / (frac * 100)).toFixed(1) + "%";
+      fill.appendChild(sheet);
+    }
     track.appendChild(fill);
+    if (cell.segments) {
+      // cap's own track art: one tick per application boundary. Nothing sealed touches it.
+      for (var si = 1; si < max; si++) {
+        var seg = el("div", "count-seg");
+        seg.style.left = (100 * si / max).toFixed(1) + "%";
+        track.appendChild(seg);
+      }
+    }
     item.appendChild(track);
+    if (cell.overlay && frac >= 1) {
+      /* The WHOLE-BAR flip at full: a second slot's count band drawing a full-width crop at
+       * threshold = max — V16's machinery, the client deciding. */
+      var over2 = el("div", "count-full-overlay");
+      over2.style.setProperty("--cb-h", "var(--lab-" + key + "-cb-h)");
+      over2.style.setProperty("--cb-full", "var(--lab-" + key + "-cb-full)");
+      item.appendChild(over2);
+    }
     return item;
   }
 

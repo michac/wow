@@ -894,6 +894,10 @@ def addon_style(tokens: dict) -> dict:
     for key in ("count", "pandemic"):
         if key in out:
             out[key] = dict(out[key], texture_root=BADGE_TEXTURE_ROOT)
+    # V18's flip band names its crop and the badge dir it ships to, injected for the same
+    # reason count's plate/hatch names are: a rename in one place must not strand the band.
+    if "bar" in out:
+        out["bar"] = dict(out["bar"], texture_root=BADGE_TEXTURE_ROOT, full_texture="bar_full")
     # V16/V17's band builder needs three FILE NAMES it must not restate: the plate is the shape
     # `shape_images` generates, and the hatch is V11's own sheet under a different root. Injected
     # here rather than declared in the shelf, so a rename in one place cannot leave the band
@@ -1037,6 +1041,26 @@ def badge_frames(tokens: dict) -> list[str]:
     for frame, _who in borrowed_frames(tokens):
         if frame not in out:
             out.append(frame)
+    return out
+
+
+def badge_strips(tokens: dict) -> dict:
+    """{strip name: [frame, …]} for every multi-frame cue — the sheet `Paint.FlipBook` steps.
+
+    A cue's frames used to ship only as separate files walked by a C_Timer ticker; the strip is
+    the same art baked side by side so the client's FlipBook animation can walk it instead
+    (the AnimationGroup rule — security-taint §3.5.3 measured why tickers are the wrong tool).
+    Cell count must keep the sheet power-of-two wide; today's only strip is 2 × 64 = 128.
+    """
+    out = {}
+    for key, cue in tokens["cues"].items():
+        if key.startswith("_") or len(cue.get("frames", [])) < 2:
+            continue
+        n = len(cue["frames"])
+        if n & (n - 1):
+            _die(f"cue {key!r} has {n} frames — a strip must be power-of-two cells wide "
+                 "(pad the frame list or drop a frame)")
+        out[f"strip_{key}"] = list(cue["frames"])
     return out
 
 
@@ -1246,6 +1270,9 @@ def ring_asset(tokens: dict) -> dict | None:
             "tint": ring.get("tint", "none")}
 
 
+
+
+
 # Every glyph a keybind can contain — digits, letters in both cases (a lowercase-modifier
 # notation like `sF` needs them), the punctuation a keyboard binds, and the four arrows a mouse
 # wheel or a direction key can produce. A font subset to this is 5-15 KB instead of 100-500 KB,
@@ -1436,7 +1463,7 @@ def export_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     src = ROOT / "projects" / "combat-assist" / badges["asset_root"]
     tint = badges.get("tint", "none")
     BADGE_DIR.mkdir(parents=True, exist_ok=True)
-    written = []
+    written, loaded = [], {}
     for frame in badge_frames(tokens):
         if frame in GENERATED_FRAMES:
             img, where = GENERATED_FRAMES[frame](), f"generated ({frame})"
@@ -1451,7 +1478,13 @@ def export_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
                         tint, measure["mean_saturation"], measure["tintable"])
         if img.size[0] > SPRITE_PX:
             img = img.resize((SPRITE_PX, SPRITE_PX), Image.LANCZOS)
+        loaded[frame] = img
         written.append((frame, _write_tga(img, frame)))
+    for name, frames in badge_strips(tokens).items():
+        strip = Image.new("RGBA", (SPRITE_PX * len(frames), SPRITE_PX))
+        for i, frame in enumerate(frames):
+            strip.paste(loaded[frame], (i * SPRITE_PX, 0))
+        written.append((name, _write_tga(strip, name)))
     for name, img in shape_images(tokens).items():
         written.append((name, _write_tga(img, name)))
     licence = src / "LICENSE.txt"
@@ -1478,7 +1511,7 @@ def _prune_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     V16's three pre-tinted crops. What is legal in `Media/badges/` is a property of the shelf, and
     only the shelf gets to answer it.
     """
-    keep = set(badge_frames(tokens)) | set(shape_images(tokens))
+    keep = set(badge_frames(tokens)) | set(shape_images(tokens)) | set(badge_strips(tokens))
     keep |= {name for name in count_frames(tokens) if not name.startswith(tokens["hatch"]["texture"])}
     gone = []
     for path in sorted(BADGE_DIR.glob("*.tga")):
@@ -1586,6 +1619,13 @@ def count_frames(tokens: dict) -> dict:
     # One plate, no hue: contrast is not polarity.
     out[f"{PLATE_TEXTURE}_ink"] = count_tinted(shapes[PLATE_TEXTURE],
                                                badges["plate"]["rgb"])
+    # V18's whole-bar flip: a flat full-width crop in the negative red, drawn by the flip band
+    # at threshold = max. Pre-tinted like every band crop — an escape cannot be recoloured —
+    # and generated (64x8 solid) because no vendored asset is a bar.
+    bar = tokens.get("bar")
+    if bar and bar.get("full_rgb"):
+        flat = Image.new("RGBA", (64, 8), (255, 255, 255, 255))
+        out["bar_full"] = count_tinted(flat, bar["full_rgb"], bar.get("full_alpha", 1.0))
     return out
 
 
@@ -1614,6 +1654,7 @@ def export_ring(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
                     "capart.ring_flipbook (generated)", ring.get("tint", "none"),
                     measure["mean_saturation"], measure["tintable"])
     return [(ring["texture"], _write_tga(img, ring["texture"], MEDIA_DIR))]
+
 
 
 def export_hatch(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
@@ -2094,15 +2135,16 @@ def root_css(tokens: dict) -> str:
     # V18 · the sealed radial. A bar has a TRACK as well as a fill, and the track is the half that
     # decides whether an empty one reads as "nothing yet" or as clutter — which is the whole cost
     # of a primitive that has no blank state.
-    arc = tokens.get("arc")
+    arc = tokens.get("bar")
     if arc:
         lines += [
             "",
-            "  /* V18 · sealed radial — the same secret as a shape */",
-            f"  --arc-inset: {arc['inset_px']}px;",
-            f"  --arc-rgb: {rgba(arc['rgb'], arc.get('alpha', 1.0))};",
-            f"  --arc-track: {rgba(arc['track_rgb'], arc.get('track_alpha', 1.0))};",
-            f"  --arc-full: {rgba(arc['full_rgb'])};",
+            "  /* V18 · sealed bar — the segmented bar, red at full */",
+            f"  --bar-h: {arc['height_px']}px;",
+            f"  --bar-seg: {arc.get('seg_px', 1)}px;",
+            f"  --bar-rgb: {rgba(arc['rgb'], arc.get('alpha', 1.0))};",
+            f"  --bar-track: {rgba(arc['track_rgb'], arc.get('track_alpha', 1.0))};",
+            f"  --bar-full: {rgba(arc['full_rgb'], arc.get('full_alpha', 1.0))};",
         ]
     # V19 · the pandemic window. Every number here is cap's; the one thing that is not is the only
     # thing that matters — whether the region is shown, which the client owns outright.
@@ -2113,10 +2155,16 @@ def root_css(tokens: dict) -> str:
             "  /* V19 · pandemic window — a badge the client alone shows and hides */",
             f"  --pd-rgb: {rgba(pd['rgb'])};",
             f"  --pd-size: {pd['size_px']}px;",
-            f"  --pd-pulse-dur: {pd['pulse']['duration_s']}s;",
-            f"  --pd-pulse-a0: {pd['pulse']['alpha'][0]};",
-            f"  --pd-pulse-a1: {pd['pulse']['alpha'][1]};",
         ]
+        glow = pd.get("glow")
+        if glow:
+            lines += [
+                f"  --pd-glow-dur: {1.0 / glow['hz']:.4f}s;",
+                f"  --pd-glow-a0: {glow['alpha_min']};",
+                f"  --pd-glow-a1: {glow['alpha_max']};",
+                f"  --pd-glow-scale: {glow['scale']};",
+            ]
+
     lab = tokens.get("lab") or {}
     if sheet:
         for key, entry in lab.items():
@@ -2218,6 +2266,8 @@ def root_css(tokens: dict) -> str:
                 f"{pre}track: {rgba(entry['track_rgb'], entry.get('track_alpha', 1.0))};",
                 f"{pre}ring: {entry.get('ring_px', 3)}px;",
             ]
+            if entry.get("full_rgb"):
+                lines.append(f"{pre}full: {rgba(entry['full_rgb'])};")
         elif entry.get("draws") in ("count-glyph", "duration"):
             # A band whose `format` carries a texture escape. The MARK is the drawn thing, so
             # the entry declares its size and its hue; the plate, when a cell asks for one, is
@@ -2363,7 +2413,8 @@ def smoke_dom(js: Path, css: Path, root: str) -> list[str]:
     not is either dead code or an invisible element; neither is something a look-at-it preview
     can afford to hold silently.
     """
-    text = js.read_text(encoding="utf-8")
+    name = js.name if isinstance(js, Path) else "stepper.js+gallery.js"
+    text = js.read_text(encoding="utf-8") if isinstance(js, Path) else js
     sheet = css.read_text(encoding="utf-8") + root
     # An id counts: a node given `el("div", "tip")` and then `.id = "tip"` is styled as `#tip`.
     styled = set(re.findall(r"[.#]([a-z0-9-]+)", sheet))
@@ -2371,13 +2422,30 @@ def smoke_dom(js: Path, css: Path, root: str) -> list[str]:
     built = {c for m in JS_CLASS_RE.findall(text) for c in m.split()}
     for name in sorted(built | set(JS_QUERY_RE.findall(text))):
         if name not in styled:
-            bad.append(f"{js.name}: class {name!r} is built or queried but no rule in "
+            bad.append(f"{name}: class {name!r} is built or queried but no rule in "
                        f"{css.name} names it — a dead lookup, or an element nobody can see.")
     return bad
 
 
 SEALED_KIND_RE = re.compile(r'kind\s*===\s*"([a-z-]+)"')
 GALLERY_SEALED_RE = re.compile(r'sealed:\s*\[([^\]]*)\]')
+
+
+def stepper_js_text(with_gallery: bool) -> str:
+    """stepper.js with its __GALLERY_JS__ seam filled — or stubbed.
+
+    The gallery block draws only into primitives.html's `#gallery`/`#frames` hosts, so its
+    ~10 KB were dead weight on every spec page (the same budget logic that keeps the ring's
+    data URI out of pages nothing renders it on). It is embedded INSIDE stepper.js's IIFE so
+    it keeps reading the shared helpers; the seam is a marker line, not a second script tag.
+    """
+    base = (TEMPLATE / "stepper.js").read_text(encoding="utf-8")
+    seam = "/*__GALLERY_JS__*/"
+    if seam not in base:
+        _die("stepper.js has lost its __GALLERY_JS__ seam — the gallery cannot be embedded")
+    gal = ((TEMPLATE / "gallery.js").read_text(encoding="utf-8") if with_gallery else
+           "/* the primitives gallery is embedded on primitives.html only (page budget) */")
+    return base.replace(seam, gal)
 
 
 def gallery_covers_sealed(js: Path) -> list[str]:
@@ -2401,14 +2469,15 @@ def gallery_covers_sealed(js: Path) -> list[str]:
     absent from the gallery — ring is retired, promotion is drawn from Part 7 — so the wider gate
     would fail on two primitives that are right, which is worse than not having it.
     """
-    text = js.read_text(encoding="utf-8")
+    name = js.name if isinstance(js, Path) else "stepper.js+gallery.js"
+    text = js.read_text(encoding="utf-8") if isinstance(js, Path) else js
     # Scoped to sealedNode's OWN body: `kind === "row"` and `kind === "sheet"` live in the Part 7
     # lab further down the file and are not sealed displays. A gate reporting those as missing
     # swatches would be crying wolf on the two cases it is least qualified to judge.
     fn = text.find("function sealedNode(")
     nxt = text.find("\n  function ", fn + 1)
     if fn < 0:
-        return [f"{js.name}: cannot find sealedNode — this gate has lost its subject."]
+        return [f"{name}: cannot find sealedNode — this gate has lost its subject."]
     kinds = set(SEALED_KIND_RE.findall(text[fn:nxt if nxt > fn else len(text)]))
     # The fall-through: `sealedNode` returns the count-band run when no branch matched, so that
     # kind is named in the sidecar and never in a `kind ===` comparison.
@@ -2417,12 +2486,12 @@ def gallery_covers_sealed(js: Path) -> list[str]:
     start = text.find('var gallery = host("gallery")')
     end = text.find('var framesHost = host("frames")')
     if start < 0 or end < 0 or end < start:
-        return [f"{js.name}: cannot find the gallery section — this gate has lost its subject."]
+        return [f"{name}: cannot find the gallery section — this gate has lost its subject."]
     drawn = {k.strip().strip('"\'')
              for m in GALLERY_SEALED_RE.findall(text[start:end])
              for k in m.split(",") if k.strip()}
 
-    return [f"{js.name}: the sealed display {k!r} is drawn by sealedNode but no gallery swatch "
+    return [f"{name}: the sealed display {k!r} is drawn by sealedNode but no gallery swatch "
             f"builds it — the section promises every primitive the shelf declares, and a "
             f"primitive only a scenario reaches is one a shelf edit changes invisibly."
             for k in sorted(kinds - drawn)]
@@ -2584,7 +2653,7 @@ def build(spec: str, tokens: dict, when: str) -> str:
     page = page.replace("<!--__SCENARIO_COUNT__-->", str(len(scenarios)))
     page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
     page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))
-    page = page.replace("/*__STEPPER_JS__*/", (TEMPLATE / "stepper.js").read_text(encoding="utf-8"))
+    page = page.replace("/*__STEPPER_JS__*/", stepper_js_text(False))
     page = page.replace("/*__TOKENS_JSON__*/", json.dumps(tokens, separators=(",", ":")))
     page = page.replace("/*__DATA_JSON__*/", json.dumps(data, separators=(",", ":")))
     return BUILT_MARK.format(date=when) + "\n" + page
@@ -2892,7 +2961,7 @@ def build_lab(tokens: dict, when: str) -> str:
     page = (TEMPLATE / "lab.html").read_text(encoding="utf-8")
     page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
     page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))
-    page = page.replace("/*__STEPPER_JS__*/", (TEMPLATE / "stepper.js").read_text(encoding="utf-8"))
+    page = page.replace("/*__STEPPER_JS__*/", stepper_js_text(False))
     page = page.replace("/*__TOKENS_JSON__*/", json.dumps(tokens, separators=(",", ":")))
     page = page.replace("/*__DATA_JSON__*/", json.dumps(data, separators=(",", ":")))
     return BUILT_MARK.format(date=when) + "\n" + page
@@ -2940,7 +3009,7 @@ def build_primitives(tokens: dict, when: str) -> str:
     page = (TEMPLATE / "primitives.html").read_text(encoding="utf-8")
     page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
     page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))
-    page = page.replace("/*__STEPPER_JS__*/", (TEMPLATE / "stepper.js").read_text(encoding="utf-8"))
+    page = page.replace("/*__STEPPER_JS__*/", stepper_js_text(True))
     page = page.replace("/*__TOKENS_JSON__*/", json.dumps(tokens, separators=(",", ":")))
     page = page.replace("/*__DATA_JSON__*/", json.dumps(data, separators=(",", ":")))
     return BUILT_MARK.format(date=when) + "\n" + page
@@ -3498,8 +3567,8 @@ def _check_one(args) -> None:
 
     for line in strict_css(TEMPLATE / "shelf.css"):
         fails.append(line)
-    fails += smoke_dom(TEMPLATE / "stepper.js", TEMPLATE / "shelf.css", root_css(tokens))
-    fails += gallery_covers_sealed(TEMPLATE / "stepper.js")
+    fails += smoke_dom(stepper_js_text(True), TEMPLATE / "shelf.css", root_css(tokens))
+    fails += gallery_covers_sealed(stepper_js_text(True))
 
     # 0z · the OTHER subcommands still run. `tokens` and `assets` read the token block on paths
     # `build` does not, and both sat dead behind a KeyError for a week while `check` reported
@@ -3805,7 +3874,7 @@ def _check_one(args) -> None:
         fails.append(f"{STYLE_LUA.name} disagrees with the shelf — "
                      "run: wowkb.capart export lua")
     if ADDON_SRC.exists():
-        want = badge_frames(tokens) + [PLATE_TEXTURE, HALO_TEXTURE]
+        want = badge_frames(tokens) + list(badge_strips(tokens)) + [PLATE_TEXTURE, HALO_TEXTURE]
         missing = [f for f in want if not (BADGE_DIR / f"{f}.tga").exists()]
         if missing:
             fails.append(f"badge art with no shipped texture ({', '.join(missing)}) — "
