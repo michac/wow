@@ -1386,6 +1386,7 @@ exactly like one that is playing and not helping. The generated docs settle the 
 | `Scale` | **`SetScaleFrom(x, y)` / `SetScaleTo(x, y)`** (+ `SetScale`, `SetOrigin(point, x, y)`, and the four matching getters) `[SimpleAnimScaleAPIDocumentation.lua:39-108]` |
 | `Alpha` | `SetFromAlpha` / `SetToAlpha` `[SimpleAnimAlphaAPIDocumentation.lua:36,46]` |
 | `Rotation` | `SetDegrees` / `SetRadians` / `SetOrigin` `[SimpleAnimRotationAPIDocumentation.lua:51,61,73]` |
+| `FlipBook` | `SetFlipBookColumns` / `SetFlipBookRows` / `SetFlipBookFrames` / `SetFlipBookFrameWidth` / `SetFlipBookFrameHeight` (+ the five matching getters) — the XSD attribute prefix `flipBook…` survives into the Lua names, unlike Scale's `[T1 docs @12.1.0: SimpleAnimFlipBookAPIDocumentation.lua:10-121]`. The docs give signatures only; the working reading — rows × columns grid the whole texture, `frames` caps the walk, `FrameWidth`/`FrameHeight` (XSD default 0) override the cell for padded sheets — is a source read of the XSD defaults, not a measurement `@verify-ingame` |
 
 **`SetFromScale` / `SetToScale` — the spelling much older addon code uses — do not appear
 anywhere in the generated docs at build 12.0.7.68887.** Whether they survive as
