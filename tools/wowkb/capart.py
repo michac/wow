@@ -148,6 +148,35 @@ SPECS_BUILT = {
         "scan_samples": ["Avenging Wrath", "Divine Storm", "Crusader Strike",
                          "Blade of Justice"],
     },
+    "protection": {
+        "catalog": SPECS / "protection" / "catalog.md",
+        "scenarios": SPECS / "protection" / "scenarios.md",
+        "sidecar": SIDECARS / "protection-scenarios.json",
+        "out": PREVIEWS / "protection-stepper.html",
+        "title": "Protection",
+        # Sample subjects for the primitives gallery: real art to hang a swatch on. The first is
+        # simply the default. Holy Bulwark is deliberately among them — it is the row whose
+        # identity flips to Sacred Weapon, and the gallery should be able to draw the base face.
+        "scan_samples": ["Avenging Wrath", "Shield of the Righteous", "Consecration",
+                         "Holy Bulwark"],
+        # Page-level honesty banners. Protection is AUTHORED BUT NEVER FLOWN and one premise
+        # under its signature row is marked, so the page says so before the reader forms an
+        # opinion from it.
+        "notes": [
+            "<b>Protection / Lightsmith is authored and has never been flown.</b> This "
+            "page exists to be reviewed and argued with, not to record a decision. The catalog "
+            "transcription (<code>Catalogs/Protection.lua</code>) now exists, but nothing here "
+            "has run in the client.",
+            "<b>The armament row's identity DIRECTION is marked, not measured</b> "
+            "(<code>fact-classification.md</code> §5.1). Sacred Weapon <code>432472</code> has no "
+            "Cooldown-Manager row of its own anywhere in the game data, so it can only reach the "
+            "CDM as an override on Holy Bulwark <code>432459</code> — that much is Tier 1. Which "
+            "of base/transformed is which armament is not.",
+            "<b>Two rungs are undrawn because a Category-3 TrackedBar row's alert edges are "
+            "unmeasured</b> (<code>catalog.md</code> Defeats 1 and 2). It is the same unmeasured "
+            "fact as Demonology's Dominion of Argus, and one measurement closes it for both.",
+        ],
+    },
     "devourer": {
         "catalog": SPECS / "devourer" / "catalog.md",
         "scenarios": SPECS / "devourer" / "scenarios.md",
@@ -210,6 +239,10 @@ ICON_FDID = {
     1245483: 1355117,  # Pierce the Veil  (Voidblade's in-Meta Voidsurge cast)
     1245470: 1273724,  # Reaper's Toll    (Voidblade's other in-Meta cast)
     1217610: 7554204,  # Devour           (Consume's Void Metamorphosis override)
+    # Protection's armament override — same lookup, same table (SpellMisc @ 12.1.0.69214).
+    # Sacred Weapon has no CooldownSetSpell row anywhere, so it reaches the CDM only as an
+    # override on Holy Bulwark 432459 and the media endpoint has no slug for it.
+    432472: 5927637,   # Sacred Weapon    (Holy Bulwark's alternating armament override)
 }
 
 # --------------------------------------------------------------------------- Blizzard's baseline
