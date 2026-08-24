@@ -33,7 +33,14 @@ clone provenance. So the fact ends up in a source comment, where it dies with th
    capture closes every `open` entry that capture settles, before the session ends. The
    capture is the evidence; there will not be a better moment.
 4. **`wowkb.obs check` gates a release.** Warn on `--patch`, block on `--minor`/`--major`
-   if anything is open past 14 days or more than 12 are open.
+   if anything is open past **30 days** or more than 12 are open.
+   ⚠ **It was 14 days until 2026-08-22.** The original figure was a guess at how long a fact
+   stays fresh in the author's head, tuned against a queue that drained every few days. It
+   started firing on entries whose target is a real piece of writing rather than a line edit —
+   OBS-002/003 want an EditBox section `frames-textures-animation.md` does not have — and a gate
+   that blocks a release over work it has mis-sized teaches people to override it, which is the
+   one thing a release gate must never do. The rule is unchanged: nothing sits open
+   indefinitely.
 
 Draining means: edit the target file's claim, then set `Status: drained <date>` here.
 Do not delete the entry — the record that the fact came from a measurement is the

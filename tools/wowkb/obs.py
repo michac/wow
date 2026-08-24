@@ -21,7 +21,14 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 OBS = REPO / "knowledge" / "addon-dev" / "observations.md"
 
-MAX_AGE_DAYS = 14
+# ⚠ 30, not 14, since 2026-08-22. The original figure was a guess at how long a fact stays
+# fresh in the author's head, and it was tuned against a queue that drained every few days.
+# It now fires on entries whose target file is a real piece of writing rather than a line
+# edit — OBS-002/003 want an EditBox section `frames-textures-animation.md` does not have —
+# and a gate that blocks a release over work it has mis-sized teaches people to override it,
+# which is the one thing a release gate must never do. The rule it protects is unchanged:
+# nothing sits open indefinitely, and the queue is not a dumping ground.
+MAX_AGE_DAYS = 30
 MAX_OPEN = 12
 
 _HEAD = re.compile(r"^## (OBS-\d+)\s*·\s*(\d{4}-\d{2}-\d{2})\s*·\s*(.+?)\s*$", re.M)
