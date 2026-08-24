@@ -55,7 +55,7 @@ elimination gate knows about it explicitly (`tokens.verdicts.ruled-sealed.elimin
 about it is inferred.
 
 ⚠ **`{sealed: …}` is an annotation channel, not a cue**, and it names the SINK rather than the
-picture: `count-bands` (V16/V17), `count-bar` (V18), `refresh-window` (V19). It appears on a row
+picture: `count-bands` (V16/V17), `count-bar` (V18), `pandemic` (V19). It appears on a row
 exactly where that display is **drawing something in that state** — so a band at a resting value,
 or an aura that is not up at all (in which case the client hides the whole button and no sink on
 it draws anything), carries no annotation. What VALUE the client found is deliberately nowhere in
@@ -223,11 +223,11 @@ an omission — see *The state this walk does not contain*, at the end. Two othe
 ### DEM-8 · 1 shard, Core up — the Core is the press
 
 - **State.** Single target, everything on cooldown, **1 Soul Shard**, a **Demonic Core up**,
-  Tyrant far away. **Doom is talented and the target's Doom is inside its refresh window.**
+  Tyrant far away. **Doom is talented and the target's Doom is inside its pandemic window.**
 - **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
   Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` · Implosion `off-mode` {cues: aoe_only} ·
   Hand of Gul'dan `starved` {client: not-enough-power} ·
-  Demonbolt `press` {sealed: count-bar, refresh-window} · Shadow Bolt `below`
+  Demonbolt `press` {sealed: count-bar, pandemic} · Shadow Bolt `below`
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.

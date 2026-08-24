@@ -234,7 +234,7 @@ ICON_FDID = {
 #: The sealed-display kinds a scenario may name in a `{sealed: …}` group. The same closed list
 #: `Catalog.DISPLAYS` holds on the Lua side, minus the two GRADED kinds — those draw a cue and are
 #: stated as one (`hold-sealed`), where these three draw their own art.
-SEALED_DISPLAYS = ("count-bands", "count-bar", "refresh-window")
+SEALED_DISPLAYS = ("count-bands", "count-bar", "pandemic")
 
 CLIENT_PAINT = {
     "_source": "CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273",
@@ -1467,17 +1467,25 @@ def _prune_badges(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
 COUNT_HUES = ("pos", "neg")
 
 
-def count_tinted(img: Image.Image, rgb: list) -> Image.Image:
+def count_tinted(img: Image.Image, rgb: list, alpha: float = 1.0) -> Image.Image:
     """Neutral white-in-alpha art multiplied by one authored colour — what `SetVertexColor` does,
-    done at export time because the draw-time channel is not there."""
+    done at export time because the draw-time channel is not there.
+
+    ⚠ `alpha` is baked for the same reason the colour is: the art reaches the client as an inline
+    `|T…|t` escape inside a FontString, and an escape carries neither a vertex colour nor an alpha
+    — a colour escape does not reach art at all `[client 2026-08-22]`. So a translucent hatch has
+    to BE translucent in the file. It defaults to 1.0, which leaves the mark and the plate exactly
+    as they were.
+    """
     r, g, b = (max(0.0, min(1.0, c)) for c in rgb[:3])
+    a = max(0.0, min(1.0, alpha))
     out = img.convert("RGBA")
     src = out.split()
     return Image.merge("RGBA", (
         src[0].point(lambda v, k=r: round(v * k)),
         src[1].point(lambda v, k=g: round(v * k)),
         src[2].point(lambda v, k=b: round(v * k)),
-        src[3],
+        src[3] if a >= 1.0 else src[3].point(lambda v, k=a: round(v * k)),
     ))
 
 
@@ -1538,7 +1546,10 @@ def count_frames(tokens: dict) -> dict:
     out = {}
     for hue, rgb in (("pos", cnt["rgb"]), ("neg", cnt["low_rgb"])):
         out[f"{cnt['mark']}_{hue}"] = count_tinted(load(cnt["mark"]), rgb)
-        out[f"{sheet}_{hue}"] = count_tinted(band_hatch(tokens), rgb)
+        # The hatch alone is translucent: it covers the whole icon face, and an opaque one hides
+        # the ability art the row is identified by.
+        out[f"{sheet}_{hue}"] = count_tinted(band_hatch(tokens), rgb,
+                                             cnt.get("hatch_alpha", 1.0))
     # One plate, no hue: contrast is not polarity.
     out[f"{PLATE_TEXTURE}_ink"] = count_tinted(shapes[PLATE_TEXTURE],
                                                badges["plate"]["rgb"])
@@ -2041,6 +2052,7 @@ def root_css(tokens: dict) -> str:
             f"  --count-mark-y: {cnt['mark_offset_px'][1]}px;",
             f"  --count-plate: {cnt['plate_px']}px;",
             f"  --count-hatch: {cnt['hatch_px']}px;",
+            f"  --count-hatch-alpha: {cnt.get('hatch_alpha', 1.0)};",
             f"  --count-pulse-dur: {cnt['pulse']['duration_s']}s;",
             f"  --count-pulse-a0: {cnt['pulse']['alpha'][0]};",
             f"  --count-pulse-a1: {cnt['pulse']['alpha'][1]};",
@@ -2059,13 +2071,13 @@ def root_css(tokens: dict) -> str:
             f"  --arc-track: {rgba(arc['track_rgb'], arc.get('track_alpha', 1.0))};",
             f"  --arc-full: {rgba(arc['full_rgb'])};",
         ]
-    # V19 · the refresh window. Every number here is cap's; the one thing that is not is the only
+    # V19 · the pandemic window. Every number here is cap's; the one thing that is not is the only
     # thing that matters — whether the region is shown, which the client owns outright.
     pd = tokens.get("pandemic")
     if pd:
         lines += [
             "",
-            "  /* V19 · refresh window — a badge the client alone shows and hides */",
+            "  /* V19 · pandemic window — a badge the client alone shows and hides */",
             f"  --pd-rgb: {rgba(pd['rgb'])};",
             f"  --pd-size: {pd['size_px']}px;",
             f"  --pd-pulse-dur: {pd['pulse']['duration_s']}s;",
@@ -2211,7 +2223,7 @@ def root_css(tokens: dict) -> str:
             pre = f"  --lab-{key}-pd-"
             lines += [
                 "",
-                f"  /* Part 7 · {key} — art gated by Blizzard's refresh window */",
+                f"  /* Part 7 · {key} — art gated by Blizzard's pandemic window */",
                 f"{pre}rgb: {rgba(entry['rgb'])};",
                 f"{pre}wash: {rgba(entry['rgb'], entry['wash_alpha'])};",
                 f"{pre}edge: {entry['edge_px']}px;",
@@ -2790,6 +2802,7 @@ def _specs_of(args) -> list[str]:
 
 INDEX_OUT = PREVIEWS / "index.html"
 LAB_OUT = PREVIEWS / "lab.html"
+PRIMITIVES_OUT = PREVIEWS / "primitives.html"
 
 
 def build_lab(tokens: dict, when: str) -> str:
@@ -2852,6 +2865,69 @@ def build_lab(tokens: dict, when: str) -> str:
     return BUILT_MARK.format(date=when) + "\n" + page
 
 
+def build_primitives(tokens: dict, when: str) -> str:
+    """Parts 1-6 as their own page: every declared primitive, once.
+
+    ⚠ IT IS ONE PAGE FOR THE SAME REASON THE LAB IS. The style vocabulary is not spec-specific
+    — the `cap-tokens` block is byte-identical on all five spec pages — so drawing the gallery
+    into each of them duplicated the whole of it five times and quietly implied the primitives
+    were a claim about that spec's rotation. They are not. Only the roster a swatch borrows its
+    icon art from differs, which is a property of the swatch and not of the primitive.
+
+    It ships no scenarios, so `stepper.js` renders no stepper; the spec pages keep the walk and
+    have no `#gallery` to draw into, which is all the gating either page needs.
+    """
+    cfg = SPECS_BUILT[SHELF_ROSTER_SPEC]
+    roster = load_roster(cfg["catalog"])
+    used = [n for n in cfg["scan_samples"] if n in roster]
+    if not used:
+        _die(f"{SHELF_ROSTER_SPEC}'s scan_samples resolve to nothing in "
+             f"{cfg['catalog'].relative_to(ROOT)} — the gallery has no art to borrow")
+    icons = icon_assets(used, roster, tokens)
+    fakes = (tokens.get("preview") or {}).get("hotkeys") or []
+    at = {name: i for i, name in enumerate(roster)}
+    data = {
+        "built": when,
+        "client_paint": CLIENT_PAINT,
+        "abilities": {
+            name: {"key": roster[name]["key"], "spell": roster[name]["spell"],
+                   "hotkey": (fakes[at[name] % len(fakes)] if fakes else ""),
+                   "lane": roster[name]["lane"],
+                   "charges": roster[name].get("charges", 0), "icon": icons[name]["uri"]}
+            for name in used},
+        "scan_samples": used,
+        "scan_sample": used[0],
+        # No scenarios: a primitive is drawn as itself, never as a step in somebody's rotation.
+        "scenarios": [], "notes": [],
+        "frames": badge_assets(tokens),
+        "lab_stripes": hatch_asset(tokens),
+        "promotion": promotion_asset(tokens),
+        "provenance_html": primitives_provenance_html(tokens, icons, when),
+    }
+    page = (TEMPLATE / "primitives.html").read_text(encoding="utf-8")
+    page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
+    page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))
+    page = page.replace("/*__STEPPER_JS__*/", (TEMPLATE / "stepper.js").read_text(encoding="utf-8"))
+    page = page.replace("/*__TOKENS_JSON__*/", json.dumps(tokens, separators=(",", ":")))
+    page = page.replace("/*__DATA_JSON__*/", json.dumps(data, separators=(",", ":")))
+    return BUILT_MARK.format(date=when) + "\n" + page
+
+
+def primitives_provenance_html(tokens: dict, icons: dict, when: str) -> str:
+    cues = [k for k in tokens.get("cues", {}) if not k.startswith("_")]
+    rows = [
+        ("render-shelf.md", f"sha {_sha(SHELF)} · Parts 1–6"),
+        ("reference roster", f"{SHELF_ROSTER_SPEC} · {SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].name}"
+                             " — art only, never a rotation claim"),
+        ("cues", f"{len(cues)} declared · {sum(1 for k in cues if tokens['cues'][k].get('open'))}"
+                 " unverified in client"),
+        ("icons", f"{len(icons)} × {tokens['assets']['icon_size']}px "
+                  f"{tokens['assets']['encode']}"),
+        ("built", when),
+    ]
+    return ("<table>" + "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in rows) + "</table>")
+
+
 def lab_provenance_html(tokens: dict, icons: dict, when: str) -> str:
     entries = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
     rows = [
@@ -2910,6 +2986,9 @@ def build_index(when: str) -> str:
         "  <ul>\n" + "\n".join(rows) + "\n  </ul>\n"
         # ONE more link, and deliberately below the specs rather than among them: the lab is not
         # a spec and the list above is what this page is for.
+        "  <p><a href=\"primitives.html\">The primitives</a> — Parts 1–6, every declared\n"
+        "     treatment as a live swatch. One page, because the style vocabulary is the same on\n"
+        "     every spec.</p>\n"
         "  <p><a href=\"lab.html\">The lab</a> — Part 7, experiments with no authority.</p>\n"
         "</main>\n")
 
@@ -2927,6 +3006,10 @@ def cmd_build(args) -> None:
         if len(page) / 1024 > cap:
             _warn(f"{out.name} is over the {cap} KB budget in tokens.budget — "
                   "run `wowkb.capart assets` for the per-asset table")
+    prim_page = build_primitives(tokens, when)
+    PRIMITIVES_OUT.write_text(prim_page, encoding="utf-8")
+    print(f"wrote {PRIMITIVES_OUT.relative_to(ROOT)} · {len(prim_page) / 1024:.0f} KB · "
+          f"{len([k for k in tokens.get('cues', {}) if not k.startswith('_')])} cues")
     lab_page = build_lab(tokens, when)
     LAB_OUT.write_text(lab_page, encoding="utf-8")
     entries = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
@@ -3315,7 +3398,8 @@ def _check_shared() -> list[str]:
     """
     tokens = load_tokens()
     fails = []
-    for out, rebuild, what in ((LAB_OUT, build_lab, "lab.html"),
+    for out, rebuild, what in ((PRIMITIVES_OUT, build_primitives, "primitives.html"),
+                               (LAB_OUT, build_lab, "lab.html"),
                                (INDEX_OUT, lambda t, w: build_index(w), "index.html")):
         if not out.exists():
             fails.append(f"no {what} at {out.relative_to(ROOT)} — run: wowkb.capart build --all")
@@ -3334,9 +3418,10 @@ def _check_shared() -> list[str]:
             if cfg["out"].name not in listing:
                 fails.append(f"{spec} is registered in SPECS_BUILT but the index does not link "
                              f"{cfg['out'].name} — run: wowkb.capart build --all")
-        if "lab.html" not in listing:
-            fails.append("the index does not link lab.html — Part 7 would be unreachable from "
-                         "the front door")
+        for name, why in (("primitives.html", "Parts 1–6"), ("lab.html", "Part 7")):
+            if name not in listing:
+                fails.append(f"the index does not link {name} — {why} would be unreachable from "
+                             "the front door")
     return fails
 
 

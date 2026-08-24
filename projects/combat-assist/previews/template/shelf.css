@@ -1006,9 +1006,9 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   position: absolute; inset: var(--arc-inset); border-radius: 50%;
   background: conic-gradient(var(--arc-rgb) var(--sx-frac), var(--arc-track) 0);
 }
-/* V19 · the refresh window breathes, and it is gated for free: the client hides the region, so
+/* V19 · the pandemic window breathes, and it is gated for free: the client hides the region, so
    a loop running forever on it is invisible until the window opens. */
-.item .sealed-refresh-window {
+.item .sealed-pandemic {
   animation: sealed-breathe var(--pd-pulse-dur) ease-in-out infinite;
 }
 @keyframes sealed-breathe {
@@ -1051,12 +1051,16 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
  * is a FLAT FIELD of the escape's colour across the whole icon — invisible while the container
  * was wrongly 22×22, and unmistakable the moment it computed to 56×56.
  *
- * No `opacity` here on purpose: the escape's alpha is the one the shelf bakes into
- * `count.rgb` / `count.low_rgb`, and a second alpha invented in the stylesheet would be the
- * preview making up a value the client never receives. */
+ * The alpha is the SHELF's (`count.hatch_alpha`), not one invented here. In the client it is
+ * BAKED INTO THE FILE by `capart export count`, because the art arrives as an inline `|T…|t`
+ * escape and an escape carries neither a vertex colour nor an alpha — so the two halves reach
+ * the same picture by different routes and the shelf is the only place the number lives. An
+ * opaque hatch hides the ability art the row is identified by, which is the whole reason the
+ * token exists. */
 .item .sealed-band-hatch {
   position: absolute; inset: 0;
   background-color: var(--sx-ink);
+  opacity: var(--count-hatch-alpha);
   -webkit-mask-size: var(--lab-stripe-tile); mask-size: var(--lab-stripe-tile);
   -webkit-mask-repeat: repeat; mask-repeat: repeat;
 }

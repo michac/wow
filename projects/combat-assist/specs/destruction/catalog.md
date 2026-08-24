@@ -499,7 +499,7 @@ Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, 
 Written to `../authoring.md`'s standard: the **scenario**, the **rung** it died on, and **what
 would reopen it**. None of these is a bare "cannot".
 
-1. **The DoT refresh window.**
+1. **The DoT pandemic window.**
    *Scenario:* Immolate has 4 s left on an 18 s DoT. Rung 9 wants it refreshed — the pandemic
    window is open and clipping nothing — and cue E is still holding the row, so the walk points
    at Chaos Bolt and the DoT falls off or is refreshed late.

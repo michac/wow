@@ -231,15 +231,24 @@ a design choice, not a platform constraint, unless marked otherwise.
 | **Count tile** | Blizzard's own aura count position | a sealed stack number | Client-owned; cap never learns the value. |
 | **Independent bar** | anywhere on screen | one duration, large | Off-icon surface. |
 
-⚠ **And they stack in one DECLARED order: an ELIMINATING mark draws over an INCLUDING one.**
-Several of these surfaces sit on the same pixels — a scan edge saying *this row is in the read*
-and a hatch saying *this row is out* are contradictory statements about one icon, and the reader
-resolves the contradiction by whichever is on top. Until 2026-08-23 neither frame declared a
-level, so the client resolved it by construction order: the yellow edge drew over the red hatch,
-which is the wrong way round, and it was wrong by accident rather than by argument. The container
-that carries an eliminating mark now sets its own frame level explicitly above the row's, so the
-skip always wins the overlap. **Draw order across frames is decided by frame level, not by draw
-layer**, so this cannot be expressed by choosing a layer and hoping.
+⚠ **Two of these surfaces make CONTRADICTORY statements about one icon, and nothing arbitrates
+them.** A scan edge says *this row is in the read*; cap's half of V11 says *this row is out*. A
+row wearing a negative cue wears **both** — the verdicts carrying `blocked` are `scan: true`, and
+V11 generalises over polarity — so the contradiction is the normal case, not an edge case.
+
+**What resolves it today is GEOMETRY, not order.** `Paint.Hatch` draws cap's half `overhang_px`
+OUTSIDE the icon rect, so its red ring sits *around* the yellow scan edge rather than over it.
+The two rings are adjacent, not overlapping: red at −2, yellow at 0. Neither `Paint.Border` nor
+`Paint.Hatch`'s edge frame calls `SetFrameLevel`, so between them there is no declared order at
+all — they are sibling frames of the row at the same level.
+
+⚠ **This is an OPEN DESIGN QUESTION, not a settled ruling** `@verify-ingame`. Reviewed on screen
+2026-08-24, a blocked row reads as a red ring *and* a yellow ring, which is two statements where
+the reader needs one. Three candidate answers, none of them chosen: give the eliminating frame an
+explicit level above the row's (**draw order across frames is decided by frame level, not by draw
+layer**, so a layer choice buys nothing); or suppress the scan edge outright on any row wearing a
+negative cue; or keep both and accept the double ring as the price of the overhang. Part 5 carries
+this as an open question.
 
 **What Blizzard already occupies on a CDM item** — read off `Blizzard_CooldownViewer` at
 **12.0.7**, under a standing ⚠ *12.1 rewrote this system and this has not been re-flown*:
@@ -865,7 +874,20 @@ vocabulary and the shelf owns what each one resolves to:
 | `none` | nothing at all — the resting state, and the thing a bar cannot do |
 | `count` | the number, while *how many more* is still the live question |
 | `mark` | one badge — plate and glyph — once *how many more* has stopped mattering |
-| `count+mark` | both, which the client accepts out of a single band |
+
+⚠ **`count` and `mark` are EXCLUSIVE, and a band that asks for both is rejected.** The client
+accepts both out of one band, and for a while the vocabulary offered that as `count+mark` — but
+the numeral and the mark are anchored on the same badge corner, in the same polarity hue, so what
+it actually draws is a glyph with a digit on top of it. Reviewed on screen 2026-08-24: unreadable,
+and unreadable in a way that reads as a rendering fault rather than as a statement. There is no
+offset that fixes it either — separating them spends a second corner, and the badge stack already
+wants that pixel. **It SHIPPED** — Demonology's Implosion band declared it, in cap `v0.12.0`, and
+it is the row this review was looking at when the combination was rejected; the `/cap style`
+gallery drew it too. That band is now `draw = "count"`, and `count+mark` is gone from the
+vocabulary rather than deprecated in place.
+
+The two are a real choice, and the question they answer is different: `count` while *how many
+more* is still live, `mark` once the answer has stopped being a number.
 
 plus `polarity`, which picks the hue (V5.1 — hue carries polarity and only polarity), and `hatch`,
 which lays V11's stripe sheet across the face. `hatch` is the only item on that list that changes
@@ -998,11 +1020,11 @@ guard subject list on purpose, not by omission.
 - **Preview reproduction.** `--arc-inset`, `--arc-rgb`, `--arc-track`, `--arc-full`, drawn as a
   `conic-gradient` inside the badge plate.
 
-### V19 · Refresh window — a badge the client alone shows and hides
+### V19 · Pandemic window — a badge the client alone shows and hides
 
 **`AddPandemicRegion` takes any Region — a Frame with children included — seals its `Shown`, and
 drives it off the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell.** So
-a whole badge, plate and glyph together, appears and vanishes on Blizzard's real refresh window.
+a whole badge, plate and glyph together, appears and vanishes on Blizzard's real pandemic window.
 Promoted out of the lab 2026-08-22 per Part 7 rule 4, out of `pandemic_mark` (L3).
 
 ⚠ **It is the ONE sealed display cap authors no threshold for.** Every other form here makes cap
@@ -1244,6 +1266,16 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    panel rather than a CDM row, so the risk is that the eye finishes the CDM line and stops. And
    does a *standing* row — permanently clear, forever — read as the terminus of the sweep or as
    wallpaper?
+
+10. **⚠ TWO SEALED DISPLAYS CANNOT SHARE A CORNER, and one catalog currently asks them to.**
+    V18's radial and V19's pandemic badge both anchor on badge slot 1 — the top-right corner, the
+    same pixel the first cue badge takes. Demonology's Demonbolt declares **both** (DEM-8), and
+    the scenario prose defers the question to a flight. Reviewed on screen 2026-08-24 the answer
+    came back before the flight: they overlap, and the reader gets one smeared mark rather than
+    two facts. This is not "does it read" — it is a geometry conflict the catalog is allowed to
+    author and nothing rejects. **Open: which of the two wins that corner, or whether a second
+    sealed anchor is declared.** Until it is answered no catalog should declare both on one row,
+    and `capart check` does not yet enforce that.
 
 9. **Does the hotkey read as a label or as another signal?** V15 is the only thing on a row that
    is not about the press, and its failure mode is being taken for one: a key the eye stops on
@@ -1533,6 +1565,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       -18
     ],
     "hatch_px": 56,
+    "hatch_alpha": 0.55,
     "hatch_offset_px": [
       2,
       0
@@ -1569,7 +1602,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     ]
   },
   "pandemic": {
-    "_comment": "V19. The refresh window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge, plate and sprite together, appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively.",
+    "_comment": "V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge, plate and sprite together, appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively.",
     "frame": "timer_CW_75",
     "size_px": 15,
     "rgb": [
@@ -2050,7 +2083,7 @@ asymmetry is the strongest argument against assuming the two sinks are interchan
 because they take the same formatter object.
 
 **What the cells are for.** The three that matter are the last three: the **inversion** — hatched
-while there is plenty of DoT left, clearing as it enters the refresh window — and the **quiet
+while there is plenty of DoT left, clearing as it enters the pandemic window — and the **quiet
 middle**, three bands where the row says neither *do not* nor *now* for most of the DoT's life.
 V19 cannot express either. It calls `SetShown(inWindow)` and has no rule to flip, which is the
 straight trade against it authoring no threshold at all: `AddPandemicRegion` is right for free and

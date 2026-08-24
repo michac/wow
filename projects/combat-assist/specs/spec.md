@@ -343,7 +343,7 @@ swipe and cap's own badge.
 Two further count forms ride the same slot. **`sealed-count-bar`** drives a StatusBar from the
 same sealed count (only `BarValue` is sealed, so the shape is cap's) and says *how far toward N*
 where the bands say *yes or no* — at the cost of having **no blank state**.
-**`sealed-refresh-window`** is the odd one and the safest: `AddPandemicRegion` seals a Region's
+**`sealed-pandemic`** is the odd one and the safest: `AddPandemicRegion` seals a Region's
 `Shown` and drives it from the client's own per-spell refresh arithmetic, so cap authors **no
 threshold at all**, and a Frame with children appears and vanishes whole.
 

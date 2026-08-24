@@ -457,56 +457,56 @@
 
   /* V16-V19 · the sealed displays.
    *
-   * ⚠ These are here because the gallery's own copy promises every primitive the shelf declares
-   * — INCLUDING the ones no scenario exercises — and for a long time it did not keep that
-   * promise for these four: they were reachable only inside scenario rows, and V16 (a count
-   * band in its ordinary, non-eliminating direction) appears in no scenario at all. A primitive
-   * a shelf edit cannot be SEEN to change is a primitive nobody reviews.
+   * ⚠ Each caption leads with WHAT THE ROW IS SAYING, then how it is drawn. The pixels are
+   * already on screen; what a reader cannot see is the statement, and a caption that only
+   * describes the drawing spends its whole length on the half you can check yourself.
    *
-   * All four draw through the same `sealedNode` a scenario row uses, so a swatch and a live row
-   * cannot diverge. Every one of them states a SHAPE and no value: which band the client found
-   * is exactly the thing cap never learns.
+   * "Sealed" is not about auras. It means the VALUE cap hands the client is one Lua may never
+   * read or branch on: cap authors the rule, the client evaluates it against the secret and
+   * draws the result, and cap never learns which way it went. Everything above this point on
+   * the page is driven by a fact cap can read.
+   *
+   * All of them draw through the same `sealedNode` a scenario row uses, so a swatch and a live
+   * row cannot diverge.
    */
   gallery.appendChild(swatch("sealed · count bands · V16",
-    "the ordinary direction: the hatch across the face, the <code>" + T.count.mark + "</code> " +
-    "mark on the corner and the client's own <code>%d</code> on its plate — three separate " +
-    "FontStrings on three separate anchors, sharing an advance width with nothing. <b>No " +
-    "scenario draws this direction</b>, which is why it is here.",
+    "<b>&ldquo;there are enough of these for the thing you are about to press.&rdquo;</b> " +
+    "A stack cap is not allowed to count reached a number the catalog cares about, and the " +
+    "client said so on cap's behalf. The band picks the mark <em>or</em> the numeral: the " +
+    "numeral while <em>how many more</em> is still the live question, the mark once the answer " +
+    "has stopped being a number. ⚠ <b>No scenario in any catalog draws this direction</b> — " +
+    "every shipped band eliminates — which is exactly why it is drawn here.",
     function () {
       return bareItem(D.scan_sample, "press", { sealed: ["count-bands"], count: 4 });
     }));
 
   gallery.appendChild(swatch("sealed · count bands · V17 (complement)",
-    "the same sink at <code>verdict: ruled-sealed</code> — the band that ELIMINATES, in " +
-    "<code>count.low_rgb</code>. Not a fifth primitive: V16's own escape read the other way, " +
-    "which is why hatch and mark change hue together. ⚠ Only honest where <em>low is bad</em>; " +
-    "on a rising resource it would invert a fact the player experiences as progress.",
+    "<b>&ldquo;not yet — there are not enough of these, so this row is out.&rdquo;</b> The same " +
+    "sink authored the other way round: the marks draw BELOW the threshold and clear at it, so " +
+    "the row rules <em>itself</em> out and becomes a candidate the moment the count arrives. " +
+    "This is the only eliminating signal that is neither Blizzard's swipe nor a badge cap " +
+    "decided to show. ⚠ Honest only where <em>low is bad</em>; on a rising resource it would " +
+    "call progress a fault.",
     function () {
-      return bareItem(D.scan_sample, "ruled-sealed", { sealed: ["count-bands"], count: 3 });
+      return bareItem(D.scan_sample, "ruled-sealed", { sealed: ["count-bands"] });
     }));
 
   gallery.appendChild(swatch("sealed · count bar · V18",
-    "the same sealed number as a <b>shape</b> — a radial <code>StatusBar</code> inset <b>" +
-    T.arc.inset_px + "px</b>, at a nominal fraction on purpose. ⚠ A bar has <b>no blank " +
-    "state</b>: <code>SetValue</code> clamps into [0, max], so the track is on the row at every " +
-    "value including zero — the straight trade against V16, which can be silent and cannot be " +
-    "a shape. It takes the pixel the first badge would.",
+    "<b>&ldquo;this is how full the thing you are watching is.&rdquo;</b> The same sealed " +
+    "number as a <em>shape</em>, for when the fact is a sense of progress rather than a " +
+    "threshold — you read it without counting. ⚠ The cost is that it can never be silent: " +
+    "<code>SetValue</code> clamps into [0, max], so the track is on the row at every value " +
+    "including zero. That is the straight trade against V16, which can say nothing at all.",
     function () { return bareItem(D.scan_sample, "press", { sealed: ["count-bar"] }); }));
 
-  gallery.appendChild(swatch("sealed · refresh window · V19",
-    "<code>" + T.pandemic.frame + "</code> at <b>" + T.pandemic.size_px + "px</b>, breathing " +
-    "on a <b>" + T.pandemic.pulse.duration_s + "s</b> loop. ⚠ The one sealed display cap " +
-    "authors <b>no threshold</b> for: the client computes <code>GetRefreshExtendedDuration " +
-    "&minus; GetAuraBaseDuration</code> per spell and seals <code>Shown</code>, so the badge " +
-    "appears and vanishes on Blizzard's real window, not on our guess at one.",
-    function () { return bareItem(D.scan_sample, "press", { sealed: ["refresh-window"] }); }));
-
-  gallery.appendChild(swatch("sealed · V18 + V19 on one corner",
-    "both client-drawn displays in the badge stack's own pixel — the state DEM-8 is flown for. " +
-    "Whether that reads as one statement or as a mess is a question for the eye, not a gate.",
-    function () {
-      return bareItem(D.scan_sample, "press", { sealed: ["count-bar", "refresh-window"] });
-    }));
+  gallery.appendChild(swatch("sealed · pandemic window · V19",
+    "<b>&ldquo;refreshing this now clips nothing.&rdquo;</b> The badge is present exactly while " +
+    "Blizzard's own pandemic window is open, and gone the rest of the time — so its presence " +
+    "IS the statement and there is nothing to read. ⚠ cap authors <b>no threshold</b> for it: " +
+    "the client computes <code>GetRefreshExtendedDuration &minus; GetAuraBaseDuration</code> " +
+    "per spell, which is the real window rather than the community's 30&nbsp;%. Reproducing it " +
+    "from a duration band would be cap's guess wearing the same pixels.",
+    function () { return bareItem(D.scan_sample, "press", { sealed: ["pandemic"] }); }));
 
   // The frame strips, so the art itself is inspectable rather than only seen in motion.
   var framesHost = host("frames");
@@ -623,7 +623,7 @@
    *                    which is why nothing extra is drawn for it here.
    *   count-bar      — V18. The radial, inside the badge plate. Drawn at a nominal fraction: a
    *                    bar has no blank state, so "there is an arc here" is the whole claim.
-   *   refresh-window — V19. The badge the client shows and hides on Blizzard's own window.
+   *   pandemic — V19. The badge the client shows and hides on Blizzard's own window.
    */
   function sealedNode(kind, entry) {
     var negative = entry.verdict === "ruled-sealed";
@@ -635,8 +635,8 @@
       bar.appendChild(arc);
       return bar;
     }
-    if (kind === "refresh-window") {
-      var w = el("div", "sealed sealed-refresh-window");
+    if (kind === "pandemic") {
+      var w = el("div", "sealed sealed-pandemic");
       w.appendChild(el("div", "sealed-plate"));
       var wm = el("div", "sealed-mark");
       var wa = (D.frames || {})[T.pandemic.frame];
@@ -646,18 +646,14 @@
       return w;
     }
 
-    /* count-bands. THREE ELEMENTS, THREE SLOTS — the hatch across the face, the badge on the
-     * corner, the numeral on the badge's plate. Each is its own AuraContainer slot with its own
+    /* count-bands. ONE SLOT PER ELEMENT — the hatch across the face, and ON THE CORNER either
+     * the mark or the numeral, never both. Each is its own AuraContainer slot with its own
      * button, FontString and band table (`Channel.CountElements`), so nothing here shares an
      * advance width with anything.
      *
-     * ⚠ It was drawn as a flowing RUN until 2026-08-23, and that was correct for the design it
-     * was written against: measured [client 2026-08-22], an escape's `:xoff:yoff` displaces a
-     * mark but does not remove it from the line, so four escapes in one string came to ~96px on
-     * a 56px button. `UpdateAura` offering every aura to every slot removed the premise — and
-     * this comment outlived it, which is the failure mode a preview has: it kept drawing a
-     * picture the client had stopped producing, and a preview that MALIGNS the style is as
-     * useless as one that flatters it.
+     * ⚠ `count` and `mark` are exclusive in the band vocabulary, and this is where you can see
+     * why: they are anchored on the same badge corner in the same polarity hue, so a band asking
+     * for both draws a digit on top of a glyph. `entry.count` picks which one this row states.
      */
     var run = el("div", "sealed sealed-run");
     var hatch = el("div", "sealed-band-hatch");
@@ -671,21 +667,23 @@
     }
     run.appendChild(hatch);
 
-    var badge = el("div", "sealed-band-badge");
-    badge.appendChild(el("div", "sealed-plate"));
-    var mark = el("div", "sealed-mark");
-    var art = (D.frames || {})[T.count.mark];
-    if (art && art.uri) mark.style.webkitMaskImage = mark.style.maskImage = "url(" + art.uri + ")";
-    mark.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
-    badge.appendChild(mark);
-    run.appendChild(badge);
-
-    // The numeral, which is the client's `%d` and therefore the one element that can never be a
-    // fixed-width baked crop. It is why the run's width moves at all.
-    var n = el("div", "sealed-band-count");
-    n.textContent = entry.count != null ? String(entry.count) : "2";
-    n.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
-    run.appendChild(n);
+    if (entry.count != null) {
+      // The numeral, which is the client's `%d` — the one element that can never be a baked crop,
+      // and the one the shelf lets a colour escape reach, because it is text.
+      var n = el("div", "sealed-band-count");
+      n.textContent = String(entry.count);
+      n.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
+      run.appendChild(n);
+    } else {
+      var badge = el("div", "sealed-band-badge");
+      badge.appendChild(el("div", "sealed-plate"));
+      var mark = el("div", "sealed-mark");
+      var art = (D.frames || {})[T.count.mark];
+      if (art && art.uri) mark.style.webkitMaskImage = mark.style.maskImage = "url(" + art.uri + ")";
+      mark.style.setProperty("--sx-ink", negative ? "var(--count-low)" : "var(--count-rgb)");
+      badge.appendChild(mark);
+      run.appendChild(badge);
+    }
     return run;
   }
 
@@ -1406,7 +1404,7 @@
         }
         if (spec.draws === "pandemic") {
           var headPD = "<b>" + cell.ability + "</b> · <code>" +
-                       (cell.in_window ? "IN the refresh window" : "outside it") + "</code><br>";
+                       (cell.in_window ? "IN the pandemic window" : "outside it") + "</code><br>";
           e.row.appendChild(labCell(pandemicItem(key, spec, cell), headPD + cap));
           return;
         }

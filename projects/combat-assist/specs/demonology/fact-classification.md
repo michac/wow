@@ -29,7 +29,7 @@ sealed values and every one of them goes straight to a client-owned sink:
 | Demonic Core application count | `sealed-count-bands`, two breakpoints | Power Siphon |
 | Wild Imp application count | `sealed-count-bands`, two breakpoints (the complement) | Implosion |
 | Demonic Core application count | `sealed-count-bar`, `max = 4` | Demonbolt |
-| Doom's refresh window | `sealed-refresh-window` — **the client's own predicate** | Demonbolt |
+| Doom's pandemic window | `sealed-pandemic` — **the client's own predicate** | Demonbolt |
 
 Every other term in every marker is `ready`, `affordable`, `identity`, `resource`, `proc`,
 `talent`, `aura` or `aoe`.
@@ -72,11 +72,11 @@ recipes).
 | **Summon Demonic Tyrant cooldown remaining** | **sealed-display** | S4 → `sealed-cooldown-range` | `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`; the duration object carries the secrecy | cue **F** (`within = 5`) |
 | **Demonic Core application count** | **sealed-display** | S7 + S11 → `sealed-count-bands`; S10 → `sealed-count-bar` | the managed AuraContainer owns the display; a tainted-created `NumericRuleFormatter` is honoured `[client 2026-08-21]` and a band's `format` may carry a texture escape | Power Siphon's eliminating band **and** Demonbolt's radial. **Not a condition** |
 | **Wild Imp application count** | **sealed-display** | S7 + S8 + S11 → `sealed-count-bands` (complement) | as above; Wild Imp `296553` is a Category-2 row in set 60 (OrderIndex 47) *[T1 DB2]* | Implosion's eliminating band. **Not a condition** |
-| **Doom's refresh window** | **sealed-display** | S9 → `sealed-refresh-window` | `AddPandemicRegion` seals a Region's `Shown` and drives it from the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell — cap authors no threshold | Demonbolt, gated on `talent(doom)`. **Not a condition** |
+| **Doom's pandemic window** | **sealed-display** | S9 → `sealed-pandemic` | `AddPandemicRegion` seals a Region's `Shown` and drives it from the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell — cap authors no threshold | Demonbolt, gated on `talent(doom)`. **Not a condition** |
 | `buff.demonic_core.stack <= 1` **as a hold** | **sealed-display** | S7 + S11 | two breakpoints: silent below two, hatch plus a negative mark at two. §5.2 | rung 1, drawn. DEM-14 |
 | `buff.wild_imps.stack >= 6` **as a hold** | **sealed-display** | S7 + S8 + S11 | the same table run the other way: drawn below six, cleared at six. §5.2 | rung 9, drawn. DEM-13 |
 | **Whether any Wild Imp is out at all** | **readable** | R2's alert edges → the `aura` latch | a Category-2 row raises `OnAuraApplied` / `OnAuraRemoved`; an unbound row reads UNKNOWN, never false | cue **H** — the one state a sealed display structurally cannot reach, because with no aura there is no button |
-| **Whether Doom is taken** | **readable** | the `talent` predicate | node 110200 / entry 136729 (`talents.json` @ 12.1) | the readable gate on Demonbolt's refresh-window display |
+| **Whether Doom is taken** | **readable** | the `talent` predicate | node 110200 / entry 136729 (`talents.json` @ 12.1) | the readable gate on Demonbolt's pandemic display |
 | `buff.dominion_of_argus.up` | **open** | the `aura` latch, unmeasured on this row class | `1276166` is a Category-**3** (TrackedBar) row in set 60, OrderIndex 50 *[T1 DB2]*; the latch is built on TrackedBuff `OnAuraApplied` / `OnAuraRemoved` edges and no measurement covers TrackedBar. `[searched 2026-08-19: CooldownSetSpell @ 12.1.0.69214, SpellActivationOverlay @ 12.1.0.69214, Track.lua's edge table, cdm-rider-patterns.md §6]` | rung 2. **No hint.** |
 | **Which Demonic Art is armed**, when it is Overlord | **open** | — | Pit Lord and Mother of Chaos are visible through R7 (they change a button); Overlord changes none. `428514` holds two Category-2 rows in set 60 and which is the armed Art is unmeasured | nothing — noted because it is one measurement from closing |
 | `cooldown.summon_demonic_tyrant.remains` as a **two-sided band** | **sealed, no authored form** | S4 refuses it | `Catalog.Check`: *"sealed-cooldown-range needs exactly one of within or beyond"*; `Channel.HoldPlan` returns `nil` when both are set | rungs 6 / 7. **No hint.** §5.1 |
@@ -151,7 +151,7 @@ in both polarities on one row.
 
 **Four rows-worth of display, on three sinks.** Power Siphon (`sealed-count-bands` on Demonic Core
 `264173`), Implosion (`sealed-count-bands` on Wild Imp `296553`, the complement), Demonbolt
-(`sealed-count-bar` on Demonic Core, `max = 4`, **and** `sealed-refresh-window` on Doom `460553`).
+(`sealed-count-bar` on Demonic Core, `max = 4`, **and** `sealed-pandemic` on Doom `460553`).
 They are in this file because they are the one place a reader might reasonably suspect a branch,
 and they are not one:
 
@@ -167,7 +167,7 @@ and they are not one:
 - **The bar seals only its VALUE.** `SetApplicationBar` adds `Enum.SecretAspect.BarValue` to the
   StatusBar's value, so the texture, size, orientation, colour and render mode stay ordinary cap
   calls made at setup — and none of them is a function of the count.
-- **The refresh window seals only `Shown`, and cap authors no threshold for it at all.** The
+- **The pandemic window seals only `Shown`, and cap authors no threshold for it at all.** The
   client computes `GetRefreshExtendedDuration − GetAuraBaseDuration` itself, per spell.
 - cap reports `offered` / `armed` / `refused` and never `drew`. **Accepted is not drawn**
   (`../authoring.md` → *Accepted is not drawn*) — whether any of it ever appears is an eyeball,

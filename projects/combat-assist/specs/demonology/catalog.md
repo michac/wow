@@ -369,7 +369,7 @@ ROTATION row to its left by a cue rather than by position.
     **graded and has no blank state** — `SetValue` clamps into `[0, max]`, so the track is on the
     row for as long as the aura is up. `max` is the number that MATTERS rather than the aura's
     real cap, which is what turns "or more" into "full".
-  - `db_doom_window` — **sealed** `sealed-refresh-window` (S9, `../render-shelf.md` V19) on Doom
+  - `db_doom_window` — **sealed** `sealed-pandemic` (S9, `../render-shelf.md` V19) on Doom
     `460553`, **gated on the readable `talent(doom)`**. The one sealed display cap authors no
     threshold for: the client computes `GetRefreshExtendedDuration − GetAuraBaseDuration` itself,
     per spell, which is Blizzard's real pandemic rather than the community's 30 %.
@@ -448,7 +448,7 @@ useful and did not eliminate; a hatch and a negative mark do.
 | — | Power Siphon **rules itself out** at two or more Demonic Cores: the client draws a hatch and a red mark | the aura's application count | sealed display | S7 + S11 `sealed-count-bands` | AuraContainer FontString → V16 |
 | — | Implosion **rules itself out** below six Wild Imps, and clears at six | the aura's application count | sealed display | S7 + S8 + S11 `sealed-count-bands` (complement) | AuraContainer FontString → V16/V17 |
 | — | Demonbolt carries a **radial** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
-| — | Demonbolt carries a **badge while Doom's refresh window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-refresh-window` + the `talent` predicate | AuraContainer Region → V19 |
+| — | Demonbolt carries a **badge while Doom's pandemic window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-pandemic` + the `talent` predicate | AuraContainer Region → V19 |
 | **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, slot 1 |
 
 **Three cue keys, one red.** `blocked`, `starved` and `overcap` share a hue
@@ -489,7 +489,7 @@ Measured against the source vocabulary as it stood before this pass (`Catalog.PR
    Retribution's row 3 goes COOLDOWN → ROTATION; this goes the other direction on the ladder. The
    mechanism is unchanged (`Signal.tier` takes the first band whose condition holds).
 4. **THREE new display kinds, and they are a renderer change rather than catalog data.**
-   `sealed-count-bands` (V16/V17), `sealed-count-bar` (V18) and `sealed-refresh-window` (V19)
+   `sealed-count-bands` (V16/V17), `sealed-count-bar` (V18) and `sealed-pandemic` (V19)
    replace `player-aura-stacks` and its `min = 2` guard — which was never a platform limit, but
    Blizzard's behaviour when **no formatter is passed**.
    ⚠ **This paragraph used to say the opposite**, and the correction is the finding rather than an
@@ -636,7 +636,7 @@ An ability with no named player problem gets no row; so does one with no Cooldow
   game read at all but cap's own toggle.
 - **Cues and displays carry sealed facts to client-owned sinks:** one `sealed-cooldown-range`
   band on Summon Demonic Tyrant's cooldown (cue F); two `sealed-count-bands` tables, on Demonic
-  Core and on Wild Imp; one `sealed-count-bar` on Demonic Core; and one `sealed-refresh-window` on
+  Core and on Wild Imp; one `sealed-count-bar` on Demonic Core; and one `sealed-pandemic` on
   Doom. cap authors the window in seconds, the breakpoints in whole counts, and the bar's maximum
   — and nothing else. The client evaluates every one of them and cap reports `offered` / `armed` /
   `refused` and never reads back. **Accepted is not drawn**
@@ -682,7 +682,7 @@ transform. Five things the pass established that were not written down anywhere:
 **2026-08-22 — built** (stages 6–7 of `../authoring.md`), replacing the 2026-era pilot in
 `Catalogs/Demonology.lua`. Three sealed-display primitives were promoted out of
 `../render-shelf.md` Part 7 to make it possible — V16 the banded count, V17 its complement, V18
-the sealed radial, V19 the refresh window — and four things the transcription established:
+the sealed radial, V19 the pandemic window — and four things the transcription established:
 
 - **`player-aura-stacks` and its `min = 2` guard are gone**, replaced by `sealed-count-bands`.
   The guard was never a platform limit: `applications > 1` is what the client does when **no

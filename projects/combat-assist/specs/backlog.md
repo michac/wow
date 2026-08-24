@@ -128,7 +128,7 @@ and nothing about how it was measured.
   and 7 have run; stage 8 has not.
   - It carries **three new sealed-display kinds**, promoted out of Part 7 as V16–V19:
     `sealed-count-bands` (Power Siphon and Implosion, the second in its complement direction),
-    `sealed-count-bar` (Demonbolt's Core radial) and `sealed-refresh-window` (Doom, gated on the
+    `sealed-count-bar` (Demonbolt's Core radial) and `sealed-pandemic` (Doom, gated on the
     talent). `player-aura-stacks` and its `min = 2` guard are retired; Destruction's Backdraft was
     migrated mechanically and draws exactly what it did.
   - **A sealed fact can now ELIMINATE a row**, which is the substantive change: the reading model

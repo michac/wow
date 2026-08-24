@@ -387,7 +387,7 @@ reading the player cannot perform. They are argued in full at `catalog.md` → *
    `{client: unusable}` is drawn on Shadowburn throughout this walk. Part 0.5 counts two
    eliminating signals, the swipe and cap's badge; the client's unusable tint is a third, and
    admitting it is a shelf decision this pass does not take.
-2. **The DoT refresh window.** Immolate has 4 s left on an 18 s DoT; rung 9 wants it refreshed and
+2. **The DoT pandemic window.** Immolate has 4 s left on an 18 s DoT; rung 9 wants it refreshed and
    cue E is still holding row 4, so the walk points at Chaos Bolt and the refresh is late. **The
    fact is readable and never secret** — R8's `item.PandemicIcon ~= nil` mirrors
    `IsInPandemicTime` exactly `[client 2026-07-31]` — and what is missing is a `pandemic` entry in

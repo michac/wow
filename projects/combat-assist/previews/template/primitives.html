@@ -1,0 +1,55 @@
+<title>cap render primitives</title>
+<style>
+/*__ROOT_TOKENS__*/
+</style>
+<style>
+/*__SHELF_CSS__*/
+</style>
+
+<div class="wrap">
+
+  <h1>Primitives <span class="labtag">the declared style</span></h1>
+  <p class="lede">
+    <b>Every primitive the shelf declares, as a live swatch</b> &mdash; including the ones no
+    scenario on any spec page exercises. This is one page and not one per spec because a
+    primitive is not a claim about a rotation: the style vocabulary is
+    <em>byte-identical</em> on all of them, and only the roster it borrows art from differs.
+    A shelf edit always lands somewhere visible here.
+  </p>
+  <p class="lede">
+    Each swatch says <b>what the primitive tells the player</b> first, and how it is drawn second.
+    If a swatch's caption only describes pixels, it is not finished &mdash; you can already see
+    the pixels.
+  </p>
+  <p class="muted">
+    Rendered from <code>specs/render-shelf.md</code> Parts&nbsp;1&ndash;6 alone, against the
+    shelf&rsquo;s reference roster. The <a href="lab.html">lab</a> (Part&nbsp;7) is where
+    experiments live; the <a href="index.html">spec previews</a> walk real scenarios.
+  </p>
+
+  <div class="gallery" id="gallery"></div>
+
+  <h2>The badge art, frame by frame</h2>
+  <p class="muted">
+    Kenney <b>Board Game Icons</b> (CC0), vendored beside the preview. White with the shape in the
+    alpha channel &mdash; measured saturation 0.000 &mdash; which is what lets
+    <code>SetVertexColor</code>'s multiply take them to the one authored hue at full strength.
+    A <code>tint</code> declaration on art that measured otherwise is a hard build error.
+  </p>
+  <div class="gallery" id="frames"></div>
+
+  <h2>Verdicts</h2>
+  <p class="lede">
+    The closed vocabulary. A verdict says what cap concluded; the shelf says what that looks like.
+  </p>
+  <div class="scroll"><table class="prov" id="verdicts"></table></div>
+
+  <div class="prov" id="prov"></div>
+
+</div>
+
+<script type="application/json" id="cap-tokens">/*__TOKENS_JSON__*/</script>
+<script type="application/json" id="cap-data">/*__DATA_JSON__*/</script>
+<script>
+/*__STEPPER_JS__*/
+</script>

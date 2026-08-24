@@ -576,7 +576,7 @@
     {
       "id": "DEM-8",
       "title": "1 shard, Core up — the Core is the press",
-      "state": "Single target, everything on cooldown, <b>1 Soul Shard</b>, a <b>Demonic Core up</b>, Tyrant far away. <b>Doom is talented and the target&#x27;s Doom is inside its refresh window.</b>",
+      "state": "Single target, everything on cooldown, <b>1 Soul Shard</b>, a <b>Demonic Core up</b>, Tyrant far away. <b>Doom is talented and the target&#x27;s Doom is inside its pandemic window.</b>",
       "row": [
         {
           "name": "Power Siphon",
@@ -615,7 +615,7 @@
           "verdict": "press",
           "sealed": [
             "count-bar",
-            "refresh-window"
+            "pandemic"
           ]
         },
         {
