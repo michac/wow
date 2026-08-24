@@ -1228,6 +1228,17 @@ as `348` and applies aura `157736`; Wither casts `445468` and applies `445474`. 
 id and the slot matches nothing forever, indistinguishable from a refused call (this is the same
 cast-row/DoT-row split `cooldown-manager.md:588-596` draws for the CDM's two Immolate rows).
 
+**`AddPandemicRegion` takes a FRAME, not only a Texture** `[client 2026-08-21]`. A Frame is a
+`Region`, so a plate and a glyph parented under one wrapper are handed over together and the
+client's `SetShown` hides both — a complete badge that appears and vanishes whole. That is the
+one thing no count sink can do without baking the plate into the art it names.
+⚠ That `[client]` covers **acceptance only** — the flight that recorded it was flown on
+Destruction, whose slot matched nothing, so no tile was ever visible (`observations.md:1402`).
+The children **drawing and hiding as a unit** is still unwitnessed and no read-back can stand in
+for it: a child's own `IsShown` flag does not change when its parent is hidden, so the oracle is a
+human on Demonology with a dot ticking. `` @pending-test: pandemic-region-frame-with-children ``
+(that test re-measures the acceptance and the read-backs; it cannot see the pixels).
+
 ⚠ **Costs:** the pandemic sink is the only one carrying an `OnUpdate`, and its enablement is itself
 `secretwrap`ped (`:634-641`) because whether your update loop runs would otherwise leak the aura's
 presence. Budget one `OnUpdate` per armed tile; do not attach speculatively.
@@ -2264,6 +2275,10 @@ from the `SetDrawSwipe` flag, so `SetDrawSwipe(true)` on a cleared widget draws
 nothing; and a widget that may be showing aura display time needs
 `SetUseAuraDisplayTime(false)` first (`:545-554`) or it keeps drawing the aura
 timer. *Confidence:* high on the first, medium on the ordering rider.
+`` @pending-test: duration-object-swipe-ordering `` — both orders are armed on their own
+widget, so a refusal would name itself; ⚠ the sink is aspect-less with no read-back, so that
+test can only report acceptance and what the getters return, and whether the wrong order leaves
+the **aura** timer drawing stays an eyeball.
 
 **7. A second text route: `GetRemainingDuration()` → `SetFormattedText`.**
 `GetRemainingDuration(modifier)` returns a `DurationSeconds`

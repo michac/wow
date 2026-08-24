@@ -1,334 +1,361 @@
 {
-  "_meta": {
-    "what": "THE TEST REGISTRY for knowledge/addon-dev/ — the id ⇄ ns.Test{} ⇄ run-row join, keyed by a stable id. It is NOT where an unknown is first written down: that is a MARKER on the claim itself, in the topic file (`[gap]` / `[unverified]` / `@verify-ingame`), because an agent reading the file meets the marker in the prose it is already reading. A question earns a row here when somebody decides to TEST it. Rows also exist for questions nobody is testing (`parked`, `not-answerable`) where the reasoning was worth keeping — but the absence of a row never means an unknown was lost.",
-    "why_here": "knowledge/addon-dev/ is firewalled from the game KB (its README §0), so its `@verify-ingame` markers are written inside backticks and `wowkb.gen_verify` ignores them — a DECISION, not a bug (addon-dev/README.md §6, gen_verify.py's docstring). Nothing harvests them, and nothing needs to: the marker is met at the point of USE, by whoever is about to build on the claim. This file exists for the half a marker cannot do — binding a question to the Lua that tests it and the run row that answers it. Indexed from addon-dev/README.md §1.2 as the fourth queue.",
-    "id_is_the_key": "The join column between this file, the `id` on each ns.Test{} in ClientLab/T_*.lua, and each row of the `runs` capture stream (`ClientLabDB.captures.runs`, read by `wowkb.capture clab runs` / `wowkb.lab show`). An id survives the anchor line moving; anchor text does not.",
-    "expect_never_ships": "`expect` lives HERE and is never compared in-game. cdmp asserts a known answer against regression; the lab discovers an unknown one, so the reader renders result beside expect and a HUMAN decides. An automatic PASS/FAIL would be the instrument grading its own subject.",
-    "status": {
-      "answered": "flown, read beside `expect` by a human, and drained into the KB. Carries an `answered` block naming the run, the addon version and the OBS-nnn that carried it. ITS TEST IS DELETED — in the same edit that writes the claim, exactly as house rule 2 kills probe code once its finding lands. The row survives forever and is the recipe if a patch ever makes the question worth re-asking; the Lua does not, because nothing re-checks it (`show` prints no verdict by design and `drain` refuses an answered question), so a retained test only costs run time on every pull.",
-      "built": "a ns.Test{} with this id exists in ClientLab/ and flies on the next login/pull — Autorun runs every built test unprompted, so writing the test IS queuing it. The claim it answers carries `@pending-test: <id>` in its topic file. If it has been flown but NOT drained, a `note` says why — an undrained flown question must never look the same as an unflown one.",
-      "parked": "a question somebody wrote out but nobody is testing. No test, no clock, no cap, no release gate. `blocked_on` says what it would take (null = nothing, it has simply not come up). The trigger for building a test is USE — someone needs the answer to write code — never age. ⚠ A row here is not required for an unknown to be recorded: the marker on the claim is, and a bare marker with no row is a perfectly good parked question.",
-      "not-answerable": "no instrument can settle it and the reason is recorded in `expect`, so it is not re-attempted. `blocked_on` may still name what a DIFFERENT instrument would need — a desktop file read is not a ClientLab job, but it is not nothing either."
-    },
-    "cross_check": "`wowkb.lab deploy` asserts every `built` id here has a ns.Test{} and every ns.Test{} id is a `built` question. An unmatched id is a loud error, never a silent skip. An `answered` id still present in the Lua fails BY NAME — that is the direction the suite grows back in, and it is the one worth naming.",
-    "counts_as_of": "2026-08-11: 61 answered, 1 built, 27 parked, 3 not-answerable (total 92). Seven pre-12.1 probes were returned to parked when their automatic runner tainted the secure Cooldown Viewer during login; their question recipes remain here, but their executable probes were deleted. The focused AuraContainer and GetSpellCharges questions were answered and their one-shot probes deleted after the findings landed; one visual Conflagrate charge-context probe is queued.",
-    "anchor_form": "<file under knowledge/addon-dev/>:<line>. `also` lists further anchors that ask the same question — one test, several places in the KB to edit when it is answered.",
-    "anchor_drift": "Anchors are `<file>:<line>` and LINE NUMBERS MOVE — the KB cleanup of 2026-08-05 silently drifted several. The `id` is the durable key; an anchor is a convenience. Treat a stale anchor as a lint finding, not as evidence the question is gone. ⚠ Nothing validates anchors today; that check belongs in `wowkb.lab deploy --check`.",
-    "note_field": "Free text on a question that has been flown but not drained, or is otherwise not in the state its `status` alone suggests. It exists so 'we looked and chose not to' is distinguishable from 'nobody has looked'.",
-    "evidence_classes": "A row on the `runs` stream carries `source`: \"measured\" (an instrument read it) or \"eyeball\" (a human answered after being shown a stimulus by ns.Ask). They are NOT interchangeable. An eyeball verdict is the only evidence that can close a question with no programmatic oracle, and the WRONG evidence for anything measurable — so `wowkb.lab show` renders it differently and `wowkb.lab drain` requires it for a visual question and labels it loudly in the observation it mints.",
-    "blocked_on": "What the question is waiting on, as a CAPABILITY rather than a task: many rows share one blocker, and `wowkb.lab blocked` groups them so the residue reads as a handful of missing capabilities instead of a pile of stuck questions. `null` means nothing is missing. Two blockers need their jargon spelled out: 'a generator that writes sibling addons' — ClientLab cannot test its own .toc from inside its own .toc without breaking itself, so every container question needs N generated throwaway addons, one per .toc variant (unbuilt, and not worth building until a .toc problem actually bites); and 'XML authoring in the lab' — the lab ships Lua only, so nothing can currently exercise the XML compiler.",
-    "two_things_that_may_never_accumulate": "A MEASURED ANSWER NOT YET IN THE KB — gated by `wowkb.obs check` (14 days / 12 open), the failure that once stranded 15 answers for 12 days. And AN UNVERIFIED CLAIM SILENTLY RELIED UPON — gated by nothing mechanical, by design: the marker sits on the claim, so anyone reading the claim reads the marker, and the rule is ASK rather than assume. Everything else — parked questions, [gap] annotations — may pile up harmlessly. They are a CATALOGUE, not a backlog.",
-    "marker_lifecycle": "The state of a question lives in the TOPIC FILE, on the claim: `[gap]`/`[unverified]`/`@verify-ingame` = open, nobody is on it. `@pending-test: <id>` = a ns.Test{} exists in ClientLab and will fly on the next login/pull — the id names the row here. `[client YYYY-MM-DD]` = measured and drained, marker gone. Promotion to `@pending-test` and the final rewrite are hand edits, in context, because README §7.1 wants the CLAIM rewritten rather than annotated — no tool edits prose.",
-    "shrinking": "THE SUITE SHRINKS AS THE KB GROWS, and that is the intended shape. Answering a question moves it out of ClientLab and into a topic file: 32 answered questions were swept out at once when this rule was adopted, taking the suite from 57 ids to 25 and deleting T_Module.lua and T_CooldownManager.lua entirely. A lab that only accumulates is re-measuring settled facts during a pull."
+ "_meta": {
+  "what": "THE TEST REGISTRY for knowledge/addon-dev/ — the id ⇄ ns.Test{} ⇄ run-row join, keyed by a stable id. It is NOT where an unknown is first written down: that is a MARKER on the claim itself, in the topic file (`[gap]` / `[unverified]` / `@verify-ingame`), because an agent reading the file meets the marker in the prose it is already reading. A question earns a row here when somebody decides to TEST it. Rows also exist for questions nobody is testing (`parked`, `not-answerable`) where the reasoning was worth keeping — but the absence of a row never means an unknown was lost.",
+  "why_here": "knowledge/addon-dev/ is firewalled from the game KB (its README §0), so its `@verify-ingame` markers are written inside backticks and `wowkb.gen_verify` ignores them — a DECISION, not a bug (addon-dev/README.md §6, gen_verify.py's docstring). Nothing harvests them, and nothing needs to: the marker is met at the point of USE, by whoever is about to build on the claim. This file exists for the half a marker cannot do — binding a question to the Lua that tests it and the run row that answers it. Indexed from addon-dev/README.md §1.2 as the fourth queue.",
+  "id_is_the_key": "The join column between this file, the `id` on each ns.Test{} in ClientLab/T_*.lua, and each row of the `runs` capture stream (`ClientLabDB.captures.runs`, read by `wowkb.capture clab runs` / `wowkb.lab show`). An id survives the anchor line moving; anchor text does not.",
+  "expect_never_ships": "`expect` lives HERE and is never compared in-game. cdmp asserts a known answer against regression; the lab discovers an unknown one, so the reader renders result beside expect and a HUMAN decides. An automatic PASS/FAIL would be the instrument grading its own subject.",
+  "status": {
+   "answered": "flown, read beside `expect` by a human, and drained into the KB. Carries an `answered` block naming the run, the addon version and the OBS-nnn that carried it. ITS TEST IS DELETED — in the same edit that writes the claim, exactly as house rule 2 kills probe code once its finding lands. The row survives forever and is the recipe if a patch ever makes the question worth re-asking; the Lua does not, because nothing re-checks it (`show` prints no verdict by design and `drain` refuses an answered question), so a retained test only costs run time on every pull.",
+   "built": "a ns.Test{} with this id exists in ClientLab/ and flies on the next login/pull — Autorun runs every built test unprompted, so writing the test IS queuing it. The claim it answers carries `@pending-test: <id>` in its topic file. If it has been flown but NOT drained, a `note` says why — an undrained flown question must never look the same as an unflown one.",
+   "parked": "a question somebody wrote out but nobody is testing. No test, no clock, no cap, no release gate. `blocked_on` says what it would take (null = nothing, it has simply not come up). The trigger for building a test is USE — someone needs the answer to write code — never age. ⚠ A row here is not required for an unknown to be recorded: the marker on the claim is, and a bare marker with no row is a perfectly good parked question.",
+   "not-answerable": "no instrument can settle it and the reason is recorded in `expect`, so it is not re-attempted. `blocked_on` may still name what a DIFFERENT instrument would need — a desktop file read is not a ClientLab job, but it is not nothing either."
   },
-  "questions": [
-    {
-      "id": "secret-op-bool-test-boolean",
-      "anchor": "security-taint-and-restricted-data.md:729",
-      "bucket": "secret",
-      "status": "parked",
-      "question": "§4.2 row 8 — boolean test (`if v then`) on a BOOLEAN secret.",
-      "expect": "Errors, per Tier 2 — the last unmeasured row of the operation table. The source is `LuaDurationObject:HasExpired(RealTime)`, measured a SECRET BOOLEAN in combat [client 2026-08-06], which is what unblocked this row: it was registered on the grounds that every secret this client hands an addon is a cooldown number, and that is now false. Three preconditions each record `measured = false` with a reason rather than a verdict — nothing on cooldown, a non-boolean return, or a plain return."
-    },
-    {
-      "id": "serializer-secret",
-      "anchor": "libraries-and-ecosystem.md:471",
-      "also": [
-        "libraries-and-ecosystem.md:792"
-      ],
-      "bucket": "call",
-      "status": "parked",
-      "question": "What happens when a Secret Value reaches AceSerializer-3.0 / LibSerialize / LibDeflate? None of the three tests for secrets; AceSerializer's type dispatch ends in `error(MAJOR..\": Cannot serialize a value of type '\"..t..\"'\")`.",
-      "expect": "AceSerializer sees the real type via `type()` (row 14) and takes a normal branch, then errors inside it on a concat/format/length — so the observed failure is a confusing message from the wrong place. Deferred from pass 1 because it needs the three libraries VENDORED into the lab; the §4.2 rows measure the underlying operations first, which is most of the answer.",
-      "blocked_on": "LibStub loaded"
-    },
-    {
-      "id": "synchronous-event-semantics",
-      "anchor": "api-events-and-discovery.md:279",
-      "bucket": "event",
-      "status": "parked",
-      "question": "What do the `SynchronousEvent` / `unique` flags mean? Neither string is documented anywhere reachable — not in the generated docs' Documentation field, not in Blizzard_APIDocumentation, not in Blizzard_EventTrace, and the wiki has no page.",
-      "expect": "The natural reading (synchronous = dispatched inline; non-synchronous = queued; unique = coalesced to at most one queued instance) is inference, not evidence. Testing it needs firing an event from a known call frame and timestamping the handler — bucket 2, and it may not be reachable from an addon at all.",
-      "note": "BUILT but it can only ever report measured=false for the flag question, and that is the honest state, not a stub. Two independent blockers: no runtime predicate exposes SynchronousEvent/UniqueEvent the way C_EventUtils.IsCallbackEvent exposes CallbackEvent, so even a positive observation could not be tied to a flag; and no event is raisable from a known call frame without writing client state (SetCVar/LoadAddOn) or a server round trip, where latency is indistinguishable from queueing. What it DOES measure is the C_EventUtils namespace — if a patch ever adds such a predicate, this test finds it."
-    },
-    {
-      "id": "event-callback-nil-owner",
-      "anchor": "api-events-and-discovery.md:1259",
-      "bucket": "event",
-      "status": "parked",
-      "question": "Is the leading `_nilOwner` argument to a RegisterEventCallback handler a contract, or six consistent conventions? Is it ever non-nil?",
-      "expect": "The generated docs declare `EventCallbackType` with NO fields at all, so there is no spec to read. Six shipped call sites all discard a leading arg. Needs registering a callback and inspecting arg 1."
-    },
-    {
-      "id": "reload-addons-unloading-payload",
-      "anchor": "anatomy-and-runtime.md:883",
-      "bucket": "life",
-      "status": "parked",
-      "question": "Does `ADDONS_UNLOADING` carry `closingClient = false` on a /reload?",
-      "expect": "Tier 1 supplies only the payload shape; that a reload passes false is inference FROM THE FIELD NAME. Needs a logout/reload observation recorded into SavedVariables — pass 3's journal.",
-      "blocked_on": null
-    },
-    {
-      "id": "reload-state-preserved",
-      "anchor": "anatomy-and-runtime.md:904",
-      "bucket": "life",
-      "status": "parked",
-      "question": "What state does a /reload preserve vs discard — is the Lua state fully destroyed or recycled?",
-      "expect": "No Tier-1 or Tier-2 statement exists. Behaviourally addon chunks re-execute (ADDON_LOADED fires again). Testable by stamping a non-saved global and looking for it after reload — pass 3's journal.",
-      "blocked_on": null
-    },
-    {
-      "id": "xml-onload-varargs",
-      "anchor": "anatomy-and-runtime.md:603",
-      "bucket": "xml",
-      "status": "parked",
-      "question": "Does an XML `<OnLoad>` body receive the addon-table varargs? Of 2123 shipped `<OnLoad` occurrences, 6 have `...` nearby and all six forward event/callback varargs — but that is four distinct sites, one of them dead code.",
-      "expect": "An argument from silence, not evidence; the KB explicitly declines to assume either way. Needs the lab to ship an XML file.",
-      "blocked_on": "XML authoring in the lab"
-    },
-    {
-      "id": "addon-declared-intrinsic",
-      "anchor": "frames-textures-animation.md:367",
-      "bucket": "xml",
-      "status": "parked",
-      "question": "Can an addon declare an `intrinsic` in XML and then use it as a `CreateFrame` frameType? The XSD puts `intrinsic` in the shared FrameAttributes group, so an addon CAN write it.",
-      "expect": "No Tier-1/Tier-2 statement that it becomes usable, and zero of the seven surveyed addon clones do it. Needs the lab to ship an XML file.",
-      "blocked_on": "XML authoring in the lab"
-    },
-    {
-      "id": "scoped-modifier-for-addons",
-      "anchor": "module-architecture.md:854",
-      "also": [
-        "module-architecture.md:1010"
-      ],
-      "bucket": "xml",
-      "status": "parked",
-      "question": "May an addon use `<ScopedModifier>` (forbidden / scriptsUseGivenEnv / addToSecureEnv / hideFromGlobalEnv / fullLockdown), or is it silently ignored?",
-      "expect": "In UI.xsd (Tier 1), used by 20 Blizzard XML files and by 0 of the surveyed addons and 0 third-party XML files on the live install. Needs the lab to ship an XML file.",
-      "blocked_on": "XML authoring in the lab"
-    },
-    {
-      "id": "xml-color-element-target",
-      "anchor": "frames-textures-animation.md:893",
-      "bucket": "xml",
-      "status": "parked",
-      "question": "Does an XML `<Color>` element compile to SetVertexColor or to SetColorTexture? Load a texture from XML with both `file` and `<Color>`, then read GetTexture() and GetVertexColor().",
-      "expect": "Not stated by UI.xsd or the wiki. The evidence rules out plain SetColorTexture replacement but does not distinguish the two remaining readings. Needs the lab to ship an XML file.",
-      "blocked_on": "XML authoring in the lab"
-    },
-    {
-      "id": "toc-optional-deps-absent",
-      "anchor": "anatomy-and-runtime.md:449",
-      "bucket": "toc",
-      "status": "parked",
-      "question": "Does an absent `## OptionalDeps` entry block the load? The wiki says OptionalDeps names addons that 'should load first if available' but does NOT say an absent one is harmless.",
-      "expect": "Harmless — the natural reading of 'if available', with no counter-example in the shipped corpus, held as [unverified]. Needs a generated sibling addon naming a nonexistent optional dep.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "toc-lua-error-scope",
-      "anchor": "anatomy-and-runtime.md:539",
-      "bucket": "toc",
-      "status": "parked",
-      "question": "Does a Lua error inside one .toc-listed file abort only that file, or the whole addon's remaining files?",
-      "expect": "Not established at any tier — the generated docs give only DoesAddOnHaveLoadError with no semantics, and both wiki pages are silent. Needs a sibling addon with a deliberately broken middle file and a marker global set by the last file.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "toc-dependency-transitivity",
-      "anchor": "anatomy-and-runtime.md:1200",
-      "bucket": "toc",
-      "status": "parked",
-      "question": "Is the client's login-time loader transitive over dependencies? Blizzard's Lua demand-load helper walks them recursively, but that proves only the HELPER is transitive.",
-      "expect": "No Tier-1 or Tier-2 statement of engine-level transitivity found. Needs a three-addon chain A→B→C.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "toc-load-environment-tags",
-      "anchor": "module-architecture.md:824",
-      "also": [
-        "module-architecture.md:1006"
-      ],
-      "bucket": "toc",
-      "status": "parked",
-      "question": "May a third-party addon use `## LoadIntoEnvironment` / `## AllowLoadEnvironment`? Both are observed in Blizzard .toc files and absent from the wiki's TOC format page, with 0 uses across the install's 147 third-party .toc files.",
-      "expect": "Treated as Blizzard-internal until proven otherwise. Needs a sibling addon setting the tag.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "toc-secure-tag",
-      "anchor": "module-architecture.md:845",
-      "also": [
-        "module-architecture.md:1015"
-      ],
-      "bucket": "toc",
-      "status": "parked",
-      "question": "Is a third-party `## Secure` ignored, honoured, or rejected? 5 shipped Blizzard tocs set it, 0 of 147 third-party ones do, and the wiki does not document the tag at all — it is undocumented, NOT documented-as-restricted.",
-      "expect": "Unknown; that is the finding to make. Needs a sibling addon setting it.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "toc-parser-case-sensitivity",
-      "anchor": "module-architecture.md:824",
-      "bucket": "toc",
-      "status": "parked",
-      "question": "Is the .toc directive parser case-insensitive?",
-      "expect": "Not established. Needs a sibling addon with `## interface:` / `## SAVEDVARIABLES:` in odd casing.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "toc-file-order-guarantee",
-      "anchor": "module-architecture.md:1025",
-      "bucket": "toc",
-      "status": "parked",
-      "question": "Are .toc files loaded strictly top-to-bottom? The rule is Tier 2 only, corroborated only by Blizzard's own tocs being internally consistent with it.",
-      "expect": "True. Trivially testable with a sibling addon whose files append their own name to a table — and worth doing precisely because everything in the module-architecture chapter rests on it.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "unit-token-string-vs-enum",
-      "anchor": "api-events-and-discovery.md:174",
-      "bucket": "call",
-      "status": "not-answerable",
-      "question": "WHY is a string accepted where an enum is declared — does the C layer map the token string onto the enum, or does the doc generator merely label unit-token parameters with that type name?",
-      "expect": "NOT ANSWERABLE from Lua. Both readings produce identical observable behaviour, so no call can distinguish them; only Blizzard source or a statement could. The KB's handling is already right: use the string form (that is what ships), assert no mechanism."
-    },
-    {
-      "id": "taintlog-level-5",
-      "anchor": "security-taint-and-restricted-data.md:477",
-      "also": [
-        "security-taint-and-restricted-data.md:1879"
-      ],
-      "bucket": "call",
-      "status": "not-answerable",
-      "question": "What does `taintLog` level 5 (added 12.0.1, per the wiki) log? The BlizzardInterfaceResources CVar description stops at level 4.",
-      "expect": "NOT ANSWERABLE BY AN ADDON. Needs `/console taintLog 1`, a full client restart, and then reading `_retail_/Logs/taint.log` OFF DISK — three things outside a Lua addon's reach. Answerable by a human plus a file read, and worth doing that way; just not by ClientLab.",
-      "blocked_on": "a desktop file read"
-    },
-    {
-      "id": "savedvars-secret-comment",
-      "anchor": "state-persistence-and-communication.md:355",
-      "bucket": "call",
-      "status": "not-answerable",
-      "question": "When a secret is written to SavedVariables, does the file really get 'a comment' alongside the nil?",
-      "expect": "The COMMENT half is not answerable by an addon — it needs reading the written file off disk, which is a wowkb job, not a Lua one. The other half — 'secrets become nil' — IS addon-testable via a two-session round trip (write a secret to the DB, /reload, read it back), and is recorded as `savedvars-secret-roundtrip` below.",
-      "blocked_on": "a desktop file read"
-    },
-    {
-      "id": "savedvars-bak-semantics",
-      "anchor": "state-persistence-and-communication.md:929",
-      "bucket": "life",
-      "status": "parked",
-      "question": "Is the `.bak` file a rename or a copy, and when is it written relative to the main file?",
-      "expect": "Undocumented at Tier 1 and Tier 2; WoWUIBugs #241 is Tier-2 evidence it is not a reliable recovery mechanism. Half of this is a disk observation, not an addon one.",
-      "blocked_on": "a desktop file read"
-    },
-    {
-      "id": "addon-message-throttle",
-      "anchor": "state-persistence-and-communication.md:938",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Are the addon-message throttle numbers (10 allowance, 1/s regen) real?",
-      "expect": "Tier 2 only, and the same source says the server may change them at any time — the KB's own instruction is DO NOT ENCODE THEM. Measuring them would produce a number with a shelf life, so this is recorded mainly so a future session does not think it was missed.",
-      "blocked_on": "a second client"
-    },
-    {
-      "id": "battlenet-senddata-limits",
-      "anchor": "state-persistence-and-communication.md:940",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Are there length or rate limits on `C_BattleNet.SendGameData`?",
-      "expect": "No limits documented at any tier. Testing needs a second Battle.net-connected client, which makes it much more expensive than it looks.",
-      "blocked_on": "a second client"
-    },
-    {
-      "id": "secret-aspectless-pixel-moved",
-      "anchor": "security-taint-and-restricted-data.md:1292",
-      "also": [
-        "security-taint-and-restricted-data.md:1294",
-        "security-taint-and-restricted-data.md:1471"
-      ],
-      "bucket": "secret",
-      "status": "parked",
-      "question": "Do the ASPECT-LESS secret sinks actually move a pixel? `Texture:SetAtlas` and `AnimVertexColor:SetStartColor`/`SetEndColor` accept a Secret Value, declare no `SecretArgumentsAddAspect`, expose no getter, and leave the anchor chain clean — so 'accepted, nothing observable changed' is the strongest statement any instrument can make. Only an eyeball can close it. (`SetTexture` REFUSES and `SetColorTexture` POISONS the anchor chain — both are settled and are NOT part of this question.)",
-      "expect": "Set each from a known secret whose value is inferable from context (e.g. a boolean-ish count at a threshold), and LOOK. Either the atlas/colour visibly tracks the secret — in which case these are real display channels with no readback, and the KB's channel table gains two rows — or nothing moves, and 'accepted' means the call was silently dropped. ⚠ There is no programmatic oracle by construction: do not build one, and do not accept an INERT verdict as evidence either way.",
-      "blocked_on": "a secret that is itself a valid atlas name",
-      "note": "STILL OPEN after a visual check on 2026-08-05, deliberately not drained. The SetAtlas half was shown as three cells (valid name / invalid name / secret string) and the person reported the secret cell INDISTINGUISHABLE FROM THE INVALID one — so the blankness cannot be attributed to secrecy, because an atlas name is a string and the only secret string obtainable (a concatenation, §4.2 row 4) is never a valid atlas name. The control is what revealed that; without it the run would have looked like a clean negative. Settling SetAtlas needs a secret that is ITSELF a valid atlas name and no such source is known. The AnimVertexColor SetStartColor/SetEndColor half is UNATTEMPTED and is the live one — those take colours, not names, so the category problem does not apply."
-    },
-    {
-      "id": "toc-category-grouping",
-      "anchor": "anatomy-and-runtime.md:248",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Does `## Category:` actually group addons in the client's AddOn list? The directive is proven by THIRD-PARTY practice (EllesmereUI sets it, colour escapes and all) but Blizzard's own corpus is a non-example — 1 of 346 shipped tocs.",
-      "expect": "Container-level: needs sibling addons written with differing `## Category:` values, so the lab cannot test it from inside its own .toc (W1d). Half of it is also VISUAL — whether the list groups — which only an eyeball closes. The addon-testable half is whether `C_AddOns.GetAddOnMetadata(name, 'Category')` reads the raw string back including the `|cff...|r` escape.",
-      "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
-    },
-    {
-      "id": "traitconfig-fires-on-hero-swap",
-      "anchor": "../../knowledge/_meta/kb-inbox.md:140",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Does `TRAIT_CONFIG_UPDATED` fire on a HERO-TREE swap (which changes the build without changing the spec), and how many times per loadout swap? `PLAYER_SPECIALIZATION_CHANGED` demonstrably does not, so a hero-tree cache keyed to it goes stale.",
-      "expect": "Reasoned from the event's purpose, NOT observed — that is why it is here. Register both events plus `TRAIT_CONFIG_UPDATED`, log every firing with `C_ClassTalents.GetActiveHeroTalentSpec()` beside it, then swap hero tree without swapping spec. Expect TRAIT_CONFIG_UPDATED n>1 and PLAYER_SPECIALIZATION_CHANGED n=0. The COUNT matters as much as the fact: anything it triggers must be idempotent and must not re-announce an unchanged answer. ⚠ Anchor is outside knowledge/addon-dev/ — the finding is parked in the game KB's inbox because it has no home topic file yet (that placement is itself an open KB-structure call).",
-      "note": "Observational: an always-on listener installed at file load tallies PER-EVENT counts, so a reading requires an actual hero-tree swap during the session. A zero count reports measured=false, never 'it does not fire'."
-    },
-    {
-      "id": "assisted-combat-next-cast-varies",
-      "anchor": "cooldown-manager.md:935",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Does C_AssistedCombat.GetNextCastSpell's return VARY over a pull, or is it constant? §7 proves it is readable in combat but recorded a constant 691 (Summon Felhunter) at every sample.",
-      "expect": "UNKNOWN, and the instrument is the point. The 691 constant is NOT evidence the oracle is stuck: the recorder that produced it dedups by readability CLASS, so it sampled only at readable⇄secret transitions — of which there were none — and a value changing every GCD would have been recorded exactly once, indistinguishable from one that never changed. This samples on the player's own UNIT_SPELLCAST_SUCCEEDED instead, one sample per GCD boundary, paired with the cast that preceded it. distinctValues == 1 across a real pull means the oracle is constant and projects/combat-assist spec §3.1 has no content — that would kill M3 and force §6's first open question immediately. distinctValues > 1 means it moves, and whether it moves SENSIBLY is a judgement for a human reading the series, not for this test."
-    },
-    {
-      "id": "protected-fn-set-in-combat-beyond-four",
-      "anchor": "security-taint-and-restricted-data.md:147",
-      "bucket": "frame",
-      "status": "parked",
-      "question": "Of the 59 `IsProtectedFunction = true` widget methods, only `SetPoint` / `SetScale` / `Show` / `Hide` were exercised IN COMBAT on an ordinary addon frame. Do the other 55 also succeed there — `SetFrameStrata` and `SetHeight`/`SetWidth` above all?",
-      "expect": "All 55 succeed, because the frame reads `IsProtected() == false` and protection is what the restriction keys on — but that is an INFERENCE from four calls plus one predicate, and §1.1's general claim is currently cashed for more than it measured. `SetFrameStrata` is the one worth its own verdict: it is additionally the only `SecretArguments = NotAllowed` member of the strata/level family (`frames-textures-animation.md` §4.2), so it has a second reason to behave differently and no measurement either way. Method: one plain `CreateFrame(\"Frame\", nil, UIParent)`, each of the 55 called under `pcall` in combat, recording the raised message rather than a boolean — an error's TEXT is what distinguishes 'protected-function refusal' from 'bad argument'. ⚠ Calls that change what is on screen (SetParent, Show/Hide chains) must run on a throwaway frame, not on anything the lab draws.",
-      "blocked_on": null,
-      "note": "Registered because `projects/combat-assist` is BUILDING on the four-call half: `Overlay.lua` keeps `SetFrameStrata` out of combat deliberately and confines its in-combat writes to Show/Hide/SetVertexColor/SetAlpha, citing this marker. That is the marker doing its job — the code routed around the unknown rather than assuming it — so the question is recorded, not queued."
-    },
-    {
-      "id": "secret-anchor-dependent-geometry",
-      "anchor": "security-taint-and-restricted-data.md:158",
-      "bucket": "frame",
-      "status": "parked",
-      "question": "Does an addon frame ANCHORED to a frame carrying a SECRET anchor still accept `SetPoint` / `Show` / `Hide` in combat? The measured case anchored to `ActionButton1`, which is protected but is never fed a secret; a CDM item frame in combat is fed one.",
-      "expect": "UNKNOWN, and the two halves are genuinely different questions. §4.8.1 findings 10 and 12 record anchor-chain contagion propagating DOWN to the dependent from `FontString:SetText` and `Texture:SetColorTexture`, and the Cooldown Manager writes secret cooldown text onto its own item frames in combat — so the route exists and nothing has been executed along it. Method: an ordinary UIParent-parented frame anchored to a live CDM item frame, then in combat `SetPoint` it to a KNOWN-DIFFERENT offset and read `GetLeft()` back, converted to screen units. ⚠ A `pcall` that does not raise is NOT the measurement — the failure mode this question exists for is a geometry write that silently no-ops, so the readback is the whole test and a test that only records 'no error' would manufacture a false pass.",
-      "blocked_on": null,
-      "note": "Registered because `projects/combat-assist`'s overlay is exactly this shape — UIParent-parented, anchored to a CDM item frame, re-anchored mid-pull when the item-frame pool recycles. Its M3c acceptance table now names this gap as the reading for 'overlay visibly on the wrong icon after a repool', so the unknown is surfaced where a flight would meet it rather than tested."
-    },
-    {
-      "id": "cdm-auradataunit-pairs-with-instanceid",
-      "anchor": "security-taint-and-restricted-data.md:1643",
-      "bucket": "secret",
-      "status": "parked",
-      "question": "Does `item.auraDataUnit` on a CDM item frame supply the right `unit` alongside the same frame's `auraInstanceID` for `C_UnitAuras.GetAuraApplicationDisplayCount` — on a TARGET aura as well as a player one?",
-      "expect": "It pairs, because both fields describe the same bound aura on the same frame and `auraDataUnit` is non-nil iff there is one. But that is a COMPOSITION of two separately measured facts and has never been run as a pair: the flown quantiser cue hardcoded `\"player\"`, which is correct for a self-buff and says nothing about a target aura. Method: read both fields off one frame and pass them together, on a row bound to a target debuff (Destruction's Immolate gives one) and on a player buff in the same pull. ⚠ The quantiser has NO READBACK — an empty string is what 'below the threshold' looks like as well as what a wrong unit would look like — so the oracle is an eyeball on a count that is known to be above the threshold, never the call's return.",
-      "blocked_on": null,
-      "note": "The old planned CAP route is obsolete on 12.1: aura instance IDs are secret and the sanctioned AuraContainer replacement was accepted by `aura-container-backdraft-stack-cue`. Keep this parked only for legacy composition evidence."
-    },
-    {
-      "id": "cdm-forced-onupdate-registration",
-      "anchor": "cooldown-manager.md:§5.1",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Does calling viewer:RegisterItemFrameForOnUpdate(item) from addon code make Available fire for a row with no configured alert, without writing the player's saved layout or playing an alert?",
-      "expect": "registeredAfter equals the row count and hasOnUpdateScript true. Because alertsByEvent stays empty, TriggerAlertEvent should still be CALLED (so a hooksecurefunc observer sees the edge) while playing no sound or text. The open half is durability: RefreshOnUpdateRegistration runs on several paths and will un-register a row whose alertsByEvent is empty, so a second run some time later should show whether the registration survived.",
-      "note": "Deliberately NOT the route cap took — OnCooldownDone needs no registration at all. Measured because it is the obvious alternative and someone will propose it again. Out of combat only: UpdateOnUpdateScript does a SetScript on the viewer.",
-      "blocked_on": "it WRITES to the viewer: RegisterItemFrameForOnUpdate mutates itemFramesNeedingOnUpdateMap and UpdateOnUpdateScript does a SetScript on the viewer, both from tainted code. That is the same class of thing CDMSweep/Cue/Glow were retired from the 12.1 lab for. Not worth the risk to measure a route we already decided against (OnCooldownDone needs no registration). Unpark only with a deliberate decision."
-    },
-    {
-      "id": "spell-usable-aura-granted-access",
-      "anchor": "security-taint-and-restricted-data.md:2442",
-      "bucket": "call",
-      "status": "parked",
-      "question": "Does C_Spell.IsSpellUsable's FIRST return (`isUsable`) go false for a spell whose only bar to casting is AURA-GRANTED ACCESS — no cooldown, no power cost, just \"you have not been granted it\"? The measured claim at the anchor is that `isUsable` returns true for a spell visibly ON COOLDOWN, i.e. it answers affordability; the sample behind it was four Fury-gated Havoc spells, all failing on power. Aura-granted access is a third kind of unavailability the sample never exercised.",
-      "expect": "Unknown, and it is load-bearing three ways for the Devourer / Void-Scarred catalog (projects/combat-assist/specs/devourer/catalog.md §8 item 3): it is what clears the V12 GATED virtual row's hatch for Collapsing Star (1221167, granted every 30 souls harvested inside Void Metamorphosis), the \"bank is not full\" hold on Void Metamorphosis (1217605, uncastable below 50 Soul Fragments), and the rung-1 hold on Voidblade. If `isUsable` stays true without access, none of them are authorable from Lua and the hatch must be driven by a client-evaluated curve instead (V9/V10 shape), with cap never learning the answer. (An earlier revision counted a fourth consumer, a gate on the Consume virtual row; that row is STANDING — Consume has no cooldown, no cost and no aura gate — so it asks for no verdict and depends on nothing here.) A cheap second subject in the same family: Templar's Hammer of Light, which is likewise access-granted rather than cooldown- or power-gated.",
-      "blocked_on": "a live character in a spec with an access-granted spell — a Devourer Demon Hunter for the 1217605/1221167 pair, or any Retribution Paladin for Hammer of Light. No new capability is missing; nobody has flown it."
-    }
-  ]
+  "cross_check": "`wowkb.lab deploy` asserts every `built` id here has a ns.Test{} and every ns.Test{} id is a `built` question. An unmatched id is a loud error, never a silent skip. An `answered` id still present in the Lua fails BY NAME — that is the direction the suite grows back in, and it is the one worth naming.",
+  "counts_as_of": "2026-08-11: 61 answered, 1 built, 27 parked, 3 not-answerable (total 92). Seven pre-12.1 probes were returned to parked when their automatic runner tainted the secure Cooldown Viewer during login; their question recipes remain here, but their executable probes were deleted. The focused AuraContainer and GetSpellCharges questions were answered and their one-shot probes deleted after the findings landed; one visual Conflagrate charge-context probe is queued.",
+  "anchor_form": "<file under knowledge/addon-dev/>:<line>. `also` lists further anchors that ask the same question — one test, several places in the KB to edit when it is answered.",
+  "anchor_drift": "Anchors are `<file>:<line>` and LINE NUMBERS MOVE — the KB cleanup of 2026-08-05 silently drifted several. The `id` is the durable key; an anchor is a convenience. Treat a stale anchor as a lint finding, not as evidence the question is gone. ⚠ Nothing validates anchors today; that check belongs in `wowkb.lab deploy --check`.",
+  "note_field": "Free text on a question that has been flown but not drained, or is otherwise not in the state its `status` alone suggests. It exists so 'we looked and chose not to' is distinguishable from 'nobody has looked'.",
+  "evidence_classes": "A row on the `runs` stream carries `source`: \"measured\" (an instrument read it) or \"eyeball\" (a human answered after being shown a stimulus by ns.Ask). They are NOT interchangeable. An eyeball verdict is the only evidence that can close a question with no programmatic oracle, and the WRONG evidence for anything measurable — so `wowkb.lab show` renders it differently and `wowkb.lab drain` requires it for a visual question and labels it loudly in the observation it mints.",
+  "blocked_on": "What the question is waiting on, as a CAPABILITY rather than a task: many rows share one blocker, and `wowkb.lab blocked` groups them so the residue reads as a handful of missing capabilities instead of a pile of stuck questions. `null` means nothing is missing. Two blockers need their jargon spelled out: 'a generator that writes sibling addons' — ClientLab cannot test its own .toc from inside its own .toc without breaking itself, so every container question needs N generated throwaway addons, one per .toc variant (unbuilt, and not worth building until a .toc problem actually bites); and 'XML authoring in the lab' — the lab ships Lua only, so nothing can currently exercise the XML compiler.",
+  "two_things_that_may_never_accumulate": "A MEASURED ANSWER NOT YET IN THE KB — gated by `wowkb.obs check` (14 days / 12 open), the failure that once stranded 15 answers for 12 days. And AN UNVERIFIED CLAIM SILENTLY RELIED UPON — gated by nothing mechanical, by design: the marker sits on the claim, so anyone reading the claim reads the marker, and the rule is ASK rather than assume. Everything else — parked questions, [gap] annotations — may pile up harmlessly. They are a CATALOGUE, not a backlog.",
+  "marker_lifecycle": "The state of a question lives in the TOPIC FILE, on the claim: `[gap]`/`[unverified]`/`@verify-ingame` = open, nobody is on it. `@pending-test: <id>` = a ns.Test{} exists in ClientLab and will fly on the next login/pull — the id names the row here. `[client YYYY-MM-DD]` = measured and drained, marker gone. Promotion to `@pending-test` and the final rewrite are hand edits, in context, because README §7.1 wants the CLAIM rewritten rather than annotated — no tool edits prose.",
+  "shrinking": "THE SUITE SHRINKS AS THE KB GROWS, and that is the intended shape. Answering a question moves it out of ClientLab and into a topic file: 32 answered questions were swept out at once when this rule was adopted, taking the suite from 57 ids to 25 and deleting T_Module.lua and T_CooldownManager.lua entirely. A lab that only accumulates is re-measuring settled facts during a pull."
+ },
+ "questions": [
+  {
+   "id": "addon-declared-intrinsic",
+   "anchor": "frames-textures-animation.md:367",
+   "bucket": "xml",
+   "status": "parked",
+   "question": "Can an addon declare an `intrinsic` in XML and then use it as a `CreateFrame` frameType? The XSD puts `intrinsic` in the shared FrameAttributes group, so an addon CAN write it.",
+   "expect": "No Tier-1/Tier-2 statement that it becomes usable, and zero of the seven surveyed addon clones do it. Needs the lab to ship an XML file.",
+   "blocked_on": "XML authoring in the lab"
+  },
+  {
+   "id": "addon-message-throttle",
+   "anchor": "state-persistence-and-communication.md:938",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Are the addon-message throttle numbers (10 allowance, 1/s regen) real?",
+   "expect": "Tier 2 only, and the same source says the server may change them at any time — the KB's own instruction is DO NOT ENCODE THEM. Measuring them would produce a number with a shelf life, so this is recorded mainly so a future session does not think it was missed.",
+   "blocked_on": "a second client"
+  },
+  {
+   "id": "assisted-combat-next-cast-varies",
+   "anchor": "cooldown-manager.md:935",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Does C_AssistedCombat.GetNextCastSpell's return VARY over a pull, or is it constant? §7 proves it is readable in combat but recorded a constant 691 (Summon Felhunter) at every sample.",
+   "expect": "UNKNOWN, and the instrument is the point. The 691 constant is NOT evidence the oracle is stuck: the recorder that produced it dedups by readability CLASS, so it sampled only at readable⇄secret transitions — of which there were none — and a value changing every GCD would have been recorded exactly once, indistinguishable from one that never changed. This samples on the player's own UNIT_SPELLCAST_SUCCEEDED instead, one sample per GCD boundary, paired with the cast that preceded it. distinctValues == 1 across a real pull means the oracle is constant and projects/combat-assist spec §3.1 has no content — that would kill M3 and force §6's first open question immediately. distinctValues > 1 means it moves, and whether it moves SENSIBLY is a judgement for a human reading the series, not for this test."
+  },
+  {
+   "id": "battlenet-senddata-limits",
+   "anchor": "state-persistence-and-communication.md:940",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Are there length or rate limits on `C_BattleNet.SendGameData`?",
+   "expect": "No limits documented at any tier. Testing needs a second Battle.net-connected client, which makes it much more expensive than it looks.",
+   "blocked_on": "a second client"
+  },
+  {
+   "id": "cdm-auradataunit-pairs-with-instanceid",
+   "anchor": "security-taint-and-restricted-data.md:1649",
+   "bucket": "secret",
+   "status": "parked",
+   "question": "Does `item.auraDataUnit` on a CDM item frame supply the right `unit` alongside the same frame's `auraInstanceID` for `C_UnitAuras.GetAuraApplicationDisplayCount` — on a TARGET aura as well as a player one?",
+   "expect": "It pairs, because both fields describe the same bound aura on the same frame and `auraDataUnit` is non-nil iff there is one. But that is a COMPOSITION of two separately measured facts and has never been run as a pair: the flown quantiser cue hardcoded `\"player\"`, which is correct for a self-buff and says nothing about a target aura. Method: read both fields off one frame and pass them together, on a row bound to a target debuff (Destruction's Immolate gives one) and on a player buff in the same pull. ⚠ The quantiser has NO READBACK — an empty string is what 'below the threshold' looks like as well as what a wrong unit would look like — so the oracle is an eyeball on a count that is known to be above the threshold, never the call's return.",
+   "blocked_on": null,
+   "note": "The old planned CAP route is obsolete on 12.1: aura instance IDs are secret and the sanctioned AuraContainer replacement was accepted by `aura-container-backdraft-stack-cue`. Keep this parked only for legacy composition evidence."
+  },
+  {
+   "id": "cdm-forced-onupdate-registration",
+   "anchor": "cooldown-manager.md:§5.1",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Does calling viewer:RegisterItemFrameForOnUpdate(item) from addon code make Available fire for a row with no configured alert, without writing the player's saved layout or playing an alert?",
+   "expect": "registeredAfter equals the row count and hasOnUpdateScript true. Because alertsByEvent stays empty, TriggerAlertEvent should still be CALLED (so a hooksecurefunc observer sees the edge) while playing no sound or text. The open half is durability: RefreshOnUpdateRegistration runs on several paths and will un-register a row whose alertsByEvent is empty, so a second run some time later should show whether the registration survived.",
+   "note": "Deliberately NOT the route cap took — OnCooldownDone needs no registration at all. Measured because it is the obvious alternative and someone will propose it again. Out of combat only: UpdateOnUpdateScript does a SetScript on the viewer.",
+   "blocked_on": "it WRITES to the viewer: RegisterItemFrameForOnUpdate mutates itemFramesNeedingOnUpdateMap and UpdateOnUpdateScript does a SetScript on the viewer, both from tainted code. That is the same class of thing CDMSweep/Cue/Glow were retired from the 12.1 lab for. Not worth the risk to measure a route we already decided against (OnCooldownDone needs no registration). Unpark only with a deliberate decision."
+  },
+  {
+   "id": "duration-object-swipe-ordering",
+   "anchor": "security-taint-and-restricted-data.md:2499",
+   "bucket": "call",
+   "status": "built",
+   "question": "Does Cooldown:SetCooldownFromDurationObject accept a LuaDurationObject from C_Spell.GetSpellCooldownDuration, and does the SetUseAuraDisplayTime(false)-first ordering rider change whether either call is refused?",
+   "expect": "The source half is settled: GetSpellCooldownDuration returns a LuaDurationObject even in restricted combat [client 2026-08-09] (cooldown-manager.md:1933-1945). The sink is aspect-less with NO programmatic read-back, so ACCEPTANCE IS NOT PROOF OF PIXELS. Expect both orders to be accepted with no error, every getter on the widget to read secret or absent, and the ordering rider (KB confidence: medium) to be invisible here unless it manifests as a refusal. ⚠ THE REAL ANSWER NEEDS AN EYEBALL: whether a swipe was drawn at all, and whether the sink-first order leaves the AURA timer drawing instead, is a human watching the widget — no getter reports the rendered arc. Read `auraFirst`/`sinkFirst` for the calls and treat `eyeball` as the outstanding half. If the run DECLINES, no candidate spell id yielded an object: re-fly on a Warlock or add an id the character casts.",
+   "blocked_on": null
+  },
+  {
+   "id": "event-callback-nil-owner",
+   "anchor": "api-events-and-discovery.md:1259",
+   "bucket": "event",
+   "status": "parked",
+   "question": "Is the leading `_nilOwner` argument to a RegisterEventCallback handler a contract, or six consistent conventions? Is it ever non-nil?",
+   "expect": "The generated docs declare `EventCallbackType` with NO fields at all, so there is no spec to read. Six shipped call sites all discard a leading arg. Needs registering a callback and inspecting arg 1."
+  },
+  {
+   "id": "pandemic-region-animated-background",
+   "anchor": "security-taint-and-restricted-data.md:1471",
+   "bucket": "secret",
+   "status": "built",
+   "question": "Can a Frame handed to AddPandemicRegion still carry an AnimationGroup and a SetTexCoord flipbook of ours — is the handover accepted, is the animation object created, and does it report as playing?",
+   "expect": "A [gap]: the KB makes NO claim about animating a pandemic region, so nothing here is being re-checked. The region's only sealed aspect is Shown, so alpha/scale/texcoord/animation on it and its children SHOULD stay ours; expect `handover: accepted`, `play: accepted`, a ticker object, and the CONTROL group (identically built, never handed over, on the same shown host) reading IsPlaying = true. ⚠ armed_IsPlaying IS AMBIGUOUS BY CONSTRUCTION and is labelled so in the row: a group stops when its frame is hidden, so false there may mean the client closed the refresh window rather than that anything was refused. Only handover / play / ticker / the control are unambiguous. ⚠ THE REAL ANSWER NEEDS AN EYEBALL: whether the pulse and flipbook are VISIBLE on the tile and resume when the window opens. Cost line to respect when this drains (security-taint-and-restricted-data.md:1471-1473): the pandemic sink is the only one carrying an OnUpdate and its enablement is secretwrapped — budget ONE per armed tile, do not attach speculatively. The test's own ticker is bounded at 600 ticks for the same reason.",
+   "blocked_on": null
+  },
+  {
+   "id": "pandemic-region-frame-with-children",
+   "anchor": "security-taint-and-restricted-data.md:1460",
+   "bucket": "secret",
+   "status": "built",
+   "question": "Is a Frame carrying child frames AND child regions accepted by AddPandemicRegion, and what of the handed-over frame stays readable afterwards?",
+   "expect": "Acceptance is already [client 2026-08-21] and is NOT the question — this run re-establishes it on a wrapper that carries a texture, a FontString and a child FRAME (the earlier flight's wrapper is not described in that detail), and records what is still readable once the client owns SecretAspect.Shown on it. Expect `handover: accepted`, childFrames 1 / childRegions 2, and button_IsShown secret. ⚠ THE CLAIM'S LIVE HALF IS THE VISUAL ONE AND THIS TEST CANNOT SEE IT: whether plate + glyph + child frame appear and vanish AS A UNIT, only inside the refresh window. A child's own IsShown flag does not change when a parent is hidden, so no read-back can stand in. observations.md:1402 is the flight that missed exactly this — it was flown on DESTRUCTION, whose slot matched nothing, so no tile was ever visible. Needs a human on DEMONOLOGY with a dot ticking. Treat `eyeball` as the outstanding half; do not drain the visual claim off this run.",
+   "blocked_on": null
+  },
+  {
+   "id": "protected-fn-set-in-combat-beyond-four",
+   "anchor": "security-taint-and-restricted-data.md:147",
+   "bucket": "frame",
+   "status": "parked",
+   "question": "Of the 59 `IsProtectedFunction = true` widget methods, only `SetPoint` / `SetScale` / `Show` / `Hide` were exercised IN COMBAT on an ordinary addon frame. Do the other 55 also succeed there — `SetFrameStrata` and `SetHeight`/`SetWidth` above all?",
+   "expect": "All 55 succeed, because the frame reads `IsProtected() == false` and protection is what the restriction keys on — but that is an INFERENCE from four calls plus one predicate, and §1.1's general claim is currently cashed for more than it measured. `SetFrameStrata` is the one worth its own verdict: it is additionally the only `SecretArguments = NotAllowed` member of the strata/level family (`frames-textures-animation.md` §4.2), so it has a second reason to behave differently and no measurement either way. Method: one plain `CreateFrame(\"Frame\", nil, UIParent)`, each of the 55 called under `pcall` in combat, recording the raised message rather than a boolean — an error's TEXT is what distinguishes 'protected-function refusal' from 'bad argument'. ⚠ Calls that change what is on screen (SetParent, Show/Hide chains) must run on a throwaway frame, not on anything the lab draws.",
+   "blocked_on": null,
+   "note": "Registered because `projects/combat-assist` is BUILDING on the four-call half: `Overlay.lua` keeps `SetFrameStrata` out of combat deliberately and confines its in-combat writes to Show/Hide/SetVertexColor/SetAlpha, citing this marker. That is the marker doing its job — the code routed around the unknown rather than assuming it — so the question is recorded, not queued."
+  },
+  {
+   "id": "reload-addons-unloading-payload",
+   "anchor": "anatomy-and-runtime.md:883",
+   "bucket": "life",
+   "status": "parked",
+   "question": "Does `ADDONS_UNLOADING` carry `closingClient = false` on a /reload?",
+   "expect": "Tier 1 supplies only the payload shape; that a reload passes false is inference FROM THE FIELD NAME. Needs a logout/reload observation recorded into SavedVariables — pass 3's journal.",
+   "blocked_on": null
+  },
+  {
+   "id": "reload-state-preserved",
+   "anchor": "anatomy-and-runtime.md:904",
+   "bucket": "life",
+   "status": "parked",
+   "question": "What state does a /reload preserve vs discard — is the Lua state fully destroyed or recycled?",
+   "expect": "No Tier-1 or Tier-2 statement exists. Behaviourally addon chunks re-execute (ADDON_LOADED fires again). Testable by stamping a non-saved global and looking for it after reload — pass 3's journal.",
+   "blocked_on": null
+  },
+  {
+   "id": "savedvars-bak-semantics",
+   "anchor": "state-persistence-and-communication.md:929",
+   "bucket": "life",
+   "status": "parked",
+   "question": "Is the `.bak` file a rename or a copy, and when is it written relative to the main file?",
+   "expect": "Undocumented at Tier 1 and Tier 2; WoWUIBugs #241 is Tier-2 evidence it is not a reliable recovery mechanism. Half of this is a disk observation, not an addon one.",
+   "blocked_on": "a desktop file read"
+  },
+  {
+   "id": "savedvars-secret-comment",
+   "anchor": "state-persistence-and-communication.md:355",
+   "bucket": "call",
+   "status": "not-answerable",
+   "question": "When a secret is written to SavedVariables, does the file really get 'a comment' alongside the nil?",
+   "expect": "The COMMENT half is not answerable by an addon — it needs reading the written file off disk, which is a wowkb job, not a Lua one. The other half — 'secrets become nil' — IS addon-testable via a two-session round trip (write a secret to the DB, /reload, read it back), and is recorded as `savedvars-secret-roundtrip` below.",
+   "blocked_on": "a desktop file read"
+  },
+  {
+   "id": "scoped-modifier-for-addons",
+   "anchor": "module-architecture.md:854",
+   "also": [
+    "module-architecture.md:1010"
+   ],
+   "bucket": "xml",
+   "status": "parked",
+   "question": "May an addon use `<ScopedModifier>` (forbidden / scriptsUseGivenEnv / addToSecureEnv / hideFromGlobalEnv / fullLockdown), or is it silently ignored?",
+   "expect": "In UI.xsd (Tier 1), used by 20 Blizzard XML files and by 0 of the surveyed addons and 0 third-party XML files on the live install. Needs the lab to ship an XML file.",
+   "blocked_on": "XML authoring in the lab"
+  },
+  {
+   "id": "secret-anchor-dependent-geometry",
+   "anchor": "security-taint-and-restricted-data.md:158",
+   "bucket": "frame",
+   "status": "parked",
+   "question": "Does an addon frame ANCHORED to a frame carrying a SECRET anchor still accept `SetPoint` / `Show` / `Hide` in combat? The measured case anchored to `ActionButton1`, which is protected but is never fed a secret; a CDM item frame in combat is fed one.",
+   "expect": "UNKNOWN, and the two halves are genuinely different questions. §4.8.1 findings 10 and 12 record anchor-chain contagion propagating DOWN to the dependent from `FontString:SetText` and `Texture:SetColorTexture`, and the Cooldown Manager writes secret cooldown text onto its own item frames in combat — so the route exists and nothing has been executed along it. Method: an ordinary UIParent-parented frame anchored to a live CDM item frame, then in combat `SetPoint` it to a KNOWN-DIFFERENT offset and read `GetLeft()` back, converted to screen units. ⚠ A `pcall` that does not raise is NOT the measurement — the failure mode this question exists for is a geometry write that silently no-ops, so the readback is the whole test and a test that only records 'no error' would manufacture a false pass.",
+   "blocked_on": null,
+   "note": "Registered because `projects/combat-assist`'s overlay is exactly this shape — UIParent-parented, anchored to a CDM item frame, re-anchored mid-pull when the item-frame pool recycles. Its M3c acceptance table now names this gap as the reading for 'overlay visibly on the wrong icon after a repool', so the unknown is surfaced where a flight would meet it rather than tested."
+  },
+  {
+   "id": "secret-aspectless-pixel-moved",
+   "anchor": "security-taint-and-restricted-data.md:1292",
+   "also": [
+    "security-taint-and-restricted-data.md:1294",
+    "security-taint-and-restricted-data.md:1471"
+   ],
+   "bucket": "secret",
+   "status": "parked",
+   "question": "Do the ASPECT-LESS secret sinks actually move a pixel? `Texture:SetAtlas` and `AnimVertexColor:SetStartColor`/`SetEndColor` accept a Secret Value, declare no `SecretArgumentsAddAspect`, expose no getter, and leave the anchor chain clean — so 'accepted, nothing observable changed' is the strongest statement any instrument can make. Only an eyeball can close it. (`SetTexture` REFUSES and `SetColorTexture` POISONS the anchor chain — both are settled and are NOT part of this question.)",
+   "expect": "Set each from a known secret whose value is inferable from context (e.g. a boolean-ish count at a threshold), and LOOK. Either the atlas/colour visibly tracks the secret — in which case these are real display channels with no readback, and the KB's channel table gains two rows — or nothing moves, and 'accepted' means the call was silently dropped. ⚠ There is no programmatic oracle by construction: do not build one, and do not accept an INERT verdict as evidence either way.",
+   "blocked_on": "a secret that is itself a valid atlas name",
+   "note": "STILL OPEN after a visual check on 2026-08-05, deliberately not drained. The SetAtlas half was shown as three cells (valid name / invalid name / secret string) and the person reported the secret cell INDISTINGUISHABLE FROM THE INVALID one — so the blankness cannot be attributed to secrecy, because an atlas name is a string and the only secret string obtainable (a concatenation, §4.2 row 4) is never a valid atlas name. The control is what revealed that; without it the run would have looked like a clean negative. Settling SetAtlas needs a secret that is ITSELF a valid atlas name and no such source is known. The AnimVertexColor SetStartColor/SetEndColor half is UNATTEMPTED and is the live one — those take colours, not names, so the category problem does not apply."
+  },
+  {
+   "id": "secret-op-bool-test-boolean",
+   "anchor": "security-taint-and-restricted-data.md:729",
+   "bucket": "secret",
+   "status": "parked",
+   "question": "§4.2 row 8 — boolean test (`if v then`) on a BOOLEAN secret.",
+   "expect": "Errors, per Tier 2 — the last unmeasured row of the operation table. The source is `LuaDurationObject:HasExpired(RealTime)`, measured a SECRET BOOLEAN in combat [client 2026-08-06], which is what unblocked this row: it was registered on the grounds that every secret this client hands an addon is a cooldown number, and that is now false. Three preconditions each record `measured = false` with a reason rather than a verdict — nothing on cooldown, a non-boolean return, or a plain return."
+  },
+  {
+   "id": "serializer-secret",
+   "anchor": "libraries-and-ecosystem.md:471",
+   "also": [
+    "libraries-and-ecosystem.md:792"
+   ],
+   "bucket": "call",
+   "status": "parked",
+   "question": "What happens when a Secret Value reaches AceSerializer-3.0 / LibSerialize / LibDeflate? None of the three tests for secrets; AceSerializer's type dispatch ends in `error(MAJOR..\": Cannot serialize a value of type '\"..t..\"'\")`.",
+   "expect": "AceSerializer sees the real type via `type()` (row 14) and takes a normal branch, then errors inside it on a concat/format/length — so the observed failure is a confusing message from the wrong place. Deferred from pass 1 because it needs the three libraries VENDORED into the lab; the §4.2 rows measure the underlying operations first, which is most of the answer.",
+   "blocked_on": "LibStub loaded"
+  },
+  {
+   "id": "spell-usable-aura-granted-access",
+   "anchor": "security-taint-and-restricted-data.md:2448",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Does C_Spell.IsSpellUsable's FIRST return (`isUsable`) go false for a spell whose only bar to casting is AURA-GRANTED ACCESS — no cooldown, no power cost, just \"you have not been granted it\"? The measured claim at the anchor is that `isUsable` returns true for a spell visibly ON COOLDOWN, i.e. it answers affordability; the sample behind it was four Fury-gated Havoc spells, all failing on power. Aura-granted access is a third kind of unavailability the sample never exercised.",
+   "expect": "Unknown, and it is load-bearing three ways for the Devourer / Void-Scarred catalog (projects/combat-assist/specs/devourer/catalog.md §8 item 3): it is what clears the V12 GATED virtual row's hatch for Collapsing Star (1221167, granted every 30 souls harvested inside Void Metamorphosis), the \"bank is not full\" hold on Void Metamorphosis (1217605, uncastable below 50 Soul Fragments), and the rung-1 hold on Voidblade. If `isUsable` stays true without access, none of them are authorable from Lua and the hatch must be driven by a client-evaluated curve instead (V9/V10 shape), with cap never learning the answer. (An earlier revision counted a fourth consumer, a gate on the Consume virtual row; that row is STANDING — Consume has no cooldown, no cost and no aura gate — so it asks for no verdict and depends on nothing here.) A cheap second subject in the same family: Templar's Hammer of Light, which is likewise access-granted rather than cooldown- or power-gated.",
+   "blocked_on": "a live character in a spec with an access-granted spell — a Devourer Demon Hunter for the 1217605/1221167 pair, or any Retribution Paladin for Hammer of Light. No new capability is missing; nobody has flown it."
+  },
+  {
+   "id": "synchronous-event-semantics",
+   "anchor": "api-events-and-discovery.md:279",
+   "bucket": "event",
+   "status": "parked",
+   "question": "What do the `SynchronousEvent` / `unique` flags mean? Neither string is documented anywhere reachable — not in the generated docs' Documentation field, not in Blizzard_APIDocumentation, not in Blizzard_EventTrace, and the wiki has no page.",
+   "expect": "The natural reading (synchronous = dispatched inline; non-synchronous = queued; unique = coalesced to at most one queued instance) is inference, not evidence. Testing it needs firing an event from a known call frame and timestamping the handler — bucket 2, and it may not be reachable from an addon at all.",
+   "note": "BUILT but it can only ever report measured=false for the flag question, and that is the honest state, not a stub. Two independent blockers: no runtime predicate exposes SynchronousEvent/UniqueEvent the way C_EventUtils.IsCallbackEvent exposes CallbackEvent, so even a positive observation could not be tied to a flag; and no event is raisable from a known call frame without writing client state (SetCVar/LoadAddOn) or a server round trip, where latency is indistinguishable from queueing. What it DOES measure is the C_EventUtils namespace — if a patch ever adds such a predicate, this test finds it."
+  },
+  {
+   "id": "taintlog-level-5",
+   "anchor": "security-taint-and-restricted-data.md:477",
+   "also": [
+    "security-taint-and-restricted-data.md:1885"
+   ],
+   "bucket": "call",
+   "status": "not-answerable",
+   "question": "What does `taintLog` level 5 (added 12.0.1, per the wiki) log? The BlizzardInterfaceResources CVar description stops at level 4.",
+   "expect": "NOT ANSWERABLE BY AN ADDON. Needs `/console taintLog 1`, a full client restart, and then reading `_retail_/Logs/taint.log` OFF DISK — three things outside a Lua addon's reach. Answerable by a human plus a file read, and worth doing that way; just not by ClientLab.",
+   "blocked_on": "a desktop file read"
+  },
+  {
+   "id": "toc-category-grouping",
+   "anchor": "anatomy-and-runtime.md:248",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Does `## Category:` actually group addons in the client's AddOn list? The directive is proven by THIRD-PARTY practice (EllesmereUI sets it, colour escapes and all) but Blizzard's own corpus is a non-example — 1 of 346 shipped tocs.",
+   "expect": "Container-level: needs sibling addons written with differing `## Category:` values, so the lab cannot test it from inside its own .toc (W1d). Half of it is also VISUAL — whether the list groups — which only an eyeball closes. The addon-testable half is whether `C_AddOns.GetAddOnMetadata(name, 'Category')` reads the raw string back including the `|cff...|r` escape.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-dependency-transitivity",
+   "anchor": "anatomy-and-runtime.md:1200",
+   "bucket": "toc",
+   "status": "parked",
+   "question": "Is the client's login-time loader transitive over dependencies? Blizzard's Lua demand-load helper walks them recursively, but that proves only the HELPER is transitive.",
+   "expect": "No Tier-1 or Tier-2 statement of engine-level transitivity found. Needs a three-addon chain A→B→C.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-file-order-guarantee",
+   "anchor": "module-architecture.md:1025",
+   "bucket": "toc",
+   "status": "parked",
+   "question": "Are .toc files loaded strictly top-to-bottom? The rule is Tier 2 only, corroborated only by Blizzard's own tocs being internally consistent with it.",
+   "expect": "True. Trivially testable with a sibling addon whose files append their own name to a table — and worth doing precisely because everything in the module-architecture chapter rests on it.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-load-environment-tags",
+   "anchor": "module-architecture.md:824",
+   "also": [
+    "module-architecture.md:1006"
+   ],
+   "bucket": "toc",
+   "status": "parked",
+   "question": "May a third-party addon use `## LoadIntoEnvironment` / `## AllowLoadEnvironment`? Both are observed in Blizzard .toc files and absent from the wiki's TOC format page, with 0 uses across the install's 147 third-party .toc files.",
+   "expect": "Treated as Blizzard-internal until proven otherwise. Needs a sibling addon setting the tag.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-lua-error-scope",
+   "anchor": "anatomy-and-runtime.md:539",
+   "bucket": "toc",
+   "status": "parked",
+   "question": "Does a Lua error inside one .toc-listed file abort only that file, or the whole addon's remaining files?",
+   "expect": "Not established at any tier — the generated docs give only DoesAddOnHaveLoadError with no semantics, and both wiki pages are silent. Needs a sibling addon with a deliberately broken middle file and a marker global set by the last file.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-optional-deps-absent",
+   "anchor": "anatomy-and-runtime.md:449",
+   "bucket": "toc",
+   "status": "parked",
+   "question": "Does an absent `## OptionalDeps` entry block the load? The wiki says OptionalDeps names addons that 'should load first if available' but does NOT say an absent one is harmless.",
+   "expect": "Harmless — the natural reading of 'if available', with no counter-example in the shipped corpus, held as [unverified]. Needs a generated sibling addon naming a nonexistent optional dep.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-parser-case-sensitivity",
+   "anchor": "module-architecture.md:824",
+   "bucket": "toc",
+   "status": "parked",
+   "question": "Is the .toc directive parser case-insensitive?",
+   "expect": "Not established. Needs a sibling addon with `## interface:` / `## SAVEDVARIABLES:` in odd casing.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "toc-secure-tag",
+   "anchor": "module-architecture.md:845",
+   "also": [
+    "module-architecture.md:1015"
+   ],
+   "bucket": "toc",
+   "status": "parked",
+   "question": "Is a third-party `## Secure` ignored, honoured, or rejected? 5 shipped Blizzard tocs set it, 0 of 147 third-party ones do, and the wiki does not document the tag at all — it is undocumented, NOT documented-as-restricted.",
+   "expect": "Unknown; that is the finding to make. Needs a sibling addon setting it.",
+   "blocked_on": "a generator that writes sibling addons (one .toc variant per test)"
+  },
+  {
+   "id": "traitconfig-fires-on-hero-swap",
+   "anchor": "../../knowledge/_meta/kb-inbox.md:140",
+   "bucket": "call",
+   "status": "parked",
+   "question": "Does `TRAIT_CONFIG_UPDATED` fire on a HERO-TREE swap (which changes the build without changing the spec), and how many times per loadout swap? `PLAYER_SPECIALIZATION_CHANGED` demonstrably does not, so a hero-tree cache keyed to it goes stale.",
+   "expect": "Reasoned from the event's purpose, NOT observed — that is why it is here. Register both events plus `TRAIT_CONFIG_UPDATED`, log every firing with `C_ClassTalents.GetActiveHeroTalentSpec()` beside it, then swap hero tree without swapping spec. Expect TRAIT_CONFIG_UPDATED n>1 and PLAYER_SPECIALIZATION_CHANGED n=0. The COUNT matters as much as the fact: anything it triggers must be idempotent and must not re-announce an unchanged answer. ⚠ Anchor is outside knowledge/addon-dev/ — the finding is parked in the game KB's inbox because it has no home topic file yet (that placement is itself an open KB-structure call).",
+   "note": "Observational: an always-on listener installed at file load tallies PER-EVENT counts, so a reading requires an actual hero-tree swap during the session. A zero count reports measured=false, never 'it does not fire'."
+  },
+  {
+   "id": "unit-token-string-vs-enum",
+   "anchor": "api-events-and-discovery.md:174",
+   "bucket": "call",
+   "status": "not-answerable",
+   "question": "WHY is a string accepted where an enum is declared — does the C layer map the token string onto the enum, or does the doc generator merely label unit-token parameters with that type name?",
+   "expect": "NOT ANSWERABLE from Lua. Both readings produce identical observable behaviour, so no call can distinguish them; only Blizzard source or a statement could. The KB's handling is already right: use the string form (that is what ships), assert no mechanism."
+  },
+  {
+   "id": "xml-color-element-target",
+   "anchor": "frames-textures-animation.md:893",
+   "bucket": "xml",
+   "status": "parked",
+   "question": "Does an XML `<Color>` element compile to SetVertexColor or to SetColorTexture? Load a texture from XML with both `file` and `<Color>`, then read GetTexture() and GetVertexColor().",
+   "expect": "Not stated by UI.xsd or the wiki. The evidence rules out plain SetColorTexture replacement but does not distinguish the two remaining readings. Needs the lab to ship an XML file.",
+   "blocked_on": "XML authoring in the lab"
+  },
+  {
+   "id": "xml-onload-varargs",
+   "anchor": "anatomy-and-runtime.md:603",
+   "bucket": "xml",
+   "status": "parked",
+   "question": "Does an XML `<OnLoad>` body receive the addon-table varargs? Of 2123 shipped `<OnLoad` occurrences, 6 have `...` nearby and all six forward event/callback varargs — but that is four distinct sites, one of them dead code.",
+   "expect": "An argument from silence, not evidence; the KB explicitly declines to assume either way. Needs the lab to ship an XML file.",
+   "blocked_on": "XML authoring in the lab"
+  }
+ ]
 }
