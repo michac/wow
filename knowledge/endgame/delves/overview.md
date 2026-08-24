@@ -417,7 +417,8 @@ current reward**.
 - [ ] Per-delve location + gimmick notes for the three new delves (Ring of
       Glory, Gnarldor Isle, Venomfall Deeps) — own files, like
       `gulf-of-memory.md`
-- [ ] Valeera upgrade path / curio equivalents in S2
+- [x] Valeera loadout — roles, curios, poisons (resolved 2026-08-21, see `companion.md`);
+      curio RANKS and whether S1 curios still compete remain open there
 - [x] S1 Myth-stash conflict (resolved 2026-07-07) and the S1 "T9 champion
       trinket" observation (resolved 2026-07-09) — both now historical, see the
       Season 1 section
