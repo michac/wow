@@ -58,7 +58,6 @@ Usage:
     uv run python -m wowkb.capart build havoc           # write one spec's preview
     uv run python -m wowkb.capart build --all           # ...or every registered spec
     uv run python -m wowkb.capart export lua            # the same tokens as CombatAssistPlus/Style.lua
-    uv run python -m wowkb.capart export ring           # Part 7's ring flipbook sheet
     uv run python -m wowkb.capart export lab            # Part 7 as Lab.lua + Media/lab/ (gallery only)
     uv run python -m wowkb.capart check havoc [--all]   # doc↔sidecar, staleness, strict CSS
 
@@ -1004,12 +1003,8 @@ def addon_style(tokens: dict) -> dict:
     # only as art, named here so `Paint` reads their file names rather than restating them.
     out["badges"]["plate"] = dict(out["badges"]["plate"], texture=PLATE_TEXTURE)
     out["badges"]["halo_texture"] = HALO_TEXTURE
-    # V2's ring art. The client builds a file name from the prefix and a lane's own thickness, so
-    # no lane→file map exists anywhere: change a thickness and both sides follow it.
-    if "ring" in out:
-        out["ring"] = dict(out["ring"], texture_root=MEDIA_TEXTURE_ROOT)
-    # V11's hatch sheet, beside the ring. Same reason: the client builds a file name from the
-    # prefix and the shelf's own texture name, so no path is spelled out in Lua.
+    # V11's hatch sheet. The client builds a file name from the prefix and the shelf's own
+    # texture name, so no path is spelled out in Lua.
     if "hatch" in out:
         out["hatch"] = dict(out["hatch"], texture_root=MEDIA_TEXTURE_ROOT)
     # V14's promotion ring, same reason and the same directory. It ships to `Media/` rather than
@@ -1425,115 +1420,6 @@ def hatch_sheet(params: dict) -> Image.Image:
     return Image.merge("RGBA", (white, white, white, mask))
 
 
-# ON THE STYLE'S SHIP PATH (V2). ONE sheet, N frames of the arrival laid out in a grid, stepped
-# with SetTexCoord on the same shared ticker the badge sprites walk.
-def ring_flipbook(params: dict) -> Image.Image:
-    """V2's lane border: a square annulus arriving, as one white-alpha sprite sheet.
-
-    Frame 1 is the ring at its widest — one `gutter_px` inside its cell, so no frame ever touches a
-    cell boundary and texture filtering cannot sample the neighbouring frame — at
-    `from_alpha`. The last frame is the ring at rest, `travel_px` further in, at full alpha. The
-    frames between ease inward, so the arrival is painted into the art rather than produced by
-    scaling a frame; a flipbook draws inside its own rect, always, which is why this border can
-    never reach a neighbouring row.
-
-    Same house pattern as `shape_images` and `hatch_sheet`: an `L` mask drawn supersampled,
-    LANCZOS-downsampled, then merged under pure white so no hue can be baked in.
-    """
-    from PIL import ImageDraw
-
-    tile = int(params["tile_px"])
-    grid = int(params["grid"])
-    frames = int(params["frames"])
-    thickness = int(params["thickness_px"])
-    corner = int(params.get("corner_px", 0))
-    travel = int(params.get("travel_px", 0))
-    gutter = int(params.get("gutter_px", 0))
-    from_alpha = float(params.get("from_alpha", 0.0))
-    ease = params.get("smoothing", "OUT")
-
-    side = tile * grid
-    if tile <= 0 or side & (side - 1):
-        _die(f"tokens.ring: {grid}x{grid} cells of {tile}px is a {side}x{side} sheet, which is not "
-             "a power of two — the client wants power-of-two texture dimensions")
-    if frames < 2 or frames > grid * grid:
-        _die(f"tokens.ring: {frames} frames do not fit a {grid}x{grid} grid (and a one-frame "
-             "arrival is a still image, not an arrival)")
-    outer = gutter + travel
-    if thickness <= 0 or 2 * (outer + thickness) >= tile:
-        _die(f"tokens.ring: thickness_px {thickness} plus gutter {gutter} and travel {travel} does "
-             f"not leave a transparent centre in a {tile}px cell")
-    if corner < 0 or 2 * corner > tile:
-        _die(f"tokens.ring: corner_px {corner} does not fit twice across a {tile}px cell")
-
-    def eased(t: float) -> float:
-        return 1.0 - (1.0 - t) ** 2 if ease == "OUT" else t
-
-    sheet = Image.new("RGBA", (side, side))
-    big = tile * SHAPE_SS
-    for i in range(frames):
-        t = eased(i / (frames - 1))
-        inset = round(gutter + travel * t)
-        alpha = from_alpha + (1.0 - from_alpha) * t
-        mask = Image.new("L", (big, big), 0)
-        draw = ImageDraw.Draw(mask)
-        lo, hi = inset * SHAPE_SS, big - 1 - inset * SHAPE_SS
-        band = thickness * SHAPE_SS
-        r_out = max(corner - inset, 0) * SHAPE_SS
-
-        def rect(box, radius, fill):
-            if radius:
-                draw.rounded_rectangle(box, radius=radius, fill=fill)
-            else:
-                draw.rectangle(box, fill=fill)
-
-        rect((lo, lo, hi, hi), r_out, round(alpha * 255))
-        rect((lo + band, lo + band, hi - band, hi - band), max(r_out - band, 0), 0)
-        cell = Image.merge("RGBA", (Image.new("L", (big, big), 255),) * 3 + (mask,)) \
-            .resize((tile, tile), Image.LANCZOS)
-        sheet.paste(cell, ((i % grid) * tile, (i // grid) * tile))
-    return sheet
-
-
-def ring_image(tokens: dict) -> Image.Image | None:
-    """The sheet that ships, measured under the tint guard on this path and on `export_ring`'s.
-
-    The guard runs over the WHOLE sheet rather than one frame: a sheet whose frames are neutral but
-    whose sheet is not would be exactly the bug the guard exists to catch.
-    """
-    ring = tokens.get("ring")
-    if not ring:
-        return None
-    return ring_flipbook(dict(ring, from_alpha=tokens["arrival"]["from_alpha"],
-                              smoothing=tokens["arrival"]["smoothing"]))
-
-
-def ring_asset(tokens: dict) -> dict | None:
-    """V2's ring sheet as the preview draws it: a `data:` URI plus its measurement.
-
-    The preview uses it as a `mask-image` over the lane hue and steps `mask-position` at
-    `tokens.motion.tick_s`, which is the same art, the same walk and the same rate as the client.
-    """
-    img = ring_image(tokens)
-    if img is None:
-        return None
-    ring = tokens["ring"]
-    measure = uiart.tintability(img)
-    assert_tintable("ring flipbook sheet (Part 7)", "capart.ring_flipbook (generated)",
-                    ring.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
-    buf = io.BytesIO()
-    img.save(buf, "PNG", optimize=True)
-    uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
-    return {"uri": uri, "bytes": len(uri), "size": list(img.size),
-            "mean_saturation": measure["mean_saturation"], "tintable": measure["tintable"],
-            "frames": ring["frames"], "grid": ring["grid"], "tile_px": ring["tile_px"],
-            "thickness_px": ring["thickness_px"], "travel_px": ring.get("travel_px", 0),
-            "tint": ring.get("tint", "none")}
-
-
-
-
-
 # Every glyph a keybind can contain — digits, letters in both cases (a lowercase-modifier
 # notation like `sF` needs them), the punctuation a keyboard binds, and the four arrows a mouse
 # wheel or a direction key can produce. A font subset to this is 5-15 KB instead of 100-500 KB,
@@ -1899,27 +1785,8 @@ def export_count(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
     return written
 
 
-def export_ring(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
-    """Vendor V2's ring flipbook into `Media/`, beside `Media/badges/` — declared art, not lab art.
-
-    Lab art lives in `Media/lab/` and style art does not, so `ls Media/` still says which is which.
-    The tint guard runs here as well as on the preview path, so a sheet with a hue baked into it
-    cannot reach the client through a route the preview never rendered.
-    """
-    img = ring_image(tokens)
-    if img is None:
-        return []
-    ring = tokens["ring"]
-    measure = uiart.tintability(img)
-    assert_tintable("ring flipbook sheet (Part 7, ship path)",
-                    "capart.ring_flipbook (generated)", ring.get("tint", "none"),
-                    measure["mean_saturation"], measure["tintable"])
-    return [(ring["texture"], _write_tga(img, ring["texture"], MEDIA_DIR))]
-
-
-
 def export_hatch(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
-    """Vendor V11's stripe sheet into `Media/`, beside the ring — declared art, not lab art.
+    """Vendor V11's stripe sheet into `Media/` — declared art, not lab art.
 
     It moved out of `Media/lab/` when L4 was promoted. The gallery now reads this same file
     through `Lab.lua`'s generated `_sheet`, so promotion did not leave two copies behind.
@@ -1952,7 +1819,7 @@ def promotion_asset(tokens: dict) -> dict:
 
 
 def export_promotion(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
-    """Vendor V14's proc-ring flipbook into `Media/`, beside the ring and the stripe sheet.
+    """Vendor V14's proc-ring flipbook into `Media/`, beside the stripe sheet.
 
     The tint guard has real teeth here: V14's whole advantage over Blizzard's own proc glow is
     that it is NEUTRAL and therefore tintable, so a future edit that bakes a hue into
@@ -2747,9 +2614,9 @@ def gallery_covers_sealed(js: Path) -> list[str]:
     large dependency for a tool whose job is to assemble a page. That measurement stays MANUAL.
 
     ⚠ Scoped to the sealed kinds and not to "every art-bearing token group", which was the wider
-    rule considered first. `tokens.ring` and `tokens.promotion` also carry art and are correctly
-    absent from the gallery — ring is retired, promotion is drawn from Part 7 — so the wider gate
-    would fail on two primitives that are right, which is worse than not having it.
+    rule considered first. `tokens.promotion` also carries art and is correctly absent from the
+    gallery — it is drawn from Part 7 — so the wider gate would fail on a primitive that is right,
+    which is worse than not having it.
     """
     name = js.name if isinstance(js, Path) else "stepper.js+gallery.js"
     text = js.read_text(encoding="utf-8") if isinstance(js, Path) else js
@@ -2919,14 +2786,9 @@ def build(spec: str, tokens: dict, when: str) -> str:
     icons = icon_assets(used, lab_icon_roster, tokens)
     frames = badge_assets(tokens)
     stripes = hatch_asset(tokens)
-    ring = ring_asset(tokens)
 
     # The base64 budget is a fact to report, not a gate: an oversized page is still a page
     # you can look at, and `wowkb.capart assets` prints the per-asset table that fixes it.
-    # The ring sheet is deliberately NOT in this sum and not in `data`: nothing in the preview
-    # renders it since V2 retired, and embedding a 4 KB data URI no CSS names is dead weight the
-    # budget would then report as spent. It still ships to the addon and is still measured under
-    # the tint guard on `ring_asset`'s path — only the injection stopped.
     total = (sum(a["bytes"] for a in icons.values()) + sum(f["bytes"] for f in frames.values())
              + (stripes["bytes"] if stripes else 0))
 
@@ -2993,8 +2855,7 @@ def build(spec: str, tokens: dict, when: str) -> str:
         # it, which is most of why an experiment could add half a megabyte to every spec at once.
         "lab_stripes": stripes,
         "promotion": promotion_asset(tokens),
-        "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, ring, total,
-                                           when),
+        "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, total, when),
     }
 
     page = (TEMPLATE / "page.html").read_text(encoding="utf-8")
@@ -3020,7 +2881,7 @@ def _scenario_provenance(spec: str, cfg: dict) -> tuple:
                        "reviewed cache, imported from scenarios.md")
 
 
-def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> str:
+def provenance_html(spec, tokens, icons, frames, stripes, total, when) -> str:
     cfg = SPECS_BUILT[spec]
     rows = [
         ("render-tokens.json", f"sha {_sha(RENDER_TOKENS)} · v{tokens['version']}"),
@@ -3076,19 +2937,6 @@ def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> 
             "a live CDM row · "
             f"{stripes['bytes'] / 1024:.1f} KB b64"
         ))
-    if ring:
-        rows.append((
-            "ring sheet · Part 7 only",
-            f"{ring['size'][0]}×{ring['size'][1]} generated by <code>capart.ring_flipbook</code> — "
-            f"{ring['frames']} frames in a {ring['grid']}×{ring['grid']} grid of "
-            f"{ring['tile_px']}px cells, band {ring['thickness_px']}px, travelling "
-            f"{ring['travel_px']}px inward across the arrival · measured mean saturation "
-            f"{ring['mean_saturation']}, so <code>SetVertexColor</code> takes it to the shelf's "
-            f"colour · declared <code>tint: \"{ring['tint']}\"</code>, which is what puts it under "
-            "the tint guard · shipped by <code>export ring</code> to <code>Media/</code> for Part "
-            "7's <code>arrival-*</code> entries. <b>Not embedded in this page</b>: V2 retired and "
-            "nothing here renders it."
-        ))
     rows.append(("payload", f"{total / 1024:.0f} KB of {tokens['budget']['max_base64_kb']} KB budget"))
     rows.append(("built", when))
     rows.append(("command", "uv run python -m wowkb.capart build " + spec))
@@ -3116,16 +2964,6 @@ def cmd_tokens(args) -> None:
     print(f"    edge     rgb({r:>3},{g:>3},{b:>3}) · {rd['line_px']}px · alpha {rd['alpha']:.2f} · "
           f"{rd['blend']}, drawn ON the icon rect")
     print("    rank     row order plus elimination — there is no hue ladder and no motion")
-
-    ring, a = tokens.get("ring"), tokens["arrival"]
-    if ring:
-        print(f"\n  Part 7 only · ring flipbook (no live subject; the lab still draws it)")
-        print(f"    art      {ring['texture']}, {ring['frames']} frames in a "
-              f"{ring['grid']}x{ring['grid']} grid of {ring['tile_px']}px cells, band "
-              f"{ring['thickness_px']}px · declared tint {ring.get('tint', 'none')!r}")
-        print(f"    arrival  {ring['frames']} frames at {tokens['motion']['tick_s']}s = "
-              f"{a['duration_s']}s {a['smoothing']}, from alpha {a['from_alpha']}, travelling "
-              f"{ring.get('travel_px', 0)}px inward — ONE SHOT, no loop, never leaves its own rect")
 
     b = tokens["badges"]
     d = b["diameter_pct"] / 100 * tokens["surfaces"]["icon_px"]
@@ -3192,23 +3030,16 @@ def cmd_assets(args) -> None:
         print(f"{'lab stripe sheet':<40} {'lab':<6} {stripes['bytes'] / 1024:>8.1f}  "
               f"sat {stripes['mean_saturation']} (generated, neutral by construction) · "
               f"{stripes['size'][0]}px tile, pitch {stripes['pitch_px']}px")
-    ring = ring_asset(tokens)
-    if ring:
-        print(f"{'ring flipbook':<40} {'lab':<6} {ring['bytes'] / 1024:>8.1f}  "
-              f"sat {ring['mean_saturation']} (generated, neutral by construction) · "
-              f"{ring['frames']} frames in {ring['grid']}x{ring['grid']} × {ring['tile_px']}px, "
-              f"band {ring['thickness_px']}px")
     for name in used:
         a = icons[name]
         print(f"{name:<40} {'icon':<6} {a['bytes'] / 1024:>8.1f}  spell {a['spell']}")
     total = (sum(f["bytes"] for f in frames.values()) + sum(a["bytes"] for a in icons.values())
-             + (stripes["bytes"] if stripes else 0) + (ring["bytes"] if ring else 0))
+             + (stripes["bytes"] if stripes else 0))
     cap = tokens["budget"]["max_base64_kb"]
     print("-" * 92)
     print(f"{'TOTAL':<40} {'':<6} {total / 1024:>8.1f}  of {cap} KB budget "
           f"({total / 1024 / cap * 100:.0f}%)")
-    print("\nThe scan edge (V13) needs no art at all — it is four colour strips. The ring "
-          "flipbook above ships for Part 7's arrival experiments and nothing live draws it.")
+    print("\nThe scan edge (V13) needs no art at all — it is four colour strips.")
     if total > cap * 1024:
         sys.exit(1)
 
@@ -3723,10 +3554,6 @@ def cmd_export(args) -> None:
         for frame, size in export_badges(tokens):
             print(f"  {frame + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
                   f"{BADGE_DIR.relative_to(ROOT)}")
-    if what in ("ring", "all"):
-        for name, size in export_ring(tokens):
-            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
-                  f"{MEDIA_DIR.relative_to(ROOT)}")
     if what in ("count", "all"):
         for name, size in export_count(tokens):
             print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → pre-tinted (V16/V17)")
@@ -4179,7 +4006,7 @@ def _check_one(args) -> None:
     # comment are the finding: V14 shipped declaring `tint: "lane"`, a value from the retired lane
     # vocabulary that `assert_tintable` does not match — so the primitive whose whole advantage
     # over Blizzard's own proc glow is that it is NEUTRAL was the one going unguarded.
-    for name in ("badges", "ring", "hatch", "promotion", "count", "pandemic"):
+    for name in ("badges", "hatch", "promotion", "count", "pandemic"):
         art = tokens.get(name)
         if art is None:
             continue
@@ -4189,20 +4016,6 @@ def _check_one(args) -> None:
                 "recognise — so that art ships unguarded and a baked hue in it would render as a "
                 "recolour SetVertexColor cannot perform. Use \"shelf\", \"desaturate+shelf\" "
                 "or a deliberate \"none\".")
-
-    # 0a · V2's cadence is stated three times and must agree. The frame count is what the sheet is
-    # generated with, the tick is what the shared ticker runs at, and the duration is what
-    # `ShouldSnap` rate-limits on — a disagreement means the border rests mid-arrival or a second
-    # snap can start over the first.
-    ring, motion = tokens.get("ring"), tokens.get("motion")
-    if ring and motion:
-        span = ring["frames"] * motion["tick_s"]
-        if abs(span - tokens["arrival"]["duration_s"]) > 1e-9:
-            fails.append(
-                f"tokens.ring.frames ({ring['frames']}) × tokens.motion.tick_s "
-                f"({motion['tick_s']}) = {span:g}s, but tokens.arrival.duration_s is "
-                f"{tokens['arrival']['duration_s']}s. The frame walk IS the arrival (render-shelf "
-                "V2), so the three have to agree.")
 
     # 0b · at most one positive cue PER ENTRY. Pass 1 says "scan for A positive cue and press
     # it", which needs one answer — but that is a constraint on a ROW, not on the vocabulary.
@@ -4508,21 +4321,9 @@ def _check_one(args) -> None:
         if missing:
             fails.append(f"badge art with no shipped texture ({', '.join(missing)}) — "
                          "run: wowkb.capart export badges")
-        # 3b · V2's ring sheet, present AND current. Existence alone would keep passing over a
-        # sheet nobody regenerated after a token edit, which is the whole failure mode.
-        img = ring_image(tokens)
-        if img is not None:
-            path = MEDIA_DIR / f"{tokens['ring']['texture']}.tga"
-            if not path.exists():
-                fails.append(f"no {path.relative_to(ROOT)} — run: wowkb.capart export ring")
-            else:
-                buf = io.BytesIO()
-                img.save(buf, "TGA", compression="tga_rle", orientation=1)
-                if buf.getvalue() != path.read_bytes():
-                    fails.append(f"{path.name} disagrees with tokens.ring — "
-                                 "run: wowkb.capart export ring")
-        # 3c · V11's hatch sheet, on the same terms as the ring. It is drawn on the live overlay
-        # AND borrowed by the gallery, so a stale sheet is wrong in two places at once.
+        # 3c · V11's hatch sheet, present AND current. Existence alone would keep passing over a
+        # sheet nobody regenerated after a token edit, which is the whole failure mode. It is
+        # drawn on the live overlay AND borrowed by the gallery, so a stale sheet is wrong twice.
         if tokens.get("hatch"):
             path = MEDIA_DIR / f"{tokens['hatch']['texture']}.tga"
             if not path.exists():
@@ -4550,8 +4351,7 @@ def _check_one(args) -> None:
         sys.exit(1)
     print(f"ok · {args.spec}: scenarios.md matches the sidecar, the preview is current, "
           "shelf.css holds no literal colors,\n"
-          "     Style.lua, Media/ring.tga and Media/stripes.tga agree with the shelf and the "
-          "arrival's frames × tick match its duration,\n"
+          "     Style.lua and Media/stripes.tga agree with the shelf,\n"
           "     every art-bearing primitive still declares the tint guard, tokens/assets both "
           "run, every class\n"
           "     stepper.js names is styled, every drawn row resolves to an icon, and the positive\n"
@@ -4594,7 +4394,7 @@ def main() -> None:
     e = sub.add_parser("export",
                        help="write the shelf into the addon (Style.lua + badge art + Lab.lua)")
     e.add_argument("what", nargs="?", default="all",
-                   choices=["lua", "badges", "ring", "hatch", "promotion", "count", "lab",
+                   choices=["lua", "badges", "hatch", "promotion", "count", "lab",
                             "catalog", "all"])
     e.add_argument("spec", nargs="?", help="for `export catalog`: one spec, or every spec that "
                                           "has a catalog.json")

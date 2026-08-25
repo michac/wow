@@ -47,9 +47,9 @@ and nothing about how it was measured.
   on the icon rect, drawn on a row cap has an opinion about and absent on one it does not. No hue
   ladder, no motion, no art — four `SetColorTexture` strips with `SetBlendMode("ADD")`, and the
   only in-combat write is `Show`/`Hide`. It replaced V2's four-hue ring flipbook and its arrival
-  snap, which are retired from the style; `tokens.ring` and `Media/ring.tga` still ship because
-  Part 7's `arrival-*` entries are still about them, and the live overlay no longer draws either.
-  **Not flown** — Part 5 question 2.
+  snap, and as of 2026-08-25 **nothing of the arrival is left**: `tokens.ring` / `.motion` /
+  `.arrival`, `Media/ring.tga`, `capart export ring` and `Paint.Arrival` went with Part 7's
+  `arrival-*` entries, which had been deleted six days earlier. **Not flown** — Part 5 question 2.
 - **V11's cooldown hatch is shipped** (2026-08-16), on every row the CDM says is down.
   `verdicts.cd` is the only verdict carrying `hatch: true`, and **only `false` draws** — an
   `UNKNOWN` or absent readiness draws bare, so absence of a hatch never asserts a button is up.

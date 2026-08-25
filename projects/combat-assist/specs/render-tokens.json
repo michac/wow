@@ -11,26 +11,6 @@
     "alpha": 1.0,
     "line_px": 2
   },
-  "ring": {
-    "texture": "ring",
-    "tile_px": 64,
-    "grid": 4,
-    "frames": 16,
-    "thickness_px": 2,
-    "corner_px": 4,
-    "travel_px": 5,
-    "gutter_px": 1,
-    "tint": "shelf"
-  },
-  "motion": {
-    "tick_s": 0.025
-  },
-  "arrival": {
-    "from_scale": 2.0,
-    "duration_s": 0.4,
-    "smoothing": "OUT",
-    "from_alpha": 0.0
-  },
   "text": {
     "max_hz": 2.0,
     "duty": 0.7,

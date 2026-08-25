@@ -25,7 +25,7 @@ this file rather than each carrying their own numbers — that divergence is the
 this file exists to end.
 
 **Where the numbers are.** In **Part 6**, the `render-tokens` JSON block, and nowhere else. Prose
-in this file cites a token path (`tokens.arrival.duration_s`) and never restates its value, because
+in this file cites a token path (`tokens.badges.diameter_pct`) and never restates its value, because
 a number written twice is a number that will disagree with itself. `wowkb.capart` parses the block
 for the preview and **generates the addon's `Style.lua` from it** — the two sides of the promise
 above cannot drift, because neither transcribes anything by hand.
@@ -312,12 +312,18 @@ their paint by six days and left the model on 2026-08-25: membership is now a bo
 (`scan_when`, default ready-self) in `spec.md` §3.1, `Catalog.TIERS` is deleted, and the
 catalogs' grouping is prose. While they lasted, the tiers decided only *whether* a row was
 in the scan — which is why a boolean replaced them without a pixel moving. The `charged` flag stays authored
-in the catalogs and read by the engine; nothing draws from it. The arrival machinery — the sheet,
-its cadence, `tokens.ring` / `tokens.arrival` / `tokens.motion` and `Media/ring.tga` — stays
-declared and on the ship path because **Part 7's `arrival-*` entries are still about it**; it is the
-live overlay that stopped using it, so `Paint.Border` no longer creates an `AnimationGroup`, walks a
-sheet, or owns a rate limiter. The generated sheet's neutral-saturation measurement, and the
-argument for a flipbook over a `Scale` animation, are kept in `render-rationale.md`.
+in the catalogs and read by the engine; nothing draws from it. `Paint.Border` stopped creating an
+`AnimationGroup`, walking a sheet or owning a rate limiter the day V2 retired.
+
+⚠ **The arrival machinery is gone entirely as of 2026-08-25**, and the reason is that the
+justification for keeping it had been refuted by this file's own Part 7 ledger. It stayed declared
+and on the ship path *"because Part 7's `arrival-*` entries are still about it"* — but Part 7
+recorded those entries as **"Deleted with their subject" on 2026-08-19**, six days earlier. So the
+sheet, its cadence, `tokens.ring` / `tokens.arrival` / `tokens.motion`, `Media/ring.tga`,
+`capart export ring` and the `frames × tick == duration` gate all went together, along with
+`Paint.Arrival` and the gallery tab that drew them. The generated sheet's neutral-saturation
+measurement, and the argument for a flipbook over a `Scale` animation, are kept in
+`render-rationale.md`, which is where a treatment's reasoning outlives its code.
 
 ### V3 · *(retired)*
 
@@ -1347,13 +1353,14 @@ ours, no licence question.
 
 **This is also the art that ships.** `capart export badges` writes every frame the cue vocabulary
 names, plus the two generated shapes, into the addon as 32-bit RLE TGA — the format and header
-shape of the Kenney art CDMProbe already reads in client. `capart export ring` writes V2's ring
-flipbook the same way, into `Media/` beside `Media/badges/`. The tint guard runs on both paths, so
+shape of the Kenney art CDMProbe already reads in client. `capart export hatch` and
+`export promotion` write V11's stripe sheet and V14's proc ring the same way, into `Media/` beside
+`Media/badges/`. The tint guard runs on every one of those paths, so
 a baked-hue frame cannot reach the client through a route the preview never rendered. This is not
 the "don't bundle Blizzard art" rule's subject: our own CC0 and generated art ships, because it is
 ours.
 
-`capart check` gates the ring sheet the way it gates `Style.lua`: it must be on disk and
+`capart check` gates the stripe sheet the way it gates `Style.lua`: it must be on disk and
 **byte-identical to what the generator produces today** — a generated asset nobody regenerates is a
 stale asset that still passes an existence check.
 
@@ -1512,6 +1519,13 @@ deliberately never shipped:
 primitive that has no implementation yet, which is the shelf working as intended — one declared
 style per primitive, written before the code. Nothing in this table may be deleted on the grounds
 that "no addon file reads it"; that is the test for whether it *ships*, not for whether it exists.
+
+⚠ **The converse is not the same rule.** `tokens.ring` / `tokens.motion` / `tokens.arrival` were
+deleted on 2026-08-25, and they were never on that list — they shipped. What killed them is that
+their **subject** went: V2 retired, then Part 7's `arrival-*` entries were judged and deleted, and
+a declared style whose primitive no longer exists in either half of the project is not a style
+written ahead of its code. `panel` has a primitive waiting to be built; the arrival had one that
+had already been taken out.
 
 
 **Reading the verdict table.** `scan` is whether the row is in the scan at all — `cd` is
