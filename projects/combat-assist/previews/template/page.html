@@ -16,13 +16,16 @@
   </p>
   <p class="lede">
     <b>The reading model: scan left to right and press the first button that is not ruled out.</b>
-    The press is not something cap draws — <code>press</code>, <code>press-promoted</code> and
-    <code>below</code> render identically. Blizzard's <b>swipe</b> says <em>skip this</em>; a
-    <b>red badge</b> says <em>skip this, and why</em>. Every cue is negative: a satisfied dependency
-    draws nothing at all.
+    The press is not something cap draws — <code>press</code> and <code>open</code> render
+    identically. Blizzard's <b>swipe</b> says <em>skip this</em>; a
+    <b>red badge</b> says <em>skip this, and why</em>. The vocabulary is <em>negative by default</em>:
+    a satisfied dependency draws nothing at all. Two cues are positive and scoped —
+    <code>capped</code> (impending loss) and <code>priority</code> (press this one) — and no single
+    entry ever wears more than one of them.
   </p>
   <p class="muted">
-    Rendered from <code>specs/<!--__SPEC__-->/scenarios.md</code> and <code>specs/render-shelf.md</code>. Real
+    Rendered from <code>specs/<!--__SPEC__--><!--__ROWSRC__--></code> and
+    <code>specs/render-tokens.json</code>. Real
     Blizzard icon art at the client's 56&nbsp;px, real vendored sprite frames at their real frame
     counts, and cap's treatments composited the way the client composites them —
     <code>SetVertexColor</code> as a multiply, never a hue rotation. This is a preview of what the

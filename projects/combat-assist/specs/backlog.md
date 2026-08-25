@@ -24,6 +24,12 @@ and nothing about how it was measured.
   `tokens.surfaces.proc_glow_alpha` so cap's own emphasis is not competing with it
   (`render-shelf.md` Part 3), and owns one independent
   Tyrant bar. Sealed facts reach client-owned display sinks only, never a Lua branch.
+- **The Tyrant bar is DORMANT and that is the decision** (2026-08-25). `Bars.lua` is in the
+  `.toc` and fully wired — `Overlay` calls `Bars.Report`, which calls `Bars.Plan(Sense.Roster())`
+  — but `Sense.Roster()` reads `catalog.bar` and no catalog declares one, so it plans nothing on
+  every pass. It is kept rather than deleted because `catalog.json`'s schema and `capart export
+  catalog` already emit `bar`, so one authored key makes it execute. `spec.md` §3.3 is the
+  permission it is waiting on, not a gap.
 - **The role tier is REMOVED** (paint 2026-08-19, model 2026-08-25). Membership is a boolean:
   a row is in the scan when its `scan_when` alternatives (default: ready-self) read ON, withheld
   when required reads are unknown. `Catalog.TIERS` is deleted, the catalogs' `| Lane |` columns
@@ -39,10 +45,14 @@ and nothing about how it was measured.
 
 - **The style is the scan edge + corner badges + the cooldown hatch, over Blizzard's own swipe and
   desaturation.** The veil is deleted; the addon carries zero occurrences of `veil` (2026-08-16).
-  `render-shelf.md` declares it, `capart export` generates `Style.lua` and the badge / ring / hatch
-  art from Part 6, and `capart check` fails on a committed asset that disagrees with the shelf.
-  `Paint.lua` holds one builder per primitive and both the live overlay and `/cap style` draw
-  through it.
+  `render-shelf.md` declares what each token MEANS, `specs/render-tokens.json` holds the numbers,
+  `capart export` generates `Style.lua` and the badge / hatch / promotion art from them, and
+  `capart check` fails on a committed asset that disagrees.
+  `Paint.lua` holds one builder per primitive and the live overlay draws through it. ⚠ **The
+  gallery does not, for the sealed bars** — V18's charge bar, its dial and V20's proc bar are
+  built by hand in `StylePanel.buildSealed` from four near-identical `StatusBar` constructors,
+  because a swatch is driven to a stated value and a live sink is driven by the client. The
+  duplication is real and is a known cleanup, not a claim that it does not exist.
 - **V13's scan edge is one binary treatment** (2026-08-19): a `tokens.ready.line_px` additive line
   on the icon rect, drawn on a row cap has an opinion about and absent on one it does not. No hue
   ladder, no motion, no art — four `SetColorTexture` strips with `SetBlendMode("ADD")`, and the

@@ -2863,6 +2863,13 @@ def build(spec: str, tokens: dict, when: str) -> str:
     # hardcode "Havoc", which put the Retribution preview under Havoc's title in the tab strip.
     page = page.replace("<!--__SPEC_TITLE__-->", cfg.get("title", spec.title()))
     page = page.replace("<!--__SPEC__-->", spec)
+    # Which file the ROWS came from, which is per-spec while the migration is in flight: a
+    # migrated spec's rows are its `scenarios.json` and its walk prose is `scenarios.md`; an
+    # unmigrated one keeps both in the doc. A page that cites the wrong half sends a reader to a
+    # file that no longer holds what they are looking for.
+    page = page.replace("<!--__ROWSRC__-->",
+                        "/scenarios.json</code> + <code>scenarios.md" if origin == "json"
+                        else "/scenarios.md")
     page = page.replace("<!--__SCENARIO_COUNT__-->", str(len(scenarios)))
     page = page.replace("/*__ROOT_TOKENS__*/", root_css(tokens))
     page = page.replace("/*__SHELF_CSS__*/", (TEMPLATE / "shelf.css").read_text(encoding="utf-8"))

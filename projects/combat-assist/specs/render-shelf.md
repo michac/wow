@@ -1528,6 +1528,14 @@ written ahead of its code. `panel` has a primitive waiting to be built; the arri
 had already been taken out.
 
 
+**Which half of the project reads which field.** `swipe` is the only one the ADDON reads, in the
+`/cap style` gallery, so a lab swatch shows Blizzard's dial exactly where a real row would. Every
+other field — `scan`, `hatch`, `cues`, `eliminates` — is read by the PREVIEW and by `capart
+check`'s elimination gate, and by nothing in the client. ⚠ **`Treatment.For` does not read this
+table and cannot**: the engine's verdict is a struct (`member` · `oncd` · `cues`) with no name in
+it, so there is no key to look up. This table is the vocabulary a human writes a row's state in;
+the struct is what cap computes. `spec.md` §1's anchor names both.
+
 **Reading the verdict table.** `scan` is whether the row is in the scan at all — `cd` is
 the only row that is not, because Blizzard's swipe has already ruled it out and an edge would
 just be noise on a dead button. `swipe` is Blizzard's own dial, which cap does not
