@@ -4356,7 +4356,9 @@ def _check_one(args) -> None:
         for f in fails:
             print(f"  {f}")
         sys.exit(1)
-    print(f"ok · {args.spec}: scenarios.md matches the sidecar, the preview is current, "
+    lead = ("scenarios.json leads and scenarios.md's walk matches it by id"
+            if origin == "json" else "scenarios.md matches the sidecar")
+    print(f"ok · {args.spec}: {lead}, the preview is current, "
           "shelf.css holds no literal colors,\n"
           "     Style.lua and Media/stripes.tga agree with the shelf,\n"
           "     every art-bearing primitive still declares the tint guard, tokens/assets both "

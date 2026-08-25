@@ -1,0 +1,822 @@
+{
+  "version": 1,
+  "spec": "havoc",
+  "_comment": "CANONICAL. The scenario ROWS — what each CDM row draws in each game state — as data. This is hand-edited and it leads; `scenarios.md` beside it carries the walk prose and is keyed by the same ids. It replaced a REVIEWED CACHE under previews/data/, which ran the other way round: the doc led and the JSON was imported from it by a regex over prose. `capart check` cross-references the two by id in BOTH directions, so a walk with no row and a row with no walk are each a named failure. ⚠ Four names here are DEMON-FORM overrides — Abyssal Gaze, Death Sweep, Consuming Fire, Annihilation — and they are correct as written: a row writes whichever face the client would be showing, and `load_roster` keys every override name in catalog.md's roster table back to the same ability, so they join the state table normally.",
+  "scenarios": [
+    {
+      "id": "ST-0",
+      "title": "Eye Beam — the clean walk",
+      "state": "Not transformed, Fury mid, <b>single-target mode</b>. <b>Eye Beam is ready.</b> Metamorphosis and The Hunt are on cooldown. <b>Immolation Aura has spent both charges</b>, so it is swiped. Nothing is in a window.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "press"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "open"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "open"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-1",
+      "title": "Metamorphosis — the reset is banked",
+      "state": "Not transformed, Fury ~50. Vengeful Retreat and Metamorphosis are up. <b>Eye Beam is on cooldown with well over 8s left, and Blade Dance is on cooldown.</b> The Hunt is up.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "press"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "open"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "open"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-2",
+      "title": "Metamorphosis held — Eye Beam ≤8s out",
+      "state": "Deviation from ST-0. Metamorphosis is <b>up</b>, Blade Dance is on cooldown, and <b>Eye Beam&#x27;s cooldown has ~6s left</b>. The Hunt is on cooldown. Essence Break is up.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "press"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-3",
+      "title": "Metamorphosis held — Blade Dance is ready",
+      "state": "Not transformed. Metamorphosis is up; <b>Blade Dance is ready</b>. Eye Beam is on cooldown with well over 8s left. The Hunt and Essence Break are on cooldown.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "press"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-4",
+      "title": "The Hunt — Metamorphosis is ready, so cast it",
+      "state": "Not transformed. The Hunt is up. <b>Metamorphosis is ready</b>, and <b>Blade Dance is ready too</b>, so Meta itself is held. Eye Beam is on cooldown, ~12s out.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "press"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "open"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "open"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-5",
+      "title": "The Hunt held — Metamorphosis ≤15s away",
+      "state": "Not transformed. The Hunt is up. <b>Metamorphosis&#x27;s cooldown has ~12s left.</b> Eye Beam is ready.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "press"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "open"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "open"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-6",
+      "title": "Death Sweep — flood the Essence Break window (demon-form override)",
+      "state": "<b>Transformed — Metamorphosis is active.</b> You have just opened an Essence Break window. Abyssal Gaze and Essence Break are on cooldown.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Abyssal Gaze",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Death Sweep",
+          "verdict": "press"
+        },
+        {
+          "name": "Consuming Fire",
+          "verdict": "open"
+        },
+        {
+          "name": "Annihilation",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-7",
+      "title": "Essence Break — open the window",
+      "state": "Not transformed, no window live. Essence Break is up. <b>Eye Beam&#x27;s cooldown has ~12s remaining</b> — comfortably past the 4s that would hold Essence Break, and past the 8s that would hold Vengeful Retreat. Everything above is on cooldown.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "weave"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "press"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "open"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-8",
+      "title": "Essence Break held — Eye Beam ≤4s",
+      "state": "Deviation from ST-7: <b>Eye Beam&#x27;s cooldown has ~2s left</b> instead of more than 4s. Blade Dance is up and affordable.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "press"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-9",
+      "title": "Blade Dance / Death Sweep — the baseline spender",
+      "state": "Not transformed, Fury mid (affordable). <b>Every cooldown above is on cooldown</b>, including Vengeful Retreat. Immolation Aura is recharging.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "press"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-10",
+      "title": "Immolation Aura — the charges are capped",
+      "state": "Not transformed, <b>A Fire Inside and Burning Wound both taken</b>, Immolation Aura at <b>full (2/2)</b>. Everything above it — Metamorphosis and The Hunt included — is on cooldown. Fury mid. Single-target mode, and it does not matter, which is the point.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "press",
+          "cues": [
+            "capped"
+          ]
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-11",
+      "title": "Felblade — Fury-starved",
+      "state": "Not transformed, <b>Fury low</b> (~25 — under Chaos Strike&#x27;s cost), no cooldown up, and <b>Immolation Aura has no charges left</b>.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Felblade",
+          "verdict": "press"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-12",
+      "title": "Chaos Strike — the single-target skip does real work",
+      "state": "Not transformed, <b>single-target mode</b>, <b>Fury flush (~150 of 170)</b>, no window live. Blade Dance is on cooldown. <b>Immolation Aura has one charge banked</b> — available, and not capped. A Fire Inside is taken.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "press"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "AoE-1",
+      "title": "Immolation Aura — the only target-count term in the APL",
+      "state": "<b>ST-12&#x27;s state exactly, with the mode toggle flipped to AoE.</b> Two or more targets. Not transformed, Fury flush, every cooldown and Blade Dance on cooldown, <b>Immolation Aura holding one charge</b> (not capped), A Fire Inside taken.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "press"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open"
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    }
+  ]
+}

@@ -121,19 +121,24 @@ The walk stops at the press. Buttons to its right are lower priority and are not
 render, but carry no verdict beyond `open`. **Vengeful Retreat is the exception** — it is off the
 GCD, so it is "pressed" in parallel and the walk continues past it to find the GCD press.
 
-### The **CDM row** bullet is machine-read
+### The rows are `scenarios.json`; this file is the walk
 
-Every scenario carries one `- **CDM row.**` bullet, and `wowkb.capart` parses it to render the
-preview — so it is written in a fixed grammar rather than prose:
+**The CDM row for every scenario below lives in `scenarios.json` beside this file, which is
+canonical and hand-edited.** This document carries the *walk* — what the eye does and why — keyed
+by the same ids, and it no longer restates the row. Until this split the row was a
+` · `-separated bullet here that a regex scraped into a cache under `previews/data/`; the doc led
+and the JSON followed. That direction is what the split reversed, because a bullet cannot express
+what the per-ability state table needs and a regex over prose is the fragile part.
 
-```
-- **CDM row.** <Ability> `<verdict>` [{cues: <cue>, …}] · <Ability> `<verdict>` · …
-```
+`capart check` cross-references the two halves **by id in both directions**: a walk with no row
+and a row nobody walks are each a named failure. To see the rows drawn, open
+`previews/havoc-stepper.html`.
 
-The ability name is the one the client would *show* — so a demon-form scenario writes
+The ability name in a row is the one the client would *show* — so a demon-form scenario writes
 **Death Sweep**, not Blade Dance, and the preview draws that icon (R7 resolves the live
-`overrideSpellID`; cap authors none of it). A `cues` group names corner-badge cues by their
-`../render-shelf.md` key.
+`overrideSpellID`; cap authors none of it). `load_roster` keys every override name in
+`catalog.md`'s roster table back to the same ability, so those names join the state table
+normally. A `cues` group names corner-badge cues by their `../render-shelf.md` key.
 
 ⚠ **The cue vocabulary is negative by default**, so a group almost always appears on a button that
 is ruled out, and a satisfied dependency draws **nothing** — there is no `go` state to write. The
@@ -145,8 +150,8 @@ that cue cannot eliminate its own button. (The retired
 silently ignoring it, because a silently-ignored group would let this file keep asserting a cue the
 style no longer draws.)
 
-`wowkb.capart check havoc` re-scrapes these bullets and fails if they disagree with the generated
-preview's sidecar — this file leads, the preview follows.
+`wowkb.capart check havoc` matches every state a row draws against the per-ability `states` table
+in `catalog.json`, so a walk cannot draw a combination no catalog can produce.
 
 ### What the CDM shows in demon form (the override fidelity)
 
@@ -250,9 +255,9 @@ relied on.
 
 ## Single-target priority walk (Fel-Scarred)
 
-Each scenario: the **state** → the **CDM row** (every icon's state, in priority order) → the
-**walk** (left-to-right, the skip-reason for each available button until the press) → the **cue
-set** and its status.
+Each scenario: the **state** → the **walk** (left-to-right, the skip-reason for each available
+button until the press) → the **cue set** and its status. The row itself — every icon's state, in
+priority order — is `scenarios.json`, drawn at `previews/havoc-stepper.html`.
 
 **ST-0 is the simplest walk** — the case elimination resolves with no cue doing any work. It is
 first because it is the easiest to read, not because the others are measured against it.
@@ -262,9 +267,6 @@ first because it is the easiest to read, not because the others are measured aga
 - **State.** Not transformed, Fury mid, **single-target mode**. **Eye Beam is ready.**
   Metamorphosis and The Hunt are on cooldown. **Immolation Aura has spent both charges**, so it
   is swiped. Nothing is in a window.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `press` ·
-  Essence Break `open` · Blade Dance `open` · Immolation Aura `cd` · Chaos Strike `open` ·
-  Felblade `open` · Demon's Bite `open` · Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — off the GCD; weave it now, for free. Continue for the GCD press.
   2. **Metamorphosis / The Hunt** — on cooldown → skip.
@@ -288,10 +290,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed, Fury ~50. Vengeful Retreat and Metamorphosis are up. **Eye Beam is
   on cooldown with well over 8s left, and Blade Dance is on cooldown.** The Hunt is up.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `press` · The Hunt `open` ·
-  Eye Beam `cd` · Essence Break `open` · Blade Dance `cd` · Immolation Aura `open` ·
-  Chaos Strike `open` · Felblade `open` · Demon's Bite `open` · Fel Rush `open` ·
-  Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — off the GCD; weave it now, for free (holds Exergy). Continue for the
      GCD press.
@@ -318,10 +316,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Deviation from ST-0. Metamorphosis is **up**, Blade Dance is on cooldown, and **Eye
   Beam's cooldown has ~6s left**. The Hunt is on cooldown. Essence Break is up.
-- **CDM row.** Vengeful Retreat `open` {cues: blocked} · Metamorphosis `open` {cues: blocked} ·
-  The Hunt `cd` · Eye Beam `cd` · Essence Break `press` · Blade Dance `cd` ·
-  Immolation Aura `open` · Chaos Strike `open` · Felblade `open` · Demon's Bite `open` ·
-  Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — available, and its own `blocked` badge lights for the same reason
      Metamorphosis's does: Eye Beam is inside the 8s band, so the retreat is worth holding a
@@ -351,10 +345,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed. Metamorphosis is up; **Blade Dance is ready**. Eye Beam is on
   cooldown with well over 8s left. The Hunt and Essence Break are on cooldown.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `open` {cues: blocked} ·
-  The Hunt `cd` · Eye Beam `cd` · Essence Break `cd` · Blade Dance `press` ·
-  Immolation Aura `open` · Chaos Strike `open` · Felblade `open` · Demon's Bite `open` ·
-  Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis** — available, but the **`blocked` badge lights** from a readable fact:
@@ -373,10 +363,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed. The Hunt is up. **Metamorphosis is ready**, and **Blade Dance is
   ready too**, so Meta itself is held. Eye Beam is on cooldown, ~12s out.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `open` {cues: blocked} ·
-  The Hunt `press` · Eye Beam `cd` · Essence Break `open` · Blade Dance `open` ·
-  Immolation Aura `open` · Chaos Strike `open` · Felblade `open` · Demon's Bite `open` ·
-  Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis** — held: Blade Dance is ready (ST-3's mark) → skip.
@@ -396,10 +382,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed. The Hunt is up. **Metamorphosis's cooldown has ~12s left.** Eye Beam
   is ready.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `open` {cues: blocked} ·
-  Eye Beam `press` · Essence Break `open` · Blade Dance `open` ·
-  Immolation Aura `open` · Chaos Strike `open` · Felblade `open` · Demon's Bite `open` ·
-  Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis** — on cooldown → skip.
@@ -434,10 +416,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** **Transformed — Metamorphosis is active.** You have just opened an Essence Break
   window. Abyssal Gaze and Essence Break are on cooldown.
-- **CDM row (Meta overrides live).** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `cd`
-  · Abyssal Gaze `cd` · Essence Break `cd` · Death Sweep `press` · Consuming Fire `open`
-  · Annihilation `open` · Felblade `open` · Demon's Bite `open` · Fel Rush `open` ·
-  Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis / The Hunt / Abyssal Gaze / Essence Break** — all on cooldown (spent to build
@@ -463,9 +441,6 @@ first because it is the easiest to read, not because the others are measured aga
 - **State.** Not transformed, no window live. Essence Break is up. **Eye Beam's cooldown has ~12s
   remaining** — comfortably past the 4s that would hold Essence Break, and past the 8s that would
   hold Vengeful Retreat. Everything above is on cooldown.
-- **CDM row.** Vengeful Retreat `weave` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `press` · Blade Dance `open` · Immolation Aura `open` · Chaos Strike `open` ·
-  Felblade `open` · Demon's Bite `open` · Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — weave, off-GCD.
   2. **Metamorphosis / The Hunt / Eye Beam** — on cooldown → skip.
@@ -483,11 +458,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Deviation from ST-7: **Eye Beam's cooldown has ~2s left** instead of more than 4s.
   Blade Dance is up and affordable.
-- **CDM row.** Vengeful Retreat `open` {cues: blocked} · Metamorphosis `cd` ·
-  The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `open` {cues: blocked} · Blade Dance `press` · Immolation Aura `open` ·
-  Chaos Strike `open` · Felblade `open` · Demon's Bite `open` · Fel Rush `open` ·
-  Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat** — available, and **held**: its `blocked` badge is lit, because Eye Beam
      is inside the 8s band. ⚠ *Not* "weave it now, for free" — an earlier draft said that and it
@@ -510,9 +480,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed, Fury mid (affordable). **Every cooldown above is on cooldown**,
   including Vengeful Retreat. Immolation Aura is recharging.
-- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `cd` · Blade Dance `press` · Immolation Aura `open` · Chaos Strike `open` ·
-  Felblade `open` · Demon's Bite `open` · Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat … Essence Break** — all on cooldown → skip.
   2. **Blade Dance** — available and affordable → **press.** Rung 18/19, the ordinary spender; it
@@ -528,10 +495,6 @@ first because it is the easiest to read, not because the others are measured aga
 - **State.** Not transformed, **A Fire Inside and Burning Wound both taken**, Immolation Aura at
   **full (2/2)**. Everything above it — Metamorphosis and The Hunt included — is on cooldown.
   Fury mid. Single-target mode, and it does not matter, which is the point.
-- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `cd` · Blade Dance `cd` · Immolation Aura `press` {cues: capped} ·
-  Chaos Strike `open` · Felblade `open` · Demon's Bite `open` · Fel Rush `open` ·
-  Throw Glaive `open`
 - **Walk.**
   1. Everything above, **including Blade Dance**, is on cooldown → skip.
   2. **Immolation Aura** — its charges **read full** (`isActive` is `false`, and `NeverSecret`),
@@ -578,9 +541,6 @@ first because it is the easiest to read, not because the others are measured aga
 
 - **State.** Not transformed, **Fury low** (~25 — under Chaos Strike's cost), no cooldown up, and
   **Immolation Aura has no charges left**.
-- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `cd` · Blade Dance `open` {cues: starved} · Immolation Aura `cd` · Chaos Strike `open` {cues: starved} ·
-  Felblade `press` · Demon's Bite `open` · Fel Rush `open` · Throw Glaive `open`
 - **Walk.**
   1. **Vengeful Retreat … Essence Break** — on cooldown → skip.
   2. **Blade Dance** — available but reads `starved`: you cannot afford it (cue A, the
@@ -605,10 +565,6 @@ first because it is the easiest to read, not because the others are measured aga
 - **State.** Not transformed, **single-target mode**, **Fury flush (~150 of 170)**, no window
   live. Blade Dance is on cooldown. **Immolation Aura has one charge banked** — available, and
   not capped. A Fire Inside is taken.
-- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `cd` · Blade Dance `cd` · Immolation Aura `open` {cues: blocked} ·
-  Chaos Strike `press` · Felblade `open` {cues: overcap} · Demon's Bite `open` {cues: overcap} · Fel Rush `open` ·
-  Throw Glaive `open`
 - **Walk.**
   1. Everything above Immolation Aura is on cooldown → skip.
   2. **Immolation Aura** — available, but the **`blocked` badge lights**. At one target with no
@@ -770,9 +726,6 @@ negative-by-default vocabulary without asking the shelf for anything new.
   in AoE mode the row is already right and there is nothing to say: the single-target skip badge
   clears, and the walk reaches Immolation Aura on its own. **Compare the row below with ST-12's
   line by line — one badge is the entire difference, and it moves the press.**
-- **CDM row.** Vengeful Retreat `cd` · Metamorphosis `cd` · The Hunt `cd` · Eye Beam `cd` ·
-  Essence Break `cd` · Blade Dance `cd` · Immolation Aura `press` · Chaos Strike `open` ·
-  Felblade `open` {cues: overcap} · Demon's Bite `open` {cues: overcap} · Fel Rush `open` · Throw Glaive `open`
 - **Cue set.** Readiness (R2) → **have**. Single-target skip (G) → **have**, and **dark here**,
   which is the whole scenario. Immolation's charge state (`isActive`) → **have**, dark. The mode
   itself is cap's own state, read through the `aoe` predicate — not a game read, so nothing about

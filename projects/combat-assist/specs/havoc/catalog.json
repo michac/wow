@@ -1,0 +1,973 @@
+{
+  "version": 1,
+  "spec": 577,
+  "hero": 34,
+  "name": "Havoc / Fel-Scarred",
+  "note": "CANONICAL, hand-edited. Generates CombatAssistPlus/Catalogs/Havoc.lua via `wowkb.capart export catalog havoc`, and the per-ability state table the preview draws. The Fel-Scarred roster; Aldrachi Reaver (hero 35) is a separate catalog and correctly gets nothing. Gameplay choices are provisional characterizations to fly. No `power` field: Fury is a secret primary, so the `resource` predicate can never be used on this spec. Base spell ids only — Bind unions base/override/tooltip/live into the row, so the demon-form flip needs no hardcoded override ids.",
+  "abilities": [
+    {
+      "id": "vengeful_retreat",
+      "spell": 198793
+    },
+    {
+      "id": "metamorphosis",
+      "spell": 191427
+    },
+    {
+      "id": "the_hunt",
+      "spell": 370965
+    },
+    {
+      "id": "eye_beam",
+      "spell": 198013
+    },
+    {
+      "id": "essence_break",
+      "spell": 258860
+    },
+    {
+      "id": "blade_dance",
+      "spell": 188499
+    },
+    {
+      "id": "immolation_aura",
+      "spell": 258920,
+      "charged": true
+    },
+    {
+      "id": "chaos_strike",
+      "spell": 344862
+    },
+    {
+      "id": "felblade",
+      "spell": 232893
+    },
+    {
+      "id": "demons_bite",
+      "spell": 344859
+    },
+    {
+      "id": "fel_rush",
+      "spell": 344865,
+      "charged": true
+    },
+    {
+      "id": "throw_glaive",
+      "spell": 185123,
+      "charged": true
+    }
+  ],
+  "talents": [
+    {
+      "id": "a_fire_inside",
+      "node": 95143,
+      "entry": 117741,
+      "spell": 427775
+    },
+    {
+      "id": "burning_wound",
+      "node": 90917,
+      "entry": 112826,
+      "spell": 391189
+    },
+    {
+      "id": "eternal_hunt",
+      "node": 110427,
+      "entry": 137049,
+      "spell": 1270898
+    }
+  ],
+  "talents_note": "Node + entry from `knowledge/classes/demon-hunter/havoc/ability-inventory.tsv`. This is what `talent.a_fire_inside` in the APL means, read as itself rather than through a proxy.",
+  "entries": [
+    {
+      "id": "vengeful_retreat",
+      "ability": "vengeful_retreat",
+      "note": "OFF THE GCD, so its rung-5 position in the APL carries no ordering information: it fires alongside the global-cooldown press, not instead of it. Its line is alignment-gated rather than press-on-cooldown, and authored literally that is a negative badge lit across the whole steady state — so these two marker ranges are the ACTIONABLE SLICE of it.",
+      "markers": [
+        {
+          "id": "vr_awaits_eye_beam",
+          "cue": "blocked",
+          "display": {
+            "ability": "eye_beam",
+            "kind": "sealed-cooldown-range",
+            "within": 8
+          }
+        },
+        {
+          "id": "vr_awaits_meta",
+          "cue": "blocked",
+          "display": {
+            "ability": "metamorphosis",
+            "kind": "sealed-cooldown-range",
+            "within": 4
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "vr_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "vr_free",
+          "condition": "ready, neither hold applies",
+          "verdict": "weave",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "OFF THE GCD, so it is not competing for the press: weave it now, for free, and keep scanning. Position 1 is how it is read, not a claim about its APL rung."
+        },
+        {
+          "id": "vr_eye_beam_near",
+          "condition": "ready, Eye Beam's cooldown within 8s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "vr_awaits_eye_beam"
+          ],
+          "note": "The client evaluates the band; cap never reads the clock."
+        },
+        {
+          "id": "vr_meta_near",
+          "condition": "ready, Metamorphosis' cooldown within 4s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "vr_awaits_meta"
+          ]
+        },
+        {
+          "id": "vr_both_near",
+          "condition": "ready, Eye Beam within 8s AND Metamorphosis within 4s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "vr_awaits_eye_beam",
+            "vr_awaits_meta"
+          ],
+          "note": "Both bands armed at once. Same cue twice is ONE badge — the union is the OR — so this state is indistinguishable on screen from either half alone, which is correct: the statement is `hold the retreat`, not `hold it for two reasons`."
+        }
+      ]
+    },
+    {
+      "id": "metamorphosis",
+      "ability": "metamorphosis",
+      "note": "Meta's payoff is its RESET of Eye Beam and Death Sweep. The APL condition `!cooldown.blade_dance.up & cooldown.eye_beam.remains>8` straddles the readable/sealed line: readiness is readable, remaining time is not. Three markers rather than one because the band grammar is AND-only — naming the same cue three times unions into a single badge, and that union IS the OR.",
+      "markers": [
+        {
+          "id": "meta_wastes_eye_beam",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "eye_beam"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "meta_awaits_eye_beam",
+          "cue": "blocked",
+          "display": {
+            "ability": "eye_beam",
+            "kind": "sealed-cooldown-range",
+            "within": 8
+          }
+        },
+        {
+          "id": "meta_wastes_death_sweep",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "blade_dance"
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "meta_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "meta_clear",
+          "condition": "ready, Eye Beam and Blade Dance both down and Eye Beam beyond 8s",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "The reset banks two casts. A satisfied dependency draws nothing at all."
+        },
+        {
+          "id": "meta_wastes_eye_beam",
+          "condition": "ready, Eye Beam READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "meta_wastes_eye_beam"
+          ],
+          "note": "Readable, and NOT redundant with the band: Meta sits left of Eye Beam in the row, so a quiet Meta is pressed before the eye ever reaches Eye Beam. Elimination cannot cover this one."
+        },
+        {
+          "id": "meta_eye_beam_near",
+          "condition": "ready, Eye Beam's cooldown within 8s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "meta_awaits_eye_beam"
+          ]
+        },
+        {
+          "id": "meta_wastes_death_sweep",
+          "condition": "ready, Blade Dance READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "meta_wastes_death_sweep"
+          ],
+          "note": "Base id only: Bind unions base/override, so this reads Death Sweep in demon form."
+        },
+        {
+          "id": "meta_wastes_both",
+          "condition": "ready, Eye Beam READY and Blade Dance READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "meta_wastes_eye_beam",
+            "meta_wastes_death_sweep"
+          ],
+          "note": "Both resets would be thrown away. One badge, because the cue is the same."
+        },
+        {
+          "id": "meta_near_and_death_sweep",
+          "condition": "ready, Eye Beam within 8s and Blade Dance READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "meta_awaits_eye_beam",
+            "meta_wastes_death_sweep"
+          ],
+          "note": "The sealed half and the readable half true together — the one combination that needs both a client-painted band and a cap-evaluated term to explain it."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "meta_wastes_eye_beam",
+            "meta_awaits_eye_beam"
+          ],
+          "why": "`meta_wastes_eye_beam` requires Eye Beam READY — cooldown remaining zero — and the band deliberately reads nothing at zero remaining, so it draws only while the remaining time is inside (0, 8]. Ready is outside that by construction. This is why the readable marker is not redundant with the band: it covers the one point the band cannot."
+        }
+      ]
+    },
+    {
+      "id": "the_hunt",
+      "ability": "the_hunt",
+      "note": "The Hunt's empower rides the NEXT Eye Beam, so rung 4 casts it only when that Eye Beam is close, or when Metamorphosis is ready and about to reset it. Negate that and there are two holds, unioned onto one badge. Both gated on ETERNAL HUNT, because without it rung 4 is unconditional and there is no hold at all — the `talent` predicate's first use outside Immolation Aura.",
+      "markers": [
+        {
+          "id": "hunt_awaits_eye_beam",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "eternal_hunt"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "metamorphosis"
+              ],
+              "negate": true
+            }
+          ],
+          "display": {
+            "ability": "eye_beam",
+            "beyond": 10,
+            "kind": "sealed-cooldown-range"
+          }
+        },
+        {
+          "id": "hunt_awaits_meta",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "eternal_hunt"
+              ]
+            }
+          ],
+          "display": {
+            "ability": "metamorphosis",
+            "kind": "sealed-cooldown-range",
+            "within": 15
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "hunt_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "hunt_clear",
+          "condition": "ready, no hold applies (or Eternal Hunt untalented, where rung 4 is unconditional and there is no hold at all)",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "hunt_eye_beam_far",
+          "condition": "ready, Eternal Hunt talented, Metamorphosis NOT ready, Eye Beam's cooldown beyond 10s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "hunt_awaits_eye_beam"
+          ],
+          "note": "The common hold, and the expensive one: casting here burns the empower up to ~20s before the Eye Beam it is supposed to ride."
+        },
+        {
+          "id": "hunt_meta_near",
+          "condition": "ready, Eternal Hunt talented, Metamorphosis' cooldown within 15s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "hunt_awaits_meta"
+          ],
+          "note": "Save the empower for the Eye Beam the reset is about to hand you."
+        },
+        {
+          "id": "hunt_both_holds",
+          "condition": "ready, Eternal Hunt talented, Metamorphosis not ready but within 15s, Eye Beam beyond 10s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "hunt_awaits_eye_beam",
+            "hunt_awaits_meta"
+          ],
+          "note": "⚠ These two DO co-occur, which is easy to read backwards. `hunt_awaits_eye_beam` stands down when Meta is READY; `hunt_awaits_meta` draws while Meta's cooldown is within 15s. Not-ready and within-15s is the same window, so the overlap is most of it."
+        }
+      ]
+    },
+    {
+      "id": "eye_beam",
+      "ability": "eye_beam",
+      "markers": [],
+      "states": [
+        {
+          "id": "eye_beam_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "eye_beam_clear",
+          "condition": "ready",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "No markers at all: nothing cap can see ever rules Eye Beam out. It is the window every other hold on this spec is protecting."
+        }
+      ]
+    },
+    {
+      "id": "essence_break",
+      "ability": "essence_break",
+      "note": "Essence Break's window wants Eye Beam inside it, so spending it with Eye Beam a moment away throws the window away. The clock is secret: cap authors the band and the client paints the badge.",
+      "markers": [
+        {
+          "id": "essence_break_awaits_eye_beam",
+          "cue": "blocked",
+          "display": {
+            "ability": "eye_beam",
+            "kind": "sealed-cooldown-range",
+            "within": 4
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "eb_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "eb_clear",
+          "condition": "ready, Eye Beam not imminent",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "eb_eye_beam_near",
+          "condition": "ready, Eye Beam's cooldown within 4s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "essence_break_awaits_eye_beam"
+          ],
+          "note": "Spending the window with Eye Beam a moment away throws the window away. Essence Break sits RIGHT of Eye Beam, so unlike Metamorphosis it needs only the band: elimination already covers the zero case."
+        }
+      ]
+    },
+    {
+      "id": "blade_dance",
+      "ability": "blade_dance",
+      "note": "One of the two Fury spenders. The generators cost nothing, so `insufficientPower` is never true for them — they stay clean while the spenders wear the badge, which is the whole point of the cue.",
+      "markers": [
+        {
+          "id": "blade_dance_starved",
+          "cue": "starved",
+          "when": [
+            {
+              "pred": "affordable",
+              "args": [
+                "blade_dance"
+              ],
+              "negate": true
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "bd_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "bd_clear",
+          "condition": "ready and affordable",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "bd_starved",
+          "condition": "ready, not affordable",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "blade_dance_starved"
+          ],
+          "note": "`ready` cannot carry affordability here: a row with no real cooldown never raises an Available/OnCooldown edge, so the border stays lit whatever the Fury."
+        }
+      ]
+    },
+    {
+      "id": "immolation_aura",
+      "ability": "immolation_aura",
+      "note": "Immolation Aura sits ABOVE Chaos Strike and its rung is set by CHARGES, not by target count. Three rungs in APL order: 10 (a banked charge, no target term, outranks the spenders and Eye Beam), 20 (above Chaos Strike at 2+ targets — what position 7 encodes), and 25 (the unconditional floor, BELOW Chaos Strike, which the red badge corrects).",
+      "markers": [
+        {
+          "id": "immolation_capped",
+          "cue": "capped",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "a_fire_inside"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "burning_wound"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "metamorphosis"
+              ],
+              "negate": true
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "the_hunt"
+              ],
+              "negate": true
+            },
+            {
+              "pred": "capped",
+              "args": [
+                "immolation_aura"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "immolation_single_target",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "aoe",
+              "negate": true
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "immolation_aura"
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "chaos_strike"
+              ]
+            },
+            {
+              "pred": "capped",
+              "args": [
+                "immolation_aura"
+              ],
+              "negate": true
+            }
+          ]
+        },
+        {
+          "id": "immolation_single_target_no_fire",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "aoe",
+              "negate": true
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "immolation_aura"
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "chaos_strike"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "a_fire_inside"
+              ],
+              "negate": true
+            }
+          ]
+        },
+        {
+          "id": "immolation_single_target_no_wound",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "aoe",
+              "negate": true
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "immolation_aura"
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "chaos_strike"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "burning_wound"
+              ],
+              "negate": true
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "ia_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "ia_clear",
+          "condition": "ready, no cue applies",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "ia_capped",
+          "condition": "ready, at max charges, A Fire Inside AND Burning Wound talented, Metamorphosis and The Hunt both NOT ready",
+          "verdict": "open",
+          "cues": [
+            "capped"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "immolation_capped"
+          ],
+          "note": "Rung 10, and the spec's ONE positive cue: a charge is being lost right now, and that outranks the spenders and Eye Beam at any target count. Row position cannot carry it. ⚠ The two `ready` negations are what keep a positive cue — which overrides the elimination scan by design — from pointing past rungs 3 and 4, which sit above it. ONE SECRET, MANY READABLE GATES."
+        },
+        {
+          "id": "ia_st_skip",
+          "condition": "AoE off, ready, Chaos Strike affordable, not at max charges",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "immolation_single_target"
+          ],
+          "note": "Rung 25: at one target with no charge banked, Immolation Aura is BELOW Chaos Strike, and position 7 is wrong there. The AoE re-weight delivered in negative polarity."
+        },
+        {
+          "id": "ia_st_no_fire",
+          "condition": "AoE off, ready, Chaos Strike affordable, A Fire Inside untalented",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "immolation_single_target_no_fire"
+          ]
+        },
+        {
+          "id": "ia_st_no_wound",
+          "condition": "AoE off, ready, Chaos Strike affordable, Burning Wound untalented",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "immolation_single_target_no_wound"
+          ]
+        },
+        {
+          "id": "ia_st_no_talents",
+          "condition": "AoE off, ready, Chaos Strike affordable, neither talent taken and not at max charges",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "immolation_single_target",
+            "immolation_single_target_no_fire",
+            "immolation_single_target_no_wound"
+          ],
+          "note": "All three red markers true at once, which is the ordinary state of a build that took neither talent. Three markers rather than one because rung 25's real condition is `!(capped & a_fire_inside & burning_wound)` and a marker's grammar has no OR inside it: union IS the OR. One badge on screen either way."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "immolation_capped",
+            "immolation_single_target"
+          ],
+          "why": "The gold badge requires `capped(immolation_aura)`; the red one requires its negation. Directly exclusive."
+        },
+        {
+          "pair": [
+            "immolation_capped",
+            "immolation_single_target_no_fire"
+          ],
+          "why": "The gold badge requires A Fire Inside talented; this red marker requires it untalented."
+        },
+        {
+          "pair": [
+            "immolation_capped",
+            "immolation_single_target_no_wound"
+          ],
+          "why": "The gold badge requires Burning Wound talented; this red marker requires it untalented. With the two above, gold and red are provably exclusive on EVERY build — which is the claim the three-marker split exists to make good, and nothing checked it until this table."
+        }
+      ]
+    },
+    {
+      "id": "chaos_strike",
+      "ability": "chaos_strike",
+      "markers": [
+        {
+          "id": "chaos_strike_starved",
+          "cue": "starved",
+          "when": [
+            {
+              "pred": "affordable",
+              "args": [
+                "chaos_strike"
+              ],
+              "negate": true
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "cs_clear",
+          "condition": "affordable",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "No cooldown state: Chaos Strike has no real cooldown, so the CDM never swipes it and it is never eliminated by Blizzard's own dial."
+        },
+        {
+          "id": "cs_starved",
+          "condition": "not affordable",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "chaos_strike_starved"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "felblade",
+      "ability": "felblade",
+      "note": "A generator, so it never wears the affordability cue — its failure mode is the opposite one. cap performs no part of the decision: the client evaluates an authored curve against the secret Fury and paints the result.",
+      "markers": [
+        {
+          "id": "felblade_overcap",
+          "cue": "overcap",
+          "display": {
+            "kind": "sealed-power-percent",
+            "power": "Fury",
+            "threshold": 100
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "fb_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "fb_clear",
+          "condition": "ready, Fury below the break",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "fb_overcap",
+          "condition": "ready, Fury at or above 100 of the client's own maximum",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "felblade_overcap"
+          ],
+          "note": "An ABSOLUTE Fury level, straight off rung 22 (`fury<=100`), so it is authored as a `threshold` and not as a generation. The badge says the negation of the rung: above 100, spend before you generate. The maximum is the client's and is emphatically not hardcoded."
+        }
+      ]
+    },
+    {
+      "id": "demons_bite",
+      "ability": "demons_bite",
+      "note": "The other generator, breaking at a different point from a different KIND of number: a generation rather than an absolute level.",
+      "markers": [
+        {
+          "id": "demons_bite_overcap",
+          "cue": "overcap",
+          "display": {
+            "generation": 25,
+            "kind": "sealed-power-percent",
+            "power": "Fury"
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "db_clear",
+          "condition": "Fury with room for the swing",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "No cooldown state: a generator with no cooldown. ⚠ Demon's Bite is ABSENT from the 12.1 APL because the sim's build takes Demon Blades, which replaces the button with a passive. On a build without it this is a real row, and the entry binds only if the row exists."
+        },
+        {
+          "id": "db_overcap",
+          "condition": "Fury close enough that a 20-30 swing would overflow",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "demons_bite_overcap"
+          ],
+          "note": "A GENERATION rather than a threshold: the swing rolls 20-30 and the midpoint is the honest authoring of a range cap cannot read. A `close to overflowing` readout, not a guarantee."
+        }
+      ]
+    },
+    {
+      "id": "fel_rush",
+      "ability": "fel_rush",
+      "markers": [],
+      "states": [
+        {
+          "id": "fr_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "fr_clear",
+          "condition": "a charge available",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        }
+      ]
+    },
+    {
+      "id": "throw_glaive",
+      "ability": "throw_glaive",
+      "markers": [],
+      "states": [
+        {
+          "id": "tg_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "tg_clear",
+          "condition": "a charge available",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        }
+      ]
+    }
+  ],
+  "entries_note": "Entry order IS the authored priority. `Catalog.OrderCheck` compares it against Blizzard's `layoutIndex`, which stopped being the drawn order when Anchor shipped — so read its verdict as \"the saved layout disagrees\", never as \"the row on screen disagrees\"."
+}
