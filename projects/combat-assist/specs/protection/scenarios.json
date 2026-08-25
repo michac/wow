@@ -1,0 +1,745 @@
+{
+  "version": 1,
+  "spec": "protection",
+  "_comment": "CANONICAL. The scenario ROWS — what each CDM row draws in each game state — as data. This is hand-edited and it leads; `scenarios.md` beside it carries the walk prose and is keyed by the same ids. It replaced a REVIEWED CACHE under previews/data/, which ran the other way round: the doc led and the JSON was imported from it by a regex over prose. `capart check` cross-references the two by id in BOTH directions, so a walk with no row and a row with no walk are each a named failure.",
+  "scenarios": [
+    {
+      "id": "PROT-1",
+      "title": "The opener — everything ready, and rung 5 is position 1",
+      "state": "Pull timer at zero, every cooldown up, <b>0 HP</b>, Consecration already down from <code>actions.precombat</code> and therefore swiped, no Glory of the Vanguard, no Shining Light, row 4 armed as <b>Holy Bulwark</b>, row 7 in its base life.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "press"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-2",
+      "title": "Wings up — Divine Toll follows it in",
+      "state": "One global later. Avenging Wrath is on cooldown and <b>its buff is up</b>; Divine Toll is ready; <b>0 HP</b>; row 4 still Holy Bulwark and ready.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "press"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-3",
+      "title": "Inside the window, five Holy Power — the spender leads by position alone",
+      "state": "Two globals later. Wings is up, Divine Toll is spent and swiped, its Holy Power dump has taken the player to <b>5 HP</b>. Row 4 is Holy Bulwark, ready. No Vanguard.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "press"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-4",
+      "title": "Sacred Weapon armed — the identity is the whole cue",
+      "state": "Mid-fight. Avenging Wrath ~40 s out, Divine Toll swiped, <b>2 HP</b>, and row 4 is displaying <b>Sacred Weapon</b> with no Sacred Weapon buff on the player. Row 7 base. DG at 2 stacks. No Vanguard.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Sacred Weapon",
+          "verdict": "press"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-5",
+      "title": "Holy Bulwark armed, Wings far — the bank hold, and the count is silent",
+      "state": "As PROT-4, but row 4 is displaying <b>Holy Bulwark</b> and is ready. Avenging Wrath ~40 s out, <b>2 HP</b>, DG at <b>2 stacks</b>, row 7 base, no Vanguard, Avenger&#x27;s Shield ready.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "press"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-6",
+      "title": "Divine Guidance at five — the count rules out a row it does not belong to",
+      "state": "As PROT-5, but DG is at <b>five stacks</b>. Row 7 still base, no Vanguard, <b>2 HP</b>, Holy Bulwark armed and ready, Avenging Wrath ~40 s out, Consecration off cooldown.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Consecration",
+          "verdict": "press"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-7",
+      "title": "Glory of the Vanguard up — the same count, the opposite reading",
+      "state": "As PROT-6 — DG at <b>five stacks</b>, <b>2 HP</b>, Holy Bulwark armed and ready, Avenging Wrath ~40 s out, row 7 base — except that <b>Glory of the Vanguard is up</b>.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "press"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-8",
+      "title": "Hammer of Wrath armed, Divine Guidance below five — the two tables disagree on purpose",
+      "state": "Execute range: <b>row 7 is displaying Hammer of Wrath</b> and it is off cooldown. DG at <b>three stacks</b>, <b>2 HP</b>, Avenging Wrath ~40 s out, Divine Toll swiped, Holy Bulwark on cooldown, Avenger&#x27;s Shield ready, Consecration ready, no Vanguard.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Consecration",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Hammer of Wrath",
+          "verdict": "press"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-9",
+      "title": "Hammer of Wrath armed at five stacks — Consecration takes it back",
+      "state": "As PROT-8, but DG is at <b>five stacks</b>.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Consecration",
+          "verdict": "press"
+        },
+        {
+          "name": "Hammer of Wrath",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-10",
+      "title": "Blessed Assurance up — the empowered hammer, expressed as a demotion",
+      "state": "The <b>other half of the hero choice node</b>: Blessed Assurance talented, so Divine Guidance does not exist on this build and neither count table is ever armed. <b>Blessed Assurance is up</b>, row 7 is in its <b>base</b> life (target above execute range), <b>2 HP</b>, Avenging Wrath and Divine Toll swiped, Holy Bulwark swiped, Avenger&#x27;s Shield swiped, Consecration swiped.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "cd"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "press"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-11",
+      "title": "Shining Light free — Word of Glory, and the badge going out",
+      "state": "Late in a pull. <b>Shining Light is up</b>, <b>2 HP</b>, and everything from row 1 to row 8 is swiped — Blessed Hammer&#x27;s charges are both down. Row 7 base.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "cd"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "cd"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "press"
+        }
+      ]
+    },
+    {
+      "id": "PROT-12",
+      "title": "Plain filler — position 7 is rung 22, not rung 16",
+      "state": "Mid-fight, target above execute range so row 7 is in its <b>base</b> life and ready. <b>2 HP</b>; Avenging Wrath, Divine Toll, Holy Bulwark, Avenger&#x27;s Shield and Consecration all swiped. Divine Guidance build, so Blessed Assurance never exists.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "cd"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "press"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-13",
+      "title": "The three-hold state, and the marker this walk deletes",
+      "state": "A <b>Blessed Assurance build</b> in execute range — so Divine Guidance does not exist, and neither count table has a subject. Row 7 is displaying <b>Hammer of Wrath</b> and is off cooldown; row 4 is displaying <b>Holy Bulwark</b>, ready, with Avenging Wrath ~40 s away; Avenger&#x27;s Shield is ready; Consecration is off cooldown; <b>2 HP</b>; Divine Toll swiped; no Vanguard.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Consecration",
+          "verdict": "press"
+        },
+        {
+          "name": "Hammer of Wrath",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-14",
+      "title": "No Righteous Protector — the only build cue B exists on",
+      "state": "The rare build: <b>Righteous Protector not talented</b>. Avenging Wrath is ~20 s from ready and its buff is down; <b>Divine Toll is ready</b>; <b>2 HP</b>; row 4 is Holy Bulwark, ready; Avenger&#x27;s Shield ready; DG at two stacks; row 7 base; no Vanguard.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "press"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    }
+  ]
+}

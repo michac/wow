@@ -34,13 +34,20 @@ build has exactly one of them) · **RP** = Righteous Protector · **AW** = Aveng
 `consecration` = 29. **The default build for this walk is RP + Divine Guidance + Blessed
 Hammer**; where a scenario is on the other half of a choice node it says so in its **State**.
 
-### The **CDM row** bullet is machine-read
+### The rows are `scenarios.json`; this file is the walk
 
-Every scenario below carries a `- **CDM row.**` bullet in a fixed grammar — **nine entries in
-authored order, separated by ` · `, each `<Ability> \`<verdict>\``**.
-`wowkb.capart import scenarios protection` scrapes it into the preview's sidecar and
-`wowkb.capart check protection` re-scrapes it and fails if the two disagree, so **this document
-leads and the preview follows**.
+**The CDM row for every scenario below lives in `scenarios.json` beside this file, which is
+canonical and hand-edited** — nine entries in authored order, each a `{name, verdict}` record
+with optional `cues` / `sealed` / `client`. This document carries the *walk* — what the eye does
+and why — keyed by the same ids, and it no longer restates the row. Until this split the row was
+a ` · `-separated bullet here that a regex scraped into a cache under `previews/data/`; the doc
+led and the JSON followed. That direction is what the split reversed.
+
+`capart check protection` cross-references the two halves **by id in both directions** — a walk
+with no row and a row nobody walks are each a named failure — and matches every state a row
+draws against the per-ability `states` table in `catalog.json`, so a walk cannot draw a
+combination no catalog can produce. To see the rows drawn, open
+`previews/protection-stepper.html`.
 
 ⚠ **The ability name is whatever the Cooldown Manager would *display* in that state** — `Sacred
 Weapon`, not `Holy Bulwark`, while row 4 is transformed; `Hammer of Wrath`, not `Judgment`, while
@@ -145,10 +152,6 @@ cue vocabulary is otherwise confirmed as authored.
 - **State.** Pull timer at zero, every cooldown up, **0 HP**, Consecration already down from
   `actions.precombat` and therefore swiped, no Glory of the Vanguard, no Shining Light, row 4
   armed as **Holy Bulwark**, row 7 in its base life.
-- **CDM row.** Avenging Wrath `press` · Divine Toll `open` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` ·
-  Avenger's Shield `open` · Consecration `cd` · Judgment `open` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath** — ready, and cue **A** is dark: rung 5 is
      `avenging_wrath,if=cooldown.divine_toll.remains<=10`, Divine Toll is *ready*, so the band's
@@ -171,10 +174,6 @@ cue vocabulary is otherwise confirmed as authored.
 
 - **State.** One global later. Avenging Wrath is on cooldown and **its buff is up**; Divine Toll
   is ready; **0 HP**; row 4 still Holy Bulwark and ready.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `press` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` {cues: blocked} ·
-  Avenger's Shield `open` · Consecration `cd` · Judgment `open` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath** — swiped → skip.
   2. **Divine Toll** — ready, and it wears nothing: cue **B** is withheld by the talent gate
@@ -198,9 +197,6 @@ cue vocabulary is otherwise confirmed as authored.
 
 - **State.** Two globals later. Wings is up, Divine Toll is spent and swiped, its Holy Power dump
   has taken the player to **5 HP**. Row 4 is Holy Bulwark, ready. No Vanguard.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` · Shield of the Righteous `press` ·
-  Holy Bulwark `open` {cues: blocked} · Avenger's Shield `open` · Consecration `cd` · Judgment `open` ·
-  Blessed Hammer `open` · Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath / Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — affordable, so cue **C** is dark, and nothing else is authored
@@ -222,10 +218,6 @@ cue vocabulary is otherwise confirmed as authored.
 - **State.** Mid-fight. Avenging Wrath ~40 s out, Divine Toll swiped, **2 HP**, and row 4 is
   displaying **Sacred Weapon** with no Sacred Weapon buff on the player. Row 7 base. DG at 2
   stacks. No Vanguard.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Sacred Weapon `press` ·
-  Avenger's Shield `open` · Consecration `open` · Judgment `open` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath / Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — `starved` at two HP against a cost of three → skip.
@@ -251,10 +243,6 @@ cue vocabulary is otherwise confirmed as authored.
 
 - **State.** As PROT-4, but row 4 is displaying **Holy Bulwark** and is ready. Avenging Wrath
   ~40 s out, **2 HP**, DG at **2 stacks**, row 7 base, no Vanguard, Avenger's Shield ready.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` {cues: blocked} ·
-  Avenger's Shield `press` · Consecration `open` · Judgment `open` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath / Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — `starved` → skip.
@@ -280,10 +268,6 @@ cue vocabulary is otherwise confirmed as authored.
 
 - **State.** As PROT-5, but DG is at **five stacks**. Row 7 still base, no Vanguard, **2 HP**,
   Holy Bulwark armed and ready, Avenging Wrath ~40 s out, Consecration off cooldown.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` {cues: blocked} ·
-  Avenger's Shield `ruled-sealed` {sealed: count-bands} · Consecration `press` · Judgment `open` ·
-  Blessed Hammer `open` · Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath / Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — `starved` → skip.
@@ -319,10 +303,6 @@ cue vocabulary is otherwise confirmed as authored.
 
 - **State.** As PROT-6 — DG at **five stacks**, **2 HP**, Holy Bulwark armed and ready, Avenging
   Wrath ~40 s out, row 7 base — except that **Glory of the Vanguard is up**.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` {cues: blocked} ·
-  Avenger's Shield `press` · Consecration `open` · Judgment `open` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath / Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — `starved` → skip.
@@ -348,10 +328,6 @@ cue vocabulary is otherwise confirmed as authored.
 - **State.** Execute range: **row 7 is displaying Hammer of Wrath** and it is off cooldown. DG at
   **three stacks**, **2 HP**, Avenging Wrath ~40 s out, Divine Toll swiped, Holy Bulwark on
   cooldown, Avenger's Shield ready, Consecration ready, no Vanguard.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `cd` ·
-  Avenger's Shield `open` {cues: blocked} · Consecration `ruled-sealed` {sealed: count-bands} ·
-  Hammer of Wrath `press` · Blessed Hammer `open` · Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath … Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — `starved` → skip.
@@ -391,10 +367,6 @@ cue vocabulary is otherwise confirmed as authored.
 ### PROT-9 · Hammer of Wrath armed at five stacks — Consecration takes it back
 
 - **State.** As PROT-8, but DG is at **five stacks**.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `cd` ·
-  Avenger's Shield `open` {cues: blocked} {sealed: count-bands} · Consecration `press` ·
-  Hammer of Wrath `open` · Blessed Hammer `open` · Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath … Holy Bulwark** — swiped, except Shield of the Righteous, which is
      `starved` at two HP → skip.
@@ -423,10 +395,6 @@ cue vocabulary is otherwise confirmed as authored.
   Guidance does not exist on this build and neither count table is ever armed. **Blessed Assurance
   is up**, row 7 is in its **base** life (target above execute range), **2 HP**, Avenging Wrath
   and Divine Toll swiped, Holy Bulwark swiped, Avenger's Shield swiped, Consecration swiped.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `cd` ·
-  Avenger's Shield `cd` · Consecration `cd` · Judgment `open` {cues: blocked} · Blessed Hammer `press` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath … Consecration** — swiped, except Shield of the Righteous, which is
      `starved` → skip.
@@ -454,10 +422,6 @@ cue vocabulary is otherwise confirmed as authored.
 
 - **State.** Late in a pull. **Shining Light is up**, **2 HP**, and everything from row 1 to row 8
   is swiped — Blessed Hammer's charges are both down. Row 7 base.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `cd` ·
-  Avenger's Shield `cd` · Consecration `cd` · Judgment `cd` · Blessed Hammer `cd` ·
-  Word of Glory `press`
 - **Walk.**
   1. **Avenging Wrath … Blessed Hammer** — swiped, except Shield of the Righteous, which is
      `starved` at two HP → skip.
@@ -486,10 +450,6 @@ cue vocabulary is otherwise confirmed as authored.
 - **State.** Mid-fight, target above execute range so row 7 is in its **base** life and ready.
   **2 HP**; Avenging Wrath, Divine Toll, Holy Bulwark, Avenger's Shield and Consecration all
   swiped. Divine Guidance build, so Blessed Assurance never exists.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `cd` ·
-  Avenger's Shield `cd` · Consecration `cd` · Judgment `press` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath … Consecration** — swiped, except Shield of the Righteous, which is
      `starved` → skip.
@@ -515,10 +475,6 @@ cue vocabulary is otherwise confirmed as authored.
   and neither count table has a subject. Row 7 is displaying **Hammer of Wrath** and is off
   cooldown; row 4 is displaying **Holy Bulwark**, ready, with Avenging Wrath ~40 s away; Avenger's
   Shield is ready; Consecration is off cooldown; **2 HP**; Divine Toll swiped; no Vanguard.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `cd` ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` {cues: blocked} ·
-  Avenger's Shield `open` {cues: blocked} · Consecration `press` · Hammer of Wrath `open` ·
-  Blessed Hammer `open` · Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath / Divine Toll** — swiped → skip.
   2. **Shield of the Righteous** — `starved` → skip.
@@ -556,10 +512,6 @@ cue vocabulary is otherwise confirmed as authored.
 - **State.** The rare build: **Righteous Protector not talented**. Avenging Wrath is ~20 s from
   ready and its buff is down; **Divine Toll is ready**; **2 HP**; row 4 is Holy Bulwark, ready;
   Avenger's Shield ready; DG at two stacks; row 7 base; no Vanguard.
-- **CDM row.** Avenging Wrath `cd` · Divine Toll `open` {cues: blocked} ·
-  Shield of the Righteous `open` {cues: starved} {client: not-enough-power} · Holy Bulwark `open` {cues: blocked} ·
-  Avenger's Shield `press` · Consecration `open` · Judgment `open` · Blessed Hammer `open` ·
-  Word of Glory `open` {cues: blocked}
 - **Walk.**
   1. **Avenging Wrath** — swiped → skip.
   2. **Divine Toll** — ready, and `blocked` lights from `dt_awaits_wrath`: the talent gate **H**
