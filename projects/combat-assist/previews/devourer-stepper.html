@@ -1394,8 +1394,8 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     spec page, so drawing it five times said five times that it was five different things.
   </p>
 
-  <h2>Per-ability states</h2>
-  <p class="lede">
+  <h2 id="stateshead">Per-ability states</h2>
+  <p class="lede" id="stateslede">
     The authored source of truth, drawn. Every row of every table below comes from
     <code>catalog.json</code> &mdash; the same file that generates
     <code>Catalogs/&lt;Spec&gt;.lua</code> &mdash; so the addon, this page and the definition
@@ -2830,7 +2830,20 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   // Anything drawn here is therefore already gated by `capart check`'s vocabulary gates.
   function renderStates() {
     var hostEl = document.getElementById("states");
-    if (!hostEl || !D.states) return;
+    // ⚠ A spec with no `catalog.json` has no state table, and the SECTION has to go with it —
+    // heading and lede included. Left standing they rendered an empty box under a lede
+    // promising "the addon, this page and the definition cannot disagree by construction",
+    // which is a guarantee this page cannot make for an unmigrated spec and is worst on the
+    // one spec where they demonstrably DO disagree. `capart check` passed over it; opening
+    // the page is what found it.
+    if (!hostEl) return;
+    if (!D.states || !D.states.length) {
+      ["stateshead", "stateslede", "states"].forEach(function (id) {
+        var n = document.getElementById(id);
+        if (n) n.parentNode.removeChild(n);
+      });
+      return;
+    }
     D.states.forEach(function (grp) {
       var box = el("div", "stategroup");
       box.id = grp.code;
