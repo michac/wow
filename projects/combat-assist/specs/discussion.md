@@ -15,7 +15,7 @@ questions came to sit here asserting rules the code no longer followed.
 
 ---
 
-## No open questions
+## Closed questions
 
 The Havoc pass of 2026-08-17 closed the last three, all of them against the 12.1 simc APL that
 arrived that day:
@@ -30,7 +30,8 @@ arrived that day:
   and got it. Immolation Aura sits above Chaos Strike at rung 20, with a skip badge carrying the
   single-target case.
 
-An empty file is this file's correct resting state, not a defect.
+An empty file is this file's correct resting state, not a defect — but it is not empty now:
+the question below is open.
 
 ## Devourer — is Vengeful Retreat worth binding at all?
 

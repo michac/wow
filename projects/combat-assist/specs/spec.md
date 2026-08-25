@@ -51,7 +51,22 @@ cap is **opinionated, not configurable**. You get recommendations derived from
 your class and spec, chosen by us. It is deliberately not WeakAuras: there is no
 trigger editor, no condition builder, no library of user-made packs. If cap's
 opinion about your spec is wrong, the fix is to change cap's opinion, not to
-expose a slider.
+expose a slider. The few controls that exist are **inputs and placement**, never
+opinions: single-target/AoE mode (§2), where cap's own panel sits, and whether it
+re-anchors the Cooldown Manager's rows (§3.9).
+
+**The vocabulary, in one place.** Six words carry most of the weight below, and each is defined
+well exactly once, in a different file. This is the anchor, not the definition — the owning
+section is named beside each.
+
+| Term | Means | Owned by |
+| --- | --- | --- |
+| **scan membership** | The single boolean cap asserts about a row: is it still in the running? A member draws the scan edge; a non-member draws none of cap's emphasis. Default is "the ability is ready"; `scan_when` overrides it. | §3.1 |
+| **readable** | A fact Lua may read *and compare*. cap may branch on it, rank by it, and drive emphasis with it. | §3.6 |
+| **sealed** | A fact the client will let cap *display* but never read back. cap authors a rule, hands it to the client, and never learns which branch fired. Branching on one is the one invalid rule in this file. | §3.6 |
+| **cue** | An additive badge on a row, from a closed vocabulary, saying *why* a press is ruled out (or, rarely, promoted). Negative by default; catalog-authored per ability. | §3.2, `render-shelf.md` |
+| **verdict** | What a row's evaluated state resolves to before it is drawn — the closed set `cd`, `open`, `press`, `ruled-sealed`, `weave`. Not player-facing vocabulary; `press` and `open` render identically, because the press is not a thing cap draws. | `render-shelf.md` Part 6 |
+| **elimination** | The reading itself: the eye finds the press by *absence* — the leftmost row neither swiped nor wearing a negative badge. Three signals eliminate: Blizzard's cooldown swipe, cap's negative badge, and a sealed band the client evaluates. | §3.1, `render-shelf.md` Part 0.5 |
 
 It **rides on the Cooldown Manager** rather than replacing it. The CDM already
 knows what your spec cares about and already draws it legally. cap binds to it,
@@ -162,8 +177,9 @@ not a branch cap performs**: cap hands the client an authored break point (the `
 — in **either polarity**. So "avoid this generator when the secret resource is about to cap"
 (negative) *and* "this press is preferred once the secret resource is banked past a threshold"
 (positive) are both expressible sealed cues; cap authors the number and never learns which side the
-value fell on. ⚠ The positive direction is **specified but has no live instance**: the vocabulary's
-one positive cue reports a charge being lost, which is readable rather than sealed. An earlier
+value fell on. ⚠ The positive direction is **specified but has no live SEALED instance**: both of
+the vocabulary's positive cues — `capped` (a charge being lost) and `priority` (press this one) —
+are driven by readable facts. An earlier
 example here — Essence Break at Fury ≥ 35 — was deleted when the 12.1 APL turned out to put no Fury
 term on Essence Break at all. What the platform does not allow is cap
 **computing** with the value — reading it into a Lua branch, score, or verdict. A spec's catalog
@@ -186,7 +202,8 @@ A marker adds a fact the player can combine with an emphasis; it does not collap
 facts into a single verdict.
 
 - A **readable marker** is driven directly by a fact Lua may read. It needs no sealed client
-  half. Tyrant setup dots are the first example.
+  half. Demonology's five-shard Tyrant hold is the model: `UnitPower` is readable, so the hold
+  is an exact Lua comparison.
 - A **sealed marker** is optional. The client may evaluate a sealed value and draw the result,
   but Lua never reads that value or branches on it. A catalog marker has exactly one form:
   readable `{ id, when }`, or sealed `{ id, display }`.
@@ -205,8 +222,8 @@ appearance for "wait", another for "go" — makes "it rendered nothing" ambiguou
 defect above, or it could be the satisfied state behaving correctly. So a marker declares the one
 condition under which it draws, and its absence is the other condition. That is not a new rule;
 it is what makes this one testable. (The render shelf spends this on a cue vocabulary that is
-negative **by default** — a marker draws when the press is ruled out and never otherwise — with a
-single scoped positive exception for impending loss. The single-state requirement stands whichever
+negative **by default** — a marker draws when the press is ruled out and never otherwise — with
+narrowly scoped positive exceptions. The single-state requirement stands whichever
 polarity a marker is authored in.)
 
 Marker shapes, colors, sizes and placement are `render-shelf.md`'s, not this section's. The
@@ -462,9 +479,9 @@ secret resource into that ordering; each is a recipe in `authoring.md`'s index, 
   identity), so while it is active cap may **promote** the empowered spenders — Annihilation and
   Death Sweep — because that is genuinely the moment to spend. This is emphasis following a
   readable fact (§3.1), and it is why the raw spender, low in the
-  baseline priority, correctly rises inside its window. ⚠ **Currently authored but not drawn:** a
-  promotion is a positive cue, and the shelf's one positive cue is spent elsewhere (on impending
-  loss, which no negative phrasing can carry) — the window still *explains* the ranking, it just
+  baseline priority, correctly rises inside its window. ⚠ **Currently authored but not drawn:**
+  a promotion is a positive cue, and the shelf carries one — `priority` — but Havoc's catalog does
+  not spend it here; the window still *explains* the ranking, it just
   gets no pixels of its own. Permission unchanged;
   only the shelf moved. Essence Break's and
   Demonsurge's windows would promote the same way *if* their active-state proves readable; that
@@ -488,8 +505,9 @@ Beam's readable cooldown state — and even the secret-Fury decisions are expres
 Fury, but it hands the client an authored threshold and lets it paint "banked" (Essence Break at
 Fury ≥ 35, a positive S1 cue) or "about to cap" (the generator overcap readout), either polarity,
 never reading the value. ⚠ **Expressible is not the same as
-drawn:** `render-shelf.md` declares a cue vocabulary that is **negative by default**, and spends
-its one positive slot on charges-capped (impending loss). So the positive half of *this* finding —
+drawn:** `render-shelf.md` declares a cue vocabulary that is **negative by default**, and its two
+positive cues — charges-capped (impending loss) and `priority` — are both driven by readable facts,
+neither by a sealed threshold. So the positive half of *this* finding —
 the "banked" light, and the demon-form promotion below — is authored and **parked**, not refuted. Which polarities get pixels is a shelf question and moves without touching
 this section; that a threshold is expressible in either is the constitutional claim, and it
 stands. The AoE
@@ -552,6 +570,55 @@ Nothing here sets, changes, or offers to change a binding, and the place to fix 
 BucketBinds. What the hint looks like and where it sits are `render-shelf.md`'s (`tokens.hotkey`,
 V15).
 
+### 3.9 Row order
+
+**The reading model has a precondition nothing else in this file states: the rows must actually
+be in the catalog's order.** §3.1's whole scan — *"left to right, press the first thing not ruled
+out"* — is a claim about position, and Blizzard's Cooldown Manager lays the Essential viewer out
+in the player's own saved order, which has no relationship to a spec's priority. So cap
+**re-anchors** that viewer's rows into the order its catalog authored.
+
+It is on by default. There is no opinion here to configure — the order is the catalog's, and the
+catalog is cap's — but the *placement* is the player's screen, so two controls exist:
+`/cap anchor [on|off|retry|rows]` and the position of cap's own panel (`/cap move`).
+
+Four properties are the whole of the promise, and each is a boundary rather than a feature:
+
+- **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
+  written. No row is added, removed or hidden. Turn it off and the next layout pass restores
+  Blizzard's order.
+- **It orders the Essential viewer only** — which is the viewer the reading model walks. A row in
+  any other viewer is untouched, and a scan edge there marks membership in a scan that does not
+  happen (`discussion.md` carries the open question that follows from this).
+- **It yields rather than fights.** Something else moving the same icons is a real possibility
+  (another addon, or Blizzard's own layout engine). cap samples position, attributes a
+  displacement it caused to itself, and treats a run of unattributable moves as **contention** —
+  at which point it *asks the player*, out of combat, and stops only when told to. It never
+  latches itself off silently, and it never opens a dialog mid-pull.
+- **It is out-of-combat work.** Re-anchoring is frame placement, so combat lockdown governs it
+  exactly as it governs cap's own panel: it happens between pulls, never during one.
+
+⚠ **This is the one place cap touches Blizzard's own frames rather than drawing beside them**,
+which is why the yield rule is a product promise and not an implementation detail.
+
+### 3.10 When cap draws nothing, and why the player is told
+
+cap can be installed, enabled, and correct, and still draw nothing. Three states produce that,
+and **all three are reportable through `/cap status`** — because a dark overlay and a working one
+are visually identical on a row that happens to need no cue, so the screen alone can never
+distinguish "nothing to say" from "broken".
+
+- **Not bound.** No catalog entry reached a Cooldown Manager row: an unauthored spec (§2), or a
+  viewer cap could not read. This is the designed inert case, not a failure.
+- **Not settled.** cap has bound but is still waiting for the roster to stop changing. It clears
+  on its own within seconds.
+- **Dark for this fight.** ⚠ **If combat begins before the roster has settled, cap draws nothing
+  for the entire pull** and resumes at combat end. This is deliberate: committing to a roster
+  mid-pull would change what is emphasised while the player is in the middle of reading it, and a
+  scan whose contents move under the eye is worse than no scan. The cost is a whole fight of
+  nothing, so it is stated here rather than left as behaviour — a player who sees a blank pull
+  must be able to find out that it was intended, and `/cap status` says so in those words.
+
 ## 4. What cap does not do
 
 - It never presses, queues, macros or takes an action for the player.
@@ -559,7 +626,9 @@ V15).
   spell.
 - It does not surface Blizzard's Assisted Combat recommendation as its own opinion.
 - It is not a WeakAuras-style rule editor and does not accept user-authored priority packs.
-- It does not replace or configure the Cooldown Manager.
+- It does not replace the Cooldown Manager, and it does not write the player's saved Cooldown
+  Manager configuration. It does **re-anchor** the Essential viewer's rows into the catalog's
+  order while it is running (§3.9), which is placement and is reversible by turning it off.
 - It does nothing on specs and builds without an authored experience.
 - It does not own keybinds or action-bar layout; that is BucketBinds. It may *show* you the
   binding you already have (§3.8), which is a read and changes nothing.

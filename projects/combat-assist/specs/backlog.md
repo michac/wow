@@ -20,7 +20,9 @@ and nothing about how it was measured.
 
 - The engine supports the readable predicates its catalogs use — `ready` · `proc` · `identity` ·
   `capped` · `affordable` · `resource` · `talent` · `aoe` — propagates unknown safely, composes a
-  row as **scan membership + badges**, leaves Blizzard's proc glow intact, and owns one independent
+  row as **scan membership + badges**, dims Blizzard's proc glow to
+  `tokens.surfaces.proc_glow_alpha` so cap's own emphasis is not competing with it
+  (`render-shelf.md` Part 3), and owns one independent
   Tyrant bar. Sealed facts reach client-owned display sinks only, never a Lua branch.
 - **The role tier is REMOVED** (paint 2026-08-19, model 2026-08-25). Membership is a boolean:
   a row is in the scan when its `scan_when` alternatives (default: ready-self) read ON, withheld
@@ -56,8 +58,8 @@ and nothing about how it was measured.
 - **The cue vocabulary is negative by default** (positives: `capped` and `priority`, gold). The
   negatives — `blocked`, `starved`, `overcap`, `st_only`/`aoe_only`, and since 2026-08-24 the two
   cards `building` (a ramp holds this while resource climbs) and `noproc` (the proc that makes
-  this worth pressing is not up) — share one red and are told apart by shape. `press`,
-  `press-promoted` and `below` render identically: the press is not a thing cap draws.
+  this worth pressing is not up) — share one red and are told apart by shape. `open`, `press`
+  and `weave` render identically: the press is not a thing cap draws.
   ⚠ `building` is deliberately UNBUDGETED on the density rule's own starved/overcap grounds
   (one fact, a block of subjects) — Demonology's ramp wears up to six cards before the press,
   the pilot's chosen reading over a promotion, playtest-gated (demonology/catalog.md changelog
@@ -66,8 +68,11 @@ and nothing about how it was measured.
   ordered chain: a scenario wearing a positive cue is judged by pass 1, every other scenario by
   pass 2 — the leftmost entry that is neither swiped nor wearing a negative badge must be the
   press. A scenario that stops leading the eye to its press fails **by name**.
-- The two Warlock context dots (`dreadstalkers`, `grimoire`) are still evaluated and still reported
-  in the `draw` capture's `M{}`, but **draw nothing**: the cue set is closed and they have no key.
+- **A marker may carry no `cue` at all**, and `Catalog.Check` keeps `cue` optional for exactly
+  that: such a marker is still evaluated and still reported in the `draw` capture's `M{}`, but
+  draws nothing. Every marker in every shipped catalog either carries a cue from the closed set
+  or exists to arm a sealed *display* — the cue-less-and-display-less shape survives only in the
+  engine fixtures, which is where the shape is tested.
 - **Motion is AnimationGroups only — the addon holds no ticker** (2026-08-24). Every sheet walk
   is a client FlipBook animation (`Paint.FlipBook`): the badge strips (`capart export badges`
   bakes `strip_<cue>` for every multi-frame cue), the promotion ring, and every strip to come. The

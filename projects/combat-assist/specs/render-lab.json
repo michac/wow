@@ -1,0 +1,158 @@
+{
+  "version": 2,
+  "lab": {
+    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. ⚠ ONE entry. `duration_band` is the leftover of the eight-entry intake whose other seven were promoted (V16-V19) or deleted — it bands a CLOCK rather than a count, which is why no composite needed it; its SECONDS form has since been promoted as V19's outside-window hatch, leaving the RemainingPercent route as its open half. `segment_bar` (L8) left same-day for V18 — the ledger has the row. Its cells draw the `RemainingPercent` route, which is a SOURCE READ and has never been flown — the flown route (a bare `textFormatter`) gives thresholds in seconds. So every percentage in it is a proposal about a mechanism, clearly labelled, exactly as `count_bar` was before its flight settled it.",
+    "duration_band": {
+      "title": "L7 · duration_band — the same bands, on the DoT's CLOCK instead of a count",
+      "asks": "`SetDurationText` takes a `textFormatter` of type NumericFormatter — the same object the count sink takes — bound to a DurationTextBindingProperty such as RemainingPercent. If a rule formatter is accepted there, every band shape L5 and L6 draw becomes available on a DoT's remaining time, INCLUDING the inversion `AddPandemicRegion` structurally cannot express. What does that cost, and is it worth authoring the threshold the pandemic sink computes for you?",
+      "draws": "duration",
+      "form": "S12",
+      "flown": "2026-08-21",
+      "size_px": 15,
+      "rgb": [
+        0.45,
+        0.86,
+        0.85
+      ],
+      "alt_rgb": [
+        0.95,
+        0.3,
+        0.3
+      ],
+      "pulse": {
+        "duration_s": 1.9,
+        "alpha": [
+          0.72,
+          1.0
+        ],
+        "scale": 1.1
+      },
+      "cells": [
+        {
+          "ability": "Immolation Aura",
+          "verdict": "open",
+          "remaining_pct": 80,
+          "place": "centre",
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "%d"
+            }
+          ],
+          "caption": "<b>control — the sink's own job</b>. `SetDurationText` normally draws a countdown, and with no rule it is Blizzard's seconds formatter. Everything to the right replaces that text with a rule cap wrote."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "open",
+          "remaining_pct": 20,
+          "place": "badge",
+          "composited": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "|A:fire:15:15|a"
+            },
+            {
+              "threshold": 31,
+              "format": ""
+            }
+          ],
+          "caption": "<b>the pandemic mark, re-created</b> — a mark only in the last 30 %. Same picture as L3's badge, and ⚠ NOT the same fact: this threshold is cap's guess, where L3's is the client computing `GetRefreshExtendedDuration − GetAuraBaseDuration` per spell."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "open",
+          "remaining_pct": 80,
+          "place": "badge",
+          "composited": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "|A:fire:15:15|a"
+            },
+            {
+              "threshold": 31,
+              "format": ""
+            }
+          ],
+          "caption": "<b>the same rule, early in the DoT</b> — clear, because 80 % takes the upper band. The pair to its left is the whole of L3's behaviour reproduced out of two breakpoints."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "open",
+          "remaining_pct": 80,
+          "place": "badge",
+          "bands": [
+            {
+              "threshold": 0,
+              "format": ""
+            },
+            {
+              "threshold": 31,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
+            }
+          ],
+          "caption": "<b>THE INVERSION</b> — hatched while there is plenty left, which is `do not refresh yet`. This is the direction `AddPandemicRegion` cannot express at all: it calls `SetShown(inWindow)` with no rule to flip."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "press",
+          "remaining_pct": 20,
+          "place": "badge",
+          "bands": [
+            {
+              "threshold": 0,
+              "format": ""
+            },
+            {
+              "threshold": 31,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
+            }
+          ],
+          "caption": "<b>the inversion, refreshable</b> — the hatch clears as the DoT enters the last 30 %, so the row becomes a live candidate exactly when refreshing it stops clipping. Read it against the cell to its left."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "open",
+          "remaining_pct": 80,
+          "place": "badge",
+          "composited": true,
+          "alt_hue": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": ""
+            },
+            {
+              "threshold": 31,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t|A:fire:15:15:20:-18|a"
+            }
+          ],
+          "caption": "<b>hatch and badge, inverted</b> — two escapes, one band, the second offset onto the corner. Identical machinery to L6's imp shape; the only difference is which sealed number the client feeds the formatter."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "open",
+          "remaining_pct": 45,
+          "place": "badge",
+          "composited": true,
+          "bands": [
+            {
+              "threshold": 0,
+              "format": "|A:fire:15:15|a"
+            },
+            {
+              "threshold": 31,
+              "format": ""
+            },
+            {
+              "threshold": 61,
+              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
+            }
+          ],
+          "caption": "<b>three bands, mid-DoT</b> — hatched above 60 %, SILENT between 30 and 60, marked below 30. The quiet middle is the shape only a band table can draw: neither `do not` nor `now`, which is most of a DoT's life."
+        }
+      ]
+    }
+  }
+}

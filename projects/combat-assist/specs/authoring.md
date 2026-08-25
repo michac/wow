@@ -168,7 +168,8 @@ again.
 **promoted**: moved into Parts 1–6 with its numbers and deleted from Part 7 (rule 4). Promotion is
 a pipeline step with a real cost; plan for it rather than discovering it at stage 6. The status
 word `candidate` no longer exists: the shelf's one remaining status word is **`open`**, and it
-marks an unmeasured *client capability*, not a design debate (`render-shelf.md:33-43`).
+marks an unmeasured *client capability*, not a design debate (`render-shelf.md` Part 0,
+*Status vocabulary*).
 
 Then prove the design reproduces the priority: walk realistic game states and, for each, name why
 the eye lands on the one press the rotation would choose — including, for **every button that is

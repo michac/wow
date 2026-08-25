@@ -37,12 +37,14 @@ index row** — the row is an address, and it deliberately asserts nothing.
 
 **The shelf's other half.** `render-shelf.md` = how you may show them. **Visual opinions belong in
 the render shelf and nowhere else** — `spec.md` fixes the
-*model* (role lanes, readable-vs-sealed) and says nothing about pixels. Trying a
+*model* (scan membership, readable-vs-sealed) and says nothing about pixels. Trying a
 new look is an edit to the shelf, not a spec amendment; regenerate the preview from it and look.
 
 **The shelf declares, the rationale explains.** `render-shelf.md` states exactly **one** style —
 one treatment per primitive, present tense, no alternative beside it — and every number it draws
-with lives in its Part 6 `render-tokens` JSON block, cited from prose by path and never restated.
+with lives in `specs/render-tokens.json` beside it (Part 7's in `specs/render-lab.json`),
+cited from prose by path and never restated. Part 6 documents what each token group MEANS;
+the JSON carries the numbers.
 Alternatives, reasoning and rejects go to `render-rationale.md`, which has no authority. Regenerate
 with `uv run python -m wowkb.capart build <spec>`; never hand-edit the preview. **Every spec's
 preview is a uniquely named file in the one `previews/` directory, served by one `wowkb.serve` on

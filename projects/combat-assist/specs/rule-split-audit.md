@@ -57,24 +57,24 @@ examples (the Havoc catalog + scenario walk) beat stated rules. Line numbers bel
 
 | Rule | Now at | Gate — and which command holds it |
 | --- | --- | --- |
-| **Eye-direction by elimination** | `spec.md:122-129`, `render-shelf.md:71-73` | `elimination_gate` in `capart.py` — **`check`**, not `build`. Reads as philosophy, *is* code. |
-| A catalog form that loads and renders nothing is a defect | `spec.md:187-188` | `cmd_check` gate 1c (`capart.py`) at shelf level; cited by `render-shelf.md:153`, `:340` |
-| At most one positive cue | `render-shelf.md:148` | `cmd_check` gate 0b |
-| Every declared cue is worn by some scenario | `render-shelf.md:152` | `cmd_check` gate 1c |
-| Positive-cue pre-emption (pass 1 points at the press) | `render-shelf.md:143-145` | `positive_gate` — `check` |
+| **Eye-direction by elimination** | `spec.md` §3.1, `render-shelf.md` Part 0.5 | `elimination_gate` in `capart.py` — **`check`**, not `build`. Reads as philosophy, *is* code. |
+| A catalog form that loads and renders nothing is a defect | `spec.md` §3.2 | `cmd_check` gate 1c (`capart.py`) at shelf level; cited by `render-shelf.md` Parts 0.5 and 2 |
+| At most one positive cue **per entry** | `render-shelf.md` Part 0.5 | `cmd_check` gate 0b |
+| Every declared cue is worn by some scenario | `render-shelf.md` Part 0.5 | `cmd_check` gate 1c |
+| Positive-cue pre-emption (pass 1 points at the press) | `render-shelf.md` Part 0.5 | `positive_gate` — `check` |
 | The tint guard still has a subject | `render-shelf.md` Part 4 | `cmd_check` gate 0 + `assert_tintable` in **`build`** |
-| Art declared `tint: "lane"` must measure neutral | `render-shelf.md:550` | `assert_tintable` — **`build`** (one of only two things that stop a build) |
+| Art declared `tint: "lane"` must measure neutral | `render-shelf.md` Part 4 | `assert_tintable` — **`build`** (one of only two things that stop a build) |
 | Nothing in `verdicts`/`cues` may name anything in `lab` | `render-shelf.md` Part 7 rule 1 | `validate_lab_isolation` — **`build`** |
 | The committed HTML and `Style.lua` match the shelf | `render-shelf.md` Part 0 step 4 | `cmd_check` gates 2 and 3 |
-| **The veil is derived from cue polarity** | `render-shelf.md:454-458` | `cmd_check` gate **0c — NEW, added by this work.** Was prose claiming to be mechanical. |
-| **Slot 3 ⇔ positive polarity** | `render-shelf.md:166` | `cmd_check` gate **0d — NEW, added by this work.** Same. |
+| **The veil is derived from cue polarity** | *retired 2026-08-16 with the veil itself* | gate 0c went with its subject. |
+| **A positive cue ranks onto the corner** | `render-shelf.md` Part 1 | `cmd_check` gate **0d — NEW, added by this work.** Was prose claiming to be mechanical. |
 
 ## 4 · Borderlines with NO gate — cut
 
 | Rule | Was | Bucket |
 | --- | --- | --- |
 | "cap never misrepresents availability" | `spec.md:193-194` | PHILOSOPHY |
-| "must earn its screen space" (Tyrant bar; independent bar surface) | `spec.md:225-226`, `render-shelf.md:169` | PHILOSOPHY |
+| "must earn its screen space" (Tyrant bar; independent bar surface) | `spec.md` §3.3, `render-shelf.md` Part 1 | PHILOSOPHY |
 | "the player surface does not claim exactness beyond availability" | `spec.md:256-257` | PHIL-CAVEAT |
 | "A future sequence idea must first show how it informs a choice" + its parenthetical | `spec.md:401-405` | PHILOSOPHY + PHIL-CAVEAT |
 | "must not turn provisional gameplay or visual opinions into platform rules" | `spec.md:426` | PHILOSOPHY |
@@ -89,8 +89,8 @@ examples (the Havoc catalog + scenario walk) beat stated rules. Line numbers bel
 | "not permission to guess and not a reason to stall the rest of the catalog" | `authoring.md:135-136` | PHIL-CAVEAT; the stop-and-ask stays |
 | "convergence is the goal, not a violation" (catalog + contract boundary) | `havoc/catalog.md:49-53`, `:328-330` | PHIL-CAVEAT |
 | "the §4 oracle, forbidden by choice, not a wall the restriction builds" | `spec.md` §3.1 + §3.7, `havoc/scenarios.md:181-184` | PHIL-CAVEAT; replaced by a plain statement of what the platform does not allow |
-| "What keeps that inside `spec.md` §4 is not that the cue is passive…" | `render-shelf.md:124-130` | PHIL-CAVEAT |
-| "…would be a second voice in pass 1" scope defence, long form | `render-shelf.md:136-138` | trimmed |
+| "What keeps that inside `spec.md` §4 is not that the cue is passive…" | `render-shelf.md` Part 0.5 | PHIL-CAVEAT |
+| "…would be a second voice in pass 1" scope defence, long form | `render-shelf.md` Part 0.5 | trimmed |
 
 ## 5 · Fact caveats — all kept, deduplicated
 
@@ -127,10 +127,10 @@ Every other fact caveat — Secret Values per-power-type, `overrideSpellID` vs `
 
 | # | Was | Truth | Fixed |
 | --- | --- | --- | --- |
-| 1 | `render-shelf.md:726` "these **ten** keys" | nine, per `:98`, `scenarios.md:53`, and the table itself | `render-shelf.md:728` |
-| 2 | `render-shelf.md:148`, `:152`, `scenarios.md:79` "fails the build" | both gates are in `cmd_check` (`capart.py`), never `build`; `render-shelf.md:140` said so correctly four lines earlier | all three now say `check` |
-| 3 | `render-shelf.md:552` base64 budget "a `check` concern" | it is a `_warn` in `cmd_build`; `cmd_check` never tests it | Part 4 table row rewritten |
-| 4 | `capart.py:40`, `:1181` cite `spec.md:194-195` | the text had moved to `:200-201`, and this work renumbers further | all citations converted to **section** references (`spec.md` §3.2), which do not rot. Same for `render-shelf.md:72`, `:153`, `:340` and `scenarios.md:280` |
+| 1 | `render-shelf.md` "these **ten** keys" | nine, per Part 0.5, `scenarios.md`, and the table itself | corrected in Part 2 |
+| 2 | `render-shelf.md` Part 0.5 (twice) and `scenarios.md` "fails the build" | both gates are in `cmd_check` (`capart.py`), never `build`; Part 0.5 said so correctly a few lines earlier | all three now say `check` |
+| 3 | `render-shelf.md` Part 4's base64 budget "a `check` concern" | it is a `_warn` in `cmd_build`; `cmd_check` never tests it | Part 4 table row rewritten |
+| 4 | `capart.py` cited `spec.md:194-195` | the text had moved to `:200-201`, and this work renumbers further | all citations converted to **section** references (`spec.md` §3.2), which do not rot. Same for `render-shelf.md` Parts 0.5 and 2, and `scenarios.md` |
 | 5 | veil "**DERIVED**… mechanical rather than a promise" and "slot 3 ⇔ positive polarity" claimed gates that did not exist | neither was checked | **made true** — two new assertions in `cmd_check` (0c, 0d), both passing on current tokens |
 
 ⚠ Discrepancy 2 caused a wrong statement in the session that produced this plan, which is why

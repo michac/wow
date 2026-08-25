@@ -1,0 +1,925 @@
+{
+  "version": 1,
+  "spec": 266,
+  "hero": 59,
+  "name": "Demonology / Diabolist",
+  "power": "SoulShards",
+  "note": "Soul Shards are one of the seven NEVER-SECRET power types, so the largest decision in the spec — do I have five shards for Tyrant — is an exact Lua comparison rather than a curve. Base spell ids only: Bind unions base/override/tooltip/live into the row, so neither transform needs a hardcoded override id.",
+  "abilities": [
+    {
+      "id": "power_siphon",
+      "spell": 264130
+    },
+    {
+      "id": "grimoire",
+      "spell": 1276452,
+      "alt": [
+        1276467
+      ]
+    },
+    {
+      "id": "summon_doomguard",
+      "spell": 1276672
+    },
+    {
+      "id": "call_dreadstalkers",
+      "spell": 104316
+    },
+    {
+      "id": "summon_demonic_tyrant",
+      "spell": 265187
+    },
+    {
+      "id": "implosion",
+      "spell": 196277
+    },
+    {
+      "id": "hand_of_guldan",
+      "spell": 105174
+    },
+    {
+      "id": "demonbolt",
+      "spell": 264178
+    },
+    {
+      "id": "shadow_bolt",
+      "spell": 686
+    },
+    {
+      "id": "demonic_core",
+      "spell": 264173,
+      "family": "auras",
+      "note": "Aura dependencies only: these are not enhanced CDM entries and never enter Signal. They exist so a sealed display can name a subject — the count or the clock the CLIENT reads. cap never learns any of their values."
+    },
+    {
+      "id": "wild_imp",
+      "spell": 296553,
+      "family": "auras"
+    },
+    {
+      "id": "doom",
+      "spell": 460553,
+      "family": "auras",
+      "unit": "target",
+      "note": "Doom is a DEBUFF cap puts on the target, which is why it carries a unit. Its refresh window is the client's own arithmetic, per spell (V19)."
+    },
+    {
+      "id": "art_mother_of_chaos",
+      "spell": 432794,
+      "family": "auras",
+      "note": "The armed Art that transforms row 9 into Infernal Bolt. The id is TIER-3-SOURCED and a wrong aura id dies SILENT — the slot matches nothing forever, indistinguishable from a refusal (the cast-id/aura-id trap, KB 3.5.2). Flight question; @verify-ingame on the id."
+    }
+  ],
+  "talents": [
+    {
+      "id": "to_hell_and_back",
+      "node": 110199,
+      "entry": 136728,
+      "spell": 1281511
+    },
+    {
+      "id": "doom",
+      "node": 110200,
+      "entry": 136729,
+      "spell": 460551
+    },
+    {
+      "id": "reign_of_tyranny",
+      "node": 110201,
+      "entry": 136730,
+      "spell": 1276748
+    }
+  ],
+  "talents_note": "Node + entry from knowledge/classes/warlock/demonology/talents.json @ 12.1. This is what talent.to_hell_and_back and talent.doom in the APL mean, read as themselves rather than through a proxy (Talents.lua explains why IsSpellKnown and charge counts are both refused). `spell` is documentation only — nothing resolves through it.",
+  "entries": [
+    {
+      "id": "power_siphon",
+      "ability": "power_siphon",
+      "note": "Its rung gate is buff.demonic_core.stack<=1, which is a SEALED count — so the row carries no readable cue at all and the display does the whole of the work. Below two Cores the band draws nothing and the row is an ordinary candidate; at two it hatches and marks itself, which is the row RULED OUT by a fact cap never read.",
+      "markers": [
+        {
+          "id": "ps_cores_banked",
+          "display": {
+            "kind": "sealed-count-bands",
+            "ability": "demonic_core",
+            "bands": [
+              {
+                "threshold": 0,
+                "draw": "none"
+              },
+              {
+                "threshold": 2,
+                "draw": "mark",
+                "polarity": "negative",
+                "hatch": true
+              }
+            ]
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "ps_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch. The band is armed but a ruled-out button is already ruled out."
+        },
+        {
+          "id": "ps_cores_low",
+          "condition": "ready, 0-1 Demonic Cores banked",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "The resting state: the lower band's draw is `none`, so the client paints nothing and the row is an ordinary candidate reached by absence."
+        },
+        {
+          "id": "ps_cores_banked",
+          "condition": "ready, 2 or more Demonic Cores banked",
+          "verdict": "ruled-sealed",
+          "cues": [],
+          "sealed": [
+            "count-bands"
+          ],
+          "slot": 0,
+          "note": "The row rules ITSELF out on a fact cap never read — hatch plus a negative mark, both named by the band so both clear together. This closed the catalog's second defeat (DEM-14)."
+        }
+      ]
+    },
+    {
+      "id": "grimoire",
+      "ability": "grimoire",
+      "note": "A CHOICE NODE, not a transform: both ids have their own Essential row and exactly one exists on a build, so the second goes in `alt` rather than through R7.",
+      "markers": [
+        {
+          "id": "grimoire_awaits_shards",
+          "cue": "building",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "summon_demonic_tyrant"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "grimoire_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "grimoire_ramp_hold",
+          "condition": "ready, Tyrant READY, below five shards",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue I. Authored PAST the APL — the rung is unconditional — and playtest-gated."
+        },
+        {
+          "id": "grimoire_open",
+          "condition": "ready, and the ramp hold does not apply",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Reached by elimination."
+        }
+      ]
+    },
+    {
+      "id": "summon_doomguard",
+      "ability": "summon_doomguard",
+      "note": "Midnight-new. Cue I here is uniformity with the block, not played experience — the least-tested marker in this catalog.",
+      "markers": [
+        {
+          "id": "doomguard_awaits_shards",
+          "cue": "building",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "summon_demonic_tyrant"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "summon_doomguard_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "summon_doomguard_ramp_hold",
+          "condition": "ready, Tyrant READY, below five shards",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue I. Authored PAST the APL — the rung is unconditional — and playtest-gated."
+        },
+        {
+          "id": "summon_doomguard_open",
+          "condition": "ready, and the ramp hold does not apply",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Reached by elimination."
+        }
+      ]
+    },
+    {
+      "id": "call_dreadstalkers",
+      "ability": "call_dreadstalkers",
+      "note": "Cue I is the block's shared readable hold; cue J is the TWO-SIDED sealed band — hold while Tyrant's remaining is inside (10.5, 21.5), rung 6's own dead zone at S4's unhasted 1.5 s floor, Reign-gated.",
+      "markers": [
+        {
+          "id": "dreadstalkers_awaits_shards",
+          "cue": "building",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "summon_demonic_tyrant"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dreadstalkers_awaits_tyrant",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "reign_of_tyranny"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-cooldown-range",
+            "ability": "summon_demonic_tyrant",
+            "beyond": 10.5,
+            "within": 21.5
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "dogs_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "dogs_ramp_hold",
+          "condition": "ready, Tyrant READY, below five shards",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue I, the block's shared readable hold."
+        },
+        {
+          "id": "dogs_dead_zone",
+          "condition": "ready, Reign of Tyranny talented, Tyrant's cooldown inside (10.5, 21.5)",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue J. The client evaluates the two-sided band and paints the badge; cap never learns Tyrant's remaining. Closes Defeats item 1. UNFLOWN."
+        },
+        {
+          "id": "dogs_open",
+          "condition": "ready, no hold applies",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Reached by elimination."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "dreadstalkers_awaits_shards",
+            "dreadstalkers_awaits_tyrant"
+          ],
+          "why": "Cue I requires Tyrant READY — cooldown remaining zero — and cue J's band only draws while that remaining is inside (10.5, 21.5). A ready Tyrant is outside the band by construction, so the two cannot be true together."
+        }
+      ]
+    },
+    {
+      "id": "summon_demonic_tyrant",
+      "ability": "summon_demonic_tyrant",
+      "note": "The single biggest decision in the spec, and it is READABLE: rung 8 is soul_shard=5, read as a hold. Gated on readiness because a hold badge on a greyed icon says nothing.",
+      "markers": [
+        {
+          "id": "tyrant_awaits_shards",
+          "cue": "building",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "summon_demonic_tyrant"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "tyrant_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "tyrant_holds",
+          "condition": "ready, below five Soul Shards",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue A. Rung 8 exactly — soul_shard=5 — read as a hold."
+        },
+        {
+          "id": "tyrant_ready",
+          "condition": "ready, five Soul Shards",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "The hold clears and the row is reached by elimination; cap spends no positive cue here."
+        }
+      ]
+    },
+    {
+      "id": "implosion",
+      "ability": "implosion",
+      "note": "Two halves of one rung, split exactly on the readable/sealed line: active_enemies>2|talent.to_hell_and_back is readable and is the cue; wild_imps.stack>=6 is sealed and is the display. The display is V17's COMPLEMENT — it draws BELOW the threshold and clears at it — and it is the first time a sealed fact enters elimination rather than merely being displayed.",
+      "markers": [
+        {
+          "id": "implosion_st_only",
+          "cue": "aoe_only",
+          "when": [
+            {
+              "pred": "aoe",
+              "negate": true
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "to_hell_and_back"
+              ],
+              "negate": true
+            }
+          ]
+        },
+        {
+          "id": "implosion_no_imps",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "aura",
+              "args": [
+                "wild_imp"
+              ],
+              "negate": true
+            }
+          ],
+          "note": "THE ONE STATE THE BAND CANNOT REACH, and it needs cap's own readable latch. With no Wild Imp at all there is no aura, so the client hides the whole button and every sink on it draws nothing. The `aura` predicate is readable and an unbound row reads UNKNOWN rather than false, so this stays dark rather than asserting the imps are gone."
+        },
+        {
+          "id": "implosion_imps_short",
+          "display": {
+            "kind": "sealed-count-bands",
+            "ability": "wild_imp",
+            "bands": [
+              {
+                "threshold": 0,
+                "draw": "count",
+                "polarity": "negative",
+                "hatch": true
+              },
+              {
+                "threshold": 6,
+                "draw": "count",
+                "polarity": "positive"
+              }
+            ]
+          },
+          "note": "The NUMERAL, not the mark: `how many more` is exactly the live question below six, and the hatch beside it already carries `ruled out`. At six the count RECOLORS instead of clearing — same numeral, opposite polarity, no hatch, because hue carries polarity and only polarity (V5.1) and a positive band may not hatch."
+        }
+      ],
+      "states": [
+        {
+          "id": "imp_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "imp_no_imps",
+          "condition": "ready, no Wild Imp out at all",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue H. ⚠ No aura means no sealed sink draws either — the band CANNOT reach this state, which is exactly why the readable latch exists."
+        },
+        {
+          "id": "imp_st_skip",
+          "condition": "ready, AoE mode OFF, To Hell and Back not talented, imps out",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "slot": "flow",
+          "note": "Cue G plus the band drawing whatever the count is. The CUE is the eliminator here; the band is context beside it, which is why the verdict is `open` and not `ruled-sealed`."
+        },
+        {
+          "id": "imp_short",
+          "condition": "ready, AoE on (or To Hell and Back talented), 1-5 Wild Imps",
+          "verdict": "ruled-sealed",
+          "cues": [],
+          "sealed": [
+            "count-bands"
+          ],
+          "slot": 0,
+          "note": "Hatch, plate and the RED numeral out of one FontString. The band is the ONLY eliminator, so the verdict names it: the client evaluated cap's rule against a secret."
+        },
+        {
+          "id": "imp_banked",
+          "condition": "ready, AoE on (or To Hell and Back talented), 6 or more Wild Imps",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "count-bands"
+          ],
+          "slot": 0,
+          "note": "The numeral recolors GOLD and the hatch clears: banked, the press is loaded. No hatch — a positive band may not wear one."
+        },
+        {
+          "id": "imp_st_and_no_imps",
+          "condition": "ready, AoE OFF, To Hell and Back not talented, AND no imps at all",
+          "verdict": "open",
+          "cues": [
+            "aoe_only",
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "implosion_st_only",
+            "implosion_no_imps"
+          ],
+          "note": "⚠ POSSIBLE AND UNWALKED — no scenario reaches it, and it is written here rather than discovered later. Both badges flow in `rank` order; neither sink draws, because with no Wild Imp aura there is nothing for the band to paint. Two independent negatives on one row is legal: elimination is not exclusive."
+        }
+      ]
+    },
+    {
+      "id": "hand_of_guldan",
+      "ability": "hand_of_guldan",
+      "note": "Two lives, one lane: both are shard spenders. The identity carries the transform with no cue, because Ruination outranks the ordinary press by one rung and both are pressed from this position.",
+      "markers": [
+        {
+          "id": "hog_starved",
+          "cue": "starved",
+          "when": [
+            {
+              "pred": "affordable",
+              "args": [
+                "hand_of_guldan"
+              ],
+              "negate": true
+            }
+          ],
+          "note": "Sense.buildReads asks affordability of the LIVE id, so this is Ruination's cost — which is none — on the transformed row and three shards on the base one. One marker, both lives, correct in each."
+        },
+        {
+          "id": "hog_awaits_tyrant",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "hand_of_guldan"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-cooldown-range",
+            "ability": "summon_demonic_tyrant",
+            "within": 5
+          },
+          "note": "The catalog's only sealed band on a spender, and the mirror of the Tyrant hold: Tyrant holds ITSELF below five shards (readable); Hand of Gul'dan holds itself while Tyrant is nearly here (sealed). Gated on resource because rung 11's |soul_shard=5 makes the spend unconditional at cap, and on affordability so it never lands on a starved row."
+        },
+        {
+          "id": "hog_awaits_shards",
+          "cue": "building",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "summon_demonic_tyrant"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "hand_of_guldan"
+              ]
+            }
+          ],
+          "note": "The READABLE half of the same window rule (cue I): Tyrant READY at sub-five shards holds the spend — rung 11's remains>5 is false at zero remaining. Cue F covers `nearly here`; this covers `here, board not built`."
+        }
+      ],
+      "states": [
+        {
+          "id": "hog_starved",
+          "condition": "the live id is unaffordable",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue E. Correct in both lives: three shards as Hand of Gul'dan, none as Ruination."
+        },
+        {
+          "id": "hog_banks",
+          "condition": "affordable, below five shards, Tyrant's cooldown ends within 5 s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue F. The client evaluates the band; cap never learns Tyrant's remaining."
+        },
+        {
+          "id": "hog_ramp_hold",
+          "condition": "affordable, below five shards, Tyrant READY",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue I, the readable half of the window rule. F covers `Tyrant nearly here`; this covers `Tyrant here, board not built`."
+        },
+        {
+          "id": "hog_both_holds",
+          "condition": "affordable, below five shards, Tyrant READY and the client also paints the within-5 band",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "building"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "hog_awaits_tyrant",
+            "hog_awaits_shards"
+          ],
+          "note": "⚠ WHETHER THIS OCCURS IS A CLIENT QUESTION CAP CANNOT SETTLE. A ready ability has no cooldown remaining, so the within-5 band most likely paints nothing — but the band is sealed and cap never learns which way it went. Written down rather than assumed away: if both fire, both cards flow and both say hold, so the reading is unharmed either way. @verify-ingame"
+        },
+        {
+          "id": "hog_press",
+          "condition": "affordable, and no hold applies",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Reached by elimination. The ordinary spend, and the button that builds the imps Implosion waits for."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "hog_starved",
+            "hog_awaits_tyrant"
+          ],
+          "why": "Cue E fires only when the live id is UNaffordable; cue F is gated on `affordable` precisely so it never lands on a starved row."
+        },
+        {
+          "pair": [
+            "hog_starved",
+            "hog_awaits_shards"
+          ],
+          "why": "Same gate: cue I carries `affordable(hand_of_guldan)` for exactly this reason."
+        }
+      ]
+    },
+    {
+      "id": "demonbolt",
+      "ability": "demonbolt",
+      "note": "The pilot's row, and the pilot had the number wrong: the APL says soul_shard<4, so the overcap badge lights at FOUR and not at three.",
+      "markers": [
+        {
+          "id": "db_awaits_core",
+          "cue": "noproc",
+          "when": [
+            {
+              "pred": "proc",
+              "args": [
+                "demonbolt"
+              ],
+              "negate": true
+            }
+          ],
+          "note": "Demonbolt appears in actions.diabolist ONLY gated on buff.demonic_core.react, so with no Core there is no rung at all. This is also V11's hatch at zero Cores — the one state a sealed display can never decorate, because with no aura there is no button — and it needs no new vocabulary: a negative cue already hatches the row."
+        },
+        {
+          "id": "db_overcap",
+          "cue": "overcap",
+          "when": [
+            {
+              "pred": "proc",
+              "args": [
+                "demonbolt"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                ">=",
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "id": "db_yields_to_infernal_bolt",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "identity",
+              "args": [
+                "shadow_bolt",
+                "transformed"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                2
+              ]
+            }
+          ],
+          "note": "The first marker in any catalog that reads ANOTHER ROW'S identity. Rung 12 puts an armed Infernal Bolt above Demonbolt, and only below three shards."
+        },
+        {
+          "id": "db_core_charge",
+          "display": {
+            "kind": "sealed-count-bar",
+            "ability": "demonic_core",
+            "max": 4,
+            "full": true
+          },
+          "note": "V18 · how many Cores, as a shape. max = 4 is the number that MATTERS rather than the aura's real cap: SetValue clamps, so four and above reads FULL and the fired state is always the complete arc."
+        },
+        {
+          "id": "db_doom_window",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "doom"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-pandemic",
+            "ability": "doom"
+          },
+          "note": "V19 · Doom's pandemic window, on the button that applies it. cap authors NO threshold: the client computes GetRefreshExtendedDuration - GetAuraBaseDuration per spell. GATED on the talent, and this is the readable-gate seam: without Doom talented the fact does not exist, and a display armed for it would sit dark forever with no way to tell that from a client refusal."
+        },
+        {
+          "id": "db_core_clock",
+          "display": {
+            "kind": "sealed-proc-bar",
+            "ability": "demonic_core"
+          },
+          "note": "V20 · the Core's remaining lifetime as a thin bar directly above the charge bar. The edge carries quantity, not polarity. No threshold anywhere."
+        }
+      ],
+      "states": [
+        {
+          "id": "db_no_core",
+          "condition": "no Demonic Core up",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "note": "Cue C. ⚠ No Core means no aura, so NEITHER bar draws — the charge bar and the proc bar both go dark with their subject. This is also V11's hatch at zero Cores, and it needs no new vocabulary: a negative cue already hatches the row."
+        },
+        {
+          "id": "db_core_up",
+          "condition": "Core up, below four shards, row 9 not armed",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ],
+          "slot": null,
+          "note": "The Core is the press, reached by elimination. V18's charge bar and V20's clock both ride the bottom edge."
+        },
+        {
+          "id": "db_doom_window",
+          "condition": "Core up, Doom talented, and Doom's pandemic window open on the target",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "count-bar",
+            "pandemic",
+            "proc-bar"
+          ],
+          "slot": 0,
+          "note": "V19 rides the corner while the two bars ride the edge. cap authors NO threshold — the client computes the window per spell."
+        },
+        {
+          "id": "db_overcap",
+          "condition": "Core up, four or more Soul Shards",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ],
+          "slot": "flow",
+          "note": "Cue B. Demonbolt generates two shards, so spending the Core here wastes them. The pilot had this number wrong: the APL says soul_shard<4, so it lights at FOUR."
+        },
+        {
+          "id": "db_yields",
+          "condition": "Core up, row 9 showing Infernal Bolt, below three shards",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ],
+          "slot": "flow",
+          "note": "Cue D, the first marker in any catalog that reads ANOTHER ROW'S identity. The ordering correction lives here, on the row that has to move, rather than as a promotion on the filler."
+        },
+        {
+          "id": "db_no_core_and_yields",
+          "condition": "no Core AND row 9 armed below three shards",
+          "verdict": "open",
+          "cues": [
+            "noproc",
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "db_awaits_core",
+            "db_yields_to_infernal_bolt"
+          ],
+          "note": "⚠ C and D deliberately STOPPED unioning — they shared `blocked` until C re-badged to `noproc` — so a Coreless Demonbolt yielding to an armed Infernal Bolt now shows BOTH facts rather than one. Neither bar draws: no Core, no subject."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "db_awaits_core",
+            "db_overcap"
+          ],
+          "why": "Cue C fires on `!proc(demonbolt)` and cue B on `proc(demonbolt)`. One predicate, both polarities."
+        },
+        {
+          "pair": [
+            "db_overcap",
+            "db_yields_to_infernal_bolt"
+          ],
+          "why": "Cue B needs four or more shards; cue D needs two or fewer. The resource bands do not overlap."
+        }
+      ]
+    },
+    {
+      "id": "shadow_bolt",
+      "ability": "shadow_bolt",
+      "note": "Default membership (ready-self): a filler is always a scan candidate. The row changed KIND is said by the icon itself; the ordering correction lives on Demonbolt, which is the row that has to move. Nothing here is load-bearing for visibility — Shadow Bolt has no cooldown, so `ready` never goes false.",
+      "markers": [
+        {
+          "id": "ib_art_clock",
+          "display": {
+            "kind": "sealed-proc-bar",
+            "ability": "art_mother_of_chaos"
+          },
+          "note": "V20 · how long the armed Art — and so the Infernal Bolt on this row — has left, drained by the client. The slot filters to the ART aura, so the bar exists exactly while the transform does: no identity gate needed, the visibility IS the gate. The aura id is Tier-3-sourced and unflown."
+        }
+      ],
+      "states": [
+        {
+          "id": "sb_base",
+          "condition": "in the scan as Shadow Bolt",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "The filler. No cue: this catalog does not spend a promotion on it, and Shadow Bolt has no cooldown so `ready` never goes false."
+        },
+        {
+          "id": "sb_transformed",
+          "condition": "in the scan as Infernal Bolt — the Art is armed",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "proc-bar"
+          ],
+          "slot": null,
+          "note": "⚠ NO IDENTITY MARKER, AND THAT IS AUTHORED. R7 resolves the transform at bind and the icon changes itself; nothing here names Infernal Bolt's id. The bar's slot filters to the ART aura, so it exists exactly while the transform does — the visibility IS the gate. Context on the edge, not a badge, so still not a promotion."
+        }
+      ]
+    }
+  ],
+  "entries_note": "Entry order IS the authored priority, and it is the flattened actions.diabolist with one swap. Catalog.OrderCheck compares it against Blizzard's layoutIndex, which stopped being the drawn order when Anchor shipped — so read its verdict as `the saved layout disagrees`, never as `the row on screen disagrees`."
+}

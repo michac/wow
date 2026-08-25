@@ -28,15 +28,23 @@ enforces: *the leftmost entry that is neither swiped nor wearing a negative badg
 Shorthand: "shards" = Soul Shards, "Core" = Demonic Core, "Tyrant" = Summon Demonic Tyrant.
 Rungs are positions in `actions.diabolist`.
 
-### The **CDM row** bullet is machine-read
+### The rows are `scenarios.json`; this file is the walk
 
-Every scenario below carries a `- **CDM row.**` bullet in a fixed grammar — nine entries in
-authored order, separated by ` · `, each `<Ability> \`<verdict>\``.
-`wowkb.capart import scenarios demonology` scrapes it into the preview's sidecar and
-`wowkb.capart check demonology` re-scrapes it and fails if the two disagree, so **this document
-leads and the preview follows**. The ability name is whatever the Cooldown Manager would
-*display* in that state — `Ruination`, not `Hand of Gul'dan`, while row 7 is transformed —
-because that is the identity the client draws and the swipe follows.
+**The CDM row for every scenario below lives in `scenarios.json` beside this file, which is
+canonical and hand-edited.** This document carries the *walk* — what the eye does and why — keyed
+by the same ids, and it no longer restates the row. Until this split the row was a
+` · `-separated bullet here that a regex scraped into a cache under `previews/data/`; the doc led
+and the JSON followed. Now the JSON leads and `capart check` cross-references the two **by id in
+both directions**, so a walk with no row and a row with no walk are each a named failure.
+
+**To see a row, look at it** — `previews/demonology-stepper.html` draws every scenario, and the
+*Per-ability states* section on the same page draws every state `catalog.json` declares,
+including the ones no walk reaches. Reading a row out of a text bullet was always the worse
+option; it was only ever there because nothing else held the data.
+
+In the JSON, the ability name is whatever the Cooldown Manager would *display* in that state —
+`Ruination`, not `Hand of Gul'dan`, while row 7 is transformed — because that is the identity the
+client draws and the swipe follows.
 
 A verdict says what cap concluded, never what the button looks like: **the pixels belong to
 `../render-shelf.md`**. `cd` = swiped by Blizzard, no cap opinion. `open` = shown, in the
@@ -75,9 +83,6 @@ is built on.
 
 - **State.** Pull timer at zero, every cooldown up, **3 Soul Shards** from the precombat sequence,
   **no Demonic Core**, single-target mode. Reign of Tyranny talented.
-- **CDM row.** Power Siphon `press` · Grimoire: Imp Lord `open` {cues: building} · Summon Doomguard `open` {cues: building} ·
-  Call Dreadstalkers `open` {cues: building} · Summon Demonic Tyrant `open` {cues: building} · Implosion `open` {cues: blocked} ·
-  Hand of Gul'dan `open` {cues: building} · Demonbolt `open` {cues: noproc} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon** — ready, nothing rules it out → **press.** Rung 1, whose condition is
      `buff.demonic_core.stack<=1`, and at zero Cores that is true.
@@ -104,10 +109,6 @@ is built on.
 - **State.** One global later. Power Siphon is on cooldown and **granted two Demonic Cores**;
   Grimoire, Summon Doomguard and Call Dreadstalkers are all up, Tyrant is up, shards still 3.
   No Wild Imp is out yet.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `open` {cues: building} · Summon Doomguard `open` {cues: building} ·
-  Call Dreadstalkers `open` {cues: building} · Summon Demonic Tyrant `open` {cues: building} · Implosion `open` {cues: blocked} ·
-  Hand of Gul'dan `open` {cues: building} · Demonbolt `press` {sealed: count-bar, proc-bar} ·
-  Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon** — on cooldown → skip.
   2. **Grimoire: Imp Lord … Summon Demonic Tyrant** — every summon wears the `building` card
@@ -141,10 +142,6 @@ is built on.
   Siphon, Grimoire and Summon Doomguard are on cooldown. Call Dreadstalkers is ready and
   **Tyrant has ~30 s left**. Reign of Tyranny talented, 3 shards, no Demonic Core, three Wild
   Imps out.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `press` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} ·
-  Hand of Gul'dan `open` · Demonbolt `open` {cues: noproc} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Doomguard** — on cooldown → skip.
   2. **Call Dreadstalkers** — ready, and rung 6's first clause holds: 30 s is at least
@@ -169,10 +166,6 @@ is built on.
   Shards are 2.** No Demonic Core. Implosion is up and **three Wild Imps are out**. **To Hell
   and Back is not talented** — on a build that takes it, Implosion is a single-target press and
   row 6 wears no pawn.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `open` {cues: building} ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} ·
-  Hand of Gul'dan `open` {cues: starved} {client: not-enough-power} · Demonbolt `open` {cues: noproc} · Shadow Bolt `press`
 - **Walk.**
   1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
   2. **Summon Demonic Tyrant** — ready, and the `building` card lights on the exact readable
@@ -206,10 +199,6 @@ is built on.
 ### DEM-5 · Tyrant ready at 5 shards — press it
 
 - **State.** As DEM-4, but **Soul Shards are 5**. A Demonic Core is up; the three imps still are.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `press` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} ·
-  Hand of Gul'dan `open` · Demonbolt `open` {cues: overcap} {sealed: count-bar, proc-bar} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
   2. **Summon Demonic Tyrant** — `tyrant_awaits_shards` requires `resource < 5`, which is false
@@ -226,10 +215,6 @@ is built on.
 - **State.** Mid-fight, single target, DEM-4's build (no To Hell and Back). Every summon on
   cooldown, **Tyrant ~40 s out**, **4 Soul
   Shards**, a **Demonic Core up**, four Wild Imps out.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 4-} ·
-  Hand of Gul'dan `press` · Demonbolt `open` {cues: overcap} {sealed: count-bar, proc-bar} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
@@ -249,10 +234,6 @@ is built on.
 
 - **State.** As DEM-6, but **Tyrant's cooldown has ~4 s left** and shards are **3**. A Demonic
   Core is up.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 4-} ·
-  Hand of Gul'dan `open` {cues: blocked} · Demonbolt `press` {sealed: count-bar, proc-bar} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
@@ -278,11 +259,6 @@ is built on.
 - **State.** Single target, everything on cooldown, **1 Soul Shard**, a **Demonic Core up**,
   Tyrant far away, two Wild Imps out. **Doom is talented and the target's Doom is inside its
   pandemic window.**
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 2-} ·
-  Hand of Gul'dan `open` {cues: starved} {client: not-enough-power} ·
-  Demonbolt `press` {sealed: count-bar, pandemic, proc-bar} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
@@ -317,10 +293,6 @@ is built on.
 - **State.** Diabolic Ritual has cycled to **Pit Lord** and its Art is armed, so **row 7 is
   displaying Ruination**. Single target, **2 Soul Shards**, a Demonic Core up, three Wild Imps
   out, Tyrant on cooldown.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} ·
-  Ruination `press` · Demonbolt `open` {sealed: count-bar, proc-bar} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
@@ -342,12 +314,6 @@ is built on.
 - **State.** Diabolic Ritual has cycled to **Mother of Chaos** and its Art is armed, so **row 9
   is displaying Infernal Bolt**. Single target, **2 Soul Shards**, a **Demonic Core up**, three
   Wild Imps out, Tyrant ready.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `open` {cues: building} ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} ·
-  Hand of Gul'dan `open` {cues: starved} {client: not-enough-power} ·
-  Demonbolt `open` {cues: blocked} {sealed: count-bar, proc-bar} ·
-  Infernal Bolt `press` {sealed: proc-bar}
 - **Walk.**
   1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
   2. **Summon Demonic Tyrant** — the `building` card at two shards, cue A → skip.
@@ -384,11 +350,6 @@ is built on.
 
 - **State.** As DEM-10, but **4 Soul Shards** and Tyrant on cooldown. Row 9 is still displaying
   Infernal Bolt; a Demonic Core is up, the three imps still out.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} ·
-  Hand of Gul'dan `press` · Demonbolt `open` {cues: overcap} {sealed: count-bar, proc-bar} ·
-  Infernal Bolt `open` {sealed: proc-bar}
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
@@ -405,11 +366,7 @@ is built on.
 
 - **State.** The player has flipped cap's AoE toggle; four targets, **six or more Wild Imps out**
   after a Hand of Gul'dan chain, **3 Soul Shards**, Tyrant ready, To Hell and Back **not**
-  talented.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `open` {cues: building} ·
-  Implosion `press` {sealed: count-bands} {count: 6+} ·
-  Hand of Gul'dan `open` {cues: building} · Demonbolt `open` · Shadow Bolt `open`
+  talented, and **no Demonic Core up**.
 - **Walk.**
   1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
   2. **Summon Demonic Tyrant** — the `building` card at three shards, cue A → skip.
@@ -436,15 +393,11 @@ is built on.
 ### DEM-13 · AoE mode on, three imps out — the count rules the row out
 
 - **State.** As DEM-12 — AoE toggle on, four targets, **3 Soul Shards**, To Hell and Back not
-  talented — except that a Hand of Gul'dan chain has **not** landed, only **three Wild Imps**
+  talented, no Demonic Core up — except that a Hand of Gul'dan chain has **not** landed, only **three Wild Imps**
   are out, and **Tyrant is ~40 s out**. (⚠ Until 2026-08-24 this line inherited "Tyrant ready"
   from DEM-12 while the walk below said "Tyrant far" — the walk was always the truth: rung 11
   does not fire with Tyrant ready at three shards, so a ready Tyrant would make Hand of
   Gul'dan a held row, not the press. The ramp cues made the contradiction visible.)
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `ruled-sealed` {sealed: count-bands} {count: 3-} · Hand of Gul'dan `press` · Demonbolt `open` ·
-  Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
   2. **Implosion** — the `aoe_only` pawn is dark, because the toggle is on. What rules the row out
@@ -479,10 +432,6 @@ is built on.
 - **State.** Mid-fight, single target, DEM-4's build. **Power Siphon is ready** and **two Demonic
   Cores are banked**. 4 Soul Shards, Tyrant ~40 s out, three Wild Imps out, Grimoire and Summon
   Doomguard on cooldown.
-- **CDM row.** Power Siphon `ruled-sealed` {sealed: count-bands} · Grimoire: Imp Lord `cd` ·
-  Summon Doomguard `cd` · Call Dreadstalkers `cd` · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 3-} · Hand of Gul'dan `press` ·
-  Demonbolt `open` {cues: overcap} {sealed: count-bar, proc-bar} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon** — ready, and the client rules it out: the band table over the Demonic Core
      count is silent below two and hatches at two → skip. Rung 1's `buff.demonic_core.stack<=1` is
@@ -511,10 +460,6 @@ is built on.
   and Summon Demonic Tyrant's cooldown has ~16 s left** — inside rung 6's hold zone. 3 Soul
   Shards, no Demonic Core, two Wild Imps out; Power Siphon, Grimoire and Summon Doomguard on
   cooldown.
-- **CDM row.** Power Siphon `cd` · Grimoire: Imp Lord `cd` · Summon Doomguard `cd` ·
-  Call Dreadstalkers `open` {cues: blocked} · Summon Demonic Tyrant `cd` ·
-  Implosion `open` {cues: aoe_only} {sealed: count-bands} {count: 2-} ·
-  Hand of Gul'dan `press` · Demonbolt `open` {cues: noproc} · Shadow Bolt `open`
 - **Walk.**
   1. **Power Siphon … Summon Doomguard** — on cooldown → skip.
   2. **Call Dreadstalkers** — `blocked` from `dreadstalkers_awaits_tyrant`: 16 s is inside the

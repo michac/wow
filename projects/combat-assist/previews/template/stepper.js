@@ -1396,6 +1396,67 @@
     });
   }
 
+  /* ------------------------------------------------------------- per-ability states */
+
+  // The state table, DRAWN. Each row is fed through `itemNode` — the same function the scenario
+  // walk uses — so a state cannot be illustrated with a treatment the walk could not produce.
+  // Anything drawn here is therefore already gated by `capart check`'s vocabulary gates.
+  function renderStates() {
+    var hostEl = document.getElementById("states");
+    if (!hostEl || !D.states) return;
+    D.states.forEach(function (grp) {
+      var box = el("div", "stategroup");
+      box.id = grp.code;
+      var h = el("h3");
+      // The short code leads, because it is what feedback is written in. The authored entry id
+      // follows it and is the durable name — the code is positional and moves if the priority
+      // is re-ordered.
+      h.innerHTML = '<a class="statecode" href="#' + grp.code + '">' + grp.code + "</a> " +
+                    grp.name + ' <code class="muted">' + grp.entry + "</code>";
+      box.appendChild(h);
+      if (grp.note) {
+        var n = el("p", "muted");
+        n.textContent = grp.note;
+        box.appendChild(n);
+      }
+      var row = el("div", "staterow");
+      grp.states.forEach(function (st) {
+        var cell = el("div", "statecell");
+        // A state is exactly a CDM entry: name, verdict, cues, sealed. Reusing the shape is the
+        // point — it is what makes "the preview draws the state table" true rather than a claim.
+        cell.appendChild(itemNode({
+          name: grp.name, verdict: st.verdict, cues: st.cues, sealed: st.sealed
+        }, 0));
+        cell.id = st.code;
+        var cap = el("div", "cap");
+        var bits = '<a class="statecode" href="#' + st.code + '">' + st.code + "</a> " +
+                   '<code class="muted">' + st.id + "</code><br>" +
+                   "<b>" + st.condition + "</b><br><code>" + st.verdict + "</code>";
+        if (st.cues.length) bits += " · cues " + st.cues.join(", ");
+        if (st.sealed.length) bits += " · sealed " + st.sealed.join(", ");
+        if (st.slot !== null && st.slot !== undefined) bits += " · slot " + st.slot;
+        if (st.combines.length) {
+          bits += '<br><span class="muted">combines ' + st.combines.join(" + ") + "</span>";
+        }
+        if (st.note) bits += '<br><span class="muted">' + st.note + "</span>";
+        cap.innerHTML = bits;
+        cell.appendChild(cap);
+        row.appendChild(cell);
+      });
+      box.appendChild(row);
+      // The pairs that CANNOT co-occur, and why. Drawn beside the states rather than filed
+      // somewhere else, because "this combination is impossible" is a statement about this
+      // ability and is the half a walk can never show.
+      (grp.excludes || []).forEach(function (ex) {
+        var x = el("p", "muted");
+        x.innerHTML = "⊘ <code>" + ex.pair.join("</code> + <code>") + "</code> — " + ex.why;
+        box.appendChild(x);
+      });
+      hostEl.appendChild(box);
+    });
+  }
+  renderStates();
+
   host("prov").innerHTML = D.provenance_html;
 
   // A build-time honesty flag: art drawn through a path we have not verified in client, or a

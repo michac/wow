@@ -1,0 +1,895 @@
+{
+  "version": 1,
+  "spec": "demonology",
+  "_comment": "CANONICAL. The scenario ROWS — what each CDM row draws in each game state — as data. This is hand-edited and it leads; `scenarios.md` beside it carries the prose that explains each walk and is keyed by the same ids. It replaced a REVIEWED CACHE under previews/data/, which ran the other way round: the doc led and the JSON was imported from it by a regex over prose. `capart check` cross-references the two by id in BOTH directions, so a walk with no row and a row with no walk are each a named failure.",
+  "scenarios": [
+    {
+      "id": "DEM-1",
+      "title": "Opener, everything ready, 3 shards, no Core",
+      "state": "Pull timer at zero, every cooldown up, <b>3 Soul Shards</b> from the precombat sequence, <b>no Demonic Core</b>, single-target mode. Reign of Tyranny talented.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "press"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-2",
+      "title": "Power Siphon spent, the summon block",
+      "state": "One global later. Power Siphon is on cooldown and <b>granted two Demonic Cores</b>; Grimoire, Summon Doomguard and Call Dreadstalkers are all up, Tyrant is up, shards still 3. No Wild Imp is out yet.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "press",
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-3",
+      "title": "Dreadstalkers ready, Tyrant 30 s out — the window is open",
+      "state": "Mid-fight, single target, DEM-4&#x27;s build (To Hell and Back not talented). Power Siphon, Grimoire and Summon Doomguard are on cooldown. Call Dreadstalkers is ready and <b>Tyrant has ~30 s left</b>. Reign of Tyranny talented, 3 shards, no Demonic Core, three Wild Imps out.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "press"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-4",
+      "title": "Tyrant ready at 2 shards — the readable hold, and the filler underneath",
+      "state": "Mid-fight, single target. Every summon is on cooldown. <b>Tyrant is ready and Soul Shards are 2.</b> No Demonic Core. Implosion is up and <b>three Wild Imps are out</b>. <b>To Hell and Back is not talented</b> — on a build that takes it, Implosion is a single-target press and row 6 wears no pawn.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "press"
+        }
+      ]
+    },
+    {
+      "id": "DEM-5",
+      "title": "Tyrant ready at 5 shards — press it",
+      "state": "As DEM-4, but <b>Soul Shards are 5</b>. A Demonic Core is up; the three imps still are.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "press"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-6",
+      "title": "4 shards, Core up, Tyrant far — Hand of Gul'dan, and the Core waits",
+      "state": "Mid-fight, single target, DEM-4&#x27;s build (no To Hell and Back). Every summon on cooldown, <b>Tyrant ~40 s out</b>, <b>4 Soul Shards</b>, a <b>Demonic Core up</b>, four Wild Imps out.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 4,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-7",
+      "title": "3 shards, Tyrant 4 s out — bank for the window",
+      "state": "As DEM-6, but <b>Tyrant&#x27;s cooldown has ~4 s left</b> and shards are <b>3</b>. A Demonic Core is up.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 4,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "press",
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-8",
+      "title": "1 shard, Core up — the Core is the press",
+      "state": "Single target, everything on cooldown, <b>1 Soul Shard</b>, a <b>Demonic Core up</b>, Tyrant far away, two Wild Imps out. <b>Doom is talented and the target&#x27;s Doom is inside its pandemic window.</b>",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 2,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "press",
+          "sealed": [
+            "count-bar",
+            "pandemic",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-9",
+      "title": "Ruination armed — row 7 is a different button",
+      "state": "Diabolic Ritual has cycled to <b>Pit Lord</b> and its Art is armed, so <b>row 7 is displaying Ruination</b>. Single target, <b>2 Soul Shards</b>, a Demonic Core up, three Wild Imps out, Tyrant on cooldown.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Ruination",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-10",
+      "title": "Infernal Bolt armed at 2 shards — the filler outranks the proc",
+      "state": "Diabolic Ritual has cycled to <b>Mother of Chaos</b> and its Art is armed, so <b>row 9 is displaying Infernal Bolt</b>. Single target, <b>2 Soul Shards</b>, a <b>Demonic Core up</b>, three Wild Imps out, Tyrant ready.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Infernal Bolt",
+          "verdict": "press",
+          "sealed": [
+            "proc-bar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DEM-11",
+      "title": "Infernal Bolt armed at 4 shards — and it loses",
+      "state": "As DEM-10, but <b>4 Soul Shards</b> and Tyrant on cooldown. Row 9 is still displaying Infernal Bolt; a Demonic Core is up, the three imps still out.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Infernal Bolt",
+          "verdict": "open",
+          "sealed": [
+            "proc-bar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DEM-12",
+      "title": "AoE mode on, 4 targets, imps banked — Implosion",
+      "state": "The player has flipped cap&#x27;s AoE toggle; four targets, <b>six or more Wild Imps out</b> after a Hand of Gul&#x27;dan chain, <b>3 Soul Shards</b>, Tyrant ready, To Hell and Back <b>not</b> talented, and <b>no Demonic Core up</b>.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Implosion",
+          "verdict": "press",
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 6,
+          "count_dir": "pos"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-13",
+      "title": "AoE mode on, three imps out — the count rules the row out",
+      "state": "As DEM-12 — AoE toggle on, four targets, <b>3 Soul Shards</b>, To Hell and Back not talented, no Demonic Core up — except that a Hand of Gul&#x27;dan chain has <b>not</b> landed, only <b>three Wild Imps</b> are out, and <b>Tyrant is ~40 s out</b>. (⚠ Until 2026-08-24 this line inherited &quot;Tyrant ready&quot; from DEM-12 while the walk below said &quot;Tyrant far&quot; — the walk was always the truth: rung 11 does not fire with Tyrant ready at three shards, so a ready Tyrant would make Hand of Gul&#x27;dan a held row, not the press. The ramp cues made the contradiction visible.)",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-14",
+      "title": "Two Cores banked — Power Siphon rules itself out",
+      "state": "Mid-fight, single target, DEM-4&#x27;s build. <b>Power Siphon is ready</b> and <b>two Demonic Cores are banked</b>. 4 Soul Shards, Tyrant ~40 s out, three Wild Imps out, Grimoire and Summon Doomguard on cooldown.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 3,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [
+            "count-bar",
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "DEM-15",
+      "title": "Dreadstalkers in the dead zone — waiting on Tyrant's cooldown",
+      "state": "Reign of Tyranny build, mid-fight, single target. <b>Call Dreadstalkers is ready and Summon Demonic Tyrant&#x27;s cooldown has ~16 s left</b> — inside rung 6&#x27;s hold zone. 3 Soul Shards, no Demonic Core, two Wild Imps out; Power Siphon, Grimoire and Summon Doomguard on cooldown.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "cd"
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "cd"
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "cd"
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 2,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
+    }
+  ]
+}

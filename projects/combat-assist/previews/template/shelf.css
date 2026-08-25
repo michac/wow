@@ -1153,3 +1153,46 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   paint-order: stroke fill;
 }
 
+
+/* ===== Per-ability state tables =========================================================
+   `catalog.json`'s states[], drawn with the same item primitive the scenario walk uses.
+   Deliberately NOT the lab's classes: Part 7 decides nothing, and these are the definition. */
+.stategroup {
+  margin: 1.5rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+.stategroup h3 { margin: 0 0 .35rem; font-size: 1rem; }
+.staterow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-top: .75rem;
+}
+.statecell {
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.statecell .cap { font-size: .8rem; line-height: 1.45; }
+
+/* The state's reference id. Feedback arrives as "DEM-S6c is wrong", so it is the loudest thing
+   in the caption and it is an anchor — clicking one puts the id in the address bar to copy. */
+.statecode {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--ink);
+  background: var(--chip, rgba(127, 127, 127, .16));
+  border-radius: .25rem;
+  padding: .05rem .3rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.statecode:hover { text-decoration: underline; }
+.stategroup:target > h3 .statecode,
+.statecell:target .statecode { outline: 2px solid var(--accent, currentColor); }
+.statecell .cap code.muted { font-size: .72rem; opacity: .65; }

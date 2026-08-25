@@ -63,7 +63,7 @@ Diabolic Ritual wheel hands you are not scheduled — they are rows cap already 
 hat, and the override *is* the availability test. Beyond that the spec is **pet-shaped**, and
 that is where it gets hard: five of its ordering-reasons are **aura stack counts** — Demonic
 Core ≤1, Wild Imps ≥6 — and the shelf's only aura-stack form is a *count display*, not a
-curve→badge. So this catalog has **two rows that elimination cannot rule out**, and it says so
+curve→badge. So this catalog has **one row that elimination cannot rule out**, and it says so
 rather than inventing a mechanism. Ten cues do the work: **A** the readable five-shard Tyrant
 hold, **B** the readable Demonbolt overcap, **C** the readable Demonbolt core hold (the
 `noproc` empty card), **D** Demonbolt yielding to an armed Infernal Bolt, **E** Hand of
@@ -86,12 +86,12 @@ Base spell IDs from `knowledge/classes/warlock/demonology/ability-inventory.tsv`
 
 | Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `power_siphon` | Power Siphon | `264130` | — | scan | — | — (its rung's gate is a sealed **count** — see *Two rows elimination cannot rule out*) |
-| `grimoire` | Grimoire: Imp Lord | `1276452` | Grimoire: Fel Ravager `1276467` (choice node, not a transform) | scan | — | — |
-| `summon_doomguard` | Summon Doomguard | `1276672` | — | scan | — | — |
-| `call_dreadstalkers` | Call Dreadstalkers | `104316` | — | scan | — | — (its Reign-of-Tyranny window is a **two-sided** sealed band, which has no authored form — see *Defeats*) |
+| `power_siphon` | Power Siphon | `264130` | — | scan | — | — (its rung's gate is a sealed **count** — see *The one row elimination cannot rule out*) |
+| `grimoire` | Grimoire: Imp Lord | `1276452` | Grimoire: Fel Ravager `1276467` (choice node, not a transform) | scan | — | the ramp hold (I) |
+| `summon_doomguard` | Summon Doomguard | `1276672` | — | scan | — | the ramp hold (I) |
+| `call_dreadstalkers` | Call Dreadstalkers | `104316` | — | scan | — | the ramp hold (I) + the dogs' two-sided sealed window (J) |
 | `summon_demonic_tyrant` | Summon Demonic Tyrant | `265187` | — | scan | — | readable five-shard hold (A) |
-| `implosion` | Implosion | `196277` | — | scan | — | single-target skip (G) + a sealed imp-count **context** display |
+| `implosion` | Implosion | `196277` | — | scan | — | single-target skip (G) + no imps at all (H) + a sealed imp-count **eliminating** display |
 | `hand_of_guldan` | Hand of Gul'dan | `105174` | **Ruination `433885`** ⚠ | scan | — | starved (E) + sealed Tyrant-bank hold (F) |
 | `demonbolt` | Demonbolt | `264178` | — | scan | — | core hold (C) + overcap (B) + Infernal-Bolt yield (D) |
 | `shadow_bolt` | Shadow Bolt | `686` | **Infernal Bolt `433891`** | scan | — | — |
@@ -509,15 +509,15 @@ useful and did not eliminate; a hatch and a negative mark do.
 | Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
 | **A** five-shard hold | **Summon Demonic Tyrant** wears the `building` card below five Soul Shards | `UnitPower(player, SoulShards) < 5` | marker (readable) | R3 | corner badge, flowing stack |
-| **B** overcap | **Demonbolt only** wears the `overcap` badge at four or more Soul Shards while a Demonic Core is up | `UnitPower(player, SoulShards) >= 4` + `IsSpellOverlayed(264178)` | marker (readable) | R3 + overlay `proc` | corner badge, slot 2 |
+| **B** overcap | **Demonbolt only** wears the `overcap` badge at four or more Soul Shards while a Demonic Core is up | `UnitPower(player, SoulShards) >= 4` + `IsSpellOverlayed(264178)` | marker (readable) | R3 + overlay `proc` | corner badge, flowing stack |
 | **C** core hold | Demonbolt wears the `noproc` empty card while **no** Demonic Core is up | `IsSpellOverlayed(264178)` | marker (readable) | overlay `proc` | corner badge, flowing stack |
-| **D** Infernal-Bolt yield | Demonbolt wears `blocked` while row 9 is displaying **Infernal Bolt** and Soul Shards are below three | `overrideSpellID ~= spellID` on row 9 + `resource` | marker (readable) | R7 + R3 | corner badge, slot 1 |
-| **E** starved | Hand of Gul'dan wears `starved` when its **live** id is unaffordable — three shards as itself, none as Ruination | `insufficientPower` on the live id | marker (readable) | R1 + R7 | corner badge, slot 2 |
-| **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, rank 3 |
-| **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, slot 1 |
+| **D** Infernal-Bolt yield | Demonbolt wears `blocked` while row 9 is displaying **Infernal Bolt** and Soul Shards are below three | `overrideSpellID ~= spellID` on row 9 + `resource` | marker (readable) | R7 + R3 | corner badge, flowing stack |
+| **E** starved | Hand of Gul'dan wears `starved` when its **live** id is unaffordable — three shards as itself, none as Ruination | `insufficientPower` on the live id | marker (readable) | R1 + R7 | corner badge, flowing stack |
+| **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, flowing stack |
+| **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, flowing stack |
 | — | Power Siphon **rules itself out** at two or more Demonic Cores: the client draws a hatch and a red mark | the aura's application count | sealed display | S7 + S11 `sealed-count-bands` | AuraContainer FontString → V16 |
 | — | Implosion **rules itself out** below six Wild Imps — red count + hatch — and at six the count turns **gold**: banked | the aura's application count | sealed display | S7 + S8 + S11 `sealed-count-bands` (two-polarity) | AuraContainer FontString → V16/V17 |
-| — | Demonbolt carries a **radial** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
+| — | Demonbolt carries a **segmented bar** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
 | — | Demonbolt carries a **badge while Doom's pandemic window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-pandemic` + the `talent` predicate | AuraContainer Region → V19 |
 | **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, flowing stack |
 | **I** the ramp hold | Grimoire, Summon Doomguard, Call Dreadstalkers and Hand of Gul'dan wear the `building` card while Tyrant is READY and Soul Shards are below five | `ready(summon_demonic_tyrant)` + `UnitPower(player, SoulShards) < 5` | marker (readable) | R2 (cross-row) + R3 | corner badge, flowing stack |

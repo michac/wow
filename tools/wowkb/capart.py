@@ -1,8 +1,9 @@
 """Generate the Combat Assist Plus design previews from the docs that own them.
 
 This tool assembles; it never decides. **It holds no color, no rate and no size.** Every
-number it draws with is lifted out of `projects/combat-assist/specs/render-shelf.md`
-Part 6 — the `render-tokens` JSON block — and every ability, lane and verdict comes from
+number it draws with is lifted out of `projects/combat-assist/specs/render-tokens.json`
+(Part 7's out of `render-lab.json`; `render-shelf.md` Part 6 still documents what each group
+MEANS) — and every ability, lane and verdict comes from
 the spec's own `catalog.md` (and, for Havoc, the `scenarios.md` beside it — Retribution keeps
 its walk in the one file). Change the look by editing the shelf and rebuilding; change the walk
 by editing the scenario doc and re-importing. If a number appears in this file, that is a bug.
@@ -73,7 +74,10 @@ import hashlib
 import html as htmllib
 import io
 import json
+import shutil
+import subprocess
 import re
+import textwrap
 import sys
 from datetime import date
 from pathlib import Path
@@ -86,6 +90,12 @@ from ._common import ROOT
 PROJECT = ROOT / "projects" / "combat-assist"
 SPECS = PROJECT / "specs"
 SHELF = SPECS / "render-shelf.md"
+# The style's NUMBERS, split out of the shelf's Part 6 so that a prose edit does not
+# restamp every generated artifact. Part 6 still documents what each group means.
+RENDER_TOKENS = SPECS / "render-tokens.json"
+# Part 7. Its own file because "nothing below Part 7 is the style" is easier to hold as a
+# file boundary than as a convention; `validate_lab_isolation` already read it as one.
+RENDER_LAB = SPECS / "render-lab.json"
 PREVIEWS = PROJECT / "previews"
 TEMPLATE = PREVIEWS / "template"
 SIDECARS = PREVIEWS / "data"
@@ -301,6 +311,7 @@ ADDON_SRC = PROJECT / "addon" / "CombatAssistPlus"
 STYLE_LUA = ADDON_SRC / "Style.lua"
 LAB_LUA = ADDON_SRC / "Lab.lua"
 MEDIA_DIR = ADDON_SRC / "Media"
+CATALOGS_DIR = ADDON_SRC / "Catalogs"
 BADGE_DIR = MEDIA_DIR / "badges"
 LAB_DIR = MEDIA_DIR / "lab"
 # Where the client looks for a vendored texture. Plumbing, not a design number.
@@ -318,7 +329,14 @@ LAB_SHEET_TEXTURE = "stripes"
 # `Lab.lua`), never through `ns.Style`: every module already reads `ns.Style`, so a `lab` key on it
 # would put the guarantee back on everyone remembering. A separate global makes the reach visible
 # and greppable, which is exactly what `cmd_check`'s LabStyle reach gate keys off.
-NOT_THE_STYLE = ("preview", "lab")
+# Token groups the CLIENT never draws with, so they do not travel into `Style.lua`.
+# `preview` and `lab` are the two the shelf calls out by name; `text`, `assets` and `budget`
+# are capart's own generation inputs — the preview's flicker limits, the icon encoder's
+# settings and the base64 ceiling — and shipping them to the addon put three tables in front
+# of every reader of `Style.lua` that no addon file has ever read. `panel` is V12's geometry,
+# DECLARED but not built: it ships the day something draws a virtual row, and taking it off
+# this list is part of that work.
+NOT_THE_STYLE = ("preview", "lab", "text", "assets", "budget", "panel")
 # The only two files that may name `ns.LabStyle`: the generated data, and the gallery that draws it.
 LAB_READERS = ("Lab.lua", "StylePanel.lua")
 
@@ -342,16 +360,35 @@ def _sha(path: Path) -> str:
 # --------------------------------------------------------------------------- the shelf
 
 
-def load_tokens() -> dict:
-    """The `render-tokens` block out of render-shelf.md Part 6 — the whole style."""
-    text = SHELF.read_text(encoding="utf-8")
-    m = re.search(r"<!--\s*render-tokens v1\s*-->\s*```json\n(.*?)\n```", text, re.S)
-    if not m:
-        _die(f"no `<!-- render-tokens v1 -->` JSON block in {SHELF.relative_to(ROOT)}")
+def _load_json(path: Path) -> dict:
+    if not path.exists():
+        _die(f"missing {path.relative_to(ROOT)}")
     try:
-        return json.loads(m.group(1))
+        return json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        _die(f"render-tokens block is not valid JSON: {exc}")
+        _die(f"{path.relative_to(ROOT)} is not valid JSON: {exc}")
+
+
+def load_tokens() -> dict:
+    """The whole style: render-tokens.json, with render-lab.json merged under `lab`.
+
+    Two files, one table. The lab is a separate file because Part 7 decides nothing and must
+    stay unreachable from the live overlay; merging it here keeps every existing reader — and
+    `validate_lab_isolation` — working against one `tokens` dict.
+    """
+    tokens = _load_json(RENDER_TOKENS)
+    lab_doc = _load_json(RENDER_LAB)
+
+    # One version, checked rather than assumed: two files that disagree about the schema are a
+    # half-applied edit, and the failure it would otherwise cause is a KeyError deep in a build.
+    tv, lv = tokens.get("version"), lab_doc.get("version")
+    if tv != lv:
+        _die(f"version mismatch: {RENDER_TOKENS.name} is {tv!r}, {RENDER_LAB.name} is {lv!r}")
+    if "lab" in tokens:
+        _die(f"{RENDER_TOKENS.name} carries a `lab` key; Part 7 lives in {RENDER_LAB.name}")
+
+    tokens["lab"] = lab_doc.get("lab") or {}
+    return tokens
 
 
 # --------------------------------------------------------------------------- the roster
@@ -596,8 +633,83 @@ def parse_walk(raw: str, row_names: list[str]) -> list[dict]:
 HEADING_RE = re.compile(r"^###\s+(?P<id>[A-Z][A-Za-z]{0,4}-\d+)\s+·\s+(?P<title>.+?)\s*$", re.M)
 
 
-def scrape_scenarios(path: Path) -> list[dict]:
-    """scenarios.md → the ordered scenario list. The doc leads; this reads it."""
+SCENARIOS_JSON = "scenarios.json"
+
+
+def scenarios_json_path(spec: str) -> Path:
+    return SPECS / spec / SCENARIOS_JSON
+
+
+def load_scenarios(spec: str) -> tuple[list[dict], str]:
+    """The scenario rows, and where they came from.
+
+    TWO POLARITIES, and which one a spec is on is decided by a file existing rather than by a
+    list. A spec that has moved carries `specs/<spec>/scenarios.json`, which is CANONICAL and
+    hand-edited; the `.md` beside it is prose. A spec that has not still leads from the `.md`
+    and keeps its reviewed cache under `previews/data/`. The old direction is a regex over
+    prose, which is exactly what this migration exists to stop.
+    """
+    src = scenarios_json_path(spec)
+    if src.exists():
+        rows = _load_json(src)["scenarios"]
+        # THE TWO HALVES ARE JOINED HERE, BY ID. The rows are canonical in the JSON; the walk
+        # prose is canonical in the `.md`. The preview needs both together, and joining them at
+        # the loader is what lets every downstream reader stay unaware there are two files.
+        prose = scrape_walk(SPECS_BUILT[spec]["scenarios"])
+        merged = []
+        for sc in rows:
+            side = prose.get(sc["id"]) or {}
+            names = [e["name"] for e in sc["row"]]
+            merged.append({
+                **sc,
+                "title": sc.get("title") or side.get("title", ""),
+                "state": sc.get("state") or side.get("state", ""),
+                "steps": parse_walk(side.get("walk", ""), names),
+                "extras": side.get("extras", []),
+            })
+        return merged, "json"
+    cfg = SPECS_BUILT[spec]
+    if cfg["sidecar"].exists():
+        return json.loads(cfg["sidecar"].read_text(encoding="utf-8"))["scenarios"], "sidecar"
+    return scrape_scenarios(cfg["scenarios"]), "doc"
+
+
+def scenario_walk_ids(path: Path) -> list[str]:
+    """Just the ids `scenarios.md` heads a walk with — no row parsing.
+
+    The prose half of a split spec. `check` cross-references these against the canonical JSON in
+    both directions, which is the whole gate: a walk with no row, and a row nobody walks.
+    """
+    if not path.exists():
+        return []
+    return [m.group("id") for m in HEADING_RE.finditer(path.read_text(encoding="utf-8"))]
+
+
+def scrape_walk(path: Path) -> dict[str, dict]:
+    """scenarios.md → the PROSE half, by id: title, state, walk steps, extra bullets.
+
+    The split spec's other half. `scenarios.json` owns what each row DRAWS; this owns what the
+    eye does about it, and the preview needs both — the stepper renders the steps beside the row
+    it is stepping through. Deliberately tolerant of a missing `CDM row` bullet, because on a
+    migrated spec there is not supposed to be one.
+    """
+    out = {}
+    for sc_id, title, bullets, order in _scenario_bodies(path):
+        out[sc_id] = {
+            "title": title,
+            "state": _inline(_flat(bullets.get("State", ""))),
+            "walk": bullets.get("Walk", ""),
+            "extras": [
+                {"label": lbl, "html": _inline(_flat(bullets[lbl]))}
+                for lbl in order
+                if lbl not in {"State", "CDM row", "Walk"}
+            ],
+        }
+    return out
+
+
+def _scenario_bodies(path: Path):
+    """Every `### ID · Title` block in a scenarios doc, as (id, title, bullets, order)."""
     text = path.read_text(encoding="utf-8")
     marks = list(HEADING_RE.finditer(text))
     if not marks:
@@ -627,23 +739,28 @@ def scrape_scenarios(path: Path) -> list[dict]:
             bullets[label] = rest.strip()
             order.append(label)
 
-        if "CDM row" not in bullets:
-            _die(f"{m.group('id')} has no `- **CDM row.**` bullet — the preview cannot render it")
-        row = parse_row(bullets["CDM row"])
-        row_names = [e["name"] for e in row]
+        out.append((m.group("id"), m.group("title"), bullets, order))
+    return out
 
-        extras = [
-            {"label": lbl, "html": _inline(_flat(bullets[lbl]))}
-            for lbl in order
-            if lbl not in {"State", "CDM row", "Walk"}
-        ]
+
+def scrape_scenarios(path: Path) -> list[dict]:
+    """scenarios.md → the ordered scenario list, ROWS INCLUDED. The old polarity: the doc leads."""
+    out = []
+    for sc_id, title, bullets, order in _scenario_bodies(path):
+        if "CDM row" not in bullets:
+            _die(f"{sc_id} has no `- **CDM row.**` bullet — the preview cannot render it")
+        row = parse_row(bullets["CDM row"])
         out.append({
-            "id": m.group("id"),
-            "title": m.group("title"),
+            "id": sc_id,
+            "title": title,
             "state": _inline(_flat(bullets.get("State", ""))),
             "row": row,
-            "steps": parse_walk(bullets.get("Walk", ""), row_names),
-            "extras": extras,
+            "steps": parse_walk(bullets.get("Walk", ""), [e["name"] for e in row]),
+            "extras": [
+                {"label": lbl, "html": _inline(_flat(bullets[lbl]))}
+                for lbl in order
+                if lbl not in {"State", "CDM row", "Walk"}
+            ],
         })
     return out
 
@@ -686,7 +803,7 @@ def validate(scenarios: list[dict], tokens: dict, roster: dict) -> None:
                 _die(f"{sc['id']}: {e['name']!r} is not in catalog.md's bound-abilities table")
             for c in e.get("cues", []):
                 if c not in cues:
-                    _die(f"{sc['id']}: cue {c!r} is not declared in render-shelf.md tokens.cues")
+                    _die(f"{sc['id']}: cue {c!r} is not declared in render-tokens.json's `cues`")
             for kind in e.get("sealed", []):
                 if kind not in SEALED_DISPLAYS:
                     _die(f"{sc['id']}: sealed display {kind!r} on {e['name']!r} is not one of "
@@ -962,13 +1079,142 @@ def _lua_value(v, indent: int) -> str:
 def style_lua(tokens: dict) -> str:
     """`Style.lua` — Part 6 as a Lua table, data only, so `Treatment`/`Paint` hold no numbers."""
     return (
-        "-- Style.lua — GENERATED from specs/render-shelf.md Part 6. Do not edit this file.\n"
+        "-- Style.lua — GENERATED from specs/render-tokens.json. Do not edit this file.\n"
         "--   uv run python -m wowkb.capart export lua\n"
         "-- Data only: the logic that reads it is Treatment.lua and Paint.lua.\n"
         "local ADDON, ns = ...\n"
         "\n"
         f"ns.Style = {_lua_value(addon_style(tokens), 0)}\n"
     )
+
+
+CATALOG_JSON = "catalog.json"
+# The Lua field order a generated catalog emits. Named rather than sorted, because a catalog is
+# read top-down by a person deciding whether it says what they meant: `id` before `cue` before
+# the condition before the picture is the sentence order, and alphabetical is not.
+_MARKER_ORDER = ("id", "cue", "when", "display")
+_ABILITY_ORDER = ("id", "spell", "alt", "family", "unit", "charged")
+_TALENT_ORDER = ("id", "node", "entry", "spell")
+
+
+def catalog_json_path(spec: str) -> Path:
+    return SPECS / spec / CATALOG_JSON
+
+
+def _lua_comment(text: str, indent: int, width: int = 96) -> list[str]:
+    """A `note` field as a Lua comment block, wrapped to the file's own column."""
+    pad = "  " * indent
+    body = width - len(pad) - 3
+    return [f"{pad}-- {line}" for line in textwrap.wrap(text, body)] if text else []
+
+
+def _lua_term(term: dict) -> str:
+    """One readable term: `{ "resource", "<=", 4 }`, optionally `negate = true`.
+
+    A term is an ARRAY with an optional named key, which is the one shape `_lua_value` cannot
+    emit — it writes a table as either a list or a record, never both.
+    """
+    parts = [_lua_scalar(term["pred"])]
+    parts += [_lua_scalar(a) for a in term.get("args", [])]
+    if term.get("negate"):
+        parts.append("negate = true")
+    return "{ " + ", ".join(parts) + " }"
+
+
+def _lua_when(when: list, indent: int) -> str:
+    inner = ", ".join(_lua_term(t) for t in when)
+    line = "{ " + inner + " }"
+    if len(line) + len("  " * indent) <= 96:
+        return line
+    pad, ipad = "  " * indent, "  " * (indent + 1)
+    return "{\n" + "".join(f"{ipad}{_lua_term(t)},\n" for t in when) + pad + "}"
+
+
+def _lua_record(d: dict, order: tuple, indent: int) -> str:
+    """A record in a DECLARED key order, with anything unlisted appended in sorted order."""
+    keys = [k for k in order if k in d] + sorted(k for k in d if k not in order)
+    parts = []
+    for k in keys:
+        v = d[k]
+        parts.append(f"{_lua_key(k)} = {_lua_value(v, indent + 1)}")
+    return "{ " + ", ".join(parts) + " }"
+
+
+def catalog_lua(spec: str) -> str:
+    """`Catalogs/<Spec>.lua` — the per-spec roster as GENERATED data.
+
+    The source is `specs/<spec>/catalog.json`, which is hand-edited and canonical. `states` do
+    not travel: they are the per-ability state table the doc and the preview read, and the addon
+    resolves the same thing at runtime from the markers. `note` fields travel as comments —
+    they are the addon-seam prose that has no counterpart in `catalog.md`, and losing it to a
+    format change is the one real cost of generating this file.
+    """
+    src = catalog_json_path(spec)
+    cat = _load_json(src)
+    name = cat.get("name", spec)
+    out: list[str] = [
+        f"-- {spec.capitalize()}.lua — GENERATED from specs/{spec}/{CATALOG_JSON}. "
+        "Do not edit this file.",
+        f"--   uv run python -m wowkb.capart export catalog {spec}",
+        "-- Data only: the validator is Catalog.lua and the reasoning is catalog.md.",
+    ]
+    out += _lua_comment(cat["note"], 0) if cat.get("note") else []
+    out += ["local ADDON, ns = ...", "", "ns.Catalog.Register{"]
+
+    for key in ("spec", "hero", "name", "power", "bar"):
+        if key in cat:
+            out.append(f"  {key} = {_lua_value(cat[key], 1)},")
+
+    out += ["", "  abilities = {"]
+    for a in cat.get("abilities", []):
+        a = {k: v for k, v in a.items() if k != "note"}
+        out += _lua_comment(_note_of(cat["abilities"], a["id"]), 2)
+        out.append(f"    {_lua_record(a, _ABILITY_ORDER, 2)},")
+    out += ["  },"]
+
+    if cat.get("talents"):
+        out += [""]
+        out += _lua_comment(cat["talents_note"], 1) if cat.get("talents_note") else []
+        out += ["  talents = {"]
+        for t in cat["talents"]:
+            t = {k: v for k, v in t.items() if k != "note"}
+            out.append(f"    {_lua_record(t, _TALENT_ORDER, 2)},")
+        out += ["  },"]
+
+    out += [""]
+    out += _lua_comment(cat["entries_note"], 1) if cat.get("entries_note") else []
+    out += ["  entries = {"]
+    for i, e in enumerate(cat.get("entries", []), 1):
+        out += _lua_comment(f"{i} · {e['id']}. {e['note']}" if e.get("note") else f"{i} · {e['id']}.", 2)
+        head = f"    {{ id = {_lua_scalar(e['id'])}, ability = {_lua_scalar(e['ability'])},"
+        out.append(head)
+        if e.get("scan_when"):
+            alts = ", ".join(_lua_when(alt, 0) for alt in e["scan_when"])
+            out.append(f"      scan_when = {{ {alts} }},")
+        markers = e.get("markers") or []
+        if markers:
+            out.append("      markers = {")
+            for m in markers:
+                out += _lua_comment(m["note"], 4) if m.get("note") else []
+                out.append(f"        {{ id = {_lua_scalar(m['id'])},")
+                if m.get("cue"):
+                    out.append(f"          cue = {_lua_scalar(m['cue'])},")
+                if m.get("when"):
+                    out.append(f"          when = {_lua_when(m['when'], 5)},")
+                if m.get("display"):
+                    out.append(f"          display = {_lua_value(m['display'], 5)},")
+                out.append("        },")
+            out.append("      },")
+        out.append("    },")
+    out += ["  },", "}", ""]
+    return "\n".join(out)
+
+
+def _note_of(items: list, id_: str) -> str:
+    for it in items:
+        if it.get("id") == id_:
+            return it.get("note") or ""
+    return ""
 
 
 def addon_lab(tokens: dict) -> dict:
@@ -1030,7 +1276,7 @@ def lab_lua(tokens: dict) -> str:
     remembering. `ns.LabStyle` is greppable, and `capart check` greps it.
     """
     return (
-        "-- Lab.lua — GENERATED from specs/render-shelf.md Part 7. Do not edit this file.\n"
+        "-- Lab.lua — GENERATED from specs/render-lab.json. Do not edit this file.\n"
         "--   uv run python -m wowkb.capart export lab\n"
         "-- NO AUTHORITY. These treatments are drawn by the `/cap style` GALLERY only, on\n"
         "-- cap-owned frames, so a treatment can be judged in the client before anyone adopts it.\n"
@@ -1311,7 +1557,7 @@ Modified Version. Clause 3 forbids a Modified Version from using the Reserved Fo
 ships as {ship_as}. The copyright and licence records inside the file are untouched, because the
 same licence requires those to travel with it.
 
-Generated by `wowkb.capart export lua` from render-shelf.md Part 6. Do not edit by hand.
+Generated by `wowkb.capart export lua` from render-tokens.json. Do not edit by hand.
 """
 
 
@@ -1966,7 +2212,7 @@ def root_css(tokens: dict) -> str:
     d = b["diameter_pct"] / 100 * s["icon_px"]
     rd = tokens["ready"]
     lines = [
-        "/* GENERATED from specs/render-shelf.md Part 6 — do not edit here, edit the shelf. */",
+        "/* GENERATED from specs/render-tokens.json — do not edit here, edit the tokens. */",
         ":root {",
         f"  --icon: {s['icon_px']}px;",
         f"  --row-gap: {s['row_gap_px']}px;",
@@ -2553,14 +2799,80 @@ def strict_css(path: Path) -> list[str]:
 # --------------------------------------------------------------------------- build
 
 
+def catalog_states(spec: str, roster: dict) -> list[dict] | None:
+    """`catalog.json`'s `states[]`, flattened for the preview.
+
+    Returns None for a spec still on a hand-written catalog, so the template can leave the
+    section out rather than draw an empty one. The display NAME is resolved here rather than in
+    the page, because the roster is the one thing that maps a catalog key to what the client
+    would show — the same lookup a scenario row goes through.
+    """
+    src = catalog_json_path(spec)
+    if not src.exists():
+        return None
+    cat = _load_json(src)
+    by_key = {}
+    for name, rec in roster.items():
+        by_key.setdefault(rec["key"], name)
+    prefix = scenario_prefix(spec)
+    out = []
+    for i, e in enumerate(cat.get("entries", []), 1):
+        # `DEM-S6c` — the scenario family's own prefix, the entry's position in the authored
+        # priority, and a letter per state. SHORT ENOUGH TO SAY OUT LOUD, which is the point:
+        # feedback on a state table arrives as "S6c is wrong", and `imp_st_and_short` is the
+        # durable name but not the one anybody types. Both are rendered; this one is derived
+        # from position so it can never disagree with what is drawn.
+        code = f"{prefix}-S{i}"
+        out.append({
+            "entry": e["id"],
+            "ability": e["ability"],
+            "name": by_key.get(e["ability"], e["ability"]),
+            "code": code,
+            "note": e.get("note"),
+            "states": [
+                {
+                    "id": st["id"],
+                    "code": f"{code}{chr(ord('a') + j)}",
+                    "condition": st["condition"],
+                    "verdict": st["verdict"],
+                    "cues": st.get("cues") or [],
+                    "sealed": st.get("sealed") or [],
+                    "slot": st.get("slot"),
+                    "combines": st.get("combines") or [],
+                    "note": st.get("note"),
+                }
+                for j, st in enumerate(e.get("states") or [])
+            ],
+            "excludes": e.get("excludes") or [],
+        })
+    return out
+
+
+def scenario_prefix(spec: str) -> str:
+    """The id family this spec's scenarios already use — `DEM`, `HAV`, `PROT`, `ST`.
+
+    Read off the scenarios rather than mapped from the spec name, because the two do not match
+    (`havoc` writes `ST-n`, `devourer` writes `B-n`) and a second mapping is a second thing to
+    keep in step. Falls back to the spec's own initials only if there are no scenarios at all.
+    """
+    try:
+        rows, _ = load_scenarios(spec)
+    except SystemExit:
+        rows = []
+    for sc in rows:
+        head = str(sc.get("id") or "")
+        if "-" in head:
+            return head.rsplit("-", 1)[0]
+    return spec[:3].upper()
+
+
 def build(spec: str, tokens: dict, when: str) -> str:
     cfg = SPECS_BUILT[spec]
     roster = load_roster(cfg["catalog"])
-    if not cfg["sidecar"].exists():
-        _die(f"no sidecar at {cfg['sidecar'].relative_to(ROOT)} — run: "
-             f"wowkb.capart import scenarios")
-    sidecar = json.loads(cfg["sidecar"].read_text(encoding="utf-8"))
-    scenarios = sidecar["scenarios"]
+    scenarios, origin = load_scenarios(spec)
+    if origin == "doc":
+        _die(f"{spec} has neither {SCENARIOS_JSON} nor a sidecar — run: "
+             f"wowkb.capart import scenarios {spec}")
     validate(scenarios, tokens, roster)
 
     # Lab cells draw real icons on real verdicts, so their ability names are held to exactly the
@@ -2662,6 +2974,11 @@ def build(spec: str, tokens: dict, when: str) -> str:
         # mechanical form of "this layer is Blizzard's and cap does not own it".
         "client_paint": CLIENT_PAINT,
         "abilities": abilities,
+        # The per-ability STATE TABLE, when this spec has moved to a `catalog.json`. It is the
+        # authored source of truth for what a row looks like in each state, and it reaches the
+        # page so the table is RENDERED rather than merely written — the same data that generates
+        # `Catalogs/<Spec>.lua`, drawn with the same primitives the scenarios use.
+        "states": catalog_states(spec, roster),
         "scan_samples": cfg["scan_samples"],
         "scan_sample": cfg["scan_samples"][0],
         "scenarios": scenarios,
@@ -2694,13 +3011,22 @@ def build(spec: str, tokens: dict, when: str) -> str:
     return BUILT_MARK.format(date=when) + "\n" + page
 
 
+def _scenario_provenance(spec: str, cfg: dict) -> tuple:
+    """Name whichever file the rows actually came from — never the one that used to."""
+    src = scenarios_json_path(spec)
+    if src.exists():
+        return ("scenarios.json", f"sha {_sha(src)} · canonical")
+    return ("sidecar", f"{cfg['sidecar'].name} · sha {_sha(cfg['sidecar'])} · "
+                       "reviewed cache, imported from scenarios.md")
+
+
 def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> str:
     cfg = SPECS_BUILT[spec]
     rows = [
-        ("render-shelf.md", f"sha {_sha(SHELF)} · Part 6 render-tokens v{tokens['version']}"),
+        ("render-tokens.json", f"sha {_sha(RENDER_TOKENS)} · v{tokens['version']}"),
         ("scenarios.md", f"sha {_sha(cfg['scenarios'])}"),
         ("catalog.md", f"sha {_sha(cfg['catalog'])}"),
-        ("sidecar", f"{cfg['sidecar'].name} · sha {_sha(cfg['sidecar'])}"),
+        _scenario_provenance(spec, cfg),
     ]
     rows.append((
         "client baseline",
@@ -2773,7 +3099,7 @@ def provenance_html(spec, tokens, icons, frames, stripes, ring, total, when) -> 
         "<p class='muted'>Generated — never hand-edited. Every treatment above is composited the "
         "way the client would composite it: <code>SetVertexColor</code> as a multiply against the "
         "sprite's own alpha, never a hue rotation. Edit "
-        "<code>specs/render-shelf.md</code> and rebuild.</p>"
+        "<code>specs/render-tokens.json</code> and rebuild.</p>"
         f"<div class='scroll'><table>{body}</table></div>"
     )
 
@@ -2849,10 +3175,7 @@ def cmd_assets(args) -> None:
     frames = badge_assets(tokens)
     cfg = SPECS_BUILT[args.spec]
     roster = load_roster(cfg["catalog"])
-    if cfg["sidecar"].exists():
-        scenarios = json.loads(cfg["sidecar"].read_text(encoding="utf-8"))["scenarios"]
-    else:
-        scenarios = scrape_scenarios(cfg["scenarios"])
+    scenarios, _ = load_scenarios(args.spec)
     used = sorted({e["name"] for sc in scenarios for e in sc["row"]}
                   | set(cfg["scan_samples"]))
     icons = icon_assets(used, roster, tokens)
@@ -2892,6 +3215,13 @@ def cmd_assets(args) -> None:
 
 def cmd_import(args) -> None:
     cfg = SPECS_BUILT[args.spec]
+    # A migrated spec has no doc to import FROM: its rows are hand-edited in `scenarios.json`
+    # and the `.md` carries only the walk. Re-seeding one would silently recreate the second
+    # source this migration removed, so it is refused by name rather than left to surprise.
+    if scenarios_json_path(args.spec).exists():
+        _die(f"{args.spec} leads from {scenarios_json_path(args.spec).relative_to(ROOT)} — "
+             f"its rows are hand-edited there and {cfg['scenarios'].name} carries only the "
+             "walk. There is nothing to import.")
     tokens = load_tokens()
     roster = load_roster(cfg["catalog"])
     scenarios = scrape_scenarios(cfg["scenarios"])
@@ -3053,7 +3383,7 @@ def build_primitives(tokens: dict, when: str) -> str:
 def primitives_provenance_html(tokens: dict, icons: dict, when: str) -> str:
     cues = [k for k in tokens.get("cues", {}) if not k.startswith("_")]
     rows = [
-        ("render-shelf.md", f"sha {_sha(SHELF)} · Parts 1–6"),
+        ("render-tokens.json", f"sha {_sha(RENDER_TOKENS)} · v{tokens['version']}"),
         ("reference roster", f"{SHELF_ROSTER_SPEC} · {SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].name}"
                              " — art only, never a rotation claim"),
         ("cues", f"{len(cues)} declared · {sum(1 for k in cues if tokens['cues'][k].get('open'))}"
@@ -3068,7 +3398,7 @@ def primitives_provenance_html(tokens: dict, icons: dict, when: str) -> str:
 def lab_provenance_html(tokens: dict, icons: dict, when: str) -> str:
     entries = [k for k in (tokens.get("lab") or {}) if not k.startswith("_")]
     rows = [
-        ("render-shelf.md", f"sha {_sha(SHELF)} · Part 7, {len(entries)} "
+        ("render-lab.json", f"sha {_sha(RENDER_LAB)} · {len(entries)} "
                             f"{'entry' if len(entries) == 1 else 'entries'}"),
         ("reference roster", f"{SHELF_ROSTER_SPEC} · "
                              f"{SPECS_BUILT[SHELF_ROSTER_SPEC]['catalog'].name}"),
@@ -3119,7 +3449,7 @@ def build_index(when: str) -> str:
         "<main>\n"
         "  <h1>Combat Assist Plus — scenario steppers</h1>\n"
         "  <p>One page per spec, all generated by <code>wowkb.capart build --all</code> from\n"
-        "     <code>specs/render-shelf.md</code> and each spec&rsquo;s <code>scenarios.md</code>.</p>\n"
+        "     <code>specs/render-tokens.json</code> and each spec&rsquo;s <code>scenarios.md</code>.</p>\n"
         "  <ul>\n" + "\n".join(rows) + "\n  </ul>\n"
         # ONE more link, and deliberately below the specs rather than among them: the lab is not
         # a spec and the list above is what this page is for.
@@ -3156,12 +3486,232 @@ def cmd_build(args) -> None:
     print(f"wrote {INDEX_OUT.relative_to(ROOT)} · {len(SPECS_BUILT)} specs")
 
 
+# --------------------------------------------------------------------------- the catalog gates
+
+# What a `states[]` row may say its sink is. Same vocabulary a scenario row uses, so a state and
+# the scenario that walks it are comparable without a translation table.
+STATE_SINKS = set(SEALED_DISPLAYS)
+# Where a drawn thing sits. `flow` is the flowing badge stack (`render-shelf.md` Part 1); an
+# integer is a corner slot claimed BY DECLARATION by a corner display (Part 2.5's cession rule);
+# `None` means nothing is drawn. ⚠ The retired vocabulary this replaced was `slot 1` / `slot 2` /
+# `slot 3` — three FIXED badge slots, deleted 2026-08-19 — and a catalog still naming one is
+# describing a layout that has not existed since. That is gate `catalog_vocab`'s main catch.
+RETIRED_SLOTS = re.compile(r"\bslots?\s*[123]\b|\brank\s*[123]\b", re.I)
+
+
+def _press_norm(verdict: str) -> str:
+    """`press` and `open` are the SAME state of a row, seen from different places.
+
+    A state table says what an ability looks like; `press` says it was the leftmost row not
+    ruled out, which is a fact about the scenario's whole line rather than about this ability.
+    The two render identically by design (`render-shelf.md` Part 6: the press is not a thing cap
+    draws), so a state is authored as `open` and a walk is free to call it the press.
+    """
+    return "open" if verdict == "press" else verdict
+
+
+def catalog_gate_lua(spec: str) -> list[str]:
+    """The generated catalog matches what is committed, byte for byte.
+
+    Gated exactly like `Style.lua` (gate 3) and for the same stated reason: generation buys
+    nothing the first time someone edits one and not the other.
+    """
+    dest = CATALOGS_DIR / f"{spec.capitalize()}.lua"
+    if not ADDON_SRC.exists():
+        _warn(f"no addon checkout — {dest.name} gate skipped")
+        return []
+    if not dest.exists():
+        return [f"no {dest.relative_to(ROOT)} — run: wowkb.capart export catalog {spec}"]
+    if dest.read_text(encoding="utf-8") != catalog_lua(spec):
+        return [f"{dest.name} disagrees with {spec}/{CATALOG_JSON} — it is GENERATED and has "
+                f"been hand-edited, or the source moved.\n"
+                f"       run: wowkb.capart export catalog {spec}"]
+    return []
+
+
+def catalog_gate_states(cat: dict) -> list[str]:
+    """Every marker appears in some state, and every state's cues name declared markers.
+
+    This is the gate the Implosion question needed. A marker nothing draws is either dead or an
+    unwritten state, and the two are indistinguishable from the catalog alone — which is exactly
+    how `implosion_no_imps` came to be missing from the roster table while shipping in the Lua.
+    """
+    fails = []
+    for e in cat.get("entries", []):
+        markers = {m["id"]: m for m in e.get("markers") or []}
+        states = e.get("states") or []
+        if not states:
+            fails.append(f"{e['id']}: declares no states — the per-ability state table is the "
+                         "source of truth and an entry without one asserts nothing")
+            continue
+        cues_declared = {m["cue"] for m in markers.values() if m.get("cue")}
+        seen_cues, seen_sinks = set(), set()
+        for st in states:
+            for c in st.get("cues") or []:
+                if c not in cues_declared:
+                    fails.append(f"{e['id']}/{st['id']}: wears cue {c!r}, which no marker on this "
+                                 f"entry declares (declared: {', '.join(sorted(cues_declared)) or 'none'})")
+                seen_cues.add(c)
+            seen_sinks |= set(st.get("sealed") or [])
+            for mid in st.get("combines") or []:
+                if mid not in markers:
+                    fails.append(f"{e['id']}/{st['id']}: combines undeclared marker {mid!r}")
+        for mid, m in markers.items():
+            if m.get("cue") and m["cue"] not in seen_cues:
+                fails.append(f"{e['id']}: marker {mid!r} declares cue {m['cue']!r} but no state "
+                             "wears it — the marker draws in a state nobody wrote down")
+            kind = (m.get("display") or {}).get("kind")
+            if kind:
+                sink = kind.replace("sealed-", "")
+                if sink in STATE_SINKS and sink not in seen_sinks:
+                    fails.append(f"{e['id']}: marker {mid!r} declares a {kind} display but no "
+                                 f"state draws {sink!r}")
+    return fails
+
+
+def catalog_gate_vocab(cat: dict, tokens: dict) -> list[str]:
+    """Every cue, verdict, sink and slot term a state names is current.
+
+    The slot check is the one with a body count: `catalog.md` carried `slot 1` / `slot 2` /
+    `rank 3` for months after fixed slots were replaced by the flowing stack, in the same table
+    as the current vocabulary, and nothing read it.
+    """
+    fails, cues, verdicts = [], set(tokens["cues"]), set(tokens["verdicts"])
+    for e in cat.get("entries", []):
+        for st in e.get("states") or []:
+            where = f"{e['id']}/{st['id']}"
+            if st["verdict"] not in verdicts:
+                fails.append(f"{where}: verdict {st['verdict']!r} is not in the closed vocabulary "
+                             f"({', '.join(sorted(verdicts))})")
+            for c in st.get("cues") or []:
+                if c not in cues:
+                    fails.append(f"{where}: cue {c!r} is not declared in render-tokens.json")
+            for sink in st.get("sealed") or []:
+                if sink not in STATE_SINKS:
+                    fails.append(f"{where}: sealed sink {sink!r} is not one of cap's display "
+                                 f"kinds ({', '.join(sorted(STATE_SINKS))})")
+            slot = st.get("slot")
+            if slot is not None and slot != "flow" and not isinstance(slot, int):
+                fails.append(f"{where}: slot {slot!r} is neither `flow`, a corner index, nor null")
+            blob = " ".join(str(st.get(k) or "") for k in ("condition", "note"))
+            if RETIRED_SLOTS.search(blob):
+                fails.append(f"{where}: names a RETIRED fixed badge slot — badges have flowed "
+                             "down the right edge since 2026-08-19 and there are no numbered "
+                             "slots. Say `flowing stack`, or a corner index for a corner display.")
+    return fails
+
+
+def catalog_gate_cooccurrence(cat: dict) -> list[str]:
+    """Every pair of markers that can be simultaneously true is a declared state.
+
+    ⚠ This is the gate that exists because of Protection's own note: *"Both fell out of the walk
+    and neither was stated when the cues were authored."* Co-occurrence was being DISCOVERED by
+    walking scenarios, which finds the pairs a scenario happens to reach and silently misses the
+    rest. A pair is settled here by being written down — either as a combined state, or as an
+    explicit `excludes` saying why it cannot happen.
+    """
+    fails = []
+    for e in cat.get("entries", []):
+        markers = [m for m in (e.get("markers") or []) if m.get("cue")]
+        if len(markers) < 2:
+            continue
+        stated = set()
+        for st in e.get("states") or []:
+            ids = st.get("combines") or []
+            for i, a in enumerate(ids):
+                for b in ids[i + 1:]:
+                    stated.add(frozenset((a, b)))
+        for ex in e.get("excludes") or []:
+            if len(ex.get("pair") or []) == 2:
+                stated.add(frozenset(ex["pair"]))
+        for i, a in enumerate(markers):
+            for b in markers[i + 1:]:
+                pair = frozenset((a["id"], b["id"]))
+                if pair not in stated:
+                    fails.append(
+                        f"{e['id']}: markers {a['id']!r} and {b['id']!r} can both be true and "
+                        "nothing says what that looks like.\n"
+                        "       Add a state with `combines: [both]`, or an `excludes` entry "
+                        "with a `why` saying it cannot happen.")
+    return fails
+
+
+def catalog_gate_scenarios(cat: dict, scenarios: list[dict], roster: dict) -> list[str]:
+    """Every scenario row matches some declared state for that ability.
+
+    A scenario draws a verdict/cue/sink combination; if no state says that combination exists,
+    either the walk is drawing something impossible or the state table is incomplete. Both are
+    worth failing on, and neither was catchable before.
+    """
+    fails = []
+    by_ability = {}
+    for e in cat.get("entries", []):
+        by_ability[e["ability"]] = e
+    for sc in scenarios:
+        for ent in sc["row"]:
+            key = (roster.get(ent["name"]) or {}).get("key")
+            e = by_ability.get(key)
+            if not e:
+                continue
+            want = (_press_norm(ent["verdict"]), frozenset(ent.get("cues") or []),
+                    frozenset(ent.get("sealed") or []))
+            ok = False
+            for st in e.get("states") or []:
+                if (_press_norm(st["verdict"]), frozenset(st.get("cues") or []),
+                        frozenset(st.get("sealed") or [])) == want:
+                    ok = True
+                    break
+            if not ok:
+                shown = (f"verdict {want[0]}"
+                         + (f", cues {{{', '.join(sorted(want[1]))}}}" if want[1] else "")
+                         + (f", sealed {{{', '.join(sorted(want[2]))}}}" if want[2] else ""))
+                fails.append(f"{sc['id']}: {ent['name']} draws [{shown}], which no state on "
+                             f"entry {e['id']!r} declares — the walk and the state table disagree")
+    return fails
+
+
+def catalog_gate_validator(spec: str) -> list[str]:
+    """The generated table passes `Catalog.Check`, run by the addon's own Lua.
+
+    Schema drift against `Catalog.lua` is otherwise invisible until the addon loads in the
+    client, which is the slowest possible feedback loop in this project.
+    """
+    check = ADDON_SRC / "tests" / "check_catalog.lua"
+    if not ADDON_SRC.exists() or not check.exists():
+        return []
+    lua = shutil.which("lua") or shutil.which("lua5.1")
+    if not lua:
+        _warn("no `lua` on PATH — the Catalog.Check parity gate was skipped, not passed")
+        return []
+    proc = subprocess.run([lua, str(check), spec.capitalize()],
+                          cwd=ADDON_SRC.parent, capture_output=True, text=True)
+    if proc.returncode != 0:
+        detail = (proc.stdout + proc.stderr).strip()
+        return [f"{spec.capitalize()}.lua fails Catalog.Check:\n       "
+                + detail.replace("\n", "\n       ")]
+    return []
+
+
 def cmd_export(args) -> None:
     tokens = load_tokens()
     if not ADDON_SRC.exists():
         _die(f"no addon checkout at {ADDON_SRC.relative_to(ROOT)} — "
              "run: uv run python -m wowkb.addon pull cap")
     what = args.what
+    if what == "catalog":
+        specs = [args.spec] if getattr(args, "spec", None) else sorted(
+            d.name for d in SPECS.iterdir() if (d / CATALOG_JSON).exists())
+        if not specs:
+            _die(f"no spec directory carries a {CATALOG_JSON} yet")
+        for spec in specs:
+            src = catalog_json_path(spec)
+            if not src.exists():
+                _die(f"{src.relative_to(ROOT)} does not exist")
+            dest = CATALOGS_DIR / f"{spec.capitalize()}.lua"
+            dest.write_text(catalog_lua(spec), encoding="utf-8")
+            print(f"wrote {dest.relative_to(ROOT)} — from {src.relative_to(ROOT)} "
+                  f"(sha {_sha(src)})")
+        return
     if what in ("lua", "all"):
         STYLE_LUA.write_text(style_lua(tokens), encoding="utf-8")
         print(f"wrote {STYLE_LUA.relative_to(ROOT)} — render-tokens v{tokens['version']} "
@@ -3660,8 +4210,34 @@ def _check_one(args) -> None:
     # three-slot geometry read backwards; the badge stack now flows and there is no ceiling.
     # See render-shelf.md Part 0.5, "There is no positive-cue budget".
 
-    # 1 · the doc leads the sidecar.
-    doc = scrape_scenarios(cfg["scenarios"])
+    # 1 · the scenario rows. TWO POLARITIES, chosen by which file exists:
+    #   json    — `specs/<spec>/scenarios.json` leads and `scenarios.md` is the prose walk.
+    #             The gate is ID PARITY IN BOTH DIRECTIONS (1d): a walk with no row is a walk of
+    #             something undrawn, and a row with no walk is a state nobody explained.
+    #   sidecar — the `.md` leads and the JSON under `previews/data/` is a reviewed cache
+    #             imported from it. The gate is the field-by-field comparison below.
+    # The second is the older direction, and it is a regex over prose. A spec leaves it by
+    # growing a `scenarios.json`; nothing here lists which specs have.
+    doc, origin = load_scenarios(args.spec)
+    if origin == "json":
+        walk_ids = scenario_walk_ids(cfg["scenarios"])
+        row_ids = [sc["id"] for sc in doc]
+        for missing in [i for i in row_ids if i not in walk_ids]:
+            fails.append(f"{missing}: {SCENARIOS_JSON} declares a row for it but "
+                         f"{cfg['scenarios'].name} has no walk under that id — a drawn state "
+                         "nobody explained")
+        for missing in [i for i in walk_ids if i not in row_ids]:
+            fails.append(f"{missing}: {cfg['scenarios'].name} walks it but {SCENARIOS_JSON} "
+                         "declares no row — a walk of something that does not draw")
+        if walk_ids and row_ids and [i for i in walk_ids if i in row_ids] != \
+                [i for i in row_ids if i in walk_ids]:
+            fails.append(f"{SCENARIOS_JSON} and {cfg['scenarios'].name} order their scenarios "
+                         "differently — the stepper walks the JSON's order, so the doc would "
+                         "read out of sequence")
+        if cfg["sidecar"].exists():
+            fails.append(f"{cfg['sidecar'].relative_to(ROOT)} still exists, but {args.spec} now "
+                         f"leads from {SCENARIOS_JSON}. Two sources, one of them stale by "
+                         "construction — delete the sidecar.")
     # 1a · the built page carries what it needs to DRAW a row. The shelf is assembled in the
     # browser out of the embedded JSON, so there is no markup to count here — but a blank row
     # has a static cause every time: a scenario entry with no `abilities` record, or one whose
@@ -3687,7 +4263,11 @@ def _check_one(args) -> None:
                     fails.append(f"{cfg['out'].name}: {name!r} has no icon URI — that row renders "
                                  "as an empty square.")
 
-    if not cfg["sidecar"].exists():
+    # The doc↔sidecar comparison — only for a spec still on the OLD polarity. A migrated spec
+    # has no sidecar to compare against and is gated by id parity above instead.
+    if origin == "json":
+        pass
+    elif not cfg["sidecar"].exists():
         fails.append(f"no sidecar at {cfg['sidecar'].relative_to(ROOT)}")
     else:
         side = json.loads(cfg["sidecar"].read_text(encoding="utf-8"))["scenarios"]
@@ -3875,7 +4455,7 @@ def _check_one(args) -> None:
     # thing it was written for: a cue NO catalog anywhere wears.
     worn = set()
     for name, other in SPECS_BUILT.items():
-        for sc in (doc if name == args.spec else scrape_scenarios(other["scenarios"])):
+        for sc in (doc if name == args.spec else load_scenarios(name)[0]):
             for e in sc["row"]:
                 worn |= set(tokens["verdicts"][e["verdict"]].get("cues") or [])
                 worn |= set(e.get("cues") or [])
@@ -3884,6 +4464,20 @@ def _check_one(args) -> None:
             fails.append(f"cue {key!r} is declared in the shelf but no scenario row in any built "
                          f"spec ({', '.join(sorted(SPECS_BUILT))}) wears it — it renders nowhere, "
                          "which spec.md §3.2 calls a defect. Give it a subject or retire it.")
+
+    roster = load_roster(cfg["catalog"])
+    # 4 · THE CATALOG GATES. Only for a spec that has moved to a `catalog.json`; a spec whose
+    # Lua is still hand-written is skipped by absence rather than by a list, so the rollout does
+    # not need a second place to record where it has reached.
+    cjson = catalog_json_path(args.spec)
+    if cjson.exists():
+        cat = _load_json(cjson)
+        fails += catalog_gate_lua(args.spec)
+        fails += catalog_gate_states(cat)
+        fails += catalog_gate_vocab(cat, tokens)
+        fails += catalog_gate_cooccurrence(cat)
+        fails += catalog_gate_scenarios(cat, doc, roster)
+        fails += catalog_gate_validator(args.spec)
 
     # 2 · the committed HTML is not stale.
     out = cfg["out"]
@@ -4000,7 +4594,10 @@ def main() -> None:
     e = sub.add_parser("export",
                        help="write the shelf into the addon (Style.lua + badge art + Lab.lua)")
     e.add_argument("what", nargs="?", default="all",
-                   choices=["lua", "badges", "ring", "hatch", "promotion", "count", "lab", "all"])
+                   choices=["lua", "badges", "ring", "hatch", "promotion", "count", "lab",
+                            "catalog", "all"])
+    e.add_argument("spec", nargs="?", help="for `export catalog`: one spec, or every spec that "
+                                          "has a catalog.json")
     e.set_defaults(func=cmd_export)
 
     c = sub.add_parser("check", help="doc-vs-sidecar and preview-staleness gates")
