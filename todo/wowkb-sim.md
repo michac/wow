@@ -715,3 +715,206 @@ zero reaction time and perfect foresight; there is no knob here for latency, mis
 late Tyrant windows. If that question keeps coming up, the honest version is a
 `--human` degradation frame (world_lag / reaction_time / a GCD-drop rate), not a fudge
 factor applied to the median after the fact.
+
+### 2026-08-25 — Encomplete's S2 week-2 vault pick
+
+Question: which of seven vault options (and whether any of them beats taking the
+Voidcore bonus roll instead). Result below; the harness gap it exposed matters more.
+
+**⚠ NEW ARTIFACT — `compare` does not validate WEAPON GEOMETRY, and it fooled me for a
+full round of sims.** Three of the six weapon variants I authored were **not equippable
+in game**, and every one of them produced a confident, significant, plausible number:
+
+- `off_hand=` assigned alongside a **two-handed staff** in `main_hand`. simc applied the
+  off-hand's stats anyway. That read as **+1.34% ± 0.09%, "significant"** — the vault's
+  292 staff "beating" the worn 318 crafted staff — when the entire gain was a 305
+  off-hand's stats granted for free in a slot the character cannot fill.
+- A **Wand** (`inventory_type = Ranged`, Spiritbound Focus, id 272271) placed in
+  `main_hand`. simc took it, and the -7.01% it produced was read for a moment as "the
+  318 staff is far ahead of a 1H+OH pair" — a conclusion drawn from a weapon combination
+  that does not exist.
+- The two errors partly cancelled, which is why neither looked wrong on its own.
+
+**The tell that broke it open** was physical implausibility, not any gate: a 292 main
+hand pairing 8.35% better than a 295 one. Nothing in the tool said anything. The
+existing `NOT-USABILITY-CHECKED` brand is on `gear`'s weapon rows only; `compare` has no
+weapon handling at all, and the brand would not have caught this anyway — each item IS
+usable, it is the **combination** that is illegal.
+
+**The export cannot answer this.** `/simc` files every weapon candidate under
+`main_hand=` or `off_hand=` by inventory type, and carries no `Two-Hand` / `One-Hand`
+distinction anywhere. Resolving it took the Blizzard item API
+(`wowkb.blizzard item <id>` → `inventory_type`). Of Encomplete's eight `main_hand`
+bag/vault rows, **three are two-handed staves, one is a wand, and only three are real
+one-handers** — the block reads as eight interchangeable main hands and is nothing of
+the kind.
+
+**Gate to build (not built yet — recorded so the next session does not re-discover it):**
+resolve each weapon's `inventory_type` (simc's own `item_data.inc` carries it — the same
+table `gear`'s usability filter already parses, so no API call is needed at run time) and
+**FAIL** any variant that assigns `off_hand` while `main_hand` is `INVTYPE_2HWEAPON`, or
+that puts a non-`INVTYPE_WEAPON`/`WEAPONMAINHAND` item in `main_hand`. This belongs in
+`compare` as well as `gear`, because `compare` is where hand-authored variants land.
+
+**Second, smaller thing.** An `@<Item Name>` reference resolves to the export's row
+verbatim, so it **drops the enchant** on a slot that has one. Enchant-matched controls
+(`legs298_noench`, `mh_noench`) both landed inside noise here, so it cost nothing this
+time — but the control is what proved that, and a variant that silently un-enchants a
+slot is the same shape as every other artifact in this file. Worth either carrying the
+equipped enchant forward automatically or naming it in the output.
+
+**The answer, once the variants were legal** (1T/300s and 5T/120s, both frames, firing
+gate PASS on the baseline):
+
+| variant | 1T/300s | 5T/120s |
+|---|---|---|
+| Knot of Writhing Serpents (315) → trinket1 | **+1.31%** | **+0.81%** |
+| Pyrewalker's Wraps (305) → wrist | +0.32% | +0.31% |
+| Wind Soarer's Breeches (318) → legs | +0.14% | NOISE |
+| *(baseline)* | — | — |
+| Luminescent Sprout (308) + owned 292 dagger | -6.78% | -6.68% |
+| Venomancer's Winged Channeler (292 staff) | -8.40% | -8.06% |
+
+**And the winner's number is a floor, not an estimate.** Knot of Writhing Serpents'
+effect (spell 1293304 — 2 RPPM haste-scaled, Nature damage **split among nearby
+enemies** plus a DoT on the primary target) is registered in simc's item table and
+produces **no buff and no action**: the +1.31% is its *stats alone*. The AoE half is
+entirely unmodelled, which is why the 5T figure is *lower* than the 1T one — the exact
+inversion of what the effect's own tooltip implies. A trinket whose proc is missing from
+the sim beating two working trinkets on stats is a strong result, but it is strong in a
+direction the tool cannot size.
+
+Spirit-Rending Poison (1297145, on-use) is unmodelled too — forced-probe fired 0 — and
+still lost by 3.8–6.0%, so that one is not close either way.
+
+### 2026-08-25 (cont.) — the same session, two more artifacts, and the answer INVERTED
+
+The user asked one question — *"did you sim the legs as-is or fully upgraded w/ crests
+and enchant?"* — and it overturned the recommendation. Both causes are harness artifacts.
+
+**⚠ ARTIFACT — `@<Item Name>` silently carries the EQUIPPED row's enchant, so an
+"enchant-matched control" built that way is VACUOUS.** I wrote `legs298_noench` as a
+control for the un-enchanted vault row, believing both arms were bare. They were not:
+`@Wind Soarer's Breeches (298)` resolves to the **equipped** row, whose item string
+already contains `enchant_id=7936`, so the control was byte-identical to the baseline
+and measured `+0.06%` — which I read as "the enchant is worth nothing" when it actually
+meant "this variant changed nothing at all". The vault row, having no enchant of its
+own, really was bare. Enchant 7936 measures **+33 intellect** (bare-character
+`spell_power` 885 → 918), and carrying it costs the legs comparison **~1.06%**:
+
+| Wind Soarer's Breeches (318) | 1T/300s | 5T/120s |
+|---|---|---|
+| as I first simmed it (enchant dropped) | +0.14% | NOISE |
+| with the enchant carried | **+1.20%** | **+1.20%** |
+
+An identical-looking control that is identical *because it is the same string* reads
+exactly like a control that is identical *because the variable does not matter*. The
+tell is that a genuine no-op control should measure inside the noise band and this one
+measured at `+0.06% ± 0.09%` — right where a true no-op sits, which is why it passed.
+**Gate to build:** when a variant's resolved item string equals the baseline's for that
+slot, say so — `variant X changes nothing in slot Y` — rather than ranking it. And when
+an `@` reference lands in a slot whose equipped item carries an `enchant_id`/`gem_id`
+the variant lacks, either carry it forward or name the difference in the output.
+
+**⚠ GAP — `compare` cannot express `set_bonus=`.** It is not in `CANON_SLOTS`, so the
+"what is the tier worth on my current stats" question — the *right* tool for a 12.1
+Catalyst question, since converted pieces now inherit the source item's stats and the
+bonus is therefore the ONLY thing that changes — has no route through the tool. Worked
+around by stripping the profileset block off the tool's own generated frame
+(`raw/sim-results/compare-encomplete-<frame>.simc`) and appending hand-written
+profilesets. That reuses the gated harness and stays within one invocation per frame, so
+invariant 2 holds, but it is outside the tool and nothing gated it. `set_bonus` should
+be an accepted variant key.
+
+**And set bonuses are invisible to the firing gate.** Both halves of
+`midnight_season_2` (2pc spell 1296573, 4pc 1296574) are `[Passive, Hidden]` — no buff
+row, no action, nothing in the JSON's `sets`/`set_bonus` keys, and simc does **not**
+error on an unrecognized `set_bonus=` string. So "the option did nothing" and "the
+option applied" look identical in the report: precisely the Stormbound failure mode.
+Settled with a common-random-numbers triple (200 iterations, `deterministic=1`,
+`threads=1`, one seed, arms differing only in the `set_bonus` line): 0pc 121,161 → 2pc
+124,047 → 4pc 129,846, monotone. Those are same-seed means used **only** to prove the
+option bites; the publishable medians come from the profileset frames.
+
+**Results (medians, both frames, baseline = current gear).**
+
+Crest runway, from `crests --all-tracks` — the fact that decided it: the **worn** legs
+are **Champion 3/6, ceiling 308, and Encomplete holds ZERO Champion Mistcrests**, so
+that slot is frozen at 298. The vault legs are **Myth 1/6, ceiling 334**, against 38
+Myth crests in the bank.
+
+| variant | 1T/300s | 5T/120s |
+|---|---|---|
+| legs 334 (Myth 6/6) + 4pc — reference, needs 4 charges | +9.94% | +11.70% |
+| legs 334 + **2pc** | **+4.88%** | **+4.75%** |
+| legs 334 (Myth 6/6) | +2.41% | +2.38% |
+| **2pc alone, no legs** | +2.35% | +2.28% |
+| Knot of Writhing Serpents 321 (Hero 6/6) | +1.79% | +1.08% |
+| legs 321 (Myth 2/6 — all 38 Myth crests buy one rank) | +1.47% | +1.48% |
+| Knot 315 as awarded | +1.26% | +0.75% |
+| **legs 318 as awarded** | **+1.20%** | **+1.20%** |
+| wrist 321 (Hero 6/6) | +0.89% | +0.88% |
+| worn legs 308 (Champion 6/6) — UNREACHABLE, 0 Champion crests | +0.60% | +0.61% |
+| wrist 305 as awarded | +0.35% | +0.29% |
+
+**The recommendation flipped from the trinket to the legs**, on three things the first
+pass got wrong or never priced: the enchant artifact above, the frozen-vs-open crest
+track, and the fact that the legs are the only one of the seven options in a
+catalyzable slot (head/shoulder/chest/hands/legs). The trinket's unmodelled proc still
+cuts the other way and is the reason this is a judgement rather than a readout.
+
+**Process note.** Nothing in the tool surfaced any of this — the user asked one question
+about methodology and it inverted the answer. Both new gates above are cheap; the
+enchant one in particular would have fired on the very first run.
+
+### 2026-08-25 (cont.) — `log` judged on-use alignment against ONE window and libelled a working pair
+
+Asked whether the two on-use trinkets alternate across Tyrant windows. `log --around
+summon_demonic_tyrant` printed:
+
+```
+  summon_demonic_tyrant — cast 5 time(s) at 4.42s, 65.73s, 128.24s, 189.82s, 254.71s;
+  showing occurrence 1
+  ...
+    ✅ trinket1  Freightrunner's Flask       pressed IN window (+2.89s)
+    ✗  trinket2  Stormbound Emblem of Dazar  not in window; nearest press +63.76s away
+```
+
+That `✗` reads as a failure and is not one. The presses are 68.17s and 192.27s — **+2.44s
+after Tyrant 2 and +2.45s after Tyrant 4.** Laid against all five anchors the pair is
+perfect:
+
+| Tyrant | 4.42s | 65.73s | 128.24s | 189.82s | 254.71s |
+|---|---|---|---|---|---|
+| Freightrunner's Flask (90s CD) | ✅ +2.89 | — | ✅ +0.00 | — | ✅ +0.00 |
+| Stormbound Emblem (120s CD) | — | ✅ +2.44 | — | ✅ +2.45 | — |
+
+Five anchors, five covered, strict alternation. The readout says the opposite because the
+alignment block is computed against **the displayed occurrence only** while the press list
+beside it spans the whole fight — so a trinket whose cooldown is longer than the anchor's
+cycle can *never* be "in window" and always renders as `✗`. **Fix: compute alignment
+against EVERY occurrence and report coverage (`2/5 anchors, alternating with trinket1`),
+not membership of one.** As it stands the tool's own output argues against the override it
+is there to validate.
+
+**A second mis-read in the same block:** `4 press(es) ... at: 68.17s, 68.67s, 192.27s,
+192.77s` — those 0.5s-apart pairs are not two presses of a 120s-cooldown trinket. The
+buff table shows `the_kings_unyielding_wind: start= 2.0, interval=124.1, duration=20.0,
+uptime=13.33%` — **two** uses, the second timestamp being the effect landing after the
+use. The press counter is counting driver and application as separate presses.
+
+**Worth recording because it was nearly a wrong conclusion:** Stormbound Emblem's action
+row reads `pDPS=0 DPE=0`, which looks like a dead trinket. It is a driver for a 20s
+**buff**, and the value is in the buff row, not the action row. Do not read an on-use
+stat trinket's contribution off the Actions table.
+
+**And the alternation is emergent, not designed.** Both override rungs say the same thing
+— `if=pet.demonic_tyrant.active`. Nothing alternates them. It works because 90s and 120s
+cooldowns interleave against a measured ~62.6s Tyrant cycle. Change either cooldown and
+both could want the same window. Also note upstream unaided fires Freightrunner **1×/300s**
+and Stormbound **0×**; every bit of this behaviour comes from the two declared
+`apl_append` entries, which are keyed to this character by NAME and are spec-blind.
+
+**Consequence for the vault question:** taking Knot of Writhing Serpents evicts
+Freightrunner's Flask, leaving ONE on-use. The `trinket1` override rung goes inert and
+`sim_overrides.json` needs re-checking for this character before the next comparison.

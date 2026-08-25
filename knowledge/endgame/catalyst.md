@@ -2,7 +2,7 @@
 title: The Catalyst (Midnight Season 2)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-25
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Content Update Notes, ITEMS/THE CATALYST (Tier 1)
   - https://wago.tools/db2/CurrencyTypes?build=12.1.0.69214   # currency 3465 Venomblight Manaflux (Tier 1)
@@ -57,8 +57,19 @@ Season 1's was Dawnlight Manaflux (3378).
   reads *"Venomblight Manaflux can drop from additional sources"*), charges also
   drop from **Mythic Keystone dungeons, Season 2 raid bosses, Bountiful Delves,
   and rated Arenas/BGs**. ⚠ The achievement text says "class set bonuses"
-  without naming a threshold — assuming it means specifically the **4pc** is an
-  inference, not a stated fact. @verify-ingame
+  without naming a threshold. **The user reports (2026-08-25) being "virtually
+  certain" it is the 4-piece**, which corroborates the reading this file already
+  carried — but that reading began as an inference from the wording, so a
+  matching recollection is agreement, not independent confirmation. Treat 4pc as
+  the working assumption and plan against it; read the achievement's own criteria
+  in game to close this. @verify-ingame
+- ⚠ **The rated-PvP mention above is a *drop source*, not a second bonus charge**,
+  and it is easy to conflate with the *1600 rated PvP* entry under Serpent Scion.
+  They are different things: 1600 rating is one of three **alternative gates into
+  the single Serpent Scion charge**, while rated Arenas/BGs dropping Manaflux is
+  an ongoing source that only opens **after Catalyst Unbound**. If Unbound is
+  indeed 4pc-gated, every drop source in that list — PvP included — is unavailable
+  until the set is already complete.
 - **Cap: 8 charges** per character (game data `MaxQty` = 8). **No catch-up**
   mechanic.
 - ⚠ Leftover **Season 1** Dawnlight Manaflux: the notes do not say whether it

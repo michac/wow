@@ -1505,6 +1505,25 @@ of combat, and in combat the addon can neither read state off it nor push new st
 `secretwrap`ped (`:634-641`) because whether your update loop runs would otherwise leak the aura's
 presence. Budget one `OnUpdate` per armed tile; do not attach speculatively.
 
+**The duration-bar sink's apply path, source-read for its consumer `[T1 src @12.1.0:
+Blizzard_CustomAuraButton.lua — SetDurationBar, ApplyDurationBar]`.**
+`CustomAuraButtonSharedMixin:SetDurationBar(statusBar, options)` validates the widget as a
+`StatusBar`, runs the options through
+`C_AuraContainerUtil.ProcessCustomAuraButtonDurationBarOptions`, and seals **only**
+`Enum.SecretAspect.BarValue` on the bar. The apply path is one line:
+`statusBar:SetTimerDuration(auraDuration, interpolation, options.direction)` — the same
+`SetTimerDuration` route §4.8.1's recipe measures, which means **finding 3 applies here
+verbatim: `ApplyDurationBar` never calls `SetMinMaxValues`**, so the addon must call
+`SetMinMaxValues(0, 1)` at setup or the bar draws 0 % forever. The options struct carries
+exactly two fields, `interpolation` (`StatusBarInterpolation`) and `direction`
+(`Enum.StatusBarTimerDirection.ElapsedTime` = 0 fills as the aura ages,
+`.RemainingTime` = 1 drains as it expires — the countdown reading) `[T1 docs @12.1.0:
+AuraContainerUtilDocumentation.lua — CustomAuraButtonDurationBarOptions;
+SimpleStatusBarConstantsDocumentation.lua — StatusBarTimerDirection]`. Compose with
+`SetRenderMode(Enum.StatusBarRenderMode.Radial)` — measured working on both a
+button-claimed bar and a `SetTimerDuration`-driven bar `[client 2026-08-21]` — and the
+sink is a client-drained radial countdown of the aura's own lifetime, cap reading nothing.
+
 Both routes are **display-only** — the button stays forbidden and `IsShown` stays secret, so there
 is still no path to *branch* on a stack value or a pandemic state (§3.5.1's standing limit). The
 first consumer for either is Demonology (Core-at-4 for the count band, Doom for the pandemic mark).
