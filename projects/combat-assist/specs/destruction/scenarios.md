@@ -61,11 +61,11 @@ leads and the preview follows**. The ability name is whatever the Cooldown Manag
 `Incinerate`, never `Shadow Bolt`, because that override is permanent and spec-wide.
 
 A verdict says what cap concluded, never what the button looks like: **the pixels belong to
-`../render-shelf.md`**. `cd` = swiped by Blizzard, no cap opinion. `hold-readable` = the red
-`blocked` badge from a readable Lua term. `starved` = the red affordability badge. `overcap` =
-the red waste badge. `off-mode` = the mode pawn. `press` = the button an unobstructed scan
-reaches. `press-promoted` = the button a positive cue points at. `below` = shown, but the walk
-never got there.
+`../render-shelf.md`**. `cd` = swiped by Blizzard, no cap opinion. `open` = shown, in the
+scan, with every badge it wears named explicitly in `{cues: …}` — `blocked` from a readable Lua
+term, `starved` the red affordability badge, `overcap` the red waste badge, `aoe_only` the mode
+pawn. `press` = the button an unobstructed scan reaches — when it wears a positive cue
+(`capped`, `priority`), pass 1 is what routes to it.
 
 ⚠ **`{client: unusable}` appears on Shadowburn in most states, and it is not a cap opinion.**
 Shadowburn is *"only usable on enemies that have less than 20 % health"* *[T1 @ 12.1.0.69214]*,
@@ -79,9 +79,9 @@ can see what the row actually looks like — and so the argument in
 - **State.** The pull. Soul Fire was pre-cast and is on cooldown; **Conflagrate is at 2/2
   charges**; Summon Infernal, Cataclysm and Havoc are all up. Immolate is not yet on the target.
   Single-target mode.
-- **CDM row.** Soul Fire `cd` · Conflagrate `press-promoted` {cues: capped} · Summon Infernal `below` ·
-  Immolate `below` · Cataclysm `below` · Chaos Bolt `below` · Shadowburn `below` {client: unusable} ·
-  Incinerate `below` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `press` {cues: capped} · Summon Infernal `open` ·
+  Immolate `open` · Cataclysm `open` · Chaos Bolt `open` · Shadowburn `open` {client: unusable} ·
+  Incinerate `open` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.** ⚠ **This scenario is read by pass 1, not by elimination.**
   1. **Conflagrate** wears the gold `capped` badge → **press.** Rung 2,
      `conflagrate,if=action.conflagrate.charges>=2`, which sits second in the whole priority and
@@ -99,9 +99,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** One global later. **Conflagrate is at 1/2 and Backdraft is up** from the cast. Soul
   Fire still on cooldown. Summon Infernal is ready, 4 shards.
-- **CDM row.** Soul Fire `cd` · Conflagrate `hold-readable` · Summon Infernal `press` ·
-  Immolate `below` · Cataclysm `below` · Chaos Bolt `below` · Shadowburn `below` {client: unusable} ·
-  Incinerate `below` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `open` {cues: blocked} · Summon Infernal `press` ·
+  Immolate `open` · Cataclysm `open` · Chaos Bolt `open` · Shadowburn `open` {client: unusable} ·
+  Incinerate `open` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire** — on cooldown → skip.
   2. **Conflagrate** — available at 1/2, but `blocked` lights from `conflag_backdraft`: Backdraft
@@ -121,8 +121,8 @@ can see what the row actually looks like — and so the argument in
 - **State.** Mid-fight. Soul Fire, Conflagrate (0 charges) and Summon Infernal are all on
   cooldown. **Immolate has fallen off the target.** 3 shards.
 - **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `press` ·
-  Cataclysm `below` · Chaos Bolt `below` · Shadowburn `below` {client: unusable} · Incinerate `below` ·
-  Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+  Cataclysm `open` · Chaos Bolt `open` · Shadowburn `open` {client: unusable} · Incinerate `open` ·
+  Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire … Summon Infernal** — on cooldown → skip.
   2. **Immolate** — `immolate_up` requires the DoT to be **on** the target and it is not, so the
@@ -136,9 +136,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** As DES-3, but **Immolate is ticking** and **Cataclysm is ready**. Lake of Fire is
   talented.
-- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `hold-readable` ·
-  Cataclysm `press` · Chaos Bolt `below` · Shadowburn `below` {client: unusable} · Incinerate `below` ·
-  Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `open` {cues: blocked} ·
+  Cataclysm `press` · Chaos Bolt `open` · Shadowburn `open` {client: unusable} · Incinerate `open` ·
+  Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire … Summon Infernal** — on cooldown → skip.
   2. **Immolate** — `blocked` from `immolate_up`: the DoT is on the target → skip.
@@ -156,9 +156,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** Mid-fight, single target. **4 shards**, Immolate ticking, **Conflagrate at 1/2 with
   Backdraft up**, Cataclysm on cooldown, no Art armed, no proc.
-- **CDM row.** Soul Fire `cd` · Conflagrate `hold-readable` · Summon Infernal `cd` ·
-  Immolate `hold-readable` · Cataclysm `cd` · Chaos Bolt `press` · Shadowburn `hold-readable` {client: unusable} ·
-  Incinerate `below` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `open` {cues: blocked} · Summon Infernal `cd` ·
+  Immolate `open` {cues: blocked} · Cataclysm `cd` · Chaos Bolt `press` · Shadowburn `open` {cues: blocked} {client: unusable} ·
+  Incinerate `open` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire** — on cooldown → skip.
   2. **Conflagrate** — `blocked`, Backdraft up → skip.
@@ -182,9 +182,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** As DES-5, but **5 shards** (capped) and **Backdraft is down**, with Conflagrate at
   1/2. **Soul Fire is ready.**
-- **CDM row.** Soul Fire `overcap` · Conflagrate `overcap` · Summon Infernal `cd` ·
-  Immolate `hold-readable` · Cataclysm `cd` · Chaos Bolt `press` · Shadowburn `hold-readable` {client: unusable} ·
-  Incinerate `below` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `open` {cues: overcap} · Conflagrate `open` {cues: overcap} · Summon Infernal `cd` ·
+  Immolate `open` {cues: blocked} · Cataclysm `cd` · Chaos Bolt `press` · Shadowburn `open` {cues: blocked} {client: unusable} ·
+  Incinerate `open` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire** — ready, and `overcap` lights on the exact readable predicate `resource >= 5`.
      Rung 1 is `soul_fire,if=soul_shard<=4`, and pressing a generator at cap throws its whole
@@ -211,9 +211,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** Diabolic Ritual has cycled to **Pit Lord** and its Art is armed, so **row 6 is
   displaying Ruination**. Single target, **1 shard**, Immolate ticking, Conflagrate at 0 charges.
-- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `hold-readable` ·
-  Cataclysm `cd` · Ruination `press` · Shadowburn `starved` {client: not-enough-power} ·
-  Incinerate `below` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `open` {cues: blocked} ·
+  Cataclysm `cd` · Ruination `press` · Shadowburn `open` {cues: starved} {client: not-enough-power} ·
+  Incinerate `open` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire … Summon Infernal** — on cooldown → skip.
   2. **Immolate** — `blocked`, the DoT is up → skip.
@@ -234,9 +234,9 @@ can see what the row actually looks like — and so the argument in
 - **State.** Mid-fight, single target. A **Fiendish Cruelty proc is up**, so the next Shadowburn
   is free and usable on any target regardless of health. Immolate is ticking, Conflagrate is on
   cooldown, 3 shards, no Art armed.
-- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `hold-readable` ·
-  Cataclysm `cd` · Chaos Bolt `below` · Shadowburn `press-promoted` {cues: priority} ·
-  Incinerate `below` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `open` {cues: blocked} ·
+  Cataclysm `cd` · Chaos Bolt `open` · Shadowburn `press` {cues: priority} ·
+  Incinerate `open` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.** ⚠ **This scenario is read by pass 1, not by elimination.**
   1. **Shadowburn** wears the gold `priority` badge → **press.** Rung 7, whose second conjunct
      `(buff.fiendish_cruelty.up|talent.conflagration_of_chaos)` is satisfied by the proc.
@@ -265,9 +265,9 @@ can see what the row actually looks like — and so the argument in
 - **State.** Diabolic Ritual has cycled to **Mother of Chaos** and its Art is armed, so **row 8 is
   displaying Infernal Bolt**. Single target, **1 shard**, Immolate ticking, Conflagrate at 0
   charges, no Fiendish Cruelty proc.
-- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `hold-readable` ·
-  Cataclysm `cd` · Chaos Bolt `starved` {client: not-enough-power} · Shadowburn `hold-readable` {client: unusable} ·
-  Infernal Bolt `press` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `open` {cues: blocked} ·
+  Cataclysm `cd` · Chaos Bolt `open` {cues: starved} {client: not-enough-power} · Shadowburn `open` {cues: blocked} {client: unusable} ·
+  Infernal Bolt `press` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire … Summon Infernal** — on cooldown → skip.
   2. **Immolate** — `blocked`, the DoT is up → skip.
@@ -297,9 +297,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** Single target, **0 shards**, Immolate ticking, every cooldown down, no Art armed, no
   proc. Row 8 is Incinerate.
-- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `hold-readable` ·
-  Cataclysm `cd` · Chaos Bolt `starved` {client: not-enough-power} · Shadowburn `starved` {client: not-enough-power} ·
-  Incinerate `press` · Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `open` {cues: blocked} ·
+  Cataclysm `cd` · Chaos Bolt `open` {cues: starved} {client: not-enough-power} · Shadowburn `open` {cues: starved} {client: not-enough-power} ·
+  Incinerate `press` · Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire … Summon Infernal** — on cooldown → skip.
   2. **Immolate** — `blocked`, the DoT is up → skip.
@@ -319,9 +319,9 @@ can see what the row actually looks like — and so the argument in
 
 - **State.** Single target, **2 shards**, Immolate ticking, **Conflagrate at 1/2 and Backdraft is
   down**. Soul Fire and Summon Infernal on cooldown.
-- **CDM row.** Soul Fire `cd` · Conflagrate `press` · Summon Infernal `cd` · Immolate `below` ·
-  Cataclysm `below` · Chaos Bolt `below` · Shadowburn `below` {client: unusable} · Incinerate `below` ·
-  Rain of Fire `off-mode` {cues: aoe_only} · Havoc `off-mode` {cues: aoe_only}
+- **CDM row.** Soul Fire `cd` · Conflagrate `press` · Summon Infernal `cd` · Immolate `open` ·
+  Cataclysm `open` · Chaos Bolt `open` · Shadowburn `open` {client: unusable} · Incinerate `open` ·
+  Rain of Fire `open` {cues: aoe_only} · Havoc `open` {cues: aoe_only}
 - **Walk.**
   1. **Soul Fire** — on cooldown → skip.
   2. **Conflagrate** — all three of its cues are dark: charges are not full (B), Backdraft is
@@ -340,9 +340,9 @@ can see what the row actually looks like — and so the argument in
 - **State.** The player has flipped cap's AoE toggle; **four targets**, an Art armed, **3
   shards**, Immolate on the current target, one Immolate out. Conflagrate on cooldown, Summon
   Infernal on cooldown.
-- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `hold-readable` ·
-  Cataclysm `cd` · Chaos Bolt `press` · Shadowburn `below` {client: unusable} · Incinerate `below` ·
-  Rain of Fire `below` · Havoc `below`
+- **CDM row.** Soul Fire `cd` · Conflagrate `cd` · Summon Infernal `cd` · Immolate `open` {cues: blocked} ·
+  Cataclysm `cd` · Chaos Bolt `press` · Shadowburn `open` {client: unusable} · Incinerate `open` ·
+  Rain of Fire `open` · Havoc `open`
 - **Walk.**
   1. **Soul Fire … Summon Infernal** — on cooldown → skip.
   2. **Immolate** — `blocked`, the DoT is on the current target → skip.

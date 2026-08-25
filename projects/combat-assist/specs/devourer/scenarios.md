@@ -82,15 +82,15 @@ is wrong and Meta needs a readable hold from the same open fact** (§8, item 3).
 
 ### 7.2 Verdicts
 
-The nine-verdict vocabulary is `../render-shelf.md`'s `tokens.verdicts` and this file adds none.
+The five-verdict vocabulary is `../render-shelf.md`'s `tokens.verdicts` and this file adds none.
 Four notes on how it maps here:
 
 - A **hatched gated virtual row** is written `cd` — the one verdict carrying both `swipe` and
   `hatch`, and the one the elimination gate skips. Mechanically right (a hatched row is ruled out)
   and semantically loose (Collapsing Star has no cooldown; it is *not granted*). Flagged rather
   than solved with a new verdict.
-- A **cleared gated row** is `press` when the walk reaches it and `below` otherwise.
-- The **standing row** is never `cd`. It is `press` when the sweep terminates on it and `below`
+- A **cleared gated row** is `press` when the walk reaches it and `open` otherwise.
+- The **standing row** is never `cd`. It is `press` when the sweep terminates on it and `open`
   when the sweep stopped earlier — which is the ordinary case.
 - A below-bank **Void Metamorphosis** is written `cd`, per §7.1's ⚠.
 
@@ -101,7 +101,7 @@ Four notes on how it maps here:
 - **State.** Single target, bank mid, Reap on cooldown, Fury ≥ 100, Soul Immolation's effect
   running, Voidblade on cooldown, nothing procced.
 - **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `cd` · Void Ray `press` ·
-  Soul Immolation `below` · Voidblade `below` ‖ Consume `below`
+  Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — the gated virtual row is hatched, so nothing appeared → sweep the line.
   2. **Void Metamorphosis** — uncastable below a full bank, ruled out by the client's own
@@ -123,8 +123,8 @@ Four notes on how it maps here:
 ### B-2 · Fury-starved
 
 - **State.** As B-1 but Fury under 100, Reap ready.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `press` · Void Ray `starved` ·
-  Soul Immolation `below` · Voidblade `below` ‖ Consume `below`
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `press` · Void Ray `open` {cues: starved} ·
+  Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep the line.
   2. **Void Metamorphosis** — below a full bank → skip.
@@ -140,7 +140,7 @@ Four notes on how it maps here:
 
 - **State.** Reap on cooldown, Fury under 100, Soul Immolation on cooldown, Voidblade on its
   ~30 s cooldown, no procs, bank mid.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `cd` · Void Ray `starved` ·
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `cd` · Void Ray `open` {cues: starved} ·
   Soul Immolation `cd` · Voidblade `cd` ‖ Consume `press`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep.
@@ -161,8 +161,8 @@ Four notes on how it maps here:
 ### B-4 · The bank fills
 
 - **State.** Soul bank at 50, single target, *Devourer's Bite* talented, Voidblade off cooldown.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `press` · Reap `below` · Void Ray `below` ·
-  Soul Immolation `below` · Voidblade `below` ‖ Consume `below`
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `press` · Reap `open` · Void Ray `open` ·
+  Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep.
   2. **Void Metamorphosis** — castable, the client stops desaturating it, and it is leftmost with
@@ -182,8 +182,8 @@ Four notes on how it maps here:
 
 - **State.** `/cap aoe` on, bank at 50, *Eradicate* talented, neither Eradicate nor Moment of
   Craving up, Reap on cooldown.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `hold-readable` · Reap `cd` ·
-  Void Ray `press` · Soul Immolation `below` · Voidblade `below` ‖ Consume `below`
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `open` {cues: blocked} · Reap `cd` ·
+  Void Ray `press` · Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep.
   2. **Void Metamorphosis** — castable, but wears the red `blocked` badge (cue **D**): at 2+
@@ -214,7 +214,7 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
 - **State.** Transformed, Fury well above the drain, harvest counter under 30, Cull on cooldown,
   no Soulburst.
 - **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Cull `cd` · Void Ray `press` ·
-  Soul Immolation `hold-sealed` · Pierce the Veil `below` ‖ Devour `below`
+  Soul Immolation `open` {cues: blocked} · Pierce the Veil `open` ‖ Devour `open`
 - **Walk.**
   1. **Collapsing Star** — the panel is hatched → sweep.
   2. **Void Metamorphosis** — the form is active → skip.
@@ -239,7 +239,7 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
 - **State.** Transformed, `/cap aoe` on, the harvest counter has crossed 30, Cull and Void Ray on
   their in-Meta cooldowns, no Soulburst.
 - **CDM row.** Collapsing Star `press` ‖ Void Metamorphosis `cd` · Cull `cd` · Void Ray `cd` ·
-  Soul Immolation `hold-sealed` · Pierce the Veil `below` ‖ Devour `below`
+  Soul Immolation `open` {cues: blocked} · Pierce the Veil `open` ‖ Devour `open`
 - **Walk.**
   1. **Collapsing Star** — the gated virtual row **clears**: it is castable, and `!proc` says
      rungs 3–4 are not live. One icon changes in an otherwise-static panel, so the eye takes it
@@ -262,7 +262,7 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
 - **State.** As M-2 with `/cap aoe` **off**: transformed, single target, the harvest counter has
   crossed 30 but is under 35, Cull and Void Ray on their in-Meta cooldowns, no Soulburst.
 - **CDM row.** Collapsing Star `press` ‖ Void Metamorphosis `cd` · Cull `cd` · Void Ray `cd` ·
-  Soul Immolation `hold-sealed` · Pierce the Veil `below` ‖ Devour `below`
+  Soul Immolation `open` {cues: blocked} · Pierce the Veil `open` ‖ Devour `open`
 - **Walk.**
   1. **Collapsing Star** — the gated row still **clears**, because *castable* is the only readable
      verdict available to it and rung 5's `stack>=35` is a **sealed** threshold with no surface on
@@ -287,7 +287,7 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
 - **State.** Transformed, Fury under one tick of drain, Cull and Void Ray both on their in-Meta
   cooldowns, Soul Immolation ready, the Voidsurge already spent.
 - **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Cull `cd` · Void Ray `cd` ·
-  Soul Immolation `press` · Pierce the Veil `below` ‖ Devour `below`
+  Soul Immolation `press` · Pierce the Veil `open` ‖ Devour `open`
 - **Walk.**
   1. **Collapsing Star** — the panel is hatched → sweep.
   2. **Void Metamorphosis / Cull / Void Ray** — the form is active, and both spenders are swiped →
@@ -313,7 +313,7 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
 - **State.** Transformed, the window's first Pierce the Veil uncast, Cull and Void Ray on cooldown,
   Fury still high, harvest counter under 30.
 - **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Cull `cd` · Void Ray `cd` ·
-  Soul Immolation `hold-sealed` · Pierce the Veil `press` ‖ Devour `below`
+  Soul Immolation `open` {cues: blocked} · Pierce the Veil `press` ‖ Devour `open`
 - **Walk.**
   1. **Collapsing Star** — the panel is hatched → sweep.
   2. **Void Metamorphosis / Cull / Void Ray** — form active, both spenders swiped → skip.

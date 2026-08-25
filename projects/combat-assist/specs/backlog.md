@@ -22,10 +22,15 @@ and nothing about how it was measured.
   `capped` · `affordable` · `resource` · `talent` · `aoe` — propagates unknown safely, composes a
   row as **scan membership + badges**, leaves Blizzard's proc glow intact, and owns one independent
   Tyrant bar. Sealed facts reach client-owned display sinks only, never a Lua branch.
-- **The role tier is model-only** (2026-08-19). `Catalog.TIERS` and every catalog's `| Lane |`
-  column still carry **COOLDOWN / ROTATION / FALLBACK**, and `Treatment.For` reduces them to one
-  bit: a row with any tier is in the scan, a row with none is not. Nothing downstream of the model
-  can tell one tier from another, which `presentation_spec` asserts.
+- **The role tier is REMOVED** (paint 2026-08-19, model 2026-08-25). Membership is a boolean:
+  a row is in the scan when its `scan_when` alternatives (default: ready-self) read ON, withheld
+  when required reads are unknown. `Catalog.TIERS` is deleted, the catalogs' `| Lane |` columns
+  became `| Scan |`, and the lane names **COOLDOWN / ROTATION / FALLBACK** survive only as prose
+  grouping in the catalogs. `Treatment.For` reads the one bit, which `presentation_spec` asserts.
+  **Authored, not flown:** the uniform blind rule (no ON alternative + any BLIND alternative ⇒
+  withheld) and the two accepted behavior changes — Demonology Shadow Bolt and Destruction
+  Incinerate/Conflagrate now stay lit under blindness where their deleted two-band flips
+  darkened them. Both join the flight acceptance set.
 - Engine guarantees and provisional per-spec examples are separate test groups.
 
 ### The style
@@ -48,10 +53,15 @@ and nothing about how it was measured.
   `UNKNOWN` or absent readiness draws bare, so absence of a hatch never asserts a button is up.
   ⚠ A **charged** ability and a row whose first readiness edge has not landed will not wear it, so
   the hatch is not a complete census of what is down. **Not flown** — Part 5 question 9.
-- **The cue vocabulary is negative by default with one positive cue** (`capped`, gold, badge
-  slot 3). The three negatives — `blocked`, `starved`, `overcap` — share one red and are told apart
-  by shape. `press`, `press-promoted` and `below` render identically: the press is not a thing cap
-  draws. ⚠ The one-positive rule is **under review** — see *There is no positive-cue budget*.
+- **The cue vocabulary is negative by default** (positives: `capped` and `priority`, gold). The
+  negatives — `blocked`, `starved`, `overcap`, `st_only`/`aoe_only`, and since 2026-08-24 the two
+  cards `building` (a ramp holds this while resource climbs) and `noproc` (the proc that makes
+  this worth pressing is not up) — share one red and are told apart by shape. `press`,
+  `press-promoted` and `below` render identically: the press is not a thing cap draws.
+  ⚠ `building` is deliberately UNBUDGETED on the density rule's own starved/overcap grounds
+  (one fact, a block of subjects) — Demonology's ramp wears up to six cards before the press,
+  the pilot's chosen reading over a promotion, playtest-gated (demonology/catalog.md changelog
+  2026-08-24).
 - The reading model is mechanised rather than minuted. `capart check`'s `reading_gate` is an
   ordered chain: a scenario wearing a positive cue is judged by pass 1, every other scenario by
   pass 2 — the leftmost entry that is neither swiped nor wearing a negative badge must be the
@@ -76,14 +86,40 @@ and nothing about how it was measured.
   refresh window: a gold do-not-refresh hatch, drawn by `SetDurationText` band tables on
   remaining seconds off an optional catalog `outside_s` (the threshold is the catalog's; the
   badge's edge stays the client's — the shelf carries the seam caveat). Inside the window: the
-  badge at **cue-badge brightness exactly** — the `fire` glyph (deliberately shared with the
-  `priority` cue: both mean "act now"; the old `timer_CW_75` glyph is retired from the sheet for
-  reading as a live radial attached to nothing), and the FULL positive-cue treatment — V14's
-  promotion ring around it plus the halo behind the plate; no region pulse, no countdown. The
-  halo alone read as a faint gold mist beside a real promotion, measured in the preview. Count bands: the hatch is
+  badge at **cue-badge brightness exactly** — at its centre the **dial** (2026-08-24, replacing
+  the `fire` glyph): a radial `StatusBar` the CLIENT drains off the DoT's own remaining
+  lifetime — `SetDurationBar` → `SetTimerDuration(auraDuration, interpolation, direction)`,
+  `RemainingTime`, cap reading nothing (KB §3.5.2); `SetMinMaxValues(0, 1)` FIRST per §4.8.1
+  finding 3, Radial pcall'd with linear fallback. It is the retired `timer_CW_75` wedge's claim
+  made true — that was static art; this is a value the client drains. Around it the FULL
+  positive-cue treatment — V14's promotion ring plus the halo behind the plate; no region
+  pulse, no numeral. The halo alone read as a faint gold mist beside a real promotion,
+  measured in the preview. ⚠ The `AddPandemicRegion` + `SetDurationBar` **one-button pair is
+  unflown** (each half measured alone — Part 5 #11) and joins the flight acceptance set. Count bands: the hatch is
   legal on **negative** bands only (`Channel.CountRules` refuses a positive hatch), and the
   numeral rides ON the badge plate as its own `plate` element/slot (`Channel.CountElements` is
   now hatch → plate → mark → count). No catalog declares `outside_s` yet. **Not flown.**
+- **V20 is the proc bar; the two-sided band and the corner cession rule shipped beside it**
+  (2026-08-24/25, the stepper-feedback rounds). V20 = the proc's remaining lifetime as a thin
+  client-drained bar directly above V18's charge bar — a `sealed-proc-bar` slot filtered to
+  the proc aura, `SetDurationBar`/RemainingTime, linear. Born as a corner dial and re-formed
+  onto the edge after ONE stepper round: gold in the badge column (hue = polarity) read as a
+  verdict arguing with the red holds. Consumers: Demonic Core on Demonbolt (every Core-up
+  scenario — the client owns visibility) and the armed Art under Infernal Bolt (aura id
+  Tier-3-sourced, dies silent if wrong — flight question). The imp band recolors instead of
+  clearing: red count + hatch below six, GOLD count at six (DEM-12) — a loaded Implosion no
+  longer looks unremarkable. `Channel.BandPoints(beyond, within)` closes demonology
+  catalog.md's Defeats item 1 — Dreadstalkers' two-sided "waiting on Tyrant's cooldown" hold
+  (DEM-15) — with `Catalog.Check` demanding `beyond < within`. Part 2.5 gained the CESSION
+  RULE: corner sealed displays (V19's badge, V16's corner elements) claim stack slots 0..n−1
+  by declaration (static — whether one is showing is sealed) and cue badges start below them;
+  DEM-8's Demonbolt — two stacked bars plus the window badge — is the densest row in any
+  catalog. Demonology also grew the ramp holds (cue I, `building`, authored PAST the
+  unconditional APL rungs — playtest-gated), re-badged Demonbolt's core hold to `noproc`, and
+  its scenarios now wear the Implosion imp band everywhere imps are out (the "no markup on
+  Implosion" gap), with DEM-13's Tyrant-ready/Tyrant-far contradiction fixed in passing.
+  **All of it authored, not flown** — the dial pair, the three-point band, and the cession
+  geometry all join the flight acceptance set.
 - **Part 7's lab is populated and decides nothing.** The 2026-08-20 eight-entry intake flew on
   2026-08-21 and left on 2026-08-22 — four promoted as **V16–V19**, one (`composites`) deleted as
   the argument that those four compose — leaving `duration_band` (band tables on a DoT's clock;

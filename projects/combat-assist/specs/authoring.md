@@ -31,8 +31,8 @@ convenience — they have three different jobs, and the split is what keeps each
 
 | File | Job |
 | --- | --- |
-| `catalog.md` | **The definition.** Roster, lanes, markers, contract boundary, open facts. The thing `Catalogs/<Spec>.lua` transcribes. |
-| `scenarios.md` | **The argument.** The state-by-state walk proving those lanes and markers reproduce the priority order — and what the walk surfaced. This is what `capart check` mechanises, and where a design gets falsified. |
+| `catalog.md` | **The definition.** Roster, scan membership, markers, contract boundary, open facts. The thing `Catalogs/<Spec>.lua` transcribes. |
+| `scenarios.md` | **The argument.** The state-by-state walk proving that membership and those markers reproduce the priority order — and what the walk surfaced. This is what `capart check` mechanises, and where a design gets falsified. |
 | `fact-classification.md` | **The safety case.** Every fact sorted readable / sealed / open, including the proof that no sealed value is ever branched on. |
 
 A definition, its proof, and its safety case. Folding the proof into the thing it proves is what
@@ -125,7 +125,7 @@ and the honest gaps.
 Enumerate only the facts those rules require, and tag each one against *The recipe index*
 below (`spec.md` §3.6 is the boundary):
 
-- **readable** — Lua may compare, index, add or truth-test it. Drives emphasis tiers and readable
+- **readable** — Lua may compare, index, add or truth-test it. Drives scan membership and readable
   markers.
 - **sealed-display** — forwarded to a client-owned sink only. Never compared, indexed, added or
   truth-tested. cap reports `offered` / `armed` / `refused` and never reads back.
@@ -138,7 +138,7 @@ under no recipe ID (check there first), a new mechanism seam (stage 6), or an op
 **A threshold on a secret is expressible**, in either polarity, as an authored curve the client
 evaluates (`spec.md` §3.6) — the platform seals the *value*, not a break point authored against it.
 
-**Exit:** every fact the catalog consumes carries a lane, a recipe and its evidence. No sealed
+**Exit:** every fact the catalog consumes carries its class tag, a recipe and its evidence. No sealed
 fact appears in a proposed Lua condition.
 
 ---
@@ -147,16 +147,15 @@ fact appears in a proposed Lua condition.
 
 **Entry:** stage 3 exit.
 
-Author readable facts into the role lanes (COOLDOWN / ROTATION / FALLBACK, `spec.md` §3.1) and
-readable markers. Author sealed facts as independent **cues** into an existing client-owned sink.
-Open facts produce nothing.
+Author readable facts into scan membership (`scan_when`, default ready-self — `spec.md` §3.1)
+and readable markers. Author sealed facts as independent **cues** into an existing client-owned
+sink. Open facts produce nothing.
 
-⚠ **The lane is not a treatment, and no author should expect one to draw anything.** The role tier
-has been **model-only since 2026-08-19** (`backlog.md` → `## Status` → *The engine*):
-`Treatment.For` reduces every tier to one bit — a row with any tier is in the scan, a row with none
-is not — and `presentation_spec` asserts that nothing downstream of the model can tell one tier
-from another. The lanes stay because they are how a catalog is organised and how `Anchor.lua`
-orders rows.
+⚠ **Membership is one bit, and no author should expect anything finer to draw.** The role tiers
+were model-only from 2026-08-19 and **left the model on 2026-08-25** (`backlog.md` → `## Status`
+→ *The engine*): `Treatment.For` reads one boolean — a member row draws the scan treatment, a
+non-member draws nothing — and `presentation_spec` asserts nothing downstream can draw finer
+than that. The old lane names survive only as prose grouping in the catalogs.
 
 **Name cues, do not draw them.** A catalog says *which* cue a row carries; `render-shelf.md` says
 what that cue looks like. If the cue needs a primitive the shelf does not have, the primitive goes
@@ -177,7 +176,7 @@ available and skipped**, the reason it is skipped. Buttons the CDM already rules
 (the swipe) need no explanation; the available-but-skipped ones are exactly where the cues earn
 their place or the gaps show.
 
-**Exit:** a normative `catalog.md`: roster → lane, the cue set, the recipes each row consumes,
+**Exit:** a normative `catalog.md`: roster → membership, the cue set, the recipes each row consumes,
 and a state walk that reproduces the order.
 
 ---
@@ -211,12 +210,10 @@ add it to the `.toc` and register it. Resolve override spell IDs via `overrideSp
 shared treatment/overlay code.**
 
 **The renderer test** — the **marker seam** in *The recipe index* below**:** a spec that reuses an
-existing tier and an existing marker/channel shape **edits nothing** in `Treatment.lua` /
+existing marker/channel shape **edits nothing** in `Treatment.lua` /
 `Overlay.lua` — it is authored purely as catalog data. Write a shared helper when this slice needs
-one.
-
-⚠ The "reuses an existing **tier**" half of the test is now vacuous, because every tier reduces to
-one bit (stage 4). Only the marker/channel half can fail.
+one. (Membership cannot fail this test — it is one bit for every spec; only the marker/channel
+half can.)
 
 **When it does fail, a renderer edit is a FINDING, not a failure** — it means the slice introduced
 a new marker shape or channel pairing, and the thing to do is name it rather than route around it.
@@ -241,7 +238,7 @@ read or an unsupported binding.
 **Entry:** stage 6 exit.
 
 Extend the `busted` suite for the *mechanisms* the slice added: provider seeding and re-seed on
-transform flip, curve guards, marker union across the readable and sealed lanes, unknown-safe
+transform flip, curve guards, marker union across the readable and sealed routes, unknown-safe
 propagation. Keep spec examples in an explicitly provisional characterization group, separate
 from engine guarantees.
 
@@ -316,7 +313,7 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
 
 **What this is.** The `R#` / `S#` namespace the catalogs, scenarios and fact-classifications
 cite, mapped to where the evidence actually lives. It **makes no claims** — every cell is an ID,
-a lane and a pointer. A row that stops resolving is a broken link, not a stale fact, and that is
+a class and a pointer. A row that stops resolving is a broken link, not a stale fact, and that is
 the only failure mode it has.
 
 **Why the IDs live here and the evidence lives in `knowledge/addon-dev/`.** The evidence is
@@ -336,7 +333,7 @@ unmeasured, route it per stage 5.
 
 ### Part 1 — readable facts
 
-| ID | The question | Lane | Anchor in `knowledge/addon-dev/` |
+| ID | The question | Class | Anchor in `knowledge/addon-dev/` |
 | --- | --- | --- | --- |
 | `R1` | Can I afford this cast? | readable | `security-taint-and-restricted-data.md` §4.12 → *The sanctioned replacement: `C_Spell.IsSpellUsable`*, including its three traps (read the **second** return; it is binary) |
 | `R2` | Is it ready / on cooldown? | readable, but not by polling in combat | `cooldown-manager.md` §7 Tier 3 → `C_Spell.GetSpellCooldown` (per-member seal; `isActive`/`isEnabled`/`isOnGCD` plain). The alert-edge latch: `cooldown-manager.md` §5.1. The scratch-widget boolean: `cdm-rider-patterns.md` §2.3 |
@@ -351,7 +348,7 @@ unmeasured, route it per stage 5.
 
 ### Part 2 — sealed-display cues
 
-| ID | The cue | Lane | Anchor in `knowledge/addon-dev/` |
+| ID | The cue | Class | Anchor in `knowledge/addon-dev/` |
 | --- | --- | --- | --- |
 | `S1` | Primary resource as a display cue | sealed-display | `security-taint-and-restricted-data.md` §4.12 trap 3 → `UnitPowerPercent(unit, type, unmodified, curve)` evaluated in C; §4.8.1 for which sinks carry a secret |
 | `S2` | Aura stack count, shown/hidden by value | sealed-display | `security-taint-and-restricted-data.md` §3.5 → the `ApplyApplicationCount` two-branch path. `S2` is its **zero-configuration case** (`elseif applications > 1`), not a ceiling — `S7` is the general form |
@@ -381,7 +378,7 @@ prebuilt (see the standing rules).
 | Curve guard | Feature-gate `C_CurveUtil.CreateCurve`, `Enum.LuaCurveType.Step` and `Enum.DurationTimeModifier`; return the inert path on any missing piece. Curves and durations are `userdata`, not tables | `cdm-rider-patterns.md` §2 |
 | Sink routing | Which sinks accept a secret directly vs which carry secrecy inside a duration object. Never read back | `cdm-rider-patterns.md` §1.2; `security-taint-and-restricted-data.md` §4.8.1 |
 | Identity resolution + re-seed | `R7`'s transform-safe read, plus re-seeding any estimate when the override id changes | `cooldown-manager.md` §2 |
-| **The marker seam** | Tier→pixels lives in the shared treatment/overlay code. A spec reusing an existing tier and an existing marker/channel shape **edits nothing** there and is authored purely as catalog data. This is stage 6's **renderer test** | stage 6 of this file |
+| **The marker seam** | Model→pixels lives in the shared treatment/overlay code. A spec reusing an existing marker/channel shape **edits nothing** there and is authored purely as catalog data. This is stage 6's **renderer test** | stage 6 of this file |
 
 ### The anti-patterns
 
@@ -432,7 +429,7 @@ document, since a stale worktree transcribes against dead names.
 | A recipe ID (`R#` / `S#` / a mechanism seam) and where its evidence lives | this file → *The recipe index* |
 | What a cue looks like — art, color, motion, placement | `specs/render-shelf.md` |
 | Why it looks that way — alternatives, reasoning, rejects | `specs/render-rationale.md` |
-| A spec's roster, lanes, cues, state walk | `specs/<spec>/catalog.md` |
+| A spec's roster, membership, cues, state walk | `specs/<spec>/catalog.md` |
 | Approved player-visible behavior | `specs/spec.md` |
 | What is built / flown, and the work list | `specs/backlog.md` |
 | An undecided product question | `specs/discussion.md` |

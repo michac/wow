@@ -3,11 +3,11 @@
 **Applies to:** Havoc (specID `577`), hero tree **Fel-Scarred**, Midnight 12.1. This is the
 normative catalog document: the thing a future `Catalogs/Havoc.lua` transcribes. It is a
 provisional product characterization for play, not a claim the rules are universally correct.
-`../spec.md` §3.7 owns the intended experience; `../spec.md` §3.1 owns the tier model;
+`../spec.md` §3.7 owns the intended experience; `../spec.md` §3.1 owns the membership model;
 `../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `fact-classification.md` beside this file tags each fact readable / sealed-display / open with
 its addon-dev evidence; `scenarios.md` beside this file walks the Fel-Scarred priority as a
-single-row Cooldown-Manager elimination walk and proves lane + cues reproduce the order (state →
+single-row Cooldown-Manager elimination walk and proves membership + cues reproduce the order (state →
 why each off-cooldown button is skipped → the press → cue status).
 
 > **The priority source is `knowledge/classes/demon-hunter/havoc/simc-apl.md`** — the Tier-1
@@ -53,11 +53,11 @@ why each off-cooldown button is skipped → the press → cue status).
 ## The design in one paragraph
 
 Havoc's defining constraint is that its primary resource, **Fury, is secret** (R3): cap may
-*display* Fury but never branch on its value. The roster maps onto the §3.1 role lanes the way
-the Tier-1 APL does — **cooldown-dominated**, with the raw Fury dump (Chaos Strike /
-Annihilation) at rung 21/23, near the **bottom**, rising only inside a window. So the
-**COOLDOWN** lane carries the burst / window buttons, the **ROTATION** lane carries the
-build/spend core, and cap uses cap's **two tools** — *emphasis* (readable on/off) and *cues*
+*display* Fury but never branch on its value. The roster reads the way the Tier-1 APL does —
+**cooldown-dominated**, with the raw Fury dump (Chaos Strike / Annihilation) at rung 21/23, near
+the **bottom**, rising only inside a window. So the pressed-on-sight group carries the burst /
+window buttons, the decision surface carries the build/spend core, and cap uses cap's
+**two tools** — *emphasis* (readable on/off) and *cues*
 (additive display of sealed values) — to reproduce that order. Seven cues do the work: **A**
 affordability, **B** overcap, **C** hold/sync, **D** demon-form promotion, **E** charges capped
 (the one positive cue), **F** the talent gate that withholds E, and **G** the single-target skip
@@ -71,20 +71,20 @@ override IDs are **invisible to Tier 1** and resolved live via R7 — the refere
 ⚠ Metamorphosis's override is **not** Void Metamorphosis (`471306`); `abilities.md:183` flags that
 as an unconfirmed 12.1 API description bleed, so it is not substituted anywhere.
 
-| Key | Ability | Base spell ID | Demon-form override | Lane | Charges | Cues |
+| Key | Ability | Base spell ID | Demon-form override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `metamorphosis` | Metamorphosis | `191427` | — | COOLDOWN | — | reset holds (C1 + C2) — Death Sweep *ready* and Eye Beam *ready*, plus a sealed band while Eye Beam's cooldown is ≤8s out |
-| `eye_beam` | Eye Beam | `198013` | Abyssal Gaze ⚠`452497` | COOLDOWN | — | — |
-| `the_hunt` | The Hunt | `370965` | — | COOLDOWN | — | sealed sync-hold (C2) — hold while Meta's cooldown is ≤15s out; **clears when Meta is ready** |
-| `essence_break` | Essence Break | `258860` | — | COOLDOWN | — | sealed hold (C2) — hold if Eye Beam CD ≤4s |
-| `vengeful_retreat` | Vengeful Retreat | `198793` | — | COOLDOWN | ⚠ open | sealed sync-hold (C2, union of two bands) — hold while Eye Beam ≤8s out **or** Meta ≤4s out |
-| `chaos_strike` | Chaos Strike | `344862` | Annihilation ⚠`201427` | ROTATION | — | affordability (A) + demon-form promotion (D) |
-| `blade_dance` | Blade Dance | `188499` | Death Sweep ⚠`210152` | ROTATION | — | affordability (A) + demon-form promotion (D) + identity |
-| `felblade` | Felblade | `232893` | — | ROTATION | — | relative affordability (A — no cue of its own) + overcap readout (B) |
-| `demons_bite` | Demon's Bite | `344859` | — | ROTATION | — | relative affordability (A — no cue of its own) + overcap readout (B) |
-| `immolation_aura` | Immolation Aura | `258920` | Consuming Fire ⚠`452487` | ROTATION | 2 | gold `capped` at max charges (E), gated on A Fire Inside (F); red `blocked` single-target skip (G) + identity |
-| `throw_glaive` | Throw Glaive | `185123` | — | FALLBACK | yes | — |
-| `fel_rush` | Fel Rush | `344865` | — | FALLBACK | 2 | — |
+| `metamorphosis` | Metamorphosis | `191427` | — | scan | — | reset holds (C1 + C2) — Death Sweep *ready* and Eye Beam *ready*, plus a sealed band while Eye Beam's cooldown is ≤8s out |
+| `eye_beam` | Eye Beam | `198013` | Abyssal Gaze ⚠`452497` | scan | — | — |
+| `the_hunt` | The Hunt | `370965` | — | scan | — | sealed sync-hold (C2) — hold while Meta's cooldown is ≤15s out; **clears when Meta is ready** |
+| `essence_break` | Essence Break | `258860` | — | scan | — | sealed hold (C2) — hold if Eye Beam CD ≤4s |
+| `vengeful_retreat` | Vengeful Retreat | `198793` | — | scan | ⚠ open | sealed sync-hold (C2, union of two bands) — hold while Eye Beam ≤8s out **or** Meta ≤4s out |
+| `chaos_strike` | Chaos Strike | `344862` | Annihilation ⚠`201427` | scan | — | affordability (A) + demon-form promotion (D) |
+| `blade_dance` | Blade Dance | `188499` | Death Sweep ⚠`210152` | scan | — | affordability (A) + demon-form promotion (D) + identity |
+| `felblade` | Felblade | `232893` | — | scan | — | relative affordability (A — no cue of its own) + overcap readout (B) |
+| `demons_bite` | Demon's Bite | `344859` | — | scan | — | relative affordability (A — no cue of its own) + overcap readout (B) |
+| `immolation_aura` | Immolation Aura | `258920` | Consuming Fire ⚠`452487` | scan | 2 | gold `capped` at max charges (E), gated on A Fire Inside (F); red `blocked` single-target skip (G) + identity |
+| `throw_glaive` | Throw Glaive | `185123` | — | scan | yes | — |
+| `fel_rush` | Fel Rush | `344865` | — | scan | 2 | — |
 | `demonsurge` | Demonsurge (buff) | `452402` | — | — | — | **OPEN** — hero-signature; no hint until measured |
 
 `demon_form` is not a bound *ability* — it is a readable **marker** and an optional **bar**
@@ -96,9 +96,8 @@ surface, read from the transform identity fact (R7), and it drives cue D.
 either.** The retired shelf V2 drew a fourth **CHARGES** hue that *replaced* the role lane when the
 client reported charges; V13 draws one binary scan edge and reads nothing from `charged`. What the
 column still does is switch the row's **readiness tracking** onto the charge path, which is a model
-fact and unaffected. The `Lane` column above stays exactly as the rotation authored it — Immolation
-Aura is **ROTATION**, and always was. Nothing here re-ranks anything, and nothing here recolours
-anything either.
+fact and unaffected. The `Scan` column above is untouched by charges — a charge row is a scan
+member like any other. Nothing here re-ranks anything, and nothing here recolours anything either.
 
 Sources, per `knowledge/classes/demon-hunter/havoc/abilities.md` (12.1.0.69214):
 
@@ -111,18 +110,19 @@ Sources, per `knowledge/classes/demon-hunter/havoc/abilities.md` (12.1.0.69214):
   so it settles nothing, and the real recharge lives in `SpellCategory.ChargeRecoveryTime` which is
   unreachable without breaking the build pin. `yes` is deliberately not a guessed number — the
   border only needs the boolean.
-- **Vengeful Retreat — ⚠ open, and it therefore draws COOLDOWN.** It read **25 s** in the
+- **Vengeful Retreat — ⚠ open.** It read **25 s** in the
   12.0.7.67808 tsv and **0.5 s** at 12.1.0.69214, which is the charge-ability artifact, and 12.1
   gives Devourer's Hungering Slash *"a temporary charge of Vengeful Retreat"*. That is suggestive,
   not measured, and an unmeasured fact must never render as a measured one. `@verify-ingame`
   (Vengeful Retreat cooldown / charges) is already open in `abilities.md`; when it resolves, this
-  cell becomes a number and the border colour follows.
+  cell becomes a number.
 
 ⚠ **A finding, kept because it is about the model rather than the paint:** both FALLBACK abilities
 in this catalog (Throw Glaive, Fel Rush) have charges. Under the retired V2 that meant **no Havoc
 row ever drew a FALLBACK border**, which was the sharpest argument against a hue that displaces
-another hue — and it is one of the reasons V13 collapsed the ladder. The tier is still declared and
-still correct; it now decides only that those rows are in the scan.
+another hue — and it is one of the reasons V13 collapsed the ladder. The tiers themselves left the
+model on 2026-08-25; both rows are ordinary scan members and nothing about them is declared but
+that.
 
 ## The authored row order
 
@@ -195,33 +195,35 @@ rung that jumps the queue on a condition, and this is the one the vocabulary alr
    The row uses 24. Fury is secret, so the promotion is not expressible as an order — only as the
    `overcap` readout on Felblade, which speaks in the *opposite* direction (see cue B below).
 
-## The lanes, and why the priority falls out of them
+## The groups, and why the priority falls out of them
 
-Read the rung order against the lanes:
+Every bound row is a default ready-self scan member (no Havoc row declares a `scan_when`); the
+groups below are prose — how the roster reads against the rung order, not anything the engine
+holds.
 
-- **COOLDOWN** = the top of the priority (Meta, The Hunt, Eye Beam, Essence Break, Vengeful
-  Retreat). They light when ready; a hold cue (C) says when to wait.
-- **ROTATION** = the middle-to-bottom, where the cues do the ordering. The raw spender is *low*
-  by default and only rises when cue **D** promotes it inside a readable window; the generator
-  rises (relatively) when cue **A** dims the starved spender; the generator is pushed off by cue
-  **B** near overcap; Immolation Aura wears the gold `capped` badge at full charges and nothing
-  below it.
-- **FALLBACK** = pure filler (Throw Glaive, Fel Rush).
+- **Pressed on sight** — the top of the priority (Meta, The Hunt, Eye Beam, Essence Break,
+  Vengeful Retreat). They light when ready; a hold cue (C) says when to wait.
+- **The decision surface** — the middle-to-bottom, where the cues do the ordering. The raw
+  spender is *low* by default and only rises when cue **D** promotes it inside a readable
+  window; the generator rises (relatively) when cue **A** dims the starved spender; the
+  generator is pushed off by cue **B** near overcap; Immolation Aura wears the gold `capped`
+  badge at full charges and nothing below it.
+- **Reached by subtraction** — pure filler (Throw Glaive, Fel Rush).
 
-Tier + cues, read together, reproduce that priority — which is the §3.1 point. No lane is a
-strict rank; the cues cross lanes (a promoted Death Sweep in a window outranks a lit Eye Beam,
-exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one).
+Membership + cues, read together, reproduce that priority — which is the §3.1 point. No group is
+a strict rank; the cues cross the groups (a promoted Death Sweep in a window outranks a lit Eye
+Beam, exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one).
 
 ## Roster — player problem → fact → recipe → treatment
 
-### COOLDOWN lane
+### Pressed on sight
 
 - **Metamorphosis** (`191427`, rung 3). *Problem:* ~2 min burst whose payoff is its **reset** of
   Eye Beam and Death Sweep — pressing it while either is ready, or moments before Eye Beam
   returns on its own, wastes that reset. *Fact:* the APL's whole condition is
   `!cooldown.blade_dance.up & cooldown.eye_beam.remains>8`, which splits across the
   readable/sealed line: Blade Dance's readiness and Eye Beam's readiness are **readable** (R2),
-  Eye Beam's *remaining time* is **sealed** (S4). *Treatment:* COOLDOWN + **three markers unioned
+  Eye Beam's *remaining time* is **sealed** (S4). *Treatment:* scan + **three markers unioned
   onto one red `blocked` badge** (the band grammar is AND-only, so naming one cue three times is
   the OR):
   1. `meta_wastes_death_sweep` — readable, Blade Dance is *ready*.
@@ -244,7 +246,7 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   this one, which is exactly why Essence Break — sitting *right* of Eye Beam — needs only the
   sealed half.
 - **Eye Beam** (`198013` → Abyssal Gaze ⚠ in Meta, rung 14). *Problem:* keep the demon-form window
-  rolling — it enables everything downstream. *Fact:* `ready` (R2). *Treatment:* COOLDOWN, no
+  rolling — it enables everything downstream. *Fact:* `ready` (R2). *Treatment:* scan, no
   hold. Same row across the FS override via R7.
 - **The Hunt** (`370965`, rung 4). *Problem:* the polarity is the opposite of what an earlier
   draft asserted, and the axis was wrong too. The APL casts The Hunt when
@@ -258,7 +260,7 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   2. `hunt_awaits_meta` — **Metamorphosis is NEAR (≤15s)** but not yet here. Save the empower for
      the Eye Beam the reset is about to hand you. **Meta *ready* ⇒ cast**, which is the polarity
      inversion; the band reads nothing at zero remaining, so readiness clears it for free.
-  *Fact:* two sealed remaining-times, on two different abilities. *Treatment:* COOLDOWN + **two
+  *Fact:* two sealed remaining-times, on two different abilities. *Treatment:* scan + **two
   sealed bands unioned onto one red `blocked` badge** — Eye Beam `beyond = 10` and Metamorphosis
   `within = 15` — **both gated on the readable `talent(eternal_hunt)`**, because without that
   talent rung 4 is unconditional and there is no hold at all. Hold 1 additionally stands down
@@ -268,7 +270,7 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
 - **Essence Break** (`258860`, rung 17). *Problem:* mandatory in S2 (+49% initial, tier-set keys
   off it); open the amp window and flood it. *Fact:* `ready` (R2), plus the sealed hold. The APL
   line is `essence_break,if=cooldown.eye_beam.remains>4` — **the number Icy Veins was already
-  saying, now confirmed Tier 1.** *Treatment:* COOLDOWN + **sealed hold** (C2): hold while Eye
+  saying, now confirmed Tier 1.** *Treatment:* scan + **sealed hold** (C2): hold while Eye
   Beam's cooldown has ≤4s remaining (don't clip the amp window into Eye Beam) — an S4 range
   step-curve on Eye Beam's cooldown → texture alpha, painted client-side; cap never reads the
   clock. ⚠ **There is no Fury term on Essence Break in the APL at all.** The `35/maxFury`
@@ -280,7 +282,7 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   (`gcd.remains<0.3 & cooldown.metamorphosis.remains & cooldown.eye_beam.remains<gcd.max*0.3 &
   !buff.initiative.up`) or on the Meta path (`cooldown.metamorphosis.up &
   cooldown.eye_beam.remains & cooldown.blade_dance.remains & !buff.eternal_hunt.up`). *Fact:*
-  `ready` (R2) for the lane; the alignment is two sealed remaining-times. *Treatment:* COOLDOWN +
+  `ready` (R2) for membership; the alignment is two sealed remaining-times. *Treatment:* scan +
   **two sealed bands unioned onto one red `blocked` badge**, `vr_awaits_eye_beam` (`within = 8` on
   Eye Beam) and `vr_awaits_meta` (`within = 4` on Metamorphosis). The player reads one meaning:
   **hold, something is coming.** Three things this does *not* claim:
@@ -301,16 +303,16 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   a fair player-facing rule, and the badge is the "ideally" half made visible. No gate impact:
   Vengeful Retreat is off the GCD and the elimination check skips `weave` entries.
 
-### ROTATION lane
+### The decision surface
 
 - **Chaos Strike / Annihilation** (`344862` → ⚠`201427`). *Problem:* shown castable even when
   Fury-starved, and it is the *low-priority* dump — except inside a window. *Facts:* `affordable`
-  (R1) + `identity` (R7). *Treatment:* ROTATION; **dimmed when `insufficientPower`** (cue A); the
+  (R1) + `identity` (R7). *Treatment:* scan; **dimmed when `insufficientPower`** (cue A); the
   demon-form promotion (cue D) brightens **Annihilation** while transformed — which is why the
   raw spender, ~#20 baseline, correctly rises in its window. Re-skins across the flip.
 - **Blade Dance / Death Sweep** (`188499` → ⚠`210152`). *Problem:* the empowered Death Sweep is
   what you flood windows with; it costs Fury. *Facts:* `ready` (R2) + `identity` (R7); optionally
-  `affordable` (R1). *Treatment:* ROTATION; **promoted as Death Sweep in demon form** (cue D).
+  `affordable` (R1). *Treatment:* scan; **promoted as Death Sweep in demon form** (cue D).
 - **Felblade / Demon's Bite** (`232893` / `344859`). *Problem:* the generator to favor when
   starved — and the one to skip when Fury is already high. *Facts (A):* generators have no Fury
   cost, so `insufficientPower` is never true — they **stay lit** while starved spenders dim; the
@@ -335,7 +337,7 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   Chaos Strike; the walk only reaches it when Chaos Strike is unaffordable, i.e. below ~40 Fury —
   far under either break. So neither generator's `overcap` badge has ever changed which button
   elimination reaches, and the old ≈91 % number never did either. Fixing it makes the readout
-  *true*, not louder. *Treatment:* ROTATION + cue A + cue B. Felblade additionally rises on a
+  *true*, not louder. *Treatment:* scan + cue A + cue B. Felblade additionally rises on a
   **readable Inertia proc** *if* that proves readable (open, below).
   ⚠ **Demon's Bite is absent from the 12.1 APL, and that is not evidence against it.** The
   sim's build takes **Demon Blades**, which replaces the button with a passive — there is no
@@ -349,7 +351,7 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   (`currentCharges` plain iff at max, secret below) and therefore left "below max" as an unknown.
   It is not an unknown: it is the second state. *Identity (R7):* Immolation Aura is *the* transform
   that corrupts charge math (→ Consuming Fire, different id/charges) — R7's job here is reading the
-  **right spell's** charges across the flip, not a priority override. *Treatment:* ROTATION plus
+  **right spell's** charges across the flip, not a priority override. *Treatment:* scan plus
   **one** badge, and only in the capped direction:
 
   | Charge state | `isActive` | Badge | Says |
@@ -416,10 +418,11 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
   and the skip would never draw at all. The talent halves are what answer in that state, and that
   is the genuine defect the union patches.
 
-### FALLBACK lane
+### Reached by subtraction
 
 - **Throw Glaive** (`185123`) / **Fel Rush** (`344865`). *Problem:* filler when nothing better is
-  up. *Fact:* `ready` (R2). *Treatment:* FALLBACK. (Throw Glaive climbs into ROTATION only with
+  up. *Fact:* `ready` (R2). *Treatment:* scan — filler, reached by subtraction. (Throw Glaive
+  climbs the order only with
   Soulscar / Furious Throws / Screaming Brutality — a build variant to author if it proves worth
   a hint.)
   ⚠ **12.1 deleted all eight Fel Rush lines and all four Throw Glaive lines from the damage
@@ -439,13 +442,13 @@ exactly as the APL's rung-12 windowed spender outranks the rung-18 baseline one)
 
 ## The seven cues, collected
 
-| Cue | What the player sees | Fact | Tool / lane | Recipe | Sink |
+| Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
-| **A** affordability | starved spenders dim; generators hold | `insufficientPower` | emphasis (readable) | R1 | ROTATION emphasis |
+| **A** affordability | starved spenders dim; generators hold | `insufficientPower` | emphasis (readable) | R1 | scan emphasis |
 | **B** Fury threshold | the generator wears the red `overcap` badge at/above an authored break — Felblade at `100/maxFury`, Demon's Bite at `(maxFury−25)/maxFury`. **One polarity only:** the parked positive "banked" half is deleted, since the APL puts no Fury term on Essence Break | secret Fury-% vs authored break | cue (sealed) | S1 (graded) + R4 static table | color curve → texture alpha |
-| **C1** readable hold | the red `blocked` badge on Metamorphosis while Death Sweep or Eye Beam is *ready* — the reset would be wasted. A satisfied dependency draws **nothing**. | related-ability readiness | emphasis-adjacent marker (readable) | R2 + R7 | corner badge (readable lane) |
+| **C1** readable hold | the red `blocked` badge on Metamorphosis while Death Sweep or Eye Beam is *ready* — the reset would be wasted. A satisfied dependency draws **nothing**. | related-ability readiness | emphasis-adjacent marker (readable) | R2 + R7 | corner badge (readable route) |
 | **C2** sealed hold | the same red `blocked` badge, driven by a *remaining time* instead, in **two senses**. `within` = *"it is nearly here, wait for it"*: Essence Break while Eye Beam ends within 4s · Metamorphosis while Eye Beam ends within 8s · The Hunt while Meta ends within 15s · Vengeful Retreat while Eye Beam ends within 8s or Meta within 4s. `beyond` = *"it is nowhere near, this is not its moment"*: The Hunt while Eye Beam has **at least 10s** left. **Both clear at zero remaining** — a band means *imminent* or *far*, never *ready* | a related ability's cooldown remaining | cue (sealed) | S4 step-curve on a duration object, `ignoreGCD` | curve → badge alpha |
-| **D** demon-form promotion | Annihilation / Death Sweep brighten in demon form | `identity(transformed)` | emphasis (readable) | R7 | ROTATION emphasis (promotion) |
+| **D** demon-form promotion | Annihilation / Death Sweep brighten in demon form | `identity(transformed)` | emphasis (readable) | R7 | scan emphasis (promotion) |
 | **E** charges capped | Immolation Aura wears the **gold `capped` badge** in slot 3 at max charges *and* with A Fire Inside taken — rung 10, the vocabulary's one positive cue | `GetSpellCharges().isActive`, `NeverSecret` and readable in **both** directions — but only one direction is *drawn* | cue (readable) | R6 + R7 | corner badge, own hue + glow |
 | **F** the gate fence | nothing of its own — it **withholds** another cue where its rung does not apply: cue E on a build lacking either of rung 10's talents, or while a higher rung (Metamorphosis, The Hunt) is ready; the C2 Hunt bands where Eternal Hunt is untalented | the trait config's node/entry selection + related-ability readiness | gate on a cue (readable) | new `talent` predicate + R2 | (no sink — it gates) |
 | **G** single-target skip | Immolation Aura wears the red `blocked` badge while AoE mode is **off**, the button is ready, Chaos Strike is affordable, and rung 10 is not in play — rung 25 sitting below Chaos Strike, said in the polarity the vocabulary has | cap's own `/cap aoe` toggle + `ready` + `affordable` + the charge read + both talents | cue (readable) | new `aoe` predicate + R1 + R2 + R6 | corner badge (slot 1) |
@@ -586,14 +589,14 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, not guesses.
    Gates the Felblade Inertia-rise cue. (Load-bearing only on the Inertia build.) @verify-ingame
 4. **Immolation Aura charge row readable-at-full.** Does Havoc's Immolation Aura charge row behave
    like the R6 Conflagrate measurement (readable at full, secret below) in instanced combat?
-   Candidate-settled by mechanism; confirm before shipping the "don't cap" tier. @verify-ingame
+   Candidate-settled by mechanism; confirm before shipping the "don't cap" cue. @verify-ingame
 5. **Buff-maintenance marker readability (Exergy / Serrated Glaive).** Named by the
    `scenarios.md` walk (the Vengeful Retreat weave; Throw Glaive in the tail). Does a self-buff expose a *readable* "present" boolean
    (via `C_UnitAuras`) while its **remaining duration stays sealed**? If so, a maintain-on-cooldown
    press (Vengeful Retreat holding Exergy; Throw Glaive granting Serrated Glaive) could carry an
    optional readable "buff present / missing" marker, with any countdown drawn as a sealed
    duration. Until measured it is **open** — no marker; the press is directed by readiness (a lit
-   COOLDOWN) alone, and the VR→Eye Beam weave stays player-trained (never a cap sequence).
+   row) alone, and the VR→Eye Beam weave stays player-trained (never a cap sequence).
    @verify-ingame / @pending-test
 6. **An owed empowered cast** (`action.death_sweep.demonsurge_available` /
    `action.annihilation.demonsurge_available`). Rung 3's third hold — don't recast Metamorphosis
@@ -630,6 +633,12 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, not guesses.
   list, no cast sequence, no coverage rule, and no vocabulary a cue does not use.
 
 ## Changelog
+
+**2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
+(`../spec.md` §3.1): the Lane column became Scan, every row is a default ready-self scan member
+(no Havoc row ever conditioned its lane, so no `scan_when` appears here), the lane names survive
+above only as prose grouping, and the retired-V2 charges finding now reads as two generations of
+history — the CHARGES hue died with V2, the tiers themselves on 2026-08-25.
 
 **2026-08-17 — re-sourced from the Tier-1 simc APL.** The catalog was authored from the Icy Veins
 12.1 priority tool; it is now authored from

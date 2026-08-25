@@ -14,46 +14,46 @@
         },
         {
           "name": "Conflagrate",
-          "verdict": "press-promoted",
+          "verdict": "press",
           "cues": [
             "capped"
           ]
         },
         {
           "name": "Summon Infernal",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Immolate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Cataclysm",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shadowburn",
-          "verdict": "below",
+          "verdict": "open",
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -108,7 +108,10 @@
         },
         {
           "name": "Conflagrate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Infernal",
@@ -116,35 +119,35 @@
         },
         {
           "name": "Immolate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Cataclysm",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shadowburn",
-          "verdict": "below",
+          "verdict": "open",
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -204,31 +207,31 @@
         },
         {
           "name": "Cataclysm",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shadowburn",
-          "verdict": "below",
+          "verdict": "open",
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -280,7 +283,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -288,27 +294,27 @@
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shadowburn",
-          "verdict": "below",
+          "verdict": "open",
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -362,7 +368,10 @@
         },
         {
           "name": "Conflagrate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Infernal",
@@ -370,7 +379,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -382,23 +394,26 @@
         },
         {
           "name": "Shadowburn",
-          "verdict": "hold-readable",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -464,11 +479,17 @@
       "row": [
         {
           "name": "Soul Fire",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Conflagrate",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Summon Infernal",
@@ -476,7 +497,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -488,23 +512,26 @@
         },
         {
           "name": "Shadowburn",
-          "verdict": "hold-readable",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -582,7 +609,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -594,23 +624,26 @@
         },
         {
           "name": "Shadowburn",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -674,7 +707,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -682,29 +718,29 @@
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shadowburn",
-          "verdict": "press-promoted",
+          "verdict": "press",
           "cues": [
             "priority"
           ]
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -767,7 +803,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -775,12 +814,18 @@
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Shadowburn",
-          "verdict": "hold-readable",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
           "client": "unusable"
         },
         {
@@ -789,14 +834,14 @@
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -876,7 +921,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -884,12 +932,18 @@
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Shadowburn",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -898,14 +952,14 @@
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -980,35 +1034,35 @@
         },
         {
           "name": "Immolate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Cataclysm",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Bolt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shadowburn",
-          "verdict": "below",
+          "verdict": "open",
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Havoc",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
@@ -1058,7 +1112,10 @@
         },
         {
           "name": "Immolate",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Cataclysm",
@@ -1070,20 +1127,20 @@
         },
         {
           "name": "Shadowburn",
-          "verdict": "below",
+          "verdict": "open",
           "client": "unusable"
         },
         {
           "name": "Incinerate",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Rain of Fire",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Havoc",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [

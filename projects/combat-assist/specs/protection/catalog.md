@@ -3,7 +3,7 @@
 **Applies to:** Protection (specID **66**), hero tree **Lightsmith**, Midnight 12.1. This is the
 normative catalog document: the thing a future `Catalogs/Protection.lua` transcribes. It is a
 provisional product characterization for play, not a claim the rules are universally correct.
-`../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
+`../spec.md` §3.1 owns the membership model and §3.6 the readable/sealed boundary;
 `../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S11`) and maps
 each to its `knowledge/addon-dev/` evidence; `../render-shelf.md` owns what a cue looks like and
 this file never describes a pixel; `../authoring.md` owns the process. **Three files, per
@@ -82,19 +82,19 @@ Base spell IDs from `knowledge/classes/paladin/protection/ability-inventory.tsv`
 binds nothing (*The row set is measured*). Override IDs are resolved live via R7; the numbers are
 reference.
 
-| Key | Ability | Base spell ID | Live override | Lane | Charges | Cues |
+| Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `avenging_wrath` | Avenging Wrath | `31884` | — | COOLDOWN | — | Divine Toll hold (A) |
-| `divine_toll` | Divine Toll | `375576` | — | COOLDOWN | — | Avenging Wrath hold (B), withheld by the talent gate (H) |
-| `shield_of_the_righteous` | Shield of the Righteous | `53600` | — | ROTATION | ⚠ open | starved (C) |
-| `holy_armaments` | Holy Bulwark | `432459` | **Sacred Weapon `432472`** ⚠ | COOLDOWN | ⚠ open | bank-for-the-window (D) |
-| `avengers_shield` | Avenger's Shield | `31935` | — | ROTATION | — | Hammer of Wrath yield (E) + a sealed Divine-Guidance hatch |
-| `consecration` | Consecration | `26573` | — | ROTATION | — | a sealed Divine-Guidance complement |
-| `judgment` | Judgment | `275779` | **Hammer of Wrath `24275`** ⚠ | ROTATION | ⚠ open | empowered-hammer yield (F) |
-| `crusader_strike` | Crusader Strike | `35395` | **Hammer of the Righteous `53595`** / **Blessed Hammer `204019`** (choice node, permanent) | FALLBACK | ⚠ open | — |
-| `word_of_glory` | Word of Glory | `85673` | — | FALLBACK | — | Shining Light hold (G) |
+| `avenging_wrath` | Avenging Wrath | `31884` | — | scan | — | Divine Toll hold (A) |
+| `divine_toll` | Divine Toll | `375576` | — | scan | — | Avenging Wrath hold (B), withheld by the talent gate (H) |
+| `shield_of_the_righteous` | Shield of the Righteous | `53600` | — | scan | ⚠ open | starved (C) |
+| `holy_armaments` | Holy Bulwark | `432459` | **Sacred Weapon `432472`** ⚠ | scan | ⚠ open | bank-for-the-window (D) |
+| `avengers_shield` | Avenger's Shield | `31935` | — | scan | — | Hammer of Wrath yield (E) + a sealed Divine-Guidance hatch |
+| `consecration` | Consecration | `26573` | — | scan | — | a sealed Divine-Guidance complement |
+| `judgment` | Judgment | `275779` | **Hammer of Wrath `24275`** ⚠ | scan | ⚠ open | empowered-hammer yield (F) |
+| `crusader_strike` | Crusader Strike | `35395` | **Hammer of the Righteous `53595`** / **Blessed Hammer `204019`** (choice node, permanent) | scan | ⚠ open | — |
+| `word_of_glory` | Word of Glory | `85673` | — | scan | — | Shining Light hold (G) |
 
-**Four aura subjects, declared in the `auras` family.** They carry no lane and no press; they
+**Four aura subjects, declared in the `auras` family.** They carry no scan membership and no press; they
 exist so a marker can name a boolean. Each is a **Category-2 (TrackedBuff)** row in set 637, which
 is the `aura` latch's home ground *[T1 DB2: `CooldownSet` / `CooldownSetSpell` @ 12.1.0.69214]*:
 
@@ -304,41 +304,48 @@ to move. Badging the *press* would be a promotion and this catalog does not spen
 
 ---
 
-## The lanes, and why the priority falls out of them
+## The groups, and why the priority falls out of them
 
-- **COOLDOWN** = Avenging Wrath, Divine Toll, Holy Armaments — rungs 5, 7, 10/14/23, the top of
-  the list. Two of the three carry a `sealed-cooldown-range` hold and the third is withheld by a
-  talent gate, which makes this the **most sealed COOLDOWN lane in any catalog**: not one of these
-  three rows carries a readable reason to wait. That is the reverse of Demonology, whose only
-  COOLDOWN hold was a readable resource comparison.
-- **ROTATION** = Shield of the Righteous, Avenger's Shield, Consecration, Judgment / Hammer of
-  Wrath. The spender leads the lane by *position alone* — there is no `resource` term to place it
-  with — and the three builders behind it are ordered by two readable holds and two sealed count
-  tables.
-- **FALLBACK** = Crusader Strike (as Hammer of the Righteous or Blessed Hammer) and Word of Glory.
-  The tier has a drawn subject on every build: the spec choice node at 3,19 guarantees one of the
-  two hammers exists, so unlike Retribution's Crusading Strikes case the row is never absent.
+One row conditions its membership — Shield of the Righteous declares
+`scan_when = { { affordable(self) } }`, because a spender whose cost is the only thing between
+it and a press raises no readiness edge for that cost. Every other row is a default ready-self
+scan member, and the groups below are prose — how the roster reads, not anything the engine
+holds.
 
-Tier + cues, read together, reproduce the priority; that is the §3.1 point. **This catalog has no
-cross-tier promotion** — no row changes lane, and no two-band entry exists. Retribution's row 3 and
-Demonology's row 9 both needed one because a transform changed what *kind* of button the row was;
+- **Pressed on sight** — Avenging Wrath, Divine Toll, Holy Armaments: rungs 5, 7, 10/14/23, the
+  top of the list. Two of the three carry a `sealed-cooldown-range` hold and the third is
+  withheld by a talent gate, which makes this the **most sealed pressed-on-sight group in any
+  catalog**: not one of these three rows carries a readable reason to wait. That is the reverse
+  of Demonology, whose only hold on a placed cooldown is a readable resource comparison.
+- **The decision surface** — Shield of the Righteous, Avenger's Shield, Consecration, Judgment /
+  Hammer of Wrath. The spender leads the group by *position alone* — there is no `resource` term
+  to place it with — and the three builders behind it are ordered by two readable holds and two
+  sealed count tables.
+- **Reached by subtraction** — Crusader Strike (as Hammer of the Righteous or Blessed Hammer)
+  and Word of Glory. Both rows have a drawn subject on every build: the spec choice node at 3,19
+  guarantees one of the two hammers exists, so unlike Retribution's Crusading Strikes case the
+  row is never absent.
+
+Membership + cues, read together, reproduce the priority; that is the §3.1 point. **This catalog
+has no conditional-membership transform** — no row's membership moves with its identity.
+Retribution's row 3 needed one because a transform changed what *kind* of button the row was;
 neither transform here does. Sacred Weapon and Holy Bulwark are both armament grants, Hammer of
-Wrath and Judgment are both builders, and Blessed Assurance makes the hammer *better* rather than
-different. **A rank change within one kind is what the scan already carries**, so a second band
-would be a claim with no consumer.
+Wrath and Judgment are both builders, and Blessed Assurance makes the hammer *better* rather
+than different. **A rank change within one kind is what the scan already carries**, so a
+membership condition would be a claim with no consumer.
 
 ---
 
 ## Roster — player problem → fact → recipe → treatment
 
-### COOLDOWN lane
+### Pressed on sight
 
 - **Avenging Wrath** (`31884`, rung 5). *Problem:* Wings is not a press-on-cooldown button on this
   build. Its value is set by what lands inside it — Divine Toll's five-target Holy Power dump,
   and on Lightsmith the extra Sacred Weapon that Blessing of the Forge summons — so pressing it
   while Divine Toll is most of a minute away spends the window on nothing. The icon says nothing
-  about Divine Toll's clock. *Facts:* `ready` (R2) for the lane; **Divine Toll's cooldown
-  remaining**, which is sealed. *Treatment:* COOLDOWN +
+  about Divine Toll's clock. *Facts:* `ready` (R2) for membership; **Divine Toll's cooldown
+  remaining**, which is sealed. *Treatment:* scan +
   - `aw_awaits_toll` — **sealed** `blocked`, cue **A**: S4 `sealed-cooldown-range`,
     **`beyond = 10`** on Divine Toll, gated on the readable `ready(avenging_wrath)`.
   ⚠ **The sense is `beyond`, and getting it backwards would invert the button.** Rung 5 *fires* at
@@ -353,7 +360,7 @@ would be a claim with no consumer.
   injection and the seed of its area damage, so it belongs *inside* Wings; pressed outside, the
   window it was saved for arrives without it. *Facts:* `ready` (R2); `buff.avenging_wrath.up`;
   Avenging Wrath's own cooldown remaining (sealed); `talent(righteous_protector)`. *Treatment:*
-  COOLDOWN +
+  scan +
   - `dt_awaits_wrath` — **sealed** `blocked`, cue **B**: S4 `sealed-cooldown-range`,
     **`within = 30`** on Avenging Wrath, gated on `ready(divine_toll)` **and** the readable
     `!talent(righteous_protector)` (cue **H**).
@@ -381,7 +388,7 @@ would be a claim with no consumer.
   is the only rung that puts it above the builders. Pressed in the wrong life it is either a
   wasted charge or a missed window, and nothing on the row says which. *Facts:* `identity` (R7) —
   the whole of `next_armament`; `ready` (R2); Avenging Wrath's cooldown remaining (sealed).
-  *Treatment:* COOLDOWN +
+  *Treatment:* scan +
   - `ha_banks_bulwark` — **sealed** `blocked`, cue **D**: S4 `sealed-cooldown-range`,
     **`beyond = 5`** on Avenging Wrath, gated on the readable `identity(holy_armaments) == base`
     **and** `ready(holy_armaments)`. That is rung 14's `cooldown.avenging_wrath.remains<5` read as
@@ -402,12 +409,13 @@ would be a claim with no consumer.
   Sacred Weapon with a healthy buff is lit at position 4 and stops the walk in a state where the
   APL skips it. *Defeats*, item 3.
 
-### ROTATION lane
+### The decision surface
 
 - **Shield of the Righteous** (`53600`, rung 9). *Problem:* it is the spender and the active
   mitigation, it is shown castable when you cannot pay for it, and — being off the global — it is
   the button players press out of habit at the wrong Holy Power. *Facts:* `affordable` (R1).
-  *Treatment:* ROTATION +
+  *Treatment:* **conditional membership** — `scan_when = { { affordable(self) } }`, the R1 read
+  the client's own border cannot make — plus
   - `sotr_starved` — **readable** `starved`, cue **C**: `!affordable(shield_of_the_righteous)`.
   ⚠ **Rung 9 is unconditional on Lightsmith, and that is a derivation rather than a reading.** The
   APL line is
@@ -450,7 +458,7 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   and the Judgment charge dump (17). Only when Glory of the Vanguard is up does it genuinely lead.
   *Facts:* `ready` (R2); `identity` (R7) on the Judgment row; the `aura` latch on Glory of the
   Vanguard `1267203` (a Category-2 row — readable, and this is the safe ground the Avenging Wrath
-  case is not); **Divine Guidance's stack count**, which is sealed. *Treatment:* ROTATION +
+  case is not); **Divine Guidance's stack count**, which is sealed. *Treatment:* scan +
   - `as_awaits_hammer` — **readable** `blocked`, cue **E**: `identity(judgment) == transformed`
     **and** `ready(judgment)` **and** `!aura(vanguard)` **and** `ready(avengers_shield)`. That is
     rung 16 outranking rung 18, with rung 13's exception carved out by the Vanguard term. Every
@@ -484,7 +492,7 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   capped, and it is the bottom of the list at rung 29 when neither is true — three different ranks
   behind one identical icon. *Facts:* `ready` (R2); `identity` (R7) on the Judgment row;
   `talent` (the hero choice node); **Divine Guidance's stack count**, sealed; `consecration.up`,
-  which is Consecration's ground-effect duration. *Treatment:* ROTATION +
+  which is Consecration's ground-effect duration. *Treatment:* scan +
   - `cons_awaits_hammer` — **sealed** `sealed-count-bands` (S7 + S11, `../render-shelf.md`
     **V17**) on Divine Guidance `433106`, the **complement**: **below five a hatch plus a negative
     mark**, and **at five it emits nothing and both clear**. Gated on the readable
@@ -533,7 +541,7 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   Judgment for exactly one cast, and nothing on either icon says so. In its **Hammer of Wrath**
   life it needs nothing at all: it outranks the two rows to its left, and both of those wear cue
   **E** to say so. *Facts:* `ready` (R2); `identity` (R7); the `aura` latch on Blessed Assurance
-  `433015` (Category-2, safe); `talent` (the choice node). *Treatment:* ROTATION +
+  `433015` (Category-2, safe); `talent` (the choice node). *Treatment:* scan +
   - `judgment_awaits_assurance` — **readable** `blocked`, cue **F**: `aura(blessed_assurance)`
     **and** `talent(blessed_assurance)` **and** `identity(judgment) == base` **and**
     `ready(judgment)`. That is rungs 20 and 21 outranking rung 22.
@@ -547,17 +555,17 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   ⚠ **Rung 17 is not authored** — it is the second-charge dump and `charged` is undeclarable
   (*The Charges column*). *Defeats*, item 5.
 
-### FALLBACK lane
+### Reached by subtraction
 
 - **Crusader Strike / Hammer of the Righteous / Blessed Hammer** (`35395` → `53595` / `204019`,
   rungs 20, 21 / 25, 26). *Problem:* none a cue solves. It is the filler and it is reached by
-  subtraction. *Facts:* `ready` (R2); `identity` (R7). *Treatment:* FALLBACK, **no cues, one
-  band**.
+  subtraction. *Facts:* `ready` (R2); `identity` (R7). *Treatment:* scan — **default
+  membership**, no cues.
   ⚠ **The APL never names Crusader Strike, and the row is Crusader Strike's.** Hammer of the
   Righteous and Blessed Hammer are a spec **choice node** (3,19) and *both* have zero
   `CooldownSetSpell` rows, so exactly one of them exists on any build and it reaches the Cooldown
   Manager as a permanent override on `35395`. The transform is therefore always on — the identity
-  reads `transformed` on every build — which is why the row declares **no band on `identity`**
+  reads `transformed` on every build — which is why the row declares **no membership condition on `identity`**
   even though it is a transform. Retribution's Final Verdict is the same shape and is handled the
   same way.
   ⚠ **Its Blessed Assurance promotion is expressed on Judgment, not here.** Cue F is the whole of
@@ -567,7 +575,7 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
 - **Word of Glory** (`85673`, rung 28). *Problem:* it is a Holy Power heal competing with the
   spec's active mitigation for the same three Holy Power, and the APL presses it in exactly one
   state: free. *Facts:* the `aura` latch on Shining Light `321136` (Category-2, safe).
-  *Treatment:* FALLBACK +
+  *Treatment:* scan +
   - `wog_awaits_shining_light` — **readable** `blocked`, cue **G**: `!aura(shining_light)`. Rung
     28 is `word_of_glory,if=buff.shining_light_free.up` and there is no other Word of Glory rung,
     so without the proc the button has no place in the damage priority at all. Load-bearing in the
@@ -583,7 +591,7 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
 
 ## The cues, collected
 
-| Cue | What the player sees | Fact | Tool / lane | Recipe | Sink |
+| Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
 | **A** Divine Toll hold | **Avenging Wrath only** wears `blocked` while Divine Toll has at least 10 s left | Divine Toll's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`beyond = 10`) + R2 | curve → badge, rank 3 |
 | **B** Avenging Wrath hold | **Divine Toll only** wears `blocked` while Avenging Wrath's cooldown ends within 30 s — **and only without Righteous Protector** | Avenging Wrath's cooldown remaining | cue (sealed) + two readable gates | S4 (`within = 30`) + R2 + the `talent` predicate | curve → badge, rank 3 |
@@ -648,8 +656,8 @@ was deferred to `scenarios.md`, which found **two** overflowing trios rather tha
 their common term — Consecration's readable half of cue E. *Defeats*, item 7 carries the whole
 argument; the catalog still spends no positive cue.
 
-⚠ **Two mutual exclusions bound the COOLDOWN lane at two budgeted holds**, and they are the reason
-no third trio can be built out of that lane. **Cues A and B can never both draw**: A needs Divine
+⚠ **Two mutual exclusions bound the pressed-on-sight group at two budgeted holds**, and they are
+the reason no third trio can be built out of that group. **Cues A and B can never both draw**: A needs Divine
 Toll on cooldown, B needs it ready. **Cues A and D can never both draw**: A needs Avenging Wrath
 ready, D needs it beyond five seconds. Both fell out of the walk and neither was stated when the
 cues were authored.
@@ -817,7 +825,7 @@ would reopen it**. None of these is a bare "cannot".
    *Rung it died on:* **rung 25** — the filler — with `../render-shelf.md` Part 0.5's budget of two
    already spent. `scenarios.md` leaves it in place deliberately: every term of it is a conjunction
    of rarities (the build gate H exists to withhold from, the half of the hero choice node the
-   sealed tables cannot serve, and two swiped ROTATION rows at once), and deleting a second marker
+   sealed tables cannot serve, and two swiped decision-surface rows at once), and deleting a second marker
    to cover it would cost more than the state is worth.
    *What would reopen it:* a flight that finds the state at all. ⚠ **If one does, cue B is the
    candidate to delete, not cue D** — B exists only on that build, and *Defeats*, item 1's single
@@ -897,6 +905,14 @@ An ability with no named player problem gets no row; so does one with no Cooldow
 ---
 
 ## Changelog
+
+**2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
+(`../spec.md` §3.1): the Lane column became Scan, and membership is now the row's one declared
+fact. Shield of the Righteous is this catalog's only conditional member
+(`scan_when = { { affordable(self) } }` — the old ROTATION band's affordability term, kept
+because it genuinely moves membership); every other row is a default ready-self member,
+Crusader Strike's single ready-self band was deleted as saying nothing, and the lane names
+survive above only as prose grouping.
 
 **2026-08-23 — reconciled with `scenarios.md`**, the walk that proves this file. The walk
 falsified three claims and resolved the one thing this document deferred to it; the definition now

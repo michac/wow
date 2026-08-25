@@ -1003,6 +1003,10 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   pointer-events: none;
   isolation: isolate;
 }
+/* Part 2.5's cession rule: corner sealed displays stack down the same right edge the cue
+   badges use, in declared order; the cue badges start below them. */
+.item .sealed[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
+.item .sealed[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
 /* The plate is named BY THE BAND (V16), which is the whole finding: a plate cap drew as an
    ordinary texture has no sink on it and would stay on the row at every value the band blanks. */
 .item .sealed-plate {
@@ -1047,6 +1051,28 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
    its only motion, which is precisely `capped`'s look wearing the window's glyph. The isolation
    is what lets the halo's z-index:-1 sit behind the plate WITHIN the badge, as a cue's does. */
 .item .sealed-pandemic { isolation: isolate; }
+/* V20 · the proc bar — the proc's remaining lifetime above the charge bar (JS lifts it by
+   --bar-h + --procbar-gap when the row declares one). Edge grammar, not badge grammar: gold
+   here is quantity (time), never polarity. */
+.item .sealed-procbar {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--procbar-h);
+  background: var(--procbar-track);
+  pointer-events: none;
+}
+.item .sealed-procbar .sealed-procbar-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--procbar-rgb);
+}
+/* V19 · the dial — the arc IS the DoT draining; sized like the glyph it replaced, over the
+   plate. The JS sets the conic-gradient; this only shapes and places it. */
+.item .sealed-pd-dial {
+  position: absolute; inset: 0;
+  width: var(--pd-dial-size); height: var(--pd-dial-size);
+  margin: auto; border-radius: 50%;
+  background: var(--pd-dial-track);
+}
 /* V19 · the halo under the badge — the positive cues' own glow, borrowed with its grammar:
    light escaping from behind a badge means "act now". Same gradient and falloff as `.slot .glow`;
    in the client it is an Alpha AnimationGroup armed BEFORE the handover (§3.5.3). */

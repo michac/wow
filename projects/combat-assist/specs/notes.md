@@ -214,7 +214,8 @@ as a live radial attached to nothing, retired for lying) with the FULL positive-
 promotion, which a frozen-phase A/B in the preview made undeniable. Two things were drawn on it and removed the same
 day: a flame flipbook (replaced by the halo, which carries the established light-behind-a-badge
 grammar) and a client-seconds countdown (the window's presence IS the statement; removing it
-also removed the unflown one-button sink-pair question). V16's positive direction lost its gold
+also removed the unflown one-button sink-pair question — which the dial, below, brought back
+in bar form). V16's positive direction lost its gold
 hatch (a hatch means *ruled out*, and `Channel.CountRules` now refuses `hatch` on a
 non-negative band); the numeral in both band directions sits on the badge plate, its own
 `plate` element/slot, because a plate escape cannot sit under text within one string; V17's
@@ -226,3 +227,96 @@ rejected — a capped-stacks warning wants the whole bar), which also ended DEM-
 collision. The gallery block moved out of the shared stepper.js into `template/gallery.js`,
 embedded on primitives.html alone — its ~10 KB rode every spec page and havoc was over budget
 (`bareItem` stayed shared: the lab's cell builders read it too, which the split briefly broke).
+
+**2026-08-24, later: V19's badge glyph became the dial.** The static `fire` glyph said nothing
+the ring and halo were not already saying; it is replaced by a **real radial countdown of the
+DoT's remaining lifetime** — a `StatusBar` child of the pandemic wrapper handed to
+`SetDurationBar`, whose whole apply path is `SetTimerDuration(auraDuration, interpolation,
+options.direction)` with `direction = RemainingTime` (KB §3.5.2, written back first,
+symbol-anchored). Cap reads nothing: the bar's value is sealed and the client drains it.
+`SetMinMaxValues(0, 1)` is called FIRST (`ApplyDurationBar` never does — §4.8.1 finding 3),
+the fill's `SetStatusBarTexture` success bool is checked (house rule 8), and Radial render
+mode is pcall'd with linear fallback. This is the retired `timer_CW_75` wedge's claim made
+TRUE — the wedge was static art pretending to be a timer; the dial is a value the client
+drains — and it deliberately re-opens the one-button sink-pair question the countdown's
+removal had closed: `AddPandemicRegion` + `SetDurationBar` on ONE button is unflown, each half
+measured alone (Part 5 #11, `--@unverified` in `windowSink`). The widget lives INSIDE the
+handed-over wrapper, which is what scopes it to the refresh window. `tokens.pandemic` lost
+`frame`/`size_px` and gained `dial` (gold arc, dark track); the pandemic entry left
+`BORROWED_FRAMES` (`fire` stays on the sheet as `priority`'s own frame); the preview draws the
+dial as a JS-driven conic-gradient that counts down live over a nominal looping window,
+because a static wedge in the swatch would be exactly the lie the wedge was retired for.
+
+**2026-08-24, the stepper-feedback round.** The pilot played the demonology steppers and the
+findings became vocabulary. (1) **The ramp reads as a hold now**: Grimoire, Doomguard,
+Dreadstalkers, Tyrant and Hand of Gul'dan wear a new `building` card (Kenney
+`card_outline_lift`) over the red hatch while Tyrant is ready below five shards — authored
+PAST the unconditional APL rungs, the pilot's explicit relaxation of the earlier
+"don't negative-cue half the row" stance, unbudgeted on the density rule's own
+starved/overcap grounds, playtest-gated. (2) **`noproc`** (Kenney `card_outline`, the empty
+card slot) replaces `blocked` on Demonbolt's core hold — "nothing to wait on" is not "wait".
+(3) **The dogs' two-sided band** — `Channel.BandPoints`, `Catalog.Check` relaxed to accept
+`beyond < within` — closes the catalog's Defeats item 1 by its own named recipe; DEM-15 is the
+dead-zone scenario. (4) **V20, the proc dial**: V19's dial standing alone (plate + arc, no
+promotion treatment) on a `sealed-proc-dial` slot; Demonic Core on Demonbolt is the consumer,
+and the pilot's question "is DEM-8's dial the Core's duration?" had the answer NO — that one
+is Doom's — which is exactly why the Core got a dial of its own. (5) **Part 2.5's cession
+rule**: corner sealed displays claim stack slots 0..n−1 by declaration (static, because shown
+is sealed) and cue badges start below; wired through Overlay/Channel (`cornerSlot`) and the
+preview. (6) The scenarios now wear the **Implosion imp band** wherever imps are out — the
+"no markup on Implosion like I'd expect" gap: every off-mode-only Implosion row had been
+implicitly claiming six-plus imps — via a new `{count: N}` scenario-grammar group, and fixing
+DEM-13's latent Tyrant-ready/Tyrant-far contradiction, which the new ramp cues made visible.
+Nothing flown; the acceptance set grows by the dial pair, the three-point band, and the
+cession geometry.
+
+**2026-08-25, the second stepper round — the dial becomes a bar, and the counts get their
+colors.** Four findings from playing the previous night's build. (1) The imp count drew GOLD
+in the preview on held rows while the addon drew RED — the preview's hue rule keyed on the
+verdict where the client keys on the BAND's polarity; the scenario grammar now states which
+band fired (`{count: 3-}` / `{count: 6+}`) and the preview follows it. (2) The imp band
+**recolors instead of clearing** at six: the empty upper band made a loaded Implosion
+identical to an unremarkable one (DEM-12's report, "missing all the golden imp count"), so
+the numeral now turns gold at the threshold — hue alone carries the verdict, and a positive
+band still may not hatch. (3) **V20 re-formed from corner dial to proc bar after one day**:
+gold in the badge column, where hue is polarity (V5.1), read as a verdict arguing with the
+red hold on exactly the rows the countdown matters (DEM-10's "really muddy") — the pilot
+picked the duration-bar option, so the proc's clock is now a thin client-drained bar directly
+above V18's charge bar (static lift from declarations; the corner claim released, Demonbolt's
+corner back to the window badge alone). `tokens.pandemic.dial` stays — V19's badge dial was
+never the problem. (4) The same kind rides the Shadow Bolt row as `ib_art_clock`: the armed
+Art's remaining lifetime under Infernal Bolt — the aura id (432794, Mother of Chaos) is
+**Tier-3-sourced** and a wrong id dies silent, which makes it the flight's cheapest
+falsification. Two stacked client-drained bars on one bottom edge are unflown, as is the 3 px
+bar itself.
+
+## 2026-08-25 — the lanes leave the model
+
+**What changed.** The 2026-08-25 simplification review's verdicts, applied end to end. The
+three role tiers (COOLDOWN / ROTATION / FALLBACK) left the model: membership is one boolean —
+a row is in the scan when its `scan_when` alternatives (default: ready-self) read ON — and
+`Catalog.TIERS`, `Signal`'s tier selection, `bands` as a required structure and the wire's
+`id:ROTATION` bodies are gone (`id:scan` / `id:off` now; the capture stream keeps the name
+`tier`). The 13-name scenario verdict vocabulary collapsed to five — `press`, `cd`, `weave`,
+`ruled-sealed`, `open` — with every cue-flavored verdict rewritten as an explicit `{cues: …}`
+group. Files: `spec.md` §1/§3.1/§3.7, `render-shelf.md` (Part 6 `tokens.verdicts`),
+`authoring.md`, `flight-reading.md`, all six `<spec>/catalog.md` + `scenarios.md`,
+`wowkb.capart`, the stepper/gallery templates, and in the addon `Catalog.lua`, `Signal.lua`,
+`Treatment.lua`, `Sense.lua`, all five `Catalogs/*.lua` and the test suite.
+**Why it still binds.** The shipped product had already reduced the ladder to one bit
+(2026-08-19: `Treatment.For` read only `tier ~= nil`, and `presentation_spec` asserted the
+tiers drew identically), and the pilot's stated usage model — positive cues first, then a
+left-to-right scan of not-ruled-out rows — has no lane read in it. A structure the paint
+cannot express and the reading model never consults is carried risk, not information: 34 of
+37 authored bands were the single ready-self band, and the three genuine conditions survive
+as `scan_when` (Wake of Ashes's identity pair; affordability on Shield of the Righteous,
+Templar's Verdict, Divine Storm). Likewise the dead verdicts were cue names wearing a second
+hat — capart already linted against declaring the cue the verdict implied. The audit
+deliberately kept: the density rule and budgets, authored row order + the elimination gate,
+Charges, readable/sealed classification, the whole shelf render vocabulary and `Channel`'s
+sealed-display bands ("band" in that sense is a different concept and untouched).
+**Caveat.** Two accepted behavior changes are authored, not flown: Demonology Shadow Bolt and
+Destruction Incinerate/Conflagrate dropped their both-lit two-band flips to default
+membership, so those filler rows now stay lit under an unknown identity/resource where the
+old blind rule darkened them. The uniform blind rule (no ON alternative + any BLIND
+alternative ⇒ withheld, `blind = true`) is likewise unflown.

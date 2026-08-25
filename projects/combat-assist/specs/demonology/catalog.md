@@ -3,7 +3,7 @@
 **Applies to:** Demonology (specID **266**), hero tree **Diabolist** (59), Midnight 12.1. This is
 the normative catalog document: the thing a future `Catalogs/Demonology.lua` transcribes.
 It is a provisional product characterization for play, not a claim the rules are universally
-correct. `../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
+correct. `../spec.md` §3.1 owns the membership model and §3.6 the readable/sealed boundary;
 `../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S11`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
@@ -64,12 +64,18 @@ hat, and the override *is* the availability test. Beyond that the spec is **pet-
 that is where it gets hard: five of its ordering-reasons are **aura stack counts** — Demonic
 Core ≤1, Wild Imps ≥6 — and the shelf's only aura-stack form is a *count display*, not a
 curve→badge. So this catalog has **two rows that elimination cannot rule out**, and it says so
-rather than inventing a mechanism. Seven cues do the work: **A** the readable five-shard Tyrant
-hold, **B** the readable Demonbolt overcap, **C** the readable Demonbolt core hold, **D**
-Demonbolt yielding to an armed Infernal Bolt, **E** Hand of Gul'dan starved, **F** Hand of
-Gul'dan banking for the Tyrant window, and **G** Implosion's single-target skip.
+rather than inventing a mechanism. Ten cues do the work: **A** the readable five-shard Tyrant
+hold, **B** the readable Demonbolt overcap, **C** the readable Demonbolt core hold (the
+`noproc` empty card), **D** Demonbolt yielding to an armed Infernal Bolt, **E** Hand of
+Gul'dan starved, **F** Hand of Gul'dan banking for the Tyrant window, **G** Implosion's
+single-target skip, **H** Implosion with no imps at all, **I** the ramp hold — the whole
+summon block and Hand of Gul'dan wearing the `building` card while Tyrant is ready below five
+shards — and **J** the dogs' two-sided "waiting on Tyrant's cooldown" band.
 
-**No positive cue is spent.** See *Why this catalog does not spend a positive cue*.
+**No positive cue is spent.** See *Why this catalog does not spend a positive cue*. ⚠ Cue I is
+the catalog's one deliberate departure from the APL (rungs 3–6 press the summons
+unconditionally); the pilot chose red-hashing the ramp over promoting the builder, and the
+changelog (2026-08-24) carries the relaxation and its playtest gate.
 
 ---
 
@@ -78,17 +84,17 @@ Gul'dan banking for the Tyrant window, and **G** Implosion's single-target skip.
 Base spell IDs from `knowledge/classes/warlock/demonology/ability-inventory.tsv`
 (DB2 @ 12.1.0.69214). Override IDs are resolved live via R7; the numbers are reference.
 
-| Key | Ability | Base spell ID | Live override | Lane | Charges | Cues |
+| Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `power_siphon` | Power Siphon | `264130` | — | COOLDOWN | — | — (its rung's gate is a sealed **count** — see *Two rows elimination cannot rule out*) |
-| `grimoire` | Grimoire: Imp Lord | `1276452` | Grimoire: Fel Ravager `1276467` (choice node, not a transform) | COOLDOWN | — | — |
-| `summon_doomguard` | Summon Doomguard | `1276672` | — | COOLDOWN | — | — |
-| `call_dreadstalkers` | Call Dreadstalkers | `104316` | — | COOLDOWN | — | — (its Reign-of-Tyranny window is a **two-sided** sealed band, which has no authored form — see *Defeats*) |
-| `summon_demonic_tyrant` | Summon Demonic Tyrant | `265187` | — | COOLDOWN | — | readable five-shard hold (A) |
-| `implosion` | Implosion | `196277` | — | ROTATION | — | single-target skip (G) + a sealed imp-count **context** display |
-| `hand_of_guldan` | Hand of Gul'dan | `105174` | **Ruination `433885`** ⚠ | ROTATION | — | starved (E) + sealed Tyrant-bank hold (F) |
-| `demonbolt` | Demonbolt | `264178` | — | ROTATION | — | core hold (C) + overcap (B) + Infernal-Bolt yield (D) |
-| `shadow_bolt` | Shadow Bolt | `686` | **Infernal Bolt `433891`** | FALLBACK, **ROTATION while transformed** | — | — |
+| `power_siphon` | Power Siphon | `264130` | — | scan | — | — (its rung's gate is a sealed **count** — see *Two rows elimination cannot rule out*) |
+| `grimoire` | Grimoire: Imp Lord | `1276452` | Grimoire: Fel Ravager `1276467` (choice node, not a transform) | scan | — | — |
+| `summon_doomguard` | Summon Doomguard | `1276672` | — | scan | — | — |
+| `call_dreadstalkers` | Call Dreadstalkers | `104316` | — | scan | — | — (its Reign-of-Tyranny window is a **two-sided** sealed band, which has no authored form — see *Defeats*) |
+| `summon_demonic_tyrant` | Summon Demonic Tyrant | `265187` | — | scan | — | readable five-shard hold (A) |
+| `implosion` | Implosion | `196277` | — | scan | — | single-target skip (G) + a sealed imp-count **context** display |
+| `hand_of_guldan` | Hand of Gul'dan | `105174` | **Ruination `433885`** ⚠ | scan | — | starved (E) + sealed Tyrant-bank hold (F) |
+| `demonbolt` | Demonbolt | `264178` | — | scan | — | core hold (C) + overcap (B) + Infernal-Bolt yield (D) |
+| `shadow_bolt` | Shadow Bolt | `686` | **Infernal Bolt `433891`** | scan | — | — |
 
 ### The row set is measured, and the two transforms are why it is this small
 
@@ -225,35 +231,39 @@ single-target case.
 
 ---
 
-## The lanes, and why the priority falls out of them
+## The groups, and why the priority falls out of them
 
-- **COOLDOWN** = Power Siphon, Grimoire, Summon Doomguard, Call Dreadstalkers, Summon Demonic
-  Tyrant — rungs 1 and 3–8, the whole top of the list. They light when ready; cue **A** is the
-  only thing that says wait, and it is a readable resource comparison rather than an alignment
-  band. That is the reverse of Havoc and Retribution, whose COOLDOWN holds are all sealed
-  cooldown ranges — **this catalog authors no `sealed-cooldown-range` on a COOLDOWN row at
-  all**, and the one it does author (cue F) sits on a ROTATION row.
-- **ROTATION** = Implosion, Hand of Gul'dan / Ruination, Demonbolt, plus **Shadow Bolt's second
-  life**: while row 9 is displaying Infernal Bolt it is the spec's best builder, not filler, and
-  it is banded as one.
-- **FALLBACK** = Shadow Bolt in its base life, the filler. The tier has a drawn subject on every
-  build — Shadow Bolt is class-baseline (`SkillLineAbility:849`) and no Demonology talent
-  replaces it permanently.
+Every bound row is a default ready-self scan member (no row here declares a `scan_when`); the
+groups below are prose — how the roster reads, not anything the engine holds.
 
-Tier + cues, read together, reproduce the priority; that is the §3.1 point. The cross-tier case
-is explicit here as it is on Retribution: a transformed row 9 is ROTATION and outranks the lit
-ROTATION row to its left by a cue rather than by position.
+- **Pressed on sight** — Power Siphon, Grimoire, Summon Doomguard, Call Dreadstalkers, Summon
+  Demonic Tyrant: rungs 1 and 3–8, the whole top of the list. They light when ready; cue **A**
+  is the only thing that says wait, and it is a readable resource comparison rather than an
+  alignment band. That is the reverse of Havoc and Retribution, whose top-of-list holds are all
+  sealed cooldown ranges — **this catalog authors no `sealed-cooldown-range` on a
+  pressed-on-sight row at all**, and the one it does author (cue F) sits on a decision-surface
+  row.
+- **The decision surface** — Implosion, Hand of Gul'dan / Ruination, Demonbolt, plus **Shadow
+  Bolt's second life**: while row 9 is displaying Infernal Bolt it is the spec's best builder,
+  not filler, and cue D on Demonbolt is what re-orders the pair.
+- **Reached by subtraction** — Shadow Bolt in its base life, the filler. It has a drawn subject
+  on every build — Shadow Bolt is class-baseline (`SkillLineAbility:849`) and no Demonology
+  talent replaces it permanently.
+
+Membership + cues, read together, reproduce the priority; that is the §3.1 point. The
+re-ordering case is explicit here as it is on Retribution: a transformed row 9 outranks the lit
+row to its left by a cue rather than by position.
 
 ---
 
 ## Roster — player problem → fact → recipe → treatment
 
-### COOLDOWN lane
+### Pressed on sight
 
 - **Power Siphon** (`264130`, rung 1). *Problem:* it converts two Wild Imps into Demonic Cores,
   so pressing it on top of Cores you already hold throws the conversion away — and the icon
   cannot say how many you hold. *Facts:* `ready` (R2) for the lane; `buff.demonic_core.stack<=1`
-  for the rung, which is a **count**. *Treatment:* COOLDOWN, **no cue**, plus a sealed
+  for the rung, which is a **count**. *Treatment:* scan, **no cue**, plus a sealed
   **eliminating** display —
   - `ps_cores_banked` — **sealed** `sealed-count-bands` (S7 + S11, `../render-shelf.md` V16) on
     Demonic Core `264173`. Two bands: silent below two, and at two a hatch plus a negative mark,
@@ -263,29 +273,59 @@ ROTATION row to its left by a cue rather than by position.
   the first time that is true anywhere in the project. It also closes this catalog's second
   defeat — see *Defeats*, item 2 — and DEM-14 is the scenario it made writable.
 - **Grimoire: Imp Lord / Grimoire: Fel Ravager** (`1276452` / `1276467`, rungs 3 and 4).
-  *Problem:* none a cue solves — press on cooldown. *Fact:* `ready` (R2). *Treatment:* COOLDOWN,
-  no cues. ⚠ **This is a choice node, not a transform**, and the two ids go in the catalog's
+  *Problem:* pressed into a shard-poor Tyrant ramp it burns a two-minute cooldown outside the
+  window it exists to feed. *Facts:* `ready` (R2); `ready(summon_demonic_tyrant)`; **readable
+  Soul Shards** (R3). *Treatment:* scan +
+  - `grimoire_awaits_shards` — **readable** `building`, cue **I**:
+    `ready(summon_demonic_tyrant)` **and** `{ "resource", "<", 5 }`. The whole summon block
+    waits while the board is built to five, and every term is readable.
+  ⚠ **This hold is the PILOT'S ramp reading, not the APL's rung.** Rungs 3/4 are
+  **unconditional** — simc presses Grimoire the moment it is up — and this catalog knowingly
+  authors past that: holding the summons while shards climb to the Tyrant window is how the
+  pilot actually plays the ramp, the whole block hatching red as one statement. Playtest-gated;
+  the changelog (2026-08-24) carries the relaxation and what reopens it.
+  ⚠ **This is a choice node, not a transform**, and the two ids go in the catalog's
   `alt` field rather than through R7: both have their own Essential row (OrderIndex 6 and 36) and
   exactly one exists on any build. The APL lists both unconditionally for the same reason.
-- **Summon Doomguard** (`1276672`, rung 5). *Problem:* none a cue solves. *Fact:* `ready` (R2).
-  *Treatment:* COOLDOWN, no cues. It is Midnight-new and the older guides omit it entirely, which
+- **Summon Doomguard** (`1276672`, rung 5). *Problem:* as Grimoire's — a summon spent outside
+  the ramp it feeds. *Facts:* `ready` (R2); `ready(summon_demonic_tyrant)`; R3. *Treatment:*
+  scan +
+  - `doomguard_awaits_shards` — **readable** `building`, cue **I**: the same two terms as
+    Grimoire's, because it is the same statement with a different subject.
+  ⚠ Same authored-past-the-APL caveat as Grimoire (rung 5 is unconditional), and one more:
+  **the pilot does not usually talent Doomguard**, so this hold is uniformity with the block
+  rather than played experience — the least-tested marker in the catalog, said plainly.
+  It is Midnight-new and the older guides omit it entirely, which
   is a reason to *draw* it and not a reason to badge it.
 - **Call Dreadstalkers** (`104316`, rungs 6 and 7). *Problem:* on a Reign of Tyranny build the
   dogs must land **just before** Tyrant or they miss the extension, and the icon says nothing
-  about where Tyrant's cooldown is. *Facts:* `ready` (R2); Tyrant's cooldown **remaining**, which
-  is sealed; `talent(reign_of_tyranny)`. *Treatment:* COOLDOWN, **no cue** — the band this needs
-  is two-sided and has no authored form (*Defeats*, item 1). On a build **without** Reign of
-  Tyranny rung 7 is unconditional and position 4 is simply correct, so the exposure is
-  build-scoped.
+  about where Tyrant's cooldown is. *Facts:* `ready` (R2); `ready(summon_demonic_tyrant)`; R3;
+  Tyrant's cooldown **remaining**, which is sealed; `talent(reign_of_tyranny)`. *Treatment:*
+  scan +
+  - `dreadstalkers_awaits_shards` — **readable** `building`, cue **I**: the block's shared
+    hold, as Grimoire's. (Also authored past the APL — rung 6 would press the dogs at
+    `remains = 0` — same playtest gate.)
+  - `dreadstalkers_awaits_tyrant` — **sealed** `blocked`, cue **J**: the **two-sided** band
+    (S4 `sealed-cooldown-range`, `beyond = 10.5` **and** `within = 21.5`) on Summon Demonic
+    Tyrant, gated on `talent(reign_of_tyranny)`. That is rung 6's own hold zone —
+    `remains>=20+gcd.max|remains<=12-gcd.max` negated, at S4's unhasted 1.5 s floor
+    (`UnitSpellHaste` is sealed in instanced combat) — read as "waiting on Tyrant's cooldown":
+    the dogs are held while Tyrant is close enough that they would come back too late, and far
+    enough that casting now wastes the extension. Built 2026-08-24 via
+    `Channel.BandPoints(beyond, within)`; this **closes Defeats item 1**.
+  On a build **without** Reign of Tyranny rung 7 is unconditional and cue J's talent gate keeps
+  the band un-armed, so the exposure is build-scoped exactly as before.
 - **Summon Demonic Tyrant** (`265187`, rung 8). *Problem:* **the single biggest decision in the
   spec.** Tyrant empowers and extends every demon out when it lands, and its value is set by how
   many Hand of Gul'dan casts you can chain inside the window — so entering it below five shards
   spends a one-minute cooldown on a half-built board. Readiness alone says nothing about that.
-  *Fact:* **readable Soul Shards** (R3). *Treatment:* COOLDOWN +
-  - `tyrant_awaits_shards` — **readable** `blocked`, cue **A**: `{ "resource", "<", 5 }`,
+  *Fact:* **readable Soul Shards** (R3). *Treatment:* scan +
+  - `tyrant_awaits_shards` — **readable** `building`, cue **A**: `{ "resource", "<", 5 }`,
     gated on `ready(summon_demonic_tyrant)`. That is rung 8 exactly — `soul_shard=5` — read as a
     hold. `Treatment.For` passes cues through for rows the Cooldown Manager has already swiped,
-    and a hold badge on a greyed icon says nothing, hence the gate.
+    and a hold badge on a greyed icon says nothing, hence the gate. (Re-badged from `blocked`
+    2026-08-24: Tyrant's hold and the block's holds are one statement — *build shards* — and
+    now wear one glyph.)
   ⚠ **The number 5 is authored from the APL's own `soul_shard=5` term**, not derived from a
   maximum. The `resource` predicate compares against a constant, so a build whose maximum Soul
   Shards were not 5 would get a cue that never releases; nothing in the current tree does that,
@@ -296,22 +336,24 @@ ROTATION row to its left by a cue rather than by position.
   would draw is Tyrant's own cooldown remaining, which is sealed, and the row already carries the
   readable half of the same decision. Nothing about the bar changes if it is added later.
 
-### ROTATION lane
+### The decision surface
 
 - **Implosion** (`196277`, rung 9). *Problem:* on single target with imps out it is a damage
   loss — the imps are still attacking — and on three or more targets at six imps it is the
   biggest button in the list. The icon looks identical in both. *Facts:* cap's `/cap aoe`
   toggle; `talent(to_hell_and_back)`; `buff.wild_imps.stack`, which is a **count**.
-  *Treatment:* ROTATION +
+  *Treatment:* scan +
   - `implosion_st_only` — **readable** `aoe_only`, cue **G**: `!aoe` **and**
     `!talent(to_hell_and_back)`. That is the second half of rung 9's gate, negated. The talent
     term is what makes it safe: To Hell and Back makes Implosion correct at any target count, so
     on that build the skip is never authored at all.
   - `implosion_imps_short` — **sealed** `sealed-count-bands` (S7 + S8 + S11,
     `../render-shelf.md` V16/**V17**) on Wild Imp `296553`, a Category-2 row in set 60 at
-    OrderIndex 47. It is the **complement**: below six the band draws a hatch, a plate, a mark and
-    the number out of one FontString; at six it emits the empty string and all four clear. That is
-    `buff.wild_imps.stack>=6` read as an elimination.
+    OrderIndex 47. Below six the band draws a hatch, a plate and the **red** numeral out of one
+    FontString — `buff.wild_imps.stack>=6` read as an elimination; at six the hatch clears and
+    the numeral **recolors gold** (2026-08-25): *banked, the press is loaded*. The upper band
+    used to emit the empty string, which made a loaded Implosion identical to an unremarkable
+    one — the count is context in both directions and the hue alone carries the verdict.
   - `implosion_no_imps` — **readable** `blocked`: `!aura(wild_imp)`. ⚠ **The one state the band
     cannot reach.** With no Wild Imp there is no aura, so the client hides the whole button and
     every sink on it draws nothing — which would leave a ready Implosion un-ruled-out at zero
@@ -324,9 +366,9 @@ ROTATION row to its left by a cue rather than by position.
   where "not yet at four" is not a reason to skip anything.
 - **Hand of Gul'dan / Ruination** (`105174` → `433885`, rungs 2, 11 / 10). *Problem:* two
   problems on one row, pointing the same way for once. *Fact (the spend):* `affordable` (R1) and
-  Tyrant's sealed cooldown remaining. *Fact (Ruination):* `identity` (R7). *Treatment:* ROTATION
-  (one lane — unlike Retribution's row 3, both lives of this row are shard spenders and neither
-  is a cooldown) +
+  Tyrant's sealed cooldown remaining. *Fact (Ruination):* `identity` (R7). *Treatment:* scan
+  (one row, both lives — unlike Retribution's row 3, both lives of this row are shard spenders
+  and neither is a cooldown) +
   - `hog_starved` — **readable** `starved`, cue **E**: `!affordable(hand_of_guldan)`.
     `Sense.buildReads` asks affordability of the **live** id (`info.override or row.primary`), so
     on the transformed row this is Ruination's cost — **which is none** — and on the base row it
@@ -339,7 +381,13 @@ ROTATION row to its left by a cue rather than by position.
     `{ "resource", "<", 5 }`, because the rung's `|soul_shard=5` clause makes the spend
     unconditional at cap, and on `affordable(hand_of_guldan)` so it never lands on a row already
     wearing `starved`.
-  ⚠ **This is the catalog's only sealed band, and it is the mirror of cue A.** Tyrant holds
+  - `hog_awaits_shards` — **readable** `building`, cue **I**: `ready(summon_demonic_tyrant)`
+    **and** `{ "resource", "<", 5 }`, gated on `affordable(hand_of_guldan)` so it never lands
+    on a row already wearing `starved`. Rung 11's `cooldown.summon_demonic_tyrant.remains>5` is
+    false while Tyrant is READY, so the APL itself holds the spend there — this is the readable
+    half of the window rule, where cue F is the sealed half: F covers "Tyrant nearly here",
+    this covers "Tyrant here, board not built".
+  ⚠ **Cue F is the catalog's only sealed band on this row, and it is the mirror of cue A.** Tyrant holds
   *itself* below five shards (readable); Hand of Gul'dan holds *itself* while Tyrant is nearly
   here (sealed). Together they are the whole Tyrant-window entry rule, and the pair is why the
   window needs no third mechanism.
@@ -347,11 +395,14 @@ ROTATION row to its left by a cue rather than by position.
   pilot had the number wrong.** Blizzard glows Demonbolt on a Demonic Core, and the glow says
   "available" in states where spending the Core would waste shards — Demonbolt generates two.
   *Facts:* `proc` (the spell-activation overlay), **readable Soul Shards** (R3), `identity` on
-  row 9 (R7). *Treatment:* ROTATION +
-  - `db_awaits_core` — **readable** `blocked`, cue **C**: `!proc(demonbolt)`. Demonbolt appears
+  row 9 (R7). *Treatment:* scan +
+  - `db_awaits_core` — **readable** `noproc`, cue **C**: `!proc(demonbolt)`. Demonbolt appears
     in `actions.diabolist` **only** gated on `buff.demonic_core.react`, so without a Core there is
     no Demonbolt rung at all and the press belongs to row 9. Load-bearing: without it the walk
-    stops here in the commonest state in the rotation.
+    stops here in the commonest state in the rotation. (Re-badged from `blocked` 2026-08-24:
+    "no Core" is not "wait for a clock" — there is nothing to wait on, the press belongs
+    elsewhere until the proc returns — and the empty card slot says that where the clock glyph
+    said the wrong thing.)
   - `db_overcap` — **readable** `overcap`, cue **B**: `{ "resource", ">=", 4 }`, gated on
     `proc(demonbolt)`. That is rungs 13/14's `soul_shard<4`, read as waste.
     ⚠ **The pilot said three, and three is wrong.** `../spec.md` §3.4's hypothesis was *"dim the
@@ -381,28 +432,44 @@ ROTATION row to its left by a cue rather than by position.
     paint the sealed display at all.
     ⚠ **cap does not read the DoT and never learns whether the window is open.** What it reads is
     whether the talent is taken.
-  **Badge-slot arithmetic:** cues C and D both raise `blocked` (slot 1) and union onto one badge;
-  cue B raises `overcap` (slot 2). `starved` is never declared on this row, so
-  `Catalog.Check`'s one-cue-per-slot rule is satisfied.
+  - `db_core_clock` — **sealed** `sealed-proc-bar` (`../render-shelf.md` **V20**) on Demonic
+    Core. The Core's remaining lifetime as a thin client-drained bar directly above V18's
+    charge bar — *this many banked, this long to use one*. It earns its pixels exactly where
+    the row is HELD (cue D, DEM-10): *not now* and *but the proc expires* are two facts — the
+    badge column carries the verdict, the edge carries the quantity. cap authors no threshold
+    and never learns where the fill is. (Re-formed 2026-08-25 off a one-day corner-dial shape:
+    gold in the badge column, where hue is polarity, read as a verdict beside the red holds.)
+  **Badge-slot arithmetic:** the stack FLOWS (V5), so nothing here contends. The corner
+  belongs to V19's window badge alone (Part 2.5's cession rule — one claimed slot, readable
+  badges below it), and the bottom edge stacks V18's charge bar with V20's proc bar by the
+  edge's own static lift rule. Cues C (`noproc`) and D (`blocked`) are separate badges since
+  C's re-badge; B raises `overcap`. `starved` is never declared on this row.
   ⚠ **This row wears two sealed displays at once** (DEM-8), which nothing else here does — but
   they no longer share a pixel: the bar took the row's bottom edge when V18 was re-formed, so
   the window badge has the corner to itself. Whether the two together read as one statement is
   still a flight question, just no longer a geometry conflict.
 
-### FALLBACK lane
+### Reached by subtraction
 
 - **Shadow Bolt / Infernal Bolt** (`686` → `433891`, rungs 15 / 12). *Problem:* in its base life,
   none a cue solves — it is the filler and it is reached by subtraction. In its **Infernal Bolt**
   life it is the best shard builder in the rotation and it outranks the row to its left.
-  *Facts:* `ready` (R2); `identity` (R7). *Treatment:* **two bands, identity first**, because the
-  first band whose condition holds wins (`Signal.tier`):
-  1. **ROTATION** while `identity(shadow_bolt) == transformed`.
-  2. **FALLBACK** otherwise.
-  No cues. The ordering correction lives entirely on Demonbolt (cue D), which is the row that has
-  to move — badging the *press* would be a promotion, and this catalog does not spend one.
-  ⚠ **Unlike Retribution's row 3, band 1 is not load-bearing for visibility.** Shadow Bolt has no
-  cooldown, so `ready` never goes false and the row would draw under either band. Band 1 exists
-  to say the row has changed **kind**, which is what the two-band mechanism is for.
+  *Facts:* `ready` (R2). *Treatment:* scan — **default membership**, ready-self and nothing
+  else. *(Until 2026-08-25 this row carried a two-band identity flip, ROTATION while
+  transformed / FALLBACK otherwise; both bands yielded membership, so the flip said nothing the
+  icon does not, and under blindness it darkened a filler that should stay lit.)*
+  No cues. The row's changed KIND is said by the icon itself, and the ordering correction lives
+  entirely on Demonbolt (cue D), which is the row that has to move — badging the *press* would
+  be a promotion, and this catalog does not spend one.
+  - `ib_art_clock` — **sealed** `sealed-proc-bar` (V20) on the armed Art
+    (`art_mother_of_chaos`, aura `432794`): how long the transform — and so the Infernal Bolt
+    on this row — has left, as the client-drained bar on the bottom edge. The slot filters to
+    the ART aura, so the bar exists exactly while the transform does: no identity gate needed,
+    the visibility IS the gate, and it is context on the edge rather than a badge — so it is
+    still not a promotion. ⚠ The aura id is **Tier-3-sourced** (maxroll's capture) and a wrong
+    id dies silent (the cast-id/aura-id trap); flight question. @verify-ingame
+  ⚠ **Unlike Retribution's row 3, nothing here is load-bearing for visibility.** Shadow Bolt
+  has no cooldown, so `ready` never goes false and the row simply stays in the scan.
 
 ---
 
@@ -439,24 +506,27 @@ useful and did not eliminate; a hatch and a negative mark do.
 
 ## The cues, collected
 
-| Cue | What the player sees | Fact | Tool / lane | Recipe | Sink |
+| Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
-| **A** five-shard hold | **Summon Demonic Tyrant only** wears the `blocked` badge below five Soul Shards | `UnitPower(player, SoulShards) < 5` | marker (readable) | R3 | corner badge, slot 1 |
+| **A** five-shard hold | **Summon Demonic Tyrant** wears the `building` card below five Soul Shards | `UnitPower(player, SoulShards) < 5` | marker (readable) | R3 | corner badge, flowing stack |
 | **B** overcap | **Demonbolt only** wears the `overcap` badge at four or more Soul Shards while a Demonic Core is up | `UnitPower(player, SoulShards) >= 4` + `IsSpellOverlayed(264178)` | marker (readable) | R3 + overlay `proc` | corner badge, slot 2 |
-| **C** core hold | Demonbolt wears `blocked` while **no** Demonic Core is up | `IsSpellOverlayed(264178)` | marker (readable) | overlay `proc` | corner badge, slot 1 |
+| **C** core hold | Demonbolt wears the `noproc` empty card while **no** Demonic Core is up | `IsSpellOverlayed(264178)` | marker (readable) | overlay `proc` | corner badge, flowing stack |
 | **D** Infernal-Bolt yield | Demonbolt wears `blocked` while row 9 is displaying **Infernal Bolt** and Soul Shards are below three | `overrideSpellID ~= spellID` on row 9 + `resource` | marker (readable) | R7 + R3 | corner badge, slot 1 |
 | **E** starved | Hand of Gul'dan wears `starved` when its **live** id is unaffordable — three shards as itself, none as Ruination | `insufficientPower` on the live id | marker (readable) | R1 + R7 | corner badge, slot 2 |
 | **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, rank 3 |
 | **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, slot 1 |
 | — | Power Siphon **rules itself out** at two or more Demonic Cores: the client draws a hatch and a red mark | the aura's application count | sealed display | S7 + S11 `sealed-count-bands` | AuraContainer FontString → V16 |
-| — | Implosion **rules itself out** below six Wild Imps, and clears at six | the aura's application count | sealed display | S7 + S8 + S11 `sealed-count-bands` (complement) | AuraContainer FontString → V16/V17 |
+| — | Implosion **rules itself out** below six Wild Imps — red count + hatch — and at six the count turns **gold**: banked | the aura's application count | sealed display | S7 + S8 + S11 `sealed-count-bands` (two-polarity) | AuraContainer FontString → V16/V17 |
 | — | Demonbolt carries a **radial** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
 | — | Demonbolt carries a **badge while Doom's pandemic window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-pandemic` + the `talent` predicate | AuraContainer Region → V19 |
-| **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, slot 1 |
+| **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, flowing stack |
+| **I** the ramp hold | Grimoire, Summon Doomguard, Call Dreadstalkers and Hand of Gul'dan wear the `building` card while Tyrant is READY and Soul Shards are below five | `ready(summon_demonic_tyrant)` + `UnitPower(player, SoulShards) < 5` | marker (readable) | R2 (cross-row) + R3 | corner badge, flowing stack |
+| **J** the dogs' window | Call Dreadstalkers wears `blocked` while Tyrant's cooldown remaining is inside `(10.5, 21.5)` — close enough that recast dogs miss the window, far enough that casting now wastes the extension | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 two-sided (`beyond = 10.5`, `within = 21.5`) + `talent(reign_of_tyranny)` | curve → badge, flowing stack |
+| — | Demonbolt carries a **proc bar** of the Demonic Core's remaining lifetime above its charge bar, and the Infernal Bolt row one of the armed Art's, drained by the client | the aura's own duration object | sealed display | `sealed-proc-bar` → V20 | AuraContainer StatusBar → V20 |
 
-**Three cue keys, one red.** `blocked`, `starved` and `overcap` share a hue
-(`../render-shelf.md` V5.1); nothing here asks for a primitive the shelf does not have, and no
-cue is described in pixels.
+**Five cue keys, one red.** `blocked`, `starved`, `overcap`, `building` and `noproc` share a
+hue (`../render-shelf.md` V5.1) and are told apart by shape; nothing here asks for a primitive
+the shelf does not have, and no cue is described in pixels.
 
 ### Why this catalog does not spend a positive cue
 
@@ -470,9 +540,15 @@ here it is short, because the two candidates fail for different structural reaso
    that state *is* readable, and cue D already resolves it from the other side by standing
    Demonbolt down, which costs one badge and removes nothing. `../render-shelf.md` Part 0.5's
    test for a promotion is that it should **remove** authored vocabulary; here it would add.
-3. **Density never forces one.** No scenario in the walk stands more than two `blocked` holds
-   between the left edge and the press, which is Part 0.5's budget exactly. Retribution promoted
-   its opener because elimination needed four; this catalog never needs three.
+3. **Density never forces one — and the ramp states (DEM-2) are the case that tests the
+   claim.** With the block's `building` holds authored, up to six red badges stand before the
+   press there; Part 0.5's budget counts **budgeted** holds only, and `building` is deliberately
+   not one — the block's cards are ONE statement (*the board is below five shards*) worn by
+   adjacent rows as a group, the same standing `starved`/`overcap` have. The budgeted count in
+   every scenario stays at or under two. ⚠ This is the pilot's chosen reading over promoting
+   the filler, playtest-gated (changelog 2026-08-24): if the hatched block reads as "something
+   is wrong" in a pull rather than as "the ramp is waiting", the answer this section rejected —
+   a `priority` on the builder — comes back.
 
 ---
 
@@ -535,11 +611,13 @@ would reopen it**. None of these is a bare "cannot".
    cue twice **unions** into one badge, which is an OR, and this condition is an AND of two
    bands. Either half alone is a **wrong** hold — `within = 21.5` would hold the dogs at 5 s
    remaining, where the APL fires them; `beyond = 10.5` would hold them at 40 s, likewise.
-   *What would reopen it:* a `Channel.BandPoints(beyond, within)` beside the existing
-   `HoldPoints` / `BeyondPoints`, and lifting `Catalog.lua`'s exactly-one assertion. The curve is
-   a five-point step list and the machinery already evaluates one; nothing about the platform is
-   in the way. It is **not built here**, because the standing rule is not to prebuild vocabulary
-   until a spec needs it — and this is the note that says one now does.
+   *What reopened it — CLOSED 2026-08-24.* Exactly the recipe this note named:
+   `Channel.BandPoints(beyond, within)` beside the existing `HoldPoints` / `BeyondPoints`, and
+   `Catalog.Check`'s exactly-one assertion relaxed to accept the pair (with `beyond < within`
+   demanded, because the reversed pair is an empty band that would arm and never draw). The
+   marker is `dreadstalkers_awaits_tyrant` — cue **J**, the "waiting on cooldown" hold —
+   scenario DEM-15. ⚠ Still **unflown**: the two-sided curve is authored on the same measured
+   machinery as `within`, but no client has evaluated a three-point band.
 2. **A stack count as a hold, wanted twice — CLOSED 2026-08-22.**
    *Scenario A:* Power Siphon is ready with two or more Demonic Cores banked (rung 1's
    `buff.demonic_core.stack<=1` is false). *Scenario B:* AoE mode is on, Implosion is ready, and
@@ -660,6 +738,39 @@ An ability with no named player problem gets no row; so does one with no Cooldow
 ---
 
 ## Changelog
+
+**2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
+(`../spec.md` §3.1): the Lane column became Scan, every row is a default ready-self scan member,
+and Shadow Bolt's two-band identity flip was deleted — both bands yielded membership, so the
+tier carried no membership information, and the row now stays lit under an unknown identity
+(authored, not flown). The lane names survive above only as prose grouping.
+
+**2026-08-24 — the ramp reads as a hold, and Demonbolt's corner earns a clock.** Review-driven,
+from playing the steppers; four moves.
+
+- **Cue I (`building`, the lifted card):** Grimoire, Summon Doomguard, Call Dreadstalkers and
+  Hand of Gul'dan hold — red hatch + card — while Tyrant is READY and shards are below five;
+  Tyrant's own cue A re-badges from `blocked` to the same card. ⚠ **This is authored PAST the
+  APL** — rungs 3–6 are unconditional — and it is the pilot's deliberate ramp reading: *"we're
+  holding normally-top items while we build."* The earlier stance (skips for half the row are
+  the wrong tool; promote instead) is **relaxed, not repealed**: `building` is unbudgeted on the
+  density rule's own starved/overcap grounds (one fact, a block of subjects), and the gate to
+  revisit — a `priority` on the builder instead — stays open pending playtest. Doomguard's hold
+  is uniformity, not played experience (the pilot does not usually talent it), and is flagged
+  as the least-tested marker here.
+- **Cue J closes Defeats item 1:** the two-sided S4 band (`beyond = 10.5`, `within = 21.5`,
+  Reign-of-Tyranny-gated) holds the dogs inside rung 6's own dead zone — the "waiting on
+  cooldown" overlay, built by exactly the recipe the defeat note named. Unflown.
+- **Cue C re-badges to `noproc`** (the empty card): "no Core" is not "wait for a clock", and
+  C and D stop unioning — a Coreless Demonbolt yielding to an armed Infernal Bolt now shows
+  both facts.
+- **`db_core_clock` (V20):** the Core's remaining lifetime, client-drained. Born 2026-08-24 as
+  a corner dial; **re-formed 2026-08-25 to a thin bar above the charge bar** after one stepper
+  round — gold in the badge column (where hue is polarity) read as a verdict arguing with the
+  red holds, and the corner stack on Demonbolt was four deep. The edge carries quantity.
+  `ib_art_clock` rides the same kind on the Shadow Bolt row: the armed Art's remaining
+  lifetime under Infernal Bolt (⚠ aura id 432794 is Tier-3-sourced and dies silent if wrong —
+  flight question).
 
 **2026-08-19 — authored**, stages 1–5 of `../authoring.md`, replacing the 2026-era pilot. Sources:
 `knowledge/classes/warlock/demonology/simc-apl.md` @ commit `51d49d5`, `ability-inventory.tsv`

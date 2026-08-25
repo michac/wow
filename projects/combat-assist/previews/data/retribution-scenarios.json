@@ -10,44 +10,56 @@
       "row": [
         {
           "name": "Execution Sentence",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenging Wrath",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Wake of Ashes",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Divine Toll",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Final Verdict",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Divine Storm",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Blade of Justice",
-          "verdict": "press-promoted",
+          "verdict": "press",
           "cues": [
             "priority"
           ]
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -106,7 +118,10 @@
         },
         {
           "name": "Divine Toll",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Final Verdict",
@@ -114,22 +129,22 @@
         },
         {
           "name": "Divine Storm",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -184,30 +199,33 @@
         },
         {
           "name": "Divine Toll",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Final Verdict",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Divine Storm",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -261,30 +279,30 @@
         },
         {
           "name": "Divine Toll",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Final Verdict",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Divine Storm",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -328,7 +346,10 @@
         },
         {
           "name": "Hammer of Light",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -337,25 +358,31 @@
         },
         {
           "name": "Final Verdict",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Divine Storm",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -413,12 +440,16 @@
         },
         {
           "name": "Final Verdict",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Divine Storm",
-          "verdict": "hold-readable",
+          "verdict": "open",
           "cues": [
+            "blocked",
             "aoe_only"
           ]
         },
@@ -428,11 +459,11 @@
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -502,22 +533,22 @@
         },
         {
           "name": "Divine Storm",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -571,7 +602,7 @@
         },
         {
           "name": "Final Verdict",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "st_only"
           ]
@@ -582,15 +613,15 @@
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -646,7 +677,10 @@
         },
         {
           "name": "Final Verdict",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Divine Storm",
@@ -654,15 +688,15 @@
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -726,19 +760,19 @@
         },
         {
           "name": "Divine Storm",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -792,12 +826,18 @@
         },
         {
           "name": "Final Verdict",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Divine Storm",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -810,7 +850,7 @@
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -861,7 +901,10 @@
       "row": [
         {
           "name": "Execution Sentence",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenging Wrath",
@@ -873,16 +916,25 @@
         },
         {
           "name": "Divine Toll",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Final Verdict",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Divine Storm",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -891,11 +943,11 @@
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -950,7 +1002,10 @@
       "row": [
         {
           "name": "Execution Sentence",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenging Wrath",
@@ -958,34 +1013,34 @@
         },
         {
           "name": "Wake of Ashes",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Divine Toll",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Final Verdict",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Divine Storm",
-          "verdict": "off-mode",
+          "verdict": "open",
           "cues": [
             "aoe_only"
           ]
         },
         {
           "name": "Blade of Justice",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Crusader Strike",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [

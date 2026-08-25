@@ -3,7 +3,7 @@
 **Applies to:** Retribution (specID **70**), hero tree **Templar**, Midnight 12.1. This is the
 normative catalog document: the thing a future `Catalogs/Retribution.lua` transcribes. It is a
 provisional product characterization for play, not a claim the rules are universally correct.
-`../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
+`../spec.md` §3.1 owns the membership model and §3.6 the readable/sealed boundary;
 `../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
@@ -74,17 +74,17 @@ gate, withholding three of the C bands on a Radiant Glory build.
 Base spell IDs from `knowledge/classes/paladin/retribution/ability-inventory.tsv`
 (DB2 @ 12.1.0.69214). Override IDs are resolved live via R7; the numbers are reference.
 
-| Key | Ability | Base spell ID | Live override | Lane | Charges | Cues |
+| Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `execution_sentence` | Execution Sentence | `343527` | — | COOLDOWN | — | three sealed/readable holds (C) |
-| `avenging_wrath` | Avenging Wrath | `31884` | — | COOLDOWN | — | — |
-| `wake_of_ashes` | Wake of Ashes | `255937` | **Hammer of Light `427453`** | COOLDOWN, **ROTATION while transformed** | — | two sealed holds (C, base life only) + starved (A) |
-| `divine_toll` | Divine Toll | `375576` | — | COOLDOWN | — | one sealed hold (C) + overcap (B) |
-| `templars_verdict` | Templar's Verdict | `85256` | **Final Verdict `383328`** (permanent) | ROTATION | — | starved (A) + proc-defer (D) + Divine Storm skip (E) |
-| `divine_storm` | Divine Storm | `53385` | — | ROTATION | — | starved (A) + proc-defer (D) |
-| `blade_of_justice` | Blade of Justice | `184575` | — | ROTATION | ⚠ open | — |
-| `judgment` | Judgment | `20271` | **Hammer of Wrath `24275`** | ROTATION | — | — |
-| `crusader_strike` | Crusader Strike | `35395` | Templar Strike `407480` / Templar Slash | FALLBACK | ⚠ open | — |
+| `execution_sentence` | Execution Sentence | `343527` | — | scan | — | three sealed/readable holds (C) |
+| `avenging_wrath` | Avenging Wrath | `31884` | — | scan | — | — |
+| `wake_of_ashes` | Wake of Ashes | `255937` | **Hammer of Light `427453`** | scan (conditional — see `scan_when` below) | — | two sealed holds (C, base life only) + starved (A) |
+| `divine_toll` | Divine Toll | `375576` | — | scan | — | one sealed hold (C) + overcap (B) |
+| `templars_verdict` | Templar's Verdict | `85256` | **Final Verdict `383328`** (permanent) | scan | — | starved (A) + proc-defer (D) + Divine Storm skip (E) |
+| `divine_storm` | Divine Storm | `53385` | — | scan | — | starved (A) + proc-defer (D) |
+| `blade_of_justice` | Blade of Justice | `184575` | — | scan | ⚠ open | — |
+| `judgment` | Judgment | `20271` | **Hammer of Wrath `24275`** | scan | — | — |
+| `crusader_strike` | Crusader Strike | `35395` | Templar Strike `407480` / Templar Slash | scan | ⚠ open | — |
 
 ### The row set is measured, and it is smaller than the button list
 
@@ -224,35 +224,40 @@ right at 5 Holy Power, where the proc'd rung loses to the early `finishers` call
 
 ---
 
-## The lanes, and why the priority falls out of them
+## The groups, and why the priority falls out of them
 
-- **COOLDOWN** = Execution Sentence, Avenging Wrath, Wake of Ashes, Divine Toll — the top of the
-  priority. They light when ready; the C holds say when to wait, and every one of those holds is
-  an *alignment* condition lifted straight off an APL line.
-- **ROTATION** = the spenders and builders where the cues do the ordering, plus **Wake of Ashes's
-  second life**: while the row is transformed into Hammer of Light it is a Holy Power finisher,
-  not a cooldown, and it is banded as one.
-- **FALLBACK** = Crusader Strike / Templar Strike, the filler. ⚠ Unlike Havoc — where both
-  FALLBACK abilities had charges, so under the retired four-hue border the tier ended up with no
-  drawn subject — this tier **has** a subject here, on any build that is not Crusading Strikes.
-  (Nothing turns on it now that the paint is one bit; it is recorded because the *model* claim is
-  still checkable.)
+Three rows condition their membership: Wake of Ashes / Hammer of Light carries the corpus's one
+real `scan_when` with two alternatives (below), and the two spenders declare
+`scan_when = { { affordable(self) } }`. Every other row is a default ready-self scan member, and
+the groups below are prose — how the roster reads, not anything the engine holds.
 
-Tier + cues, read together, reproduce the priority; that is the §3.1 point. No tier is a strict
-rank, and here the cross-tier case is explicit: a transformed row 3 is ROTATION and outranks the
-lit COOLDOWN rows to its right by position.
+- **Pressed on sight** — Execution Sentence, Avenging Wrath, Wake of Ashes, Divine Toll — the
+  top of the priority. They light when ready; the C holds say when to wait, and every one of
+  those holds is an *alignment* condition lifted straight off an APL line.
+- **The decision surface** — the spenders and builders where the cues do the ordering, plus
+  **Wake of Ashes's second life**: while the row is transformed into Hammer of Light it is a
+  Holy Power finisher, not a cooldown, and its `scan_when` is what keeps it lit there.
+- **Reached by subtraction** — Crusader Strike / Templar Strike, the filler. ⚠ Unlike Havoc —
+  where both filler abilities had charges, so under the retired four-hue border the FALLBACK
+  tier ended up with no drawn subject — the filler **has** a subject here, on any build that is
+  not Crusading Strikes. (Nothing turns on it now that the paint is one bit; it is recorded
+  because the *model* claim was still checkable while tiers existed.)
+
+Membership + cues, read together, reproduce the priority; that is the §3.1 point. No group is a
+strict rank, and here the crossing case is explicit: a transformed row 3 outranks the lit rows
+to its right by position.
 
 ---
 
 ## Roster — player problem → fact → recipe → treatment
 
-### COOLDOWN lane
+### Pressed on sight
 
 - **Execution Sentence** (`343527`, cooldowns 9). *Problem:* it is a placed cooldown, not a
   press-on-cooldown one, and both of its placement rules are invisible on the icon. Its line is
   `(cooldown.avenging_wrath.remains>15|talent.radiant_glory)&(target.time_to_die>10)&cooldown.wake_of_ashes.remains<gcd&(!talent.holy_flames|dot.expurgation.ticking)`.
-  *Facts:* `ready` (R2) for the lane; two related-ability cooldowns, one readable and one sealed
-  in each direction. *Treatment:* COOLDOWN + **three markers unioned onto one `blocked` badge**
+  *Facts:* `ready` (R2) for membership; two related-ability cooldowns, one readable and one sealed
+  in each direction. *Treatment:* scan + **three markers unioned onto one `blocked` badge**
   (the band grammar is AND-only, so naming one cue three times **is** the OR):
   1. `es_awaits_wrath_ready` — **readable**, Avenging Wrath is *ready*. Needed because Execution
      Sentence sits at position 1, **left** of Avenging Wrath, so elimination reaches it first and
@@ -272,7 +277,7 @@ lit COOLDOWN rows to its right by position.
   of Ashes is not. That is *correct* — the APL genuinely holds it — but whether it reads as
   useful or as nagging is a flight question (*Open facts* 6).
 - **Avenging Wrath** (`31884`, cooldowns 10). *Problem:* the window everything aligns into.
-  *Facts:* `ready` (R2) plus **the Expurgation latch** (R8). *Treatment:* COOLDOWN + one hold.
+  *Facts:* `ready` (R2) plus **the Expurgation latch** (R8). *Treatment:* scan + one hold.
   - `aw_awaits_expurgation` — **readable** `blocked`, cue **G**, gated on `talent(holy_flames)`.
     Its line's only non-simulation term is `(!talent.holy_flames|dot.expurgation.ticking)`, so on a
     Holy Flames build Avenging Wrath is **not castable** until the DoT lands — a forbidden press,
@@ -287,14 +292,18 @@ lit COOLDOWN rows to its right by position.
   two problems on one row, and they point opposite ways.
   *Fact (the window opener):* `ready` (R2), plus two related cooldowns.
   *Fact (the finisher):* `identity` (R7) — `overrideSpellID ~= spellID` — and `affordable` (R1).
-  *Treatment:* **two bands, identity first**, because the first band whose condition holds wins
-  (`Signal.tier`):
-  1. **ROTATION** while `identity(wake_of_ashes) == transformed`.
-  2. **COOLDOWN** while `ready(wake_of_ashes)`.
-  ⚠ **Without band 1 this row goes dark exactly when it holds the top finisher.** Wake of Ashes's
-  own cooldown is running for the whole 20s Hammer of Light window, so `ready` is false and the
-  COOLDOWN band would withhold. This is not a stylistic split; it is the row's only lane while
-  transformed.
+  *Treatment:* **conditional membership** — the corpus's one real `scan_when` with two
+  alternatives, identity-keyed:
+
+  ```
+  scan_when = { { identity(base), ready(self) }, { identity(transformed) } }
+  ```
+
+  ⚠ **Without the transformed alternative this row goes dark exactly when it holds the top
+  finisher.** Wake of Ashes's own cooldown is running for the whole 20s Hammer of Light window,
+  so `ready` is false and a bare ready-self membership would withhold; the granted press has no
+  cooldown of its own to read. This is not a stylistic split; it is the row's only way into the
+  scan while transformed.
   Plus:
   - `woa_starved` — **readable** `starved`, `!affordable(wake_of_ashes)`. `Sense.buildReads` asks
     affordability of the **live** id (`info.override or row.primary`), so on the transformed row
@@ -330,7 +339,7 @@ lit COOLDOWN rows to its right by position.
 - **Divine Toll** (`375576`, generators 4). *Problem:* a large Holy Power injection, and with
   Divine Hammer the seed of Templar's area damage — so it belongs *inside* the burst window, and
   it is the one builder that genuinely must not be pressed at cap. *Facts:* `ready` (R2),
-  Avenging Wrath's sealed cooldown, and **readable Holy Power** (R3). *Treatment:* COOLDOWN +
+  Avenging Wrath's sealed cooldown, and **readable Holy Power** (R3). *Treatment:* scan +
   - `dt_awaits_wrath` — **sealed** `blocked` (`within = 15`) on Avenging Wrath, gated on
     `ready(divine_toll)` and `!talent(radiant_glory)`.
   - `dt_overcap` — **readable** `overcap`, `resource >= 5`. See below.
@@ -361,13 +370,13 @@ resolved at `Sense.lua`'s `Enum.PowerType[cat.power]`. A name that did not resol
 that the resource is the spec's **whole build/spend axis** rather than one term on one row, and
 that it is doing ordering work a sealed curve could not do.
 
-### ROTATION lane
+### The decision surface
 
 - **Templar's Verdict → Final Verdict** (`85256` → `383328`, finishers 4). *Problem:* it is the
   default spender and it is shown castable when you cannot pay for it; and it is the **wrong**
   spender in three distinct situations that look identical on the icon. *Facts:* `affordable`
   (R1), `aoe` (cap's own toggle), and two readable **procs** (R-new, below). *Treatment:*
-  ROTATION +
+  **conditional membership** — `scan_when = { { affordable(self) } }` — plus
   - `tv_starved` — `starved`, `!affordable(templars_verdict)`.
   - `tv_awaits_blade` — `blocked`, cue **D**: `proc(blade_of_justice)` **and**
     `ready(blade_of_justice)` **and** `resource <= 4` **and** `affordable(templars_verdict)`.
@@ -393,13 +402,14 @@ that it is doing ordering work a sealed curve could not do.
   single target elimination reaches Templar's Verdict first and never has to be told to.
 - **Divine Storm** (`53385`, finishers 3). *Problem:* the same affordability problem, and it must
   not steal the global from a free Blade of Justice. *Facts:* `affordable` (R1), `proc` on Blade
-  of Justice. *Treatment:* ROTATION + `ds_starved` (`starved`) + `ds_awaits_blade` (`blocked`,
+  of Justice. *Treatment:* **conditional membership** — `scan_when = { { affordable(self) } }`,
+  as on Templar's Verdict — plus `ds_starved` (`starved`) + `ds_awaits_blade` (`blocked`,
   the same four terms as `tv_awaits_blade`). The second marker is not optional: without it,
   badging only Templar's Verdict would hand the walk to Divine Storm.
 - **Blade of Justice** (`184575`, generators 2, 5 and 8). *Problem:* in the steady state, none that
   a cue solves. At the **opener** it is first in the priority and seven rows from the left, which
   elimination can only say by holding four rows above it — over Part 0.5's budget.
-  *Facts:* `ready` (R2), `talent` and the Expurgation latch (R8). *Treatment:* ROTATION +
+  *Facts:* `ready` (R2), `talent` and the Expurgation latch (R8). *Treatment:* scan +
   - `boj_opener` — **readable** `priority`, cue **H**: `ready(blade_of_justice)` **and**
     `talent(holy_flames)` **and** `!aura(expurgation)`. That is generators 2 exactly, minus
     `time<5` — the latch subsumes it, since the only moment Expurgation is absent on a Holy Flames
@@ -417,7 +427,7 @@ that it is doing ordering work a sealed curve could not do.
   is `spec.md` §3.1's readable-relationship rule, and it is why the badge lands on the spender
   rather than on the proc.
 - **Judgment / Hammer of Wrath** (`20271` → `24275`, generators 10 / 9). *Problem:* none that a
-  cue solves. *Fact:* `ready` (R2) + the override. *Treatment:* ROTATION, no cues. It is the
+  cue solves. *Fact:* `ready` (R2) + the override. *Treatment:* scan, no cues. It is the
   bottom of the builder order and it is directed-to by elimination — everything above it being
   swiped or badged. **Hammer of Wrath's execute condition needs no vocabulary**: the row *is*
   Hammer of Wrath exactly when Hammer of Wrath is castable.
@@ -428,10 +438,11 @@ that it is doing ordering work a sealed curve could not do.
   three rows going red at once for a state the player passes through every few globals is the
   noisy-negative failure the vocabulary exists to avoid.
 
-### FALLBACK lane
+### Reached by subtraction
 
 - **Crusader Strike / Templar Strike / Templar Slash** (`35395` → `407480` / …, generators 11–13).
-  *Problem:* filler when nothing better is up. *Fact:* `ready` (R2). *Treatment:* FALLBACK, no
+  *Problem:* filler when nothing better is up. *Fact:* `ready` (R2). *Treatment:* scan —
+  default membership, no
   cues. ⚠ **It binds only if the row exists**, and on a **Crusading Strikes** build it does not —
   that talent replaces the button with an auto-attack, so the priority genuinely ends at Judgment
   and this entry costs nothing. On a **Templar Strikes** build the row should be Crusader
@@ -445,7 +456,7 @@ that it is doing ordering work a sealed curve could not do.
 
 ## The cues, collected
 
-| Cue | What the player sees | Fact | Tool / lane | Recipe | Sink |
+| Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
 | **A** starved | a spender you cannot pay for wears the `starved` badge — Templar's Verdict, Divine Storm, and Wake of Ashes **while it is Hammer of Light** | `insufficientPower` on the **live** id | marker (readable) | R1 + R7 | corner badge, slot 2 |
 | **B** overcap | **Divine Toll only** wears the `overcap` badge at 5 Holy Power | `UnitPower(player, HolyPower) >= 5` | marker (readable) | R3 | corner badge, slot 2 |
@@ -527,15 +538,14 @@ Almost none, which is the point of the pattern shelf. Against the current source
 3. **No new marker shape or channel pairing**, so under `../authoring.md`'s **marker seam** (stage 6's renderer test, the definition-of-done for Phase 9.4)
    this spec should edit **nothing** in `Treatment.lua` / `Overlay.lua` and be authored purely as
    catalog data. If a renderer edit turns out to be needed, that is a finding about the seam.
-4. **First use of two-band identity switching for a role change.** Havoc uses `identity` to
-   promote a spender inside a window; row 3 here uses it to give one row **two different lanes**,
-   because the transform changes what kind of button it is rather than how good it is. The
-   mechanism is unchanged — `Signal.tier` already takes the first band whose condition holds —
-   but this is the first catalog to rely on band *order* carrying meaning, and that is worth a
-   test.
+4. **First real conditional membership.** Havoc uses `identity` to promote a spender inside a
+   window; row 3 here uses it to keep one row **in the scan by two different routes**, because
+   the transform changes what kind of button it is rather than how good it is. The mechanism is
+   `Catalog.Alternatives` — membership is the OR of the declared alternatives — and this is the
+   only `scan_when` in the corpus whose alternatives differ in kind, which is worth a test.
 5. **First catalog where `resource` does ordering work.** `Catalogs/Demonology.lua` already
-   declares `power` and a `resource` band, so neither the field nor the predicate is new; what is
-   new is a `resource` term inside a **marker** rather than a band. `Catalog.Check` accepts it
+   declares `power` and evaluates `resource`, so neither the field nor the predicate is new; what
+   is new is a `resource` term inside a **marker**. `Catalog.Check` accepts it
    (`eachCondition` walks both), and `Signal.subject` evaluates it identically.
 
 ---
@@ -567,7 +577,7 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, never as a TODO h
    Crusader Strike `35395` holds Essential OrderIndex 3 *[T1 DB2]*, and both talents that touch it
    are also in set 901 — **Crusading Strikes `404542`** (Category 3) and **Templar Strikes
    `406646`** (Category 2). Which of them the row displays, and in which viewer, is not derivable
-   from `CooldownSetSpell`. The FALLBACK entry is authored blind — safely, since it binds only if
+   from `CooldownSetSpell`. The filler entry is authored blind — safely, since it binds only if
    the row exists. @verify-ingame
 3. **Can the free Hammer of Light be told from the ordinary one?** `SpellActivationOverlay` has a
    single row for Hammer of Light and both aura states seal. Gates the whole of finishers 2's
@@ -581,7 +591,7 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, never as a TODO h
 5. **Does Blade of Justice's charge count survive as a readable fact, and should the row declare
    `charged`?** Improved Blade of Justice makes it 1-or-2 charges by talent, and `charged` is a
    static catalog declaration that also switches how the row's readiness is seeded. Left
-   undeclared; the row draws ROTATION. Same question for Crusader Strike under Templar Strikes.
+   undeclared; the row is an ordinary scan member. Same question for Crusader Strike under Templar Strikes.
    @verify-ingame
 6. **Do the five sealed bands have the airtime they were authored for?** The widths — Avenging
    Wrath `within = 15` on Execution Sentence and Divine Toll, `within = 6` on Wake of Ashes,
@@ -685,6 +695,15 @@ Stage 2 cut five of the fourteen candidate presses.
 ---
 
 ## Changelog
+
+**2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
+(`../spec.md` §3.1): the Lane column became Scan, and membership is now the row's one declared
+fact. This catalog keeps the corpus's only real conditional memberships: Wake of Ashes / Hammer
+of Light declares `scan_when = { { identity(base), ready(self) }, { identity(transformed) } }`
+(the old two-band identity flip, which here genuinely moved membership — the transformed row has
+no cooldown of its own to read), and the two spenders declare
+`scan_when = { { affordable(self) } }`. Every other row is a default ready-self member, and the
+lane names survive above only as prose grouping.
 
 **2026-08-18 — the load-bearing open fact resolved, and row 3 stands.** The Cooldown Manager's
 cooldown branch reads the **display identity**, not the base spell, so a transformed row's swipe

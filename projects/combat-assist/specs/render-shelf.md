@@ -95,7 +95,7 @@ win and the treatment is what gets edited. Two things moved to match it:
 verdict in the vocabulary that broke this: its only driver was that a readable fact came back
 **secret**, so the refusal itself became a visible elimination. Pass 2 makes that obviously wrong —
 an item cap cannot form an opinion about is an item the scan should simply *reach*, not one it
-should skip. The vocabulary is nine verdicts, and a row cap has no opinion about draws whatever its
+should skip. The vocabulary is five verdicts, and a row cap has no opinion about draws whatever its
 readable state says: the scan edge, or the swipe, and no badge.
 
 **And `isActive` removed its last subject anyway.** `withheld`'s only user was a charge count read
@@ -105,8 +105,8 @@ in restricted combat, so "at max charges" is readable in **both** polarities —
 
 Two consequences the style is built on:
 
-1. **The press is not a thing cap draws.** `press`, `press-promoted` and `below` render
-   identically — the scan edge, nothing else. The press is *whatever the scan reaches first*. Cap's
+1. **The press is not a thing cap draws.** `press` and `open` render identically — the scan
+   edge, nothing else. The press is *whatever the scan reaches first*. Cap's
    job is to rule things out convincingly, not to point.
 2. **The cue vocabulary is negative by default.** A cue
    normally draws when a button is ruled *out* and draws nothing when it is clear. A satisfied
@@ -133,7 +133,14 @@ it anyway.* That is the mark which costs interpretation, and three of them in a 
 that reads as noise. `starved` and `overcap` are not that — they restate a resource the player is
 already reading off their own bar, on buttons that were never pressable in that state, and they
 cluster on adjacent spender rows as one visual group. Counting them would push rows over budget
-for being honest about Holy Power.
+for being honest about Holy Power. **`building` is not budgeted for the same reason read the
+other way** (2026-08-24): a ramp's holds are ONE fact — the resource is below the window's
+number — worn by a block of adjacent rows at once, and the player is reading that resource off
+their own bar the whole time. Five `building` badges are one statement with five subjects, not
+five claims to interpret; hatching the whole cooldown sequence while it waits is the reading
+Demonology's pilot chose over a promotion, and the gate stays open to revisit after it flies
+(`demonology/catalog.md`, changelog 2026-08-24). `noproc` is likewise unbudgeted — the proc's
+absence is on the icon already (no glow); the badge names it rather than claims it.
 
 **This is a rule about the row, not about any one button**, which is what makes it different from
 every other rule in this part. A hold is authored per ability and is true or false on its own
@@ -295,14 +302,16 @@ The lane border — a solid rectangular edge in one of **four hues** (COOLDOWN, 
 and CHARGES substituted in off a client charge read), drawn from a generated 16-frame ring flipbook
 that played once as a one-shot **arrival snap** when the drawn lane changed. Retired 2026-08-19 in
 favour of **V13**, one binary scan edge: the hue ladder had become an informational hint nobody was
-reading off, and `spec.md` §3.1's emphasis ladder is carried by **left-to-right scan order plus the
+reading off, and priority is carried by **left-to-right scan order plus the
 overlays**, not by colour. A fourth hue that *replaced* the role lane made that worse rather than
 better — it spent the one channel the ladder had on a fact (this ability has charges) the badge
 vocabulary already carries.
 
-**What survives, and where it went.** The role tiers COOLDOWN / ROTATION / FALLBACK are **model**,
-not paint: they stay in `spec.md` §3.1, in `Catalog.TIERS`, and in every catalog's `| Lane |`
-column, and they now decide only *whether* a row is in the scan. The `charged` flag stays authored
+**What survives, and where it went.** The role tiers COOLDOWN / ROTATION / FALLBACK outlived
+their paint by six days and left the model on 2026-08-25: membership is now a boolean
+(`scan_when`, default ready-self) in `spec.md` §3.1, `Catalog.TIERS` is deleted, and the
+catalogs' grouping is prose. While they lasted, the tiers decided only *whether* a row was
+in the scan — which is why a boolean replaced them without a pixel moving. The `charged` flag stays authored
 in the catalogs and read by the engine; nothing draws from it. The arrival machinery — the sheet,
 its cadence, `tokens.ring` / `tokens.arrival` / `tokens.motion` and `Media/ring.tga` — stays
 declared and on the ship path because **Part 7's `arrival-*` entries are still about it**; it is the
@@ -460,13 +469,25 @@ be showing the identical half-full flask, and the only way to tell "you cannot a
 opposite meanings were distinguishable only over time. The stills — empty for starved, full for
 overcap — are unambiguous in a glance, which is the only budget a corner badge has.
 
+**The two card stills** (2026-08-24) extend the same grammar. `building` wears
+`card_outline_lift` — a card being set down: *the board is still being built, keep placing* —
+on the rows a ramp holds while resource climbs to its window. `noproc` wears `card_outline` —
+an empty card slot: *the card that makes this play is not in your hand* — on a row whose whole
+value is a proc that is currently absent. Both are negatives: one red, told apart by shape,
+still images like every other negative. `noproc` exists apart from `blocked` because the two
+answer differently — `blocked` says *wait for a dependency's clock*, `noproc` says *nothing to
+wait on; the press belongs elsewhere until the proc returns* — and a reader mid-pull acts on
+that difference.
+
 ⚠ **A non-cue group that names a sprite off the cue sheet must DECLARE the borrow.** The
-pandemic badge and the count mark both name sprites they do not ship, riding the cue
-vocabulary's frame list — and an undeclared borrow silently stops shipping the day the last cue
-drops the frame: no missing file, no failing gate, a corner of the overlay simply blank (found
-2026-08-23, when dropping `blocked` to one frame took V19's then-glyph off the sheet).
-`capart.BORROWED_FRAMES` declares both, and `export badges` prunes what the shelf no longer
-names — which is also what retired `timer_CW_75` entirely when V19 moved to `fire`.
+count mark names a sprite it does not ship, riding the cue vocabulary's frame list — and an
+undeclared borrow silently stops shipping the day the last cue drops the frame: no missing
+file, no failing gate, a corner of the overlay simply blank (found 2026-08-23, when dropping
+`blocked` to one frame took V19's then-glyph off the sheet). `capart.BORROWED_FRAMES` declares
+it, and `export badges` prunes what the shelf no longer names — which is what retired
+`timer_CW_75` entirely when V19 moved to `fire`, and what ended V19's own borrow when the
+glyph became the dial: `fire` stays on the sheet as the `priority` cue's frame, and
+`tokens.pandemic` names no sprite at all.
 
 **`capped` keeps its `BOUNCE`** and is now the only cue in the vocabulary whose glyph moves at all:
 a thin stack growing to a full one, which is the loss it is warning about, drawn. It is positive,
@@ -482,13 +503,15 @@ breathe; the information may not. The glow is what earns the extra attention imp
 in peripheral vision, and since 2026-08-23 the frame bounce reinforces it rather than being house
 style a negative also wore.
 
-**How the frames step.** One shared `C_Timer.NewTicker` walks every visible badge; each one
-shows frame `floor(elapsed / (duration_s / #frames))` mapped through its `loop`, so the cadence is
-computed from the clock rather than accumulated per badge and cannot drift. `REPEAT` wraps;
-`BOUNCE` turns around at each end. This is the same walk `stepper.js` does, which is why the
-preview and the client show the same cadence. A `FlipBook` animation is the wrong tool here: it
-needs one sheet rather than a frame list, and it carries a standing `SetParent` crash report
-(`knowledge/addon-dev/frames-textures-animation.md:1386`).
+**How the frames step.** A multi-frame cue's frames are baked into a `strip_<cue>` sheet
+(capart bakes it beside the single frames) and a **FlipBook AnimationGroup** walks it — the
+client steps the frames, no Lua runs per tick, and a group armed before a handover keeps
+rendering where a ticker's writes are sealed (`security-taint-and-restricted-data.md` §3.5.3).
+`REPEAT` wraps; `BOUNCE` turns around at each end, which is the animation system's own loop
+type. `stepper.js` shows the same cadence from the same numbers, which is why the preview and
+the client agree. (The addon-wide ticker this paragraph used to describe was deleted 2026-08-24
+with the AnimationGroups conversion; the `SetParent` crash report on FlipBook is against
+re-parenting a playing one, which nothing here does — `frames-textures-animation.md` §7.1.)
 
 ⚠ **The timer sweep is a pace, not elapsed time.** It is a "waiting" glyph, not a dial, and it
 carries no clock — cap never reads one. If it reads as a countdown, that is a finding and this cue
@@ -1059,7 +1082,7 @@ measured and available (`[client 2026-08-21]`), and nothing in the style draws i
 
 **`AddPandemicRegion` takes any Region — a Frame with children included — seals its `Shown`, and
 drives it off the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell.** So
-a whole badge, plate and glyph together, appears and vanishes on Blizzard's real pandemic window.
+a whole badge, plate and dial together, appears and vanishes on Blizzard's real pandemic window.
 Promoted out of the lab 2026-08-22 per Part 7 rule 4, out of `pandemic_mark` (L3).
 
 ⚠ **It is the ONE sealed display cap authors no threshold for.** Every other form here makes cap
@@ -1068,7 +1091,7 @@ get wrong. This one has none. It is also **Blizzard's real pandemic** rather tha
 30 %, computed per spell by the code that owns the spell.
 
 **A Frame, not a texture, and that is what makes it a badge.** The client seals `Shown` and
-nothing else, so a plate and a sprite parented under the region appear and vanish together — the
+nothing else, so a plate and a dial parented under the region appear and vanish together — the
 same picture the cue vocabulary draws, out of a fact cap may not read. Its breath is gated for free
 exactly as V16's is: the client hides the region, so a loop running forever on it is invisible
 until the window opens.
@@ -1102,18 +1125,27 @@ clears at `outside_s`, a number the **catalog** authors. They can disagree near 
 authoring `outside_s` at the ability's nominal window makes the seam small, and whether it is
 visible is a flight question. A catalog that declares no `outside_s` gets the badge alone.
 
-**The badge holds cue-badge brightness exactly, and carries no number.** Plate at
-`badges.plate.alpha`, sprite at full alpha, no region-wide pulse — and the glyph is **`fire`,
-deliberately shared with the `priority` cue**: both statements are "act now — press this", and
-the window badge is exactly a client-decided promotion of a DoT row, so giving it the
-promotion's glyph is the grammar agreeing with itself. ⚠ Its previous glyph, `timer_CW_75`, is
-retired from the sheet: a static Kenney clock whose baked 75 % wedge read as a **live radial
-attached to nothing** — a reader watched a timer that never moved. The halo's breath is the
-badge's only motion. A countdown was
-drawn here briefly and removed the same day: the window's presence IS the statement, a number
-invites reading mid-pull, and the halo already carries the attention the badge needs. (It also
-took the `AddPandemicRegion` + `SetDurationText` one-button pairing question with it — the
-outside hatch's duration sink rides its own slot, which is the measured pattern.)
+**The badge's centre is a DIAL — a real radial countdown of the DoT's own lifetime.** Plate at
+`badges.plate.alpha`, no region-wide pulse, and where the glyph sat, a radial `StatusBar` the
+**client** drains: `SetDurationBar(bar, options)` seals only `BarValue` and its whole apply path
+is `statusBar:SetTimerDuration(auraDuration, interpolation, options.direction)` — with
+`direction = RemainingTime`, the gold arc empties as the DoT expires
+(`security-taint-and-restricted-data.md` §3.5.2, T1). Radial render mode is measured working on
+a `SetTimerDuration`-driven bar `[client 2026-08-21]`, pcall'd with linear fallback.
+⚠ **`ApplyDurationBar` never calls `SetMinMaxValues`** — cap calls `SetMinMaxValues(0, 1)` at
+setup or the bar draws 0 % forever (§4.8.1 finding 3). Cap reads nothing: the value is sealed on
+the bar and the drain is the client's, which is what separates this from every predecessor.
+⚠ Both predecessor glyphs are retired, and the distinction matters in prose: `timer_CW_75` was
+**static art** — a baked 75 % wedge that read as a live radial attached to nothing, a timer a
+reader watched and it never moved — where the dial is **a value the client drains**: the wedge's
+claim made true. The `fire` glyph that briefly replaced the wedge said nothing the ring and halo
+were not already saying. The badge still carries **no numeral** — a number invites reading
+mid-pull; the arc is a shape, read peripherally like everything else here. A separate NUMERIC
+countdown was drawn and removed the same day the wedge was, and stays removed. ⚠ The dial lives
+**inside the handed-over wrapper** — that is what makes it appear only in the refresh window —
+and the `AddPandemicRegion` + `SetDurationBar` one-button pair is **unflown**: each half is
+measured alone (§3.5.1's sink fill, §3.5.2's region), never together (Part 5). The outside
+hatch's `SetDurationText` sink still rides its own slot, which is the measured pattern.
 
 - **Lua:**
   ```lua
@@ -1122,14 +1154,55 @@ outside hatch's duration sink rides its own slot, which is the measured pattern.
   -- the FULL positive-cue treatment, armed BEFORE the handover (§3.5.3): V14's ring + the halo
   Paint.PromotionRing(region):SetShown(true)
   local halo = region:CreateTexture(nil, "OVERLAY", nil, 5)   -- badges.halo art, T.pandemic.glow
-  -- …plate and sprite parented under `region`, from T.pandemic and T.badges.plate,
-  --  at cue-badge brightness: no pulse, no countdown — the halo's breath is the only motion…
+  -- …plate parented under `region` from T.badges.plate, then the dial:
+  local bar = CreateFrame("StatusBar", nil, region)
+  bar:SetMinMaxValues(0, 1)                          -- FIRST — ApplyDurationBar never does (§4.8.1 f3)
+  -- track + flat gold fill from T.pandemic.dial; pcall(SetRenderMode, Radial) linear-fallback
+  pcall(button.SetDurationBar, button, bar,
+    { direction = Enum.StatusBarTimerDirection.RemainingTime })  -- the client drains it
   button:AddPandemicRegion(region)                   -- no threshold anywhere in this file
   ```
-- **Preview reproduction.** `--pd-rgb`, `--pd-size`, and the halo as the cues' own
-  `--badge-halo-stop` gradient at `--pd-glow-*`.
----
+- **Preview reproduction.** `--pd-rgb`, the dial as a `--pd-dial-*` conic-gradient arc that
+  counts down in real time over a nominal looping window (the swatch's job is showing a live
+  drain), and the halo as the cues' own `--badge-halo-stop` gradient at `--pd-glow-*`.
 
+### V20 · Proc bar — the proc's remaining lifetime, above the charge bar
+
+**A thin client-drained bar on the row's bottom edge, directly above V18's charge bar when one
+is declared: the proc's own remaining duration, emptying right-to-left as it expires.** The
+slot filters to the proc aura (`includeSpellIDs`, HELPFUL, unit player); while the aura is up
+the client shows the button and `SetDurationBar` → `SetTimerDuration(auraDuration,
+interpolation, RemainingTime)` drains the fill (§3.5.2, T1 — with the same trap as every
+duration bar: `SetMinMaxValues(0, 1)` FIRST or 0 % forever). Linear render mode — no radial,
+no pcall dance. When the aura drops, the client hides the whole button and the bar vanishes —
+visibility is free (§3.5.1). cap reads nothing, authors no threshold, never learns where the
+fill is.
+
+**Why a bar and not the corner dial it replaces** (2026-08-25, stepper feedback): the dial sat
+in the badge column, where **hue carries polarity** (V5.1) — a gold arc beside a red cue badge
+and a red hatch read as two verdicts arguing, exactly on the held rows where the countdown
+matters most (DEM-10). Edges carry no polarity grammar: the bottom edge already speaks
+quantity (V18), and time-remaining is quantity, not verdict. Moving it also un-crowds the
+densest corner (Demonbolt's declared stack was window badge + dial + two possible cue badges).
+The corner-dial form lived one day; `tokens.pandemic.dial` stays, because V19's badge dial —
+INSIDE the promoted badge, where gold is the promotion's own language — was never the problem.
+
+**Geometry is static, from declarations.** A row that also declares V18's charge bar lifts the
+proc bar to sit directly above it (`tokens.procbar.gap_px` between them); a row without one
+puts it on the bottom edge itself. Declaration-driven for the same reason as Part 2.5's
+cession rule: whether either bar is currently drawn is sealed.
+
+**Consumers:** Demonic Core on Demonbolt (gold time draining over the white Core count — "this
+many banked, this long to use one"), and the armed Demonic Art on the Shadow Bolt row while it
+displays Infernal Bolt (⚠ the art aura id `432794` is Tier-3-sourced and the slot dies silent
+on a wrong id — flight question).
+
+⚠ **Unflown**: `SetDurationBar` on its own slot is §3.5.1's measured fill, but a 3 px
+full-width duration bar has never been watched, and neither has two client-drained bars
+stacked on one row's bottom edge.
+
+- **Preview reproduction.** `--procbar-*` vars; a thin bar above the charge bar whose fill
+  drains in real time over a nominal looping window, gold over a dark track.
 ## Part 2.5 — Composing a row
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
@@ -1143,10 +1216,23 @@ rule below is about conditions competing for a surface, and a label is not a con
 2. **The scan edge** (V13), or none. It is one bit and has nothing to stack with.
 3. **A badge per cue** (V5/V5.1), each in the slot its cue owns. A cue named twice is one badge —
    that is how a catalog authors an OR without an OR.
-4. **A sealed display** (V16–V19), or none. Its widgets are the client's to show, so cap places
-   them and stops: a banded count takes the badge corner and the icon face, the radial takes the
-   corner plate, the refresh badge takes the corner. **At most one per entry** — the three sinks
-   all need an AuraContainer slot and a marker is at most one of them (`Channel.ContainerPlan`).
+4. **A sealed display** (V16–V20), or none per marker. Its widgets are the client's to show, so
+   cap places them and stops: a banded count takes the badge corner and the icon face, the
+   segmented bar takes the bottom edge, the refresh badge and the proc dial take the corner.
+   **At most one per marker** — every sink needs an AuraContainer slot and a marker is at most
+   one of them (`Channel.ContainerPlan`); a row may carry several markers (DEM-8, DEM-10).
+
+   ⚠ **Corner sealed displays claim stack slots 0..n−1 BY DECLARATION, in the catalog's
+   declared order, and the row's cue badges start at slot n.** The rule must be static: whether
+   the client is currently showing a sealed badge is exactly the fact cap may not read, so the
+   stack cannot re-flow around it — a row that DECLARES corner displays (V19, V20) cedes those
+   steps for the session, gated or not, and its cue badges flow from below them even while the
+   corners are empty. The cost is blank steps on such a row's quiet states; the alternative was
+   two things drawn on one pixel the first time a cue and the client fire together (DEM-10 is
+   that state). The claimers are V19's window badge and V16's corner elements (plate, mark,
+   numeral — one slot per marker); Implosion is the worked example — its band claims slot 0
+   and the `aoe_only` pawn sits at slot 1. V20 claims nothing here: it re-formed onto the
+   bottom edge (2026-08-25) and the edge has its own static rule, in its own section.
 
 ⚠ **An ELIMINATING mark draws over an INCLUDING one, and the frame level says so** (Part 1). The
 sealed hatch and the scan edge occupy the same pixels and make opposite statements; the skip wins,
@@ -1319,8 +1405,10 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    sweeping clock read as *waiting* or as a countdown. What is left is the harder half: does a
    **motionless** red glyph in a corner get noticed at all in a pull, or does stillness cost the
    thing it was meant to buy?
-4. **Does one shared red across five negative badges under-differentiate?** The shapes are meant to
-   carry the distinction. If they do not, the fix is different shapes, not a second hue.
+4. **Does one shared red across seven negative badges under-differentiate?** The shapes are meant
+   to carry the distinction — and the two card stills added 2026-08-24 (`building`, `noproc`)
+   push this question harder than the original five did. If they do not, the fix is different
+   shapes, not a second hue.
 5. **Does elimination alone lead the eye where no positive cue fires?** Most rows wear no promotion,
    and for those the walk is the whole reading. The scenarios with something to the *left* of the
    press are the test. If a scenario is unreadable without a positive cue that its catalog cannot
@@ -1350,12 +1438,14 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
     icon read as *this row's* count, or as furniture between rows? And does the whole-bar red
     flip at full read as *stop banking* in peripheral vision, which is its entire job?
 
-10. **Does the segmented bar's bottom edge read as part of the row?** V18 moved off the badge
-    corner and onto the bottom edge when the radial was re-formed as the segmented bar — which
-    ended the corner collision with V19's badge that this question used to carry (DEM-8 declares
-    both, and they no longer share a pixel). What is left to look at: does a 6 px bar under the
-    icon read as *this row's* count, or as furniture between rows? And does the whole-bar red
-    flip at full read as *stop banking* in peripheral vision, which is its entire job?
+11. **Does the `AddPandemicRegion` + `SetDurationBar` one-button pair work at all?** Each half
+    is measured alone — the duration-bar sink fills (§3.5.1), a handed-over wrapper appears and
+    vanishes on the window with its subtree (§3.5.2) — but a `SetDurationBar` widget living
+    *inside* the pandemic wrapper, on the same button, has never run. `--@unverified` on the
+    composition; the failure to watch for is a dial that never draws, or one the handover
+    orphans. And the look-at-it half: does a draining gold arc inside the window read as *time
+    left to act*, or does motion in the badge corner pull the eye harder than the promotion
+    deserves?
 
 9. **Does the hotkey read as a label or as another signal?** V15 is the only thing on a row that
    is not about the press, and its failure mode is being taken for one: a key the eye stops on
@@ -1517,6 +1607,30 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "duration_s": 1.2,
       "loop": "HOLD",
       "rank": 5,
+      "open": false,
+      "budgeted": false
+    },
+    "building": {
+      "means": "hold this for the Tyrant-style ramp and build resource — pressing it now spends the window on a half-built board",
+      "polarity": "negative",
+      "frames": [
+        "card_outline_lift"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 8,
+      "open": false,
+      "budgeted": false
+    },
+    "noproc": {
+      "means": "the proc that makes this button worth pressing is not up",
+      "polarity": "negative",
+      "frames": [
+        "card_outline"
+      ],
+      "duration_s": 1.2,
+      "loop": "HOLD",
+      "rank": 9,
       "open": false,
       "budgeted": false
     },
@@ -1685,9 +1799,21 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
     "tint": "shelf"
   },
   "pandemic": {
-    "_comment": "V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge — halo, plate and sprite together — appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively. The badge holds cue-badge brightness exactly — plate at badges.plate.alpha, sprite at full alpha, NO region pulse and NO countdown — and it wears the `fire` glyph, DELIBERATELY the same glyph as the `priority` cue: both mean 'act now — press this', and the window badge is exactly a client-decided promotion of a DoT row. (Its previous glyph, timer_CW_75, was a static Kenney clock whose baked 75% wedge read as a live radial attached to nothing — retired for lying.) Its motion is the FULL positive-cue treatment: V14's promotion ring (armed before the handover, FlipBook) plus `glow`, the SAME halo the positive cues wear (badges.halo art, radial falloff from badges.halo_falloff), breathing behind the plate, armed before the handover since that is the only motion that survives the in-combat forbidden-object seal (§3.5.3). The OUTSIDE-window state of the pair deliberately has no token group: it reuses the count vocabulary's positive hatch crop and this group's gold, and its threshold (outside_s, seconds) is the CATALOG's number, never the shelf's.",
-    "frame": "fire",
-    "size_px": 15,
+    "_comment": "V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region — a Frame with children included — seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge — halo, plate and dial together — appears and vanishes on Blizzard's real window. ⚠ It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively. The badge holds cue-badge brightness exactly — plate at badges.plate.alpha, NO region pulse and NO numeral — and its centre is the DIAL: a radial StatusBar the CLIENT drains off the aura's own duration object (SetDurationBar -> SetTimerDuration, direction = RemainingTime; §3.5.2, T1), gold arc (`dial.rgb`) over a dark track (`dial.track_rgb`/`track_alpha`) on the plate. Cap reads nothing — the bar's value is sealed (`BarValue`) and the drain is the client's. ⚠ ApplyDurationBar never calls SetMinMaxValues, so the addon calls SetMinMaxValues(0, 1) at setup or the bar draws 0 % forever (§4.8.1 finding 3); Radial render mode is pcall'd with linear fallback. (Its predecessor glyphs are both retired: timer_CW_75, a static Kenney clock whose baked 75% wedge read as a live radial attached to nothing, and briefly `fire` — the dial is the wedge's claim made TRUE, an arc that actually is the DoT draining.) ⚠ The AddPandemicRegion + SetDurationBar one-button pair is UNFLOWN — each half measured alone (Part 5). Its motion is the FULL positive-cue treatment: V14's promotion ring (armed before the handover, FlipBook) plus `glow`, the SAME halo the positive cues wear (badges.halo art, radial falloff from badges.halo_falloff), breathing behind the plate, armed before the handover since that is the only motion that survives the in-combat forbidden-object seal (§3.5.3). The OUTSIDE-window state of the pair deliberately has no token group: it reuses the count vocabulary's positive hatch crop and this group's gold, and its threshold (outside_s, seconds) is the CATALOG's number, never the shelf's.",
+    "dial": {
+      "size_px": 15,
+      "rgb": [
+        1.0,
+        0.78,
+        0.25
+      ],
+      "track_rgb": [
+        0.22,
+        0.17,
+        0.08
+      ],
+      "track_alpha": 0.6
+    },
     "rgb": [
       1.0,
       0.78,
@@ -1700,6 +1826,22 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "scale": 1.55
     },
     "tint": "shelf"
+  },
+  "procbar": {
+    "_comment": "V20. The proc's remaining lifetime as a thin client-drained bar above V18's charge bar (or on the bottom edge when no charge bar is declared). SetDurationBar -> SetTimerDuration(RemainingTime); SetMinMaxValues(0,1) FIRST (§4.8.1 finding 3); linear render mode. Gold over a dark track — the edge carries quantity, not polarity, which is why this lives here and not in the badge column (the corner-dial form it replaces lasted one day; V19's badge dial stays). gap_px separates it from the charge bar below. No art, so no tint key.",
+    "height_px": 3,
+    "gap_px": 1,
+    "rgb": [
+      1.0,
+      0.78,
+      0.25
+    ],
+    "track_rgb": [
+      0.22,
+      0.17,
+      0.08
+    ],
+    "track_alpha": 0.6
   },
   "hotkey": {
     "_comment": "V15. CHROME, not a cue (spec.md §3.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion — and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",
@@ -1804,20 +1946,6 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "swipe": false,
       "cues": []
     },
-    "hold-readable": {
-      "scan": true,
-      "swipe": false,
-      "cues": [
-        "blocked"
-      ]
-    },
-    "hold-sealed": {
-      "scan": true,
-      "swipe": false,
-      "cues": [
-        "blocked"
-      ]
-    },
     "ruled-sealed": {
       "_comment": "V17. The row is RULED OUT by a sealed count band — the client evaluated cap's own rule against a secret and drew the hatch and the mark itself. It carries no `cues` because there is no cue: the marks come out of one FontString the client writes, and a cue is a badge cap shows. It eliminates anyway, which is the whole novelty — this is the first eliminating signal that is neither Blizzard's swipe nor cap's own badge.",
       "scan": true,
@@ -1825,36 +1953,12 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "eliminates": true,
       "cues": []
     },
-    "starved": {
-      "scan": true,
-      "swipe": false,
-      "cues": [
-        "starved"
-      ]
-    },
-    "overcap": {
-      "scan": true,
-      "swipe": false,
-      "cues": [
-        "overcap"
-      ]
-    },
-    "off-mode": {
-      "scan": true,
-      "swipe": false,
-      "cues": []
-    },
     "press": {
       "scan": true,
       "swipe": false,
       "cues": []
     },
-    "press-promoted": {
-      "scan": true,
-      "swipe": false,
-      "cues": []
-    },
-    "below": {
+    "open": {
       "scan": true,
       "swipe": false,
       "cues": []
@@ -1917,7 +2021,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
       "cells": [
         {
           "ability": "Immolation Aura",
-          "verdict": "below",
+          "verdict": "open",
           "remaining_pct": 80,
           "place": "centre",
           "bands": [
@@ -1930,7 +2034,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
         },
         {
           "ability": "Immolation Aura",
-          "verdict": "below",
+          "verdict": "open",
           "remaining_pct": 20,
           "place": "badge",
           "composited": true,
@@ -1948,7 +2052,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
         },
         {
           "ability": "Immolation Aura",
-          "verdict": "below",
+          "verdict": "open",
           "remaining_pct": 80,
           "place": "badge",
           "composited": true,
@@ -1966,7 +2070,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
         },
         {
           "ability": "Immolation Aura",
-          "verdict": "below",
+          "verdict": "open",
           "remaining_pct": 80,
           "place": "badge",
           "bands": [
@@ -2000,7 +2104,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
         },
         {
           "ability": "Immolation Aura",
-          "verdict": "below",
+          "verdict": "open",
           "remaining_pct": 80,
           "place": "badge",
           "composited": true,
@@ -2019,7 +2123,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
         },
         {
           "ability": "Immolation Aura",
-          "verdict": "below",
+          "verdict": "open",
           "remaining_pct": 45,
           "place": "badge",
           "composited": true,
@@ -2054,13 +2158,16 @@ draw and does not restyle (V7); it appears here so the preview can reproduce the
 lands. A cue whose token carries `open: true` draws with a ⚠ chip in the preview and produces
 **no hint in the addon** until it is measured (`spec.md` §3.6); none does today.
 
-**`press`, `press-promoted` and `below` render identically, and that is the point.** The press is
-"the leftmost thing not ruled out," not a thing cap draws (Part 0.5). The verdict *names* are kept
-because `havoc/scenarios.md` needs them to state its argument — `press-promoted` still records
-*why* a windowed spender outranks a lit cooldown, and re-drawing that distinction is a one-line
-shelf edit if a flight asks for it.
+**`press` and `open` render identically, and that is the point.** The press is
+"the leftmost thing not ruled out," not a thing cap draws (Part 0.5). `press` is kept as a name
+because the scenario docs need it to state their falsifiable claim — the elimination gate
+re-derives it from the grammar and fails a row that disagrees. *(The 2026-08-25 collapse folded
+the eight cue-flavored verdicts into these two: a verdict like `starved` was a cue name wearing a
+second hat, and the cue now rides an explicit `{cues: …}` group instead. `press-promoted` folded
+into `press` — the positive cue on the row is what pass 1 reads; `below` folded into `open` —
+"right of the press" is a position, not a state.)*
 
-**The verdict vocabulary is closed.** These nine keys are the whole set a scenario may use;
+**The verdict vocabulary is closed.** These five keys are the whole set a scenario may use;
 `wowkb.capart` errors on anything else.
 
 ---

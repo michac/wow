@@ -26,11 +26,11 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blade Dance",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Immolation Aura",
@@ -38,23 +38,23 @@
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -104,7 +104,7 @@
         },
         {
           "name": "The Hunt",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Eye Beam",
@@ -112,7 +112,7 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blade Dance",
@@ -120,27 +120,27 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -175,11 +175,17 @@
       "row": [
         {
           "name": "Vengeful Retreat",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Metamorphosis",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "The Hunt",
@@ -199,27 +205,27 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -233,7 +239,7 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam returns in ~6s, inside the authored 8s band, so the reset would be thrown away on a cooldown about to come back by itself. Reads <code>hold-sealed</code> → skip."
+          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam returns in ~6s, inside the authored 8s band, so the reset would be thrown away on a cooldown about to come back by itself. Wears <code>blocked</code> from the sealed route → skip."
         },
         {
           "names": [
@@ -256,7 +262,7 @@
         },
         {
           "label": "Counter",
-          "html": "With Eye Beam <b>ready</b> instead of 6s out, Metamorphosis wears the same badge from a <em>readable</em> marker and reads <code>hold-readable</code>; the press moves to Eye Beam. ⚠ <b>Both markers are needed and neither is redundant.</b> The sealed band deliberately reads nothing at zero remaining, and Metamorphosis sits at position 2 — <b>left of</b> Eye Beam — so a quiet Meta would be pressed before the eye ever reached Eye Beam. Essence Break, sitting to Eye Beam&#x27;s <em>right</em>, needs only the band; elimination covers its zero case. Row position decides which halves a hold needs."
+          "html": "With Eye Beam <b>ready</b> instead of 6s out, Metamorphosis wears the same badge from a <em>readable</em> marker; the press moves to Eye Beam. ⚠ <b>Both markers are needed and neither is redundant.</b> The sealed band deliberately reads nothing at zero remaining, and Metamorphosis sits at position 2 — <b>left of</b> Eye Beam — so a quiet Meta would be pressed before the eye ever reached Eye Beam. Essence Break, sitting to Eye Beam&#x27;s <em>right</em>, needs only the band; elimination covers its zero case. Row position decides which halves a hold needs."
         },
         {
           "label": "Cue set",
@@ -275,7 +281,10 @@
         },
         {
           "name": "Metamorphosis",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "The Hunt",
@@ -295,27 +304,27 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -329,7 +338,7 @@
           "names": [
             "Metamorphosis"
           ],
-          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b> from a readable fact: Blade Dance is ready, so half the reset would be wasted (<code>!cooldown.blade_dance.up</code> in rung 3). Reads <code>hold-readable</code> → skip."
+          "html": "<b>Metamorphosis</b> — available, but the <b><code>blocked</code> badge lights</b> from a readable fact: Blade Dance is ready, so half the reset would be wasted (<code>!cooldown.blade_dance.up</code> in rung 3). Wears <code>blocked</code> (readable) → skip."
         },
         {
           "names": [
@@ -368,7 +377,10 @@
         },
         {
           "name": "Metamorphosis",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "The Hunt",
@@ -380,35 +392,35 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blade Dance",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -457,7 +469,10 @@
         },
         {
           "name": "The Hunt",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Eye Beam",
@@ -465,35 +480,35 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blade Dance",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -513,7 +528,7 @@
           "names": [
             "The Hunt"
           ],
-          "html": "<b>The Hunt</b> — available, but the <b><code>blocked</code> badge lights</b>: Meta is ~12s away, inside the authored 15s band, and rung 4 wants <code>cooldown.metamorphosis.remains&gt;15</code> before spending The Hunt bare. Save the empower for the Eye Beam Meta will reset. Reads <code>hold-sealed</code> → skip. <em>(Eye Beam is ready here, so the other band — Eye Beam <b>far</b> — is dark; either alone raises the same badge.)</em>"
+          "html": "<b>The Hunt</b> — available, but the <b><code>blocked</code> badge lights</b>: Meta is ~12s away, inside the authored 15s band, and rung 4 wants <code>cooldown.metamorphosis.remains&gt;15</code> before spending The Hunt bare. Save the empower for the Eye Beam Meta will reset. Wears <code>blocked</code> from the sealed route → skip. <em>(Eye Beam is ready here, so the other band — Eye Beam <b>far</b> — is dark; either alone raises the same badge.)</em>"
         },
         {
           "names": [
@@ -568,31 +583,31 @@
         },
         {
           "name": "Death Sweep",
-          "verdict": "press-promoted"
+          "verdict": "press"
         },
         {
           "name": "Consuming Fire",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Annihilation",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -656,31 +671,31 @@
         },
         {
           "name": "Blade Dance",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -719,7 +734,10 @@
       "row": [
         {
           "name": "Vengeful Retreat",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Metamorphosis",
@@ -735,7 +753,10 @@
         },
         {
           "name": "Essence Break",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Blade Dance",
@@ -743,27 +764,27 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -785,7 +806,7 @@
           "names": [
             "Essence Break"
           ],
-          "html": "<b>Essence Break</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam returns in ~2s, inside the authored 4s band, and opening now would clip the amp window into Eye Beam. Reads <code>hold-sealed</code> → skip."
+          "html": "<b>Essence Break</b> — available, but the <b><code>blocked</code> badge lights</b>: Eye Beam returns in ~2s, inside the authored 4s band, and opening now would clip the amp window into Eye Beam. Reads <code>blocked</code> (sealed) → skip."
         },
         {
           "names": [
@@ -836,27 +857,27 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -926,23 +947,23 @@
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -1006,7 +1027,10 @@
         },
         {
           "name": "Blade Dance",
-          "verdict": "starved"
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
         },
         {
           "name": "Immolation Aura",
@@ -1014,7 +1038,10 @@
         },
         {
           "name": "Chaos Strike",
-          "verdict": "starved"
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
         },
         {
           "name": "Felblade",
@@ -1022,15 +1049,15 @@
         },
         {
           "name": "Demon's Bite",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -1111,7 +1138,10 @@
         },
         {
           "name": "Immolation Aura",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Chaos Strike",
@@ -1119,19 +1149,25 @@
         },
         {
           "name": "Felblade",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Demon's Bite",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [
@@ -1150,7 +1186,7 @@
           "names": [
             "Immolation Aura"
           ],
-          "html": "<b>Immolation Aura</b> — available, but the <b><code>blocked</code> badge lights</b>. At one target with no charge banked, Immolation Aura&#x27;s rung is <b>25</b> — <em>below</em> Chaos Strike&#x27;s 23 — and row position 7 says the opposite, so the badge is what corrects it. Reads <code>hold-readable</code> → skip."
+          "html": "<b>Immolation Aura</b> — available, but the <b><code>blocked</code> badge lights</b>. At one target with no charge banked, Immolation Aura&#x27;s rung is <b>25</b> — <em>below</em> Chaos Strike&#x27;s 23 — and row position 7 says the opposite, so the badge is what corrects it. Wears <code>blocked</code> → skip."
         },
         {
           "names": [
@@ -1209,23 +1245,29 @@
         },
         {
           "name": "Chaos Strike",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Felblade",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Demon's Bite",
-          "verdict": "overcap"
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
         },
         {
           "name": "Fel Rush",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Throw Glaive",
-          "verdict": "below"
+          "verdict": "open"
         }
       ],
       "steps": [],

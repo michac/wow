@@ -3,7 +3,7 @@
 **Applies to:** Destruction (specID **267**), hero tree **Diabolist** (59), Midnight 12.1. This is
 the normative catalog document: the thing a future `Catalogs/Destruction.lua` transcribes. It is
 a provisional product characterization for play, not a claim the rules are universally correct.
-`../spec.md` §3.1 owns the tier model and §3.6 the readable/sealed boundary;
+`../spec.md` §3.1 owns the membership model and §3.6 the readable/sealed boundary;
 `../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `../render-shelf.md` owns what a cue looks like and this file never describes a pixel;
 `../authoring.md` owns the process. **Three files, per `authoring.md` §0** — this is the
@@ -82,18 +82,18 @@ pass 1 rests on.
 Base spell IDs from `knowledge/classes/warlock/destruction/ability-inventory.tsv`
 (DB2 @ 12.1.0.69214). Override IDs are resolved live via R7; the numbers are reference.
 
-| Key | Ability | Base spell ID | Live override | Lane | Charges | Cues |
+| Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `soul_fire` | Soul Fire | `6353` | — | COOLDOWN | — | overcap (A) |
-| `conflagrate` | Conflagrate | `17962` | — | ROTATION | 2 | `capped` at 2/2 (B) + Backdraft hold (C) + overcap (D) |
-| `summon_infernal` | Summon Infernal | `1122` | — | COOLDOWN | — | — |
-| `immolate` | Immolate | `348` | — | ROTATION | — | target-DoT hold (E) |
-| `cataclysm` | Cataclysm | `152108` | — | COOLDOWN | — | talent gate (F) |
-| `chaos_bolt` | Chaos Bolt | `116858` | **Ruination `433885`** | ROTATION | — | starved (G) |
-| `shadowburn` | Shadowburn | `17877` | — | ROTATION | — | proc hold (H) + `priority` on the proc (I) + starved (G) |
-| `incinerate` | Incinerate | `29722` | **Infernal Bolt `433891`** | FALLBACK, **ROTATION while transformed** | — | — |
-| `rain_of_fire` | Rain of Fire | `5740` | — | ROTATION | — | single-target skip (J) |
-| `havoc` | Havoc | `80240` | — | COOLDOWN | — | single-target skip (J) |
+| `soul_fire` | Soul Fire | `6353` | — | scan | — | overcap (A) |
+| `conflagrate` | Conflagrate | `17962` | — | scan | 2 | `capped` at 2/2 (B) + Backdraft hold (C) + overcap (D) |
+| `summon_infernal` | Summon Infernal | `1122` | — | scan | — | — |
+| `immolate` | Immolate | `348` | — | scan | — | target-DoT hold (E) |
+| `cataclysm` | Cataclysm | `152108` | — | scan | — | talent gate (F) |
+| `chaos_bolt` | Chaos Bolt | `116858` | **Ruination `433885`** | scan | — | starved (G) |
+| `shadowburn` | Shadowburn | `17877` | — | scan | — | proc hold (H) + `priority` on the proc (I) + starved (G) |
+| `incinerate` | Incinerate | `29722` | **Infernal Bolt `433891`** | scan | — | — |
+| `rain_of_fire` | Rain of Fire | `5740` | — | scan | — | single-target skip (J) |
+| `havoc` | Havoc | `80240` | — | scan | — | single-target skip (J) |
 
 ⚠ **The Incinerate row's `cooldownID` binds spell `686`, not `29722`.** Its Essential row is
 **Shadow Bolt**, and Incinerate is a **permanent, spec-wide override** of it:
@@ -251,31 +251,35 @@ for the whole DoT. The refresh is therefore **late by up to the pandemic window*
 
 ---
 
-## The lanes, and why the priority falls out of them
+## The groups, and why the priority falls out of them
 
-- **COOLDOWN** = Soul Fire, Summon Infernal, Cataclysm, Havoc — the placed cooldowns. They light
-  when ready; the only thing that says wait is cue **A** (a readable resource comparison) and cue
-  **F** (a readable talent gate). ⚠ **This catalog authors no `sealed-cooldown-range` band at
-  all** — not one rung in `actions.default` reads another ability's `cooldown.X.remains`. Havoc's
-  and Retribution's signature mechanism has **zero consumers here**, exactly as it has none on
-  Devourer, and for the same reason: the ordering reasons are resource- and buff-shaped rather
-  than cooldown-alignment-shaped.
-- **ROTATION** = Conflagrate, Immolate, Chaos Bolt / Ruination, Shadowburn, Rain of Fire, plus
-  **the filler row's second life**: while row 8 is displaying Infernal Bolt it is a shard builder
-  worth pressing over the ordinary filler, and it is banded as one.
-- **FALLBACK** = Incinerate in its base life. The tier has a drawn subject on every build.
+Every bound row is a default ready-self scan member (no row here declares a `scan_when`); the
+groups below are prose — how the roster reads, not anything the engine holds.
 
-Tier + cues, read together, reproduce the priority; that is the §3.1 point.
+- **Pressed on sight** — Soul Fire, Summon Infernal, Cataclysm, Havoc: the placed cooldowns.
+  They light when ready; the only thing that says wait is cue **A** (a readable resource
+  comparison) and cue **F** (a readable talent gate). ⚠ **This catalog authors no
+  `sealed-cooldown-range` at all** — not one rung in `actions.default` reads another ability's
+  `cooldown.X.remains`. Havoc's and Retribution's signature mechanism has **zero consumers
+  here**, exactly as it has none on Devourer, and for the same reason: the ordering reasons are
+  resource- and buff-shaped rather than cooldown-alignment-shaped.
+- **The decision surface** — Conflagrate, Immolate, Chaos Bolt / Ruination, Shadowburn, Rain of
+  Fire, plus **the filler row's second life**: while row 8 is displaying Infernal Bolt it is a
+  shard builder worth pressing over the ordinary filler.
+- **Reached by subtraction** — Incinerate in its base life, the filler. It has a drawn subject
+  on every build.
+
+Membership + cues, read together, reproduce the priority; that is the §3.1 point.
 
 ---
 
 ## Roster — player problem → fact → recipe → treatment
 
-### COOLDOWN lane
+### Pressed on sight
 
 - **Soul Fire** (`6353`, default 1). *Problem:* it is the top of the priority and a shard
   generator, so at cap it is the one placed cooldown that can be actively wasted — and its icon
-  cannot say so. *Facts:* `ready` (R2); **readable Soul Shards** (R3). *Treatment:* COOLDOWN +
+  cannot say so. *Facts:* `ready` (R2); **readable Soul Shards** (R3). *Treatment:* scan +
   - `sf_overcap` — **readable** `overcap`, cue **A**: `{ "resource", ">=", 5 }`, gated on
     `ready(soul_fire)`. That is rung 1's `soul_shard<=4`, read as waste.
   ⚠ **12.1 made this row matter more than the pre-patch guides suggest.** Soul Fire took **+45 %**
@@ -284,11 +288,11 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
   sitting near Cataclysm.
 - **Summon Infernal** (`1122`, default 5). *Problem:* none a cue solves — it is the burst window
   and everything else syncs to it, but the syncing is done by *other* rows and by the player's
-  potion/trinket habits, which cap does not model. *Fact:* `ready` (R2). *Treatment:* COOLDOWN,
+  potion/trinket habits, which cap does not model. *Fact:* `ready` (R2). *Treatment:* scan,
   no cues.
 - **Cataclysm** (`152108`, default 12). *Problem:* on a build without **Lake of Fire** it is not
   in the single-target priority at all, and the icon looks identical either way. *Facts:*
-  `ready` (R2); `talent(lake_of_fire)`. *Treatment:* COOLDOWN +
+  `ready` (R2); `talent(lake_of_fire)`. *Treatment:* scan +
   - `cata_awaits_talent` — **readable** `blocked`, cue **F**: `!talent(lake_of_fire)`, gated on
     `ready(cataclysm)`. That is rung 12 exactly, negated. On a Lake of Fire build the marker is
     never authored and position 5 — between Immolate (rung 9) and Chaos Bolt (rung 13) — is
@@ -297,19 +301,19 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
   is not modelled. The `talent.lake_of_fire` half of that same rung is, so the cue is right in
   AoE too.
 - **Havoc** (`80240`, `aoe_dia` 8). *Problem:* it does nothing in single target. *Facts:*
-  `ready` (R2); cap's `/cap aoe` toggle. *Treatment:* COOLDOWN + cue **J** (below).
+  `ready` (R2); cap's `/cap aoe` toggle. *Treatment:* scan + cue **J** (below).
   ⚠ **Havoc is a choice node against Mayhem**, and `builds.md` records Mayhem as preferred for
   passive cleave uptime. On a Mayhem build this row does not exist and the entry costs nothing —
   the same shape as Retribution's Crusader Strike on a Crusading Strikes build.
 
-### ROTATION lane
+### The decision surface
 
 - **Conflagrate** (`17962`, default 2, 4 and 10). *Problem:* three of them, and they are the
   reason this row carries more vocabulary than any other. It banks charges and loses them; it
   grants Backdraft and stacking a second one is waste; and it generates shards, which at cap is
   also waste. *Facts:* `capped` (R6 — readable **only** at full, which is what the top rung asks);
   `aura(backdraft)` (the CDM alert-edge latch); **readable Soul Shards** (R3). *Treatment:*
-  ROTATION, `charged = 2`, +
+  scan, `charged = 2`, +
   - `conflag_capped` — **readable** `capped`, cue **B**: `capped(conflagrate)`. Rung 2 is
     `action.conflagrate.charges>=2` with **no other term**, and it sits second in the whole
     priority. This is the catalog's one deliberate positive cue and the argument for it is below.
@@ -332,7 +336,7 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
   `aura(immolate)` on the **target** — a readable up/down latch off the Cooldown Manager's
   `OnAuraApplied` / `OnAuraRemoved` alert edges, the same recipe Retribution's cue G is built on
   (R8-adjacent; `knowledge/addon-dev/cdm-rider-patterns.md` §6.2, flown in combat on a hostile
-  target `[client 2026-08-19]`). *Treatment:* ROTATION +
+  target `[client 2026-08-19]`). *Treatment:* scan +
   - `immolate_up` — **readable** `blocked`, cue **E**: `aura(immolate)`.
   ⚠ **This holds the row for the whole DoT, including the window the APL wants to refresh in**,
   which makes every refresh late by up to the pandemic window. That is a real cost and it is
@@ -350,7 +354,7 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
 - **Chaos Bolt / Ruination** (`116858` → `433885`, default 3 and 13 / 11). *Problem:* it is the
   payoff spender and it is shown castable when you cannot pay for it; and when to *pool* rather
   than press rests on the ritual clock. *Facts:* `affordable` (R1); `identity` (R7).
-  *Treatment:* ROTATION (one lane — both lives are shard spenders) +
+  *Treatment:* scan (one row — both lives are shard spenders) +
   - `cb_starved` — **readable** `starved`, cue **G**: `!affordable(chaos_bolt)`.
     `Sense.buildReads` asks affordability of the **live** id (`info.override or row.primary`), so
     on the transformed row this is **Ruination's** cost, which is none, and on the base row it is
@@ -362,7 +366,7 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
 - **Shadowburn** (`17877`, default 7). *Problem:* it is the spec's most valuable spender and it is
   usable only in two very different situations — under a Fiendish Cruelty proc, or on a target
   below 20 % health — and one of those cap can see. *Facts:* `proc` (the spell-activation
-  overlay); `talent(conflagration_of_chaos)`; `affordable` (R1). *Treatment:* ROTATION +
+  overlay); `talent(conflagration_of_chaos)`; `affordable` (R1). *Treatment:* scan +
   - `sb_awaits_proc` — **readable** `blocked`, cue **H**: `!proc(shadowburn)` **and**
     `!talent(conflagration_of_chaos)`. That is rung 7's second conjunct,
     `(buff.fiendish_cruelty.up|talent.conflagration_of_chaos)`, negated — **so it is true by
@@ -379,14 +383,15 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
   **first** return on an access-gated spell, which is unmeasured — and it is the *same* open fact
   Devourer's Collapsing Star row is waiting on. *Defeats*, item 3.
 
-### FALLBACK lane
+### Reached by subtraction
 
 - **Incinerate / Infernal Bolt** (`29722` → `433891`, default 15 / 14). *Problem:* in its base
   life, none a cue solves — it is the filler and it is reached by subtraction. In its **Infernal
   Bolt** life it generates three shards and outranks the ordinary filler by one rung.
-  *Facts:* `ready` (R2); `identity` (R7). *Treatment:* **two bands, identity first**:
-  1. **ROTATION** while `identity(incinerate) == transformed`.
-  2. **FALLBACK** otherwise.
+  *Facts:* `ready` (R2). *Treatment:* scan — **default membership**, ready-self and nothing
+  else. *(Until 2026-08-25 this row carried a two-band identity flip, ROTATION while
+  transformed / FALLBACK otherwise; both bands yielded membership, so the flip said nothing the
+  icon does not, and under blindness it darkened a filler that should stay lit.)*
   No cues. ⚠ **And unlike Demonology, no companion marker is needed.** There the transform
   outranks its left-hand neighbour and Demonbolt has to be stood down; here rungs 14 and 15 are
   adjacent and the row is last, so the identity changes the row's *kind* and nothing about the
@@ -394,7 +399,7 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
   is worth noticing: **position decides whether a transform costs a marker.**
 - **Rain of Fire** (`5740` / `1214467`, `aoe_dia` 3). *Problem:* it does nothing worth doing in
   single target and it is the AoE spender. *Facts:* cap's `/cap aoe` toggle; `affordable` (R1).
-  *Treatment:* ROTATION + cue **J**.
+  *Treatment:* scan + cue **J**.
   ⚠ **Two spell ids, one entry**, both Category-0 rows in set 884 (OrderIndex 4 and 5). They go
   in the catalog's `alt` field, as the Grimoire pair does on Demonology.
   ⚠ **The `3.5` in `aoe_dia` rung 3 is not the cost.** Rain of Fire costs **3 whole shards** on
@@ -415,7 +420,7 @@ Tier + cues, read together, reproduce the priority; that is the §3.1 point.
 
 ## The cues, collected
 
-| Cue | What the player sees | Fact | Tool / lane | Recipe | Sink |
+| Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
 | **A** Soul Fire overcap | Soul Fire wears the `overcap` badge at five Soul Shards | `UnitPower(player, SoulShards) >= 5` | marker (readable) | R3 | corner badge, slot 2 |
 | **B** banked charge | **Conflagrate only** wears the gold `capped` badge at 2/2 charges — the one state R6 can read exactly, and the one the top rung asks about | `C_Spell.GetSpellCharges` at full | marker (readable) | R6 | corner badge, rank 2 |
@@ -617,7 +622,7 @@ An ability with no named player problem gets no row; so does one with no Cooldow
   never-secret), `proc` (the spell-activation overlay boolean), `aura` (the CDM alert-edge latch,
   player and target), `talent` (the trait config), and `aoe` — which is not a game read at all
   but cap's own toggle.
-- **No sealed fact reaches any sink.** This catalog authors **no cue at all** in the sealed lane:
+- **No sealed fact reaches any sink.** This catalog authors **no cue at all** in the sealed route:
   no `sealed-cooldown-range`, no `sealed-power-percent`, no `player-aura-stacks`. That is a
   first, and it is a consequence of the rungs rather than a policy.
 - **No cooldown remaining, no aura duration, no aura stack count and no target health ever enters
@@ -635,6 +640,12 @@ An ability with no named player problem gets no row; so does one with no Cooldow
 ---
 
 ## Changelog
+
+**2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
+(`../spec.md` §3.1): the Lane column became Scan, every row is a default ready-self scan member,
+and Incinerate's two-band identity flip was deleted — both bands yielded membership, so the flip
+carried no membership information, and the row now stays lit under an unknown identity
+(authored, not flown). The lane names survive above only as prose grouping.
 
 **2026-08-19 — authored**, stages 1–5 of `../authoring.md`, replacing the 2026-era authoring
 proof. Sources: `knowledge/classes/warlock/destruction/simc-apl.md` @ commit `8ec56ea`,

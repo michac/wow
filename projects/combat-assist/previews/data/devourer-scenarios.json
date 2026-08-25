@@ -27,15 +27,15 @@
         },
         {
           "name": "Soul Immolation",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Voidblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consume",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -104,19 +104,22 @@
         },
         {
           "name": "Void Ray",
-          "verdict": "starved"
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
         },
         {
           "name": "Soul Immolation",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Voidblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consume",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -185,7 +188,10 @@
         },
         {
           "name": "Void Ray",
-          "verdict": "starved"
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
         },
         {
           "name": "Soul Immolation",
@@ -262,23 +268,23 @@
         },
         {
           "name": "Reap",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Void Ray",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Soul Immolation",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Voidblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consume",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -329,7 +335,10 @@
         },
         {
           "name": "Void Metamorphosis",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Reap",
@@ -341,15 +350,15 @@
         },
         {
           "name": "Soul Immolation",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Voidblade",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consume",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -422,15 +431,18 @@
         },
         {
           "name": "Soul Immolation",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Pierce the Veil",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Devour",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -512,15 +524,18 @@
         },
         {
           "name": "Soul Immolation",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Pierce the Veil",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Devour",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -578,15 +593,18 @@
         },
         {
           "name": "Soul Immolation",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Pierce the Veil",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Devour",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -652,11 +670,11 @@
         },
         {
           "name": "Pierce the Veil",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Devour",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],
@@ -732,7 +750,10 @@
         },
         {
           "name": "Soul Immolation",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Pierce the Veil",
@@ -740,7 +761,7 @@
         },
         {
           "name": "Devour",
-          "verdict": "below",
+          "verdict": "open",
           "virtual": true
         }
       ],

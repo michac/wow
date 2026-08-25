@@ -162,31 +162,31 @@ nothing else. No scan edge, no badge. V12 declares two kinds — **gated** and
 ## 5. The roster — player problem → fact → treatment
 
 Stage 2's filter: **an ability with no named player problem gets no row.** Eight survive — five
-Essential rows, one Utility row, and two **virtual rows** (§6.1). The role tiers are
-`../spec.md` §3.1's.
+Essential rows, one Utility row, and two **virtual rows** (§6.1). Scan membership is
+`../spec.md` §3.1's: every drawable row here is a default ready-self scan member (no row
+declares a `scan_when`).
 
 ### 5.0 Bound abilities
 
 The same table Havoc and Retribution carry, and the one `wowkb.capart` parses: it is what binds a
-display name to a spell id, a role lane and a charge count, so nothing below has to restate any of
+display name to a spell id, scan membership and a charge count, so nothing below has to restate any of
 them. Base ids are `abilities.md` / `ability-inventory.tsv`; override ids are resolved live by R7
 and the numbers here are reference. **Both a base name and every override name are keys**, because
 a scenario row writes whatever the client would *display* at that moment.
 
-⚠ **Lanes are §5.1 / §5.2's, transcribed and not re-decided.** The two virtual rows are in the
-table because they are drawable buttons cap owns (§6.1); the **Surface** column is what says a row
-has no Cooldown Manager frame at all.
+⚠ The two virtual rows are in the table because they are drawable buttons cap owns (§6.1);
+the **Surface** column is what says a row has no Cooldown Manager frame at all.
 
-| Key | Ability | Base spell ID | Live override | Lane | Charges | Surface | Cues |
+| Key | Ability | Base spell ID | Live override | Scan | Charges | Surface | Cues |
 | --- | --- | ---: | --- | --- | --- | --- | --- |
-| `void_metamorphosis` | Void Metamorphosis | `1217605` | — | COOLDOWN | — | CDM Essential | the Eradicate-setup hold (D) + the sealed soul-bank readout (C) |
-| `reap` | Reap | `1226019` | Cull `1245453` / Eradicate `1225826` | ROTATION | — | CDM Essential | — (identity spine only) |
-| `void_ray` | Void Ray | `473728` | — | ROTATION | — | CDM Essential | starved (A) |
-| `soul_immolation` | Soul Immolation | `1241937` | — | ROTATION | — | CDM Essential | the drain save (B) |
-| `voidblade` | Voidblade | `1245412` | Pierce the Veil `1245483` / Hungering Slash `1239123` / Reaper's Toll `1245470` | ROTATION | — | CDM Essential | — (see `scenarios.md` §7.5, misordering 2) |
-| `collapsing_star` | Collapsing Star | `1221167` | — | ROTATION | — | **virtual · gated** (§6.1) | — (V12: the hatch and nothing else) |
-| `consume` | Consume | `473662` | Devour `1217610` | ROTATION | — | **virtual · standing** (§6.1) | — (V12: no verdict at all) |
-| `vengeful_retreat` | Vengeful Retreat | `198793` | — | COOLDOWN | — | CDM Utility | — (cue E deleted, §6) |
+| `void_metamorphosis` | Void Metamorphosis | `1217605` | — | scan | — | CDM Essential | the Eradicate-setup hold (D) + the sealed soul-bank readout (C) |
+| `reap` | Reap | `1226019` | Cull `1245453` / Eradicate `1225826` | scan | — | CDM Essential | — (identity spine only) |
+| `void_ray` | Void Ray | `473728` | — | scan | — | CDM Essential | starved (A) |
+| `soul_immolation` | Soul Immolation | `1241937` | — | scan | — | CDM Essential | the drain save (B) |
+| `voidblade` | Voidblade | `1245412` | Pierce the Veil `1245483` / Hungering Slash `1239123` / Reaper's Toll `1245470` | scan | — | CDM Essential | — (see `scenarios.md` §7.5, misordering 2) |
+| `collapsing_star` | Collapsing Star | `1221167` | — | scan | — | **virtual · gated** (§6.1) | — (V12: the hatch and nothing else) |
+| `consume` | Consume | `473662` | Devour `1217610` | scan | — | **virtual · standing** (§6.1) | — (V12: no verdict at all) |
+| `vengeful_retreat` | Vengeful Retreat | `198793` | — | scan | — | CDM Utility | — (cue E deleted, §6) |
 
 ⚠ **Collapsing Star's cast carries two ids** — `1221150` and `1221167` (§3) — and neither is in a
 Cooldown Manager category. `1221167` is the one bound here because it is the id §6.1 and
@@ -202,20 +202,20 @@ runtime, and all three are keys.
   fragment-gated, and the icon cannot say *"you need 50 souls"*. The APL's rule has a second
   half too: at 2+ targets, don't transform mid-way through setting up the Eradicate upgrade.
   *Facts:* `ready` (R2) for the tier; `aoe` + `talent(eradicate)` + `proc` (all readable) for
-  the hold; the **soul bank** (sealed) for the readout. *Treatment:* **COOLDOWN** + a red
+  the hold; the **soul bank** (sealed) for the readout. *Treatment:* scan + a red
   `blocked` hold (cue **D**) + the sealed bank readout (cue **C**).
 - **Reap → Cull / Eradicate** (`1226019`, rungs 6–7). *Problem:* one button wearing three
   faces, and the face changes what it is for — Eradicate is a 25 yd frontal cone you aim, Cull
   is the in-window harvest, Reap is the builder. *Facts:* `ready` (R2), `identity` (R7).
-  *Treatment:* **ROTATION** with the identity spine, no cue.
+  *Treatment:* scan with the identity spine, no cue.
   ⚠ **Its actual APL gate — `action.reap.souls_consumed>=4`, fragments lying on the ground —
-  has no API in any lane** (`fact-classification.md` §4.3). The press is directed by readiness alone. Blizzard's own
+  has no API in any route** (`fact-classification.md` §4.3). The press is directed by readiness alone. Blizzard's own
   glow already says *"upgraded"* (`fact-classification.md` §4.2), which is most of what a hint here would have said.
 - **Void Ray** (`473728`, rung 8). *Problem:* it costs **100 Fury**, Fury is secret, and the
   CDM shows it castable when you cannot pay — the exact failure R1 exists for, and this spec's
   only spender with a real cost. It is also the button that *creates* the Eradicate upgrade
   and the Moment of Craving reset, so a dropped channel costs two things the damage number
-  does not show. *Fact:* `affordable` (R1). *Treatment:* **ROTATION**, `starved` when
+  does not show. *Fact:* `affordable` (R1). *Treatment:* scan, `starved` when
   `insufficientPower` (cue **A**) — Havoc's cue A verbatim.
   ⚠ **Rung 8's hold has no authored form** (`fact-classification.md` §4.2): that is true of the
   **overlay channel**, where Eradicate and Moment of Craving share one row, so `proc(reap)` is
@@ -230,7 +230,7 @@ runtime, and all three are keys.
   when the window is ending. *Facts:* `ready` (R2) — a good proxy for rung 13's
   `active_dot=0` half, since a 5 s effect on a ~60 s cooldown is absent whenever the button is
   up; `identity(transformed)` (R7, readable) for *"am I in Meta"*; secret **Fury** vs an
-  authored break point (sealed, S1). *Treatment:* **ROTATION** + a red `blocked` hold (cue
+  authored break point (sealed, S1). *Treatment:* scan + a red `blocked` hold (cue
   **B**) while transformed *and* Fury is above one tick of drain.
 - **Voidblade → Hungering Slash / Pierce the Veil / Reaper's Toll** (`1245412`; rung 1 outside
   Meta, rungs 11–12 inside). *Problem:* two different problems on one icon. Outside Meta, rung
@@ -239,7 +239,7 @@ runtime, and all three are keys.
   same row is **Pierce the Veil** (or **Reaper's Toll** while Hungering Slash is the live form)
   — the once-per-window Voidsurge casts. *Facts:* `talent(devourers_bite)` (readable — without
   it rung 1 does not exist); `identity` (R7); the bank at max and the owed Voidsurge are both
-  **not readable today**. *Treatment:* **ROTATION**, identity spine, **no cue** — see `scenarios.md` §7's
+  **not readable today**. *Treatment:* scan, identity spine, **no cue** — see `scenarios.md` §7's
   documented misordering 2 and §8's ships/waits.
 
 ### 5.2 The Utility row
@@ -248,7 +248,7 @@ runtime, and all three are keys.
   **not** a mobility press and **not** press-on-cooldown. Its only rung is `buff.voidstep.up` —
   the Hungering-Slash-granted *"your next Vengeful Retreat will release a Cosmic explosion"*.
   No Voidstep, no press, ever. *Fact:* `proc(vengeful_retreat)` (readable, `fact-classification.md` §4.2).
-  *Treatment:* **COOLDOWN**, **and no cue** — see §6's *"the cue that was dropped"*.
+  *Treatment:* scan, **and no cue** — see §6's *"the cue that was dropped"*.
 
 ### 5.3 Named, and deliberately given no row
 
@@ -267,7 +267,7 @@ Provisional. Every one is a hypothesis judged by play, exactly as the pilots wer
 
 | Cue | What the player sees | Fact | Tool / channel | Recipe | Sink | Polarity |
 | --- | --- | --- | --- | --- | --- | --- |
-| **A** starved spender | Void Ray wears `starved` when you cannot pay 100 Fury | `insufficientPower` | emphasis (readable) | R1 | ROTATION emphasis | negative |
+| **A** starved spender | Void Ray wears `starved` when you cannot pay 100 Fury | `insufficientPower` | emphasis (readable) | R1 | scan emphasis | negative |
 | **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold`, gated on `identity(transformed)` | cue (sealed) + readable gate | S1 / V9 | colour curve → badge alpha | negative |
 | **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks (0–50) | **independent context** (sealed) | S2 `player-aura-stacks` / V8 — ⚠ needs `Channel.Plan`'s `min == 2` guard widened first, see §8.2 | client-owned count | **none** |
 | **D** the Eradicate setup hold | Void Metamorphosis wears `blocked` in AoE mode while *Eradicate* is talented and no Reap-family glow is up | `aoe` + `talent` + `proc`, all readable | cue (readable) | the shipped `aoe` / `talent` predicates + `proc` | corner badge | negative |
@@ -281,8 +281,9 @@ merits if one had survived. Three candidates were examined and all three resolve
 **Cue C is not a cue in the badge vocabulary at all, and that is what dissolves the polarity
 question.** The soul bank and the Collapsing Star counter looked like two positive cues in an
 earlier draft; they are one recipe — S2 `player-aura-stacks`, one sealed sink, one shape — and
-its shipped precedent is **Backdraft**, which `../spec.md` §3.5 describes as *"independent
-context… It does not change Conflagrate's tier and does not encode press or hold."* A
+its shipped precedent is **Backdraft** (`../spec.md` §3.5): independent context, owned by the
+client's own AuraContainer — it changes nothing about Conflagrate's scan membership and encodes
+neither press nor hold. A
 client-drawn number has no polarity because it makes no claim about rank. So the merge the
 review asked for is right, and it goes one step further: merged, the primitive stops being a
 cue and becomes a readout, and the positive/negative axis stops applying to it.
@@ -460,12 +461,12 @@ does ships without that hint** — which is exactly how §8.2 is written.
 
 | Row | Ships now | Waits, and on what |
 | --- | --- | --- |
-| **Void Metamorphosis** | COOLDOWN tier · cue **D** (AoE Eradicate hold) | a readable *"the bank is not full"* hold — open fact 3. Until then position 1 rests on the client's own desaturation (open fact 7). Cue **C** waits too, on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The 0–50 bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
-| **Reap → Cull / Eradicate** | ROTATION tier · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any lane — `[searched 2026-08-17]`, `fact-classification.md` §4.3. |
-| **Void Ray** | ROTATION tier · cue **A** (`starved`) | rung 8's hold — **not** an open fact but an expressiveness gap (`fact-classification.md` §4.2). It does not resolve by measuring. |
-| **Soul Immolation** | ROTATION tier · cue **B** (the drain save) | the break point's *value* — open fact 4. The cue ships; the number is a guess until flown. |
-| **Voidblade → PtV / Reaper's Toll** | ROTATION tier · the R7 identity spine (three-deep, `fact-classification.md` §4.4) · position 5 | the rung-1 hold (open fact 3) and the owed-Voidsurge cue (open fact 2). Misorderings 2 and 3. |
-| **Vengeful Retreat** (Utility) | COOLDOWN tier | nothing — the cue was **dropped on merit** (§6), not deferred. |
+| **Void Metamorphosis** | scan · cue **D** (AoE Eradicate hold) | a readable *"the bank is not full"* hold — open fact 3. Until then position 1 rests on the client's own desaturation (open fact 7). Cue **C** waits too, on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The 0–50 bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
+| **Reap → Cull / Eradicate** | scan · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any route — `[searched 2026-08-17]`, `fact-classification.md` §4.3. |
+| **Void Ray** | scan · cue **A** (`starved`) | rung 8's hold — **not** an open fact but an expressiveness gap (`fact-classification.md` §4.2). It does not resolve by measuring. |
+| **Soul Immolation** | scan · cue **B** (the drain save) | the break point's *value* — open fact 4. The cue ships; the number is a guess until flown. |
+| **Voidblade → PtV / Reaper's Toll** | scan · the R7 identity spine (three-deep, `fact-classification.md` §4.4) · position 5 | the rung-1 hold (open fact 3) and the owed-Voidsurge cue (open fact 2). Misorderings 2 and 3. |
+| **Vengeful Retreat** (Utility) | scan | nothing — the cue was **dropped on merit** (§6), not deferred. |
 | **Consume → Devour** (virtual, **standing**) | the standing virtual row, drawn clear at the right end of the panel · the R7 identity spine across the transform | **nothing.** A standing row asks for no verdict, so it depends on no open fact. Misordering 5 (the Soulburst promotion) is carried by Blizzard's own glow and is a shelf question, not a wait. |
 | **Collapsing Star** (virtual, **gated**) | nothing | **the whole row.** Its hatch-clear needs open fact 3, or the §6.1 fallback. |
 
@@ -504,6 +505,12 @@ whole panel waits on first.
 ---
 
 ## Changelog
+
+**2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
+(`../spec.md` §3.1): the Lane column became Scan, every drawable row is a default ready-self
+scan member, the §8.2 ships-now cells read `scan` instead of a tier name, and the dead §3.5
+"does not change Conflagrate's tier" quote was restated as a paraphrase of the surviving
+doctrine. No membership behavior changed here — no Devourer row ever conditioned its lane.
 
 **2026-08-17 (second pass) — stages 4–5 authored.** Both blocking product questions were
 answered by the author and the design closed around them.

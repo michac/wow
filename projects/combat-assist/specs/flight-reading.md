@@ -16,7 +16,7 @@ and usefulness.
 | Command | Carries |
 | --- | --- |
 | `wowkb.capture cap bind` | resolved CDM rows and binding health, plus the row-order note |
-| `wowkb.capture cap tier` | the readable signal; the legacy stream name remains during migration |
+| `wowkb.capture cap tier` | the readable signal; the stream NAME stays `tier` for reader compatibility — the body vocabulary is generational (see the Draw-surface ⚠) |
 | `wowkb.capture cap edge` | accepted and refused CDM alert edges, proc-glow edges, and identity flips |
 | `wowkb.capture cap draw` | the static overlay and Tyrant-bar paths cap attempted |
 | `wowkb.capture cap anchor` | **probe** — CDM frame re-anchoring: drawn position against the authored order |
@@ -87,17 +87,17 @@ fired"* rather than *"the recorder is broken."*
 
 ```
 S{n:2 on:2 mark:2 blind:0}
-E{demonbolt:ROTATION tyrant:ROTATION+dreadstalkers,grimoire}
+E{demonbolt:scan tyrant:scan+dreadstalkers,grimoire}
 R{ready:2/2 proc:1/1 identity:1/1 capped:1/1 affordable:2/2 resource:1/1}
 W{tyrant:dreadstalkers:on(!ready:dreadstalkers=T) tyrant:grimoire:off(identity:grimoire:transformed=F)}
 Q{-}
 S{settled/spells-changed}
 ```
 
-- `on:` is the number of enhanced entries assigned a tier by readable facts.
+- `on:` is the number of enhanced entries assigned scan membership by readable facts.
 - `mark:` is the number of readable context markers offered.
 - `blind:` counts conditions withheld because a read was unknown.
-- `E{}` names each enhanced entry, its emphasis, and any marker facts.
+- `E{}` names each enhanced entry, its membership (`id:scan` — pre-2026-08-25 captures say `id:ROTATION` etc. here, which reads as the same fact plus a tier the model no longer holds), and any marker facts.
 - `R{known/total}` distinguishes a false answer from a refused read. The predicates are
   `ready proc identity capped affordable resource talent aoe`, always in that order — `capped` is
   the charge-state read (`GetSpellCharges().isActive`), `affordable` the power one
@@ -129,14 +129,14 @@ S{settled/spells-changed}
 - `settled/...` names the bind-settle arm; `DARK` means combat began before a safe roster
   settled and the addon intentionally drew nothing for that fight.
 
-The stream can show that the authored mechanism fired. It cannot show that the Demonbolt tier
-or either Tyrant fact was helpful.
+The stream can show that the authored mechanism fired. It cannot show that the Demonbolt
+membership or either Tyrant fact was helpful.
 
 ## Draw surface
 
 ```
 D{n:2 rows:2 anch:2 conf:2 off:0 nf:0 bar:tex/fmt/font stock:coexist}
-P{demonbolt:ROTATION tyrant:ROTATION immolation_aura:CHARGES+blocked}
+P{demonbolt:scan tyrant:scan immolation_aura:scan+blocked}
 M{tyrant:dreadstalkers tyrant:grimoire}
 B{tyrant:armed}
 C{-}
@@ -148,12 +148,13 @@ C{-}
   `id:scan[+cue,cue]` — or `id:off` where the row drew nothing, `id:hidden` where its
   CDM item is real but not shown, `id:noframe` where no item was found. **`scan` is the whole of
   the drawn treatment**: a row is in the scan or it is not (shelf V13).
-  ⚠ **The ROLE TIER is deliberately not here** (changed 2026-08-19). It used to be —
-  `id:COOLDOWN`, with `CHARGES` substituted in on a charge read — and that stopped being a fact
-  about pixels when the four hues collapsed. The tier is still a model fact and is still
-  recoverable, from the `tier` stream's `W{}`. Reading an OLD capture, `id:ROTATION` means the
-  same as today's `id:scan` and carries a tier as a bonus; the reverse translation does not
-  exist.
+  ⚠ **The ROLE TIER is not here, and since 2026-08-25 it exists nowhere** (it left the paint
+  2026-08-19 and the model 2026-08-25). The body vocabulary has three generations: the oldest
+  captures say `id:COOLDOWN` (with `CHARGES` substituted in on a charge read) — a tier that
+  stopped being a fact about pixels when the four hues collapsed; every capture since, and the
+  format going forward, says `id:scan`. Reading an OLD capture, `id:ROTATION` means the same as
+  today's `id:scan` and carries a tier as a bonus — a model fact nothing current records; the
+  reverse translation does not exist.
   ⚠ **Only READABLE cues appear here.** A graded (sealed) cue's visibility is the client's, so
   it is reported in `C{}` as armed and never in `P{}` — a row wearing only a graded cue reads
   as bare here while its badge fades on screen, and that is correct, not a discrepancy.
@@ -300,8 +301,8 @@ For Demonology, play a short pull containing a Demonbolt proc and Tyrant setup:
 
 - Are the scan edges bright and distinct without flicker, and is it obvious which rows carry one?
   ⚠ **This list used to ask whether COOLDOWN, ROTATION and FALLBACK could be told apart
-  categorically.** They cannot, by design: V13 draws one treatment and the tiers reach the paint
-  as a single bit. Rank is row order.
+  categorically.** They cannot, by design: V13 draws one treatment, and since 2026-08-25
+  membership IS the single bit — the tiers left the model, not just the paint. Rank is row order.
 - Can it coexist with Blizzard's Demonbolt proc glow, or is one drowned out?
 - ⚠ The Dreadstalkers and Grimoire dots no longer draw, so the two questions this list used to
   ask about them are unanswerable until they are re-authored as cues.
@@ -310,8 +311,10 @@ For Demonology, play a short pull containing a Demonbolt proc and Tyrant setup:
 For Destruction / Diabolist, begin from an exact 2/2 Conflagrate seed and play through 1/2,
 0/2, and natural recharge:
 
-- Does Conflagrate visibly move between ROTATION, FALLBACK, and off at the authored shard/charge
-  states without implying an exact in-combat count?
+- Does Conflagrate hold one steady scan treatment across the authored shard/charge states — its
+  membership is the default ready-self, since the old two-band tier flip carried no membership
+  information — leaving the scan only when genuinely on cooldown, without implying an exact
+  in-combat count?
 - Is Backdraft text absent below two applications and visibly `2` at two during restricted
   combat? Does that context help without reading as a press/hold verdict?
 

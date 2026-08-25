@@ -148,9 +148,10 @@
     "<b>Two states for a running DoT, left to right.</b> Aura up but <b>outside</b> its " +
     "refresh window: the gold hatch — <em>do not refresh yet</em>, drawn by " +
     "<code>SetDurationText</code> band tables on the aura's remaining seconds. Aura up and " +
-    "<b>inside</b> the window: the badge — plate, glyph, the positive cues' halo behind it, " +
-    "at cue-badge brightness exactly, no pulse and no number: the halo's breath is its only " +
-    "motion. <em>&ldquo;refreshing this now clips nothing.&rdquo;</em> " +
+    "<b>inside</b> the window: the badge — plate, the positive cues' halo behind it, and at " +
+    "its centre the <b>dial</b>: a radial the <em>client</em> drains off the DoT's own " +
+    "remaining lifetime (<code>SetDurationBar</code>, RemainingTime — cap reads nothing). No " +
+    "numeral. <em>&ldquo;refreshing this now clips nothing — and this much time to do it.&rdquo;</em> " +
     "⚠ The two edges are not the same fact: the badge appears on Blizzard's real window " +
     "(<code>GetRefreshExtendedDuration &minus; GetAuraBaseDuration</code>, per spell — cap " +
     "authors <b>no threshold</b> there), while the hatch clears at a threshold the " +
@@ -160,6 +161,25 @@
       var strip = el("div", "swatch-stage");
       strip.appendChild(bareItem(D.scan_sample, "press", { sealed: ["pandemic"], outside: true }));
       strip.appendChild(bareItem(D.scan_sample, "press", { sealed: ["pandemic"] }));
+      return strip;
+    }));
+
+  gallery.appendChild(swatch("sealed · proc bar · V20 — the client drains the proc's clock",
+    "<b>The proc's remaining lifetime as a thin bar above the charge bar.</b> The slot " +
+    "filters to the proc aura; while it is up the client shows the button and " +
+    "<code>SetDurationBar</code> (RemainingTime) drains the fill off the aura's own duration " +
+    "— when the proc drops, the whole button vanishes with it. cap authors no threshold, " +
+    "reads nothing, and never learns where the fill is. It lives on the <em>edge</em>, not in " +
+    "the badge column, because hue carries polarity there and gold time beside a red hold " +
+    "read as two verdicts arguing (the corner-dial form lasted one day; V19's badge dial " +
+    "stays, inside the promotion where gold is the right language). Left: alone on the " +
+    "bottom edge. Right: lifted above V18's charge bar — <em>&ldquo;this many banked, this " +
+    "long to use one&rdquo;</em> — beside a held row's badge, which stays red-only. " +
+    "Consumers: Demonic Core on Demonbolt; the armed Demonic Art on the Infernal Bolt row.",
+    function () {
+      var strip = el("div", "swatch-stage");
+      strip.appendChild(bareItem(D.scan_sample, "press", { sealed: ["proc-bar"] }));
+      strip.appendChild(bareItem(D.scan_sample, "hold-readable", { sealed: ["count-bar", "proc-bar"] }));
       return strip;
     }));
 
@@ -195,11 +215,12 @@
 
   var vt = host("verdicts");
   var head = "<tr><th>verdict</th><th>in the scan</th><th>swipe</th><th>hatch</th>" +
-    "<th>cues</th></tr>";
+    "<th>eliminates</th><th>cues</th></tr>";
   vt.innerHTML = head + Object.keys(T.verdicts).map(function (k) {
     var r = T.verdicts[k];
     return "<tr><td>" + k + "</td><td>" + (r.scan ? "yes" : "—") + "</td><td>" +
            (r.swipe ? "yes" : "—") + "</td><td>" + (r.hatch ? "yes" : "—") + "</td><td>" +
+           (r.eliminates ? "yes" : "—") + "</td><td>" +
            ((r.cues && r.cues.length) ? r.cues.join(", ") : "—") + "</td></tr>";
   }).join("");
 

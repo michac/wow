@@ -14,20 +14,23 @@
         },
         {
           "name": "Divine Toll",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consecration",
@@ -35,15 +38,18 @@
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -97,16 +103,22 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consecration",
@@ -114,15 +126,18 @@
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -173,11 +188,14 @@
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consecration",
@@ -185,15 +203,18 @@
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -241,7 +262,10 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -250,23 +274,26 @@
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Consecration",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -320,12 +347,18 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
@@ -333,19 +366,22 @@
         },
         {
           "name": "Consecration",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -405,12 +441,18 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
@@ -425,15 +467,18 @@
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -499,12 +544,18 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
@@ -512,19 +563,22 @@
         },
         {
           "name": "Consecration",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -584,7 +638,10 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -593,7 +650,10 @@
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Consecration",
@@ -608,11 +668,14 @@
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -684,7 +747,10 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -693,7 +759,10 @@
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "hold-readable",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
           "sealed": [
             "count-bands"
           ]
@@ -704,15 +773,18 @@
         },
         {
           "name": "Hammer of Wrath",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -768,7 +840,10 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -785,7 +860,10 @@
         },
         {
           "name": "Judgment",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Blessed Hammer",
@@ -793,7 +871,10 @@
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -851,7 +932,10 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -930,7 +1014,10 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
@@ -951,11 +1038,14 @@
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -1007,16 +1097,25 @@
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Consecration",
@@ -1024,15 +1123,18 @@
         },
         {
           "name": "Hammer of Wrath",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [
@@ -1094,16 +1196,25 @@
         },
         {
           "name": "Divine Toll",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Shield of the Righteous",
-          "verdict": "starved",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
           "client": "not-enough-power"
         },
         {
           "name": "Holy Bulwark",
-          "verdict": "hold-sealed"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Avenger's Shield",
@@ -1111,19 +1222,22 @@
         },
         {
           "name": "Consecration",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Judgment",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Blessed Hammer",
-          "verdict": "below"
+          "verdict": "open"
         },
         {
           "name": "Word of Glory",
-          "verdict": "hold-readable"
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         }
       ],
       "steps": [

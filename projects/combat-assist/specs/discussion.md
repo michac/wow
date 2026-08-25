@@ -38,7 +38,8 @@ An empty file is this file's correct resting state, not a defect.
 
 `devourer/catalog.md` §6 binds Vengeful Retreat with **no cue**, and the reason it gave was that
 the lane border said *"this is a cooldown-class button"* in cap's own vocabulary. The scan edge
-does not say that — it is one bit and carries no category — so that argument is gone.
+does not say that — it is one bit and carries no category, and since 2026-08-25 the model
+holds no category either — so that argument is gone.
 
 Two things make the question sharper rather than academic:
 

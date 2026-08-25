@@ -40,10 +40,10 @@ Underneath them, three moves, in order of preference:
 3. **Contextualise.** Show what a moment *is* — an opener, a burst window, a
    cooldown coming back — so the choice you make is an informed one.
 
-The central expression of move 2 is the **tier signal** (§3.1): every ability cap
-has an opinion about carries a **role lane** — COOLDOWN, ROTATION, or FALLBACK —
-and the cues (§3.2) order things within and across those lanes. Read together, tier
-and cues put your presses in roughly the order an authoritative priority list would.
+The central expression of move 2 is **scan membership plus the augments** (§3.1):
+a row is either in the scan or it is not — the border is a castable-or-not flag —
+and the cues (§3.2) and sealed displays carry every finer statement. Read together,
+membership and cues put your presses in roughly the order an authoritative priority list would.
 Where the facts genuinely favor one option, cap layers emphasis and cues until that
 press is obvious; making the right press findable is the product.
 
@@ -81,25 +81,30 @@ if it is wrong, edit it.
 
 ### 3.1 Emphasis
 
-cap assigns one of three discrete **emphasis tiers** to an ability it has a useful opinion
-about. The tiers name the ability's **role**, not a raw urgency number:
+cap's coarse statement about an ability is a single boolean: **is this row in the scan?**
+A member row draws the one scan treatment — the lane border, which devolved by measurement
+into a castable-or-not flag — and a non-member row draws none of cap's emphasis. There is no
+finer gradation in that treatment: cues (§3.2) and sealed displays carry every statement
+finer than membership. *(Until 2026-08-25 this section defined three role tiers — COOLDOWN /
+ROTATION / FALLBACK — and mandated an emphasis ladder over them. The shipped renderer had
+already collapsed every tier onto the one scan treatment — `presentation_spec.lua` asserts
+there is nothing to tell them apart — so the model now says what the product does. The three
+names survive only as prose grouping in the catalogs.)*
 
-- **COOLDOWN** — a cooldown, burst button, or window-opener (Metamorphosis, Eye Beam, The
-  Hunt, Essence Break, Vengeful Retreat).
-- **ROTATION** — the build/spend core you cycle between, where there is a reason to favor one
-  over another right now (Chaos Strike/Annihilation, Felblade, Blade Dance/Death Sweep,
-  Immolation Aura). The cues (§3.2) do the choosing *within* this lane.
-- **FALLBACK** — a reasonable filler when nothing better is available (Throw Glaive, Fel Rush).
+The boolean serves the reading the pilot actually runs — the two-pass scan that
+`render-shelf.md` Part 0.5 owns:
 
-The lanes are the **coarse structure**; the cues carry the fine ordering. COOLDOWN is the
-highest baseline and FALLBACK the lowest, but a lane is not a strict priority — a ROTATION
-button inside a live window can outrank a lit COOLDOWN, and that is exactly what the cues
-express. This is the point of the whole tiering: **tier plus cues, read together, put your
-presses in roughly the order an authoritative priority list would** — which is why the player
-still reads the cues rather than blindly pressing the top lane.
+> "I'm scanning left to right to decide what to do. First I'm looking for positive cues,
+> which override the normal priority order with something time sensitive or normally very
+> out of order. Then I'm scanning left to right with each CDM item being augmented to
+> indicate it's unavailable for various reasons until I get to one that's ready."
+
+Membership plus cues, read together, put your presses in roughly the order an authoritative
+priority list would — which is why the player reads the cues rather than blindly pressing
+the leftmost lit thing.
 
 **Two tools, layered.** cap says things two ways. **Emphasis** is an on/off treatment driven by
-comparisons over values cap is *allowed to read* (the lanes above, and readable markers).
+comparisons over values cap is *allowed to read* (membership above, and readable markers).
 **Cues** are additive display forms fed by values cap may *display but not read* — colors,
 readouts, hold marks, bars — that stack and move but are never read back (§3.6). Author them
 together; a well-built catalog reproduces the priority order by layering the two.
@@ -108,17 +113,15 @@ Because emphasis is comparison-driven, it may be moved only by a **readable** fa
 whose active-state is sealed still informs, but through a cue (§3.2), never through emphasis.
 That is the §3.6 boundary, and it is the only thing this section constrains.
 
-An ability's lane is fixed by its role; whether it is *lit* depends on readable facts
-(readiness, affordability). It has no emphasis when no condition holds or a required read is
-unknown.
+By default a row is in the scan exactly when the ability itself is ready. A row whose
+membership is genuinely conditional declares `scan_when` — alternatives of readable terms,
+any one of which suffices. A row is withheld when no alternative holds or a required read
+is unknown: unknown never lights.
 
-**Emphasis has intensity, not just on/off.** For lane + cues to reproduce a priority order, "lit"
-must **rank**: **promoted (a windowed spender) > lit COOLDOWN > lit ROTATION baseline > dim/off.**
-The eye goes to the brightest. This is the mechanism by which tier and cues put presses in
-priority order — a promoted spender inside a readable window out-shines a lit cooldown, which is
-exactly why the empowered spender correctly outranks a ready cooldown in that window. *How* that
-ladder is drawn — brightness, hue, motion, thickness, or several at once — is a
-`render-shelf.md` question.
+**Membership does not rank.** One lit row is not brighter than another lit row; the eye is
+directed by cues and by elimination, never by comparing intensities. (The emphasis ladder that
+used to stand here — promoted > lit COOLDOWN > lit ROTATION > dim/off — described a product
+the renderer never shipped, and `presentation_spec.lua` exists to forbid it.)
 
 **Eye-direction by elimination.** A low-priority button is directed-to by the **absence** of
 competing emphasis, not by a bright cue of its own. The default spender and the filler need no
@@ -152,7 +155,7 @@ One rule, two mechanisms, one badge. So do not read *relationship* as a synonym 
 the relationship is what licenses the comparison, and the data class only decides who performs it.
 
 This is also where the honest limit sits — and it is **narrower than "the ordering-reason is
-secret."** "Tier plus cues reproduce the priority order" holds wherever the ordering-reason is
+secret."** "Membership plus cues reproduce the priority order" holds wherever the ordering-reason is
 readable *or expressible as an authored threshold on a secret value.* A **threshold comparison is
 not a branch cap performs**: cap hands the client an authored break point (the `sealed-power-percent`
 / S1 graded curve, §3.6) and the client evaluates the secret value against it and paints the result
@@ -171,11 +174,11 @@ These rules are spec-wide, not spec-specific; the Havoc scenario catalog (§3.7)
 document to walk a full priority list against them, rung by rung, and to mark each rung's
 ordering-reason readable / sealed / secret-gated / open.
 
-**Every visual choice below the lane model belongs to `render-shelf.md`** — treatments, color,
+**Every visual choice below the model belongs to `render-shelf.md`** — treatments, color,
 alpha, blend mode, size, motion, placement, and how cap coexists with Blizzard's stock proc glow.
 None of them are settled here, and changing one there is a normal edit, not a spec amendment.
-What this section fixes is only the *model*: three role lanes, driven by readable facts, that must
-rank.
+What this section fixes is only the *model*: scan membership, driven by readable facts, with
+cues and sealed displays carrying everything finer.
 
 ### 3.2 Context markers
 
@@ -189,10 +192,10 @@ facts into a single verdict.
   readable `{ id, when }`, or sealed `{ id, display }`.
 - A **hold marker** is context that says there is a reason to wait — "this is off cooldown,
   but there is a better moment coming." A hold marker has the same two
-  lanes as any other marker: its gating fact is either **readable** (Lua evaluates the wait
+  routes as any other marker: its gating fact is either **readable** (Lua evaluates the wait
   condition and drives the marker directly) or **sealed** (the client evaluates a sealed value
   — a duration counting down inside an authored band — and draws the marker; Lua never reads
-  or branches on that value). The Havoc catalog (§3.7) is the first user of both hold lanes.
+  or branches on that value). The Havoc catalog (§3.7) is the first user of both hold routes.
 
 Every supported marker has a visible implementation. A catalog form that loads successfully
 and then renders nothing is a defect.
@@ -242,7 +245,7 @@ corrected, on evidence:
   `soul_shard<4`; at three shards a Demonbolt leaves exactly five, which is full and is not waste.
   The shape of the hypothesis — Blizzard's proc glow says *available* where spending would waste a
   readable resource, so cap marks the waste — is unchanged and shipped.
-- **A ready Tyrant in COOLDOWN survives**, and the "familiar setup pieces" markers it proposed do
+- **A ready Tyrant in the scan survives**, and the "familiar setup pieces" markers it proposed do
   not. The setup facts the pilot wanted to draw (Dreadstalkers' and Grimoire's commitment state)
   turned out to be weaker than the one the priority actually gates on: **enter the window at five
   shards.** Soul Shards are never-secret, so that is an exact Lua comparison and it is the
@@ -430,15 +433,15 @@ selecting Fel-Scarred renders a Vengeful-Retreat-led list. The deferral rests on
 2 evidence alone, never on a guide preference.)*
 
 Havoc's defining constraint is that its primary resource, **Fury, is secret** — cap can
-display it but never branch on it. The roster maps onto the §3.1 lanes the way the authoritative
-priority does: the **COOLDOWN** lane (Metamorphosis, Eye Beam, The Hunt, Essence Break, Vengeful
-Retreat) carries the burst/window buttons that dominate the top of the priority list, and the
-**ROTATION** lane (the build/spend core) is where the cues do the choosing. Four cues turn the
+display it but never branch on it. The roster reads the way the authoritative priority does:
+the burst/window buttons (Metamorphosis, Eye Beam, The Hunt, Essence Break, Vengeful Retreat)
+dominate the top of the list and are pressed on sight when nothing marks a hold, and the
+build/spend core is the decision surface where the cues do the choosing. Four cues turn the
 secret resource into that ordering; each is a recipe in `authoring.md`'s index, and the full mapping lives in
 `specs/havoc/catalog.md`.
 
-- **A — Affordability cue (readable).** Within ROTATION, a Fury *spender* you can't afford is
-  **dimmed**, while *generators* (no cost) stay at full ROTATION emphasis — the eye is pulled
+- **A — Affordability cue (readable).** Within the build/spend core, a Fury *spender* you can't
+  afford is **dimmed**, while *generators* (no cost) stay lit in the scan — the eye is pulled
   toward building, with no Fury value ever compared. This is the inverse of Demonology's
   readable-Soul-Shards move.
 - **B — Overcap cue (sealed).** A Fury readout on a generator that turns red once pressing it
@@ -453,7 +456,7 @@ secret resource into that ordering; each is a recipe in `authoring.md`'s index, 
   half of the same rule as its readable one; hold The Hunt while Metamorphosis is **close**, so its
   empower lands on the Eye Beam that Metamorphosis will reset — the APL *casts* The Hunt once
   Metamorphosis is ready, so this hold clears exactly where an earlier draft said it should fire).
-  Both lanes are single-state markers: they draw when the press should wait and draw nothing when
+  Both routes are single-state markers: they draw when the press should wait and draw nothing when
   it should not.
 - **D — Demon-form promotion (readable).** Demon form is a readable fact (the transform
   identity), so while it is active cap may **promote** the empowered spenders — Annihilation and
@@ -494,19 +497,19 @@ list adds no new cues — it re-weights via the player's AoE-mode input (§2), n
 count. Cues still open (Inertia-proc rise, Demonsurge / Essence-Break window promotion, a
 buff-maintenance marker) produce no hint until measured.
 
-| Ability | Player problem | Lane + cues |
+| Ability | Player problem | Treatment |
 | --- | --- | --- |
-| **Metamorphosis** | ~2 min burst whose payoff is its reset of Eye Beam + Death Sweep; pressing it while either is *ready* wastes that reset. | **COOLDOWN** + a readable reset mark off Eye Beam's & Death Sweep's cooldowns (C1), drawn only when a reset would be wasted. |
-| **Eye Beam** | Keep the demon-form window rolling — it enables everything downstream. | **COOLDOWN**. |
-| **The Hunt** | On cooldown, but hold if Metamorphosis is available (to buff Abyssal Gaze in the coming Meta window). | **COOLDOWN** + a readable sync-hold mark off Meta's cooldown state (C1), drawn only while Meta is up. |
-| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | **COOLDOWN** + positive banked-Fury cue (B, expressible — currently **parked**, see above); sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). |
-| **Vengeful Retreat** | S2 maintain-on-cooldown press (Exergy / Initiative), woven before Eye Beam. | **COOLDOWN**. |
-| **Chaos Strike / Annihilation** | Shown castable even when Fury-starved, and it is the *low-priority* dump — except inside a window. | **ROTATION**; dimmed when unaffordable (A); **promoted as Annihilation in demon form** (D). Re-skins across the flip. |
-| **Blade Dance / Death Sweep** | The empowered Death Sweep is what you flood windows with; costs Fury. | **ROTATION**; **promoted as Death Sweep in demon form** (D); demon-form identity. |
-| **Felblade / Demon's Bite** | The generator to favor when starved — and the one that overcaps Fury when flush. | **ROTATION**; stays lit when spenders dim (A); red Fury readout at the overcap break point (B). Felblade rises on a readable Inertia proc *if* measured. |
-| **Immolation Aura / Consuming Fire** | The one Fury decision that matters: don't sit on capped charges. | **ROTATION**; lit as "spend it" only when charges read full (readable-at-full), id-safe across the transform. |
+| **Metamorphosis** | ~2 min burst whose payoff is its reset of Eye Beam + Death Sweep; pressing it while either is *ready* wastes that reset. | scan + a readable reset mark off Eye Beam's & Death Sweep's cooldowns (C1), drawn only when a reset would be wasted. |
+| **Eye Beam** | Keep the demon-form window rolling — it enables everything downstream. | scan. |
+| **The Hunt** | On cooldown, but hold if Metamorphosis is available (to buff Abyssal Gaze in the coming Meta window). | scan + a readable sync-hold mark off Meta's cooldown state (C1), drawn only while Meta is up. |
+| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | scan + positive banked-Fury cue (B, expressible — currently **parked**, see above); sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). |
+| **Vengeful Retreat** | S2 maintain-on-cooldown press (Exergy / Initiative), woven before Eye Beam. | scan. |
+| **Chaos Strike / Annihilation** | Shown castable even when Fury-starved, and it is the *low-priority* dump — except inside a window. | scan; dimmed when unaffordable (A); **promoted as Annihilation in demon form** (D). Re-skins across the flip. |
+| **Blade Dance / Death Sweep** | The empowered Death Sweep is what you flood windows with; costs Fury. | scan; **promoted as Death Sweep in demon form** (D); demon-form identity. |
+| **Felblade / Demon's Bite** | The generator to favor when starved — and the one that overcaps Fury when flush. | scan; stays lit when spenders dim (A); red Fury readout at the overcap break point (B). Felblade rises on a readable Inertia proc *if* measured. |
+| **Immolation Aura / Consuming Fire** | The one Fury decision that matters: don't sit on capped charges. | scan; lit as "spend it" only when charges read full (readable-at-full), id-safe across the transform. |
 | **Demon form** | "Am I in the window where spenders hit hard?" | A readable marker while transformed (drives cue D), plus an optional independent countdown surface (§3.3). |
-| **Throw Glaive / Fel Rush** | Filler when nothing better is up. | **FALLBACK**. |
+| **Throw Glaive / Fel Rush** | Filler when nothing better is up. | scan. |
 | **Fel-Scarred Demonsurge** | The hero-tree signature empowerment. | **OPEN** — no hint until an in-client check confirms the empowerment state is readable. |
 
 Each row begins as a hypothesis judged by play, exactly as the pilots did. Rows whose gating

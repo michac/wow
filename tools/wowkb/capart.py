@@ -267,7 +267,7 @@ ICON_FDID = {
 #: The sealed-display kinds a scenario may name in a `{sealed: …}` group. The same closed list
 #: `Catalog.DISPLAYS` holds on the Lua side, minus the two GRADED kinds — those draw a cue and are
 #: stated as one (`hold-sealed`), where these three draw their own art.
-SEALED_DISPLAYS = ("count-bands", "count-bar", "pandemic")
+SEALED_DISPLAYS = ("count-bands", "count-bar", "pandemic", "proc-bar")
 
 CLIENT_PAINT = {
     "_source": "CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273",
@@ -359,7 +359,7 @@ def load_tokens() -> dict:
 
 ROSTER_RE = re.compile(
     r"^\|\s*`(?P<key>[a-z_]+)`\s*\|\s*(?P<name>[^|]+?)\s*\|\s*`(?P<spell>\d+)`\s*\|"
-    r"\s*(?P<override>[^|]*?)\s*\|\s*(?P<lane>[A-Z]+|—|-)[^|]*\|\s*(?P<charges>[^|]*?)\s*\|",
+    r"\s*(?P<override>[^|]*?)\s*\|\s*(?P<scan>scan|—|-)[^|]*\|\s*(?P<charges>[^|]*?)\s*\|",
     re.M,
 )
 # The override column, in either house style: Havoc writes `Abyssal Gaze ⚠`452497`` (the ⚠
@@ -368,39 +368,37 @@ ROSTER_RE = re.compile(
 # bolding and the warning mark are prose, so neither is required.
 OVERRIDE_RE = re.compile(r"^\*{0,2}(?P<name>[^⚠`*]+?)\s*\*{0,2}\s*(?:⚠\s*)?`(?P<spell>\d+)`")
 
-# The catalog's Charges column. A number means the client will report charges on that row,
-# which is what makes the border read CHARGES instead of the role lane (render-shelf V2).
+# The catalog's Charges column. A number means the client will report charges on that row
+# (historically this substituted a CHARGES border hue — render-shelf V2, retired).
 # Anything else — a dash, a "⚠ unresolved" note — is NOT a charge ability here: an unmeasured
 # fact must never render as a measured one.
 CHARGES_RE = re.compile(r"^\s*(?:(?P<n>\d+)|yes)\b")
 
 
 def load_roster(catalog: Path) -> dict:
-    """catalog.md's *Bound abilities* table → {display name: {key, spell, lane, charges}}.
+    """catalog.md's *Bound abilities* table → {display name: {key, spell, scan, charges}}.
 
     Both the base name and the demon-form override name are keys, because a scenario row
     writes whichever name the client would *show* (R7 resolves the live `overrideSpellID`;
     cap authors none of it). Parsing the catalog rather than restating it is what keeps
-    spell ids, lanes, charge counts and override names from existing in two places.
+    spell ids, scan membership, charge counts and override names from existing in two places.
 
-    `lane` stays the **authored role lane** even for a charge ability. The CHARGES border is a
-    render-time substitution off a client fact, not a re-authoring of priority — so the
-    catalog keeps saying ROTATION for Immolation Aura and the renderer decides what colour
-    that draws as.
+    The Scan column is `scan` / `—`: `scan` means "a drawable button", the dash means an open
+    fact with no row of its own.
     """
     text = catalog.read_text(encoding="utf-8")
     out: dict[str, dict] = {}
     for m in ROSTER_RE.finditer(text):
-        lane = m.group("lane")
-        if lane in {"—", "-"}:
-            continue  # a row with no lane is an open fact, not a drawable button
+        scan = m.group("scan")
+        if scan in {"—", "-"}:
+            continue  # a row with no scan cell is an open fact, not a drawable button
         cm = CHARGES_RE.match(m.group("charges"))
         # `yes` = the client reports charges but the count is not Tier-1 sourced. The border
         # only needs the boolean, so `yes` is enough to substitute — and it is not a guess at
         # a number nobody measured.
         charges = (int(cm.group("n")) if cm.group("n") else "yes") if cm else 0
         key, base_id = m.group("key"), int(m.group("spell"))
-        out[m.group("name")] = {"key": key, "spell": base_id, "lane": lane,
+        out[m.group("name")] = {"key": key, "spell": base_id, "scan": True,
                                 "charges": charges}
         # EVERY override in the column, not just the first. A row can wear more than two faces
         # — Devourer's Voidblade has three, one per live form — and a scenario writes whichever
@@ -415,7 +413,7 @@ def load_roster(catalog: Path) -> dict:
             out[ov.group("name").strip()] = {
                 "key": key,
                 "spell": int(ov.group("spell")),
-                "lane": lane,
+                "scan": True,
                 "charges": charges,
                 "override_of": m.group("name"),
             }
@@ -428,7 +426,7 @@ def load_roster(catalog: Path) -> dict:
 
 
 ENTRY_RE = re.compile(r"^(?P<name>.+?)\s+`(?P<verdict>[a-z-]+)`(?P<ann>.*)$")
-GROUP_RE = re.compile(r"\{(?P<kind>cues|client|sealed):\s*(?P<body>[^}]*)\}")
+GROUP_RE = re.compile(r"\{(?P<kind>cues|client|sealed|count):\s*(?P<body>[^}]*)\}")
 # The retired `{dots: X go, Y wait}` group. It is matched separately and rejected by NAME,
 # because a silently-ignored group would let a scenario keep asserting a cue the style no
 # longer draws — which is exactly the doc↔render divergence this tool exists to catch.
@@ -497,9 +495,7 @@ def _parse_segment(segment: str, virtual: bool) -> list[dict]:
                  "render-shelf V6.\n"
                  "       A SATISFIED dependency now draws nothing — delete the group. A "
                  "BLOCKED one is\n"
-                 "       the `hold-readable` verdict itself, which already IMPLIES `blocked` — "
-                 "do not also\n"
-                 "       declare `{cues: blocked}`, which is a second mention of one cue.")
+                 "       `{cues: blocked}` on the row.")
         groups = {m.group("kind"): m.group("body") for m in GROUP_RE.finditer(chunk)}
         bare = GROUP_RE.sub("", chunk).strip()
         m = ENTRY_RE.match(bare)
@@ -516,6 +512,22 @@ def _parse_segment(segment: str, virtual: bool) -> list[dict]:
             # because a display that ELIMINATES (`ruled-sealed`) and one that merely informs are
             # the same machinery pointed at different facts.
             entry["sealed"] = [c.strip() for c in groups["sealed"].split(",") if c.strip()]
+        if "count" in groups:
+            # The numeral a count-band row is showing in this state — V16's `draw = "count"`
+            # form. The DOC states it (it is part of the scenario's state, like the verdict);
+            # what value the CLIENT would find is still deliberately nowhere in cap. A `-` or
+            # `+` suffix states WHICH band fired — `3-` is the negative band (red numeral, and
+            # the band's hatch if it declares one), `6+` the positive (gold, never a hatch).
+            # Bare N stays legal and falls back to the verdict-based hue.
+            body = groups["count"].strip()
+            m2 = re.fullmatch(r"(\d+)\s*([+-])?", body)
+            if not m2:
+                _die(f"CDM row entry has a malformed count group: {chunk!r}\n"
+                     "       expected {count: N}, {count: N-} (negative band) or "
+                     "{count: N+} (positive band)")
+            entry["count"] = int(m2.group(1))
+            if m2.group(2):
+                entry["count_dir"] = "neg" if m2.group(2) == "-" else "pos"
         if "client" in groups:
             # What BLIZZARD paints on this icon in this state, independent of anything cap
             # concluded. Authored separately from the verdict on purpose: if it were derived
@@ -788,9 +800,11 @@ def assert_tintable(what: str, source: str, tint: str, sat, tintable) -> bool:
 
 
 #: Token groups OUTSIDE the cue vocabulary that draw a sprite off the badge sheet, as
-#: (group, key-holding-the-frame-name). V16's banded mark and V19's refresh badge both point at a
-#: name they do not ship, on the stated grounds that "every name here is already on the cue
-#: vocabulary's sheet list" (`addon_style`).
+#: (group, key-holding-the-frame-name). V16's banded mark points at a name it does not ship, on
+#: the stated grounds that "every name here is already on the cue vocabulary's sheet list"
+#: (`addon_style`). V19's badge borrowed `fire` the same way until its glyph became the dial —
+#: a client-drained radial StatusBar names no sprite, so the pandemic entry left this table
+#: (2026-08-24); `fire` stays on the sheet as the `priority` cue's own frame.
 #:
 #: ⚠ THAT WAS A COINCIDENCE, NOT A GUARANTEE, AND IT BROKE. On 2026-08-23 the negative cues were
 #: made still (V5.1), which dropped `timer_CW_75` off `blocked`'s frame list — and `timer_CW_75` is
@@ -801,7 +815,6 @@ def assert_tintable(what: str, source: str, tint: str, sat, tintable) -> bool:
 #: `badge_assets` like any other.
 BORROWED_FRAMES: tuple[tuple[str, str], ...] = (
     ("count", "mark"),
-    ("pandemic", "frame"),
 )
 
 
@@ -887,11 +900,13 @@ def addon_style(tokens: dict) -> dict:
     # exactly as V11's stripe sheet moved on 2026-08-16.
     if "promotion" in out:
         out["promotion"] = dict(out["promotion"], texture_root=MEDIA_TEXTURE_ROOT)
-    # V16/V17 and V19 name BADGE art — the mark, the plate, the window's sprite — so their root is
-    # the badge directory rather than Media/. They ship no file of their own; they BORROW off the
-    # cue vocabulary's sheet, and that borrow is declared in `BORROWED_FRAMES` rather than left to
-    # coincide with some cue's frame list (see the ⚠ there — the coincidence broke on 2026-08-23).
-    for key in ("count", "pandemic"):
+    # V16/V17 names BADGE art — the mark — so its root is the badge directory rather than
+    # Media/. It ships no file of its own; it BORROWS off the cue vocabulary's sheet, and that
+    # borrow is declared in `BORROWED_FRAMES` rather than left to coincide with some cue's frame
+    # list (see the ⚠ there — the coincidence broke on 2026-08-23). V19 left this list with its
+    # glyph: the dial is a client-drained StatusBar and names no sprite (its plate and halo draw
+    # off tokens.badges, which carries its own root).
+    for key in ("count",):
         if key in out:
             out[key] = dict(out[key], texture_root=BADGE_TEXTURE_ROOT)
     # V18's flip band names its crop and the badge dir it ships to, injected for the same
@@ -925,7 +940,7 @@ def _lua_scalar(v) -> str:
 
 
 def _lua_key(k: str) -> str:
-    """`hold-readable` is a legal verdict name and an illegal Lua identifier."""
+    """`ruled-sealed` is a legal verdict name and an illegal Lua identifier."""
     return k if re.fullmatch(r"[A-Za-z_]\w*", k) else f'["{k}"]'
 
 
@@ -2154,7 +2169,28 @@ def root_css(tokens: dict) -> str:
             "",
             "  /* V19 · pandemic window — a badge the client alone shows and hides */",
             f"  --pd-rgb: {rgba(pd['rgb'])};",
-            f"  --pd-size: {pd['size_px']}px;",
+        ]
+        dial = pd.get("dial")
+        if dial:
+            lines += [
+                "  /* the dial — a radial the CLIENT drains off the aura's own duration; the",
+                "     preview's arc is a nominal looping window, because a swatch's job is",
+                "     showing a live drain, not a value */",
+                f"  --pd-dial-size: {dial['size_px']}px;",
+                f"  --pd-dial-rgb: {rgba(dial['rgb'])};",
+                f"  --pd-dial-track: {rgba(dial['track_rgb'], dial.get('track_alpha', 1.0))};",
+            ]
+    # V20 · the proc bar — the proc's remaining lifetime above the charge bar. The preview's
+    # fill drains over a nominal looping window; the client's drains over the aura's own.
+    pb = tokens.get("procbar")
+    if pb:
+        lines += [
+            "",
+            "  /* V20 · proc bar — the client drains the proc's clock above the charge bar */",
+            f"  --procbar-h: {pb['height_px']}px;",
+            f"  --procbar-gap: {pb.get('gap_px', 0)}px;",
+            f"  --procbar-rgb: {rgba(pb['rgb'])};",
+            f"  --procbar-track: {rgba(pb['track_rgb'], pb.get('track_alpha', 1.0))};",
         ]
         glow = pd.get("glow")
         if glow:
@@ -2600,10 +2636,9 @@ def build(spec: str, tokens: dict, when: str) -> str:
     abilities = {
         name: {"key": lab_icon_roster[name]["key"], "spell": lab_icon_roster[name]["spell"],
                "hotkey": (fakes[at[name] % len(fakes)] if fakes else ""),
-               # The authored role lane still travels because the CATALOGS still record it —
-               # it is a fact about the ability. It no longer picks a treatment: an icon either
-               # is in the scan or is not, and rank comes from row order plus elimination.
-               "lane": lab_icon_roster[name]["lane"],
+               # Membership is the whole statement: an icon either is in the scan or is not,
+               # and rank comes from row order plus elimination.
+               "scan": True,
                "charges": lab_icon_roster[name].get("charges", 0), "icon": icons[name]["uri"]}
         for name in used
     }
@@ -2944,7 +2979,7 @@ def build_lab(tokens: dict, when: str) -> str:
         "abilities": {
             name: {"key": roster[name]["key"], "spell": roster[name]["spell"],
                    "hotkey": (fakes[at[name] % len(fakes)] if fakes else ""),
-                   "lane": roster[name]["lane"],
+                   "scan": True,
                    "charges": roster[name].get("charges", 0), "icon": icons[name]["uri"]}
             for name in used},
         # No scenarios and no scan samples: this page has no row to walk and no press to lead the
@@ -2994,7 +3029,7 @@ def build_primitives(tokens: dict, when: str) -> str:
         "abilities": {
             name: {"key": roster[name]["key"], "spell": roster[name]["spell"],
                    "hotkey": (fakes[at[name] % len(fakes)] if fakes else ""),
-                   "lane": roster[name]["lane"],
+                   "scan": True,
                    "charges": roster[name].get("charges", 0), "icon": icons[name]["uri"]}
             for name in used},
         "scan_samples": used,

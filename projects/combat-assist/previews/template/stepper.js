@@ -114,10 +114,10 @@
 
     // V11 · the cooldown hatch. Over the icon and the swipe, under the badges — it states a
     // condition about the whole button, and the marks that say *why* must stay legible on top.
-    // DEDUPED. A cue named twice is ONE badge -- that is how the band grammar expresses an OR,
-    // and it holds just as much when the second mention comes from the verdict rather than from
-    // a second marker. Without this, an entry whose verdict already implies `blocked` and which
-    // also declares it draws two identical discs, which reads as two different reasons.
+    // DEDUPED. A cue named twice is ONE badge -- that is how the band grammar expresses an OR.
+    // (Since the 2026-08-25 verdict collapse no verdict implies a cue -- every badge is an
+    // explicit `{cues: ...}` declaration -- but the dedupe stays: it is what makes a double
+    // mention one disc rather than two identical reasons.)
     var cueList = (rule.cues || []).concat(entry.cues || []).filter(function (k, i, all) {
       return all.indexOf(k) === i;
     });
@@ -135,8 +135,8 @@
     if (rule.eliminates) ruledOut = true;
     if (ruledOut) item.appendChild(skipLayer());
 
-    // Every non-`cd` row is IN THE SCAN and wears the edge. `press`, `press-promoted` and
-    // `below` render IDENTICALLY, and that is the point: the press is "the leftmost thing not
+    // Every non-`cd` row is IN THE SCAN and wears the edge. `press` and `open` render
+    // IDENTICALLY, and that is the point: the press is "the leftmost thing not
     // ruled out", not a thing cap draws (render-shelf.md Part 0.5). The edge goes OVER the art
     // — it is a rim on the button, not a layer across it.
     if (rule.scan) item.appendChild(scanMark());
@@ -169,8 +169,21 @@
     // from a rule cap authored and never reads back, so the preview draws the SHAPE and states
     // the value nowhere: a scenario names the sink, and what value the client found is exactly
     // the thing cap cannot know.
+    // Corner sealed displays (V19/V20) take stack slots 0..n-1 in declared order; the cue
+    // badges below start at slot n (render-shelf.md Part 2.5's cession rule — static, because
+    // whether the client is showing one is sealed).
+    var cornerAt = 0;
     (entry.sealed || []).forEach(function (kind) {
-      item.appendChild(sealedNode(kind, entry));
+      var sn = sealedNode(kind, entry);
+      // The corner CLAIMERS: V19's badge, and V16's corner elements (whose own node draws at
+      // slot 0 by its inner CSS — counted so the cue badges below start one step down, which
+      // is what the addon's countSink does with the same claim). V20 claims nothing: it lives
+      // on the bottom edge.
+      if (kind === "pandemic" || kind === "count-bands") {
+        sn.setAttribute("data-index", String(cornerAt));
+        cornerAt += 1;
+      }
+      item.appendChild(sn);
     });
 
     var open = false;
@@ -182,7 +195,7 @@
     });
     cues.forEach(function (k, i) {
       if ((T.cues[k] || {}).open) open = true;
-      var node = badgeNode(k, i);
+      var node = badgeNode(k, i + cornerAt);
       // V14 rides the badge it belongs to, so it moves with the stack rather than being
       // anchored to the corner independently.
       if ((T.cues[k] || {}).polarity === "positive") node.insertBefore(promoRing(), node.firstChild);
@@ -456,6 +469,24 @@
    *                    bar has no blank state, so "there is an arc here" is the whole claim.
    *   pandemic — V19. The badge the client shows and hides on Blizzard's own window.
    */
+  /* The dial. In the client this is a radial StatusBar the CLIENT drains off the aura's own
+   * duration (SetDurationBar, direction = RemainingTime) — cap reads nothing. Here a
+   * conic-gradient counting down over a nominal looping window, driven so the swatch shows a
+   * LIVE drain: a static wedge is exactly the lie timer_CW_75 was retired for. Shared by V19's
+   * window badge and V20's proc dial — one dial look, wherever a dial draws. */
+  function liveDial() {
+    var dial = el("div", "sealed-pd-dial");
+    var pdWin = 6, pdLive = false;
+    var pdTick = setInterval(function () {
+      if (dial.isConnected) pdLive = true;
+      else if (pdLive) { clearInterval(pdTick); return; }
+      var frac = 1 - ((Date.now() / 1000) % pdWin) / pdWin;
+      dial.style.background = "conic-gradient(var(--pd-dial-rgb) " +
+        (frac * 360).toFixed(1) + "deg, var(--pd-dial-track) 0)";
+    }, 100);
+    return dial;
+  }
+
   function sealedNode(kind, entry) {
     var negative = entry.verdict === "ruled-sealed";
     if (kind === "count-bar") {
@@ -475,6 +506,27 @@
       }
       if (entry.full) sb.appendChild(el("div", "sealed-bar-full"));
       return sb;
+    }
+    if (kind === "proc-bar") {
+      /* V20: the proc's remaining lifetime as a thin bar above the charge bar (or on the
+       * bottom edge without one). In the client SetDurationBar drains it off the aura's own
+       * duration; here the fill drains over a nominal looping window — live, because a static
+       * fill is the lie timer_CW_75 was retired for. Geometry is static from declarations,
+       * exactly as the client's is. */
+      var pb = el("div", "sealed-procbar");
+      if ((entry.sealed || []).indexOf("count-bar") !== -1) {
+        pb.style.bottom = "calc(var(--bar-h) + var(--procbar-gap))";
+      }
+      var pbFill = el("div", "sealed-procbar-fill");
+      var pbWin = 6, pbLive = false;
+      var pbTick = setInterval(function () {
+        if (pbFill.isConnected) pbLive = true;
+        else if (pbLive) { clearInterval(pbTick); return; }
+        var frac = 1 - ((Date.now() / 1000) % pbWin) / pbWin;
+        pbFill.style.width = (frac * 100).toFixed(1) + "%";
+      }, 100);
+      pb.appendChild(pbFill);
+      return pb;
     }
     if (kind === "pandemic") {
       /* The pair's OTHER state: aura up, OUTSIDE the window — the gold do-not-refresh hatch,
@@ -497,11 +549,7 @@
       w.appendChild(promoRing());
       w.appendChild(el("div", "sealed-pd-glow"));
       w.appendChild(el("div", "sealed-plate"));
-      var wm = el("div", "sealed-mark");
-      var wa = (D.frames || {})[T.pandemic.frame];
-      if (wa && wa.uri) wm.style.webkitMaskImage = wm.style.maskImage = "url(" + wa.uri + ")";
-      wm.style.setProperty("--sx-ink", "var(--pd-rgb)");
-      w.appendChild(wm);
+      w.appendChild(liveDial());
       return w;
     }
 
@@ -515,6 +563,12 @@
      * for both draws a digit on top of a glyph. `entry.count` picks which one this row states.
      */
     var run = el("div", "sealed sealed-run");
+    /* Which band fired decides the hue: `count_dir` is the scenario stating it (`3-` red /
+     * `6+` gold); without one, `ruled-sealed` is the legacy tell. Hue carries polarity and
+     * only polarity (V5.1) — the client draws the numeral in the BAND's hue on any verdict,
+     * which is what the old verdict-only rule got wrong (a red band on an off-mode row drew
+     * gold here while the addon drew red). */
+    if (entry.count_dir) negative = entry.count_dir === "neg";
     /* The hatch draws for the ELIMINATING direction only (V16, 2026-08-24): a hatch means
      * "ruled out" — a gold hatch on the positive direction was a contradiction wearing pixels. */
     if (negative) {
@@ -607,7 +661,7 @@
   }
 
   function stripedItem(key, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
     var layers = cell.stripes || [];
     // Inserted BEFORE the first badge slot, so the stripes lie over the icon and the swipe but
     // under the corner badges — the badges are the thing that says *why* and must stay legible.
@@ -692,7 +746,7 @@
   }
 
   function flipbookItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: [] });
     if (cell.treat === false) return item;
     // BEFORE the badge slots, so a corner badge stays legible over the effect — the badge is
     // the thing that says *why*, and an effect that buries it has taken information away.
@@ -715,7 +769,7 @@
   var LAB_SPRITES = D.lab_sprites || {};
 
   function blazeItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: [] });
     // A CONTROL cell draws the icon and nothing else. Without this every cell wore the
     // treatment, including the one captioned "the same icon untreated" -- which makes the
     // comparison the entry exists for impossible to actually make.
@@ -811,7 +865,7 @@
   // The glow goes UNDER the icon art — it is light spilling out from behind the button, not a
   // wash over its face. The hairline goes over, because it is an edge.
   function readyItem(key, spec, cell, ability, index) {
-    var item = bareItem(ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(ability, cell.verdict || "open", { cues: cell.cues || [] });
     // These entries ask what the GLOW or the HAIRLINE says. The declared scan edge is a second
     // answer in the same frame and at icon size it is the louder one, so an entry may drop it and
     // be judged alone. ⚠ It strips `.ready-line`, the class `itemNode` appends for `rule.scan` —
@@ -943,7 +997,7 @@
   }
 
   function countMarkItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
     // The BAND INPUT is whatever the sink is driven by. The count sinks band on
     // `auraData.applications`; `SetDurationText` bands on a DurationTextBindingProperty --
     // RemainingPercent here -- through the same NumericFormatter object. One renderer, because
@@ -1010,7 +1064,7 @@
    * treatment below is cap-owned art whose only sealed property is whether it is on screen.
    */
   function pandemicItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
     if (!cell.in_window) {
       // The out-of-window cell draws the row with nothing added, which is the correct picture:
       // the client has hidden the region, and a hidden region is not a faint one.
@@ -1055,7 +1109,7 @@
    *   absent -> the aura is not up, so the CLIENT has hidden the button and no sink draws
    */
   function compositeItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
     var v = function (h) { return "var(--lab-" + key + "-cx-" + h + ")"; };
 
     if (cell.absent) {
@@ -1125,7 +1179,7 @@
   }
 
   function countItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
     var n = el("div", "count-band");
     var out = bandText(cell.bands, cell.stacks);
     n.textContent = out.text;
@@ -1161,7 +1215,7 @@
    * "nothing until N". That is the trade against the formatter, and it is the whole question.
    */
   function countBarItem(key, spec, cell) {
-    var item = bareItem(cell.ability, cell.verdict || "below", { cues: cell.cues || [] });
+    var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
     var max = Math.max(cell.max || 1, 1);
     var frac = Math.min(Math.max((cell.stacks || 0) / max, 0), 1);
     // Three shapes, and the third is a different RENDER MODE rather than a different look:
@@ -1274,13 +1328,13 @@
           return;
         }
         if (spec.draws === "count") {
-          var headC = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var headC = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                       "</code> · at <b>" + cell.stacks + "</b> stacks<br>";
           e.row.appendChild(labCell(countItem(key, spec, cell), headC + cap));
           return;
         }
         if (spec.draws === "count-glyph") {
-          var headCG = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var headCG = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                        "</code> · at <b>" + cell.stacks + "</b> stacks<br>";
           e.row.appendChild(labCell(countMarkItem(key, spec, cell), headCG + cap));
           return;
@@ -1291,7 +1345,7 @@
           return;
         }
         if (spec.draws === "duration") {
-          var headD = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var headD = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                       "</code> · <b>" + cell.remaining_pct + "%</b> of its duration left<br>";
           e.row.appendChild(labCell(countMarkItem(key, spec, cell), headD + cap));
           return;
@@ -1303,7 +1357,7 @@
           return;
         }
         if (spec.draws === "count-bar") {
-          var headCB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var headCB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                        "</code> · <b>" + cell.stacks + "</b> of <b>" + cell.max +
                        "</b><br>";
           e.row.appendChild(labCell(countBarItem(key, spec, cell), headCB + cap));
@@ -1316,25 +1370,25 @@
           return;
         }
         if (spec.draws === "flipbook") {
-          var headF = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var headF = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                       "</code><br>";
           e.row.appendChild(labCell(flipbookItem(key, spec, cell), headF + cap));
           return;
         }
         if (spec.draws === "blaze") {
-          var headB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var headB = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                       "</code><br>";
           e.row.appendChild(labCell(blazeItem(key, spec, cell), headB + cap));
           return;
         }
         if (spec.draws === "ready-glow" || spec.draws === "ready-line") {
-          var head1 = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+          var head1 = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                       "</code><br>";
           e.row.appendChild(labCell(readyItem(key, spec, cell, cell.ability, 0),
                                     head1 + cap));
           return;
         }
-        var head = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "below") +
+        var head = "<b>" + cell.ability + "</b> · <code>" + (cell.verdict || "open") +
                    "</code><br>";
         e.row.appendChild(labCell(stripedItem(key, cell), head + cap));
       });
