@@ -227,6 +227,21 @@ and nothing about how it was measured.
   disagree**, and it is deliberate — `authoring.md` stage 6 has not run for it. Do not read the
   `.lua` as the design. It wants the same count primitive for Backdraft that Demonology now uses,
   which is now a transcription rather than a promotion.
+  - ⚠ **It is the ONE spec with no `catalog.json`, and that is a finding rather than an
+    omission** (2026-08-25). The other four were migrated; Destruction was attempted, and the
+    scenario↔state gate refused it — **five scenarios, three cues**. `DES-1` draws Conflagrate
+    wearing `capped`, `DES-2` and `DES-5` `blocked`, `DES-6` `overcap`, and the pilot declares
+    none of those markers. Declaring the states would require declaring the markers, which is
+    *authoring the catalog*, not transcribing it. So the gap between the pilot and its documents
+    now has a **measurement** instead of a paragraph, and the measurement is the entry criterion:
+    when stage 6 runs, it is `specs/destruction/catalog.json` that gets authored, and `capart
+    check destruction` goes green the moment the design and the addon agree.
+  - **One real defect was fixed on the way past** (2026-08-25): `backdraft` declared no
+    `family`, and `Catalog.findRow` defaults a missing family to `"spells"`. Backdraft is a
+    TrackedBuff row, so it could never resolve — the sealed count band naming it as its subject
+    had no subject, and `Sense` would have seeded it with `readCooldown`. Every other aura
+    subject in every other catalog already declared the key. Hand-edited, since this file stays
+    hand-written.
   - **It replaced a pilot**, which was a single-mechanism proof rather than a roster
     (`spec.md` §3.5 records what carried and what was withdrawn).
   - **It has never flown as a cap build**, in either form.
@@ -270,6 +285,29 @@ and nothing about how it was measured.
 
 ### Tooling
 
+- **Every generation input is its own structured file, and the per-ability state table is the
+  source of truth** (2026-08-25). `specs/render-tokens.json` (the style's numbers) and
+  `specs/render-lab.json` (Part 7) came out of `render-shelf.md`, which dropped 2313 → 1677
+  lines; `specs/<spec>/catalog.json` came out of `catalog.md` and **generates
+  `Catalogs/<Spec>.lua`**, byte-gated; `specs/<spec>/scenarios.json` came out of `scenarios.md`,
+  which keeps the walk prose keyed by the same ids. The prose keeps the *why* and cites the data
+  by path; it has stopped *being* the data.
+  - **Four specs are migrated** — Demonology, Havoc, Protection, Retribution. Each round-trip was
+    proven DATA-IDENTICAL by loading the committed and the generated Lua through a
+    `ns.Catalog.Register` stub and deep-comparing, never by reading a diff. Destruction is the
+    one hold-out and its reason is measured above.
+  - **Six catalog gates**, applied to any spec that has a `catalog.json` and skipped by absence,
+    so the remaining rollout needs no second list: Lua byte-compare, marker↔state,
+    closed vocabulary, scenario↔state, co-occurrence, and validator parity (`Catalog.Check` run
+    outside the client by `tests/check_catalog.lua`). **Every one has been seen to fail by name**
+    on every migrated spec — a gate never watched failing is not known to work.
+  - **Scenario polarity is chosen by a file existing**, not by a list: a spec with
+    `scenarios.json` leads from it and its `previews/data/` sidecar is deleted; a spec without
+    one still leads from the doc. `check` reports which.
+  - ⚠ **`check` is not sufficient and never was.** It passed for the whole of the Demonology
+    scenarios split over a stepper whose walk steps had stopped rendering, and it passed over a
+    `page.html` lede naming two verdicts that do not exist. Both were found by opening the page.
+    Serve it and look.
 - `wowkb.capart` renders the preview and the addon's `Style.lua` from the docs, and `wowkb.serve`
   closes the *edit the shelf → look* loop. The scenario sidecar is on the build path, and since
   2026-08-19 `check` compares the **whole scenario** doc-vs-sidecar rather than a chosen tuple of
