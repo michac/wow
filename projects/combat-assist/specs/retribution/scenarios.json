@@ -1,0 +1,654 @@
+{
+  "version": 1,
+  "spec": "retribution",
+  "_comment": "CANONICAL. The scenario ROWS — what each CDM row draws in each game state — as data. This is hand-edited and it leads; `scenarios.md` beside it carries the walk prose and is keyed by the same ids. It replaced a REVIEWED CACHE under previews/data/, which ran the other way round: the doc led and the JSON was imported from it by a regex over prose. `capart check` cross-references the two by id in BOTH directions, so a walk with no row and a row with no walk are each a named failure.",
+  "scenarios": [
+    {
+      "id": "RET-1",
+      "title": "Opener, everything ready, HP 0",
+      "state": "Pull timer at zero, every cooldown up, <b>Holy Power 0</b>, single-target mode, no procs. <b>Holy Flames talented, Expurgation not yet on the target</b> — the state the opener exists to end.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "open"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "press",
+          "cues": [
+            "priority"
+          ]
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-2",
+      "title": "HP 5, Wake of Ashes on cooldown — the interleave, resolved",
+      "state": "Single target, no procs, <b>Holy Power 5</b>. Execution Sentence, Avenging Wrath and Wake of Ashes are all on cooldown. Divine Toll is ready.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "press"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-3",
+      "title": "HP 5, Wake of Ashes READY — and deliberately unbadged",
+      "state": "As RET-2, but <b>Wake of Ashes is ready</b>. Holy Power is still 5.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "press"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-4",
+      "title": "Hammer of Light window open, HP 4",
+      "state": "Wake of Ashes has been cast; <b>row 3 is displaying Hammer of Light</b>. Holy Power 4. Execution Sentence and Avenging Wrath are on cooldown.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Hammer of Light",
+          "verdict": "press"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-5",
+      "title": "Hammer of Light window open, HP 2 — the window you cannot afford",
+      "state": "As RET-4, but <b>Holy Power 2</b>. Divine Toll is ready and Avenging Wrath is far away.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Hammer of Light",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "press"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-6",
+      "title": "HP 4, Art of War proc — a free Blade of Justice outranks spending",
+      "state": "Single target, <b>Art of War (or Righteous Cause) is up</b>, Holy Power 4, every cooldown down, Blade of Justice ready.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "press"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-7",
+      "title": "HP 5, Art of War proc — the proc loses",
+      "state": "As RET-6, but <b>Holy Power 5</b>.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "press"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-8",
+      "title": "AoE mode on, 4 targets, HP 4",
+      "state": "The player has flipped cap&#x27;s AoE toggle; four targets, no Empyrean Legacy proc, Holy Power 4, cooldowns down.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "st_only"
+          ]
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "press"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-9",
+      "title": "Single target, Empyrean Power proc, HP 4",
+      "state": "Single target, <b>Empyrean Power is up</b>, Holy Power 4, cooldowns down. The AoE toggle is <b>off</b>.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "press"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-10",
+      "title": "AoE mode on, Empyrean Legacy proc, HP 4 — the exception to the exception",
+      "state": "AoE toggle on, <b>Empyrean Legacy is up</b>, Holy Power 4.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "press"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-11",
+      "title": "HP 2, no procs, Blade of Justice on cooldown",
+      "state": "Holy Power 2, no procs, every cooldown and Blade of Justice on cooldown.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "press"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-12",
+      "title": "Execution Sentence ready, Avenging Wrath ~10s out, HP 2",
+      "state": "Execution Sentence is up. <b>Avenging Wrath is ~10s from ready</b>, Wake of Ashes is far away, Divine Toll is up, Holy Power 2, Blade of Justice ready.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "press"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-13",
+      "title": "Execution Sentence, Avenging Wrath and Wake of Ashes all ready, HP 3",
+      "state": "The state the sealed band cannot cover: <b>Avenging Wrath is ready</b>, i.e. zero remaining. Execution Sentence and Wake of Ashes are up too. Holy Power 3. Mid-fight, so <b>Expurgation is ticking</b> and <code>aw_awaits_expurgation</code> is dark — the difference from RET-1.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "press"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "open"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    }
+  ]
+}

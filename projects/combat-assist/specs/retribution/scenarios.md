@@ -28,15 +28,23 @@ press.* Row numbers are the authored order above.
 
 Shorthand: `HP` = Holy Power. "AW", "ES", "WoA", "DT", "TV", "DS", "BoJ" are the rows.
 
-### The **CDM row** bullet is machine-read
+### The rows are `scenarios.json`; this file is the walk
 
-Every scenario below carries a `- **CDM row.**` bullet in a fixed grammar — nine entries in
-authored order, separated by ` · `, each `<Ability> \`<verdict>\``. `wowkb.capart import scenarios
-retribution` scrapes it into the preview's sidecar and `wowkb.capart check retribution` re-scrapes
-it and fails if the two disagree, so **this document leads and the preview follows**. The ability
-name is whatever the Cooldown Manager would *display* in that state — `Hammer of Light`, not
-`Wake of Ashes`, while row 3 is transformed — because that is the identity the client draws and
-the swipe follows (*Open facts* 1).
+**The CDM row for every scenario below lives in `scenarios.json` beside this file, which is
+canonical and hand-edited** — nine entries in authored order, each a `{name, verdict}` record
+with optional `cues` / `sealed` / `client`. This document carries the *walk*, keyed by the same
+ids, and it no longer restates the row. Until this split the row was a ` · `-separated bullet
+here that a regex scraped into a cache under `previews/data/`; the doc led and the JSON followed,
+and that direction is what the split reversed.
+
+`capart check retribution` cross-references the two halves **by id in both directions** and
+matches every state a row draws against the per-ability `states` table in `catalog.json`, so a
+walk cannot draw a combination no catalog can produce. To see the rows drawn, open
+`previews/retribution-stepper.html`.
+
+The ability name in a row is whatever the Cooldown Manager would *display* in that state —
+`Hammer of Light`, not `Wake of Ashes`, while row 3 is transformed — because that is the identity
+the client draws and the swipe follows (*Open facts* 1).
 
 A verdict says what cap concluded, never what the button looks like: **the pixels belong to
 `../render-shelf.md`**. `cd` = swiped by Blizzard, no cap opinion. `open` = shown, in the
@@ -45,18 +53,18 @@ term or from a sealed band the client paints, `starved` the red affordability ba
 the red waste badge. `press` = the button an unobstructed scan reaches. ⚠ `press` and `open`
 render identically, by design — the press is not something cap draws.
 
-⚠ **No entry in this catalog wears a positive cue**, so every scenario here is judged by pass 2
-of `../render-shelf.md` Part 0.5, elimination. Why Retribution declines the one positive cue in
-the vocabulary is argued above (*Why this catalog does not spend the positive cue*).
+⚠ **One entry wears a positive cue** — Blade of Justice's `priority` at the opener (cue **H**,
+`boj_opener`) — so RET-1 is judged by pass 1 of `../render-shelf.md` Part 0.5 and **every other
+scenario here is judged by pass 2, elimination**. Why this catalog declines the vocabulary's
+*other* positive cue, `capped`, is argued in `catalog.md` (*Why this catalog does not spend
+`capped`*). *(Until 2026-08-25 this line read "no entry in this catalog wears a positive cue",
+which stopped being true when cue H was authored.)*
 
 ### RET-1 · Opener, everything ready, HP 0
 
 - **State.** Pull timer at zero, every cooldown up, **Holy Power 0**, single-target mode, no
   procs. **Holy Flames talented, Expurgation not yet on the target** — the state the opener exists
   to end.
-- **CDM row.** Execution Sentence `open` {cues: blocked} · Avenging Wrath `open` {cues: blocked} · Wake of Ashes
-  `open` · Divine Toll `open` · Final Verdict `open` {cues: starved} {client: not-enough-power} · Divine Storm `open` {cues: starved} {client: not-enough-power} · Blade of Justice `press` {cues: priority} ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.** ⚠ **This scenario is read by pass 1, not by elimination** — the only one in the
   catalog that is.
   1. **Blade of Justice** wears `priority` (cue **H**, `boj_opener`) → **press.** `generators` 2,
@@ -83,9 +91,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** Single target, no procs, **Holy Power 5**. Execution Sentence, Avenging Wrath and
   Wake of Ashes are all on cooldown. Divine Toll is ready.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `open` {cues: overcap} · Final Verdict `press` · Divine Storm `open` {cues: aoe_only} · Blade of Justice `open` ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Wake of Ashes** — on cooldown → skip.
   2. **Divine Toll** — available, and the `overcap` badge lights on the exact readable predicate
@@ -102,9 +107,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-3 · HP 5, Wake of Ashes READY — and deliberately unbadged
 
 - **State.** As RET-2, but **Wake of Ashes is ready**. Holy Power is still 5.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `press` ·
-  Divine Toll `open` {cues: overcap} · Final Verdict `open` · Divine Storm `open` {cues: aoe_only} · Blade of Justice `open` ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
   2. **Wake of Ashes** — available, carries **no** `overcap` badge by design, and neither sealed
@@ -121,9 +123,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** Wake of Ashes has been cast; **row 3 is displaying Hammer of Light**. Holy Power 4.
   Execution Sentence and Avenging Wrath are on cooldown.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Hammer of Light `press` ·
-  Divine Toll `open` · Final Verdict `open` · Divine Storm `open` {cues: aoe_only} · Blade of Justice `open` ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
   2. **Hammer of Light** — row 3 reads `identity == transformed`, so band 1 gives it **ROTATION**
@@ -139,9 +138,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-5 · Hammer of Light window open, HP 2 — the window you cannot afford
 
 - **State.** As RET-4, but **Holy Power 2**. Divine Toll is ready and Avenging Wrath is far away.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Hammer of Light `open` {cues: starved} {client: not-enough-power} ·
-  Divine Toll `press` · Final Verdict `open` {cues: starved} {client: not-enough-power} · Divine Storm `open` {cues: starved} {client: not-enough-power} ·
-  Blade of Justice `open` · Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
   2. **Hammer of Light** — available, but `starved` lights: `affordable` is read on the **live**
@@ -157,9 +153,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** Single target, **Art of War (or Righteous Cause) is up**, Holy Power 4, every
   cooldown down, Blade of Justice ready.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `open` {cues: blocked} · Divine Storm `open` {cues: blocked, aoe_only} ·
-  Blade of Justice `press` · Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
   2. **Final Verdict** — affordable, but `blocked` lights from `tv_awaits_blade`: a proc is up,
@@ -176,9 +169,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-7 · HP 5, Art of War proc — the proc loses
 
 - **State.** As RET-6, but **Holy Power 5**.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `press` · Divine Storm `open` {cues: aoe_only} · Blade of Justice `open` ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
   2. **Final Verdict** — row 5's proc-defer marker requires `resource <= 4`, which is false here,
@@ -192,9 +182,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** The player has flipped cap's AoE toggle; four targets, no Empyrean Legacy proc,
   Holy Power 4, cooldowns down.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `open` {cues: st_only} · Divine Storm `press` ·
-  Blade of Justice `open` · Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
   2. **Final Verdict** — the `st_only` pawn from `tv_divine_storm_aoe`: the toggle is on, no
@@ -211,9 +198,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** Single target, **Empyrean Power is up**, Holy Power 4, cooldowns down. The AoE
   toggle is **off**.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `open` {cues: blocked} · Divine Storm `press` ·
-  Blade of Justice `open` · Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
   2. **Final Verdict** — `blocked` from `tv_empyrean_power` → skip. ⚠ **`blocked`, not the
@@ -234,9 +218,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-10 · AoE mode on, Empyrean Legacy proc, HP 4 — the exception to the exception
 
 - **State.** AoE toggle on, **Empyrean Legacy is up**, Holy Power 4.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `press` · Divine Storm `open` · Blade of Justice `open` ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
   2. **Final Verdict** — both E markers carry `!proc(templars_verdict)`, which is now false, so
@@ -251,9 +232,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 ### RET-11 · HP 2, no procs, Blade of Justice on cooldown
 
 - **State.** Holy Power 2, no procs, every cooldown and Blade of Justice on cooldown.
-- **CDM row.** Execution Sentence `cd` · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `cd` · Final Verdict `open` {cues: starved} {client: not-enough-power} · Divine Storm `open` {cues: starved} {client: not-enough-power} · Blade of Justice `cd` ·
-  Judgment `press` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence … Divine Toll** — on cooldown → skip.
   2. **Final Verdict / Divine Storm** — available and `starved`: 2 Holy Power will not pay for a
@@ -269,9 +247,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 
 - **State.** Execution Sentence is up. **Avenging Wrath is ~10s from ready**, Wake of Ashes is far
   away, Divine Toll is up, Holy Power 2, Blade of Justice ready.
-- **CDM row.** Execution Sentence `open` {cues: blocked} · Avenging Wrath `cd` · Wake of Ashes `cd` ·
-  Divine Toll `open` {cues: blocked} · Final Verdict `open` {cues: starved} {client: not-enough-power} · Divine Storm `open` {cues: starved} {client: not-enough-power} ·
-  Blade of Justice `press` · Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence** — available, and `blocked` lights from **two markers at once**
      (`es_awaits_wrath` at `within = 15`, `es_awaits_wake` at `beyond = 1.5`). One badge, because
@@ -291,9 +266,6 @@ the vocabulary is argued above (*Why this catalog does not spend the positive cu
 - **State.** The state the sealed band cannot cover: **Avenging Wrath is ready**, i.e. zero
   remaining. Execution Sentence and Wake of Ashes are up too. Holy Power 3. Mid-fight, so
   **Expurgation is ticking** and `aw_awaits_expurgation` is dark — the difference from RET-1.
-- **CDM row.** Execution Sentence `open` {cues: blocked} · Avenging Wrath `press` · Wake of Ashes `open` ·
-  Divine Toll `open` · Final Verdict `open` · Divine Storm `open` {cues: aoe_only} · Blade of Justice `open` ·
-  Judgment `open` · Crusader Strike `open`
 - **Walk.**
   1. **Execution Sentence** — `blocked` from `es_awaits_wrath_ready`, the **readable** half of the
      hold: `cooldown.avenging_wrath.remains>15` is false at zero → skip.

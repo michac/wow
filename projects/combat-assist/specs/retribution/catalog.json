@@ -1,0 +1,1153 @@
+{
+  "version": 1,
+  "spec": 70,
+  "name": "Retribution / Templar",
+  "power": "HolyPower",
+  "note": "CANONICAL, hand-edited. Generates CombatAssistPlus/Catalogs/Retribution.lua via `wowkb.capart export catalog retribution`, and the per-ability state table the preview draws. The Templar roster. `power = \"HolyPower\"`: Holy Power is NEVER-SECRET, so unlike Havoc's Fury the `resource` predicate is usable and this is the first catalog where a resource does ordering work. ⚠ `hero` is deliberately unset: the Templar sub-tree id has not been read from a live client, and inventing one would silently bind nothing. Unset means \"any hero tree\", which on Herald of the Sun offers a Templar-authored priority — acceptable while this addon has one Templar user, and the one line to tighten once the id is known. ⚠ The Expurgation row is `383346`, the debuff that LANDS, not `383344`, the passive talent node — confirmed in client 2026-08-19 by icon. It binds only if the player has added Expurgation to Tracked Buffs; if not, `aura:expurgation` reads UNKNOWN and its marker stays DARK rather than reading as \"the DoT is down\".",
+  "abilities": [
+    {
+      "id": "execution_sentence",
+      "spell": 343527
+    },
+    {
+      "id": "avenging_wrath",
+      "spell": 31884
+    },
+    {
+      "id": "wake_of_ashes",
+      "spell": 255937,
+      "alt": [
+        427453
+      ]
+    },
+    {
+      "id": "divine_toll",
+      "spell": 375576
+    },
+    {
+      "id": "templars_verdict",
+      "spell": 85256,
+      "alt": [
+        383328
+      ]
+    },
+    {
+      "id": "divine_storm",
+      "spell": 53385
+    },
+    {
+      "id": "blade_of_justice",
+      "spell": 184575
+    },
+    {
+      "id": "judgment",
+      "spell": 20271,
+      "alt": [
+        24275
+      ]
+    },
+    {
+      "id": "crusader_strike",
+      "spell": 35395,
+      "alt": [
+        406646
+      ]
+    },
+    {
+      "id": "expurgation",
+      "spell": 383346,
+      "family": "auras",
+      "unit": "target"
+    }
+  ],
+  "talents": [
+    {
+      "id": "holy_flames",
+      "node": 109371,
+      "entry": 115438,
+      "spell": 406545
+    },
+    {
+      "id": "radiant_glory",
+      "node": 81549,
+      "entry": 102525,
+      "spell": 458359
+    }
+  ],
+  "talents_note": "Node + entry from `knowledge/classes/paladin/retribution/ability-inventory.tsv`.",
+  "entries": [
+    {
+      "id": "execution_sentence",
+      "ability": "execution_sentence",
+      "note": "1. A PLACED cooldown, not a press-on-cooldown one. Three markers, one cue key, so the AND-only band grammar unions them into a single badge.",
+      "markers": [
+        {
+          "id": "es_awaits_wrath_ready",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "execution_sentence"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "radiant_glory"
+              ],
+              "negate": true
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "avenging_wrath"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es_awaits_wrath",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "execution_sentence"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "radiant_glory"
+              ],
+              "negate": true
+            }
+          ],
+          "display": {
+            "ability": "avenging_wrath",
+            "kind": "sealed-cooldown-range",
+            "within": 15
+          }
+        },
+        {
+          "id": "es_awaits_wake",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "execution_sentence"
+              ]
+            }
+          ],
+          "display": {
+            "ability": "wake_of_ashes",
+            "beyond": 1.5,
+            "kind": "sealed-cooldown-range"
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "es_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "es_clear",
+          "condition": "ready, Radiant Glory talented, or nothing to align with",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Radiant Glory deletes the Avenging Wrath alignment entirely — it removes Wings as a pressed button — so both Wrath holds are gated `!talent.radiant_glory` and this row is quiet on that build."
+        },
+        {
+          "id": "es_awaits_wrath_ready",
+          "condition": "ready, Radiant Glory UNtalented, Avenging Wrath READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_wrath_ready"
+          ],
+          "note": "Readable, and NOT redundant with the band: this row sits LEFT of Avenging Wrath, so a quiet row 1 is pressed before the eye ever arrives there. The band reads nothing at zero remaining and structurally cannot cover this point."
+        },
+        {
+          "id": "es_awaits_wrath",
+          "condition": "ready, Radiant Glory UNtalented, Avenging Wrath within 15s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_wrath"
+          ]
+        },
+        {
+          "id": "es_awaits_wake",
+          "condition": "ready, Wake of Ashes' cooldown BEYOND 1.5s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_wake"
+          ],
+          "note": "The `beyond` sense: it is nowhere near, so this is not its moment. Authored at the UNHASTED 1.5 because `UnitSpellHaste` is sealed in instanced combat."
+        },
+        {
+          "id": "es_wrath_ready_and_wake_far",
+          "condition": "ready, Avenging Wrath READY and Wake of Ashes beyond 1.5s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_wrath_ready",
+            "es_awaits_wake"
+          ],
+          "note": "One cue key across three markers, so the AND-only band grammar unions them into a single badge — and that union IS the OR."
+        },
+        {
+          "id": "es_wrath_near_and_wake_far",
+          "condition": "ready, Avenging Wrath within 15s and Wake beyond 1.5s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_wrath",
+            "es_awaits_wake"
+          ]
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "es_awaits_wrath_ready",
+            "es_awaits_wrath"
+          ],
+          "why": "The readable marker requires Avenging Wrath READY — cooldown remaining zero — and the band reads nothing at zero remaining, drawing only inside (0, 15]. Ready is outside it by construction, which is exactly why the readable marker is not redundant with the band."
+        }
+      ]
+    },
+    {
+      "id": "avenging_wrath",
+      "ability": "avenging_wrath",
+      "note": "2. The window everything aligns into.",
+      "markers": [
+        {
+          "id": "aw_awaits_expurgation",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "avenging_wrath"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "holy_flames"
+              ]
+            },
+            {
+              "pred": "aura",
+              "args": [
+                "expurgation"
+              ],
+              "negate": true
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "aw_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "aw_clear",
+          "condition": "ready, and either Holy Flames untalented or Expurgation ticking",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Without Holy Flames the APL term is vacuously true and this marker must not exist."
+        },
+        {
+          "id": "aw_awaits_expurgation",
+          "condition": "ready, Holy Flames talented, Expurgation NOT on the target",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "aw_awaits_expurgation"
+          ],
+          "note": "On a Holy Flames build the window is FORBIDDEN, not merely outranked, until Expurgation is on the target. ⚠ If the player has not added Expurgation to Tracked Buffs the aura reads UNKNOWN and this stays DARK rather than reading as \"the DoT is down\" — which is the whole reason no enablement check is needed."
+        }
+      ]
+    },
+    {
+      "id": "wake_of_ashes",
+      "ability": "wake_of_ashes",
+      "note": "3. One row, two lives, selected by identity.",
+      "scan_when": [
+        [
+          {
+            "pred": "identity",
+            "args": [
+              "wake_of_ashes",
+              "base"
+            ]
+          },
+          {
+            "pred": "ready",
+            "args": [
+              "wake_of_ashes"
+            ]
+          }
+        ],
+        [
+          {
+            "pred": "identity",
+            "args": [
+              "wake_of_ashes",
+              "transformed"
+            ]
+          }
+        ]
+      ],
+      "markers": [
+        {
+          "id": "woa_starved",
+          "cue": "starved",
+          "when": [
+            {
+              "pred": "affordable",
+              "args": [
+                "wake_of_ashes"
+              ],
+              "negate": true
+            }
+          ]
+        },
+        {
+          "id": "woa_awaits_wrath",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "identity",
+              "args": [
+                "wake_of_ashes",
+                "base"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "wake_of_ashes"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "radiant_glory"
+              ],
+              "negate": true
+            }
+          ],
+          "display": {
+            "ability": "avenging_wrath",
+            "kind": "sealed-cooldown-range",
+            "within": 6
+          }
+        },
+        {
+          "id": "woa_awaits_sentence",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "identity",
+              "args": [
+                "wake_of_ashes",
+                "base"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "wake_of_ashes"
+              ]
+            }
+          ],
+          "display": {
+            "ability": "execution_sentence",
+            "kind": "sealed-cooldown-range",
+            "within": 4
+          }
+        }
+      ],
+      "states": [
+        {
+          "id": "woa_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "woa_clear",
+          "condition": "ready in its BASE life, no hold applies; or transformed to Hammer of Light and affordable",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "One row, two lives, selected by identity: a cooldown while it is Wake of Ashes, a spender while Light's Guidance has made it Hammer of Light. Membership is the OR of the `scan_when` alternatives, so either life keeps the row in the scan — and the transformed life has no cooldown of its own to read, which is why it is in the scan by identity."
+        },
+        {
+          "id": "woa_starved",
+          "condition": "transformed to HAMMER OF LIGHT, not affordable",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "woa_starved"
+          ],
+          "note": "Affordability of the LIVE id: Hammer of Light's 5 Holy Power on the transformed row, Wake of Ashes' nothing on the base one. ONE marker covers both lives correctly, and because the base life costs nothing it can only ever draw on the transformed one."
+        },
+        {
+          "id": "woa_awaits_wrath",
+          "condition": "BASE life, ready, Radiant Glory UNtalented, Avenging Wrath within 6s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "woa_awaits_wrath"
+          ]
+        },
+        {
+          "id": "woa_awaits_sentence",
+          "condition": "BASE life, ready, Execution Sentence within 4s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "woa_awaits_sentence"
+          ]
+        },
+        {
+          "id": "woa_both_holds",
+          "condition": "BASE life, ready, Avenging Wrath within 6s AND Execution Sentence within 4s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "woa_awaits_wrath",
+            "woa_awaits_sentence"
+          ],
+          "note": "Two bands armed at once, unioned onto one badge."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "woa_starved",
+            "woa_awaits_wrath"
+          ],
+          "why": "`woa_starved` can only draw in the HAMMER OF LIGHT life: the base life's Wake of Ashes costs nothing, so `affordable` is true there and its negation never fires. This hold requires `identity base`. The two lives are exclusive, so the pair cannot happen."
+        },
+        {
+          "pair": [
+            "woa_starved",
+            "woa_awaits_sentence"
+          ],
+          "why": "Same reason: starved implies the transformed life, this hold requires the base one."
+        }
+      ]
+    },
+    {
+      "id": "divine_toll",
+      "ability": "divine_toll",
+      "note": "4. The one builder that genuinely must not be pressed at cap.",
+      "markers": [
+        {
+          "id": "dt_awaits_wrath",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "divine_toll"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "radiant_glory"
+              ],
+              "negate": true
+            }
+          ],
+          "display": {
+            "ability": "avenging_wrath",
+            "kind": "sealed-cooldown-range",
+            "within": 15
+          }
+        },
+        {
+          "id": "dt_overcap",
+          "cue": "overcap",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "divine_toll"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                ">=",
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "dt_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "dt_clear",
+          "condition": "ready, below 5 Holy Power, no Wrath hold",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "dt_awaits_wrath",
+          "condition": "ready, Radiant Glory UNtalented, Avenging Wrath within 15s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "dt_awaits_wrath"
+          ]
+        },
+        {
+          "id": "dt_overcap",
+          "condition": "ready, at 5 or more Holy Power",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "dt_overcap"
+          ],
+          "note": "READABLE, not a curve on a secret: Holy Power is never-secret, and that is the whole difference from Havoc's authored Fury break point. The one builder that genuinely must not be pressed at cap."
+        },
+        {
+          "id": "dt_overcap_and_wrath",
+          "condition": "ready, at cap AND Avenging Wrath within 15s",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "overcap"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "dt_awaits_wrath",
+            "dt_overcap"
+          ],
+          "note": "Two DIFFERENT cue keys, so this row wears two badges — the flowing stack, in rank order."
+        }
+      ]
+    },
+    {
+      "id": "templars_verdict",
+      "ability": "templars_verdict",
+      "note": "5. The default spender, and the wrong one in three states that look identical on the icon.",
+      "scan_when": [
+        [
+          {
+            "pred": "affordable",
+            "args": [
+              "templars_verdict"
+            ]
+          }
+        ]
+      ],
+      "markers": [
+        {
+          "id": "tv_starved",
+          "cue": "starved",
+          "when": [
+            {
+              "pred": "affordable",
+              "args": [
+                "templars_verdict"
+              ],
+              "negate": true
+            }
+          ]
+        },
+        {
+          "id": "tv_awaits_blade",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "proc",
+              "args": [
+                "blade_of_justice"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "blade_of_justice"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "templars_verdict"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tv_divine_storm_aoe",
+          "cue": "st_only",
+          "when": [
+            {
+              "pred": "aoe"
+            },
+            {
+              "pred": "proc",
+              "args": [
+                "templars_verdict"
+              ],
+              "negate": true
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "templars_verdict"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tv_empyrean_power",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "proc",
+              "args": [
+                "divine_storm"
+              ]
+            },
+            {
+              "pred": "proc",
+              "args": [
+                "templars_verdict"
+              ],
+              "negate": true
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "templars_verdict"
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "tv_clear",
+          "condition": "affordable, single target, no proc holding it",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "In the scan by `scan_when` = affordable: a spender whose cost is the only thing between it and a press raises no readiness edge for that cost."
+        },
+        {
+          "id": "tv_starved",
+          "condition": "not affordable",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_starved"
+          ],
+          "note": "The client also tints this `not-enough-power`; that tint is Blizzard's."
+        },
+        {
+          "id": "tv_awaits_blade",
+          "condition": "affordable, a free Blade of Justice ready, at or below 4 Holy Power",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_awaits_blade"
+          ],
+          "note": "Cue D. `generators` 5 outranks the unconditional `finishers` call, so a free Blade of Justice is pressed first — EXCEPT at 5 Holy Power, which is what `resource <= 4` is for."
+        },
+        {
+          "id": "tv_divine_storm_aoe",
+          "condition": "affordable, AoE mode ON, no Empyrean Legacy proc",
+          "verdict": "open",
+          "cues": [
+            "st_only"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_divine_storm_aoe"
+          ],
+          "note": "⚠ A MODE fact, and it deliberately does NOT share `blocked` with the marker below. Nothing is held and nothing is wasted — it is simply the other spender's turn. Calling it `blocked` would say a readable dependency makes the press a waste, which is false here. cap has no enemy count and will not compute one, so the target-count clause is the player's `/cap aoe` toggle."
+        },
+        {
+          "id": "tv_empyrean_power",
+          "condition": "affordable, single target, a free Divine Storm waiting, no Empyrean Legacy proc",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_empyrean_power"
+          ],
+          "note": "Fires in SINGLE TARGET, where the mode is right and the reason is a free Divine Storm waiting — exactly `blocked`'s declared meaning. Calling it `st_only` would tell the player their mode was wrong when it was not."
+        },
+        {
+          "id": "tv_blade_and_aoe",
+          "condition": "affordable, AoE on, free Blade of Justice ready at or below 4 Holy Power",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "st_only"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_awaits_blade",
+            "tv_divine_storm_aoe"
+          ],
+          "note": "Two different cue keys, so two badges: the generator outranks the finisher AND the other spender has the turn."
+        },
+        {
+          "id": "tv_blade_and_empyrean",
+          "condition": "affordable, single target, free Blade of Justice ready at or below 4 Holy Power, Divine Storm proc up",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_awaits_blade",
+            "tv_empyrean_power"
+          ],
+          "note": "Same cue key twice: one badge, and the union is the OR."
+        },
+        {
+          "id": "tv_aoe_and_empyrean",
+          "condition": "affordable, AoE on, Divine Storm proc up, no Empyrean Legacy proc",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "st_only"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "tv_divine_storm_aoe",
+            "tv_empyrean_power"
+          ],
+          "note": "Both true: the mode says it is the other spender's turn AND that spender's press is free. Two keys, two badges."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "tv_starved",
+            "tv_awaits_blade"
+          ],
+          "why": "Every other marker on this entry carries an `affordable` term precisely so it cannot land on a row already wearing `starved` — two badges saying nothing extra. So the pair is excluded by construction, not by circumstance."
+        },
+        {
+          "pair": [
+            "tv_starved",
+            "tv_divine_storm_aoe"
+          ],
+          "why": "Every other marker on this entry carries an `affordable` term precisely so it cannot land on a row already wearing `starved` — two badges saying nothing extra. So the pair is excluded by construction, not by circumstance."
+        },
+        {
+          "pair": [
+            "tv_starved",
+            "tv_empyrean_power"
+          ],
+          "why": "Every other marker on this entry carries an `affordable` term precisely so it cannot land on a row already wearing `starved` — two badges saying nothing extra. So the pair is excluded by construction, not by circumstance."
+        }
+      ]
+    },
+    {
+      "id": "divine_storm",
+      "ability": "divine_storm",
+      "note": "6. Needs no mirror of the generator hold to steer the scan — it sits RIGHT of Templar's Verdict — but carries one anyway so the two spenders can be told apart.",
+      "scan_when": [
+        [
+          {
+            "pred": "affordable",
+            "args": [
+              "divine_storm"
+            ]
+          }
+        ]
+      ],
+      "markers": [
+        {
+          "id": "ds_starved",
+          "cue": "starved",
+          "when": [
+            {
+              "pred": "affordable",
+              "args": [
+                "divine_storm"
+              ],
+              "negate": true
+            }
+          ]
+        },
+        {
+          "id": "ds_aoe_only",
+          "cue": "aoe_only",
+          "when": [
+            {
+              "pred": "aoe",
+              "negate": true
+            },
+            {
+              "pred": "proc",
+              "args": [
+                "divine_storm"
+              ],
+              "negate": true
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "divine_storm"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ds_awaits_blade",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "proc",
+              "args": [
+                "blade_of_justice"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "blade_of_justice"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                4
+              ]
+            },
+            {
+              "pred": "affordable",
+              "args": [
+                "divine_storm"
+              ]
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "ds_clear",
+          "condition": "affordable, AoE on or a Divine Storm proc up, nothing holding it",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null
+        },
+        {
+          "id": "ds_starved",
+          "condition": "not affordable",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "ds_starved"
+          ]
+        },
+        {
+          "id": "ds_aoe_only",
+          "condition": "affordable, AoE mode OFF, no Divine Storm proc",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "ds_aoe_only"
+          ],
+          "note": "The MIRROR of Templar's Verdict's mode cue, and it is NOT there to steer the scan: this row sits RIGHT of that one, so in single target elimination reaches it first and stops. It is there so a reader can tell the two spenders APART — without it, \"why is this one not the answer?\" is answerable only from row position, which is the knowledge a player new to a spec has least of. Gated off by an Empyrean Power proc, which makes Divine Storm free and beats the single-target spender at ANY target count."
+        },
+        {
+          "id": "ds_awaits_blade",
+          "condition": "affordable, a free Blade of Justice ready, at or below 4 Holy Power",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "ds_awaits_blade"
+          ],
+          "note": "Not optional: badging only Templar's Verdict would hand the walk to this row."
+        },
+        {
+          "id": "ds_aoe_only_and_blade",
+          "condition": "affordable, AoE off, no Divine Storm proc, and a free Blade of Justice ready at or below 4 Holy Power",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "aoe_only"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "ds_aoe_only",
+            "ds_awaits_blade"
+          ],
+          "note": "Two keys, two badges, in the flowing stack's rank order."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "ds_starved",
+            "ds_aoe_only"
+          ],
+          "why": "Every other marker on this entry carries an `affordable` term precisely so it cannot land on a row already wearing `starved` — two badges saying nothing extra. So the pair is excluded by construction, not by circumstance."
+        },
+        {
+          "pair": [
+            "ds_starved",
+            "ds_awaits_blade"
+          ],
+          "why": "Every other marker on this entry carries an `affordable` term precisely so it cannot land on a row already wearing `starved` — two badges saying nothing extra. So the pair is excluded by construction, not by circumstance."
+        }
+      ]
+    },
+    {
+      "id": "blade_of_justice",
+      "ability": "blade_of_justice",
+      "note": "7. ONE cue, and it is the vocabulary's second positive.",
+      "markers": [
+        {
+          "id": "boj_opener",
+          "cue": "priority",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "blade_of_justice"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "holy_flames"
+              ]
+            },
+            {
+              "pred": "aura",
+              "args": [
+                "expurgation"
+              ],
+              "negate": true
+            }
+          ]
+        }
+      ],
+      "states": [
+        {
+          "id": "boj_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "boj_clear",
+          "condition": "ready, in the steady state",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Reached by ELIMINATION and wearing nothing: its ordering story is told by the markers it causes on the rows ABOVE it, and Blizzard already glows it on an Art of War / Righteous Cause proc."
+        },
+        {
+          "id": "boj_opener",
+          "condition": "ready, Holy Flames talented, Expurgation NOT on the target",
+          "verdict": "open",
+          "cues": [
+            "priority"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "boj_opener"
+          ],
+          "note": "The vocabulary's second POSITIVE cue, and the reason is DENSITY rather than rank: `generators` 2 puts Blade of Justice first on a Holy Flames build, and saying that by elimination would mean holding FOUR rows above it. Two of those holds existed for no other reason and were deleted when this marker was authored. The condition IS the APL rung minus `time<5` — the aura latch subsumes it, because the only moment Expurgation is absent on a Holy Flames build is before the first Blade of Justice."
+        }
+      ]
+    },
+    {
+      "id": "judgment",
+      "ability": "judgment",
+      "note": "8.",
+      "markers": [],
+      "states": [
+        {
+          "id": "judgment_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "judgment_clear",
+          "condition": "ready, in either life",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Hammer of Wrath's execute condition needs no vocabulary: the row IS Hammer of Wrath exactly when Hammer of Wrath is castable."
+        }
+      ]
+    },
+    {
+      "id": "crusader_strike",
+      "ability": "crusader_strike",
+      "note": "9.",
+      "markers": [],
+      "states": [
+        {
+          "id": "cs_on_cd",
+          "condition": "on cooldown",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Blizzard's swipe plus V11's hatch."
+        },
+        {
+          "id": "cs_clear",
+          "condition": "ready",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "note": "Binds only if the row exists. On a Crusading Strikes build the talent replaces the button with an auto-attack, so the priority genuinely ends at Judgment and this costs nothing."
+        }
+      ]
+    }
+  ],
+  "entries_note": "Entry order IS the authored priority; `Catalog.OrderCheck` reports when the player's Cooldown Manager disagrees with it."
+}

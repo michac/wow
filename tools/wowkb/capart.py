@@ -1184,8 +1184,18 @@ def catalog_lua(spec: str) -> str:
         head = f"    {{ id = {_lua_scalar(e['id'])}, ability = {_lua_scalar(e['ability'])},"
         out.append(head)
         if e.get("scan_when"):
-            alts = ", ".join(_lua_when(alt, 0) for alt in e["scan_when"])
-            out.append(f"      scan_when = {{ {alts} }},")
+            # One line when it fits, one alternative per line when it does not — the same
+            # 96-column rule `_lua_when` applies inside an alternative. Without this the
+            # two-alternative identity form (Retribution's Wake of Ashes) emitted at 148
+            # columns: legal, and unreadable next to everything around it.
+            alts = [_lua_when(alt, 0) for alt in e["scan_when"]]
+            line = f"      scan_when = {{ {', '.join(alts)} }},"
+            if len(line) <= 96:
+                out.append(line)
+            else:
+                out.append("      scan_when = {")
+                out += [f"        {alt}," for alt in alts]
+                out.append("      },")
         markers = e.get("markers") or []
         if markers:
             out.append("      markers = {")

@@ -477,11 +477,13 @@ Toll wears one `blocked` and one `overcap`, Wake of Ashes wears two `blocked` an
 `Catalog.Check`'s one-cue-per-slot rule is satisfied because `starved` and `overcap` are never
 declared on the same row.
 
-### Why this catalog does not spend the positive cue
+### Why this catalog does not spend `capped`
 
 ⚠ **Five Holy Power looks exactly like `capped`, and it is not.** The argument, made rather than
 assumed, because the plan asked for it and because "there is no positive-cue budget"
-(`../backlog.md`) means the answer has to be on merits.
+(`../backlog.md`) means the answer has to be on merits. ⚠ This section is about **`capped`
+only** — the catalog *does* spend the other positive cue, `priority`, on Blade of Justice at the
+opener (cue **H**), and the case for that one is made at cue H's own row.
 
 `capped` is scoped to **impending loss**, and it earns its exception because *you are wasting a
 charge right now* is urgent regardless of rank, and there is **no negative phrasing of it**
