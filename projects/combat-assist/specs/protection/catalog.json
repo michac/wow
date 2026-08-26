@@ -460,6 +460,12 @@
               "args": [
                 "avengers_shield"
               ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "consecration"
+              ]
             }
           ],
           "display": {
@@ -528,7 +534,7 @@
         },
         {
           "id": "as_band_armed",
-          "condition": "ready, Vanguard absent, Divine Guidance talented, its count at five or more",
+          "condition": "ready, Vanguard absent, Consecration also ready, Divine Guidance talented, its count at five or more",
           "verdict": "ruled-sealed",
           "cues": [],
           "sealed": [
@@ -544,11 +550,11 @@
             "V13",
             "V16"
           ],
-          "note": "⚠ The first sealed display in ANY catalog that rules out a row the aura does not belong to. Demonology's two count tables both sat on the row whose own press the count gated; here the count is Divine Guidance's, the entry is Avenger's Shield, and the statement is \"the row to your right outranks this one right now\". The mechanism needs nothing new — `Channel.Plan` binds `display.ability` independently of `entry.ability` — but the STATEMENT is a relationship rather than a self-test. ⚠ The direction is V16 and not V17, and that choice is the whole of whether it is honest: drawn the other way it would say \"ruled out until Divine Guidance is capped\", which is false."
+          "note": "⚠ The first sealed display in ANY catalog that rules out a row the aura does not belong to. Demonology's two count tables both sat on the row whose own press the count gated; here the count is Divine Guidance's, the entry is Avenger's Shield, and the statement is \"the row to your right outranks this one right now\". The mechanism needs nothing new — `Channel.Plan` binds `display.ability` independently of `entry.ability` — but the STATEMENT is a relationship rather than a self-test. ⚠ The direction is V16 and not V17, and that choice is the whole of whether it is honest: drawn the other way it would say \"ruled out until Divine Guidance is capped\", which is false. ⚠ `ready(consecration)` is a readable gate on the sealed display and it is what makes the elimination true: rung 15 is Consecration, so with Consecration swiped the APL falls to rung 18 and THIS row is the press. Without the term the band hatched the correct button."
         },
         {
           "id": "as_awaits_hammer_band_armed",
-          "condition": "ready, Hammer of Wrath armed AND the Divine Guidance band drawing",
+          "condition": "ready, Hammer of Wrath armed AND the Divine Guidance band drawing (Consecration also ready)",
           "verdict": "open",
           "cues": [
             "blocked"
@@ -705,6 +711,12 @@
               "args": [
                 "judgment"
               ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "crusader_strike"
+              ]
             }
           ]
         }
@@ -737,7 +749,7 @@
         },
         {
           "id": "judgment_yields_to_assurance",
-          "condition": "ready, BASE life, Blessed Assurance talented and its aura up",
+          "condition": "ready, BASE life, Blessed Assurance talented and its aura up, a hammer charge available",
           "verdict": "open",
           "cues": [
             "blocked"
@@ -753,7 +765,7 @@
             "V11",
             "V13"
           ],
-          "note": "Blessed Assurance makes the hammer to its right worth more for exactly one cast. ⚠ The identity term is not decoration: rung 16 puts Hammer of Wrath above both hammer rungs, so the yield must VANISH while the row is transformed — otherwise the row that just earned cue E on two neighbours would stand itself down."
+          "note": "Blessed Assurance makes the hammer to its right worth more for exactly one cast. ⚠ The identity term is not decoration: rung 16 puts Hammer of Wrath above both hammer rungs, so the yield must VANISH while the row is transformed — otherwise the row that just earned cue E on two neighbours would stand itself down. ⚠ `ready(crusader_strike)` is the other load-bearing term: rungs 20 and 21 are both that roster row (Hammer of the Righteous / Blessed Hammer), so with every charge spent neither can fire and rung 22 — this row — is the press."
         }
       ]
     },

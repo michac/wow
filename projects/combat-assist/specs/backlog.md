@@ -322,11 +322,45 @@ and nothing about how it was measured.
     scenario↔state gate (measured above), while Devourer has not been attempted, because V12's
     virtual row is `declared` and `drawn_by` rejects a `declared` primitive — the gate would
     refuse precisely the two rows the design exists for.
-  - **Six catalog gates**, applied to any spec that has a `catalog.json` and skipped by absence,
+  - **Seven catalog gates**, applied to any spec that has a `catalog.json` and skipped by absence,
     so the remaining rollout needs no second list: Lua byte-compare, marker↔state,
-    closed vocabulary, scenario↔state, co-occurrence, and validator parity (`Catalog.Check` run
-    outside the client by `tests/check_catalog.lua`). **Every one has been seen to fail by name**
-    on every migrated spec — a gate never watched failing is not known to work.
+    closed vocabulary, scenario↔state, co-occurrence, **outranker readiness**, and validator
+    parity (`Catalog.Check` run outside the client by `tests/check_catalog.lua`). **Every one has
+    been seen to fail by name** on every migrated spec — a gate never watched failing is not known
+    to work.
+  - **The outranker gate shipped HARD, not as a warning** (2026-08-26,
+    `capart.catalog_gate_outranker`). It exists for the four Pattern-A defects fixed that day: a
+    hold names the row it yields to and never checks that row is AVAILABLE, so it ELIMINATES the
+    correct press whenever the outranker cannot go. ⚠ **It was authored to parse the marker's
+    prose and does not** — prose was the wrong subject and would have made it a noisy gate, which
+    is worse than none, because a gate people bypass trains them to bypass gates. It judges
+    against Tier-1 data instead: the hold state's `apl` citation → the upstream rung's action
+    (`apl_line`) → `catalog.md`'s own *Bound abilities* table → a roster row. If that row is not
+    the entry's own, some term across the state's markers must name it. **Measured before it was
+    wired in: zero findings on all four migrated catalogs, and exactly the three pre-fix
+    Protection states when the two fixes were reverted.** It abstains in four places rather than
+    guess — an `exception` state, an unresolvable citation, a directive rung, an action with no
+    roster row — and each abstention is a thing it cannot catch rather than a thing it approves.
+    ⚠ It is scoped to holds that yield to a **different** row, so it does not catch the other two
+    Pattern-A shapes: a hold that is derived from one rung of a **two-life** row and does not say
+    which life (Demonology's two window holds, fixed with `identity(hand_of_guldan, "base")`),
+    and a promotion that carries its rung's condition but not its rung's **reachability**
+    (Retribution's `boj_opener`, split into two markers). Both cite the entry's own rung, so the
+    gate abstains by design.
+  - ⚠ **The scenario↔state gate matches on a `(verdict, cues, sealed)` TRIPLE, and two states on
+    one entry can share one.** Since 2026-08-26 Demonology's `hand_of_guldan` carries both
+    `hog_ruination` (rung 10, Ruination armed) and `hog_press` (rung 11, the ordinary spend), and
+    both are `(open, {}, {})` — the first place in any catalog where the gate cannot tell two
+    states of one entry apart. **This is structural, not a break, and the next person to hit it
+    should not go looking for what they did wrong.** The gate's question is *"does anything on
+    this entry draw what the walk drew"*, and two states that draw identically are by construction
+    one answer. **What it costs:** DEM-16 proves that *a* state on that entry renders as a clean
+    open row; it does not prove the state the walk is arguing about, which is the transformed
+    life. The rung citation, the walk prose and the outranker gate carry that, and the triple does
+    not. This is the sharp form of `cap-review-todo.md` §3's standing note that a scenario proves
+    a rendering rather than a rule. **No fix attempted**: making the gate match on state ID would
+    mean every scenario row naming a state, which is a scenario-format change with a much larger
+    blast radius than the thing it would catch.
   - **Scenario polarity is chosen by a file existing**, not by a list: a spec with
     `scenarios.json` leads from it and its `previews/data/` sidecar is deleted; a spec without
     one still leads from the doc. `check` reports which.

@@ -3654,6 +3654,100 @@ def catalog_gate_cooccurrence(cat: dict) -> list[str]:
     return fails
 
 
+#: An APL action name that presses nothing — a control directive, a consumable, or a
+#: bookkeeping line. A hold cited to one of these has no outranking ROW to check.
+APL_DIRECTIVES = {
+    "call_action_list", "run_action_list", "variable", "cycling_variable", "pool_resource",
+    "use_item", "use_items", "potion", "flask", "food", "augmentation", "snapshot_stats",
+    "auto_attack", "arcane_torrent", "fireblood", "berserking", "blood_fury", "ancestral_call",
+}
+
+#: The predicates that NAME a subject row. `resource`, `aoe` and the bare `aura` toggle carry no
+#: row, so they can never satisfy the outranker check.
+SUBJECT_PREDS = {"ready", "identity", "capped", "proc", "affordable", "aura", "talent"}
+
+
+def _apl_action(spec: str, cite: str | None) -> str | None:
+    """The bare action name of a cited rung — `"default 15"` → `"consecration"`. Never raises."""
+    line = apl_line(spec, cite)
+    if not line:
+        return None
+    return line.split(",", 1)[0].strip().lstrip("/") or None
+
+
+def catalog_gate_outranker(spec: str, cat: dict, roster: dict) -> list[str]:
+    """A HOLD MUST CHECK THAT THE ROW IT YIELDS TO IS ACTUALLY AVAILABLE.
+
+    ⚠ **The defect this exists to catch** (four instances across three specs, 2026-08-26): a
+    marker names another roster row as the outranker, the state cites that row's rung, and the
+    `when` never asks whether that row can fire. Protection's `as_guidance_capped` hatched
+    Avenger's Shield at five Divine Guidance stacks because rung 15 outranks it — but rung 15 is
+    *Consecration*, and with Consecration swiped the APL falls through to rung 18 and Avenger's
+    Shield **is** the press. `judgment_awaits_assurance` wore `blocked` with both hammer charges
+    spent, when rung 22 (Judgment) was the press. Each was **one missing `when` term**, each
+    ELIMINATED the correct button, and in each case a sibling marker in the same file already did
+    it right — so the shape was inconsistency within a file, not a missing idea, which is exactly
+    the class a scenario walk cannot find: every walk pins the hiding branch into its own state.
+
+    The judgement is made against **Tier-1 data, not prose**. A hold state cites a rung; that rung
+    resolves to an upstream action name (`apl_line`); that name resolves through `catalog.md`'s own
+    *Bound abilities* table to a roster row. If the row is not this entry's own, some term across
+    the state's markers must NAME it — `ready`, `identity`, `capped`, `proc`, `affordable`, `aura`,
+    `talent`, or a sealed `display.ability`, which is the same statement made by the client.
+
+    ⚠ **It abstains rather than guesses**, in four places, and that is what keeps it usable as a
+    hard gate: an `exception` state (no rung), a citation that does not resolve (`apl_line` is
+    non-fatal everywhere by design), a directive rung that presses no button, and an action with
+    no roster row. Measured on all four migrated catalogs the day it was written: **zero** findings
+    after the four fixes, and exactly the three pre-fix Protection states before them.
+    """
+    fails = []
+    keys = {e["ability"] for e in cat.get("entries", [])}
+    by_name = {re.sub(r"[^a-z0-9]+", "_", n.lower()).strip("_"): v["key"]
+               for n, v in (roster or {}).items()}
+    for e in cat.get("entries", []):
+        markers = {m["id"]: m for m in e.get("markers") or []}
+        for st in e.get("states") or []:
+            if not (st.get("cues") or st.get("sealed")):
+                continue                      # not a hold — nothing is being stood down
+            action = _apl_action(spec, st.get("apl"))
+            if action is None or action in APL_DIRECTIVES:
+                continue
+            target = action if action in keys else by_name.get(action)
+            if target is None or target == e["ability"]:
+                continue                      # unresolvable, or the entry's own rung
+            # A state names its markers explicitly when more than one is in play; a single-marker
+            # state does not, so fall back to the markers whose cue/sink this state draws.
+            ids = st.get("combines") or [
+                m["id"] for m in markers.values()
+                if (m.get("cue") and m["cue"] in (st.get("cues") or []))
+                or ((m.get("display") or {}).get("kind", "").replace("sealed-", "")
+                    in (st.get("sealed") or []))
+            ]
+            subjects = set()
+            for mid in ids:
+                m = markers.get(mid)
+                if not m:
+                    continue
+                for t in m.get("when") or []:
+                    if t.get("pred") in SUBJECT_PREDS and t.get("args"):
+                        subjects.add(t["args"][0])
+                # A sealed display's subject counts: the CLIENT is making the same statement
+                # about that row, which is the whole point of the `when`-beside-`display` shape.
+                if (m.get("display") or {}).get("ability"):
+                    subjects.add(m["display"]["ability"])
+            if target not in subjects:
+                fails.append(
+                    f"{e['id']}/{st['id']}: yields to rung {st['apl']!r}, which is `{action}` — "
+                    f"the {target!r} row — but no term on its marker(s) asks whether {target!r} "
+                    f"can fire (subjects named: {', '.join(sorted(subjects)) or 'none'}).\n"
+                    f"       A hold that names a row must check that row is AVAILABLE, or it "
+                    f"eliminates the correct press in every state where the outranker cannot go.\n"
+                    f"       Add `ready({target})` (or the identity/charge term that fits) to the "
+                    f"marker's `when`.")
+    return fails
+
+
 def catalog_gate_scenarios(cat: dict, scenarios: list[dict], roster: dict) -> list[str]:
     """Every scenario row matches some declared state for that ability.
 
@@ -4481,6 +4575,7 @@ def _check_one(args) -> None:
         fails += catalog_gate_states(cat)
         fails += catalog_gate_vocab(cat, tokens)
         fails += catalog_gate_cooccurrence(cat)
+        fails += catalog_gate_outranker(args.spec, cat, roster)
         fails += catalog_gate_scenarios(cat, doc, roster)
         fails += catalog_gate_validator(args.spec)
 
@@ -4551,6 +4646,8 @@ def _check_one(args) -> None:
     catalog_gates = ("     every state says where it comes from (a rung, or one sentence saying "
                      "why no rung covers it)\n"
                      "     and names only BUILT primitives in drawn_by,\n"
+                     "     every hold that yields to another row asks whether that row can "
+                     "fire,\n"
                      if cjson.exists() else
                      "     (catalog gates SKIPPED — no catalog.json; this spec's Lua is "
                      "hand-written)\n")

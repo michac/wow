@@ -411,9 +411,33 @@ that it is doing ordering work a sealed curve could not do.
   elimination can only say by holding four rows above it — over Part 0.5's budget.
   *Facts:* `ready` (R2), `talent` and the Expurgation latch (R8). *Treatment:* scan +
   - `boj_opener` — **readable** `priority`, cue **H**: `ready(blade_of_justice)` **and**
-    `talent(holy_flames)` **and** `!aura(expurgation)`. That is generators 2 exactly, minus
-    `time<5` — the latch subsumes it, since the only moment Expurgation is absent on a Holy Flames
-    build is before the first Blade of Justice.
+    `talent(holy_flames)` **and** `!aura(expurgation)` **and** `resource <= 4`. That is
+    generators 2 exactly, minus `time<5` — the latch subsumes it, since the only moment
+    Expurgation is absent on a Holy Flames build is before the first Blade of Justice — plus the
+    rung's **reachability**.
+  - `boj_opener_woa` — **readable** `priority`, cue **H** again, unioned onto the same badge: the
+    same three terms **and** `ready(wake_of_ashes)`.
+  ⚠ **Cue H is worn by TWO markers, and that is how an OR is written.** `generators` 1 is a call
+  into `finishers` gated on `holy_power=5&cooldown.wake_of_ashes.remains`, so rung 2 is only
+  **reached** when rung 1 did not fire — which is `holy_power<=4` **OR** Wake of Ashes ready.
+  `when` is AND-only (`Signal.lua`, `all()` over the term list), and `scan_when` is the only place
+  the catalog format spells a disjunction — but `scan_when` decides *membership*, not a cue. So the
+  disjunction is authored as two markers naming the **same** cue: the union of the two IS the OR,
+  and `Catalog.lua`'s refusal of two positive cues on one entry is per **cue**, not per marker, so
+  one gold badge appears either way. `resource <= 4` is the same term, for the same reason, as
+  `tv_awaits_blade` and `ds_awaits_blade` carry.
+  ⚠ **Until 2026-08-26 neither term was there, and this is the catalog's only pass-1 promotion** —
+  cap draws the gold ring and presses it **without running elimination at all**. At five Holy Power
+  with Wake of Ashes on cooldown the APL diverts at rung 1 and never reaches rung 2, and cap was
+  promoting a button the priority list was not pressing. A promotion must carry its rung's
+  reachability, not only its rung's condition.
+  ⚠ **One honest limit: rung 1's THIRD disjunct is not modelled.**
+  `buff.hammer_of_light_free.remains<gcd*2` also sends the APL into `finishers`, and neither
+  marker knows about it. So in that window — a Hammer of Light free charge about to expire, below
+  five Holy Power — cap still draws the promotion where the APL would have gone to the finisher.
+  The direction is a **rare over-draw**, not an elimination of a correct press, and it is a
+  duration comparison against a haste-scaled GCD, which is `spec.md` §3.6 territory rather than a
+  missing `when` term. It is written here rather than papered over.
   ⚠ **In every other state this row still wears nothing, and that is not a leftover — it is the
   rule.** Outside the opener its ordering story is told entirely by the markers it *causes* on the
   rows above it, and the press is whatever the scan reaches first (`../render-shelf.md` Part 0.5).
@@ -463,7 +487,7 @@ that it is doing ordering work a sealed curve could not do.
 | **C** sealed hold | the `blocked` badge driven by a *related ability's cooldown remaining*, in two senses. `within` = *"it is nearly here, wait for it"*: Execution Sentence while Avenging Wrath ends within 15s · Wake of Ashes while Avenging Wrath ends within 6s · Wake of Ashes while Execution Sentence ends within 4s · Divine Toll while Avenging Wrath ends within 15s. `beyond` = *"it is nowhere near, this is not its moment"*: Execution Sentence while Wake of Ashes has at least 1.5s left. **Both read nothing at zero remaining.** One readable companion — Execution Sentence while Avenging Wrath is *ready* — because that row sits left of the one it waits on | a related ability's cooldown remaining, plus one readiness | cue (sealed) + one marker (readable) | S4 `sealed-cooldown-range` + R2 | curve → badge, rank 3 |
 | **D** proc-defer | Templar's Verdict **and** Divine Storm wear `blocked` while a free Blade of Justice is waiting and Holy Power is below 5 | `IsSpellOverlayed(184575)` + `ready` + `resource` | marker (readable) | overlay `proc` + R2 + R3 | corner badge, slot 1 |
 | **E** Divine Storm skip | Templar's Verdict wears `blocked` while AoE mode is on **or** an Empyrean Power proc is live, and no Empyrean Legacy proc is | cap's `/cap aoe` toggle + two overlay procs + `affordable` | two markers unioned (readable) | `aoe` + overlay `proc` + R1 | corner badge, slot 1 |
-| **H** the opener promotion | **Blade of Justice only**, and only at the opener: it wears the gold `priority` badge while Holy Flames is talented, Expurgation is off the target and the button is ready. The catalog's one **positive** cue, and its one scenario read by pass 1 | the same latch as G, plus `ready` and `talent` | marker (readable) | R8 + R2 + the `talent` predicate | corner badge, rank 1 |
+| **H** the opener promotion | **Blade of Justice only**, and only at the opener: it wears the gold `priority` badge while Holy Flames is talented, Expurgation is off the target, the button is ready, and `generators` 2 is actually REACHED — below five Holy Power, or with Wake of Ashes ready. The catalog's one **positive** cue, worn by **two markers** (`boj_opener` + `boj_opener_woa`) because that reachability is a disjunction and `when` is AND-only; its one scenario read by pass 1 | the same latch as G, plus `ready`, `talent`, `resource` and `ready(wake_of_ashes)` | two markers (readable) | R8 + R2 + the `talent` predicate | corner badge, rank 1 |
 | **G** target-aura hold | **Avenging Wrath only** wears `blocked` while Holy Flames is talented and the Expurgation DoT is **not** on the target — the opener state, released by the first Blade of Justice | CDM `TrackedBuff` alert edges on `383346`, latched up/down | marker (readable) | R8 + the `talent` predicate | corner badge, slot 1 |
 | **F** the talent gate | nothing of its own — it **withholds** three C bands on a Radiant Glory build, where the Avenging Wrath half of the condition does not exist | the trait config's node/entry selection | gate on a cue (readable) | the `talent` predicate | (no sink — it gates) |
 

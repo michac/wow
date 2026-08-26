@@ -143,7 +143,8 @@ Three consequences the design leans on:
    two that could disagree. Recorded because it is a *live* alternative, not an absence.
 3. **Ruination's overlay is useless**, exactly as Hammer of Light's is for Retribution: the row
    exists with an all-zero highlight mask, so it can highlight nothing. Row 7's `identity` says
-   everything the overlay would.
+   everything the overlay would — and since 2026-08-26 it does one more job, gating cues F and I
+   to the row's BASE life so a rung-11 hold cannot withhold rung 10's unconditional press.
 
 ⚠ **`proc` names the button, not the buff.** `proc(demonbolt)` is Demonic Core's, and it is used
 both to *release* Demonbolt (cue C) and to *gate* its overcap badge (cue B) — the same predicate
@@ -270,7 +271,11 @@ recorded because the same measurement closes a **Destruction** rung that does. @
 §3's Tier-2 claim. One in-game observation: with Diabolic Ritual: Pit Lord's Art armed, does the
 **Hand of Gul'dan** row display Ruination? Failure direction if wrong: row 7's `identity` never
 fires, cue E reads the wrong cost, and Ruination is drawn on no row at all. **This is the single
-most load-bearing unverified claim in the catalog.** @verify-ingame
+most load-bearing unverified claim in the catalog**, and it carries more weight since 2026-08-26:
+both window holds (cues F and I) now gate on `identity(hand_of_guldan) == base`, so a **refused**
+identity read leaves them UNKNOWN and `Signal` withholds both — the row draws clean where it
+should hold. That direction is a missed hold, never a wrong press, and it is the safe one; a
+*wrong* answer would be worse, which is why the observation is still owed. @verify-ingame
 
 ### 5.7 `C_Traits.GetNodeInfo`
 

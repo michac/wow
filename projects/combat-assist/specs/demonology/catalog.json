@@ -655,7 +655,7 @@
     {
       "id": "hand_of_guldan",
       "ability": "hand_of_guldan",
-      "note": "Two lives, one lane: both are shard spenders. The identity carries the transform with no cue, because Ruination outranks the ordinary press by one rung and both are pressed from this position.",
+      "note": "Two lives, one lane: both are shard spenders. The identity carries the transform with no cue, because Ruination outranks the ordinary press by one rung and both are pressed from this position. ⚠ But the two HOLDS are rung-11 facts and both carry `identity(hand_of_guldan, \"base\")` to say so: rung 10 (Ruination) is unconditional, so nothing the window rule knows can hold it.",
       "markers": [
         {
           "id": "hog_starved",
@@ -687,6 +687,13 @@
               "args": [
                 "hand_of_guldan"
               ]
+            },
+            {
+              "pred": "identity",
+              "args": [
+                "hand_of_guldan",
+                "base"
+              ]
             }
           ],
           "display": {
@@ -694,7 +701,7 @@
             "ability": "summon_demonic_tyrant",
             "within": 5
           },
-          "note": "The catalog's only sealed band on a spender, and the mirror of the Tyrant hold: Tyrant holds ITSELF below five shards (readable); Hand of Gul'dan holds itself while Tyrant is nearly here (sealed). Gated on resource because rung 11's |soul_shard=5 makes the spend unconditional at cap, and on affordability so it never lands on a starved row."
+          "note": "The catalog's only sealed band on a spender, and the mirror of the Tyrant hold: Tyrant holds ITSELF below five shards (readable); Hand of Gul'dan holds itself while Tyrant is nearly here (sealed). Gated on resource because rung 11's |soul_shard=5 makes the spend unconditional at cap, and on affordability so it never lands on a starved row. ⚠ `identity(hand_of_guldan, \"base\")` scopes the hold to the row's BASE life. Both holds are derived from rung 11; while Ruination is armed the row displays rung 10, which is UNCONDITIONAL and ranked above rung 11 — holding it there would withhold a press the APL makes without any condition at all."
         },
         {
           "id": "hog_awaits_shards",
@@ -718,9 +725,16 @@
               "args": [
                 "hand_of_guldan"
               ]
+            },
+            {
+              "pred": "identity",
+              "args": [
+                "hand_of_guldan",
+                "base"
+              ]
             }
           ],
-          "note": "The READABLE half of the same window rule (cue I): Tyrant READY at sub-five shards holds the spend — rung 11's remains>5 is false at zero remaining. Cue F covers `nearly here`; this covers `here, board not built`."
+          "note": "The READABLE half of the same window rule (cue I): Tyrant READY at sub-five shards holds the spend — rung 11's remains>5 is false at zero remaining. Cue F covers `nearly here`; this covers `here, board not built`. ⚠ `identity(hand_of_guldan, \"base\")` scopes the hold to the row's BASE life. Both holds are derived from rung 11; while Ruination is armed the row displays rung 10, which is UNCONDITIONAL and ranked above rung 11 — holding it there would withhold a press the APL makes without any condition at all."
         }
       ],
       "states": [
@@ -796,6 +810,19 @@
             "V13"
           ],
           "note": "⚠ WHETHER THIS OCCURS IS A CLIENT QUESTION CAP CANNOT SETTLE. A ready ability has no cooldown remaining, so the within-5 band most likely paints nothing — but the band is sealed and cap never learns which way it went. Written down rather than assumed away: if both fire, both cards flow and both say hold, so the reading is unharmed either way. @verify-ingame"
+        },
+        {
+          "id": "hog_ruination",
+          "condition": "Ruination armed — the row's TRANSFORMED life",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "apl": "diabolist 10",
+          "drawn_by": [
+            "V13"
+          ],
+          "note": "Rung 10, and the only rung in `actions.diabolist` with NO condition on it. Both window holds carry `identity(hand_of_guldan, \"base\")` and therefore withhold here, so this is an ordinary open row reached with nothing on it — which is the honest drawing, because in this life there is no state in which the APL would not press it. Cue E cannot fire either: Ruination costs no shards, so `affordable` is always true."
         },
         {
           "id": "hog_press",

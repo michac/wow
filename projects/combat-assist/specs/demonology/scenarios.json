@@ -890,6 +890,72 @@
           "verdict": "open"
         }
       ]
+    },
+    {
+      "id": "DEM-16",
+      "title": "Ruination armed during the ramp",
+      "state": "Diabolist build, mid-fight, single target. <b>Ruination is armed, so row 7 is showing Ruination rather than Hand of Gul&#x27;dan</b>. Summon Demonic Tyrant is READY at 3 Soul Shards — the ramp — with no Demonic Core and two Wild Imps out; Power Siphon on cooldown.",
+      "row": [
+        {
+          "name": "Power Siphon",
+          "verdict": "cd"
+        },
+        {
+          "name": "Grimoire: Imp Lord",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Summon Doomguard",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Call Dreadstalkers",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Summon Demonic Tyrant",
+          "verdict": "open",
+          "cues": [
+            "building"
+          ]
+        },
+        {
+          "name": "Implosion",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
+          "count": 2,
+          "count_dir": "neg"
+        },
+        {
+          "name": "Hand of Gul'dan",
+          "verdict": "press"
+        },
+        {
+          "name": "Demonbolt",
+          "verdict": "open",
+          "cues": [
+            "noproc"
+          ]
+        },
+        {
+          "name": "Shadow Bolt",
+          "verdict": "open"
+        }
+      ]
     }
   ]
 }

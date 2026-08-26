@@ -241,13 +241,14 @@ every future catalog.
 
 ### A readable gate licenses a paint without contributing a cue
 
-`as_guidance_capped`'s gates are `!aura(vanguard)`, `talent(divine_guidance)` and
-`ready(avengers_shield)`. **None of them draws anything.** They decide whether the sealed display is
+`as_guidance_capped`'s gates are `!aura(vanguard)`, `talent(divine_guidance)`,
+`ready(avengers_shield)` and `ready(consecration)`. **None of them draws anything.** They decide whether the sealed display is
 offered at all, and they carry no cue key, no badge and no slot of their own. That is the
 `when`-beside-`display` shape (armed 2026-08-22), and it is worth naming here because it is the one
 place in the file where **readable logic is load-bearing for a sealed display's correctness**:
 without the Vanguard term the hatch would rule out Avenger's Shield in the one state where rung 13
-puts it first. `../spec.md` §3.6's rule is the licence — *one secret per curve; readable gates
+puts it first, and without `ready(consecration)` it would rule it out in every state where rung 15's
+own button is swiped and rung 18 is therefore the press. `../spec.md` §3.6's rule is the licence — *one secret per curve; readable gates
 without limit* — and the practical consequence is its diagnosis: a graded cue that fires too
 eagerly is usually missing a readable gate, not a better curve.
 

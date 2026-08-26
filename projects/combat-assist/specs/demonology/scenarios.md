@@ -485,6 +485,35 @@ is built on.
 - **Cue set.** Dogs' window (J) → **sealed**, drawing. Core hold (C) → **have**, the `noproc`
   card on a row right of the press. Ramp hold (I) → dark everywhere — Tyrant is not ready.
 
+### DEM-16 · Ruination armed during the ramp
+
+- **State.** Diabolist build, mid-fight, single target. **Ruination is armed, so row 7 is
+  showing Ruination rather than Hand of Gul'dan**. Summon Demonic Tyrant is READY at 3 Soul
+  Shards — the ramp — with no Demonic Core and two Wild Imps out; Power Siphon on cooldown.
+- **Walk.**
+  1. **Power Siphon** — on cooldown → skip.
+  2. **Grimoire: Imp Lord … Summon Demonic Tyrant** — four `building` cards, one statement: the
+     ramp is open and the board is not built, so nothing here is spent below five shards → skip.
+  3. **Implosion** — the `aoe_only` pawn on a single target → skip.
+  4. **Hand of Gul'dan** — showing **Ruination**, and it wears nothing at all → **press.**
+- **Eye-direction.** ⚠ **This is the walk that proves the identity gate on the two window
+  holds.** Both `hog_awaits_tyrant` and `hog_awaits_shards` are derived from **rung 11**, the
+  conditional Hand of Gul'dan spend. Rung 10 — Ruination — sits *above* it and carries **no
+  condition of any kind**, the only rung in `actions.diabolist` that does not. Until
+  2026-08-26 neither hold said which life it belonged to, so in exactly this state the row wore
+  `building` (Tyrant ready, three shards) and the reader was told to hold a button the priority
+  list presses unconditionally. `identity(hand_of_guldan, "base")` on both holds is the fix, and
+  this row is what it looks like from the player's side: five holds to the left, and the one
+  transformed row clean.
+  ⚠ **Cue E cannot fire here either, and not because it is gated.** Ruination costs no shards,
+  and `hog_starved` asks affordability of the LIVE id — so on the transformed row it is
+  structurally false rather than suppressed.
+- **Density.** Four `building` cards and one `aoe_only` pawn before the press — but the four are
+  the ramp block saying one thing (`../render-shelf.md` Part 0.5 deliberately does not count a
+  block as four holds). Under budget.
+- **Cue set.** Ramp hold (I) → **drawing**, on the four rows the ramp gates. Window hold (F) →
+  dark, gated out by identity. Core hold (C) → **have**, right of the press. Starved (E) → dark.
+
 ---
 
 ## The states this walk once could not contain
@@ -516,7 +545,7 @@ armed. Every skip is a readable Lua term, a sealed band on one cooldown (DEM-7's
 DEM-15's two-sided), or a band table the client evaluated against a count cap never received
 (DEM-13, DEM-14).
 
-**Fifteen states, no promotion.** Retribution spends its one positive cue on an opener whose
+**Sixteen states, no promotion.** Retribution spends its one positive cue on an opener whose
 press sits seventh from the left; Demonology's rung-1 press sits **first**, and no state in this
 walk stands more than two budgeted holds between the left edge and the press (the ramp's
 `building` cards are one statement worn by a block, and Part 0.5 deliberately does not count

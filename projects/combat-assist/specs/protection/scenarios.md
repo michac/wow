@@ -21,7 +21,7 @@ Demonology is the model this walk is shaped against.
 
 ## The state walk
 
-Fourteen states, each naming the press, and for **every button that is available and skipped**,
+Sixteen states, each naming the press, and for **every button that is available and skipped**,
 the reason. Buttons the Cooldown Manager has already swiped need no explanation. The walk reads
 the authored row order left to right and must satisfy the shape `capart check`'s **elimination
 gate** enforces: *the leftmost entry that is neither swiped nor wearing a negative badge is the
@@ -538,6 +538,93 @@ cue vocabulary is otherwise confirmed as authored.
   gate (H) → correctly **not withholding**. Bank the Bulwark (D) → **sealed**. Starved (C) →
   **have**. Divine Toll hold (A) → structurally **dark**.
 
+### PROT-15 · Divine Guidance capped, Consecration swiped — the count stops ruling
+
+- **State.** Divine Guidance build, mid-fight, **Divine Guidance at five stacks** — and
+  **Consecration is on cooldown**. No Glory of the Vanguard. Avenger's Shield ready; **2 HP**;
+  Avenging Wrath, Divine Toll and Holy Bulwark swiped. Row 7 is in its **base** life (target
+  above execute range) with one of its two charges spent and the second ~7 s out.
+- **Walk.**
+  1. **Avenging Wrath, Divine Toll** — swiped → skip.
+  2. **Shield of the Righteous** — `starved` at 2 HP → skip.
+  3. **Holy Bulwark** — swiped → skip.
+  4. **Avenger's Shield** — **nothing draws** → **press.** Rung 18, the low unconditional one.
+- **The three rungs between rung 15 and rung 18, and what closes each.**
+  - **Rung 15** (`consecration,if=buff.divine_guidance.stack>=5`) is satisfied on the count and
+    **cannot fire anyway** — its own button is swiped. This is the whole state.
+  - **Rung 16** (`hammer_of_wrath`) is closed by row 7 being in its **base** life: the target is
+    above execute range, so Hammer of Wrath is not castable and `as_awaits_hammer` is correctly
+    dark.
+  - **Rung 17** (`judgment,if=full_recharge_time<=gcd*2`) is closed by the charge state named
+    above — one charge spent, the second ~7 s out, so `full_recharge_time` is far outside two
+    GCDs. ⚠ **cap does not know this**: rung 17 is *not authored*, because `charged` is
+    undeclarable on this spec (`catalog.md` → *Defeats*). The rung is closed by the world, not by
+    the catalog, and at **two of two** charges it would fire and Judgment would be the press with
+    nothing on screen saying so. That is a pre-existing hole this walk pins down rather than one
+    it introduces.
+- **Eye-direction.** ⚠ **Before 2026-08-26 this row was `ruled-sealed` and the correct press was
+  hatched out of the scan.** `as_guidance_capped` armed on `!aura(vanguard)`,
+  `talent(divine_guidance)` and `ready(avengers_shield)` alone, so at five stacks it handed the
+  client a band table that painted V11's hatch plus a negative mark on **Avenger's Shield** — an
+  **eliminating** signal, the third one the reading model has.
+  ⚠ **And `capart check` would have PASSED it**, which is the part worth sitting with. Measured
+  2026-08-26 by writing the pre-fix row out and running it: the gate skips a `ruled-sealed` entry
+  and lands on Judgment at position 7, so the walk is internally coherent — it just presses the
+  wrong button. The elimination gate proves a row is *readable*, never that it is *right*; only
+  the rung does that, which is why the new outranker gate judges against the APL and not against
+  the walk. Nor could the honest row have been written down: a scenario cannot say *press this
+  hatched button*, because `verdict` holds one value, so the defect was not merely unwalked — it
+  was unwalkable. The fix is one term,
+  `ready(consecration)`, and it is the same term the sibling marker on the Consecration row
+  (`cons_awaits_hammer`) already carried. **A hold that names a row must check that row is
+  available** — `capart check`'s outranker gate now asserts exactly that, against the rung the
+  state cites rather than against this prose.
+  ⚠ **PROT-6 is the other branch of the same state and it is why nothing caught this.** It pins
+  *"Consecration off cooldown"* into its state string, which is the one branch where the band is
+  honest. Every scenario pins the hiding branch into its own state; that is a property of walks,
+  not a defect in PROT-6.
+- **Density.** One budgeted hold (`starved`) before the press. Under budget.
+- **Cue set.** Divine Guidance's count on Avenger's Shield (V16) → correctly **withheld**. The
+  complement on Consecration (V17) → dark, its row is swiped. Hammer of Wrath's demotion (E) →
+  dark, base life. Starved (C) → **have**.
+
+---
+
+### PROT-16 · Blessed Assurance up, both hammer charges spent — the yield stands down
+
+- **State.** A **Blessed Assurance build**, so Divine Guidance does not exist and neither count
+  table has a subject. **Blessed Assurance is up**, row 7 is in its **base** life and ready (one
+  charge, the second ~7 s out), and **both Blessed Hammer charges are down**. **2 HP**; Avenging
+  Wrath, Divine Toll, Holy Bulwark, Avenger's Shield and Consecration all swiped; Shining Light
+  absent.
+- **Walk.**
+  1. **Avenging Wrath, Divine Toll** — swiped → skip.
+  2. **Shield of the Righteous** — `starved` at 2 HP → skip.
+  3. **Holy Bulwark, Avenger's Shield, Consecration** — swiped → skip. Rungs 18 and 19 are closed
+     with them.
+  4. **Judgment** — **nothing draws** → **press.** Rung 22. Rungs 20 and 21 are
+     `hammer_of_the_righteous` and `blessed_hammer`, **both the Blessed Hammer row**, and that row
+     is swiped — so the two rungs the yield exists to point at cannot fire.
+- **Eye-direction.** ⚠ **Before 2026-08-26 this row wore `blocked` and the correct press was
+  badged out of the scan.** `judgment_awaits_assurance` armed on the aura, the talent, the base
+  identity and `ready(judgment)` — and never asked whether the hammer it was yielding TO could be
+  cast. With both charges spent the APL falls through 20 and 21 to rung 22, Judgment, and cap was
+  telling the player to hold it. Elimination would then have reached the end of the row without an
+  un-ruled-out button, because Word of Glory wears `blocked` too. One term, `ready(crusader_strike)`
+  — the roster row that binds `35395` plus Hammer of the Righteous `53595` and Blessed Hammer
+  `204019` as alternates — and the yield vanishes exactly where the rungs do.
+  ⚠ **PROT-11 states "both charges down" and does not catch this**, because Judgment happens to be
+  swiped there too: its press is Word of Glory and row 7 never has to be read. Two scenarios can
+  name the same fact and only one of them can be *about* it.
+  ⚠ **Two walks and not one, and the reason is a talent node.** `divine_guidance` and
+  `blessed_assurance` share the Lightsmith choice node 95235, so exactly one of them exists on any
+  build — PROT-15's premise and PROT-16's premise cannot be true at once. The two fixes are the
+  same class of defect and they are structurally unable to share a scenario.
+- **Density.** One budgeted hold (`starved`) before the press. Under budget.
+- **Cue set.** The Blessed Assurance yield (F) → correctly **withheld**. Both count tables (V16,
+  V17) → structurally **dark**, no subject on this build. Starved (C) → **have**. Shining Light
+  (G) → drawing, right of the press.
+
 ---
 
 ## The state this walk does not contain
@@ -635,7 +722,7 @@ armament the game considers next beyond the icon it is drawing. Every skip is a 
 one sealed band on a cooldown (A, B, D), or a band table the client evaluated against a count cap
 never received (PROT-6, PROT-8, PROT-9).
 
-**Fourteen states, no promotion, and one marker deleted to keep it that way.** The catalog's own
+**Sixteen states, no promotion, and one marker deleted to keep it that way.** The catalog's own
 argument for spending no positive cue turned on a state it could not evaluate; the walk found that
 state, found a second one the catalog had not seen, and answered both by removing vocabulary
 rather than adding it — which is the shelf's own test for a design that is getting simpler.

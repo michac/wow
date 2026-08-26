@@ -740,6 +740,104 @@
           ]
         }
       ]
+    },
+    {
+      "id": "PROT-15",
+      "title": "Divine Guidance capped, Consecration swiped — the count stops ruling",
+      "state": "Divine Guidance build, mid-fight, <b>Divine Guidance at five stacks</b> — and <b>Consecration is on cooldown</b>. No Glory of the Vanguard. Avenger&#x27;s Shield ready; <b>2 HP</b>; Avenging Wrath, Divine Toll and Holy Bulwark swiped. Row 7 is in its <b>base</b> life (target above execute range) with one of its two charges spent and the second ~7 s out.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "press"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-16",
+      "title": "Blessed Assurance up, both hammer charges spent — the yield stands down",
+      "state": "A <b>Blessed Assurance build</b>, so Divine Guidance does not exist and neither count table has a subject. <b>Blessed Assurance is up</b>, row 7 is in its <b>base</b> life and ready (one charge, the second ~7 s out), and <b>both Blessed Hammer charges are down</b>. <b>2 HP</b>; Avenging Wrath, Divine Toll, Holy Bulwark, Avenger&#x27;s Shield and Consecration all swiped; Shining Light absent.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "cd"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "cd"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "press"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "cd"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
     }
   ]
 }

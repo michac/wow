@@ -472,9 +472,14 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   - `as_guidance_capped` — **sealed** `sealed-count-bands` (S7 + S11, `../render-shelf.md` **V16**)
     on Divine Guidance `433106`. Two bands: **silent below five**, and **at five a hatch plus a
     negative mark**, both named by the band itself so both clear together. Gated on the readable
-    `!aura(vanguard)`, `talent(divine_guidance)` and `ready(avengers_shield)`. That is
-    `buff.divine_guidance.stack>=5` — rung 15 — read as an elimination of the row it outranks, and
-    cap never learns which band fired.
+    `!aura(vanguard)`, `talent(divine_guidance)`, `ready(avengers_shield)` and
+    `ready(consecration)`. That is `buff.divine_guidance.stack>=5` — rung 15 — read as an
+    elimination of the row it outranks, and cap never learns which band fired.
+  ⚠ **`ready(consecration)` is the term that makes the elimination true, and it is the same shape
+  as `cons_awaits_hammer`'s.** Rung 15 is *Consecration* at five stacks, so it can only outrank
+  anything while Consecration is off cooldown. With Consecration swiped at five stacks the APL
+  falls through to rung 18 and **Avenger's Shield IS the press** — hatching it there would
+  eliminate the correct button. A hold that names a row must check that row is available.
   ⚠ **This is the first sealed display in any catalog that rules out a row the aura does not
   belong to.** Demonology's two count tables both sat on the row whose own press the count gated —
   Power Siphon's Cores, Implosion's imps. Here the count belongs to Divine Guidance, the entry is
@@ -549,7 +554,12 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   `433015` (Category-2, safe); `talent` (the choice node). *Treatment:* scan +
   - `judgment_awaits_assurance` — **readable** `blocked`, cue **F**: `aura(blessed_assurance)`
     **and** `talent(blessed_assurance)` **and** `identity(judgment) == base` **and**
-    `ready(judgment)`. That is rungs 20 and 21 outranking rung 22.
+    `ready(judgment)` **and** `ready(crusader_strike)`. That is rungs 20 and 21 outranking rung 22.
+  ⚠ **`ready(crusader_strike)` is what makes the yield true.** Rungs 20 and 21 are Hammer of the
+  Righteous (`53595`) and Blessed Hammer (`204019`) — both the **`crusader_strike` roster row**,
+  which binds `35395` plus those two as alternates. With every hammer charge spent neither rung can
+  fire and **rung 22, Judgment, IS the press**; wearing `blocked` there would eliminate the correct
+  button. A hold that names a row must check that row is available.
   ⚠ **The identity term is not decoration.** Rung 16 puts Hammer of Wrath above both hammer rungs,
   so the yield must vanish while the row is transformed — otherwise the row that just earned cue E
   on two neighbours would stand itself down.

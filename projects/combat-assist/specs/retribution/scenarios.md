@@ -54,7 +54,8 @@ the red waste badge. `press` = the button an unobstructed scan reaches. ⚠ `pre
 render identically, by design — the press is not something cap draws.
 
 ⚠ **One entry wears a positive cue** — Blade of Justice's `priority` at the opener (cue **H**,
-`boj_opener`) — so RET-1 is judged by pass 1 of `../render-shelf.md` Part 0.5 and **every other
+worn by two markers, `boj_opener` and `boj_opener_woa`, whose union spells the rung's reachability
+OR) — so RET-1 is judged by pass 1 of `../render-shelf.md` Part 0.5 and **every other
 scenario here is judged by pass 2, elimination**. Why this catalog declines the vocabulary's
 *other* positive cue, `capped`, is argued in `catalog.md` (*Why this catalog does not spend
 `capped`*). *(Until 2026-08-25 this line read "no entry in this catalog wears a positive cue",
@@ -67,9 +68,13 @@ which stopped being true when cue H was authored.)*
   to end.
 - **Walk.** ⚠ **This scenario is read by pass 1, not by elimination** — the only one in the
   catalog that is.
-  1. **Blade of Justice** wears `priority` (cue **H**, `boj_opener`) → **press.** `generators` 2,
-     the rung that puts Expurgation up. The condition is that rung: Holy Flames talented, the DoT
-     absent, the button ready.
+  1. **Blade of Justice** wears `priority` (cue **H**) → **press.** `generators` 2, the rung that
+     puts Expurgation up. The condition is that rung: Holy Flames talented, the DoT absent, the
+     button ready — and the rung is REACHED, which at Holy Power 0 with Wake of Ashes up is true
+     down both branches, so **both** markers fire (state `boj_opener_both`) onto the one badge.
+     ⚠ At **five** Holy Power with Wake of Ashes on cooldown neither fires and the row is clean,
+     because `generators` 1 diverts to `finishers` and rung 2 is never reached — which is what the
+     two reachability terms are for.
   2. Everything else is read only if the eye goes looking. Execution Sentence and Avenging Wrath
      are genuinely held — `es_awaits_wrath_ready` and `aw_awaits_expurgation` — and the two
      spenders are unaffordable at 0 Holy Power. None of that has to be interpreted to find the

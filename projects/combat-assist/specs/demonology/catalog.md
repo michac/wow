@@ -217,6 +217,9 @@ single-target case.
 
 **Conflict 3: Ruination outranks nothing it does not already sit above.** Rung 10 is above rung
 11 and below everything else, and both live on row 7. The identity carries it with no cue.
+⚠ What rung 10 *does* need is for the two rung-11 holds to stand down while it is showing, since
+it is unconditional and they are not — hence `identity(hand_of_guldan) == base` on both, and the
+state `hog_ruination`, which is the only state in this catalog citing `diabolist 10`.
 
 **Documented misorderings — what is left after the cues.**
 
@@ -382,15 +385,23 @@ row to its left by a cue rather than by position.
     `cooldown.summon_demonic_tyrant.remains>5`. Gated on the **readable**
     `{ "resource", "<=", 4 }` — `Signal.lua`'s `resource` term implements `<=` and `>=` and
     nothing else, so *"below five"* is authored as *"at most four"* on a whole-number resource —
-    because the rung's `|soul_shard=5` clause makes the spend unconditional at cap, and on `affordable(hand_of_guldan)` so it never lands on a row already
-    wearing `starved`.
+    because the rung's `|soul_shard=5` clause makes the spend unconditional at cap, on `affordable(hand_of_guldan)` so it never lands on a row already
+    wearing `starved`, and on `identity(hand_of_guldan) == base`.
   - `hog_awaits_shards` — **readable** `building`, cue **I**: `ready(summon_demonic_tyrant)`
     **and** `{ "resource", "<=", 4 }` (the same *"below five"* written the way the engine can
     evaluate it), gated on `affordable(hand_of_guldan)` so it never lands
-    on a row already wearing `starved`. Rung 11's `cooldown.summon_demonic_tyrant.remains>5` is
+    on a row already wearing `starved`, and on `identity(hand_of_guldan) == base`. Rung 11's `cooldown.summon_demonic_tyrant.remains>5` is
     false while Tyrant is READY, so the APL itself holds the spend there — this is the readable
     half of the window rule, where cue F is the sealed half: F covers "Tyrant nearly here",
     this covers "Tyrant here, board not built".
+  ⚠ **BOTH holds carry `identity(hand_of_guldan) == base`, and that term is the whole of whether
+  they are honest.** Both are derived from **rung 11**. The row has a second life, and in it the
+  row displays **rung 10 — Ruination, the one rung in `actions.diabolist` with no condition on it
+  at all** — which is ranked *above* the rung the holds come from. Without the identity term the
+  window rule held a press the priority list makes unconditionally: at Tyrant-ready and three
+  shards the transformed row wore cue I and the reader was told to skip Ruination. **A hold
+  derived from one rung of a two-life row must say which life it belongs to.** `scenarios.md`
+  → **DEM-16** is the walk.
   ⚠ **Cue F is the catalog's only sealed band on this row, and it is the mirror of cue A.** Tyrant holds
   *itself* below five shards (readable); Hand of Gul'dan holds *itself* while Tyrant is nearly
   here (sealed). Together they are the whole Tyrant-window entry rule, and the pair is why the
