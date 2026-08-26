@@ -185,7 +185,7 @@ is built on.
 - **Eye-direction.** ⚠ **This is the state the whole catalog is built around, and the card on
   row 5 is the point of it.** Holding a *ready* one-minute cooldown is the strongest claim cap
   makes anywhere in this spec, and it is safe to make because Soul Shards are **never-secret** —
-  the term is `{ "resource", "<", 5 }`, an exact Lua comparison, not a curve handed to the
+  the term is `{ "resource", "<=", 4 }`, an exact Lua comparison, not a curve handed to the
   client. Havoc's equivalent decision rests on a sealed Fury readout and can only be *shown*;
   this one can be *reasoned about*.
 - **Density.** No budgeted hold at all since the 2026-08-24 re-badges: row 5 wears unbudgeted

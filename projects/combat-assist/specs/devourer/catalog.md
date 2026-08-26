@@ -58,6 +58,23 @@ Void-Scarred loadouts as talent strings; nobody has decoded them, so whether the
 Hunt is unknown. If they take it, this catalog is authored against the branch a Void-Scarred
 player does not run. `@verify-ingame` (recorded in `rotation.md`).
 
+**1c — the soul bank has TWO sizes, and every number below is talent-selected.** Void
+Metamorphosis requires **50 Soul Fragments**, or **35 with *Soul Glutton*** `[T1;
+`knowledge/classes/demon-hunter/devourer/abilities.md:164`]` — and the discount is not free:
+with *Soul Glutton* the in-Meta Fury **drains 25 % faster**, so the window is shorter as well as
+cheaper. Icy Veins' 12.1 Void-Scarred lists take it, to cycle Voidsurge as often as possible
+(`rotation.md:213-215`), which means the **35** build is the one a reader of the live guides is
+actually playing.
+
+An earlier draft of this catalog wrote 50 as though it were the number, which silently authored
+the no-*Soul Glutton* build. It is not a premise to pick between: **the threshold is
+`talent(soul_glutton) ? 35 : 50`**, and that is legal by construction — `talent` is a *readable*
+gate, so selecting between two authored thresholds on it never reads the sealed count. Cue
+**C**'s band is declared with the selected threshold; the bank itself stays sealed and the client
+still does the comparing. The same fork moves cue **B**: its break point is one tick of drain, and
+*Soul Glutton* raises the drain rate by a quarter, so the fitted number is per-build too (§6, cue
+B; open fact 4).
+
 ---
 
 ## 2. The thirteen presses, and what is not one
@@ -130,9 +147,19 @@ or nowhere:
 ⚠ **This is not the same problem Havoc has.** Havoc's Demon's Bite is also absent from its
 pool, and Havoc's catalog handles that by binding it anyway and letting the row bind only if
 it exists — because Demon's Bite is a *floor* press whose absence costs nothing. Here the
-missing buttons include **Collapsing Star at rungs 5 and 9, which outrank Void Ray at rung
-8**. When Collapsing Star is the correct press, the five-icon scan will reach **Void Ray**
-and stop there. No cue on any existing row can point at a button that has no icon.
+missing button is **Collapsing Star, and at rung 5 it outranks Void Ray at rung 8** — rung 5
+being the single-target `stack>=35` line. When that is the correct press, the five-icon scan
+reaches **Void Ray** and stops there, one rung too low. No cue on any existing row can point at
+a button that has no icon.
+
+Collapsing Star's *other* rung is **9** — the `active_enemies>1` line — and it sits **below**
+Void Ray, not above it *[`simc-apl.md:102` is `void_ray`, `:103` is `collapsing_star`]*. So in
+AoE a scan that stops on Void Ray is stopping in the right place, and the misordering is
+specifically the single-target one. **The virtual row is justified on rung 5 alone, and that is
+enough**: one rung that outranks a drawn icon, in the branch's ordinary single-target state, is a
+press the reading model cannot reach at all. Rung 9 needs the row for a different reason — when
+everything above it is ruled out there must be *something* left for the sweep to terminate on —
+but it is not evidence of a misordering.
 
 ⚠ **Blizzard already draws the sealed half, but not somewhere the walk can use.** The same
 pool carries `TrackedBuff` rows for exactly the state this spec is made of: **Void
@@ -199,7 +226,8 @@ runtime, and all three are keys.
 ### 5.1 The Essential rows (the scanned line)
 
 - **Void Metamorphosis** (`1217605`, rung 2). *Problem:* it is **not a cooldown** — it is
-  fragment-gated, and the icon cannot say *"you need 50 souls"*. The APL's rule has a second
+  fragment-gated, and the icon cannot say *"you need 50 souls"* — 35 on a *Soul Glutton*
+  build (§1c). The APL's rule has a second
   half too: at 2+ targets, don't transform mid-way through setting up the Eradicate upgrade.
   *Facts:* `ready` (R2) for the tier; `aoe` + `talent(eradicate)` + `proc` (all readable) for
   the hold; the **soul bank** (sealed) for the readout. *Treatment:* scan + a red
@@ -268,8 +296,8 @@ Provisional. Every one is a hypothesis judged by play, exactly as the pilots wer
 | Cue | What the player sees | Fact | Tool / channel | Recipe | Sink | Polarity |
 | --- | --- | --- | --- | --- | --- | --- |
 | **A** starved spender | Void Ray wears `starved` when you cannot pay 100 Fury | `insufficientPower` | emphasis (readable) | R1 | scan emphasis | negative |
-| **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold`, gated on `identity(transformed)` | cue (sealed) + readable gate | S1 / V9 | colour curve → badge alpha | negative |
-| **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks (0–50) | **independent context** (sealed) | S2 `player-aura-stacks` / V8 — ⚠ needs `Channel.Plan`'s `min == 2` guard widened first, see §8.2 | client-owned count | **none** |
+| **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold`, gated on `identity(transformed)` **and on `talent(soul_glutton)`**, which drains a quarter faster and so moves the break point (§1c) | cue (sealed) + readable gate | S1 / V9 | colour curve → badge alpha | negative |
+| **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks, 0 to the selected threshold — **35 with *Soul Glutton*, else 50** (§1c) | **independent context** (sealed) | S2 `player-aura-stacks` / V8 — ⚠ needs `Channel.Plan`'s `min == 2` guard widened first, see §8.2 | client-owned count | **none** |
 | **D** the Eradicate setup hold | Void Metamorphosis wears `blocked` in AoE mode while *Eradicate* is talented and no Reap-family glow is up | `aoe` + `talent` + `proc`, all readable | cue (readable) | the shipped `aoe` / `talent` predicates + `proc` | corner badge | negative |
 | **F** the talent fence | nothing of its own — it **withholds**: cue D where *Eradicate* is untalented, and rung 1 entirely where *Devourer's Bite* is | trait config | gate (readable) | the shipped `talent` predicate | no sink | — |
 | **G** target mode | four rungs move on target count; cap asks the player rather than counting enemies | `/cap aoe` | gate (readable) | the shipped `aoe` predicate | — | — |
@@ -443,8 +471,11 @@ does ships without that hint** — which is exactly how §8.2 is written.
    names a second, cheaper subject in the same family — Templar's **Hammer of Light**, likewise
    access-granted rather than cooldown- or power-gated — so the question can be answered
    without a Devourer.
-4. **Is the in-Meta Fury drain ≈16.4/s rising?** Cue B's break point is authored off simc's
-   fitted curve, not a tooltip, and a static threshold under-fires late in the window. cap
+4. **Is the in-Meta Fury drain ≈16.4/s rising, and where does *Soul Glutton* put it?** Cue B's
+   break point is authored off simc's fitted curve, not a tooltip, and a static threshold
+   under-fires late in the window. ≈16.4/s is the **no-*Soul Glutton*** figure; the talent drains
+   25 % faster (§1c), so the fitted number has to be taken twice or the badge is wrong on
+   whichever build it was not fitted to. cap
    reports that it *offered* a sealed rule, never whether the badge lit, so this is an eyeball.
    `@verify-ingame`
 5. `[gap]` **What does `C_Traits.GetNodeInfo` return, and does it survive combat?** Inherited
@@ -453,15 +484,21 @@ does ships without that hint** — which is exactly how §8.2 is written.
 6. **Which Void-Scarred loadout do the live guides publish?** If Icy Veins' strings take The
    Hunt, this catalog is authored against a branch the recommended build does not run (§1b).
    `@verify-ingame`
-7. **Does the CDM's own usability desaturation rule Void Metamorphosis out below a full bank?**
-   `scenarios.md` §7.1's position-1 argument rests on it. Same measurement family as item 3 and answerable in
-   the same sitting. `@verify-ingame`
+7. ~~**Does the CDM's own usability desaturation rule Void Metamorphosis out below a full bank?**~~
+   **CLOSED 2026-08-26 — it never could, and the question was item 3 wearing a different hat.**
+   Desaturation is a statement about **cooldown only**: `cooldownDesaturated` is assigned the
+   literal `false` or `self.isOnActualCooldown` at every one of its six assignments, and usability
+   is a separate vertex-colour tint *[T1 src @12.1.0:
+   `knowledge/addon-dev/cooldown-manager.md` §3.4, `CooldownViewer.lua:1195-1233`]*. So there was
+   no third channel here to measure — what remains is whether `IsSpellUsable` answers for an
+   aura-granted gate, which **is item 3**, and `scenarios.md` §7.1 no longer rests on the client at
+   all: below-bank Void Metamorphosis is `ruled-sealed` off cap's own V17 band.
 
 ### 8.2 Per row — what ships now, what waits
 
 | Row | Ships now | Waits, and on what |
 | --- | --- | --- |
-| **Void Metamorphosis** | scan · cue **D** (AoE Eradicate hold) | a readable *"the bank is not full"* hold — open fact 3. Until then position 1 rests on the client's own desaturation (open fact 7). Cue **C** waits too, on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The 0–50 bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
+| **Void Metamorphosis** | scan · cue **D** (AoE Eradicate hold) | a readable *"the bank is not at threshold"* hold — open fact 3. Position 1 does **not** wait on it, and does not wait on the client either: below-bank Meta is `ruled-sealed` off cue **C**'s own count band, which eliminates without cap reading anything (`scenarios.md` §7.1). So position 1's wait **is** cue **C**. Cue C in turn is parked on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
 | **Reap → Cull / Eradicate** | scan · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any route — `[searched 2026-08-17]`, `fact-classification.md` §4.3. |
 | **Void Ray** | scan · cue **A** (`starved`) | rung 8's hold — **not** an open fact but an expressiveness gap (`fact-classification.md` §4.2). It does not resolve by measuring. |
 | **Soul Immolation** | scan · cue **B** (the drain save) | the break point's *value* — open fact 4. The cue ships; the number is a guess until flown. |

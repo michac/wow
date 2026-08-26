@@ -372,10 +372,15 @@ membership condition would be a claim with no consumer.
   is **unmeasured**, and a latch built on an unmeasured edge is a confident hold that may never
   release. **Not authored.** *Defeats*, item 1. @verify-ingame
   ⚠ **So the whole of cue B is the second disjunct, and the talent gate is what keeps it honest.**
-  `within = 30` is the complement of `remains>30`, and it is correct across the *entire*
-  120-second cooldown on a build without Righteous Protector: during the 20-second window the
-  remaining time is 120 → 100, well beyond the band, so the badge is dark exactly when the press is
-  right. **Righteous Protector halves that cooldown** *[T1 tooltip @ 12.1.0.69214, via
+  `within = 30` is the complement of `remains>30`, and on a build without Righteous Protector it
+  is correct everywhere the band can read at all: during the 20-second window the remaining time
+  is 120 → 100, well beyond the band, so the badge is dark exactly when the press is right.
+  ⚠ **The one place it says nothing is `remains = 0`.** A `within` band means *imminent*, never
+  *ready* (`Channel.HoldPoints`), so while Avenging Wrath sits off cooldown and uncast the hold is
+  the correct reading — the APL presses Divine Toll on neither disjunct there — and cap draws no
+  badge. That is a missed hold rather than a wrong one, and it is the same zero-remaining blind
+  spot every sealed band has; it is named here because *"correct across the entire cooldown"* is
+  what this paragraph used to claim, and the cooldown has an endpoint the band cannot see. **Righteous Protector halves that cooldown** *[T1 tooltip @ 12.1.0.69214, via
   `builds.md`]*, which both deletes the disjunct from the APL and would leave a 30-second band
   covering half of a 60-second cycle — a rule the priority does not contain. Righteous Protector
   is **near-mandatory** (`builds.md` → *the load-bearing talents*), so **cue B is withheld on the
@@ -668,14 +673,20 @@ cues were authored.
 
 Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, `proc`, `identity`,
 `capped`, `affordable`, `resource`, `talent`, `aura`, `aoe`; `Catalog.DISPLAYS` =
-`sealed-count-bands`, `sealed-count-bar`, `sealed-pandemic`, `sealed-power-percent`,
-`sealed-cooldown-range`):
+`sealed-count-bands`, `sealed-count-bar`, `sealed-pandemic`, `sealed-proc-bar`,
+`sealed-power-percent`, `sealed-cooldown-range`):
+
+⚠ **`sealed-proc-bar` was missing from that list until 2026-08-26, and what it dates is the
+*Defeats* section below.** The list was written before V20 shipped and before V19 grew
+`outside_s`, so every *"no S-form exists for this"* claim under *Defeats* was measured against a
+shorter vocabulary than the one in `Catalog.lua` today. Those claims have **not** been re-argued
+here; treat each as needing a re-read against the current forms before it is cited.
 
 1. **No new predicate and no new display kind.** Every readable term above is one of the nine, and
    both sealed forms are ones the shelf already declares. `proc`, `resource`, `capped`,
-   `sealed-power-percent`, `sealed-count-bar` and `sealed-pandemic` are all unused — the
-   largest unused fraction of the vocabulary in any catalog, and the reason is the priority list
-   rather than the design.
+   `sealed-power-percent`, `sealed-count-bar`, `sealed-pandemic` and `sealed-proc-bar` are all
+   unused — the largest unused fraction of the vocabulary in any catalog, and the reason is the
+   priority list rather than the design.
 2. **First sealed display armed on one entry to rule out that entry on ANOTHER row's aura.**
    `as_guidance_capped` puts Divine Guidance's count on Avenger's Shield. The mechanism is
    unchanged — `Channel.Plan` has always read `display.ability` independently of `entry.ability`,

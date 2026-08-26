@@ -942,7 +942,7 @@
         },
         {
           "id": "db_core_up",
-          "condition": "Core up, below four shards, row 9 not armed",
+          "condition": "Core up and below four shards — and, only when row 9 IS armed, above two, since `db_yields_to_infernal_bolt` needs both terms. At three shards the row 9 question does not arise at all",
           "verdict": "open",
           "cues": [],
           "sealed": [

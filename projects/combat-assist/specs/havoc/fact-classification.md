@@ -19,8 +19,11 @@ readable/sealed data-path rule). Sealed forms are named here as the **code** nam
 
 ## Legend — the three lanes
 
-- **readable** — Lua *may* compare, index, add, or truth-test it. It may drive an **emphasis**
-  tier (the role lanes COOLDOWN / ROTATION / FALLBACK) or a readable marker.
+- **readable** — Lua *may* compare, index, add, or truth-test it. It may drive **scan
+  membership** — the one bit cap decides, castable-or-not — or a readable marker
+  (`../spec.md` §3.1). (The role lanes COOLDOWN / ROTATION / FALLBACK this legend used to name
+  were removed 2026-08-25: membership does not rank, and one lit row is not brighter than
+  another.)
 - **sealed-display** — Lua may only forward the value to a client-owned display sink (color
   curve, texture alpha, duration-object bar). It is **never** compared, indexed, added, or
   tested for truthiness. cap reports `offered` / `armed` / `refused` and never reads back.
@@ -28,7 +31,7 @@ readable/sealed data-path rule). Sealed forms are named here as the **code** nam
   stop-and-ask (`../spec.md` §3.6), not a guess.
 
 **The two tools (`../spec.md` §3.1).** cap says things two ways. **Emphasis** is an on/off
-treatment driven by comparisons over values cap is allowed to *read* — it moves the role lanes
+treatment driven by comparisons over values cap is allowed to *read* — it moves scan membership
 and readable markers, and it can be moved **only** by a readable fact. **Cues** are additive
 display forms fed by values cap may *display but not read* — colors, readouts, hold marks, bars
 — that stack and move but are never read back. Six cues do the fine ordering: **A** affordability
@@ -60,8 +63,8 @@ term.
 
 | Fact | Lane | Recipe | addon-dev evidence | Catalog rows / cue that consume it | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `ready` — spell readiness / off cooldown | **readable** | R2 | `cooldown-manager.md`, `cdm-rider-patterns.md` — Settled | Metamorphosis, Eye Beam, The Hunt, Essence Break, Vengeful Retreat, Blade Dance/Death Sweep, Chaos Strike/Annihilation (and FALLBACK Throw Glaive / Fel Rush) | Alert-edge latch in combat, direct read out of combat. Supplies the readiness signal on every lit row. |
-| `affordable` / `insufficientPower` — can I afford this cast | **readable** | R1 | `security-taint-and-restricted-data.md` — Settled | **Cue A.** Chaos Strike/Annihilation (dimmed when `insufficientPower`); Felblade & Demon's Bite (generators have no Fury cost → never unaffordable → stay lit) | Read the *second* return of `C_Spell.IsSpellUsable`; binary, so it cannot drive overcap (that is cue B). Reflects the secret Fury without exposing the number — the relative shift (starved spender dims while the lit generator holds) is the whole signal. |
+| `ready` — spell readiness / off cooldown | **readable** | R2 | `cooldown-manager.md`, `cdm-rider-patterns.md` — Settled | Metamorphosis, Eye Beam, The Hunt, Essence Break, Vengeful Retreat, Blade Dance/Death Sweep, Chaos Strike/Annihilation (and Throw Glaive / Fel Rush) | Alert-edge latch in combat, direct read out of combat. Supplies the readiness signal on every lit row. |
+| `affordable` / `insufficientPower` — can I afford this cast | **readable** | R1 | `security-taint-and-restricted-data.md` — Settled | **Cue A.** Chaos Strike/Annihilation (`chaos_strike_starved`) **and Blade Dance / Death Sweep** (`blade_dance_starved`) — both spenders wear `starved` when `insufficientPower`; Felblade & Demon's Bite (generators have no Fury cost → never unaffordable → stay lit) | Read the *second* return of `C_Spell.IsSpellUsable`; binary, so it cannot drive overcap (that is cue B). Reflects the secret Fury without exposing the number — the relative shift (starved spender dims while the lit generator holds) is the whole signal. |
 | `identity` / demon-form transform (`overrideSpellID ~= spellID`) | **readable** | R7 | `cooldown-manager.md`, `observations.md` — Settled | Chaos Strike→Annihilation, Blade Dance→Death Sweep, Eye Beam→Abyssal Gaze, Immolation Aura→Consuming Fire, demon-form marker, **cue D promotion** | The readable identity spine. Bind static `primary = override or base`; keep a stable `spellIDs` union; check a `0`-override explicitly (Lua `0` is truthy). Never build identity on `item:GetSpellID()` (secret + moving in combat). |
 | Immolation Aura **charge state** (the "capped" signal) | **readable, in BOTH directions — one drawn, and talent-gated** | R6 (+ R7 identity safety) | `observations.md` (OBS-066, Conflagrate) — Settled; `GetSpellCharges().isActive` is annotated `NeverSecret` | Immolation Aura / Consuming Fire "don't cap charges" row | ⚠ **Re-grounded 2026-08-14 from `currentCharges` onto `isActive`**, and **narrowed 2026-08-17 to the capped direction only.** `isActive` is `NeverSecret` and answers both ways, but the below-max half was `capped` negated and therefore drew a negative badge across the whole steady state — against APL rungs 20 and 25, which press this button at one charge. Below max now draws **nothing** from this fact. ⚠ **And the capped direction is gated on A Fire Inside** (row below): on a one-charge button `isActive` is `false` whenever it is merely ready, so ungated it asserts "you are losing a charge" for the entire fight. What `isActive` still cannot say is *which* charge is recharging (true at both 1/2 and 0/2), which is why "about to cap" still has no authored form (`catalog.md` cue E). R7 is about reading the right spell's charges across the flip. A refused read is still no cue at all. |
 | Secret **Fury value / Fury-%** | **sealed-display** (`sealed-power-percent`) | S1 (graded route) + R4 authored generation table | S1: `security-taint-and-restricted-data.md` — Settled · R4 generation: **no API, authored static table** | **Cue B, negative only.** Felblade & Demon's Bite break-point readout | Fury is a **secret primary** (R3) — *unlike* Demonology's readable Soul Shards, cap may only *display* it, never branch. **A threshold is a client-side paint, not a Lua branch**, so an authored break point on secret Fury-% is expressible. `maxFury` readable via `UnitPowerMax` (measured **170**, do not hardcode 120). The break is authored **two ways**: as a **`generation`** amount, breaking at `(maxFury − generation)/maxFury` (Demon's Bite 25, from the authored table — no API reports generation); or as an absolute **`threshold`** lifted off an APL condition, breaking at `threshold/maxFury` (Felblade 100, from rung 22's `fury<=100`). ⚠ `threshold` is new mechanism (`Channel.ThresholdBreak`), added because an absolute Fury level cannot be authored as a generation without smuggling a hardcoded `maxFury` into the catalog. Either way cap authors one number, performs one division, and never learns which side the value fell on; captures report `offered`. ⚠ **The positive "banked ≥35" half is DELETED** — the APL puts no Fury term on Essence Break at all. |
@@ -102,7 +105,7 @@ Each sealed fact flows to exactly one client-owned sink and is never compared in
   (the Tyrant-bar sink); cap arms it and never reads it back. Reported `offered` / `armed` /
   `refused`.
 
-None of these three ever appears in a Lua condition. **Emphasis — the role lanes, cue A
+None of these three ever appears in a Lua condition. **Emphasis — scan membership, cue A
 affordability, the cue D demon-form promotion, and the two new gates F and G — is driven ONLY by
 readable facts** (`ready` R2, `affordable` R1, `identity` R7, the capped-at-full charge read R6,
 the trait-config `talent` read, and `aoe`, which is cap's own state rather than a read at all).

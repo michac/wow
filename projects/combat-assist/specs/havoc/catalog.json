@@ -899,7 +899,7 @@
         },
         {
           "id": "ia_st_no_talents",
-          "condition": "AoE off, ready, Chaos Strike affordable, neither talent taken and not at max charges",
+          "condition": "AoE off, ready, Chaos Strike affordable, and neither A Fire Inside nor Burning Wound taken — the charge state is deliberately NOT asserted here, because on that build Immolation Aura has one charge and `readCapped` self-withholds at `maxCharges <= 1`, so `capped` reads UNKNOWN",
           "verdict": "open",
           "cues": [
             "blocked"
@@ -917,7 +917,7 @@
             "V11",
             "V13"
           ],
-          "note": "All three red markers true at once, which is the ordinary state of a build that took neither talent. Three markers rather than one because rung 25's real condition is `!(capped & a_fire_inside & burning_wound)` and a marker's grammar has no OR inside it: union IS the OR. One badge on screen either way."
+          "note": "The two talent markers are true; the third — `immolation_single_target`, whose fourth term is `!capped` — WITHHOLDS here rather than firing, because a one-charge button makes `capped` UNKNOWN and unknown never lights. It is listed in `combines` because the three can co-occur on a build that took the talents, which is what the co-occurrence gate needs stated. Three markers rather than one because rung 25's real condition is `!(capped & a_fire_inside & burning_wound)` and a marker's grammar has no OR inside it: union IS the OR. One badge on screen either way."
         }
       ],
       "excludes": [
@@ -1039,7 +1039,7 @@
         },
         {
           "id": "fb_overcap",
-          "condition": "ready, Fury at or above 100 of the client's own maximum",
+          "condition": "ready, Fury ABOVE 100 of the client's own maximum — rung 22 is `fury<=100`, so it presses AT 100 and the hold begins only past it",
           "verdict": "open",
           "cues": [
             "overcap"

@@ -240,9 +240,10 @@ groups below are prose — how the roster reads, not anything the engine holds.
   Demonic Tyrant: rungs 1 and 3–8, the whole top of the list. They light when ready; cue **A**
   is the only thing that says wait, and it is a readable resource comparison rather than an
   alignment band. That is the reverse of Havoc and Retribution, whose top-of-list holds are all
-  sealed cooldown ranges — **this catalog authors no `sealed-cooldown-range` on a
-  pressed-on-sight row at all**, and the one it does author (cue F) sits on a decision-surface
-  row.
+  sealed cooldown ranges — this catalog authors **one** on a pressed-on-sight row, cue **J**'s
+  two-sided Tyrant band on Call Dreadstalkers, shipped 2026-08-24 (*Defeats*, item 1); the other
+  (cue **F**) sits on a decision-surface row. Until that closed, the group carried none at all,
+  and the contrast with Havoc was sharper than it now is.
 - **The decision surface** — Implosion, Hand of Gul'dan / Ruination, Demonbolt, plus **Shadow
   Bolt's second life**: while row 9 is displaying Infernal Bolt it is the spec's best builder,
   not filler, and cue D on Demonbolt is what re-orders the pair.
@@ -277,8 +278,9 @@ row to its left by a cue rather than by position.
   window it exists to feed. *Facts:* `ready` (R2); `ready(summon_demonic_tyrant)`; **readable
   Soul Shards** (R3). *Treatment:* scan +
   - `grimoire_awaits_shards` — **readable** `building`, cue **I**:
-    `ready(summon_demonic_tyrant)` **and** `{ "resource", "<", 5 }`. The whole summon block
-    waits while the board is built to five, and every term is readable.
+    `ready(summon_demonic_tyrant)` **and** `{ "resource", "<=", 4 }`. The whole summon block
+    waits while the board is built to five — written as *"at most four"*, because `Signal.lua`'s
+    `resource` term implements `<=` and `>=` only — and every term is readable.
   ⚠ **This hold is the PILOT'S ramp reading, not the APL's rung.** Rungs 3/4 are
   **unconditional** — simc presses Grimoire the moment it is up — and this catalog knowingly
   authors past that: holding the summons while shards climb to the Tyrant window is how the
@@ -320,9 +322,9 @@ row to its left by a cue rather than by position.
   many Hand of Gul'dan casts you can chain inside the window — so entering it below five shards
   spends a one-minute cooldown on a half-built board. Readiness alone says nothing about that.
   *Fact:* **readable Soul Shards** (R3). *Treatment:* scan +
-  - `tyrant_awaits_shards` — **readable** `building`, cue **A**: `{ "resource", "<", 5 }`,
+  - `tyrant_awaits_shards` — **readable** `building`, cue **A**: `{ "resource", "<=", 4 }`,
     gated on `ready(summon_demonic_tyrant)`. That is rung 8 exactly — `soul_shard=5` — read as a
-    hold. `Treatment.For` passes cues through for rows the Cooldown Manager has already swiped,
+    hold, and *"below five"* on a whole-number resource is *"at most four"* to the engine. `Treatment.For` passes cues through for rows the Cooldown Manager has already swiped,
     and a hold badge on a greyed icon says nothing, hence the gate. (Re-badged from `blocked`
     2026-08-24: Tyrant's hold and the block's holds are one statement — *build shards* — and
     now wear one glyph.)
@@ -378,11 +380,13 @@ row to its left by a cue rather than by position.
   - `hog_awaits_tyrant` — **sealed** `blocked`, cue **F**
     (S4 `sealed-cooldown-range`, `within = 5`) on Summon Demonic Tyrant, from rung 11's
     `cooldown.summon_demonic_tyrant.remains>5`. Gated on the **readable**
-    `{ "resource", "<", 5 }`, because the rung's `|soul_shard=5` clause makes the spend
-    unconditional at cap, and on `affordable(hand_of_guldan)` so it never lands on a row already
+    `{ "resource", "<=", 4 }` — `Signal.lua`'s `resource` term implements `<=` and `>=` and
+    nothing else, so *"below five"* is authored as *"at most four"* on a whole-number resource —
+    because the rung's `|soul_shard=5` clause makes the spend unconditional at cap, and on `affordable(hand_of_guldan)` so it never lands on a row already
     wearing `starved`.
   - `hog_awaits_shards` — **readable** `building`, cue **I**: `ready(summon_demonic_tyrant)`
-    **and** `{ "resource", "<", 5 }`, gated on `affordable(hand_of_guldan)` so it never lands
+    **and** `{ "resource", "<=", 4 }` (the same *"below five"* written the way the engine can
+    evaluate it), gated on `affordable(hand_of_guldan)` so it never lands
     on a row already wearing `starved`. Rung 11's `cooldown.summon_demonic_tyrant.remains>5` is
     false while Tyrant is READY, so the APL itself holds the spend there — this is the readable
     half of the window rule, where cue F is the sealed half: F covers "Tyrant nearly here",
@@ -409,8 +413,9 @@ row to its left by a cue rather than by position.
     proc above three shards"*; the APL's term is `soul_shard<4`, so the badge lights at **four**.
     A Core spent at three shards leaves five, which is exactly full and not waste.
   - `db_yields_to_infernal_bolt` — **readable** `blocked`, cue **D**:
-    `identity(shadow_bolt) == transformed` **and** `{ "resource", "<", 3 }`. Rung 12 puts an
-    armed Infernal Bolt above Demonbolt, and only below three shards. Both terms are readable.
+    `identity(shadow_bolt) == transformed` **and** `{ "resource", "<=", 2 }`. Rung 12 puts an
+    armed Infernal Bolt above Demonbolt, and only below three shards — *"at most two"* in the
+    only comparison the engine has. Both terms are readable.
   ⚠ **This is the first marker in any catalog that reads another row's identity**, which is
   `../spec.md` §3.1's readable-relationship rule applied to R7 rather than to `ready`. It needs
   no new predicate — `identity` has arity 2 and takes a subject — but it is the first time a

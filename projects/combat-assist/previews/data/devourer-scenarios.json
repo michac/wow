@@ -15,7 +15,10 @@
         },
         {
           "name": "Void Metamorphosis",
-          "verdict": "cd"
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
         },
         {
           "name": "Reap",
@@ -50,7 +53,7 @@
           "names": [
             "Void Metamorphosis"
           ],
-          "html": "<b>Void Metamorphosis</b> — uncastable below a full bank, ruled out by the client&#x27;s own desaturation → skip."
+          "html": "<b>Void Metamorphosis</b> — below the bank threshold, so its own count band hatches the row and rules it out → skip."
         },
         {
           "names": [
@@ -79,8 +82,8 @@
           "html": "Elimination alone; no cue fires."
         },
         {
-          "label": "⚠ UNSURE — position 1",
-          "html": "Void Metamorphosis is written <code>cd</code> on an <b>assumption, not a measurement</b>: that a below-bank Meta reads as ruled out because the client desaturates it (<code>../render-shelf.md</code> Part 1, off <code>SPELL_UPDATE_USABLE</code>), which cap deliberately does not duplicate. Nobody has confirmed the client desaturates on a <b>fragment gate</b> — the measured <code>isUsable</code> sample is four <em>Fury</em>-gated Havoc spells, all failing on power (<code>catalog.md</code> §6.1, §8 item 3). <b>If the assumption is wrong the first icon of the Essential line is drawn wrong</b>, here and in B-2 and B-3, and Meta needs a readable hold from the same open fact."
+          "label": "⚠ Position 1 waits on cue C, not on a measurement",
+          "html": "The <code>ruled-sealed</code> verdict here is correct by construction — the band is cap&#x27;s own rule, evaluated by the client against the sealed bank — but nothing is drawn until cue <b>C</b> ships. Until then the first icon of the Essential line shows nothing at all below the threshold, here and in B-2 and B-3, and the sweep has to skip it from the player&#x27;s own knowledge (<code>catalog.md</code> §8.2)."
         }
       ]
     },
@@ -96,7 +99,10 @@
         },
         {
           "name": "Void Metamorphosis",
-          "verdict": "cd"
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
         },
         {
           "name": "Reap",
@@ -134,7 +140,7 @@
           "names": [
             "Void Metamorphosis"
           ],
-          "html": "<b>Void Metamorphosis</b> — below a full bank → skip."
+          "html": "<b>Void Metamorphosis</b> — below the bank threshold, hatched by its own band → skip."
         },
         {
           "names": [
@@ -163,8 +169,8 @@
           "html": "A (readable) → <b>have</b>."
         },
         {
-          "label": "⚠ UNSURE — position 1",
-          "html": "As B-1: Meta&#x27;s <code>cd</code> rests on the client desaturating a fragment-gated cast, which is unmeasured (<code>catalog.md</code> §8 item 3)."
+          "label": "⚠ Position 1",
+          "html": "As B-1: the <code>ruled-sealed</code> verdict is sound, and it draws only once cue <b>C</b> ships (<code>catalog.md</code> §8.2)."
         }
       ]
     },
@@ -180,7 +186,10 @@
         },
         {
           "name": "Void Metamorphosis",
-          "verdict": "cd"
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
         },
         {
           "name": "Reap",
@@ -219,7 +228,7 @@
             "Void Metamorphosis",
             "Reap"
           ],
-          "html": "<b>Void Metamorphosis / Reap</b> — below a full bank, and on cooldown → skip."
+          "html": "<b>Void Metamorphosis / Reap</b> — hatched by its own bank band, and on cooldown → skip. Note the two skips come from two different eliminators: Meta&#x27;s is cap&#x27;s sealed band, Reap&#x27;s is Blizzard&#x27;s swipe."
         },
         {
           "names": [
@@ -247,15 +256,15 @@
           "html": "Consume is the most-pressed button in the branch and it has no Cooldown Manager frame in any category (<code>catalog.md</code> §3). Without a standing virtual row the sweep would end in <b>silence</b> here and the answer would be reachable only from memory; with one it ends where the priority list ends. Note the row wears <b>no cue and needs none</b> — its rank is its position, and the eye is directed to it by the absence of everything else, which is <code>../spec.md</code> §3.1&#x27;s eye-direction-by-elimination in its plainest form."
         },
         {
-          "label": "⚠ UNSURE — position 1",
-          "html": "As B-1: Meta&#x27;s <code>cd</code> rests on the client desaturating a fragment-gated cast, which is unmeasured (<code>catalog.md</code> §8 item 3)."
+          "label": "⚠ Position 1",
+          "html": "As B-1: the <code>ruled-sealed</code> verdict is sound, and it draws only once cue <b>C</b> ships (<code>catalog.md</code> §8.2)."
         }
       ]
     },
     {
       "id": "B-4",
       "title": "The bank fills",
-      "state": "Soul bank at 50, single target, <em>Devourer&#x27;s Bite</em> talented, Voidblade off cooldown.",
+      "state": "Soul bank at the transform threshold — **35 on the <em>Soul Glutton</em> build the live guides publish, 50 without it** (<code>catalog.md</code> §1c) — single target, <em>Devourer&#x27;s Bite</em> talented, Voidblade off cooldown.",
       "row": [
         {
           "name": "Collapsing Star",
@@ -299,7 +308,7 @@
           "names": [
             "Void Metamorphosis"
           ],
-          "html": "<b>Void Metamorphosis</b> — castable, the client stops desaturating it, and it is leftmost with nothing ruling it out → <b>press.</b> Rung 2 is unconditional at a single target."
+          "html": "<b>Void Metamorphosis</b> — the bank has reached the threshold, so the band above it clears the hatch, and the row is leftmost with nothing ruling it out → <b>press.</b> Rung 2 is unconditional at a single target."
         },
         {
           "names": [
@@ -319,14 +328,14 @@
         },
         {
           "label": "⚠ UNSURE — misordering 2",
-          "html": "The APL would spend this global on <b>Voidblade</b> (rung 1) to land <em>Devourer&#x27;s Bite</em> on the window, and press Meta on the next one. Voidblade sits at position 5 and this walk never reaches it, so cap presses Meta a global early and the window runs without the +12 % amp applied in advance. <b>This is a known cost, not an oversight</b> (§7.5 item 2) — and it is fixed by the same measurement as everything else here: <code>!usable(void_metamorphosis)</code> is exactly <em>&quot;the bank is not full&quot;</em> (<code>catalog.md</code> §8 item 3)."
+          "html": "The APL would spend this global on <b>Voidblade</b> (rung 1) to land <em>Devourer&#x27;s Bite</em> on the window, and press Meta on the next one. Voidblade sits at position 5 and this walk never reaches it, so cap presses Meta a global early and the window runs without the +12 % amp applied in advance. <b>This is a known cost, not an oversight</b> (§7.5 item 2) — and it is fixed by the same measurement as everything else here: <code>!usable(void_metamorphosis)</code> is exactly <em>&quot;the bank is below the transform threshold&quot;</em> (<code>catalog.md</code> §8 item 3, §1c)."
         }
       ]
     },
     {
       "id": "B-5",
       "title": "AoE, bank full, no Reap-family glow",
-      "state": "<code>/cap aoe</code> on, bank at 50, <em>Eradicate</em> talented, neither Eradicate nor Moment of Craving up, Reap on cooldown.",
+      "state": "<code>/cap aoe</code> on, bank at the transform threshold (§1c), <em>Eradicate</em> talented, neither Eradicate nor Moment of Craving up, Reap on cooldown.",
       "row": [
         {
           "name": "Collapsing Star",
@@ -399,7 +408,7 @@
       "extras": [
         {
           "label": "Cue set",
-          "html": "D (readable) → <b>have</b>. Note Meta is castable here, so §7.1&#x27;s desaturation assumption is not engaged — the skip is cap&#x27;s own badge, on a readable fact."
+          "html": "D (readable) → <b>have</b>. Note the bank is full here, so §7.1&#x27;s count band has cleared and is not what eliminates — the skip is cap&#x27;s own badge, on a readable fact."
         },
         {
           "label": "⚠ UNSURE — cue D is a sound slice, not the literal condition",
@@ -492,11 +501,11 @@
         },
         {
           "label": "Position 1",
-          "html": "Inside the window Void Metamorphosis is <code>cd</code> because <b>the form is active</b> — R7 identity, readable — not because of the soul bank. §7.1&#x27;s desaturation assumption is <b>not</b> engaged in M-1…M-5, so the <code>⚠ UNSURE</code> the build-phase rows carry does not apply here."
+          "html": "Inside the window Void Metamorphosis is <code>cd</code> because <b>the form is active</b> — R7 identity, readable — not because of the soul bank. §7.1&#x27;s count band is <b>not</b> what eliminates it in M-1…M-5, so the position-1 note the build-phase rows carry does not apply here."
         },
         {
           "label": "⚠ UNSURE — cue B is sealed, and its break point is fitted",
-          "html": "Nothing here proves the badge is lit in this state. Cap hands the client a curve and never learns the answer (S1 / V9), so only an eyeball in game can say whether Soul Immolation is actually wearing the badge — and the threshold under it is authored off simc&#x27;s fitted drain curve (≈16.4 Fury/s at window start, <b>rising</b>), which M-4 spells out. <b>The badge drawn above is what cap intends, not what has been observed.</b>"
+          "html": "Nothing here proves the badge is lit in this state. Cap hands the client a curve and never learns the answer (S1 / V9), so only an eyeball in game can say whether Soul Immolation is actually wearing the badge — and the threshold under it is authored off simc&#x27;s fitted drain curve (≈16.4 Fury/s at window start, <b>rising</b> — and a quarter faster again on a <em>Soul Glutton</em> build, so the number is per-build), which M-4 spells out. <b>The badge drawn above is what cap intends, not what has been observed.</b>"
         }
       ]
     },
@@ -722,7 +731,7 @@
         },
         {
           "label": "⚠ UNSURE — cue B's break point is fitted, not measured",
-          "html": "It is authored off simc&#x27;s fitted drain curve — ≈16.4 Fury/s at window start, <b>rising</b> — so a static threshold under-fires late in the window, which is when it matters most. That is the direction that costs the player the window. Flown, not assumed (<code>catalog.md</code> §8 item 4) — and nothing has flown."
+          "html": "It is authored off simc&#x27;s fitted drain curve — ≈16.4 Fury/s at window start, <b>rising</b>, and 25 % faster still with <em>Soul Glutton</em> (<code>catalog.md</code> §1c), so the break point is one number per build — and a static threshold under-fires late in the window, which is when it matters most. That is the direction that costs the player the window. Flown, not assumed (<code>catalog.md</code> §8 item 4) — and nothing has flown."
         }
       ]
     },
@@ -810,7 +819,7 @@
         },
         {
           "label": "⚠ UNSURE — cap cannot see the owed cast",
-          "html": "<code>buff.voidsurge_*</code> are simc placeholders with no game aura (<code>fact-classification.md</code> §4.2), so this walk is right <b>by position rather than by knowledge</b>. In the state where the Voidsurge has <b>already</b> been spent, the sweep presses Pierce the Veil again where the APL would press Devour — a real, undrawn gap, and the same open fact as Havoc&#x27;s <code>demonsurge_available</code> (<code>catalog.md</code> §8 item 2). <b>That state is not on this page</b>, because cap&#x27;s row for it is identical and only the correct answer differs. ### 7.5 Documented misorderings — what is left after the cues 1. <b>Single target, Collapsing Star granted below 35 harvests</b> (M-3). The gated row clears at 30 where the APL waits for 35. Cost: a marginally shorter <em>Impending Apocalypse</em> chain. 2. <b>Voidblade carries no hold, and that costs twice.</b> Rung 1 is the branch&#x27;s <b>only</b> out-of-Meta Voidblade line, so outside the pre-transform moment this button is never pressed — and cap cannot see the sealed fact (a full bank) that says which moment that is. Two symptoms, opposite in direction: - <b>The sweep stops on it</b> whenever everything above is swiped or badged and Voidblade is off its ~30 s cooldown, where the correct press is Consume. This is why the row is authored <b>last</b>: at position 5 it absorbs only states that already fell through, instead of stopping the sweep on every build global. - <b>The sweep never reaches it</b> at a full bank (B-4), where the APL spends the global on Voidblade for <em>Devourer&#x27;s Bite</em>. Cost: one window without the +12 % amp applied in advance. <b>Both are fixed by the same measurement.</b> <code>!usable(void_metamorphosis)</code> is exactly <em>&quot;the bank is not full&quot;</em> (§8, item 3): it would let Voidblade carry a <code>blocked</code> hold — killing the first symptom outright — and, with the hold in place, let a later revision move it to position 1 and kill the second. ⚠ That badge would be <b>lit across the whole build phase and correct</b>, which reads at first like Havoc&#x27;s deleted <code>immolation_recharging</code>. It is not the same case: that badge&#x27;s negation was <em>false</em> — the button is genuinely pressed at one charge — so it was lit <b>and wrong</b>. Lit-and-true is a noise question a flight settles; lit-and-false is a defect. Not built this pass either way. 3. <b>A spent Voidsurge</b> (M-5). The Voidblade row keeps reading pressable after its once-per-window empowerment is gone. 4. <b>Void Ray&#x27;s rung-8 hold</b> (§4.2). Two auras share one overlay channel, so the AND the hold needs cannot be formed. Void Ray is never <em>held</em> by cap; at worst it is channelled while both upgrades are already banked and no 4-piece is equipped. ⚠ This one does <b>not</b> resolve by measuring — it is an expressiveness gap, not an open fact. 5. <b>Soulburst promotes Consume to rung 4 and cap&#x27;s sweep does not follow it.</b> With the Season 2 2-piece up, Consume outranks Collapsing Star, Reap, Void Ray and everything below; the sweep still stops at whichever Essential icon it reaches first. <b>Nothing is authored for it by design</b> (§6.1): Soulburst is a Tier-1 registered overlay on Consume and Devour, so the client already glows the promotion on the button the player presses, and cap does not draw a second mark for a fact Blizzard marks — the same argument that deleted cue E. Whether a cap-owned virtual row should mirror the client&#x27;s glow is a <code>../render-shelf.md</code> question."
+          "html": "<code>buff.voidsurge_*</code> are simc placeholders with no game aura (<code>fact-classification.md</code> §4.2), so this walk is right <b>by position rather than by knowledge</b>. In the state where the Voidsurge has <b>already</b> been spent, the sweep presses Pierce the Veil again where the APL would press Devour — a real, undrawn gap, and the same open fact as Havoc&#x27;s <code>demonsurge_available</code> (<code>catalog.md</code> §8 item 2). <b>That state is not on this page</b>, because cap&#x27;s row for it is identical and only the correct answer differs. ### 7.5 Documented misorderings — what is left after the cues 1. <b>Single target, Collapsing Star granted below 35 harvests</b> (M-3). The gated row clears at 30 where the APL waits for 35. Cost: a marginally shorter <em>Impending Apocalypse</em> chain. 2. <b>Voidblade carries no hold, and that costs twice.</b> Rung 1 is the branch&#x27;s <b>only</b> out-of-Meta Voidblade line, so outside the pre-transform moment this button is never pressed — and cap cannot see the sealed fact (the bank at its transform threshold) that says which moment that is. Two symptoms, opposite in direction: - <b>The sweep stops on it</b> whenever everything above is swiped or badged and Voidblade is off its ~30 s cooldown, where the correct press is Consume. This is why the row is authored <b>last</b>: at position 5 it absorbs only states that already fell through, instead of stopping the sweep on every build global. - <b>The sweep never reaches it</b> at the transform threshold (B-4), where the APL spends the global on Voidblade for <em>Devourer&#x27;s Bite</em>. Cost: one window without the +12 % amp applied in advance. <b>Both are fixed by the same measurement.</b> <code>!usable(void_metamorphosis)</code> is exactly <em>&quot;the bank is below the transform threshold&quot;</em> (§8, item 3): it would let Voidblade carry a <code>blocked</code> hold — killing the first symptom outright — and, with the hold in place, let a later revision move it to position 1 and kill the second. ⚠ That badge would be <b>lit across the whole build phase and correct</b>, which reads at first like Havoc&#x27;s deleted <code>immolation_recharging</code>. It is not the same case: that badge&#x27;s negation was <em>false</em> — the button is genuinely pressed at one charge — so it was lit <b>and wrong</b>. Lit-and-true is a noise question a flight settles; lit-and-false is a defect. Not built this pass either way. 3. <b>A spent Voidsurge</b> (M-5). The Voidblade row keeps reading pressable after its once-per-window empowerment is gone. 4. <b>Void Ray&#x27;s rung-8 hold</b> (§4.2). Two auras share one overlay channel, so the AND the hold needs cannot be formed. Void Ray is never <em>held</em> by cap; at worst it is channelled while both upgrades are already banked and no 4-piece is equipped. ⚠ This one does <b>not</b> resolve by measuring — it is an expressiveness gap, not an open fact. 5. <b>Soulburst promotes Consume to rung 4 and cap&#x27;s sweep does not follow it.</b> With the Season 2 2-piece up, Consume outranks Collapsing Star, Reap, Void Ray and everything below; the sweep still stops at whichever Essential icon it reaches first. <b>Nothing is authored for it by design</b> (§6.1): Soulburst is a Tier-1 registered overlay on Consume and Devour, so the client already glows the promotion on the button the player presses, and cap does not draw a second mark for a fact Blizzard marks — the same argument that deleted cue E. Whether a cap-owned virtual row should mirror the client&#x27;s glow is a <code>../render-shelf.md</code> question."
         }
       ]
     }

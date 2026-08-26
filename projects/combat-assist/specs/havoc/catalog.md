@@ -356,7 +356,7 @@ Beam, exactly as the APL's rung-12 windowed spender outranks the rung-18 baselin
 
   | Charge state | `isActive` | Badge | Says |
   | --- | --- | --- | --- |
-  | at max, recharge stalled, **A Fire Inside taken** | `false` | gold `capped` (slot 3), positive | rung 10 — you are losing a charge right now |
+  | at max, recharge stalled, **A Fire Inside taken** | `false` | gold `capped`, positive | rung 10 — you are losing a charge right now |
   | below max, or the talent absent | `true` | red `blocked` at one target, **none** in AoE mode | rung 25 vs rung 20 — see below |
   | the read refused | `nil` | none | unknown is not a state — draw nothing |
 
@@ -449,9 +449,9 @@ Beam, exactly as the APL's rung-12 windowed spender outranks the rung-18 baselin
 | **C1** readable hold | the red `blocked` badge on Metamorphosis while Death Sweep or Eye Beam is *ready* — the reset would be wasted. A satisfied dependency draws **nothing**. | related-ability readiness | emphasis-adjacent marker (readable) | R2 + R7 | corner badge (readable route) |
 | **C2** sealed hold | the same red `blocked` badge, driven by a *remaining time* instead, in **two senses**. `within` = *"it is nearly here, wait for it"*: Essence Break while Eye Beam ends within 4s · Metamorphosis while Eye Beam ends within 8s · The Hunt while Meta ends within 15s · Vengeful Retreat while Eye Beam ends within 8s or Meta within 4s. `beyond` = *"it is nowhere near, this is not its moment"*: The Hunt while Eye Beam has **at least 10s** left. **Both clear at zero remaining** — a band means *imminent* or *far*, never *ready* | a related ability's cooldown remaining | cue (sealed) | S4 step-curve on a duration object, `ignoreGCD` | curve → badge alpha |
 | **D** demon-form promotion | Annihilation / Death Sweep brighten in demon form | `identity(transformed)` | emphasis (readable) | R7 | scan emphasis (promotion) |
-| **E** charges capped | Immolation Aura wears the **gold `capped` badge** in slot 3 at max charges *and* with A Fire Inside taken — rung 10, the vocabulary's one positive cue | `GetSpellCharges().isActive`, `NeverSecret` and readable in **both** directions — but only one direction is *drawn* | cue (readable) | R6 + R7 | corner badge, own hue + glow |
+| **E** charges capped | Immolation Aura wears the **gold `capped` badge** at max charges *and* with A Fire Inside taken — rung 10, the vocabulary's one positive cue | `GetSpellCharges().isActive`, `NeverSecret` and readable in **both** directions — but only one direction is *drawn* | cue (readable) | R6 + R7 | corner badge, own hue + glow |
 | **F** the gate fence | nothing of its own — it **withholds** another cue where its rung does not apply: cue E on a build lacking either of rung 10's talents, or while a higher rung (Metamorphosis, The Hunt) is ready; the C2 Hunt bands where Eternal Hunt is untalented | the trait config's node/entry selection + related-ability readiness | gate on a cue (readable) | new `talent` predicate + R2 | (no sink — it gates) |
-| **G** single-target skip | Immolation Aura wears the red `blocked` badge while AoE mode is **off**, the button is ready, Chaos Strike is affordable, and rung 10 is not in play — rung 25 sitting below Chaos Strike, said in the polarity the vocabulary has | cap's own `/cap aoe` toggle + `ready` + `affordable` + the charge read + both talents | cue (readable) | new `aoe` predicate + R1 + R2 + R6 | corner badge (slot 1) |
+| **G** single-target skip | Immolation Aura wears the red `blocked` badge while AoE mode is **off**, the button is ready, Chaos Strike is affordable, and rung 10 is not in play — rung 25 sitting below Chaos Strike, said in the polarity the vocabulary has | cap's own `/cap aoe` toggle + `ready` + `affordable` + the charge read + both talents | cue (readable) | new `aoe` predicate + R1 + R2 + R6 | corner badge |
 
 ⚠ **C1 and C2 are one badge with two drivers, and the split is not stylistic.** A readable
 marker answers *"is it ready?"*; a sealed band answers *"is it about to be?"* — and the band

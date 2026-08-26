@@ -20,16 +20,20 @@ and its safety case.
 
 ## 1. The answer, first
 
-**No sealed fact appears in any Lua condition, in either polarity.** The catalog uses **five**
-sealed values and every one of them goes straight to a client-owned sink:
+**No sealed fact appears in any Lua condition, in either polarity.** The catalog reads **six**
+sealed values, drawn through **eight** sinks, and every one of them goes straight to a
+client-owned surface:
 
 | Sealed value | Sink | Where |
 | --- | --- | --- |
-| Summon Demonic Tyrant's cooldown *remaining* | `sealed-cooldown-range`, `within = 5` | cue **F** |
+| Summon Demonic Tyrant's cooldown *remaining* | `sealed-cooldown-range`, `within = 5` | cue **F**, on Hand of Gul'dan |
+| Summon Demonic Tyrant's cooldown *remaining* | `sealed-cooldown-range`, **two-sided** `beyond = 10.5` / `within = 21.5` | cue **J**, on Call Dreadstalkers |
 | Demonic Core application count | `sealed-count-bands`, two breakpoints | Power Siphon |
 | Wild Imp application count | `sealed-count-bands`, two breakpoints (the complement) | Implosion |
 | Demonic Core application count | `sealed-count-bar`, `max = 4` | Demonbolt |
+| Demonic Core's own remaining | `sealed-proc-bar` | Demonbolt |
 | Doom's pandemic window | `sealed-pandemic` — **the client's own predicate** | Demonbolt |
+| Demonic Art (Mother of Chaos) remaining | `sealed-proc-bar` | Shadow Bolt / Infernal Bolt |
 
 Every other term in every marker is `ready`, `affordable`, `identity`, `resource`, `proc`,
 `talent`, `aura` or `aoe`.
@@ -69,8 +73,8 @@ recipes).
 | AoE / single-target intent | **readable, not a game read** | cap's own `/cap aoe` toggle | n/a — cap owns the value | cue **G** |
 | Whether To Hell and Back is taken | **readable** | the `talent` predicate | node 110199 / entry 136728 (`ability-inventory.tsv` @ 12.1.0.69214); ⚠ the `C_Traits` call shape is `[gap]` — Havoc's *Open facts* 7 | cue **G** |
 | Whether Reign of Tyranny is taken | **readable** | the `talent` predicate | node 110201 / entry 136730 | nothing yet — it gates a band that is not authored (§5.1) |
-| **Summon Demonic Tyrant cooldown remaining** | **sealed-display** | S4 → `sealed-cooldown-range` | `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`; the duration object carries the secrecy | cue **F** (`within = 5`) |
-| **Demonic Core application count** | **sealed-display** | S7 + S11 → `sealed-count-bands`; S10 → `sealed-count-bar` | the managed AuraContainer owns the display; a tainted-created `NumericRuleFormatter` is honoured `[client 2026-08-21]` and a band's `format` may carry a texture escape | Power Siphon's eliminating band **and** Demonbolt's radial. **Not a condition** |
+| **Summon Demonic Tyrant cooldown remaining** | **sealed-display** | S4 → `sealed-cooldown-range`, one-sided **and** two-sided | `C_Spell.GetSpellCooldown` is `SecretWhenCooldownsRestricted`; the duration object carries the secrecy | cue **F** (`within = 5`) and cue **J** (`beyond = 10.5`, `within = 21.5`) |
+| **Demonic Core application count** | **sealed-display** | S7 + S11 → `sealed-count-bands`; S10 → `sealed-count-bar` | the managed AuraContainer owns the display; a tainted-created `NumericRuleFormatter` is honoured `[client 2026-08-21]` and a band's `format` may carry a texture escape | Power Siphon's eliminating band **and** Demonbolt's segmented Core bar. **Not a condition** |
 | **Wild Imp application count** | **sealed-display** | S7 + S8 + S11 → `sealed-count-bands` (complement) | as above; Wild Imp `296553` is a Category-2 row in set 60 (OrderIndex 47) *[T1 DB2]* | Implosion's eliminating band. **Not a condition** |
 | **Doom's pandemic window** | **sealed-display** | S9 → `sealed-pandemic` | `AddPandemicRegion` seals a Region's `Shown` and drives it from the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell — cap authors no threshold | Demonbolt, gated on `talent(doom)`. **Not a condition** |
 | `buff.demonic_core.stack <= 1` **as a hold** | **sealed-display** | S7 + S11 | two breakpoints: silent below two, hatch plus a negative mark at two. §5.2 | rung 1, drawn. DEM-14 |
@@ -79,7 +83,7 @@ recipes).
 | **Whether Doom is taken** | **readable** | the `talent` predicate | node 110200 / entry 136729 (`talents.json` @ 12.1) | the readable gate on Demonbolt's pandemic display |
 | `buff.dominion_of_argus.up` | **open** | the `aura` latch, unmeasured on this row class | `1276166` is a Category-**3** (TrackedBar) row in set 60, OrderIndex 50 *[T1 DB2]*; the latch is built on TrackedBuff `OnAuraApplied` / `OnAuraRemoved` edges and no measurement covers TrackedBar. `[searched 2026-08-19: CooldownSetSpell @ 12.1.0.69214, SpellActivationOverlay @ 12.1.0.69214, Track.lua's edge table, cdm-rider-patterns.md §6]` | rung 2. **No hint.** |
 | **Which Demonic Art is armed**, when it is Overlord | **open** | — | Pit Lord and Mother of Chaos are visible through R7 (they change a button); Overlord changes none. `428514` holds two Category-2 rows in set 60 and which is the armed Art is unmeasured | nothing — noted because it is one measurement from closing |
-| `cooldown.summon_demonic_tyrant.remains` as a **two-sided band** | **sealed, no authored form** | S4 refuses it | `Catalog.Check`: *"sealed-cooldown-range needs exactly one of within or beyond"*; `Channel.HoldPlan` returns `nil` when both are set | rungs 6 / 7. **No hint.** §5.1 |
+| `cooldown.summon_demonic_tyrant.remains` as a **two-sided band** | **sealed-display** | S4, both bounds — `Channel.BandPoints(beyond, within)` is a three-point curve, and `Catalog.Check` accepts the pair provided `beyond < within` | shipped 2026-08-24; `Catalog.lua`'s exactly-one assertion was relaxed in the same change | rungs 6 / 7, **drawn**: `dreadstalkers_awaits_tyrant`, cue **J**, scenario DEM-15. §5.1 |
 | `target_if=(!debuff.doom.up)` | **not expressible** — and not for a data reason | — | `debuff.doom.up` *is* routable (`460553` is a Category-2 row in set 60 and the `aura` predicate takes a `unit`, as Retribution's Expurgation does). What has nowhere to go is the **instruction**: a CDM row is a button, not a target | rung 13. §5.3 |
 | `gcd.max` | **sealed, and floored rather than read** | S4's guard | `UnitSpellHaste` is sealed in instanced combat, so any band derived from it is authored at the **unhasted 1.5** and never computed | the unwritten Dreadstalkers band's bounds |
 | `fight_remains` | **open (and out of scope)** | — | perfect information; no human equivalent. cap does not model the encounter | rung 1's `|fight_remains<10`. Deliberately unmodelled |
@@ -202,11 +206,16 @@ marker on the claim, never a line in a tool and never a TODO here.** A load-bear
 a stop-and-ask (`../spec.md` §3.6); none below is load-bearing on a *press* — every one of them
 costs a hint and none of them causes a wrong one.
 
-### 5.1 The two-sided cooldown band
+### 5.1 The two-sided cooldown band — CLOSED 2026-08-24
 
-Rungs 6 / 7's Reign-of-Tyranny window. **Not an open fact and not a client limit** — it is a
-shelf gap, argued in full at `catalog.md` → *Defeats*, item 1. Recorded here so the safety case
-is complete: nothing sealed is compared, because nothing is authored.
+Rungs 6 / 7's Reign-of-Tyranny window. It was never an open fact and never a client limit — it
+was a shelf gap, and the shelf closed it: `Channel.BandPoints(beyond, within)` draws the
+three-point curve and `Catalog.Check` now accepts both bounds together. The hold is authored as
+`dreadstalkers_awaits_tyrant` (cue **J**), walked in DEM-15, and the full history is at
+`catalog.md` → *Defeats*, item 1. The safety case is unchanged by it, which is the point worth
+recording here: cap hands the client three points and a curve, compares nothing, and still never
+learns how long Tyrant has left. ⚠ It has **not flown** — no client has evaluated a three-point
+band.
 
 ### 5.2 The aura stack count as a hold — CLOSED 2026-08-22
 
@@ -295,6 +304,13 @@ every marker withholds on UNKNOWN. Three places in this catalog where that is do
    never enabled has no `cooldownID`, nothing is ever written for it, and `World` reports
    UNKNOWN. That is why §5.4's unmeasured edge is a missing *hint* rather than a wrong one — but
    it is also why the enablement question is a correctness requirement wherever a latch is
-   authored, exactly as it is for Retribution's cue G. **This catalog authors no `aura` marker at
-   all**, which is the cheapest possible answer to that risk and is one reason the two count
-   displays stayed displays.
+   authored, exactly as it is for Retribution's cue G. **This catalog authors exactly one `aura`
+   marker** — `implosion_no_imps`, cue **H**, the one state Implosion's count band structurally
+   cannot reach, because with no Wild Imp there is no aura and every sink on that button draws
+   nothing. So the exposure is real and it is small, and it is worth naming rather than denying:
+   **cue H depends on the player having the Wild Imp tracked-buff row enabled.** With the row
+   disabled the latch reads UNKNOWN, the marker goes dark, and Implosion is offered as an
+   ordinary candidate with no imps out — a **missed skip**, never a wrong press. That is the
+   direction this catalog accepts everywhere else too, and accepting it here is a decision, not
+   an oversight. It is also why the two *count* facts stayed displays: a display needs no latch
+   and therefore has no enablement exposure at all.

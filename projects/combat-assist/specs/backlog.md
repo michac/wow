@@ -203,11 +203,11 @@ and nothing about how it was measured.
   the authored priority — is what `Anchor.lua` was built to answer.
 - **Demonology / Diabolist is BUILT and has never flown** (2026-08-22). `Catalogs/Demonology.lua`
   is the roster its three documents describe — nine entries in the authored priority order,
-  fourteen scenarios, and `demonology-stepper.html` generated from them. `authoring.md` stages 6
+  fifteen scenarios, and `demonology-stepper.html` generated from them. `authoring.md` stages 6
   and 7 have run; stage 8 has not.
   - It carries **three new sealed-display kinds**, promoted out of Part 7 as V16–V19:
     `sealed-count-bands` (Power Siphon and Implosion, the second in its complement direction),
-    `sealed-count-bar` (Demonbolt's Core radial) and `sealed-pandemic` (Doom, gated on the
+    `sealed-count-bar` (Demonbolt's segmented Core bar) and `sealed-pandemic` (Doom, gated on the
     talent). `player-aura-stacks` and its `min = 2` guard are retired; Destruction's Backdraft was
     migrated mechanically and draws exactly what it did.
   - **A sealed fact can now ELIMINATE a row**, which is the substantive change: the reading model
@@ -227,9 +227,11 @@ and nothing about how it was measured.
   disagree**, and it is deliberate — `authoring.md` stage 6 has not run for it. Do not read the
   `.lua` as the design. It wants the same count primitive for Backdraft that Demonology now uses,
   which is now a transcription rather than a promotion.
-  - ⚠ **It is the ONE spec with no `catalog.json`, and that is a finding rather than an
-    omission** (2026-08-25). The other four were migrated; Destruction was attempted, and the
-    scenario↔state gate refused it — **five scenarios, three cues**. `DES-1` draws Conflagrate
+  - ⚠ **It has no `catalog.json`, and unlike Devourer's absence that is a finding rather than a
+    not-yet** (2026-08-25). Two of the six authored specs lack one. **Devourer** has never been
+    transcribed at all — it is still hand-written `catalog.md`, and its blocker is V12 (see its
+    entry below). **Destruction** was attempted, and the scenario↔state gate refused it —
+    **five scenarios, three cues**. `DES-1` draws Conflagrate
     wearing `capped`, `DES-2` and `DES-5` `blocked`, `DES-6` `overcap`, and the pilot declares
     none of those markers. Declaring the states would require declaring the markers, which is
     *authoring the catalog*, not transcribing it. So the gap between the pilot and its documents
@@ -267,6 +269,23 @@ and nothing about how it was measured.
     accidental rather than authored. **Deliberately not changed in the same pass** — it would move
     what draws on the live Havoc spec on an inference, and the recorder above is about to say
     whether it matters.
+- **Protection / Lightsmith is authored, transcribed, and has never flown.** Three files
+  (`catalog.md` / `scenarios.md` / `fact-classification.md`), 14 scenarios, nine entries over 28
+  states, a `protection-stepper.html` preview, and `Catalogs/Protection.lua` migrated from
+  `catalog.json` like the other three. `authoring.md` stage 8 has not run. **Its three honesty
+  banners used to live only in `capart.py`'s `SPECS_BUILT` and on the preview page** — which is
+  the wrong place for them, since this file is the project's only status block, so they are
+  restated here:
+  - **Nothing on that page has run in the client.** It exists to be reviewed and argued with, not
+    to record a decision. The transcription existing is not the same as the design having been
+    judged in play.
+  - **The armament row's identity DIRECTION is marked, not measured**
+    (`protection/fact-classification.md` §5.1). Sacred Weapon `432472` has no Cooldown-Manager row
+    of its own anywhere in the game data, so it can only reach the CDM as an override on Holy
+    Bulwark `432459` — that much is Tier 1. Which of base/transformed is which armament is not.
+  - **Two rungs are undrawn because a Category-3 TrackedBar row's alert edges are unmeasured**
+    (`protection/catalog.md` Defeats 1 and 2). It is the same unmeasured fact as Demonology's
+    Dominion of Argus, and one measurement closes it for both.
 - **Devourer is authored and has never been built or flown**, on the same terms: three files, and
   the first spec whose definition needed **V12's virtual row** (Collapsing Star has no CDM frame at
   all). No catalog Lua. **It does now have a preview** — registered in `SPECS_BUILT` on 2026-08-19,
@@ -276,7 +295,11 @@ and nothing about how it was measured.
   own), and the page carries **loud `⚠ UNSURE` annotations** wherever the authoring docs doubt
   themselves — position 1's desaturation assumption, misordering 2, cue D's sound slice, cue B's
   fitted break point, the owed Voidsurge. The page exists to be **argued with**, not to record a
-  decision, and the gates prove only that each row is self-consistent.
+  decision, and the gates prove only that each row is self-consistent. (One of those annotations
+  is gone: position 1's *"the client desaturates a below-bank Void Metamorphosis"* premise was
+  **false**, not merely unmeasured — desaturation is Blizzard's cooldown statement and nothing
+  else — so that row is `ruled-sealed` off cap's own count band now, and the spec's open fact 7
+  collapsed into open fact 3.)
 - **Cue D (demon-form promotion) is authored and not drawn.** A promotion is a positive cue and
   `press-promoted` renders identically to `press`. The permission is unchanged; what is missing is
   pixels, not authority. **Cue B's positive "banked" half is not parked beside it — it is deleted**,
@@ -294,8 +317,11 @@ and nothing about how it was measured.
   by path; it has stopped *being* the data.
   - **Four specs are migrated** — Demonology, Havoc, Protection, Retribution. Each round-trip was
     proven DATA-IDENTICAL by loading the committed and the generated Lua through a
-    `ns.Catalog.Register` stub and deep-comparing, never by reading a diff. Destruction is the
-    one hold-out and its reason is measured above.
+    `ns.Catalog.Register` stub and deep-comparing, never by reading a diff. **Two authored specs
+    are not migrated**, for different reasons: Destruction was attempted and refused by the
+    scenario↔state gate (measured above), while Devourer has not been attempted, because V12's
+    virtual row is `declared` and `drawn_by` rejects a `declared` primitive — the gate would
+    refuse precisely the two rows the design exists for.
   - **Six catalog gates**, applied to any spec that has a `catalog.json` and skipped by absence,
     so the remaining rollout needs no second list: Lua byte-compare, marker↔state,
     closed vocabulary, scenario↔state, co-occurrence, and validator parity (`Catalog.Check` run
@@ -542,6 +568,19 @@ the **whole scenario** and names the differing field. Verified by probe: a one-w
 The general lesson, since the same shape recurs: **a whitelist of compared fields fails on the
 next field added, not on the ones it lists.** `{client: …}` shipped outside this one and was
 unguarded from day one.
+
+⚠ **The DONE above holds only for the four `catalog.json` specs; on the two SIDECAR-LED ones it
+is vacuous** — measured 2026-08-26 while editing Devourer's walks. `load_scenarios`
+(`../../tools/wowkb/capart.py:750-751`) returns the **sidecar** as the comparison subject whenever
+a spec has a sidecar and no `catalog.json`, so for **devourer** and **destruction** `check`
+compares the sidecar against itself and the `.md` is never read at all. The failure it lets
+through is the exact one this entry was written to close: edits to `scenarios.md` produced a
+byte-identical preview and a green `check --all`, and only a hand-run `capart import scenarios
+devourer` moved the page. So the prose gap is closed where a catalog exists and open where one
+does not — which is the wrong way round, since a sidecar-led spec is precisely the one whose
+`.md` is the only authored source. Migrating Devourer (`## Status`) removes half of it; the other
+half is Destruction's until it migrates, and the durable fix is for `check` to scrape the doc
+independently rather than re-using the loader's chosen subject.
 
 ### Teach `Catalog.OrderCheck` what it is actually checking
 

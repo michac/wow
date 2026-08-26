@@ -471,11 +471,16 @@ that it is doing ordering work a sealed curve could not do.
 (`../render-shelf.md` V5.1); nothing in this catalog asks for a primitive the shelf does not
 have, and no cue is described here in pixels.
 
-**Badge-slot arithmetic checks out.** Slot 1 (`blocked`) and slot 2 (`starved` / `overcap`) never
-collide on one entry: Templar's Verdict wears three `blocked` markers and one `starved`, Divine
-Toll wears one `blocked` and one `overcap`, Wake of Ashes wears two `blocked` and one `starved`.
-`Catalog.Check`'s one-cue-per-slot rule is satisfied because `starved` and `overcap` are never
-declared on the same row.
+**Badge stacking checks out, and there is no arithmetic to do.** The fixed three-slot geometry
+this paragraph used to reason in was deleted 2026-08-19: badges now **flow** down the right edge
+from the top-right corner in shelf `rank` order, as many as the row wears, and polarity is carried
+by hue and glow rather than by position (`../render-shelf.md` Part 2, Part 2.5). So two cues on
+one entry is ordinary rather than a collision, and the heaviest rows here — Templar's Verdict with
+three `blocked` markers and one `starved`, Wake of Ashes with two `blocked` and one `starved`,
+Divine Toll with one `blocked` and one `overcap` — stack without anything to resolve. What
+`Catalog.Check` still refuses is a different thing entirely: **two POSITIVE cues on one entry**,
+because pass 1 has no way to choose between them. This catalog wears exactly one positive cue
+anywhere, so that rule is satisfied with room to spare.
 
 ### Why this catalog does not spend `capped`
 

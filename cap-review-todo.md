@@ -177,10 +177,18 @@ question for `backlog.md` → Ideas, not a catalog edit.
    say "this aura is absent". Defeat 2 (`!consecration.up`) needs **presence** and may be routable
    via a single `{draw: mark, hatch: true, polarity: negative, threshold: 0}` band — no alert edge,
    no `aura()` latch. Defeat 1 (`buff.avenging_wrath.up`) needs **absence** and stands. If the sink
-   works on a Category-3 row this is the highest-value gap in the catalog: Consecration is the
-   most-pressed button in the rotation. Needs: does `SetApplicationCount` work on a TrackedBar row,
-   and the Consecration player-buff spell id (⚠ `backlog.md:238-243` records the Destruction bug
-   where a missing `family` silently gave a sealed display no subject).
+   works this is the highest-value gap in the catalog: Consecration is the most-pressed button in
+   the rotation.
+   ⚠ **Corrected 2026-08-26 — this item used to make finding #3's mistake in reverse**, asking
+   whether `SetApplicationCount` works *on a TrackedBar row*. That question does not arise. **#3 is
+   the correct account: a sealed container is cap's OWN frame, not a CDM row.**
+   `Channel.lua:768` derives the aura filter from `plan.unit`, `:849` calls
+   `container:SetUnit(plan.unit)`, and the candidate set is bound by `includeSpellIDs` — the code
+   path never touches a Cooldown-Manager row at all, and Demonology's shipped `ib_art_clock` is a
+   V20 on an aura with no row. The CDM census gates the **readable** latch and nothing else.
+   So what this needs is one thing, not two: **the Consecration player-buff spell id**
+   (⚠ `backlog.md:238-243` records the Destruction bug where a missing `family` silently gave a
+   sealed display no subject).
 6. **`[verified]` `backlog.md` → `## Status` has no Protection entry.** One hit in the whole file
    (the migration list). Every other authored spec has a bullet. So Protection's three honesty
    banners live only in `capart.py`'s `SPECS_BUILT` and on the preview page, not where the project
@@ -309,9 +317,15 @@ and cue C's sink name `player-aura-stacks` is not in `SEALED_DISPLAYS`.
 
 ## 3 · Standing notes
 
-- **Scenario rows do not link to catalog states** on havoc / protection / demonology (only
-  retribution's rows carry `cues`), so `capart check`'s elimination gate proves something about the
-  *page*, not about the authored states. Project-wide, not a per-spec defect.
+- **Scenario rows carry `cues` on ALL FOUR migrated specs** — corrected 2026-08-26; the original
+  bullet claimed only Retribution's did, and that is simply false. Counted in
+  `specs/*/scenarios.json`, the number of row entries carrying a `cues` key is **Protection 38,
+  Demonology 43, Retribution 26, Havoc 15**. What survives of the finding is narrower and still
+  worth saying: a scenario row names *cue keys*, not the catalog **state** it is meant to be an
+  instance of, so `capart check`'s elimination gate reasons over what the page draws rather than
+  over the authored state table. The `catalog_gate_scenarios` check does match each row against
+  *some* declared state, so the two are not unrelated — but nothing pins a row to the one state
+  its walk is arguing about. Project-wide, not a per-spec defect.
 - **`condition` prose remains a second ungated source** — already in `knowledge/_meta/kb-inbox.md`
   with the one live instance that was found and fixed. Retribution's review suggests deriving the
   scan bit from `scan_when`; that is not mechanically available, because whether a state satisfies

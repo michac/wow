@@ -73,12 +73,27 @@ where 11–12 sit just above Soul Immolation's 13. **Last is the best single pos
 last: `Catalog.ForBuild` selects on spec and hero tree only, so a row cannot move at runtime and a
 reordering fact can never be a badge.
 
-⚠ **Position 1 rests on the client's own usability channel.** Void Metamorphosis is uncastable
-below a full bank, and `../render-shelf.md` Part 1 records that the CDM desaturates and re-tints
-its icons continuously off `SPELL_UPDATE_USABLE` — *"the client's built-in 'you cannot cast this'
-channel"* — which cap deliberately does not duplicate. Every walk below assumes a below-bank Void
-Metamorphosis reads as ruled out for that reason, and writes it `cd`. **If it does not, position 1
-is wrong and Meta needs a readable hold from the same open fact** (§8, item 3).
+⚠ **Position 1 rests on a sealed count band cap authors, not on the client's usability channel.**
+Void Metamorphosis is uncastable below the bank threshold, and this walk once wrote that
+below-bank row `cd` on the premise that the CDM desaturates what cannot be cast. **It does not.**
+`cooldownDesaturated` is assigned either the literal `false` or `self.isOnActualCooldown` at every
+one of its six assignments, so a greyed CDM icon is a statement about **cooldown and nothing
+else**; usability rides an entirely separate channel — a vertex-colour tint, `ITEM_NOT_USABLE_COLOR`
+at `0.4, 0.4, 0.4` — and a tint is not a hatch *[T1 src @12.1.0:
+`knowledge/addon-dev/cooldown-manager.md` §3.4, `CooldownViewer.lua:1195-1233`]*. Void
+Metamorphosis is fragment-gated and has no timer at all, so **no swipe will ever be drawn on that
+row**, and `cd` — the one verdict asserting both a swipe and a hatch — was describing pixels the
+client never puts there.
+
+A below-bank Void Metamorphosis is therefore written **`ruled-sealed`**. The soul bank is a sealed
+count and V17 is precisely the primitive for it: the marks draw *below* the catalog's threshold and
+the band above clears them, so the client evaluates cap's own rule against the secret and hatches
+the row itself (`../render-shelf.md` V17). The elimination is genuine —
+`tokens.verdicts["ruled-sealed"]` declares `eliminates: true`, which is what lets the sweep skip
+position 1 — and it belongs to cap, so the first icon of the Essential line no longer rests on a
+measurement of somebody else's channel. What it does still rest on is cue **C**
+shipping (`catalog.md` §8.2): the band is the cue's own machinery, so until cue C draws, the
+verdict here is the design rather than the pixels.
 
 ### 7.2 Verdicts
 
@@ -92,7 +107,8 @@ Four notes on how it maps here:
 - A **cleared gated row** is `press` when the walk reaches it and `open` otherwise.
 - The **standing row** is never `cd`. It is `press` when the sweep terminates on it and `open`
   when the sweep stopped earlier — which is the ordinary case.
-- A below-bank **Void Metamorphosis** is written `cd`, per §7.1's ⚠.
+- A below-bank **Void Metamorphosis** is written `ruled-sealed`, per §7.1's ⚠ — its own bank
+  band rules it out, and no swipe is ever drawn there.
 
 ### 7.3 Build phase — outside Void Metamorphosis
 
@@ -100,51 +116,51 @@ Four notes on how it maps here:
 
 - **State.** Single target, bank mid, Reap on cooldown, Fury ≥ 100, Soul Immolation's effect
   running, Voidblade on cooldown, nothing procced.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `cd` · Void Ray `press` ·
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `ruled-sealed` {sealed: count-bands} · Reap `cd` · Void Ray `press` ·
   Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — the gated virtual row is hatched, so nothing appeared → sweep the line.
-  2. **Void Metamorphosis** — uncastable below a full bank, ruled out by the client's own
-     desaturation → skip.
+  2. **Void Metamorphosis** — below the bank threshold, so its own count band hatches the row and
+     rules it out → skip.
   3. **Reap** — on cooldown → skip.
   4. **Void Ray** — available, affordable, nothing rules it out → **press.** Rung 8, and the
      channel that creates the Eradicate upgrade.
   5. **Soul Immolation / Voidblade / Consume** — below the press; the sweep stops before the
      terminus.
 - **Eye-direction.** Elimination alone; no cue fires.
-- **⚠ UNSURE — position 1.** Void Metamorphosis is written `cd` on an **assumption, not a
-  measurement**: that a below-bank Meta reads as ruled out because the client desaturates it
-  (`../render-shelf.md` Part 1, off `SPELL_UPDATE_USABLE`), which cap deliberately does not
-  duplicate. Nobody has confirmed the client desaturates on a **fragment gate** — the measured
-  `isUsable` sample is four *Fury*-gated Havoc spells, all failing on power (`catalog.md` §6.1,
-  §8 item 3). **If the assumption is wrong the first icon of the Essential line is drawn wrong**,
-  here and in B-2 and B-3, and Meta needs a readable hold from the same open fact.
+- **⚠ Position 1 waits on cue C, not on a measurement.** The `ruled-sealed` verdict here is
+  correct by construction — the band is cap's own rule, evaluated by the client against the sealed
+  bank — but nothing is drawn until cue **C** ships. Until then the first icon of the Essential
+  line shows nothing at all below the threshold, here and in B-2 and B-3, and the sweep has to skip
+  it from the player's own knowledge (`catalog.md` §8.2).
 
 ### B-2 · Fury-starved
 
 - **State.** As B-1 but Fury under 100, Reap ready.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `press` · Void Ray `open` {cues: starved} ·
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `ruled-sealed` {sealed: count-bands} · Reap `press` · Void Ray `open` {cues: starved} ·
   Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep the line.
-  2. **Void Metamorphosis** — below a full bank → skip.
+  2. **Void Metamorphosis** — below the bank threshold, hatched by its own band → skip.
   3. **Reap** — ready, nothing rules it out → **press** (rungs 6–7).
   4. **Void Ray** — wears cue **A**'s `starved` badge. Had Reap been on cooldown the sweep would
      reach it, skip it, and carry on — which is B-3.
   5. **Soul Immolation / Voidblade / Consume** — below the press.
 - **Cue set.** A (readable) → **have**.
-- **⚠ UNSURE — position 1.** As B-1: Meta's `cd` rests on the client desaturating a
-  fragment-gated cast, which is unmeasured (`catalog.md` §8 item 3).
+- **⚠ Position 1.** As B-1: the `ruled-sealed` verdict is sound, and it draws only once cue **C**
+  ships (`catalog.md` §8.2).
 
 ### B-3 · The sweep runs out of row, and terminates on the floor
 
 - **State.** Reap on cooldown, Fury under 100, Soul Immolation on cooldown, Voidblade on its
   ~30 s cooldown, no procs, bank mid.
-- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `cd` · Reap `cd` · Void Ray `open` {cues: starved} ·
+- **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `ruled-sealed` {sealed: count-bands} · Reap `cd` · Void Ray `open` {cues: starved} ·
   Soul Immolation `cd` · Voidblade `cd` ‖ Consume `press`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep.
-  2. **Void Metamorphosis / Reap** — below a full bank, and on cooldown → skip.
+  2. **Void Metamorphosis / Reap** — hatched by its own bank band, and on cooldown → skip. Note the
+     two skips come from two different eliminators: Meta's is cap's sealed band, Reap's is
+     Blizzard's swipe.
   3. **Void Ray** — castable but wears cue **A**'s `starved` badge → skip.
   4. **Soul Immolation / Voidblade** — both swiped → skip.
   5. **Consume** — the sweep reaches the terminus: rungs 14–15, the unconditional floor →
@@ -155,18 +171,21 @@ Four notes on how it maps here:
   it ends where the priority list ends. Note the row wears **no cue and needs none** — its rank is
   its position, and the eye is directed to it by the absence of everything else, which is
   `../spec.md` §3.1's eye-direction-by-elimination in its plainest form.
-- **⚠ UNSURE — position 1.** As B-1: Meta's `cd` rests on the client desaturating a
-  fragment-gated cast, which is unmeasured (`catalog.md` §8 item 3).
+- **⚠ Position 1.** As B-1: the `ruled-sealed` verdict is sound, and it draws only once cue **C**
+  ships (`catalog.md` §8.2).
 
 ### B-4 · The bank fills
 
-- **State.** Soul bank at 50, single target, *Devourer's Bite* talented, Voidblade off cooldown.
+- **State.** Soul bank at the transform threshold — **35 on the *Soul Glutton* build the live
+  guides publish, 50 without it** (`catalog.md` §1c) — single target, *Devourer's Bite* talented,
+  Voidblade off cooldown.
 - **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `press` · Reap `open` · Void Ray `open` ·
   Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
 - **Walk.**
   1. **Collapsing Star** — hatched, nothing appeared → sweep.
-  2. **Void Metamorphosis** — castable, the client stops desaturating it, and it is leftmost with
-     nothing ruling it out → **press.** Rung 2 is unconditional at a single target.
+  2. **Void Metamorphosis** — the bank has reached the threshold, so the band above it clears the
+     hatch, and the row is leftmost with nothing ruling it out → **press.** Rung 2 is
+     unconditional at a single target.
   3. **Reap / Void Ray / Soul Immolation / Voidblade / Consume** — below the press.
 - **Cue C.** Doing its work here and nowhere else in the walk: the bank's count has been climbing
   beside this icon for the whole build phase, so the transform arrives as something the player
@@ -176,11 +195,11 @@ Four notes on how it maps here:
   and this walk never reaches it, so cap presses Meta a global early and the window runs without
   the +12 % amp applied in advance. **This is a known cost, not an oversight** (§7.5 item 2) — and
   it is fixed by the same measurement as everything else here: `!usable(void_metamorphosis)` is
-  exactly *"the bank is not full"* (`catalog.md` §8 item 3).
+  exactly *"the bank is below the transform threshold"* (`catalog.md` §8 item 3, §1c).
 
 ### B-5 · AoE, bank full, no Reap-family glow
 
-- **State.** `/cap aoe` on, bank at 50, *Eradicate* talented, neither Eradicate nor Moment of
+- **State.** `/cap aoe` on, bank at the transform threshold (§1c), *Eradicate* talented, neither Eradicate nor Moment of
   Craving up, Reap on cooldown.
 - **CDM row.** Collapsing Star `cd` ‖ Void Metamorphosis `open` {cues: blocked} · Reap `cd` ·
   Void Ray `press` · Soul Immolation `open` · Voidblade `open` ‖ Consume `open`
@@ -192,8 +211,8 @@ Four notes on how it maps here:
   4. **Void Ray** — → **press.** Channelling it in full is exactly what turns Reap into Eradicate,
      so the badge and the press point at the same plan.
   5. **Soul Immolation / Voidblade / Consume** — below the press.
-- **Cue set.** D (readable) → **have**. Note Meta is castable here, so §7.1's desaturation
-  assumption is not engaged — the skip is cap's own badge, on a readable fact.
+- **Cue set.** D (readable) → **have**. Note the bank is full here, so §7.1's count band has
+  cleared and is not what eliminates — the skip is cap's own badge, on a readable fact.
 - **⚠ UNSURE — cue D is a sound slice, not the literal condition.** The APL holds when
   `!eradicate.up & talent.eradicate & !single_target`; cap draws `!proc & talent(eradicate) & aoe`.
   Because `proc(reap)` is the **OR** of Eradicate and Moment of Craving (`fact-classification.md`
@@ -226,13 +245,14 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
   6. **Pierce the Veil / Devour** — below the press.
 - **Cue set.** B (sealed) → **sealed**; the badge is `offered`, and only an eyeball proves it lit.
 - **Position 1.** Inside the window Void Metamorphosis is `cd` because **the form is active** — R7
-  identity, readable — not because of the soul bank. §7.1's desaturation assumption is **not**
-  engaged in M-1…M-5, so the `⚠ UNSURE` the build-phase rows carry does not apply here.
+  identity, readable — not because of the soul bank. §7.1's count band is **not** what eliminates
+  it in M-1…M-5, so the position-1 note the build-phase rows carry does not apply here.
 - **⚠ UNSURE — cue B is sealed, and its break point is fitted.** Nothing here proves the badge is
   lit in this state. Cap hands the client a curve and never learns the answer (S1 / V9), so only an
   eyeball in game can say whether Soul Immolation is actually wearing the badge — and the threshold
-  under it is authored off simc's fitted drain curve (≈16.4 Fury/s at window start, **rising**),
-  which M-4 spells out. **The badge drawn above is what cap intends, not what has been observed.**
+  under it is authored off simc's fitted drain curve (≈16.4 Fury/s at window start, **rising** —
+  and a quarter faster again on a *Soul Glutton* build, so the number is per-build), which M-4
+  spells out. **The badge drawn above is what cap intends, not what has been observed.**
 
 ### M-2 · A Collapsing Star is granted, in AoE
 
@@ -304,8 +324,9 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
   clears at the moment the save is worth spending is a single-state marker doing precisely one job.
 - **Position 1.** As M-1: Meta is `cd` on the readable identity fact, not on the bank.
 - **⚠ UNSURE — cue B's break point is fitted, not measured.** It is authored off simc's fitted
-  drain curve — ≈16.4 Fury/s at window start, **rising** — so a static threshold under-fires late
-  in the window, which is when it matters most. That is the direction that costs the player the
+  drain curve — ≈16.4 Fury/s at window start, **rising**, and 25 % faster still with *Soul
+  Glutton* (`catalog.md` §1c), so the break point is one number per build — and a static threshold
+  under-fires late in the window, which is when it matters most. That is the direction that costs the player the
   window. Flown, not assumed (`catalog.md` §8 item 4) — and nothing has flown.
 
 ### M-5 · A Voidsurge is owed
@@ -341,17 +362,18 @@ window — which is what lets Collapsing Star's gated row carry a single gate (`
    where the APL waits for 35. Cost: a marginally shorter *Impending Apocalypse* chain.
 2. **Voidblade carries no hold, and that costs twice.** Rung 1 is the branch's **only** out-of-Meta
    Voidblade line, so outside the pre-transform moment this button is never pressed — and cap
-   cannot see the sealed fact (a full bank) that says which moment that is. Two symptoms, opposite
+   cannot see the sealed fact (the bank at its transform threshold) that says which moment that
+   is. Two symptoms, opposite
    in direction:
    - **The sweep stops on it** whenever everything above is swiped or badged and Voidblade is off
      its ~30 s cooldown, where the correct press is Consume. This is why the row is authored
      **last**: at position 5 it absorbs only states that already fell through, instead of stopping
      the sweep on every build global.
-   - **The sweep never reaches it** at a full bank (B-4), where the APL spends the global on
+   - **The sweep never reaches it** at the transform threshold (B-4), where the APL spends the global on
      Voidblade for *Devourer's Bite*. Cost: one window without the +12 % amp applied in advance.
 
    **Both are fixed by the same measurement.** `!usable(void_metamorphosis)` is exactly *"the bank
-   is not full"* (§8, item 3): it would let Voidblade carry a `blocked` hold — killing the first
+   is below the transform threshold"* (§8, item 3): it would let Voidblade carry a `blocked` hold — killing the first
    symptom outright — and, with the hold in place, let a later revision move it to position 1 and
    kill the second.
    ⚠ That badge would be **lit across the whole build phase and correct**, which reads at first like
