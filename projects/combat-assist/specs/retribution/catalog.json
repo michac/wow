@@ -156,7 +156,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "es_clear",
@@ -165,6 +168,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Radiant Glory deletes the Avenging Wrath alignment entirely — it removes Wings as a pressed button — so both Wrath holds are gated `!talent.radiant_glory` and this row is quiet on that build."
         },
         {
@@ -179,6 +186,12 @@
           "combines": [
             "es_awaits_wrath_ready"
           ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Readable, and NOT redundant with the band: this row sits LEFT of Avenging Wrath, so a quiet row 1 is pressed before the eye ever arrives there. The band reads nothing at zero remaining and structurally cannot cover this point."
         },
         {
@@ -192,6 +205,12 @@
           "slot": "flow",
           "combines": [
             "es_awaits_wrath"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -205,6 +224,12 @@
           "slot": "flow",
           "combines": [
             "es_awaits_wake"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "The `beyond` sense: it is nowhere near, so this is not its moment. Authored at the UNHASTED 1.5 because `UnitSpellHaste` is sealed in instanced combat."
         },
@@ -221,6 +246,12 @@
             "es_awaits_wrath_ready",
             "es_awaits_wake"
           ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "One cue key across three markers, so the AND-only band grammar unions them into a single badge — and that union IS the OR."
         },
         {
@@ -235,6 +266,12 @@
           "combines": [
             "es_awaits_wrath",
             "es_awaits_wake"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         }
       ],
@@ -287,7 +324,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "aw_clear",
@@ -296,6 +336,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "cooldowns 11",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Without Holy Flames the APL term is vacuously true and this marker must not exist."
         },
         {
@@ -309,6 +353,12 @@
           "slot": "flow",
           "combines": [
             "aw_awaits_expurgation"
+          ],
+          "apl": "cooldowns 11",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "On a Holy Flames build the window is FORBIDDEN, not merely outranked, until Expurgation is on the target. ⚠ If the player has not added Expurgation to Tracked Buffs the aura reads UNKNOWN and this stays DARK rather than reading as \"the DoT is down\" — which is the whole reason no enablement check is needed."
         }
@@ -422,7 +472,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "woa_clear",
@@ -431,6 +484,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "generators 3",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "One row, two lives, selected by identity: a cooldown while it is Wake of Ashes, a spender while Light's Guidance has made it Hammer of Light. Membership is the OR of the `scan_when` alternatives, so either life keeps the row in the scan — and the transformed life has no cooldown of its own to read, which is why it is in the scan by identity."
         },
         {
@@ -445,6 +502,12 @@
           "combines": [
             "woa_starved"
           ],
+          "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Affordability of the LIVE id: Hammer of Light's 5 Holy Power on the transformed row, Wake of Ashes' nothing on the base one. ONE marker covers both lives correctly, and because the base life costs nothing it can only ever draw on the transformed one."
         },
         {
@@ -458,6 +521,12 @@
           "slot": "flow",
           "combines": [
             "woa_awaits_wrath"
+          ],
+          "apl": "generators 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -471,6 +540,12 @@
           "slot": "flow",
           "combines": [
             "woa_awaits_sentence"
+          ],
+          "apl": "generators 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -485,6 +560,12 @@
           "combines": [
             "woa_awaits_wrath",
             "woa_awaits_sentence"
+          ],
+          "apl": "generators 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Two bands armed at once, unioned onto one badge."
         }
@@ -563,7 +644,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "dt_clear",
@@ -571,7 +655,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "generators 4",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "dt_awaits_wrath",
@@ -584,6 +672,12 @@
           "slot": "flow",
           "combines": [
             "dt_awaits_wrath"
+          ],
+          "apl": "generators 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -597,6 +691,12 @@
           "slot": "flow",
           "combines": [
             "dt_overcap"
+          ],
+          "apl": "generators 1",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "READABLE, not a curve on a secret: Holy Power is never-secret, and that is the whole difference from Havoc's authored Fury break point. The one builder that genuinely must not be pressed at cap."
         },
@@ -613,6 +713,12 @@
           "combines": [
             "dt_awaits_wrath",
             "dt_overcap"
+          ],
+          "apl": "generators 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Two DIFFERENT cue keys, so this row wears two badges — the flowing stack, in rank order."
         }
@@ -733,6 +839,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "finishers 4",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "In the scan by `scan_when` = affordable: a spender whose cost is the only thing between it and a press raises no readiness edge for that cost."
         },
         {
@@ -746,6 +856,11 @@
           "slot": "flow",
           "combines": [
             "tv_starved"
+          ],
+          "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
+          "drawn_by": [
+            "V5",
+            "V11"
           ],
           "note": "The client also tints this `not-enough-power`; that tint is Blizzard's."
         },
@@ -761,6 +876,12 @@
           "combines": [
             "tv_awaits_blade"
           ],
+          "apl": "generators 5",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue D. `generators` 5 outranks the unconditional `finishers` call, so a free Blade of Justice is pressed first — EXCEPT at 5 Holy Power, which is what `resource <= 4` is for."
         },
         {
@@ -775,6 +896,12 @@
           "combines": [
             "tv_divine_storm_aoe"
           ],
+          "apl": "finishers 1",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "⚠ A MODE fact, and it deliberately does NOT share `blocked` with the marker below. Nothing is held and nothing is wasted — it is simply the other spender's turn. Calling it `blocked` would say a readable dependency makes the press a waste, which is false here. cap has no enemy count and will not compute one, so the target-count clause is the player's `/cap aoe` toggle."
         },
         {
@@ -788,6 +915,12 @@
           "slot": "flow",
           "combines": [
             "tv_empyrean_power"
+          ],
+          "apl": "finishers 1",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Fires in SINGLE TARGET, where the mode is right and the reason is a free Divine Storm waiting — exactly `blocked`'s declared meaning. Calling it `st_only` would tell the player their mode was wrong when it was not."
         },
@@ -805,6 +938,12 @@
             "tv_awaits_blade",
             "tv_divine_storm_aoe"
           ],
+          "apl": "finishers 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Two different cue keys, so two badges: the generator outranks the finisher AND the other spender has the turn."
         },
         {
@@ -819,6 +958,12 @@
           "combines": [
             "tv_awaits_blade",
             "tv_empyrean_power"
+          ],
+          "apl": "finishers 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Same cue key twice: one badge, and the union is the OR."
         },
@@ -835,6 +980,12 @@
           "combines": [
             "tv_divine_storm_aoe",
             "tv_empyrean_power"
+          ],
+          "apl": "finishers 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Both true: the mode says it is the other spender's turn AND that spender's press is free. Two keys, two badges."
         }
@@ -953,7 +1104,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "finishers 3",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "ds_starved",
@@ -966,6 +1121,11 @@
           "slot": "flow",
           "combines": [
             "ds_starved"
+          ],
+          "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
+          "drawn_by": [
+            "V5",
+            "V11"
           ]
         },
         {
@@ -980,6 +1140,12 @@
           "combines": [
             "ds_aoe_only"
           ],
+          "apl": "finishers 1",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "The MIRROR of Templar's Verdict's mode cue, and it is NOT there to steer the scan: this row sits RIGHT of that one, so in single target elimination reaches it first and stops. It is there so a reader can tell the two spenders APART — without it, \"why is this one not the answer?\" is answerable only from row position, which is the knowledge a player new to a spec has least of. Gated off by an Empyrean Power proc, which makes Divine Storm free and beats the single-target spender at ANY target count."
         },
         {
@@ -993,6 +1159,12 @@
           "slot": "flow",
           "combines": [
             "ds_awaits_blade"
+          ],
+          "apl": "generators 5",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Not optional: badging only Templar's Verdict would hand the walk to this row."
         },
@@ -1009,6 +1181,12 @@
           "combines": [
             "ds_aoe_only",
             "ds_awaits_blade"
+          ],
+          "apl": "finishers 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Two keys, two badges, in the flowing stack's rank order."
         }
@@ -1069,7 +1247,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "boj_clear",
@@ -1078,6 +1259,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "generators 8",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Reached by ELIMINATION and wearing nothing: its ordering story is told by the markers it causes on the rows ABOVE it, and Blizzard already glows it on an Art of War / Righteous Cause proc."
         },
         {
@@ -1091,6 +1276,12 @@
           "slot": "flow",
           "combines": [
             "boj_opener"
+          ],
+          "apl": "generators 2",
+          "drawn_by": [
+            "V5",
+            "V13",
+            "V14"
           ],
           "note": "The vocabulary's second POSITIVE cue, and the reason is DENSITY rather than rank: `generators` 2 puts Blade of Justice first on a Holy Flames build, and saying that by elimination would mean holding FOUR rows above it. Two of those holds existed for no other reason and were deleted when this marker was authored. The condition IS the APL rung minus `time<5` — the aura latch subsumes it, because the only moment Expurgation is absent on a Holy Flames build is before the first Blade of Justice."
         }
@@ -1109,7 +1300,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "judgment_clear",
@@ -1118,6 +1312,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "generators 10",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Hammer of Wrath's execute condition needs no vocabulary: the row IS Hammer of Wrath exactly when Hammer of Wrath is castable."
         }
       ]
@@ -1135,7 +1333,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "cs_clear",
@@ -1144,6 +1345,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "generators 13",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Binds only if the row exists. On a Crusading Strikes build the talent replaces the button with an auto-attack, so the priority genuinely ends at Judgment and this costs nothing."
         }
       ]

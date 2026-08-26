@@ -1196,3 +1196,28 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 .stategroup:target > h3 .statecode,
 .statecell:target .statecode { outline: 2px solid var(--accent, currentColor); }
 .statecell .cap code.muted { font-size: .72rem; opacity: .65; }
+
+/* The state's PROVENANCE: where it comes from and what draws it. Set apart from the caption's
+   vocabulary lines by a rule, because the two answer different questions — the lines above say
+   what the row IS, these say why it exists and which primitives put it on screen. */
+.stateprov {
+  margin-top: .4rem;
+  padding-top: .35rem;
+  border-top: 1px dashed var(--rule);
+  font-size: .74rem;
+  line-height: 1.4;
+  color: var(--ink-faint);
+}
+.stateprov b { color: var(--ink); font-weight: 600; }
+/* The resolved rung, verbatim. Long and unwrappable by nature — an APL condition is one token
+   with no spaces — so it scrolls inside its own box rather than widening the 15rem cell. */
+.stateprov .aplline {
+  display: block;
+  margin-top: .2rem;
+  padding: .2rem .3rem;
+  background: var(--chip, rgba(127, 127, 127, .16));
+  border-radius: .25rem;
+  font-size: .68rem;
+  overflow-x: auto;
+  white-space: pre;
+}

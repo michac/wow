@@ -1003,3 +1003,33 @@ normally — a preceding non-GCD cast does not block or consume it. The practica
 limit is positional, not macro-mechanical: Eye Beam roots for part of its channel,
 so the sequence's next entry (Blade Dance) fires out of melee range after a
 Vengeful Retreat even while running forward.
+
+
+## 2026-08-25 — cap: a state's `condition` is a SECOND ungated source
+
+`condition` is hand-written prose on all 147 states across the four migrated cap
+catalogs, and for the ~100 states that carry `combines` it **restates `when` clauses
+that are already structured in the same file** — the same fact, twice, with only one of
+the two copies gated. Nothing checks that a `condition` reading "ready, Tyrant READY,
+below five shards" matches the marker terms the state actually combines.
+
+Deriving `condition` from the markers' `when` terms is the fix, and it was explicitly
+kept out of the 2026-08-25 provenance pass (`apl` / `exception` / `drawn_by`) so that
+pass stayed authoring discipline rather than a rules engine. It needs a rendering of a
+`when` term list as English that reads at least as well as the prose it replaces —
+which is the hard half, not the plumbing.
+
+**One live instance was found while doing that pass, and it is FIXED** — recorded here
+because it is the evidence that ungated `condition` prose does drift, not because it is
+outstanding. `protection/catalog.json` → `avengers_shield/as_band_armed` read `condition:
+"…its count below five"` under `verdict: ruled-sealed`, while its marker
+`as_guidance_capped` declares bands `(0, none)` and `(5, mark+hatch)` — nothing is drawn
+below five, so `ruled-sealed` is impossible there and the row is ruled out at five or
+MORE. The state's own note already ruled out the other reading by name ("the direction is
+V16 and not V17… drawn the other way it would say 'ruled out until Divine Guidance is
+capped', which is false"), so the prose was the wrong half. Now reads "its count at five
+or more". Sibling state `as_awaits_hammer_band_armed` was checked and is fine — it says
+"the Divine Guidance band drawing", which is direction-neutral.
+
+Nothing catches the next one: the gate would have to compare a sentence against a band
+table, which is the derivation above.

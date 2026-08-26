@@ -55,9 +55,10 @@ expose a slider. The few controls that exist are **inputs and placement**, never
 opinions: single-target/AoE mode (§2), where cap's own panel sits, and whether it
 re-anchors the Cooldown Manager's rows (§3.9).
 
-**The vocabulary, in one place.** Six words carry most of the weight below, and each is defined
-well exactly once, in a different file. This is the anchor, not the definition — the owning
-section is named beside each.
+**The vocabulary, in one place, and this is the only place.** Eleven words carry most of the
+weight below. Each is defined here and **nowhere else** — `render-shelf.md` and the catalogs point
+at this table rather than restating it, because two glossaries where one cites the other are still
+two glossaries.
 
 | Term | Means | Owned by |
 | --- | --- | --- |
@@ -65,8 +66,14 @@ section is named beside each.
 | **readable** | A fact Lua may read *and compare*. cap may branch on it, rank by it, and drive emphasis with it. | §3.6 |
 | **sealed** | A fact the client will let cap *display* but never read back. cap authors a rule, hands it to the client, and never learns which branch fired. Branching on one is the one invalid rule in this file. | §3.6 |
 | **cue** | An additive badge on a row, from a closed vocabulary, saying *why* a press is ruled out (or, rarely, promoted). Negative by default; catalog-authored per ability. | §3.2, `render-shelf.md` |
-| **verdict** | ⚠ **TWO things share this word.** (1) The DOCS' closed set of row states — `cd`, `open`, `press`, `ruled-sealed`, `weave` — which the catalogs, the scenarios and the preview are written in. Not player-facing; `press` and `open` render identically, because the press is not a thing cap draws. (2) The ENGINE's per-row struct (`member` · `oncd` · `cues`), which `Signal` builds and `Treatment.For` draws from. **They are not joined and cannot be**: the engine never produces a NAME, so nothing can look a row up in the shelf's table. The shelf's set is how a human states a row's state; the struct is how cap computes one. | (1) `render-shelf.md` Part 6 · (2) §3.1 |
+| **verdict** | The closed set of row states the docs are written in: `cd`, `open`, `press`, `ruled-sealed`, `weave`. The catalogs, the scenarios and the preview are all written in it. Not player-facing: `press` and `open` render identically, because the press is not a thing cap draws. | `render-shelf.md` Part 6 |
+| **evaluation** | The engine's per-row struct — `member` · `oncd` · `cues` — that `Signal` builds and `Treatment.For` draws from. It carries **no name**, which is why a row can never be looked up in the verdict table: the verdict is how a human states a row's state, the evaluation is how cap computes one. ⚠ **The code still calls this struct a verdict** (88 occurrences in the addon). Renaming it has real blast radius and is a separate job; the debt is named here so the next reader is not misled by it. | §3.1 |
 | **elimination** | The reading itself: the eye finds the press by *absence* — the leftmost row neither swiped nor wearing a negative badge. Three signals eliminate: Blizzard's cooldown swipe, cap's negative badge, and a sealed band the client evaluates. | §3.1, `render-shelf.md` Part 0.5 |
+| **surface** | Something there is to draw *on*: the CDM item face and its edges, the corners Blizzard leaves free, and cap's own panel. What a surface already carries is a constraint on what may be put there. | `render-shelf.md` Part 1 |
+| **primitive** | A reusable drawing **element** cap builds — a badge, a hatch, a bar, an edge. It has a registry id (`V5`, `V11`…), `Paint.lua` holds one builder per primitive, and a catalog state names the ones that draw it in `drawn_by`. | `render-primitives.json`, `render-shelf.md` Part 2 |
+| **treatment** | What a **verdict draws** on one row: the composition of primitives a row gets, which `Treatment.For` returns as scan edge / cues / hatch / skip. Primitive = the element, treatment = the composition. They are near-synonyms in English and are not synonyms here; this row is what stops them drifting back together. | `render-shelf.md` Part 2.5, `Treatment.lua` |
+| **mechanism** | *How* a sealed fact reaches a pixel — a formatter, a colour curve, a range-gated texture. A primitive is built **on** a mechanism; a mechanism draws nothing by itself and can never be cited as what a state draws. | `render-primitives.json`, `render-shelf.md` Part 2 |
+| **slot** | Where a drawn thing sits: `flow` (the badge stack, flowing down the right edge) or an integer corner claim. ⚠ **A dead meaning is still gated against** — `slot 1` / `slot 2` / `slot 3` were three fixed badge positions, deleted 2026-08-19, and `capart`'s vocabulary gate fails a catalog that names one. | `render-shelf.md` Part 1, `capart` |
 
 It **rides on the Cooldown Manager** rather than replacing it. The CDM already
 knows what your spec cares about and already draws it legally. cap binds to it,

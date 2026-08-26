@@ -118,7 +118,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "aw_clear",
@@ -127,6 +130,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 5",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Rung 5 fires at `cooldown.divine_toll.remains<=10`, so this is the press window."
         },
         {
@@ -140,6 +147,12 @@
           "slot": "flow",
           "combines": [
             "aw_awaits_toll"
+          ],
+          "apl": "default 5",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "⚠ The sense is `beyond`, and getting it backwards would invert the button. The rung FIRES at `remains<=10`, so the HOLD is the complement: Divine Toll is nowhere near, so this is not its moment. The band also reads nothing at zero remaining, which is correct here — a READY Divine Toll satisfies `remains<=10` and must not hold anything. ⚠ NO SCENARIO REACHES THIS STATE; it is declared from the marker, not observed in a walk."
         }
@@ -183,7 +196,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "dt_clear",
@@ -192,6 +208,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 7",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "⚠ Righteous Protector is near-mandatory and DELETES this cue: it halves Avenging Wrath's cooldown, which removes the disjunct from the priority. So on the build almost everyone plays, Divine Toll wears nothing and this is the only ready state. Stated as a hole rather than papered over with an approximation."
         },
         {
@@ -205,6 +225,12 @@
           "slot": "flow",
           "combines": [
             "dt_awaits_wrath"
+          ],
+          "apl": "default 7",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "`within = 30` is the complement of `remains>30` and is correct across the entire 120s cooldown without Righteous Protector."
         }
@@ -247,7 +273,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "sotr_clear",
@@ -255,7 +284,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "default 9",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "sotr_starved",
@@ -268,6 +301,11 @@
           "slot": "flow",
           "combines": [
             "sotr_starved"
+          ],
+          "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
+          "drawn_by": [
+            "V5",
+            "V11"
           ],
           "note": "⚠ R1's warning applies exactly: a spender whose cost is the only thing between it and a press raises no readiness edge for that cost, so Blizzard's border cannot say this. It is shown castable, it is off the global, and it is the button pressed out of habit at the wrong Holy Power. The client also tints it `not-enough-power` — that tint is Blizzard's and cap neither draws nor undoes it."
         }
@@ -311,7 +349,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "ha_banks_bulwark",
@@ -325,6 +366,12 @@
           "combines": [
             "ha_banks_bulwark"
           ],
+          "apl": "default 14",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "One button, two jobs, and which job it has right now is written only on the icon's own artwork. As Holy Bulwark it wants SAVING until Wings. ⚠ The hold is wrong at two charges (rung 23) and no `charged` is declarable on this spec, so it keeps drawing where the priority would dump the charge — a named defeat, not a footnote."
         },
         {
@@ -334,6 +381,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 10",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "⚠ Quiet by DESIGN and that is the named exposure. The identity gate is load-bearing in both directions: without it the hold would sit on this life, where the correct press is now; with it, this life carries no cue at all, because rung 10's `buff.sacred_weapon.remains<6` is an aura-remaining band nobody has written."
         },
         {
@@ -343,6 +394,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 14",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The hold releases: this is the window the bulwark was being banked for."
         }
       ]
@@ -433,7 +488,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "as_clear",
@@ -442,6 +500,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 18",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Rung 18, the low unconditional one, which is the ordinary press for most of a fight."
         },
         {
@@ -456,11 +518,17 @@
           "combines": [
             "as_awaits_hammer"
           ],
+          "apl": "default 16",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Rung 16 puts Hammer of Wrath above this row. Cue E."
         },
         {
           "id": "as_band_armed",
-          "condition": "ready, Vanguard absent, Divine Guidance talented, its count below five",
+          "condition": "ready, Vanguard absent, Divine Guidance talented, its count at five or more",
           "verdict": "ruled-sealed",
           "cues": [],
           "sealed": [
@@ -469,6 +537,12 @@
           "slot": 0,
           "combines": [
             "as_guidance_capped"
+          ],
+          "apl": "default 15",
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V16"
           ],
           "note": "⚠ The first sealed display in ANY catalog that rules out a row the aura does not belong to. Demonology's two count tables both sat on the row whose own press the count gated; here the count is Divine Guidance's, the entry is Avenger's Shield, and the statement is \"the row to your right outranks this one right now\". The mechanism needs nothing new — `Channel.Plan` binds `display.ability` independently of `entry.ability` — but the STATEMENT is a relationship rather than a self-test. ⚠ The direction is V16 and not V17, and that choice is the whole of whether it is honest: drawn the other way it would say \"ruled out until Divine Guidance is capped\", which is false."
         },
@@ -486,6 +560,13 @@
           "combines": [
             "as_awaits_hammer",
             "as_guidance_capped"
+          ],
+          "apl": "default 15",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V16"
           ],
           "note": "Both markers true at once. ⚠ The co-occurrence gate does not demand this pair be stated — it only pairs markers that carry a CUE, and `as_guidance_capped` carries none — so it is written down here on purpose rather than because something asked for it."
         }
@@ -551,7 +632,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "cons_clear",
@@ -560,6 +644,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 29",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The most-pressed button in the rotation and the one with the least visible reason — rungs 15, 19, 24 and 29 behind one identical icon."
         },
         {
@@ -573,6 +661,12 @@
           "slot": 0,
           "combines": [
             "cons_awaits_hammer"
+          ],
+          "apl": "default 16",
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V17"
           ],
           "note": "⚠ The complement's readable gate is what makes it TRUE, and this is the answer to Demonology's warning rather than an exception to it. Below five stacks Consecration is not eliminated in general — rung 19 presses it whenever the ground effect is down. The gate narrows the display to the one state where the low band IS an elimination: while Hammer of Wrath is armed and off cooldown, where rung 16 outranks rung 19. Outside that gate the client is never asked to paint anything. ⚠ With no Divine Guidance aura at all the table has no subject and NOTHING covers that state; the readable marker that filled it was deleted for DENSITY, not for being wrong."
         }
@@ -623,7 +717,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "judgment_clear",
@@ -632,6 +729,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 22",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "In its Hammer of Wrath life it needs nothing: it outranks the two rows to its left, and both of those wear cue E to say so."
         },
         {
@@ -645,6 +746,12 @@
           "slot": "flow",
           "combines": [
             "judgment_awaits_assurance"
+          ],
+          "apl": "default 20",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Blessed Assurance makes the hammer to its right worth more for exactly one cast. ⚠ The identity term is not decoration: rung 16 puts Hammer of Wrath above both hammer rungs, so the yield must VANISH while the row is transformed — otherwise the row that just earned cue E on two neighbours would stand itself down."
         }
@@ -663,7 +770,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "cs_clear",
@@ -672,6 +782,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 25",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The filler, reached by subtraction. No cue solves anything here. ⚠ The row declares NO band on `identity` even though it is a choice node: both hammers have zero CooldownSetSpell rows, so exactly one exists on a build and reaches the Cooldown Manager permanently on 35395 — the transform is always on, and a band would encode a distinction that never varies."
         }
       ]
@@ -708,6 +822,12 @@
           "combines": [
             "wog_awaits_shining_light"
           ],
+          "apl": "default 28",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "The priority presses this in exactly one state: free. Without the proc the button has no place in the damage priority at all, so the hold is load-bearing the way Demonology's `db_awaits_core` is — it holds the row in EVERY other state, which is also why no `starved` marker is authored here: a second badge would say the same thing twice."
         },
         {
@@ -717,6 +837,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 28",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "No cooldown state: Word of Glory has no cooldown of its own."
         }
       ]

@@ -69,6 +69,7 @@ Usage:
 import argparse
 import base64
 import contextlib
+import functools
 import hashlib
 import html as htmllib
 import io
@@ -95,6 +96,12 @@ RENDER_TOKENS = SPECS / "render-tokens.json"
 # Part 7. Its own file because "nothing below Part 7 is the style" is easier to hold as a
 # file boundary than as a convention; `validate_lab_isolation` already read it as one.
 RENDER_LAB = SPECS / "render-lab.json"
+# The REGISTRY of what Part 2 declares — id, name, kind. Its own file for the same reason the
+# tokens are: a registry is not numbers and a prose edit should not restamp it. It is what makes
+# a state's `drawn_by` citable — `V9` names a MECHANISM, and a mechanism draws no pixel.
+RENDER_PRIMITIVES = SPECS / "render-primitives.json"
+# The one kind a `drawn_by` may name. See render-primitives.json's `_doc`.
+DRAWABLE_KIND = "primitive"
 PREVIEWS = PROJECT / "previews"
 TEMPLATE = PREVIEWS / "template"
 SIDECARS = PREVIEWS / "data"
@@ -409,6 +416,78 @@ OVERRIDE_RE = re.compile(r"^\*{0,2}(?P<name>[^⚠`*]+?)\s*\*{0,2}\s*(?:⚠\s*)?`
 # Anything else — a dash, a "⚠ unresolved" note — is NOT a charge ability here: an unmeasured
 # fact must never render as a measured one.
 CHARGES_RE = re.compile(r"^\s*(?:(?P<n>\d+)|yes)\b")
+
+
+def load_primitives() -> dict:
+    """`render-primitives.json`, as `{id: {"id", "name", "kind"}}` in file order.
+
+    The registry of what `render-shelf.md` Part 2 declares. Read here rather than parsed out of
+    the prose because the prose is the DOCUMENTATION of a primitive and this is its IDENTITY —
+    and because Part 2's numbering is invention order (V14 sits between V11 and V12), so nothing
+    about the file's shape carries the classification a `drawn_by` needs.
+    """
+    reg = _load_json(RENDER_PRIMITIVES)
+    return {e["id"]: e for e in reg["primitives"]}
+
+
+#: Where each migrated spec's upstream priority list lives, for resolving a state's `apl`
+#: citation. This is the GENERATED, citable artifact `wowkb.simc --kb` writes — never `raw/`,
+#: which is gitignored, and never a hand-copy, which is the drift this whole path exists to
+#: avoid. A spec absent from here simply shows the bare citation.
+SPEC_APL = {
+    "demonology":  ROOT / "knowledge/classes/warlock/demonology/simc-apl.md",
+    "havoc":       ROOT / "knowledge/classes/demon-hunter/havoc/simc-apl.md",
+    "protection":  ROOT / "knowledge/classes/paladin/protection/simc-apl.md",
+    "retribution": ROOT / "knowledge/classes/paladin/retribution/simc-apl.md",
+}
+
+APL_LINE_RE = re.compile(r"^actions(?:\.([a-z0-9_]+))?[+]?=/?(.*)$")
+
+#: `"diabolist 6"` — a sub-list name and a 1-based index into it.
+APL_CITE_RE = re.compile(r"^([a-z0-9_]+) (\d+)$")
+
+
+@functools.lru_cache(maxsize=None)
+def apl_lists(spec: str) -> dict[str, list[str]]:
+    """The spec's upstream priority list, indexed by sub-list name.
+
+    ⚠ **NON-FATAL BY DESIGN, everywhere it is used.** A missing file, an unparseable block or a
+    citation that runs off the end all resolve to "no line" and the preview shows the bare
+    citation. The build must never fail on an upstream APL change: detecting that is
+    `wowkb.simc --kb --check`'s job, it already exists, and duplicating it here would mean a
+    routine upstream edit could stop a design preview from rendering.
+    """
+    path = SPEC_APL.get(spec)
+    if path is None or not path.exists():
+        return {}
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return {}
+    fence = re.search(r"^```\n(.*?)^```", text, re.S | re.M)
+    if not fence:
+        return {}
+    lists: dict[str, list[str]] = {}
+    for raw in fence.group(1).splitlines():
+        m = APL_LINE_RE.match(raw.strip())
+        if not m:
+            continue
+        lists.setdefault(m.group(1) or "default", []).append(m.group(2))
+    return lists
+
+
+def apl_line(spec: str, cite: str | None) -> str | None:
+    """Resolve `"diabolist 6"` to the rung's own text, or None. Never raises."""
+    if not cite:
+        return None
+    m = APL_CITE_RE.match(cite.strip())
+    if not m:
+        return None
+    rungs = apl_lists(spec).get(m.group(1))
+    if not rungs:
+        return None
+    i = int(m.group(2))
+    return rungs[i - 1] if 1 <= i <= len(rungs) else None
 
 
 def load_roster(catalog: Path) -> dict:
@@ -2254,7 +2333,7 @@ def root_css(tokens: dict) -> str:
     if cnt:
         lines += [
             "",
-            "  /* V16/V17 · banded count — a sealed number as a numeral, a mark, or both */",
+            "  /* V16/V17 · banded count — a sealed number as a numeral OR a mark */",
             f"  --count-size: {cnt['size']}px;",
             f"  --count-outline: 1px;",
             f"  --count-rgb: {rgba(cnt['rgb'])};",
@@ -2688,6 +2767,7 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
     if not src.exists():
         return None
     cat = _load_json(src)
+    reg = load_primitives()
     by_key = {}
     for name, rec in roster.items():
         by_key.setdefault(rec["key"], name)
@@ -2716,6 +2796,17 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
                     "sealed": st.get("sealed") or [],
                     "slot": st.get("slot"),
                     "combines": st.get("combines") or [],
+                    # WHERE THIS STATE COMES FROM (exactly one) and WHAT DRAWS IT. The rung
+                    # text is resolved here, at build time, so the page can show the actual
+                    # line under the citation — and resolved LENIENTLY: a citation that does
+                    # not land renders bare. See `apl_line`.
+                    "apl": st.get("apl"),
+                    "apl_line": apl_line(spec, st.get("apl")),
+                    "exception": st.get("exception"),
+                    "drawn_by": [
+                        {"id": v, "name": (reg.get(v) or {}).get("name", v)}
+                        for v in st.get("drawn_by") or []
+                    ],
                     "note": st.get("note"),
                 }
                 for j, st in enumerate(e.get("states") or [])
@@ -3377,6 +3468,49 @@ def catalog_gate_lua(spec: str) -> list[str]:
     return []
 
 
+def _state_provenance_gate(entry: dict, st: dict, reg: dict) -> list[str]:
+    """The two authoring gates on a state's PROVENANCE. Two, and deliberately no more.
+
+    1. Exactly one of `apl` / `exception`. Every state either comes from a rung of the upstream
+       priority list or is an exception to it, and the author has to say which. Before this,
+       `note` was doing four different jobs at once — citing a rung, arguing a design choice,
+       carrying a warning, explaining a mechanism — and 25 states carried the identical
+       boilerplate sentence, which is what a field with no contract looks like.
+    2. Every `drawn_by` id is a registered `primitive`. A mechanism (V9) or a retired entry (V4)
+       names nothing a reader can see; a retired one is kept in the registry precisely so citing
+       it fails here rather than resolving to silence.
+
+    ⚠ **What is deliberately NOT gated:** that the cited rung's action matches this entry's
+    ability, that upstream still has that many rungs, and that `drawn_by` agrees with the state's
+    own cues and sinks. This pass is authoring discipline and readability — it is not an APL
+    correctness engine, and the citation is DISPLAY-ONLY (see `apl_line`).
+    """
+    where = f"{entry['id']}/{st['id']}"
+    fails = []
+    has_apl, has_exc = bool(st.get("apl")), bool(st.get("exception"))
+    if has_apl and has_exc:
+        fails.append(f"{where}: carries both `apl` ({st['apl']!r}) and `exception` — a state comes "
+                     "from a rung or it is an exception to the list, never both. Delete one.")
+    elif not has_apl and not has_exc:
+        fails.append(f"{where}: carries neither `apl` nor `exception` — say which rung of the "
+                     "priority list this state is — a sub-list name plus a 1-based index, as "
+                     "`\"default 12\"` — or write one sentence saying why no rung covers it.")
+    for vid in st.get("drawn_by") or []:
+        e = reg.get(vid)
+        if e is None:
+            fails.append(f"{where}: drawn_by names {vid!r}, which is not in "
+                         f"{RENDER_PRIMITIVES.name}")
+        elif e["kind"] == "retired":
+            fails.append(f"{where}: drawn_by names {vid} ({e['name']}), which is RETIRED and "
+                         "draws nothing at all. Its registry entry exists so that citing it "
+                         "fails here instead of resolving to silence — name what replaced it.")
+        elif e["kind"] != DRAWABLE_KIND:
+            fails.append(f"{where}: drawn_by names {vid} ({e['name']}), which is a "
+                         f"{e['kind']}, not a {DRAWABLE_KIND} — it draws no pixel of its own, so "
+                         "it is not something a reader can see. Name the primitive built on it.")
+    return fails
+
+
 def catalog_gate_states(cat: dict) -> list[str]:
     """Every marker appears in some state, and every state's cues name declared markers.
 
@@ -3385,6 +3519,7 @@ def catalog_gate_states(cat: dict) -> list[str]:
     how `implosion_no_imps` came to be missing from the roster table while shipping in the Lua.
     """
     fails = []
+    reg = load_primitives()
     for e in cat.get("entries", []):
         markers = {m["id"]: m for m in e.get("markers") or []}
         states = e.get("states") or []
@@ -3404,6 +3539,7 @@ def catalog_gate_states(cat: dict) -> list[str]:
             for mid in st.get("combines") or []:
                 if mid not in markers:
                     fails.append(f"{e['id']}/{st['id']}: combines undeclared marker {mid!r}")
+            fails += _state_provenance_gate(e, st, reg)
         for mid, m in markers.items():
             if m.get("cue") and m["cue"] not in seen_cues:
                 fails.append(f"{e['id']}: marker {mid!r} declares cue {m['cue']!r} but no state "
@@ -3414,6 +3550,40 @@ def catalog_gate_states(cat: dict) -> list[str]:
                 if sink in STATE_SINKS and sink not in seen_sinks:
                     fails.append(f"{e['id']}: marker {mid!r} declares a {kind} display but no "
                                  f"state draws {sink!r}")
+    return fails
+
+
+def registry_gate() -> list[str]:
+    """`render-primitives.json` and `render-shelf.md` Part 2 declare the same set, by name.
+
+    The same doc-vs-data pattern every other pair in this project uses. It matters more here than
+    it looks: the registry is what a state's `drawn_by` resolves against, so a heading with no
+    entry means a primitive nobody can cite, and an entry with no heading means a citable id
+    whose meaning is written down nowhere.
+    """
+    fails = []
+    try:
+        reg = load_primitives()
+    except SystemExit:
+        raise
+    heads = {}
+    for m in re.finditer(r"^### (V\d+) · (.+?)(?: \*\(retired\)\*)?$",
+                         SHELF.read_text(encoding="utf-8"), re.M):
+        heads[m.group(1)] = m.group(2).strip()
+    for vid, name in heads.items():
+        entry = reg.get(vid)
+        if entry is None:
+            fails.append(f"render-shelf.md declares `### {vid} · {name}` but "
+                         f"{RENDER_PRIMITIVES.name} has no entry for it — nothing can cite it, "
+                         "and nothing says what KIND of thing it is")
+        elif entry["name"] != name:
+            fails.append(f"{vid}: render-shelf.md calls it {name!r}, {RENDER_PRIMITIVES.name} "
+                         f"calls it {entry['name']!r} — the heading IS the registry name")
+    for vid, entry in reg.items():
+        if vid not in heads:
+            fails.append(f"{RENDER_PRIMITIVES.name} registers {vid} ({entry['name']!r}) but "
+                         "render-shelf.md Part 2 has no `### " + vid + " ·` heading for it — a "
+                         "citable id with no definition")
     return fails
 
 
@@ -4034,6 +4204,11 @@ def _check_one(args) -> None:
                 "recolour SetVertexColor cannot perform. Use \"shelf\", \"desaturate+shelf\" "
                 "or a deliberate \"none\".")
 
+    # 0a · the shelf's Part 2 headings and `render-primitives.json` are the same set, by name.
+    # Run per spec rather than in `_check_shared`, because `check <one-spec>` is what a person
+    # actually types and a registry break makes every spec's `drawn_by` unresolvable.
+    fails += registry_gate()
+
     # 0b · at most one positive cue PER ENTRY. Pass 1 says "scan for A positive cue and press
     # it", which needs one answer — but that is a constraint on a ROW, not on the vocabulary.
     # Until 2026-08-19 this gate capped the vocabulary at one positive cue, which was the V5
@@ -4368,8 +4543,21 @@ def _check_one(args) -> None:
         sys.exit(1)
     lead = ("scenarios.json leads and scenarios.md's walk matches it by id"
             if origin == "json" else "scenarios.md matches the sidecar")
+    # ⚠ The catalog clause is CONDITIONAL, because the catalog gates are. They run under
+    # `if cjson.exists()`, so on a spec still hand-writing its Lua they never execute — and a
+    # green line naming a gate that did not run is worse than no line at all. It reads as
+    # coverage. (Introduced unconditional 2026-08-25 and caught the same day by a review of
+    # devourer, which is one of the two specs it was lying about.)
+    catalog_gates = ("     every state says where it comes from (a rung, or one sentence saying "
+                     "why no rung covers it)\n"
+                     "     and names only BUILT primitives in drawn_by,\n"
+                     if cjson.exists() else
+                     "     (catalog gates SKIPPED — no catalog.json; this spec's Lua is "
+                     "hand-written)\n")
     print(f"ok · {args.spec}: {lead}, the preview is current, "
           "shelf.css holds no literal colors,\n"
+          "     render-primitives.json and render-shelf.md Part 2 declare the same set by name,\n"
+          f"{catalog_gates}"
           "     Style.lua and Media/stripes.tga agree with the shelf,\n"
           "     every art-bearing primitive still declares the tint guard, tokens/assets both "
           "run, every class\n"

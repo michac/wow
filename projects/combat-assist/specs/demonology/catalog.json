@@ -125,7 +125,11 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch. The band is armed but a ruled-out button is already ruled out."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ],
+          "note": "The band is armed but a ruled-out button is already ruled out."
         },
         {
           "id": "ps_cores_low",
@@ -134,6 +138,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 1",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The resting state: the lower band's draw is `none`, so the client paints nothing and the row is an ordinary candidate reached by absence."
         },
         {
@@ -145,6 +153,12 @@
             "count-bands"
           ],
           "slot": 0,
+          "apl": "diabolist 1",
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V16"
+          ],
           "note": "The row rules ITSELF out on a fact cap never read — hatch plus a negative mark, both named by the band so both clear together. This closed the catalog's second defeat (DEM-14)."
         }
       ]
@@ -181,7 +195,11 @@
           "verdict": "cd",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "grimoire_ramp_hold",
@@ -192,6 +210,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "exception": "Authored PAST the priority list. Rungs 3 and 4 are unconditional — upstream presses the Grimoire on cooldown — so no rung expresses this hold. It is the summon block's shared ramp opinion, uniform across four rows and playtest-gated.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue I. Authored PAST the APL — the rung is unconditional — and playtest-gated."
         },
         {
@@ -201,6 +225,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 3",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Reached by elimination."
         }
       ]
@@ -237,7 +265,11 @@
           "verdict": "cd",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "summon_doomguard_ramp_hold",
@@ -248,6 +280,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "exception": "Authored PAST the priority list, as on the rest of the summon block: rung 5 is unconditional. ⚠ Here the uniformity is the WHOLE justification — this row is Midnight-new and the hold has no played experience behind it.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue I. Authored PAST the APL — the rung is unconditional — and playtest-gated."
         },
         {
@@ -257,6 +295,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 5",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Reached by elimination."
         }
       ]
@@ -311,7 +353,11 @@
           "verdict": "cd",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "dogs_ramp_hold",
@@ -322,6 +368,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "exception": "Authored PAST the priority list: neither rung 6 nor rung 7 mentions Soul Shards. The block's shared readable hold, playtest-gated.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue I, the block's shared readable hold."
         },
         {
@@ -333,6 +385,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 6",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue J. The client evaluates the two-sided band and paints the badge; cap never learns Tyrant's remaining. Closes Defeats item 1. UNFLOWN."
         },
         {
@@ -342,6 +400,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 6",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Reached by elimination."
         }
       ],
@@ -387,7 +449,11 @@
           "verdict": "cd",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "tyrant_holds",
@@ -398,6 +464,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 8",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue A. Rung 8 exactly — soul_shard=5 — read as a hold."
         },
         {
@@ -407,6 +479,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 8",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The hold clears and the row is reached by elimination; cap spends no positive cue here."
         }
       ]
@@ -476,7 +552,11 @@
           "verdict": "cd",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "imp_no_imps",
@@ -487,6 +567,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 9",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue H. ⚠ No aura means no sealed sink draws either — the band CANNOT reach this state, which is exactly why the readable latch exists."
         },
         {
@@ -500,6 +586,13 @@
             "count-bands"
           ],
           "slot": "flow",
+          "apl": "diabolist 9",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V17"
+          ],
           "note": "Cue G plus the band drawing whatever the count is. The CUE is the eliminator here; the band is context beside it, which is why the verdict is `open` and not `ruled-sealed`."
         },
         {
@@ -511,6 +604,12 @@
             "count-bands"
           ],
           "slot": 0,
+          "apl": "diabolist 9",
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V17"
+          ],
           "note": "Hatch, plate and the RED numeral out of one FontString. The band is the ONLY eliminator, so the verdict names it: the client evaluated cap's rule against a secret."
         },
         {
@@ -522,6 +621,11 @@
             "count-bands"
           ],
           "slot": 0,
+          "apl": "diabolist 9",
+          "drawn_by": [
+            "V13",
+            "V17"
+          ],
           "note": "The numeral recolors GOLD and the hatch clears: banked, the press is loaded. No hatch — a positive band may not wear one."
         },
         {
@@ -537,6 +641,12 @@
           "combines": [
             "implosion_st_only",
             "implosion_no_imps"
+          ],
+          "apl": "diabolist 9",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "⚠ POSSIBLE AND UNWALKED — no scenario reaches it, and it is written here rather than discovered later. Both badges flow in `rank` order; neither sink draws, because with no Wild Imp aura there is nothing for the band to paint. Two independent negatives on one row is legal: elimination is not exclusive."
         }
@@ -623,6 +733,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 11",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue E. Correct in both lives: three shards as Hand of Gul'dan, none as Ruination."
         },
         {
@@ -634,6 +750,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 11",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue F. The client evaluates the band; cap never learns Tyrant's remaining."
         },
         {
@@ -645,6 +767,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 11",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue I, the readable half of the window rule. F covers `Tyrant nearly here`; this covers `Tyrant here, board not built`."
         },
         {
@@ -661,6 +789,12 @@
             "hog_awaits_tyrant",
             "hog_awaits_shards"
           ],
+          "apl": "diabolist 11",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "⚠ WHETHER THIS OCCURS IS A CLIENT QUESTION CAP CANNOT SETTLE. A ready ability has no cooldown remaining, so the within-5 band most likely paints nothing — but the band is sealed and cap never learns which way it went. Written down rather than assumed away: if both fire, both cards flow and both say hold, so the reading is unharmed either way. @verify-ingame"
         },
         {
@@ -670,6 +804,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 11",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Reached by elimination. The ordinary spend, and the button that builds the imps Implosion waits for."
         }
       ],
@@ -794,6 +932,12 @@
           ],
           "sealed": [],
           "slot": "flow",
+          "apl": "diabolist 14",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue C. ⚠ No Core means no aura, so NEITHER bar draws — the charge bar and the proc bar both go dark with their subject. This is also V11's hatch at zero Cores, and it needs no new vocabulary: a negative cue already hatches the row."
         },
         {
@@ -806,6 +950,12 @@
             "proc-bar"
           ],
           "slot": null,
+          "apl": "diabolist 14",
+          "drawn_by": [
+            "V13",
+            "V18",
+            "V20"
+          ],
           "note": "The Core is the press, reached by elimination. V18's charge bar and V20's clock both ride the bottom edge."
         },
         {
@@ -819,6 +969,13 @@
             "proc-bar"
           ],
           "slot": 0,
+          "apl": "diabolist 13",
+          "drawn_by": [
+            "V13",
+            "V18",
+            "V19",
+            "V20"
+          ],
           "note": "V19 rides the corner while the two bars ride the edge. cap authors NO threshold — the client computes the window per spell."
         },
         {
@@ -833,6 +990,14 @@
             "proc-bar"
           ],
           "slot": "flow",
+          "apl": "diabolist 14",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V18",
+            "V20"
+          ],
           "note": "Cue B. Demonbolt generates two shards, so spending the Core here wastes them. The pilot had this number wrong: the APL says soul_shard<4, so it lights at FOUR."
         },
         {
@@ -847,6 +1012,14 @@
             "proc-bar"
           ],
           "slot": "flow",
+          "apl": "diabolist 12",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V18",
+            "V20"
+          ],
           "note": "Cue D, the first marker in any catalog that reads ANOTHER ROW'S identity. The ordering correction lives here, on the row that has to move, rather than as a promotion on the filler."
         },
         {
@@ -862,6 +1035,12 @@
           "combines": [
             "db_awaits_core",
             "db_yields_to_infernal_bolt"
+          ],
+          "apl": "diabolist 12",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "⚠ C and D deliberately STOPPED unioning — they shared `blocked` until C re-badged to `noproc` — so a Coreless Demonbolt yielding to an armed Infernal Bolt now shows BOTH facts rather than one. Neither bar draws: no Core, no subject."
         }
@@ -905,6 +1084,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "diabolist 15",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The filler. No cue: this catalog does not spend a promotion on it, and Shadow Bolt has no cooldown so `ready` never goes false."
         },
         {
@@ -916,6 +1099,11 @@
             "proc-bar"
           ],
           "slot": null,
+          "apl": "diabolist 16",
+          "drawn_by": [
+            "V13",
+            "V20"
+          ],
           "note": "⚠ NO IDENTITY MARKER, AND THAT IS AUTHORED. R7 resolves the transform at bind and the icon changes itself; nothing here names Infernal Bolt's id. The bar's slot filters to the ART aura, so it exists exactly while the transform does — the visibility IS the gate. Context on the edge, not a badge, so still not a promotion."
         }
       ]

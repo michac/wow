@@ -111,7 +111,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "vr_free",
@@ -120,6 +123,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 5",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "OFF THE GCD, so it is not competing for the press: weave it now, for free, and keep scanning. Position 1 is how it is read, not a claim about its APL rung."
         },
         {
@@ -134,6 +141,12 @@
           "combines": [
             "vr_awaits_eye_beam"
           ],
+          "apl": "default 5",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "The client evaluates the band; cap never reads the clock."
         },
         {
@@ -147,6 +160,12 @@
           "slot": "flow",
           "combines": [
             "vr_awaits_meta"
+          ],
+          "apl": "default 5",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -161,6 +180,12 @@
           "combines": [
             "vr_awaits_eye_beam",
             "vr_awaits_meta"
+          ],
+          "apl": "default 5",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Both bands armed at once. Same cue twice is ONE badge — the union is the OR — so this state is indistinguishable on screen from either half alone, which is correct: the statement is `hold the retreat`, not `hold it for two reasons`."
         }
@@ -213,7 +238,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "meta_clear",
@@ -222,6 +250,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 3",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The reset banks two casts. A satisfied dependency draws nothing at all."
         },
         {
@@ -236,6 +268,12 @@
           "combines": [
             "meta_wastes_eye_beam"
           ],
+          "apl": "default 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Readable, and NOT redundant with the band: Meta sits left of Eye Beam in the row, so a quiet Meta is pressed before the eye ever reaches Eye Beam. Elimination cannot cover this one."
         },
         {
@@ -249,6 +287,12 @@
           "slot": "flow",
           "combines": [
             "meta_awaits_eye_beam"
+          ],
+          "apl": "default 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -262,6 +306,12 @@
           "slot": "flow",
           "combines": [
             "meta_wastes_death_sweep"
+          ],
+          "apl": "default 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Base id only: Bind unions base/override, so this reads Death Sweep in demon form."
         },
@@ -278,6 +328,12 @@
             "meta_wastes_eye_beam",
             "meta_wastes_death_sweep"
           ],
+          "apl": "default 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Both resets would be thrown away. One badge, because the cue is the same."
         },
         {
@@ -292,6 +348,12 @@
           "combines": [
             "meta_awaits_eye_beam",
             "meta_wastes_death_sweep"
+          ],
+          "apl": "default 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "The sealed half and the readable half true together — the one combination that needs both a client-painted band and a cap-evaluated term to explain it."
         }
@@ -361,7 +423,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "hunt_clear",
@@ -369,7 +434,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "default 4",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "hunt_eye_beam_far",
@@ -382,6 +451,12 @@
           "slot": "flow",
           "combines": [
             "hunt_awaits_eye_beam"
+          ],
+          "apl": "default 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "The common hold, and the expensive one: casting here burns the empower up to ~20s before the Eye Beam it is supposed to ride."
         },
@@ -397,6 +472,12 @@
           "combines": [
             "hunt_awaits_meta"
           ],
+          "apl": "default 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Save the empower for the Eye Beam the reset is about to hand you."
         },
         {
@@ -411,6 +492,12 @@
           "combines": [
             "hunt_awaits_eye_beam",
             "hunt_awaits_meta"
+          ],
+          "apl": "default 4",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "⚠ These two DO co-occur, which is easy to read backwards. `hunt_awaits_eye_beam` stands down when Meta is READY; `hunt_awaits_meta` draws while Meta's cooldown is within 15s. Not-ready and within-15s is the same window, so the overlap is most of it."
         }
@@ -428,7 +515,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "eye_beam_clear",
@@ -437,6 +527,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 14",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "No markers at all: nothing cap can see ever rules Eye Beam out. It is the window every other hold on this spec is protecting."
         }
       ]
@@ -464,7 +558,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "eb_clear",
@@ -472,7 +569,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "default 17",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "eb_eye_beam_near",
@@ -485,6 +586,12 @@
           "slot": "flow",
           "combines": [
             "essence_break_awaits_eye_beam"
+          ],
+          "apl": "default 17",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "Spending the window with Eye Beam a moment away throws the window away. Essence Break sits RIGHT of Eye Beam, so unlike Metamorphosis it needs only the band: elimination already covers the zero case."
         }
@@ -517,7 +624,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "bd_clear",
@@ -525,7 +635,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "default 19",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "bd_starved",
@@ -538,6 +652,12 @@
           "slot": "flow",
           "combines": [
             "blade_dance_starved"
+          ],
+          "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "`ready` cannot carry affordability here: a row with no real cooldown never raises an Available/OnCooldown edge, so the border stays lit whatever the Fury."
         }
@@ -682,7 +802,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "ia_clear",
@@ -690,7 +813,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "default 20",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "ia_capped",
@@ -703,6 +830,12 @@
           "slot": "flow",
           "combines": [
             "immolation_capped"
+          ],
+          "apl": "default 10",
+          "drawn_by": [
+            "V5",
+            "V13",
+            "V14"
           ],
           "note": "Rung 10, and the spec's ONE positive cue: a charge is being lost right now, and that outranks the spenders and Eye Beam at any target count. Row position cannot carry it. ⚠ The two `ready` negations are what keep a positive cue — which overrides the elimination scan by design — from pointing past rungs 3 and 4, which sit above it. ONE SECRET, MANY READABLE GATES."
         },
@@ -718,6 +851,12 @@
           "combines": [
             "immolation_single_target"
           ],
+          "apl": "default 25",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Rung 25: at one target with no charge banked, Immolation Aura is BELOW Chaos Strike, and position 7 is wrong there. The AoE re-weight delivered in negative polarity."
         },
         {
@@ -731,6 +870,12 @@
           "slot": "flow",
           "combines": [
             "immolation_single_target_no_fire"
+          ],
+          "apl": "default 25",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -744,6 +889,12 @@
           "slot": "flow",
           "combines": [
             "immolation_single_target_no_wound"
+          ],
+          "apl": "default 25",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         },
         {
@@ -759,6 +910,12 @@
             "immolation_single_target",
             "immolation_single_target_no_fire",
             "immolation_single_target_no_wound"
+          ],
+          "apl": "default 25",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "All three red markers true at once, which is the ordinary state of a build that took neither talent. Three markers rather than one because rung 25's real condition is `!(capped & a_fire_inside & burning_wound)` and a marker's grammar has no OR inside it: union IS the OR. One badge on screen either way."
         }
@@ -813,6 +970,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "apl": "default 23",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "No cooldown state: Chaos Strike has no real cooldown, so the CDM never swipes it and it is never eliminated by Blizzard's own dial."
         },
         {
@@ -826,6 +987,12 @@
           "slot": "flow",
           "combines": [
             "chaos_strike_starved"
+          ],
+          "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ]
         }
       ]
@@ -853,7 +1020,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "fb_clear",
@@ -861,7 +1031,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "apl": "default 24",
+          "drawn_by": [
+            "V13"
+          ]
         },
         {
           "id": "fb_overcap",
@@ -874,6 +1048,12 @@
           "slot": "flow",
           "combines": [
             "felblade_overcap"
+          ],
+          "apl": "default 22",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "An ABSOLUTE Fury level, straight off rung 22 (`fury<=100`), so it is authored as a `threshold` and not as a generation. The badge says the negation of the rung: above 100, spend before you generate. The maximum is the client's and is emphatically not hardcoded."
         }
@@ -902,6 +1082,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
+          "exception": "ABSENT from the 12.1 priority list: upstream's build takes Demon Blades, which replaces the button with a passive, so no rung mentions Demon's Bite at all. On a build without that talent the row exists and there is nothing to cite.",
+          "drawn_by": [
+            "V13"
+          ],
           "note": "No cooldown state: a generator with no cooldown. ⚠ Demon's Bite is ABSENT from the 12.1 APL because the sim's build takes Demon Blades, which replaces the button with a passive. On a build without it this is a real row, and the entry binds only if the row exists."
         },
         {
@@ -915,6 +1099,12 @@
           "slot": "flow",
           "combines": [
             "demons_bite_overcap"
+          ],
+          "exception": "ABSENT from the 12.1 priority list: upstream's build takes Demon Blades, which replaces the button with a passive, so no rung mentions Demon's Bite at all. On a build without that talent the row exists and there is nothing to cite.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
           ],
           "note": "A GENERATION rather than a threshold: the swing rolls 20-30 and the midpoint is the honest authoring of a range cap cannot read. A `close to overflowing` readout, not a guarantee."
         }
@@ -932,7 +1122,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "fr_clear",
@@ -940,7 +1133,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "No rung anywhere in the 12.1 list presses it — upstream spends neither a global nor a charge on it. The row is in the scan because it is ready, and cap has no opinion past that.",
+          "drawn_by": [
+            "V13"
+          ]
         }
       ]
     },
@@ -956,7 +1153,10 @@
           "cues": [],
           "sealed": [],
           "slot": null,
-          "note": "Blizzard's swipe plus V11's hatch."
+          "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "tg_clear",
@@ -964,7 +1164,11 @@
           "verdict": "open",
           "cues": [],
           "sealed": [],
-          "slot": null
+          "slot": null,
+          "exception": "No rung anywhere in the 12.1 list presses it — upstream spends neither a global nor a charge on it. The row is in the scan because it is ready, and cap has no opinion past that.",
+          "drawn_by": [
+            "V13"
+          ]
         }
       ]
     }

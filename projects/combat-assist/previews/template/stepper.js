@@ -16,6 +16,13 @@
     return "rgba(" + f(c[0]) + "," + f(c[1]) + "," + f(c[2]) + "," + (a === undefined ? 1 : a) + ")";
   }
   function el(tag, cls) { var n = document.createElement(tag); if (cls) n.className = cls; return n; }
+  // Authored prose goes in through innerHTML all over this file, and that is fine for prose. An
+  // APL rung is NOT prose: `soul_shard<4` and `a&b` are ordinary in one, so a raw insert eats
+  // the rest of the line. Everything drawn from `apl` / `apl_line` / `exception` goes through
+  // this.
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
 
   /* ------------------------------------------------------------------ badge sprites
    * A cue is a filled disc with one sprite frame showing at a time. The client walks a
@@ -1401,6 +1408,35 @@
   // The state table, DRAWN. Each row is fed through `itemNode` — the same function the scenario
   // walk uses — so a state cannot be illustrated with a treatment the walk could not produce.
   // Anything drawn here is therefore already gated by `capart check`'s vocabulary gates.
+  // WHERE A STATE COMES FROM and WHAT DRAWS IT — `catalog.json`'s `apl`/`exception` and
+  // `drawn_by`, which every state carries exactly one of the first pair and a list of the
+  // second. Both are authoring discipline made visible: before them a single free-form `note`
+  // was citing a rung, arguing a design choice, carrying a warning and explaining a mechanism,
+  // and 25 states shared one boilerplate sentence.
+  //
+  // ⚠ `apl_line` is resolved at BUILD time and is allowed to be absent — an upstream priority
+  // list changes on its own schedule and a design preview must not stop rendering over it. When
+  // it is missing the bare citation stands on its own, which is still the useful half.
+  function provNode(st) {
+    var box = el("div", "stateprov");
+    var bits = [];
+    if (st.apl) {
+      bits.push("<b>APL</b> <code>" + esc(st.apl) + "</code>");
+      if (st.apl_line) {
+        bits.push('<code class="aplline">' + esc(st.apl_line) + "</code>");
+      }
+    } else if (st.exception) {
+      bits.push("<b>No rung.</b> " + esc(st.exception));
+    }
+    if (st.drawn_by && st.drawn_by.length) {
+      bits.push("<b>Drawn by</b> " + st.drawn_by.map(function (d) {
+        return "<code>" + d.id + "</code>&nbsp;" + d.name;
+      }).join(" · "));
+    }
+    box.innerHTML = bits.join("<br>");
+    return box;
+  }
+
   function renderStates() {
     var hostEl = document.getElementById("states");
     // ⚠ A spec with no `catalog.json` has no state table, and the SECTION has to go with it —
@@ -1411,7 +1447,11 @@
     // the page is what found it.
     if (!hostEl) return;
     if (!D.states || !D.states.length) {
-      ["stateshead", "stateslede", "states"].forEach(function (id) {
+      // ⚠ EVERY id in this list, or the section half-vanishes. Adding the provenance lede to
+      // page.html and not to this list left it standing alone on Destruction — a paragraph
+      // explaining a state table that is not on the page — which is the same shape as the
+      // empty-section defect this early return was written to fix.
+      ["stateshead", "stateslede", "statesprovlede", "states"].forEach(function (id) {
         var n = document.getElementById(id);
         if (n) n.parentNode.removeChild(n);
       });
@@ -1454,6 +1494,10 @@
         if (st.note) bits += '<br><span class="muted">' + st.note + "</span>";
         cap.innerHTML = bits;
         cell.appendChild(cap);
+        // AFTER the caption, deliberately: the caption says what the row IS, and provenance is
+        // the footnote to it. Appended before it once, and the cell then opened with "No rung."
+        // above the state it was a footnote to.
+        cell.appendChild(provNode(st));
         row.appendChild(cell);
       });
       box.appendChild(row);

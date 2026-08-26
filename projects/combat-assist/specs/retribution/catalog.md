@@ -19,7 +19,7 @@ the readable/sealed/open safety case. Havoc is the model.
 > ⚠ **Rung numbers only mean something inside one list.** Retribution's priority is four lists,
 > and `generators` calls `finishers` **twice** — conditionally at its line 1 and unconditionally
 > at its line 6. Every rung cited below names its list: *generators 4*, *finishers 2*,
-> *cooldowns 9*.
+> *cooldowns 10*.
 >
 > ⚠ **The sim has perfect information and no legs.** Absent from the APL ≠ irrelevant in play.
 
@@ -171,8 +171,8 @@ This mirrors Havoc's Vengeful Retreat: an unmeasured fact must never render as a
 
 | # | Entry | APL rung |
 | --- | --- | --- |
-| 1 | Execution Sentence | cooldowns 9 |
-| 2 | Avenging Wrath | cooldowns 10 |
+| 1 | Execution Sentence | cooldowns 10 |
+| 2 | Avenging Wrath | cooldowns 11 |
 | 3 | Wake of Ashes / **Hammer of Light** | generators 3 / **finishers 2** |
 | 4 | Divine Toll | generators 4 |
 | 5 | Templar's Verdict → **Final Verdict** | finishers 4 |
@@ -253,7 +253,7 @@ to its right by position.
 
 ### Pressed on sight
 
-- **Execution Sentence** (`343527`, cooldowns 9). *Problem:* it is a placed cooldown, not a
+- **Execution Sentence** (`343527`, cooldowns 10). *Problem:* it is a placed cooldown, not a
   press-on-cooldown one, and both of its placement rules are invisible on the icon. Its line is
   `(cooldown.avenging_wrath.remains>15|talent.radiant_glory)&(target.time_to_die>10)&cooldown.wake_of_ashes.remains<gcd&(!talent.holy_flames|dot.expurgation.ticking)`.
   *Facts:* `ready` (R2) for membership; two related-ability cooldowns, one readable and one sealed
@@ -276,7 +276,7 @@ to its right by position.
   Wake of Ashes's is shorter, so there is real airtime where Execution Sentence is ready and Wake
   of Ashes is not. That is *correct* — the APL genuinely holds it — but whether it reads as
   useful or as nagging is a flight question (*Open facts* 6).
-- **Avenging Wrath** (`31884`, cooldowns 10). *Problem:* the window everything aligns into.
+- **Avenging Wrath** (`31884`, cooldowns 11). *Problem:* the window everything aligns into.
   *Facts:* `ready` (R2) plus **the Expurgation latch** (R8). *Treatment:* scan + one hold.
   - `aw_awaits_expurgation` — **readable** `blocked`, cue **G**, gated on `talent(holy_flames)`.
     Its line's only non-simulation term is `(!talent.holy_flames|dot.expurgation.ticking)`, so on a

@@ -30,6 +30,11 @@ a number written twice is a number that will disagree with itself. `wowkb.capart
 for the preview and **generates the addon's `Style.lua` from it** — the two sides of the promise
 above cannot drift, because neither transcribes anything by hand.
 
+**Where the vocabulary is.** In **`spec.md` §1**, once. Every word this file leans on — surface,
+primitive, treatment, mechanism, cue, verdict, scan membership, elimination, readable, sealed, slot
+— is defined there and nowhere else. A second glossary here that cited that one would still be two
+glossaries.
+
 **Status vocabulary.** There is only one status word left, and it marks a *fact gap*, not a
 design debate:
 
@@ -286,7 +291,22 @@ those frames participate in secure aura plumbing, and decorating them is what go
 Each recipe: what it means, the art (Blizzard's or ours), the token path its numbers come from, a
 Lua sample, and how the preview reproduces it.
 
-### V1 · *(retired)*
+**The headings are a registry, and it lives in `render-primitives.json`.** Each `### Vn ·` below
+has an entry there carrying the same name and one of five **kinds** — `primitive` (a drawing
+element cap builds), `mechanism` (*how* a secret reaches a pixel; a primitive is built on one),
+`platform` (Blizzard draws it, cap leaves it alone), `declared` (specified, not built) and
+`retired` (gone, and kept so a citation to it fails loudly). `capart check` gates the two against
+each other in both directions, name included.
+
+The kinds exist because the **numbering is invention order, not identity** — V14 sits between V11
+and V12 here — and because a catalog state's `drawn_by` has to name something a reader can *see*.
+So `drawn_by` accepts `kind: "primitive"` and nothing else: `drawn_by: ["V9"]` would name the
+sealed colour curve, which is a mechanism and draws no pixel of its own.
+
+⚠ **V5.1 is not in the registry.** It is the cue *vocabulary* — what may be said — and V5 is the
+one primitive that draws every member of it. A vocabulary is not a thing that draws.
+
+### V1 · Emphasis ring *(retired)*
 
 The animated flipbook emphasis ring — a `visualalert_ants_flipbook` glow outside the icon edge,
 tinted to the lane and pulsed forever. Retired 2026-08-13 in favour of V2's solid border plus the
@@ -296,7 +316,7 @@ are about to be replaced. The measurement that made the ants sheet the only usab
 neutral saturation — is still true and is kept in `render-rationale.md`; it is simply no longer
 load-bearing here.
 
-### V2 · *(retired)*
+### V2 · Lane border *(retired)*
 
 The lane border — a solid rectangular edge in one of **four hues** (COOLDOWN, ROTATION, FALLBACK,
 and CHARGES substituted in off a client charge read), drawn from a generated 16-frame ring flipbook
@@ -325,7 +345,7 @@ sheet, its cadence, `tokens.ring` / `tokens.arrival` / `tokens.motion`, `Media/r
 measurement, and the argument for a flipbook over a `Scale` animation, are kept in
 `render-rationale.md`, which is where a treatment's reasoning outlives its code.
 
-### V3 · *(retired)*
+### V3 · Lane pulse *(retired)*
 
 The lane pulse — three unequal rates driving the V1 ring's alpha, with a trough-invariant floor and
 a per-icon phase offset. Retired with V1: there is no continuous motion left in the style to pace.
@@ -337,7 +357,7 @@ re-derived if continuous motion ever came back.
 MIL-STD-1472F / WCAG constraints on blinking legends and they bind any text cue cap ever draws.
 They now live at `tokens.text.max_hz` / `.duty` / `.alpha_floor` (see V8).
 
-### V4 · *(retired)*
+### V4 · Veil *(retired)*
 
 The veil — a flat dim over the icon face on every row cap had an opinion against. Retired
 2026-08-16: **every** skip condition cap has (a readable hold, a sealed hold, `starved`, `overcap`
@@ -347,7 +367,7 @@ one could see which fired. It was also strictly redundant — Part 2.5 *derived*
 polarity, so it never carried a fact the badge beside it was not already carrying. Nothing replaces
 it: a skipped row is now the scan edge, a red badge, and whatever Blizzard is already drawing.
 
-### V5 · Corner badge — OS-style
+### V5 · Corner badge
 
 The general answer to "a non-numeric cue needs a texture that catches the eye at 56 px."
 Windows/mobile notification-badge convention: a filled circular disc hung off the icon's
@@ -527,7 +547,7 @@ has failed.
 `wait` state and the sealed hold ✕. They are the same sentence to the player ("not yet"), and the
 difference between them is a *provenance* fact (`spec.md` §3.2's two hold lanes), not a visual one.
 
-### V6 · *(retired)*
+### V6 · Corner dot *(retired)*
 
 The 7 px corner dot with a green `go` / red `wait` pair. Retired 2026-08-13: green `go` said a
 dependency was *satisfied*, which is a statement about **rank** — exactly what elimination already
@@ -697,7 +717,7 @@ reads as exactly that.
 (R.98 G.82 B.27) because that is what the player is trained on, but not bound to it. This is the
 one way the replica beats the thing it replicates, and it is why generating beat vendoring.
 
-### V12 · Virtual row — a cap-owned icon for a press with no CDM row
+### V12 · Virtual row
 
 A press the Cooldown Manager does not carry draws as a **cap-owned icon** in its own panel:
 the spell's icon at `tokens.panel.icon_px`, laid out left to right at `tokens.panel.gap_px`,
@@ -761,7 +781,7 @@ unchanged.
 
 ---
 
-### V13 · Scan edge — one binary treatment
+### V13 · Scan edge
 
 **A row is in the scan, or it is not.** That is the whole primitive. A row cap has an opinion about
 wears a `tokens.ready.line_px` line on the icon edge in `tokens.ready.rgb`; a row it does not, wears
@@ -809,7 +829,7 @@ survives a player not having memorised a legend.
   cannot show a hue the client would clip. Same rect, same width, same colour, and nothing animates
   it there either.
 
-### V15 · Hotkey text — the row's name
+### V15 · Hotkey text
 
 The one thing on a row that is not about the press. `spec.md` §3.8: it says **which button this
 icon is**, and nothing about whether to press it. It exists because Blizzard's Cooldown Manager
@@ -887,7 +907,7 @@ two thoughts the player has to join by memory.
   (`C-S-F1`): the corner has to be judged against the label that stresses it, not only against
   `3`.
 
-### V16 · Banded count — a sealed number as a numeral, a mark, or both
+### V16 · Banded count
 
 **A secret aura application count reaches pixels through a rule cap authored and the client
 alone evaluated.** cap builds a `C_StringUtil.CreateNumericRuleFormatter()`, hands it a rising
@@ -1004,7 +1024,7 @@ nothing.
   preview draws the band the scenario declares, because it has no secret to evaluate against —
   which is the one thing the client does that a browser cannot.
 
-### V17 · The complement — a row that rules ITSELF out below a threshold
+### V17 · Count complement
 
 **The same machinery, authored the other way round: the marks draw BELOW the threshold and the
 band above clears them.** A row wearing this is ruled out until the count reaches the number the
@@ -1028,7 +1048,7 @@ not *held*, not *unaffordable* and not *the wrong mode* — it is simply not wor
 number nobody may read. Before this, that row drew nothing and the player was expected to count
 imps. Its `blank at 6` band is the whole statement.
 
-### V18 · Sealed bar — the same secret as a SEGMENTED bar, red at full
+### V18 · Sealed bar
 
 **`SetApplicationBar` drives a StatusBar from the sealed count; drawn as a left-to-right bar on
 the row's BOTTOM edge, over a segment grid, flipping the whole bar to the negative red at full.**
@@ -1084,7 +1104,7 @@ measured and available (`[client 2026-08-21]`), and nothing in the style draws i
   the scenario's own `max`, drawn at a nominal fraction — full only where a swatch demonstrates
   the flip, because a scenario states "there is a bar here", never a value.
 
-### V19 · Pandemic window — a badge the client alone shows and hides
+### V19 · Pandemic window
 
 **`AddPandemicRegion` takes any Region — a Frame with children included — seals its `Shown`, and
 drives it off the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell.** So
@@ -1172,7 +1192,7 @@ hatch's `SetDurationText` sink still rides its own slot, which is the measured p
   counts down in real time over a nominal looping window (the swatch's job is showing a live
   drain), and the halo as the cues' own `--badge-halo-stop` gradient at `--pd-glow-*`.
 
-### V20 · Proc bar — the proc's remaining lifetime, above the charge bar
+### V20 · Proc bar
 
 **A thin client-drained bar on the row's bottom edge, directly above V18's charge bar when one
 is declared: the proc's own remaining duration, emptying right-to-left as it expires.** The
