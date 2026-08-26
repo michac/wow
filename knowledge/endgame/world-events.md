@@ -1,8 +1,8 @@
 ---
 title: World Events & Open-World Weeklies (Midnight 12.1)
 patch: 12.1
-fetched: 2026-08-11
-reviewed: 2026-08-11
+fetched: 2026-08-25
+reviewed: 2026-08-25
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 "Curse of Ula'tek" Content Update Notes (Tier 1)
   - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season information (Tier 1)
@@ -10,6 +10,10 @@ sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24244888/revelations-content-update-notes
   - https://www.icy-veins.com/wow/news/two-new-world-bosses-and-locations-12-0-7s-val-and-naigtal-rewards-quests-and-more/
   - https://www.icy-veins.com/wow/weekly-to-do-list
+  - https://www.wowhead.com/news=382601/tier-now-drops-from-reward-cache-wotlk-timewalking-now-live  # WotLK TW week Aug 25 2026 (Tier 3, corroborated by in-game calendar dump)
+  - https://warcraft.wiki.gg/wiki/Timewalking  # TW difficulty mechanics: dungeons scale up to you, RAIDS scale you down (Tier 3)
+  - https://www.wowhead.com/guide/timewalking-guide-ulduar-5849  # Ulduar TW boss guide: Keeper assist 0-4, Yogg+0 gates Mimiron's Head (Tier 3)
+  - https://www.wowhead.com/guide/wrath-of-the-lich-king-timewalking-guide-vendor-location-rewards-5073  # hub NPCs, quest chain, Ulduar cache table (Tier 3)
   - https://us.forums.blizzard.com/t/showdown-reward-changes-june-26-and-june-30/2320707/1  # world-boss loot + rare/crest changes (hotfix 6/26–30)
   - https://www.method.gg/guides/wow-heroic-world-tier-overview-midnight-patch-12-0-7  # "Knocking Off the Top" 4-emblem Myth 1/6 quest (verified 2026-07-07)
 confidence: high
@@ -152,13 +156,112 @@ Tier-1 from the 12.1 notes.)
 See `planning/activities/val-naigtal.md` (zone farm) and `showdown-weekly.md`
 (weekly capstone) for the planner-facing split.
 
-## Timewalking — Turbulent Timeways (12.0.7) — ⛔ **ENDED 2026-08-11**
+## Timewalking
+
+### LIVE NOW — Northrend (Wrath of the Lich King) Timewalking, Aug 25 → Sep 1, 2026
+
+The **ordinary weekly-bonus Timewalking rotation has resumed** now that Turbulent
+Timeways is over. The week of **2026-08-25** is **Northrend Timewalking**
+(`event=562`), confirmed live in the in-game calendar ("Timewalking Dungeon
+Event", 2026-08-25 → 2026-09-01) and by Wowhead news #382601 (2026-08-25).
+
+- **Six dungeons:** Azjol'Nerub, The Forge of Souls, Gundrak, Halls of Lightning,
+  The Nexus, Utgarde Keep. **10 Timewarped Badges per boss + 25 for the clear.**
+- **The Timewalking hub is NORTHREND DALARAN** (UiMap **125**, Crystalsong
+  Forest), `/way #125 51.0 47.6` — **Auzin** (npc 98690, badge vendor) and
+  **Vormu** (npc 130654, bronze-flight quest giver / Ulduar queue). Wowhead's
+  2026-08-25 news says the max-level weekly can also be picked up in
+  **Silvermoon City**; that is plausible (Silvermoon is the Midnight capital and
+  the Adventure Journal offers it) but the two NPCs above are **not** there.
+  @verify-ingame
+- **Weekly quest — "A Frozen Path Through Time"** (quest **83365**), max level.
+  **5 Timewalking dungeons *or* 5 Timewalking Ulduar boss kills** — the two count
+  toward the same objective. Reward: **Cache of Amani Treasures** (item
+  **274714**) — a **Champion-track** cache which, **new this rotation, can drop
+  Midnight Season 2 tier tokens**.
+  - Below max level the equivalent is **"A Frozen Journey Through Time"**
+    (quest **85949**), offered on your first TW dungeon of the week: 5 TW
+    dungeons → XP + a **Timely Goodie Bag** (item 232877).
+
+#### Ulduar Timewalking (the raid)
+
+`Ulduar` is the Wrath event's Timewalking **raid**. It is not in the Dungeon
+Finder and it is **not** an LFR-style solo queue — you need a raid group.
+
+1. Take **"Disturbance Detected: Ulduar"** (quest **50316**) from **Vormu**.
+2. **Form or join a raid**, then the **group leader talks to Vormu** to queue the
+   whole raid in. Premade Group Finder can list and backfill it.
+3. Kill **Yogg-Saron** (the final boss — the quest is only the last boss, not a
+   full clear) for **Titan Prison Fragment** (item 157030).
+4. Turn in at Vormu → **Cache of Timewarped Treasures** (item **208094**), a
+   **Hero-track** cache: one guaranteed gear piece plus badges.
+
+- **Size:** flexible **10–30**, Normal difficulty (quest is tagged `[30R]`).
+- ⚠ **Scaling is INVERTED vs. dungeons.** Since 11.0.5 Timewalking *dungeons*
+  scale the **instance up to you**. Timewalking **raids** still do the old thing:
+  they scale **you down** to the raid. Ulduar will feel much flatter than the TW
+  dungeons the same week.
+- **Lockout:** weekly, on the Ulduar raid ID. The quest turn-in is **once per
+  week per character**, but badge payouts are reduced after the first warband
+  completion of the week.
+- **Cache extras (chance, not guaranteed):** *Mimiron's Head* (45693),
+  *Invincible's Reins* (50818), *Reins of the Infinite Timereaver* (133543),
+  *Illusion: Rune of Razorice* (138955, DK), and four Wrath battle pets
+  (142085 / 142093 / 142098 / 142099).
+- **Infinite Timereaver** also has a small drop chance off **every** boss in TW
+  dungeons *and* TW raids, independent of the cache.
+
+**Reading the Group Finder for TW Ulduar.** Two different shorthands show up:
+
+- **"Yogg skip" / "skip to last 2" / "Yogg only"** — the host holds a raid ID
+  already cleared up to the end, so joiners zone in at **General Vezax /
+  Yogg-Saron**. This exists because the gate is real: **XT-002** opens the
+  Antechamber, **Kologarn** the bridge, and the **four Keepers** (Freya, Hodir,
+  Thorim, Mimiron) open the **Ancient Gate of the Keepers** → Descent into
+  Madness → Vezax → Yogg. Ignis, Razorscale, Assembly of Iron and Auriaya are
+  genuinely skippable. *(Community reports that three Keepers suffice and Thorim
+  is skippable are unverified — treat as rumour.)* @verify-ingame
+  - ⚠ **Consequence:** you get boss credit only for what dies **while you are
+    inside**. A Yogg-skip run gives 1–2 kills, which completes
+    **"Disturbance Detected: Ulduar"** (the Hero-track cache) but **not** the
+    5-kill weekly **"A Frozen Path Through Time"** — you'd still owe 5 TW
+    dungeons for the Champion cache. And you are now **saved** to that ID.
+- **Flame Leviathan seats vs. flex size — OPEN QUESTION.** The opening encounter
+  is fought entirely from vehicles taken at the Expedition Base Camp. The classic
+  layout is **5 Siege Engines + 5 Demolishers (driver + gunner each) + 5 Choppers
+  (driver)** = exactly **25** seats (10-player: 2 of each = 10). The Chopper's
+  passenger seat is a **rescue/ferry** slot, not a starting one. Timewalking
+  Ulduar is **flex 10–30**, so a 30-player raid nominally has **5 more players
+  than seats**, and no source consulted (2026-08-25: Wowhead TW guide, Warcraft
+  Wiki, Icy Veins) says whether the vehicle count scales with flex size. Does not
+  matter in practice — Choppers can pick up and heal players on foot, and a
+  Yogg-skip lockout never sees this boss. @verify-ingame
+
+- **"Yogg+0" / "Yogg+2" / "Alone in the Darkness"** — unrelated to skipping.
+  Before pulling, the raid may talk to **0–4 Keeper images** on the Observation
+  Ring for assistance buffs; the number is how many you *leave off*. **Yogg+0**
+  (no Keepers) is the full hard mode and is what enables **Mimiron's Head**
+  (45693) to drop directly, plus higher-ilvl loot. Every Keeper you decline
+  makes the fight meaningfully harder.
+- **The Unstable Prism** (quest 40173) from the final boss of your first dungeon:
+  **500 Badges** on the first warband turn-in of the week, **200** on later alts.
+- **+50% reputation** from quests and creature kills for all Wrath reputations.
+- Badge vendors sell 2 mounts (*Enchanted Spellweave Carpet*, *Bridle of the
+  Ironbound Wraithcharger*), the *Specter* pet, 3 toys and Wrath transmog.
+- **Great Vault:** TW dungeons count toward the **dungeon** row; **Timewalking
+  Ulduar does not fill the raid row**. ⚠ Widespread player reports on 2026-08-25
+  of **no vault credit at all** from TW dungeons — unconfirmed, possibly a bug.
+  @verify-ingame
+- Also live this week: **Pet Battle Bonus Event**, **PvP Brawl: Cooking
+  Impossible**, **Northrend Cup** (Aug 25 → Sep 8, skyriding races).
+  **Midnight Dungeon Event** is next-but-one (Sep 8 → Sep 15).
+
+### Turbulent Timeways (12.0.7) — ⛔ **ENDED 2026-08-11**
 
 ⛔ **This event is over.** Turbulent Timeways V ran **Jun 30 → the weekly reset on
 Aug 11, 2026** and ended with the 12.1 maintenance. *Spawn of Vyranoth* is no
 longer obtainable, and nothing below is actionable — it is kept as the historical
-record of the event and its rewards. **No successor Timewalking event was
-announced in the 12.1 notes**; if one appears it will come as a hotfix/blue post.
+record of the event and its rewards.
 Remove it from any ranking (`planning/activities/turbulent-timeways.md`).
 
 - **Dates:** Jun 30 – Aug 11, 2026 (six consecutive weeks). **Ended.**

@@ -38,6 +38,7 @@ second ID for a day. Generated artifacts are immune — they carry the full ID.
 | `2026-07-07.1` | 2026-07-07 | full | 12.0.7 whole-tree sweep, 131 files (excl. `_meta`) |
 | `2026-08-11.1` | 2026-08-11 | full | 12.1 sweep — game-KB core (97) + 26 warlock/DH class files; 34 other specs banner'd, not swept |
 | `2026-08-17.1` | 2026-08-17 | tooling | simc APL artifacts generated for all 40 specs (36 landed, 4 have no upstream APL) |
+| `2026-08-25.1` | 2026-08-25 | full | Season 2 open (build 12.1.0.69497): pre-season->live state flip across endgame/planning/_meta, 3 class-tuning waves, M0 daily lockout, Aqirbane Reliquary, Sparks 3->4 |
 <!-- pass:end -->
 
 ## Current watermark — reviewed through 2026-08-11

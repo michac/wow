@@ -1,8 +1,8 @@
 ---
 title: Leveling Notes — Midnight Alt & Endgame Path
 patch: 12.1
-fetched: 2026-08-11
-reviewed: 2026-08-11
+fetched: 2026-08-25
+reviewed: 2026-08-25
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281
   - https://www.icy-veins.com/wow/midnight-leveling-guide
@@ -100,21 +100,22 @@ itself was not touched** — the baseline it multiplies was.
   > practice — a player on this account **could not find or start the TWW
   > campaign at all** and skipped 70→80 entirely (see next bullet). The
   > auto-offer may not reliably fire. Verify in-game before repeating as fact. @verify-ingame
-- **70→80 without TWW — ⛔ historical: Turbulent Timeways ENDED 2026-08-11.**
-  This *was* the route this account used to clear the last few levels to 80:
-  Timewalking dungeon spam gives large XP and needs no TWW campaign start.
-  **Turbulent Timeways V ran Jun 30 → the Aug 11 weekly reset and is over**, and
-  **no successor Timewalking event was announced in the 12.1 notes** — so as of
-  today there is **no timewalking window to use** and this is not an available
-  route. See `endgame/world-events.md` (§ Timewalking) for the historical record.
-  *If a future TW window opens* (it would arrive as a hotfix / blue post), the
-  mechanic that made this work is still worth knowing: 4 TW dungeons grants
+- **70→80 without TWW — available again in a Timewalking bonus week.**
+  Timewalking dungeon spam gives large XP and needs no TWW campaign start; it is
+  the route this account used to clear the last few levels to 80. Turbulent
+  Timeways V (the six-week special event) ended 2026-08-11, but the **ordinary
+  weekly-bonus Timewalking rotation resumed** — **Northrend/Wrath Timewalking is
+  live 2026-08-25 → 09-01**, and a **Midnight Dungeon Event** week follows
+  Sep 8 → Sep 15. So this route is usable **in a TW week, not every week**;
+  check the in-game calendar first. The mechanic: 4 TW dungeons grants
   **Mastery of Timeways, +30% XP** to kills and quest turn-ins for 3h, stacking
   with other XP buffs — bank quest turn-ins and hand them in under it.
-  > **Live 70→80 options as of 2026-08-11:** the TWW campaign (bullet above), or
-  > Khaz Algar questing / dungeons outside Chromie Time. Don't take a "Turbulent
-  > Timeways is running" line from any other file as current — `endgame/world-events.md`
-  > carries the ENDED banner and is the one to trust on this event.
+  See `endgame/world-events.md` (§ Timewalking).
+  > **Live 70→80 options as of 2026-08-25:** a **Timewalking bonus week** when one
+  > is up (Wrath TW is up now), the TWW campaign (bullet above), or Khaz Algar
+  > questing / dungeons outside Chromie Time. **Turbulent Timeways V** specifically
+  > is over — don't take a "Turbulent Timeways is running" line from any other file
+  > as current; `endgame/world-events.md` is the one to trust on this event.
 - **Midnight (80→90):** pick up **"Midnight"** (quest **91281**) from **Lady
   Liadrin** (Dornogal / Stormwind / Orgrimmar), then use the same **"I have heard
   this tale before"** dialogue to skip the **Sunwell intro** and portal to
