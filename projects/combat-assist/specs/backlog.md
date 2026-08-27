@@ -312,34 +312,25 @@ and nothing about how it was measured.
 
 ### Tooling
 
-- **A DEFEAT is invisible on the preview, and that is the page telling a comfortable lie.**
-  Measured 2026-08-26. A defeat is the project's word for *"this rung exists and we knowingly do
-  not draw it"* (`authoring.md` → *How to write a defeat*: scenario, failing rung, reopening
-  condition). It lives **only** as prose in each `catalog.md` → *Defeats*. **`defeat` is not a
-  field in any `catalog.json`.**
-  It reaches the preview only by accident: `previews/template/stepper.js:1494` renders a state's
-  free-form `note` as muted text, so a defeat is visible exactly where an author happened to type
-  *"Defeats, item 4"* into that note. Counted across the six specs — mentions in `catalog.md`
-  versus mentions reaching the page: **Protection 47 → 3** (and all three were written the same
-  day, mid-rewrite), **Demonology 15 → 0**, **Destruction 10 → 0**, **Havoc 5 → 1**,
-  **Retribution 6 → 1**.
-  ⚠ **So a reader of the preview cannot answer "which buttons have conditions we deliberately do
-  not draw?"** — there is no section, no badge, no flag. Protection is the sharp case: rung 23's
-  charge dump and rung 17's second charge are **both** unauthored and both correctly argued in the
-  doc, and the Holy Armaments row on the page shows an ordinary set of states with nothing saying
-  two of its rungs are missing on purpose. The page looks complete precisely where it is known to
-  be incomplete.
-  **This is the same shape as the scenario↔state gap below** — the artifact people look at drifting
-  from the authored truth — and it is the page-level form of what the 2026-08-25 review found at
-  the gate level: every gate green while every finding was true.
-  **The fix is structured and gated, not a reminder to authors:** give a state (or entry) a
-  `defeat` reference into its `catalog.md` Defeats list; render it on the preview as a marker on
-  the ability plus a Defeats block on the page; and **gate it both ways** — every Defeats item must
-  be cited by at least one state, and every cited id must resolve. The second half is the valuable
-  one: it converts *"did anyone remember to say this?"* into something `check` answers, exactly as
-  the outranker gate converted *"did anyone remember the readiness term?"*.
-  **Scheduled for the review pass's Phase 6** (the sweep-and-close step), alongside the
-  scenario↔state decision, because the two are one question asked twice.
+- **~~A DEFEAT is invisible on the preview~~ — SHIPPED 2026-08-27.** Numbered items under
+  `## Defeats` are parsed from `catalog.md`, rendered on every spec page that has a section, and
+  referenced per-entry by `catalog.json`'s `defeat`, so a reader of a row sees that this row is
+  where cap gives up. Gated both ways by `catalog_gate_defeats`, with a declared
+  `defeats_unreferenced` escape whose `why` is required — a bare number list would be a category
+  exemption. `defeat` does **not** travel to the addon (it cites a rung the client is never told
+  about), and `check_capart_catalog_lua` asserts that non-travel so the obvious wrong move fails a
+  test. Rendering keys off `catalog.md`, so **Destruction gets its five despite having no
+  `catalog.json`**. Now reaching the page: Protection 8/8, Demonology 5/5, Destruction 5/5.
+  ⚠ **The counts this entry originally carried — Protection 47, Demonology 15, Destruction 10 —
+  were `grep` mentions of "Defeats, item N" across each spec's tree, not authored items.** The
+  numbered items are 8, 5 and 5. The invisibility was real and the measurement of it was not.
+
+- **Havoc and Retribution have no numbered `## Defeats` section at all**, and argue their defeats
+  in running prose instead — so they are structurally unable to carry any of the above, and their
+  pages render no defeats block. Recorded 2026-08-27, when the machinery landed and made the
+  asymmetry visible rather than merely present. Converting the prose to numbered items is a real
+  and small slice; what it buys is that the two specs closest to shipping stop being the two whose
+  giving-up is invisible.
 
 - **Every generation input is its own structured file, and the per-ability state table is the
   source of truth** (2026-08-25). `specs/render-tokens.json` (the style's numbers) and
