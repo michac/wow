@@ -185,9 +185,11 @@ So the direction is the **opposite** of what an absent icon would have caused: t
 unreachable, it is reachable **too early**. That is an ordinary misordering of the kind cap has
 vocabulary for, and it is `scenarios.md` §7.5 item 1.
 
-**Record the direction; Phase 5 authors it.** The fix is a **hold** on the Collapsing Star face
-below the counter's high band, not a promotion — nothing needs promoting when the face is
-already position 1. Two things make that newly possible and one makes it hard:
+**Authored 2026-08-27** (`catalog.json`; `Catalogs/Devourer.lua`). The fix is a **hold** rather
+than a promotion — nothing needs promoting when the face is already the leftmost icon — and it
+took two shapes, one per direction: the counter's own band below the grant, and, in AoE, a
+`blocked` badge gated on `ready(void_ray)` (cue **H**). Two things made it possible and one made
+it hard:
 
 - the face now has a **Cooldown Manager frame**, so it can host a sealed count band, which a V12
   virtual row could not (`Catalog.lua` refuses a sealed display on a virtual entry) — this is the
@@ -195,8 +197,11 @@ already position 1. Two things make that newly possible and one makes it hard:
 - the counter is **sealed**, so the hold is V17's `ruled-sealed` — cap's own rule evaluated by
   the client against the secret — and not a readable badge;
 - ⚠ the band's threshold is **target-dependent** (35 at a single target, 30 in AoE), and `aoe` is
-  cap's own readable toggle, so selecting between two authored thresholds on it is legal by the
-  same construction §1c uses for *Soul Glutton*. Authoring it is not this pass's job.
+  cap's own readable toggle, so selecting between two authored thresholds on it would be legal by
+  the same construction §1c uses for *Soul Glutton*. **It is not split.** One band is authored, at
+  the grant of **30**, because a band at 35 would hatch a row rung 9 wants pressed and a fourth
+  corner claim on this row was judged too expensive (§6). The AoE direction is carried by the
+  badge instead, which can ask `ready(void_ray)` — a thing no count band can express.
 
 ⚠ **Blizzard already draws the sealed half, but not somewhere the walk can use.** The same
 pool carries `TrackedBuff` rows for exactly the state this spec is made of: **Void
@@ -250,7 +255,7 @@ a scenario row writes whatever the client would *display* at that moment.
 
 | Key | Ability | Base spell ID | Live override | Scan | Charges | Surface | Cues |
 | --- | --- | ---: | --- | --- | --- | --- | --- |
-| `void_metamorphosis` | Void Metamorphosis | `1217605` | **Collapsing Star `1221167`** (in-form) | scan | — | CDM Essential | the Eradicate-setup hold (D) + the sealed soul-bank readout (C) |
+| `void_metamorphosis` | Void Metamorphosis | `1217605` | **Collapsing Star `1221167`** (in-form) | scan | — | CDM Essential | the Eradicate-setup hold (D) + the sealed count readout (C, three markers) + the AoE Void Ray hold (H) |
 | `reap` | Reap | `1226019` | Cull `1245453` / Eradicate `1225826` | scan | — | CDM Essential | — (identity spine only) |
 | `void_ray` | Void Ray | `473728` | — | scan | — | CDM Essential | starved (A) |
 | `soul_immolation` | Soul Immolation | `1241937` | — | scan | — | CDM Essential | the drain save (B) |
@@ -282,7 +287,8 @@ runtime, and all three are keys.
   half too: at 2+ targets, don't transform mid-way through setting up the Eradicate upgrade.
   *Facts:* `ready` (R2) for the tier; `aoe` + `talent(eradicate)` + `proc` (all readable) for
   the hold; the **soul bank** (sealed) for the readout; `identity` (R7) for the in-form face.
-  *Treatment:* scan + a red `blocked` hold (cue **D**) + the sealed bank readout (cue **C**).
+  *Treatment:* scan + a red `blocked` hold (cue **D**) + the sealed count readout (cue **C**) +,
+  in the form, a second red hold in AoE while Void Ray is up (cue **H**).
   ⚠ **Inside the form this row is Collapsing Star** (§3), so it is one row with two jobs and two
   counts (§6) — the transform out of the form, the granted Star inside it — selected by the
   identity spine and by nothing cap computes.
@@ -330,7 +336,9 @@ runtime, and all three are keys.
   **not** a mobility press and **not** press-on-cooldown. Its only rung is `buff.voidstep.up` —
   the Hungering-Slash-granted *"your next Vengeful Retreat will release a Cosmic explosion"*.
   No Voidstep, no press, ever. *Fact:* `proc(vengeful_retreat)` (readable, `fact-classification.md` §4.2).
-  *Treatment:* scan, **and no cue** — see §6's *"the cue that was dropped"*.
+  *Treatment:* scan, **and no cue** — see §6's *"the cue that was dropped"*. Its walk is
+  `scenarios.md` **DEV-11**, which is deliberately outside the `B` / `M` families because the row
+  is outside both phases' Essential line.
 
 ### 5.3 Named, and deliberately given no row
 
@@ -354,11 +362,19 @@ Provisional. Every one is a hypothesis judged by play, exactly as the pilots wer
 | Cue | What the player sees | Fact | Tool / channel | Recipe | Sink | Polarity |
 | --- | --- | --- | --- | --- | --- | --- |
 | **A** starved spender | Void Ray wears `starved` when you cannot pay 100 Fury | `insufficientPower` | emphasis (readable) | R1 | scan emphasis | negative |
-| **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold`, gated on `identity(transformed)` **and on `talent(soul_glutton)`**, which drains a quarter faster and so moves the break point (§1c) | cue (sealed) + readable gate | S1 / V9 | colour curve → badge alpha | negative |
-| **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks, 0 to the selected threshold — **35 with *Soul Glutton*, else 50** (§1c) | **independent context** (sealed) | S2 `player-aura-stacks` / V8 — ⚠ needs `Channel.Plan`'s `min == 2` guard widened first, see §8.2 | client-owned count | **none** |
+| **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold` (17), gated on `identity(void_metamorphosis, transformed)`. ⚠ *Soul Glutton* drains a quarter faster and so moves the break point, and the marker does **not** fork on it — the number is fitted to the no-talent curve and is one number for both builds (§1c, open fact 4) | cue (sealed) + readable gate | S1 · `sealed-power-percent` → **V5** | colour curve → badge alpha | negative |
+| **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks, 0 to the selected threshold — **35 with *Soul Glutton*, else 50** (§1c) | **independent context** (sealed) | S2 · `sealed-count-bands` → **V16** (banded count) / **V17** (the complement that hatches below the threshold) | client-owned count | **none** |
 | **D** the Eradicate setup hold | Void Metamorphosis wears `blocked` in AoE mode while *Eradicate* is talented and no Reap-family glow is up | `aoe` + `talent` + `proc`, all readable | cue (readable) | the shipped `aoe` / `talent` predicates + `proc` | corner badge | negative |
+| **H** the AoE Void Ray hold | Collapsing Star — the in-form face of the Void Metamorphosis row — wears `blocked` in AoE mode while **Void Ray is available** | `identity` + `aoe` + `ready`, all readable | cue (readable) | the shipped `identity` / `aoe` / `ready` predicates | corner badge | negative |
 | **F** the talent fence | nothing of its own — it **withholds**: cue D where *Eradicate* is untalented, and rung 1 entirely where *Devourer's Bite* is | trait config | gate (readable) | the shipped `talent` predicate | no sink | — |
 | **G** target mode | four rungs move on target count; cap asks the player rather than counting enemies | `/cap aoe` | gate (readable) | the shipped `aoe` predicate | — | — |
+
+⚠ **The Recipe column names a PRIMITIVE, and it used to name a mechanism.** Cue B cited **V9**
+(sealed colour curve) and cue C cited **V8** (sealed count tile); both are `kind: "mechanism"` in
+`../render-primitives.json` — *how* a secret reaches a pixel — and a mechanism draws nothing a
+reader can see. `capart check`'s `drawn_by` gate admits `primitive` only, so a state citing either
+fails. The mechanisms are still the right description of the route; what a reader sees is **V5**
+for cue B and **V16 / V17** for cue C.
 
 **This catalog draws no positive cue.** That is a finding, not a budget being respected — the
 one-positive rule is explicitly not a budget, and a positive cue here would have been argued on
@@ -374,37 +390,47 @@ client-drawn number has no polarity because it makes no claim about rank. So the
 review asked for is right, and it goes one step further: merged, the primitive stops being a
 cue and becomes a readout, and the positive/negative axis stops applying to it.
 
-⚠ **Cue C is an OPEN DESIGN QUESTION as of 2026-08-27, and it is not decided here.** Its
-justification says *"the icon cannot say 'you need 50 souls'"*. The player has since reported a
-**shipped Blizzard bar** drawing the collected count — which `fact-classification.md` §4.1 already
-identified as `DemonHunterSoulFragmentsBar`, an aura consumer rather than a `UnitPower` one — so
-that justification is weaker than when it was written. Both sides, stated rather than resolved:
+⚠ **Cue C was an open design question and it is DECIDED — kept, 2026-08-27.** Its original
+justification was *"the icon cannot say 'you need 50 souls'"*, and the player has since reported a
+**shipped Blizzard bar** drawing the collected count — `DemonHunterSoulFragmentsBar`, an aura
+consumer rather than a `UnitPower` one (`fact-classification.md` §4.1) — so that justification is
+weaker than when it was written. The call, and the argument that lost:
 
 - **redundant** — the standing rule that deleted cue E and leaves Soulburst to the stock proc
   glow: *do not draw a second mark for a fact the client already marks.*
-- **not redundant** — the shelf's independent-context argument, precedent **Backdraft**
-  (`../spec.md` §3.5): the count sits **beside the row it governs**, so a scan never leaves the
-  Cooldown Manager line to read it. A bar elsewhere on the screen costs an eye movement the
-  elimination walk does not budget for.
+- **not redundant, and this is the side taken** — the shelf's independent-context argument,
+  precedent **Backdraft** (`../spec.md` §3.5): the count sits **beside the row it governs**, so a
+  scan never leaves the Cooldown Manager line to read it, and a bar elsewhere on the screen costs
+  an eye movement the elimination walk does not budget for. It is also not only a readout: the same
+  band carries the **hatch** that eliminates position 1, and that half is not redundant with
+  anything Blizzard draws.
 
-⚠ **And the override makes it one row with TWO counts, selected by identity.** Void
-Metamorphosis's row carries the bank (0 to the selected threshold — 35 with *Soul Glutton*, else
-50) **out** of the form and the `collapsing_star_stacking` counter (0–40) **inside** it, and the
-two are mutually exclusive because the identity is. That shape is not new — Demonology's
-Implosion already uses two `when`-gated mutually-exclusive markers (`../demonology/catalog.md`,
-rung 9) — and it carries a known cost recorded there: **`Catalog.CORNER_DISPLAYS` claims a corner
-slot per marker BY DECLARATION**, not by whether the marker arms, so two count markers claim two
-corners and the one that is gated off leaves a blank step. The cost is stated; the markers are
-**not authored** here.
+⚠ **This is a judgement about pixels and it is judged by looking**, not by argument — the review
+is `scenarios.md` B-1's `⚠ UNSURE` block. If the eye goes to Blizzard's bar anyway, the band drops
+to a hatch with no numeral and the elimination is unchanged.
 
-⚠ **The rung-5 consumer now HAS a surface, which it did not before.** The earlier draft dismissed
-the counter instance on the grounds that its only unserved consumer — rung 5's single-target
-`stack>=35` refinement — had nowhere to sit, on a reading of V12 that the shelf has since
-rewritten, and on the rule that still stands: `Catalog.lua` refuses a sealed display on a virtual
-entry, because a virtual row has no Cooldown Manager frame to host one. Collapsing Star is a Cooldown
-Manager row now (§3), so that objection is gone. What replaces it is the design question above,
-plus §3's target-dependent threshold. `scenarios.md` §7.5 item 1 is still the cost of not
-authoring it, and it is still small.
+⚠ **And the override makes it one row with TWO counts, selected by identity — plus a third for
+the talent fork.** Void Metamorphosis's row carries the bank (0 to the selected threshold)
+**out** of the form and the `collapsing_star_stacking` counter (0–40) **inside** it, and the two
+are mutually exclusive because the identity is. The bank half forks again on
+`talent(soul_glutton)`, because one band table cannot hold both 35 and 50 and a single number is
+wrong on one build (§1c). That shape is not new — Demonology's Implosion already uses `when`-gated
+mutually-exclusive markers (`../demonology/catalog.md`, rung 9) — and it carries a known cost
+recorded there: **`Catalog.CORNER_DISPLAYS` claims a corner slot per marker BY DECLARATION**, not
+by whether the marker arms. So this row cedes **three** corner steps and leaves **two** of them
+permanently blank, and cue **D**'s badge begins three steps down the right edge. The cost is
+stated, the markers **are** authored (`catalog.json`: `meta_bank_glutton`, `meta_bank_deep`,
+`star_counter`), and whether the blank steps read as a fault is the other half of the same look.
+
+⚠ **The rung-5 consumer has a surface, and the band is still authored at the GRANT.** The earlier
+draft dismissed the counter instance on the grounds that its only unserved consumer — rung 5's
+single-target `stack>=35` refinement — had nowhere to sit, on a reading of V12 that the shelf has
+since rewritten, and on the rule that still stands: `Catalog.lua` refuses a sealed display on a
+virtual entry. Collapsing Star is a Cooldown Manager row now (§3), so that objection is gone —
+and the threshold authored is **30**, the grant, not 35. A band at 35 would fix single target and
+**hatch a row rung 9 wants pressed** in AoE, where the rung carries no counter term at all;
+eliminating a correct press is worse than making an early one. `scenarios.md` §7.5 item 1 keeps
+the single-target half as the residual, and M-3's `⚠ UNSURE` keeps the choice visible.
 
 **The cue that was dropped: Voidstep on Vengeful Retreat.** An earlier draft made this cue
 **E**. It is deleted for two independent reasons, either of which is sufficient.
@@ -466,8 +492,16 @@ every entry on both surfaces is swiped or badged and the correct answer is reach
 memory. The standing row is the terminus: the sweep always lands somewhere. `scenarios.md` §7.3's B-3 is that
 state.
 
-**Devour is not a second row.** It is Consume's Void Metamorphosis **override form**, resolved by
-R7 exactly as Reap → Cull is: `abilities.md` says Consume *"becomes Devour inside Void
+**Devour is not a second row — and cap may not SAY so in the catalog.** It is Consume's Void
+Metamorphosis **override form**, and it is *not* resolved by R7 the way Reap → Cull is:
+`Catalog.lua` refuses any subject predicate naming a virtual ability, because a virtual ability
+has no Cooldown Manager row and an `identity` read on one would be UNKNOWN for life — which, V12
+inverting the unknown, would hatch the terminus forever. So the transform is undeclared by
+construction and the **face is resolved on the draw**, by `Panel.Face` off
+`C_Spell.GetOverrideSpell`, guarded three ways (a secret or refused answer, `0` — truthy in Lua —
+and an override equal to its input all fall back to Consume's own id). It is a texture and never
+a condition, so nothing branches on it and a refusal costs the base art and nothing else. The
+mechanism the sim describes is unchanged: `abilities.md` says Consume *"becomes Devour inside Void
 Metamorphosis"*, and simc implements `devour_t : public consume_base_t` with
 `cooldown = p->cooldown.consume` — **one cooldown object shared by both**, its marker for one
 button — and falls Devour's energize back to Consume's. One standing row, two faces. The APL's
@@ -574,13 +608,13 @@ does ships without that hint** — which is exactly how §8.2 is written.
 
 | Row | Ships now | Waits, and on what |
 | --- | --- | --- |
-| **Void Metamorphosis → Collapsing Star** | scan · cue **D** (AoE Eradicate hold) · the R7 identity spine across the transform | a readable *"the bank is not at threshold"* hold — open fact 3. Position 1 does **not** wait on it, and does not wait on the client either: below-bank Meta is `ruled-sealed` off cue **C**'s own count band, which eliminates without cap reading anything (`scenarios.md` §7.1). So position 1's wait **is** cue **C**. Cue C in turn is parked on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
+| **Void Metamorphosis → Collapsing Star** | scan · cue **D** (AoE Eradicate hold) · cue **C**'s three count bands · cue **H** (the in-form AoE Void Ray hold) · the R7 identity spine across the transform | **nothing.** A readable *"the bank is not at threshold"* hold (open fact 3) would fix misordering 2 on the Voidblade row; position 1 itself does not wait on it, and does not wait on the client either — below-bank Meta is `ruled-sealed` off cue **C**'s own count band, which eliminates without cap reading anything (`scenarios.md` §7.1). ⚠ The `min == 2` guard cue C was parked on **was deleted 2026-08-22** and replaced by `sealed-count-bands`; the paragraph that said the bank *"plans as `nil` and arms nothing, silently"* described an engine that no longer exists. |
 | **Reap → Cull / Eradicate** | scan · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any route — `[searched 2026-08-17]`, `fact-classification.md` §4.3. |
 | **Void Ray** | scan · cue **A** (`starved`) | rung 8's hold — **not** an open fact but an expressiveness gap (`fact-classification.md` §4.2). It does not resolve by measuring. |
 | **Soul Immolation** | scan · cue **B** (the drain save) | the break point's *value* — open fact 4. The cue ships; the number is a guess until flown. |
 | **Voidblade → PtV / Reaper's Toll** | scan · the R7 identity spine (three-deep, `fact-classification.md` §4.4) · position 5 | the rung-1 hold (open fact 3) and the owed-Voidsurge cue (open fact 2). Misorderings 2 and 3. |
-| **Vengeful Retreat** (Utility) | scan | nothing — the cue was **dropped on merit** (§6), not deferred. |
-| **Consume → Devour** (virtual, **standing**) | the standing virtual row, drawn clear at the right end of the panel · the R7 identity spine across the transform | **nothing.** A standing row asks for no verdict, so it depends on no open fact. Misordering 5 (the Soulburst promotion) is carried by Blizzard's own glow and is a shelf question, not a wait. |
+| **Vengeful Retreat** (Utility) | scan · a walk of its own (`scenarios.md` DEV-11) | nothing — the cue was **dropped on merit** (§6), not deferred. |
+| **Consume → Devour** (virtual, **standing**) | the standing virtual row, drawn clear at the right end of the panel · the live **face**, resolved on the draw | **nothing.** A standing row asks for no verdict, so it depends on no open fact. ⚠ The transform is **not** the R7 identity spine here and cannot be: `Catalog.Check` refuses any subject predicate naming a virtual ability, because the read would be UNKNOWN for life and V12's inverted unknown would hatch the terminus forever. `Panel.Face` resolves `C_Spell.GetOverrideSpell` on the draw instead — a texture, never a condition. Misordering 5 (the Soulburst promotion) is carried by Blizzard's own glow and is a shelf question, not a wait. |
 
 ⚠ **Read that table as a statement about FACTS, not about pixels.** Per row it is accurate: **no
 row in this catalog waits on an open fact to draw at all.** The five Essential rows and the
@@ -590,13 +624,13 @@ and `scenarios.md` §7.3's B-3 is an ordinary state rather than a corner. What t
 waits buy is **fidelity, not existence**: a hold that would fix misordering 2, and a number that
 would fit cue B.
 
-⚠ **What none of it says is that anything draws today.** The `Collapsing Star` face and the
-Consume row both depend on work outside this document. V12 itself is **built** as of 2026-08-27
-(`Panel.lua`, addon commit `932419a`; `tokens.panel` ships to `Style.lua` and `Panel.lua` reads
-it), so the standing row is no longer blocked on the primitive — what it waits on now is a
-`Catalogs/Devourer.lua` to declare it, which is Phase 5. Cue **C** is a separate wait and a
-different kind: it is parked on `Channel.Plan`'s `min == 2` guard **and** on the open design
-question in §6.
+⚠ **Everything in this catalog now DRAWS, and none of it has been SEEN.** `Catalogs/Devourer.lua`
+exists as of 2026-08-27 — generated from `catalog.json` and listed in the `.toc` — so the roster,
+the three count bands, the two holds and the standing row all load in the client. What has not
+happened is a flight: cap reports `offered` / `armed` / `refused` and never learns whether a band
+painted, so every sealed statement in §6 is an intention until somebody looks. The two remaining
+waits buy **fidelity, not existence**: a hold that would fix misordering 2 (open fact 3) and a
+number that would fit cue B (open fact 4).
 
 ---
 
@@ -619,6 +653,36 @@ question in §6.
 ---
 
 ## Changelog
+
+**2026-08-27 (second pass) — the catalog is TRANSCRIBED, and four calls the author delegated were
+made.** `specs/devourer/catalog.json` is now the canonical roster; `Catalogs/Devourer.lua` is
+generated from it and listed in the `.toc` (which auto-discovers nothing, so the line is
+hand-added). `hero = 126` — Void-Scarred's `TraitSubTree` id at `12.1.0.69214`, TraitTreeID 854,
+the same table Fel-Scarred's 34 comes from; Annihilator is 124. What changed in the design:
+
+- **Cue C is kept and authored**, as **three** `sealed-count-bands` markers rather than two: the
+  identity fork (bank out of the form, harvest counter inside it) and, on the bank half, a
+  `talent(soul_glutton)` fork, because one band table cannot hold both 35 and 50 and a single
+  number is wrong on one build in a direction that eliminates a correct press. It costs a third
+  ceded corner and two permanently blank steps, which is stated rather than discovered.
+- **The AoE over-rank at position 1 is held**, by cue **H** — `blocked` on
+  `identity(transformed) ∧ aoe ∧ ready(void_ray)`. The `ready` term is what keeps it off rows
+  where the outranker is swiped. The single-target direction stays a documented misordering: the
+  in-form band is authored at the **grant** (30), not rung 5's 35, because 35 would hatch a row
+  rung 9 wants pressed.
+- **Vengeful Retreat gets a walk** (`scenarios.md` DEV-11) rather than a deletion. A roster row no
+  scenario reaches is a hole in the proof.
+- **Cue D's bookkeeping is corrected**: it encodes `!eradicate ∧ !moment_of_craving` where rung 2
+  negates `!eradicate` alone, so it holds strictly LESS often than the rung — the safe direction —
+  and it is now scoped `identity(void_metamorphosis, "base")`, out of the form where rung 2 is
+  structurally dead.
+- **Two stale citations are fixed.** Cue B cited **V9** and cue C cited **V8**; both are
+  `kind: "mechanism"` in `render-primitives.json` and are rejected by the `drawn_by` gate. The
+  primitives are **V5** and **V16 / V17**. And the `min == 2` guard cue C was parked on was
+  deleted from the engine on 2026-08-22 — that whole wait was describing code that no longer
+  exists.
+- **The Devour face is fixed in `Panel.lua`, not in the catalog** — see §6.1. No `castable`
+  predicate was built: its only motivating consumer went away with the gated virtual row.
 
 **2026-08-27 — Collapsing Star is not a virtual row; it is Void Metamorphosis's row, overridden.**
 Measured in game: inside the form the Void Metamorphosis keybinding casts Collapsing Star and the

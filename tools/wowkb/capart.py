@@ -207,17 +207,23 @@ SPECS_BUILT = {
         # premises are recorded as provisional, so the page says so before the reader forms an
         # opinion from it — the per-scenario `⚠ UNSURE` blocks say the rest.
         "notes": [
-            "<b>Devourer is authored and has never been built or flown.</b> This page exists to "
-            "be reviewed and argued with, not to record a decision. No <code>Catalogs/"
-            "Devourer.lua</code> exists; nothing here has run in the client.",
+            "<b>Devourer is transcribed and has never been flown.</b> "
+            "<code>Catalogs/Devourer.lua</code> is generated from <code>catalog.json</code> and "
+            "loads, so everything on this page draws in the client — but nothing here has been "
+            "SEEN. cap reports <code>offered</code> / <code>armed</code> / <code>refused</code> "
+            "and never learns whether a sealed band painted.",
             "<b>Two premises under it are provisional</b> (<code>catalog.md</code> §1): the "
             "hero-tree call (Void-Scarred over Annihilator, contested between sources) and the "
             "branch (<code>!talent.the_hunt</code>). A different call re-authors the roster, not "
             "just the numbers.",
-            "<b>The open facts are open</b> (<code>catalog.md</code> §8). The load-bearing one is "
-            "item 3: what clears Collapsing Star's gated row is an unmeasured "
-            "<code>C_Spell.IsSpellUsable</code> read, and it also carries Void Metamorphosis's "
-            "bank hold and Voidblade's rung-1 hold.",
+            "<b>The Void Metamorphosis row cedes THREE corner steps</b> and leaves two of them "
+            "permanently blank: one sealed count per identity, and the out-of-form half forks "
+            "again on <i>Soul Glutton</i> because 35 and 50 cannot live in one band table "
+            "(<code>catalog.md</code> §6). Whether the blank steps read as a fault is a question "
+            "for the eye, not the gate.",
+            "<b>The open facts are open</b> (<code>catalog.md</code> §8). Nothing waits on one to "
+            "draw; what they buy is fidelity — a readable bank hold would fix misordering 2, and "
+            "cue B's break point is fitted to simc's curve rather than measured.",
         ],
     },
 }
@@ -434,6 +440,7 @@ def load_primitives() -> dict:
 #: avoid. A spec absent from here simply shows the bare citation.
 SPEC_APL = {
     "demonology":  ROOT / "knowledge/classes/warlock/demonology/simc-apl.md",
+    "devourer":    ROOT / "knowledge/classes/demon-hunter/devourer/simc-apl.md",
     "havoc":       ROOT / "knowledge/classes/demon-hunter/havoc/simc-apl.md",
     "protection":  ROOT / "knowledge/classes/paladin/protection/simc-apl.md",
     "retribution": ROOT / "knowledge/classes/paladin/retribution/simc-apl.md",

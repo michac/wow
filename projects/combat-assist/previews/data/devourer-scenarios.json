@@ -71,8 +71,12 @@
           "html": "Elimination alone; no cue fires."
         },
         {
-          "label": "⚠ Position 1 waits on cue C, not on a measurement",
-          "html": "The <code>ruled-sealed</code> verdict here is correct by construction — the band is cap&#x27;s own rule, evaluated by the client against the sealed bank — but nothing is drawn until cue <b>C</b> ships. Until then the first icon of the Essential line shows nothing at all below the threshold, here and in B-2 and B-3, and the sweep has to skip it from the player&#x27;s own knowledge (<code>catalog.md</code> §8.2)."
+          "label": "⚠ Position 1 is cue C's band, and the band is now authored",
+          "html": "The <code>ruled-sealed</code> verdict here is correct by construction — the band is cap&#x27;s own rule, evaluated by the client against the sealed bank — and as of 2026-08-27 it is declared in <code>catalog.json</code> and generated into <code>Catalogs/Devourer.lua</code>, so the same is true in B-2 and B-3. What is left is a flight: cap reports <code>offered</code>, never whether the numeral and the hatch appeared (<code>catalog.md</code> §8.2)."
+        },
+        {
+          "label": "⚠ UNSURE — the bank is drawn TWICE on screen, and that is a design call, not a finding",
+          "html": "Blizzard already draws the collected count, on the shipped <code>DemonHunterSoulFragmentsBar</code> (<code>fact-classification.md</code> §4.1), so cue <b>C</b>&#x27;s numeral is a second mark for a fact the client already marks — the standing rule that deleted cue E. It was kept on the <b>independent-context</b> argument, precedent Backdraft (<code>../spec.md</code> §3.5): the count sits <b>beside the row it governs</b>, so the sweep never leaves the Cooldown Manager line to read it, and a bar elsewhere on the screen costs an eye movement elimination does not budget for. <b>The alternative was to draw no numeral and keep only the hatch</b> — the elimination would be identical and the readout would be gone. What settles it is looking at the two together in a pull: if the eye goes to Blizzard&#x27;s bar anyway, the numeral is noise and the band should drop to <code>draw: &quot;none&quot;</code> below the threshold with the hatch alone."
         }
       ]
     },
@@ -283,6 +287,10 @@
           "html": "Doing its work here and nowhere else in the walk: the bank&#x27;s count has been climbing beside this icon for the whole build phase, so the transform arrives as something the player <b>watched coming</b> rather than as an icon that lit up."
         },
         {
+          "label": "⚠ UNSURE — the threshold is TWO authored numbers, and only one of them draws on any build",
+          "html": "The bank fork is written as two mutually-exclusive <code>when</code> gates on <code>talent(soul_glutton)</code> — <code>meta_bank_glutton</code> clears at <b>35</b>, <code>meta_bank_deep</code> at <b>50</b> (<code>catalog.md</code> §1c). <b>The alternative was one table with one number</b>, and it is wrong on one build or the other in directions that are not symmetric: 35 on a deep-bank build clears a row the game will not cast (a wasted global), while 50 on a <em>Soul Glutton</em> build <b>hatches a row the game will</b> — eliminating the correct press, which is the class of defect Protection&#x27;s <code>as_guidance_capped</code> was. The cost of the fork is a <b>third ceded corner</b> on this row: <code>CORNER_DISPLAYS</code> claims a stack slot per marker by declaration, so with the in-form counter there are three claims, two of them permanently blank, and cue <b>D</b>&#x27;s badge begins three steps down the right edge. What settles it is looking at the row with cue D lit: if the blank steps read as a fault, the fork has to move to a build-time selection the engine does not have today."
+        },
+        {
           "label": "⚠ UNSURE — misordering 2",
           "html": "The APL would spend this global on <b>Voidblade</b> (rung 1) to land <em>Devourer&#x27;s Bite</em> on the window, and press Meta on the next one. Voidblade sits at position 5 and this walk never reaches it, so cap presses Meta a global early and the window runs without the +12 % amp applied in advance. <b>This is a known cost, not an oversight</b> (§7.5 item 2) — and it is fixed by the same measurement as everything else here: <code>!usable(void_metamorphosis)</code> is exactly <em>&quot;the bank is below the transform threshold&quot;</em> (<code>catalog.md</code> §8 item 3, §1c)."
         }
@@ -357,7 +365,89 @@
         },
         {
           "label": "⚠ UNSURE — cue D is a sound slice, not the literal condition",
-          "html": "The APL holds when <code>!eradicate.up &amp; talent.eradicate &amp; !single_target</code>; cap draws <code>!proc &amp; talent(eradicate) &amp; aoe</code>. Because <code>proc(reap)</code> is the <b>OR</b> of Eradicate and Moment of Craving (<code>fact-classification.md</code> §4.2), <code>!proc ⇒ !eradicate.up</code> always, so the badge never fires where the APL would cast. It can <em>miss</em> a hold — Moment of Craving up while Eradicate is down keeps the glow on and the badge off — and missing a hold is the safe direction. <b>Unverified either way: nothing has flown.</b> ### 7.4 Window phase — inside Void Metamorphosis The row re-skins across the transform (R7), on <b>three</b> chains: <b>Void Metamorphosis → Collapsing Star</b> at position 1, <b>Reap → Cull</b>, <b>Voidblade → Pierce the Veil</b> (or <b>Reaper&#x27;s Toll</b> while Hungering Slash is the live form), plus <b>Consume → Devour</b> on the standing virtual row. The bank is <b>empty and cannot refill</b> (<code>sc_demon_hunter.cpp:9179</code>), so rungs 1–2 are structurally dead for the whole window — which is why a scan that starts at position 1 is not stepping past anything (<code>catalog.md</code> §6.1). ⚠ <b>Position 1 is the press-or-not question for the entire window</b>, and it is where the correction lands. The row is Collapsing Star from the moment the form opens and it draws unusable until 30 fragments have been harvested inside it; below that it is written <code>ruled-sealed</code> off the counter&#x27;s own band, and above it, it is castable and leftmost. §7.2&#x27;s third note is the whole of the reasoning and every row below rests on it."
+          "html": "The APL holds when <code>!eradicate.up &amp; talent.eradicate &amp; !single_target</code>; cap draws <code>!proc &amp; talent(eradicate) &amp; aoe</code>. Because <code>proc(reap)</code> is the <b>OR</b> of Eradicate and Moment of Craving (<code>fact-classification.md</code> §4.2), <code>!proc ⇒ !eradicate.up</code> always, so the badge never fires where the APL would cast. It can <em>miss</em> a hold — Moment of Craving up while Eradicate is down keeps the glow on and the badge off — and missing a hold is the safe direction. <b>Unverified either way: nothing has flown.</b>"
+        }
+      ]
+    },
+    {
+      "id": "DEV-11",
+      "title": "Voidstep, on a row the ordered scan does not reach",
+      "state": "Out of the form, bank mid, <b>Voidstep up</b>. Reap on its cooldown, Void Ray on its cooldown, Soul Immolation on its cooldown, Voidblade on its ~30 s cooldown.",
+      "row": [
+        {
+          "name": "Void Metamorphosis",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Reap",
+          "verdict": "cd"
+        },
+        {
+          "name": "Void Ray",
+          "verdict": "cd"
+        },
+        {
+          "name": "Soul Immolation",
+          "verdict": "cd"
+        },
+        {
+          "name": "Voidblade",
+          "verdict": "cd"
+        },
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "press"
+        },
+        {
+          "name": "Consume",
+          "verdict": "open",
+          "virtual": true
+        }
+      ],
+      "steps": [
+        {
+          "names": [
+            "Void Metamorphosis"
+          ],
+          "html": "<b>Void Metamorphosis</b> — below the bank threshold, hatched by its own band → skip."
+        },
+        {
+          "names": [
+            "Reap",
+            "Void Ray",
+            "Soul Immolation",
+            "Voidblade"
+          ],
+          "html": "<b>Reap / Void Ray / Soul Immolation / Voidblade</b> — every Essential row swiped → skip."
+        },
+        {
+          "names": [
+            "Vengeful Retreat"
+          ],
+          "html": "<b>Vengeful Retreat</b> — Voidstep is up, so rung <b>10</b> is live: the retreat releases a Cosmic explosion and is a damage press rather than a mobility one → <b>press.</b>"
+        },
+        {
+          "names": [
+            "Consume"
+          ],
+          "html": "<b>Consume</b> — the terminus, not reached. This is the point of writing the scenario down: it is B-3&#x27;s state with one aura added, and the correct answer moves off the terminus."
+        }
+      ],
+      "extras": [
+        {
+          "label": "Why the row exists at all",
+          "html": "Rung 10 is real, it outranks the floor, and a roster row no scenario reaches is a hole in the proof rather than a surplus row. Without this walk the catalog&#x27;s only claim about Vengeful Retreat was that it wears no cue."
+        },
+        {
+          "label": "⚠ UNSURE — the POSITION in that row is a claim about rank, not about pixels",
+          "html": "<code>Anchor.lua</code> re-anchors the Essential viewer only, so cap does not put Vengeful Retreat sixth or anywhere else; the player&#x27;s Edit Mode does. It is drawn here at the place rung 10 implies so the walk can be judged, and the honest reading is <em>&quot;once the Essential line is exhausted, the Utility row is the answer and Blizzard&#x27;s own Voidstep glow is what carries the eye to it&quot;</em> — the glow is a Tier-1 registered spell-activation overlay on <code>198793</code> (<code>fact-classification.md</code> §4.2) and cap deliberately leaves it intact. <b>The alternative was to delete the row from the catalog</b> and let Blizzard&#x27;s swipe carry it, which is still an open author decision in <code>../discussion.md</code>. What this walk settles is only that deleting it would lose a press the priority list makes."
+        },
+        {
+          "label": "⚠ UNSURE — nothing has measured that `IsSpellOverlayed` answers for Voidstep in combat",
+          "html": "§4.2 resolves from Tier-1 DB2 <em>which</em> auras Blizzard registers as icon-highlight overlays; it does not prove the read fires in an instance. cap draws no badge here, so the exposure is the player&#x27;s eye rather than cap&#x27;s, but the walk&#x27;s step 3 rests on the glow. <code>@verify-ingame</code>."
         }
       ]
     },
@@ -437,6 +527,10 @@
           "html": "B (sealed) → <b>sealed</b>; the badge is <code>offered</code>, and only an eyeball proves it lit."
         },
         {
+          "label": "⚠ UNSURE — the standing row says `Devour` here, and the catalog is not what makes it",
+          "html": "<code>Catalog.Check</code> <b>refuses</b> any subject predicate naming a virtual ability, so cap may not declare Consume → Devour at all: the ability has no Cooldown Manager row, the read would be UNKNOWN for life, and V12&#x27;s inverted unknown would hatch the terminus forever. The face is therefore resolved on the <b>draw</b>, by <code>Panel.Face</code> off <code>C_Spell.GetOverrideSpell</code> (guarded: a secret or refused answer, <code>0</code> — which is truthy in Lua — and an override equal to its input all fall back to Consume&#x27;s own id). <b>The alternative was to write <code>Consume</code> in M-1…M-5 and accept that the row shows the wrong button for a whole window.</b> What settles it is one look at the panel inside the form; nothing here has run in the client."
+        },
+        {
           "label": "Position 1",
           "html": "Inside the window the row is <b>Collapsing Star</b>, not Void Metamorphosis, and what rules it out is the <b>harvest counter&#x27;s</b> band rather than the bank&#x27;s — a different count on the same row, selected by identity (<code>catalog.md</code> §6). The form being active is readable and true but is not what draws anything here: the row is not showing Void Metamorphosis at all."
         },
@@ -504,8 +598,8 @@
           "html": "As M-1, cleared rather than hatched: the counter is above the band."
         },
         {
-          "label": "⚠ UNSURE — the press is right here for the wrong reason, and the right reason is one state\n  away",
-          "html": "Rung 9 sits <b>below</b> Void Ray&#x27;s rung 8, so in AoE the APL wants Void Ray first. This scenario reads correctly only because Void Ray is on its in-Meta cooldown; with Void Ray up and a Star granted, cap&#x27;s position-1 face stops the scan a rung early. That is §7.5 item 1&#x27;s second half and it is a <b>consequence of the 2026-08-27 correction</b>, not a pre-existing cost — as a virtual row this button was leftmost of everything and the same objection applied, but it was argued away as pre-emption rather than counted as a misordering."
+          "label": "⚠ UNSURE — the press is right here for the same reason a badge would have given it",
+          "html": "Rung 9 sits <b>below</b> Void Ray&#x27;s rung 8, so in AoE the APL wants Void Ray first, and this row reads correctly because Void Ray is on its in-Meta cooldown. The state one step away — Void Ray <b>up</b>, a Star granted, AoE — is where position 1 used to stop the scan a rung early, and it is now held: <code>star_yields_to_void_ray</code> wears <code>blocked</code> on <code>identity(transformed) ∧ aoe ∧ ready(void_ray)</code>. The <code>ready</code> term is the load-bearing one; without it the badge would eliminate the correct press in exactly this scenario. <b>The alternative was to leave the over-rank documented and undrawn</b>, which is what §7.5 item 1 said until 2026-08-27. What is unsure is the split itself: it rests on cap&#x27;s own <code>/cap aoe</code> toggle, not on a game read of enemy count, so a player who leaves the toggle wrong gets a hold in single target (where rung 5 outranks Void Ray and the hold is simply false) or none in AoE. Nothing has flown."
         }
       ]
     },
@@ -564,7 +658,11 @@
       "extras": [
         {
           "label": "Misordering 1",
-          "html": "The APL would bank to 35 first and press Cull or Void Ray here. The cost is one to five harvests of a shorter <em>Impending Apocalypse</em> chain — the Collapsing Star is not wasted, only slightly early. Named and small. ⚠ <b>The alternative is no longer ruled out by the surface.</b> It used to be argued away as <em>&quot;a count tile on a surface V12 does not give a virtual row&quot;</em>; the face has a Cooldown Manager frame now, so a band whose threshold is 35 at a single target would fix this outright. What stops it is the open design question on cue <b>C</b>, not the pixels (<code>catalog.md</code> §6)."
+          "html": "The APL would bank to 35 first and press Cull or Void Ray here. The cost is one to five harvests of a shorter <em>Impending Apocalypse</em> chain — the Collapsing Star is not wasted, only slightly early. Named and small."
+        },
+        {
+          "label": "⚠ UNSURE — the in-form band is authored at 30, the grant, and not at rung 5's 35",
+          "html": "A band at <b>35</b> would fix this row outright and would <b>hatch a row rung 9 wants pressed</b> in AoE, where the rung carries no counter term at all — eliminating a correct press to correct an early one. A band at <b>30</b> is one band early in single target and never late anywhere. Early beats absent, so 30 is what <code>star_counter</code> declares, with no <code>aoe</code> term on it: the safe direction is the same in both modes, and a target-dependent threshold would need a fourth corner claim on a row that already cedes three. <b>The alternative — two <code>aoe</code>-gated bands at 30 and 35 — is expressible and was declined on that cost.</b> What settles it is whether the blank corner steps read acceptably at all."
         },
         {
           "label": "Position 1",
@@ -738,7 +836,7 @@
         },
         {
           "label": "⚠ UNSURE — cap cannot see the owed cast",
-          "html": "<code>buff.voidsurge_*</code> are simc placeholders with no game aura (<code>fact-classification.md</code> §4.2), so this walk is right <b>by position rather than by knowledge</b>. In the state where the Voidsurge has <b>already</b> been spent, the sweep presses Pierce the Veil again where the APL would press Devour — a real, undrawn gap, and the same open fact as Havoc&#x27;s <code>demonsurge_available</code> (<code>catalog.md</code> §8 item 2). <b>That state is not on this page</b>, because cap&#x27;s row for it is identical and only the correct answer differs. ### 7.5 Documented misorderings — what is left after the cues 1. <b>Position 1 over-ranks Collapsing Star inside the window, in two directions</b> (M-2, M-3). The face clears the moment a Star is granted at 30 harvests, and it is the leftmost icon on the line, so the scan takes it as soon as it is castable: - <b>Single target</b> the APL waits for <b>35</b> (rung 5). Cost: a marginally shorter <em>Impending Apocalypse</em> chain — the Star is early, not wasted. - <b>AoE</b> the APL puts it at rung <b>9</b>, below Void Ray&#x27;s rung 8, so with Void Ray up cap stops the scan one rung early. M-2 only reads correctly because Void Ray is swiped there. ⚠ <b>This is the shape the 2026-08-27 correction left behind</b>, and it is the opposite of the problem the section it replaced described: the press is not unreachable, it is reachable too early. The fix is a <b>hold</b> below the counter&#x27;s high band, not a promotion, and it is newly possible because the face has a Cooldown Manager frame that can host a sealed count band (<code>catalog.md</code> §3, §6). It is not authored: the threshold is target-dependent and cue <b>C</b> is an open design question. 2. <b>Voidblade carries no hold, and that costs twice.</b> Rung 1 is the branch&#x27;s <b>only</b> out-of-Meta Voidblade line, so outside the pre-transform moment this button is never pressed — and cap cannot see the sealed fact (the bank at its transform threshold) that says which moment that is. Two symptoms, opposite in direction: - <b>The sweep stops on it</b> whenever everything above is swiped or badged and Voidblade is off its ~30 s cooldown, where the correct press is Consume. This is why the row is authored <b>last</b>: at position 5 it absorbs only states that already fell through, instead of stopping the sweep on every build global. - <b>The sweep never reaches it</b> at the transform threshold (B-4), where the APL spends the global on Voidblade for <em>Devourer&#x27;s Bite</em>. Cost: one window without the +12 % amp applied in advance. <b>Both are fixed by the same measurement.</b> <code>!usable(void_metamorphosis)</code> is exactly <em>&quot;the bank is below the transform threshold&quot;</em> (§8, item 3): it would let Voidblade carry a <code>blocked</code> hold — killing the first symptom outright — and, with the hold in place, let a later revision move it to position 1 and kill the second. ⚠ That badge would be <b>lit across the whole build phase and correct</b>, which reads at first like Havoc&#x27;s deleted <code>immolation_recharging</code>. It is not the same case: that badge&#x27;s negation was <em>false</em> — the button is genuinely pressed at one charge — so it was lit <b>and wrong</b>. Lit-and-true is a noise question a flight settles; lit-and-false is a defect. Not built this pass either way. 3. <b>A spent Voidsurge</b> (M-5). The Voidblade row keeps reading pressable after its once-per-window empowerment is gone. 4. <b>Void Ray&#x27;s rung-8 hold</b> (§4.2). Two auras share one overlay channel, so the AND the hold needs cannot be formed. Void Ray is never <em>held</em> by cap; at worst it is channelled while both upgrades are already banked and no 4-piece is equipped. ⚠ This one does <b>not</b> resolve by measuring — it is an expressiveness gap, not an open fact. 5. <b>Soulburst promotes Consume to rung 4 and cap&#x27;s sweep does not follow it.</b> With the Season 2 2-piece up, Consume outranks Collapsing Star&#x27;s rung 5, Reap, Void Ray and everything below; the sweep still stops at whichever Essential icon it reaches first. <b>Nothing is authored for it by design</b> (§6.1): Soulburst is a Tier-1 registered overlay on Consume and Devour, so the client already glows the promotion on the button the player presses, and cap does not draw a second mark for a fact Blizzard marks — the same argument that deleted cue E. Whether a cap-owned virtual row should mirror the client&#x27;s glow is a <code>../render-shelf.md</code> question."
+          "html": "<code>buff.voidsurge_*</code> are simc placeholders with no game aura (<code>fact-classification.md</code> §4.2), so this walk is right <b>by position rather than by knowledge</b>. In the state where the Voidsurge has <b>already</b> been spent, the sweep presses Pierce the Veil again where the APL would press Devour — a real, undrawn gap, and the same open fact as Havoc&#x27;s <code>demonsurge_available</code> (<code>catalog.md</code> §8 item 2). <b>That state is not on this page</b>, because cap&#x27;s row for it is identical and only the correct answer differs."
         }
       ]
     }

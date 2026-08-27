@@ -102,8 +102,8 @@ resolves both. `1245523` is adjacent but describes the *replacement*, not the ow
 | `talent` — trait-config node/entry | **readable** ⚠ `[gap]` on the call | the `talent` predicate (shipped for Havoc) | ⚠ `knowledge/addon-dev/` records nothing about `C_Traits.GetNodeInfo` — the same open item as Havoc's #7 | `devourers_bite` (node 110167 / entry 136692) gates rung 1; `eradicate` (node 107345 / entry 132287) gates rung 2; `soul_glutton` selects the bank threshold and cue B's break point (`catalog.md` §1c) |
 | `aoe` — cap's own `/cap aoe` toggle | **readable, not a game read** | the `aoe` predicate (shipped) | n/a — cap owns the value | rungs 2, 3, 5, 9. **Four target-count terms**, against Havoc's one. |
 | Secret **Fury value / Fury-%** | **sealed-display** (`sealed-power-percent`) | S1 graded + an authored `threshold`, selected on `talent(soul_glutton)` — the talent drains 25 % faster, so the break point is per-build (`catalog.md` §1c) | `security-…` — Settled; the number itself is simc's fitted model | **Soul Immolation** in Meta — rung 13's `fury < void_metamorphosis_base_drain_ps` |
-| **Soul bank** (`void_metamorphosis_stack`, 0–50 aura cap) | **sealed-display** | S2 (`player-aura-stacks`); the band's threshold is talent-selected — **35 with *Soul Glutton*, else 50** | OBS-065 for the mechanism; §4.1 for the cap; `catalog.md` §1c for the fork | Void Metamorphosis readiness; rung 1's pre-transform Voidblade |
-| **Collapsing Star counter** (`collapsing_star_stacking`, 0–40) | **sealed-display** | S2 (`player-aura-stacks`), minimum **35** | as above | rung 5 — *"five from wasting harvested souls"* |
+| **Soul bank** (`void_metamorphosis_stack`, 0–50 aura cap) | **sealed-display** | S2, as `sealed-count-bands` (V16/V17). The band's threshold is talent-selected — **35 with *Soul Glutton*, else 50** — so it is authored as two mutually-exclusive `when`-gated markers, one per build | OBS-065 for the mechanism; §4.1 for the cap; `catalog.md` §1c for the fork | Void Metamorphosis readiness; rung 1's pre-transform Voidblade |
+| **Collapsing Star counter** (`collapsing_star_stacking`, 0–40) | **sealed-display** | S2, as `sealed-count-bands`. The authored threshold is the **grant at 30**, not rung 5's 35 — 35 would hatch a row rung 9 wants pressed (`catalog.md` §6) | as above | rung 5 — *"five from wasting harvested souls"* |
 | A related ability's **cooldown remaining** | **sealed-display** (`sealed-cooldown-range`) | S4 | `cdm-rider-patterns.md` — Settled | **nothing in this branch.** No rung in `voidscarred_ranged` reads another ability's `cooldown.X.remains`. Havoc's most-used sealed form has **no consumer here**. |
 | `action.reap.souls_consumed` — fragments **on the ground** | **open** | — no API tried that could carry it | `[searched 2026-08-17: PowerType.csv, the CDM readable surface, the shipped UI's DemonHunterSoulFragmentsBar]` — ⚠ **every one of those is a player-state instrument, and this is not player state.** The search looked in the right places for the wrong kind of thing. See the note below. | rungs 6, 7 — the `reaps` gate. **No hint.** |
 | `fight_remains` | **open** (and out of scope) | — | — | rung 7. Perfect information; no human equivalent. |
@@ -145,8 +145,8 @@ read cannot. It stays **open**, now with a named next step rather than a settled
   related cooldown is near or far — has **zero consumers** in this branch. Devourer's
   ordering-reasons are resource-and-buff shaped, not cooldown-alignment shaped.
 - **No new sealed form is required** by anything above. S1's `threshold` (shipped for
-  Felblade) and S2's `player-aura-stacks` (shipped for Backdraft) cover the two sealed
-  values, and R1/R2/R7 plus the shipped `proc` / `talent` / `aoe` predicates cover the
+  Felblade) and S2's `sealed-count-bands` (V16/V17 — which replaced `player-aura-stacks` and its
+  `min = 2` guard on 2026-08-22) cover the two sealed values, and R1/R2/R7 plus the shipped `proc` / `talent` / `aoe` predicates cover the
   readable ones.
 - **But R7 is harder here than anywhere cap has been.** Three chains on one spec, and the
   Cooldown Manager reaches Collapsing Star only through one of them (`catalog.md` §3): a spell
