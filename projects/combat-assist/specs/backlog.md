@@ -633,11 +633,22 @@ stripe sheet with it. The other two remain lab entries — Part 7, deciding noth
       observation that may earn a shared recipe later**, not a rule to author up front.
 - [ ] **No dim comes back with them.** Stripes state a condition without subtracting light.
 
-### THE OWED FLIGHT — v0.13.1 is deployed and nothing in it has been SEEN
+### THE OWED FLIGHT — v0.13.2 is deployed and nothing in it has been SEEN
 
-Cut and deployed 2026-08-27, 20 commits, the largest catalog change the project has had. Every
+Cut and deployed 2026-08-27, 21 commits, the largest catalog change the project has had. Every
 gate is green and no gate can see a pixel. cap reports `offered` / `armed` / `refused` and never
 learns whether a sealed band actually painted, so all of the below needs an eye.
+
+⚠ **v0.13.1 shipped a cue that eliminated a correct press and was replaced within the hour.** The
+post-release conscience review found cue H holding Collapsing Star on `ready(void_ray)` alone,
+where rung 8 fires on `!eradicate|!moment_of_craving|4pc` — so with both procs banked the APL skips
+Void Ray, rung 9 is the press, and cap badged it `blocked`. v0.13.2 gates the hold on `!proc(reap)`
+as well. **Fly v0.13.2, not v0.13.1**, and add one thing to the list below:
+
+- [ ] In AoE, in the form, with Void Ray **ready** and a Star granted: does Collapsing Star wear
+      `blocked`? It should ONLY when neither Reap-family proc is banked. ⚠ **No scenario in the
+      walk exercises cue H at all** — every scenario reaching Collapsing Star has Void Ray on
+      cooldown — so this state has never been reasoned about by a gate, only by hand.
 
 **On a Devourer Demon Hunter** — the spec that has never been flown at all:
 
