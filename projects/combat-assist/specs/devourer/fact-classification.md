@@ -97,7 +97,7 @@ resolves both. `1245523` is adjacent but describes the *replacement*, not the ow
 | --- | --- | --- | --- | --- |
 | `ready` — spell readiness | **readable** | R2 | `cooldown-manager.md`, `cdm-rider-patterns.md` — Settled | every lit row |
 | `affordable` / `insufficientPower` | **readable** | R1 | `security-taint-and-restricted-data.md` — Settled | **Void Ray** (100 Fury). The one spender in the branch with a real cost. |
-| `identity` — Void Metamorphosis override (`overrideSpellID ~= spellID`) | **readable** | R7 | `cooldown-manager.md`, `observations.md` — Settled | Reap→Cull/Eradicate; Voidblade→Hungering Slash/Pierce the Veil/Reaper's Toll. **Two chains on one spec**, and the Voidblade chain is three-deep. |
+| `identity` — Void Metamorphosis override (`overrideSpellID ~= spellID`) | **readable** | R7 | `cooldown-manager.md`, `observations.md` — Settled; the third chain measured in game 2026-08-27 | Reap→Cull/Eradicate; Voidblade→Hungering Slash/Pierce the Veil/Reaper's Toll; **Void Metamorphosis→Collapsing Star**. **Three chains on one spec**, the Voidblade chain is three-deep, and the third is the reason the spec's most-missed press is reachable at all — Collapsing Star has no `CooldownSetSpell` row of its own and rides Void Metamorphosis's (`catalog.md` §3). |
 | `proc` — spell-activation overlay | **readable** ⚠ candidate | R2-adjacent; `IsSpellOverlayed` | `cooldown-manager.md:1334-1341` `[client]` for the API; §4.2's DB2 rows for *which* auras | Vengeful Retreat (Voidstep); Reap (Eradicate ∪ Moment of Craving); Consume/Devour (Soulburst) — **but Consume has no row**, §3 |
 | `talent` — trait-config node/entry | **readable** ⚠ `[gap]` on the call | the `talent` predicate (shipped for Havoc) | ⚠ `knowledge/addon-dev/` records nothing about `C_Traits.GetNodeInfo` — the same open item as Havoc's #7 | `devourers_bite` (node 110167 / entry 136692) gates rung 1; `eradicate` (node 107345 / entry 132287) gates rung 2; `soul_glutton` selects the bank threshold and cue B's break point (`catalog.md` §1c) |
 | `aoe` — cap's own `/cap aoe` toggle | **readable, not a game read** | the `aoe` predicate (shipped) | n/a — cap owns the value | rungs 2, 3, 5, 9. **Four target-count terms**, against Havoc's one. |
@@ -105,15 +105,39 @@ resolves both. `1245523` is adjacent but describes the *replacement*, not the ow
 | **Soul bank** (`void_metamorphosis_stack`, 0–50 aura cap) | **sealed-display** | S2 (`player-aura-stacks`); the band's threshold is talent-selected — **35 with *Soul Glutton*, else 50** | OBS-065 for the mechanism; §4.1 for the cap; `catalog.md` §1c for the fork | Void Metamorphosis readiness; rung 1's pre-transform Voidblade |
 | **Collapsing Star counter** (`collapsing_star_stacking`, 0–40) | **sealed-display** | S2 (`player-aura-stacks`), minimum **35** | as above | rung 5 — *"five from wasting harvested souls"* |
 | A related ability's **cooldown remaining** | **sealed-display** (`sealed-cooldown-range`) | S4 | `cdm-rider-patterns.md` — Settled | **nothing in this branch.** No rung in `voidscarred_ranged` reads another ability's `cooldown.X.remains`. Havoc's most-used sealed form has **no consumer here**. |
-| `action.reap.souls_consumed` — fragments on the ground | **open** | — no API | `[searched 2026-08-17: PowerType.csv, the CDM readable surface, the shipped UI's DemonHunterSoulFragmentsBar]` | rungs 6, 7 — the `reaps` gate. **No hint.** |
+| `action.reap.souls_consumed` — fragments **on the ground** | **open** | — no API tried that could carry it | `[searched 2026-08-17: PowerType.csv, the CDM readable surface, the shipped UI's DemonHunterSoulFragmentsBar]` — ⚠ **every one of those is a player-state instrument, and this is not player state.** The search looked in the right places for the wrong kind of thing. See the note below. | rungs 6, 7 — the `reaps` gate. **No hint.** |
 | `fight_remains` | **open** (and out of scope) | — | — | rung 7. Perfect information; no human equivalent. |
 | `buff.voidsurge_*` — an owed empowered cast | **open** | — | §4.2; simc placeholder | rungs 11, 12. **No hint.** Shared with Havoc's open item 6. |
 | Void Metamorphosis **castability below the bank threshold** | **open** | R1 (`isUsable`, first return) | unmeasured | rung 2's gate as a *readable* hold. ⚠ It is no longer what holds up the drawing: the client does **not** grey a fragment-gated button — desaturation means on cooldown and nothing else, and usability is a tint *[T1 src @12.1.0: `knowledge/addon-dev/cooldown-manager.md` §3.4]* — so `scenarios.md` §7.1 eliminates that row with cue **C**'s own sealed band instead, reading nothing. See §8, item 3 (item 7 collapsed into it 2026-08-26). |
-| Collapsing Star **castability** — a spell gated by aura-granted access | **open** | R1 (`isUsable`, first return) | unmeasured; the only measurement on `isUsable` is four **Fury-gated** Havoc spells | what clears the V12 **gated** virtual row's hatch (§6.1). **The catalog's most load-bearing open fact — §8, item 3** |
+| Collapsing Star **castability** — a spell gated by aura-granted access | **client-drawn; cap neither reads it nor redraws it** | — | the client's usability **vertex-colour tint** `ITEM_NOT_USABLE_COLOR` *[T1 src @12.1.0: `cooldown-manager.md` §3.4, `CooldownViewer.lua:1195-1233`]*, seen on the in-form row in game 2026-08-27 | **nothing.** It was the gate on a V12 gated virtual row until 2026-08-27; Collapsing Star is a Cooldown Manager row (`catalog.md` §3), Blizzard already draws its availability, and cap does not draw a second mark for a fact the client marks. ⚠ A tint is not one of cap's three eliminating signals, so what rules the row out of a **walk** is a separate question — `scenarios.md` §7.2. |
 
 **No sealed fact appears in any proposed condition above.** The soul bank, the Collapsing
 Star counter and Fury are sink-only; every gate is `ready`, `affordable`, `identity`, `proc`,
 `talent` or `aoe`.
+
+⚠ **Two different quantities were being conflated, and only one of them is player state.**
+The distinction is what decides where `action.reap.souls_consumed` can be looked for at all.
+
+- **Collected / banked** — a player **aura stack**: `void_metamorphosis_stack` (`1225789`,
+  cap 50) out of the form, `collapsing_star_stacking` (`1227702`, cap 40) inside it. Blizzard's
+  shipped `DemonHunterSoulFragmentsBar` draws this, as a bar. ⚠ It is **not a resource**: Demon
+  Hunter has exactly one row in `PowerType.csv`, **FURY (17)**, and there is no soul-fragment
+  power type at all — so that bar is an aura stack rendered as a bar. cap still cannot
+  read it, and the **sealed-display (S2) classification above is correct and stays**.
+- **On the ground** — fragments that have spawned and not yet been picked up, collected by
+  walking over them (`pick_up_fragment`) or harvested by Reap. This is what the APL's
+  `action.reap.souls_consumed` counts, and it is a count of **world objects, not player state**.
+
+The `[searched 2026-08-17]` marker names three instruments — `PowerType.csv`, the CDM readable
+surface, `DemonHunterSoulFragmentsBar` — and **all three read the player**. That is why the
+search came back empty: it was the right search for the banked count and the wrong one for this.
+
+**One route has not been tried: the combat log.** Fragment spawn and despawn events, with cap
+maintaining a derived count off them, is the only shape that could carry a world-object count into
+a readable predicate. ⚠ **Nothing in `knowledge/addon-dev/` covers CLEU**, so this is a
+**candidate ClientLab question and not a working answer** — and a derived count can desync from
+the world (a missed event, a fragment expiring off-log, a reload mid-pull) in a way an authoritative
+read cannot. It stays **open**, now with a named next step rather than a settled negative.
 
 ### 4.4 What this spec does *not* need, and one thing it does
 
@@ -124,7 +148,11 @@ Star counter and Fury are sink-only; every gate is `ready`, `affordable`, `ident
   Felblade) and S2's `player-aura-stacks` (shipped for Backdraft) cover the two sealed
   values, and R1/R2/R7 plus the shipped `proc` / `talent` / `aoe` predicates cover the
   readable ones.
-- **But R7 is harder here than anywhere cap has been.** Voidblade is a **three-deep** chain
+- **But R7 is harder here than anywhere cap has been.** Three chains on one spec, and the
+  Cooldown Manager reaches Collapsing Star only through one of them (`catalog.md` §3): a spell
+  with no `CooldownSetSpell` row of its own has an icon exactly when some other row overrides to
+  it, which is the reading Retribution's Hammer of Light already had written down. Voidblade is a
+  **three-deep** chain
   — Voidblade → Hungering Slash (a 6 s replacement, out of Meta) → Pierce the Veil (in Meta)
   → Reaper's Toll (in Meta, when Hungering Slash is the live form). `1245523` exists
   precisely to say *"Pierce the Veil is replaced with Reaper's Toll"*. Bind a static

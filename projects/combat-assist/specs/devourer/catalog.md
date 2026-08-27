@@ -111,7 +111,7 @@ outside this branch anyway.
 
 ---
 
-## 3. The structural finding: the Cooldown Manager does not carry this rotation
+## 3. The structural finding: exactly one press has no frame anywhere
 
 This is the most important thing stage 3 turned up and it is not a fact about Secret Values.
 It is about which rows exist at all.
@@ -122,44 +122,81 @@ pool is `CooldownSetID 1864` `[T1: CooldownSetSpell @ 12.1.0.69214]`, and its **
 category — the viewer `Anchor.lua` re-orders, and therefore the only row the left-to-right
 reading model applies to — contains exactly **six** spells:
 
-| Essential row | Spell | In this branch |
-| --- | ---: | --- |
-| Reap | `1226019` | yes — overrides to Cull `1245453` / Eradicate `1225826` |
-| Voidblade | `1245412` | yes — overrides to Hungering Slash `1239123` / Pierce the Veil `1245483` / Reaper's Toll `1245470` |
-| Void Ray | `473728` | yes |
-| Void Metamorphosis | `1217605` | yes |
-| Soul Immolation | `1241937` | yes |
-| The Hunt | `1246167` | **no** — this branch is `!talent.the_hunt` |
+| Essential row | Spell | `OrderIndex` | In this branch |
+| --- | ---: | ---: | --- |
+| Reap | `1226019` | 0 | yes — overrides to Cull `1245453` / Eradicate `1225826` |
+| Voidblade | `1245412` | 2 | yes — overrides to Hungering Slash `1239123` / Pierce the Veil `1245483` / Reaper's Toll `1245470` |
+| Void Ray | `473728` | 3 | yes |
+| Void Metamorphosis | `1217605` | 4 | yes — **overrides to Collapsing Star inside the form** |
+| Soul Immolation | `1241937` | 6 | yes |
+| The Hunt | `1246167` | 5 | **no** — this branch is `!talent.the_hunt` |
 
-So the anchored row is **five icons**. Everything else the branch presses is somewhere else,
-or nowhere:
+So the anchored row is **five icons**.
+
+⚠ **`OrderIndex` is Blizzard's order, and it is not the reading order.** `Anchor.lua` re-anchors
+the Essential viewer into *the catalog's* authored order (`scenarios.md` §7.1), so the column
+above fixes only **which rows exist**, never where a left-to-right scan meets them. It is
+recorded because it is the exact reasoning this section already got wrong once, in the other
+direction.
+
+Everything else the branch presses is somewhere else, or nowhere:
 
 - **Vengeful Retreat** `198793` is in the **Utility** viewer. cap binds it (`Bind.lua` covers
   all four viewers), so it can be skinned and badged — but `Anchor.lua` only re-anchors
   Essential, so it sits outside the ordered scan, the way Havoc's Felblade and Vengeful
   Retreat already do.
 - **Consume** `473662` and **Devour** `1217610` are in **no CDM category at all**. Not
-  Essential, not Utility, not a tracked buff. Consume is the spec's filler *and*, on the
+  Essential, not Utility, not a tracked buff. **This is the only press in the branch with no
+  frame anywhere**, and it is the branch's most-pressed button: the spec's filler *and*, on the
   Season 2 2-piece, the target of its single largest rank swing (rungs 3–4).
-- **Collapsing Star** — the cast (`1221150` / `1221167`) is in no category. Only its
-  **stacking counter** aura `1227702` appears, as a **TrackedBuff** row.
+- **Collapsing Star** — the cast (`1221150` / `1221167`) has no `CooldownSetSpell` row in any
+  set and no `CooldownSetLinkedSpell` entry either `[T1 @ 12.1.0.69214]`. **It still has an
+  icon: it is Void Metamorphosis's row, overridden.** Measured in game **2026-08-27** — inside
+  the form the keybinding that casts Void Metamorphosis casts Collapsing Star, and the Cooldown
+  Manager item's art changes with it. That is `overrideSpellID ~= spellID` on the row, which is
+  cap's ordinary **R7 identity spine**, the same mechanism as Reap → Cull / Eradicate and
+  Voidblade → Pierce the Veil. The row is Collapsing Star for the **whole** window and simply
+  draws unusable until enough fragments are harvested. Its **stacking counter** aura `1227702`
+  is a separate **TrackedBuff** row and is not what the button rides.
 
-⚠ **This is not the same problem Havoc has.** Havoc's Demon's Bite is also absent from its
-pool, and Havoc's catalog handles that by binding it anyway and letting the row bind only if
-it exists — because Demon's Bite is a *floor* press whose absence costs nothing. Here the
-missing button is **Collapsing Star, and at rung 5 it outranks Void Ray at rung 8** — rung 5
-being the single-target `stack>=35` line. When that is the correct press, the five-icon scan
-reaches **Void Ray** and stops there, one rung too low. No cue on any existing row can point at
-a button that has no icon.
+⚠ **The premise was right and the inference was wrong.** Absence from `CooldownSetSpell` proves
+a spell has no row **of its own**; an override needs none, because it borrows the row of the
+spell it replaces. Retribution has the shape written down already: three buttons its priority
+presses — Hammer of Light `427453` among them — *"have no `CooldownSetSpell` row of their own, in
+any set, and can therefore reach the Cooldown Manager only as an override on some other row"*
+(`../retribution/catalog.md` → *The row set is measured*). The same reading was available here and
+was not applied, and this section concluded from it that the Cooldown Manager does not carry this
+rotation. **It carries all of it but one press.**
 
-Collapsing Star's *other* rung is **9** — the `active_enemies>1` line — and it sits **below**
-Void Ray, not above it *[`simc-apl.md:102` is `void_ray`, `:103` is `collapsing_star`]*. So in
-AoE a scan that stops on Void Ray is stopping in the right place, and the misordering is
-specifically the single-target one. **The virtual row is justified on rung 5 alone, and that is
-enough**: one rung that outranks a drawn icon, in the branch's ordinary single-target state, is a
-press the reading model cannot reach at all. Rung 9 needs the row for a different reason — when
-everything above it is ruled out there must be *something* left for the sweep to terminate on —
-but it is not evidence of a misordering.
+⚠ **The misordering does not vanish — it inverts, and that is the load-bearing half.** Void
+Metamorphosis is authored **first** in cap's Essential order (`scenarios.md` §7.1), so for the
+whole window position 1 *is* Collapsing Star. Against the APL:
+
+- **Single target, counter ≥ 35** — rung **5**, above Reap (6–7) and Void Ray (8). Position 1 is
+  exactly right, and the press the five-icon line was thought unable to reach is in fact the
+  leftmost icon on it.
+- **Single target, counter 30–34** — a Star is granted at 30, but rung 5 does not want one until
+  35 *[`simc-apl.md`, `collapsing_star,if=active_enemies=1&buff.collapsing_star_stacking.stack>=35`]*.
+  cap's leftmost icon is castable one band early.
+- **AoE** — rung **9**, *below* Void Ray at 8 *[`simc-apl.md:102` is `void_ray`, `:103` is
+  `collapsing_star`]*. Position 1 over-ranks it.
+
+So the direction is the **opposite** of what an absent icon would have caused: the press is not
+unreachable, it is reachable **too early**. That is an ordinary misordering of the kind cap has
+vocabulary for, and it is `scenarios.md` §7.5 item 1.
+
+**Record the direction; Phase 5 authors it.** The fix is a **hold** on the Collapsing Star face
+below the counter's high band, not a promotion — nothing needs promoting when the face is
+already position 1. Two things make that newly possible and one makes it hard:
+
+- the face now has a **Cooldown Manager frame**, so it can host a sealed count band, which a V12
+  virtual row could not (`Catalog.lua` refuses a sealed display on a virtual entry) — this is the
+  surface §6's rung-5 consumer was said to lack;
+- the counter is **sealed**, so the hold is V17's `ruled-sealed` — cap's own rule evaluated by
+  the client against the secret — and not a readable badge;
+- ⚠ the band's threshold is **target-dependent** (35 at a single target, 30 in AoE), and `aoe` is
+  cap's own readable toggle, so selecting between two authored thresholds on it is legal by the
+  same construction §1c uses for *Soul Glutton*. Authoring it is not this pass's job.
 
 ⚠ **Blizzard already draws the sealed half, but not somewhere the walk can use.** The same
 pool carries `TrackedBuff` rows for exactly the state this spec is made of: **Void
@@ -174,11 +211,15 @@ elimination model rests on; `wasSetFromCooldown` is always false on a buff row; 
 hide-when-inactive unchecked — a player-facing Edit Mode box — an inactive buff row draws as a
 full-colour un-swiped icon, pixel-identical to a ready ability. **Do not re-propose it.**
 
-**The answer is `../render-shelf.md` V12 · Virtual row**, authorised 2026-08-17: a press with
-no CDM row draws as a **cap-owned icon in its own panel** — the spell icon at
-`tokens.panel.icon_px`, wearing V11's hatch from the same generated `Media/stripes.tga`, and
-nothing else. No scan edge, no badge. V12 declares two kinds — **gated** and
-**standing** — and §6.1 authors one of each.
+**The answer for that one press is `../render-shelf.md` V12 · Virtual row**, authorised
+2026-08-17 and **built 2026-08-27** (`Panel.lua`, addon commit `932419a`): a press with no CDM
+row draws as a **cap-owned icon in its own panel** — the spell icon at `tokens.panel.icon_px` —
+and it **takes part in the scan**, wearing V11's hatch from the generated `Media/stripes.tga`,
+V13's scan edge, the skip layer and any cue badges its readable markers earn, because it is the
+same `Treatment.For` answer painted through the same `Paint` builders. Two things separate it
+from a Cooldown Manager row and only two: no CDM frame behind it, and an inverted unknown
+polarity. V12 declares two kinds — **gated** and **standing** — and this catalog authors
+**one**, a standing Consume (§6.1).
 
 ---
 
@@ -188,10 +229,13 @@ nothing else. No scan edge, no badge. V12 declares two kinds — **gated** and
 
 ## 5. The roster — player problem → fact → treatment
 
-Stage 2's filter: **an ability with no named player problem gets no row.** Eight survive — five
-Essential rows, one Utility row, and two **virtual rows** (§6.1). Scan membership is
-`../spec.md` §3.1's: every drawable row here is a default ready-self scan member (no row
-declares a `scan_when`).
+Stage 2's filter: **an ability with no named player problem gets no row.** Seven survive — five
+Essential rows, one Utility row, and one **virtual row** (§6.1). Scan membership is
+`../spec.md` §3.1's: **no row here declares a `scan_when`**, and since the gated row went away
+that is true for a new reason. `Catalog.lua` **forbids** `scan_when` on a `standing` virtual
+entry and **requires** it on a `gated` one; with no gated entry left, the six Cooldown Manager
+rows take the default alternative (ready-self) and the standing Consume row asks for no verdict
+at all, so nothing in the roster has one to declare.
 
 ### 5.0 Bound abilities
 
@@ -201,23 +245,30 @@ them. Base ids are `abilities.md` / `ability-inventory.tsv`; override ids are re
 and the numbers here are reference. **Both a base name and every override name are keys**, because
 a scenario row writes whatever the client would *display* at that moment.
 
-⚠ The two virtual rows are in the table because they are drawable buttons cap owns (§6.1);
-the **Surface** column is what says a row has no Cooldown Manager frame at all.
+⚠ The virtual row is in the table because it is a drawable button cap owns (§6.1); the
+**Surface** column is what says a row has no Cooldown Manager frame at all.
 
 | Key | Ability | Base spell ID | Live override | Scan | Charges | Surface | Cues |
 | --- | --- | ---: | --- | --- | --- | --- | --- |
-| `void_metamorphosis` | Void Metamorphosis | `1217605` | — | scan | — | CDM Essential | the Eradicate-setup hold (D) + the sealed soul-bank readout (C) |
+| `void_metamorphosis` | Void Metamorphosis | `1217605` | **Collapsing Star `1221167`** (in-form) | scan | — | CDM Essential | the Eradicate-setup hold (D) + the sealed soul-bank readout (C) |
 | `reap` | Reap | `1226019` | Cull `1245453` / Eradicate `1225826` | scan | — | CDM Essential | — (identity spine only) |
 | `void_ray` | Void Ray | `473728` | — | scan | — | CDM Essential | starved (A) |
 | `soul_immolation` | Soul Immolation | `1241937` | — | scan | — | CDM Essential | the drain save (B) |
 | `voidblade` | Voidblade | `1245412` | Pierce the Veil `1245483` / Hungering Slash `1239123` / Reaper's Toll `1245470` | scan | — | CDM Essential | — (see `scenarios.md` §7.5, misordering 2) |
-| `collapsing_star` | Collapsing Star | `1221167` | — | scan | — | **virtual · gated** (§6.1) | — (V12: the hatch and nothing else) |
 | `consume` | Consume | `473662` | Devour `1217610` | scan | — | **virtual · standing** (§6.1) | — (V12: no verdict at all) |
 | `vengeful_retreat` | Vengeful Retreat | `198793` | — | scan | — | CDM Utility | — (cue E deleted, §6) |
 
-⚠ **Collapsing Star's cast carries two ids** — `1221150` and `1221167` (§3) — and neither is in a
-Cooldown Manager category. `1221167` is the one bound here because it is the id §6.1 and
-`../render-shelf.md` V12 both name; the other is recorded in §3 and used nowhere.
+⚠ **Collapsing Star's cast carries two ids** — `1221150` and `1221167` (§3) — and neither has a
+`CooldownSetSpell` row of its own, which is what an override does not need. `1221167` is the one
+bound here; the other is recorded in §3 and used nowhere. **`Collapsing Star` remains a key**,
+because §5.0's rule is that both a base name and every override name are keys — a scenario row
+writes whatever the client would *display* at that moment, and inside the form that row displays
+Collapsing Star.
+
+⚠ **Void Metamorphosis's id is `1217605` here and `471306` in the KB, and both are right.**
+`1217605` is the `CooldownSetSpell` id, which is what a Cooldown Manager row is keyed on;
+`ability-inventory.tsv`'s `471306` is the `TraitNodeEntry` id. They are not a disagreement to
+reconcile, and neither is a typo.
 
 ⚠ **Voidblade's override column lists Pierce the Veil first**, which is the face `scenarios.md`
 §7.4 walks. The order in this column is not a claim about which form is live — R7 resolves that at
@@ -230,8 +281,11 @@ runtime, and all three are keys.
   build (§1c). The APL's rule has a second
   half too: at 2+ targets, don't transform mid-way through setting up the Eradicate upgrade.
   *Facts:* `ready` (R2) for the tier; `aoe` + `talent(eradicate)` + `proc` (all readable) for
-  the hold; the **soul bank** (sealed) for the readout. *Treatment:* scan + a red
-  `blocked` hold (cue **D**) + the sealed bank readout (cue **C**).
+  the hold; the **soul bank** (sealed) for the readout; `identity` (R7) for the in-form face.
+  *Treatment:* scan + a red `blocked` hold (cue **D**) + the sealed bank readout (cue **C**).
+  ⚠ **Inside the form this row is Collapsing Star** (§3), so it is one row with two jobs and two
+  counts (§6) — the transform out of the form, the granted Star inside it — selected by the
+  identity spine and by nothing cap computes.
 - **Reap → Cull / Eradicate** (`1226019`, rungs 6–7). *Problem:* one button wearing three
   faces, and the face changes what it is for — Eradicate is a 25 yd frontal cone you aim, Cull
   is the in-window harvest, Reap is the builder. *Facts:* `ready` (R2), `identity` (R7).
@@ -286,6 +340,10 @@ runtime, and all three are keys.
 - **Devour** as an *independent* row. It is Consume's Meta override form on the standing virtual
   row, not a second press — `devour_t : public consume_base_t` shares Consume's cooldown object
   (§6.1). Rungs 14 and 15 are one button.
+- **Collapsing Star** as an *independent* row. It is the Void Metamorphosis row's in-form
+  override face (§3), so R7 already draws it and it needs no row of its own — the same reason
+  Pierce the Veil and Reaper's Toll get none. It was authored as a virtual row until 2026-08-27
+  on the mistaken inference that no `CooldownSetSpell` row meant no icon.
 
 ---
 
@@ -316,14 +374,37 @@ client-drawn number has no polarity because it makes no claim about rank. So the
 review asked for is right, and it goes one step further: merged, the primitive stops being a
 cue and becomes a readout, and the positive/negative axis stops applying to it.
 
-⚠ **And merged, it is instanced ONCE, not twice.** The second candidate — the in-window
-`collapsing_star_stacking` counter — is **already drawn by Blizzard twice**: as its own
-`TrackedBuff` row (`1227702`, §3) and inside the class resource bar. Its only unserved consumer
-is rung 5's single-target `stack>=35` refinement, which has no surface to sit on (V12 says a
-virtual row wears the hatch **and nothing else**). It is not authored; `scenarios.md` §7's documented
-misordering 1 is the cost, and it is small. The soul-bank instance *is* authored, because it is
-the Backdraft move exactly: the number exists elsewhere, and the decision it feeds is made on
-the Void Metamorphosis icon.
+⚠ **Cue C is an OPEN DESIGN QUESTION as of 2026-08-27, and it is not decided here.** Its
+justification says *"the icon cannot say 'you need 50 souls'"*. The player has since reported a
+**shipped Blizzard bar** drawing the collected count — which `fact-classification.md` §4.1 already
+identified as `DemonHunterSoulFragmentsBar`, an aura consumer rather than a `UnitPower` one — so
+that justification is weaker than when it was written. Both sides, stated rather than resolved:
+
+- **redundant** — the standing rule that deleted cue E and leaves Soulburst to the stock proc
+  glow: *do not draw a second mark for a fact the client already marks.*
+- **not redundant** — the shelf's independent-context argument, precedent **Backdraft**
+  (`../spec.md` §3.5): the count sits **beside the row it governs**, so a scan never leaves the
+  Cooldown Manager line to read it. A bar elsewhere on the screen costs an eye movement the
+  elimination walk does not budget for.
+
+⚠ **And the override makes it one row with TWO counts, selected by identity.** Void
+Metamorphosis's row carries the bank (0 to the selected threshold — 35 with *Soul Glutton*, else
+50) **out** of the form and the `collapsing_star_stacking` counter (0–40) **inside** it, and the
+two are mutually exclusive because the identity is. That shape is not new — Demonology's
+Implosion already uses two `when`-gated mutually-exclusive markers (`../demonology/catalog.md`,
+rung 9) — and it carries a known cost recorded there: **`Catalog.CORNER_DISPLAYS` claims a corner
+slot per marker BY DECLARATION**, not by whether the marker arms, so two count markers claim two
+corners and the one that is gated off leaves a blank step. The cost is stated; the markers are
+**not authored** here.
+
+⚠ **The rung-5 consumer now HAS a surface, which it did not before.** The earlier draft dismissed
+the counter instance on the grounds that its only unserved consumer — rung 5's single-target
+`stack>=35` refinement — had nowhere to sit, on a reading of V12 that the shelf has since
+rewritten, and on the rule that still stands: `Catalog.lua` refuses a sealed display on a virtual
+entry, because a virtual row has no Cooldown Manager frame to host one. Collapsing Star is a Cooldown
+Manager row now (§3), so that objection is gone. What replaces it is the design question above,
+plus §3's target-dependent threshold. `scenarios.md` §7.5 item 1 is still the cost of not
+authoring it, and it is still small.
 
 **The cue that was dropped: Voidstep on Vengeful Retreat.** An earlier draft made this cue
 **E**. It is deleted for two independent reasons, either of which is sufficient.
@@ -355,20 +436,22 @@ decision, not a rewrite**: either bind it for the hatch alone and say so, or unb
 Blizzard's swipe carry the row. It is in `discussion.md`. What it does not get, either way, is a
 cue.
 
-### 6.1 The two virtual rows (V12)
+### 6.1 The virtual row (V12)
 
 `../render-shelf.md` V12 fixes the shape: a cap-owned icon, laid out left to right in
-`tokens.panel`, wearing V11's hatch and nothing else. It also fixes **two kinds**, and the kind
-is a property of the ability rather than of the moment:
+`tokens.panel`, taking part in the scan and painted through the same `Treatment.For` / `Paint`
+path a Cooldown Manager row is. It also fixes **two kinds**, and the kind is a property of the
+ability rather than of the moment. **This catalog authors one row, and it is standing:**
 
 | # | Virtual row | Kind | Serves | Behaviour |
 | --- | --- | --- | --- | --- |
-| 1 | **Collapsing Star** (`1221167`) | **gated** | rungs 5 / 9 | hatched by default; clears when Collapsing Star is castable **and** `!proc(consume ∪ devour)` |
-| 2 | **Consume → Devour** (`473662` → `1217610`) | **standing** | rungs 14–15 | draws **clear, permanently**; asks for no verdict at all |
+| 1 | **Consume → Devour** (`473662` → `1217610`) | **standing** | rungs 14–15 | draws **clear, permanently**; asks for no verdict at all |
 
-⚠ **The unknown polarity is inverted from V11** on a *gated* row — on a CDM row an unknown draws
-bare because absence of a hatch asserts nothing; on a gated virtual row absence of a hatch **is**
-the signal, so **unknown draws hatched**. A standing row has no verdict to be unknown about.
+⚠ **V12's inverted unknown polarity does not arise here.** On a *gated* virtual row absence of a
+hatch **is** the signal, so unknown draws hatched; a **standing** row asks for no verdict and so
+has nothing to be unknown about. The rule is recorded because the next spec may need it, not
+because anything in this catalog exercises it. It was exercised until 2026-08-27, when Collapsing
+Star turned out to have a Cooldown Manager row after all (§3).
 
 **Consume is standing, and the premise is Tier 1.** `ability-inventory.tsv` gives it **cooldown
 `0`**, there is **no `SpellPower` row** for `473662` at `12.1.0.69214` — so no resource cost — and
@@ -399,33 +482,12 @@ and does not draw a second mark for a fact the client already marks. The residua
 misordering 5, and whether a cap-owned virtual row should mirror the client's glow is a
 `../render-shelf.md` question, not a catalog one.
 
-**Collapsing Star is gated, and its single readable gate is earned by a structural fact.** A bare
-*"clears when castable"* rule would point past rungs 1–4. Rungs **1 and 2 both require a full soul
-bank**, and entering Void Metamorphosis **expires** the bank (`sc_demon_hunter.cpp:9179`) with no
-way to refill it while transformed — while Collapsing Star exists only inside Meta. So rungs 1–2
-are structurally dead for the whole window and need no gate at all. What remains above it is rungs
-3–4, and `!proc` is readable. That is the *one secret, many readable gates* fence Havoc puts around
-its positive cue, applied here to a row rather than a badge.
-
-⚠ **What clears the gated row is an OPEN FACT and it is load-bearing three ways.** The candidate
-read is `C_Spell.IsSpellUsable`'s **first** return. `knowledge/addon-dev/security-taint-and-restricted-data.md`
-records a measured trap on it: *"`isUsable` was measured returning **true** for a spell visibly on
-cooldown. It answers 'can I afford it', not 'can I cast it'"* — and the measured sample is four
-**Fury-gated Havoc spells**, all of them failing on *power*. Collapsing Star has **no cooldown and
-no power cost**; its gate is aura-granted access, a third kind of unavailability the sample never
-exercised. **Whether `isUsable` goes false without that access is unmeasured, and it must not be
-assumed.** Routed as `@verify-ingame`, ClientLab registry id `spell-usable-aura-granted-access`
-(§8, item 3 — parked, not `@pending-test`, because no probe exists yet). Its three consumers:
-Collapsing Star's hatch, Void Metamorphosis's bank hold, and Voidblade's rung-1 hold. *(The
-standing Consume row needs no verdict, so it is not one of them.)*
-
-**The fallback, named now rather than discovered later.** If the read is sealed or answers
-uselessly, the hatch is driven instead by a **client-evaluated curve** (V9 / V10 shape): cap hands
-the client the sealed availability and a curve, the client writes the result into the hatch's
-alpha, and cap never learns the answer. The panel design holds either way; only what clears the
-hatch changes. ⚠ One thing to settle *there* rather than here: S2's value-as-alpha trick runs in
-the **show-when-non-zero** direction and a hatch needs **hide-when-non-zero**, so the sink and the
-curve's polarity are a `../render-shelf.md` question, not a catalog one.
+⚠ **The window kills rungs 1–2 outright, and that fact survives the correction.** Rungs 1 and 2
+both require a full soul bank, and entering Void Metamorphosis **expires** the bank
+(`sc_demon_hunter.cpp:9179`) with no way to refill it while transformed. So for the whole window
+the two rungs above Collapsing Star's own are structurally dead, which is why the in-form scan
+starting at position 1 is not skipping past anything. It was recorded here as the justification
+for a single readable gate on a virtual row; the row is gone and the structural fact is not.
 
 ---
 
@@ -447,7 +509,8 @@ does ships without that hint** — which is exactly how §8.2 is written.
 1. **Do the four Devourer overlay auras actually reach `IsSpellOverlayed`?** `fact-classification.md` §4.2 resolves from
    Tier-1 DB2 *which* auras Blizzard registers as icon-highlight overlays. It does not prove the
    read answers true in instanced combat. Candidate-settled by mechanism; confirm before
-   shipping any `proc` cue. **Load-bearing on cue D and on the gated virtual row's gate.**
+   shipping any `proc` cue. **Load-bearing on cue D**, which is now its only consumer — the
+   second, a `!proc` term on the gated virtual row's gate, went away with the row (§3).
    `@verify-ingame`
 2. **Is an owed Voidsurge cast readable?** Rungs 11–12 gate on a simc placeholder with no game
    aura. `proc` already exists in the grammar, so if the owed cast surfaces as a glow this is
@@ -456,13 +519,16 @@ does ships without that hint** — which is exactly how §8.2 is written.
 3. **Does `C_Spell.IsSpellUsable` answer usefully for a spell gated by AURA-GRANTED ACCESS?**
    The measured trap is that `isUsable` returns **true for a spell visibly on cooldown**
    (`knowledge/addon-dev/security-taint-and-restricted-data.md`, `[client 2026-08-03]`) — it
-   answers affordability, and the sample was four **Fury-gated** Havoc spells. Collapsing Star
-   (`1221167`) has no cooldown and no power cost; Void Metamorphosis (`1217605`) has neither
-   either. Both are gated on a **buff**, a third kind of unavailability the sample never
-   exercised. **This is the single most load-bearing open fact in the catalog — three consumers:**
-   Collapsing Star's gated-row hatch, Void Metamorphosis's bank hold, and Voidblade's rung-1 hold
-   (misordering 2). *(The standing Consume row asks for no verdict, so it is not one of them.)*
-   Fallback named in §6.1 if it comes back sealed.
+   answers affordability, and the sample was four **Fury-gated** Havoc spells. Void Metamorphosis
+   (`1217605`) has no cooldown and no power cost; it is gated on a **buff**, a third kind of
+   unavailability the sample never exercised. **Two consumers survive:** Void Metamorphosis's bank
+   hold and Voidblade's rung-1 hold — which are the two halves of misordering 2, so it is really
+   one player problem read twice. **It is no longer the catalog's most load-bearing open fact**,
+   and the honest description is now *worth one measurement, blocking nothing that ships*: neither
+   consumer gates a row from drawing, position 1 already eliminates below the bank off cue **C**'s
+   own count band (`scenarios.md` §7.1), and the third consumer — Collapsing Star's hatch on a
+   gated virtual row — **no longer exists**, because Collapsing Star is a Cooldown Manager row and
+   the client's own usability tint draws its availability (§3, `fact-classification.md` §4.3).
    `@verify-ingame` — ClientLab registry id **`spell-usable-aura-granted-access`**, status
    **`parked`**. ⚠ It is deliberately *not* `@pending-test`: that marker means a `ns.Test{}`
    exists and flies on the next pull, and `wowkb.lab deploy` fails by name when it does not.
@@ -494,32 +560,43 @@ does ships without that hint** — which is exactly how §8.2 is written.
    aura-granted gate, which **is item 3**, and `scenarios.md` §7.1 no longer rests on the client at
    all: below-bank Void Metamorphosis is `ruled-sealed` off cap's own V17 band.
 
+8. **Nothing needs measuring for Collapsing Star's availability, and this is why.** The client
+   does **not** grey a fragment-gated button by desaturation — desaturation is the cooldown
+   channel and nothing else — but usability rides a separate **vertex-colour tint**
+   `ITEM_NOT_USABLE_COLOR` *[T1 src @12.1.0: `knowledge/addon-dev/cooldown-manager.md` §3.4,
+   `CooldownViewer.lua:1195-1233`]*, and that tint is what the player reported seeing on the
+   in-form row on **2026-08-27**. So **Blizzard already draws it**, and cap draws nothing for it —
+   the same standing rule that deleted cue E and leaves Soulburst to the stock proc glow. ⚠ This
+   is a statement about the **pixels**, not about the walk: a tint is not one of cap's three
+   eliminating signals, so §7.2 still has to say what rules the row out (`scenarios.md` §7.2).
+
 ### 8.2 Per row — what ships now, what waits
 
 | Row | Ships now | Waits, and on what |
 | --- | --- | --- |
-| **Void Metamorphosis** | scan · cue **D** (AoE Eradicate hold) | a readable *"the bank is not at threshold"* hold — open fact 3. Position 1 does **not** wait on it, and does not wait on the client either: below-bank Meta is `ruled-sealed` off cue **C**'s own count band, which eliminates without cap reading anything (`scenarios.md` §7.1). So position 1's wait **is** cue **C**. Cue C in turn is parked on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
+| **Void Metamorphosis → Collapsing Star** | scan · cue **D** (AoE Eradicate hold) · the R7 identity spine across the transform | a readable *"the bank is not at threshold"* hold — open fact 3. Position 1 does **not** wait on it, and does not wait on the client either: below-bank Meta is `ruled-sealed` off cue **C**'s own count band, which eliminates without cap reading anything (`scenarios.md` §7.1). So position 1's wait **is** cue **C**. Cue C in turn is parked on one constant: `Channel.Plan` accepts a `player-aura-stacks` display only at `min == 2`, which is Backdraft's number. The bank plans as `nil` and arms nothing, silently. Widening that guard is the whole of the work; the mechanism is shipped and flown. |
 | **Reap → Cull / Eradicate** | scan · the R7 identity spine | nothing. Its APL gate (fragments on the ground) has no API in any route — `[searched 2026-08-17]`, `fact-classification.md` §4.3. |
 | **Void Ray** | scan · cue **A** (`starved`) | rung 8's hold — **not** an open fact but an expressiveness gap (`fact-classification.md` §4.2). It does not resolve by measuring. |
 | **Soul Immolation** | scan · cue **B** (the drain save) | the break point's *value* — open fact 4. The cue ships; the number is a guess until flown. |
 | **Voidblade → PtV / Reaper's Toll** | scan · the R7 identity spine (three-deep, `fact-classification.md` §4.4) · position 5 | the rung-1 hold (open fact 3) and the owed-Voidsurge cue (open fact 2). Misorderings 2 and 3. |
 | **Vengeful Retreat** (Utility) | scan | nothing — the cue was **dropped on merit** (§6), not deferred. |
 | **Consume → Devour** (virtual, **standing**) | the standing virtual row, drawn clear at the right end of the panel · the R7 identity spine across the transform | **nothing.** A standing row asks for no verdict, so it depends on no open fact. Misordering 5 (the Soulburst promotion) is carried by Blizzard's own glow and is a shelf question, not a wait. |
-| **Collapsing Star** (virtual, **gated**) | nothing | **the whole row.** Its hatch-clear needs open fact 3, or the §6.1 fallback. |
 
-⚠ **Read that table as a statement about FACTS, not about pixels.** Per row it is accurate: the
-five Essential rows and the Utility row need no open fact, the **standing** Consume row needs none
-either — and that row is the more important half of §3's problem, because Consume is the branch's
-most-pressed button and B-3 is an ordinary state rather than a corner — while the **gated**
-Collapsing Star row is designed and waiting on one measurement. That is the correct state for a
-load-bearing open fact: the design is written down so the measurement has something to complete,
-and nothing guesses in the meantime.
+⚠ **Read that table as a statement about FACTS, not about pixels.** Per row it is accurate: **no
+row in this catalog waits on an open fact to draw at all.** The five Essential rows and the
+Utility row need none; the standing Consume row asks for no verdict and so can depend on none —
+and that row is what is left of §3's problem, because Consume is the branch's most-pressed button
+and `scenarios.md` §7.3's B-3 is an ordinary state rather than a corner. What the two remaining
+waits buy is **fidelity, not existence**: a hold that would fix misordering 2, and a number that
+would fit cue B.
 
-⚠ **What none of it says is that anything draws today.** Both virtual rows are
-`../render-shelf.md` **V12**, and V12 is authored and unbuilt: `tokens.panel` is generated into
-`Style.lua` and nothing in the addon reads it. There is no panel module. So the standing row is
-complete as a *design* and blocked as a *primitive*, and V12 — not any open fact — is what the
-whole panel waits on first.
+⚠ **What none of it says is that anything draws today.** The `Collapsing Star` face and the
+Consume row both depend on work outside this document. V12 itself is **built** as of 2026-08-27
+(`Panel.lua`, addon commit `932419a`; `tokens.panel` ships to `Style.lua` and `Panel.lua` reads
+it), so the standing row is no longer blocked on the primitive — what it waits on now is a
+`Catalogs/Devourer.lua` to declare it, which is Phase 5. Cue **C** is a separate wait and a
+different kind: it is parked on `Channel.Plan`'s `min == 2` guard **and** on the open design
+question in §6.
 
 ---
 
@@ -531,9 +608,9 @@ whole panel waits on first.
 - **Cues carry sealed facts to client-owned sinks:** cue B's colour curve (secret Fury-%) and
   cue C's application count (the soul-bank aura) go straight to a draw call; cap reports
   `offered` / `armed` / `refused` and never reads back.
-- **Unknown never becomes confidence,** including through negation — and on a **gated virtual
-  row** unknown draws **hatched**, which is the inverted form of the same rule (§6.1). A
-  **standing** row asks for no verdict, so it has nothing to be unknown about.
+- **Unknown never becomes confidence,** including through negation. The catalog's one virtual
+  row is **standing**, so it asks for no verdict and has nothing to be unknown about; V12's
+  inverted-unknown rule for a *gated* row is recorded in §6.1 and exercised by nothing here.
 - The catalog declares **no** `power` field (Fury is secret), no `resource` predicate, no
   `sealed-cooldown-range` band (nothing in the branch reads another ability's remaining time),
   no positive cue, no continuous grade, no silence list, no cast sequence, and no vocabulary a
@@ -542,6 +619,21 @@ whole panel waits on first.
 ---
 
 ## Changelog
+
+**2026-08-27 — Collapsing Star is not a virtual row; it is Void Metamorphosis's row, overridden.**
+Measured in game: inside the form the Void Metamorphosis keybinding casts Collapsing Star and the
+Cooldown Manager item's art changes with it, and the row stays Collapsing Star for the whole
+window, merely drawing unusable below the grant. §3's premise was right — neither `1221150` nor
+`1221167` is in `CooldownSetSpell` — and its **inference** was wrong: an override borrows the row
+of the spell it replaces, which is the shape Retribution already had written down for Hammer of
+Light. Consequences: the gated virtual row and its `isUsable` gate are deleted, §6.1 authors one
+standing row instead of two, open fact 3 drops from three consumers to two and is no longer the
+catalog's most load-bearing, and the misordering **inverts** — the face is position 1 for the whole
+window, so it is reachable too early rather than not at all. Two claims stale for an unrelated
+reason were fixed while here: V12 was **built** 2026-08-27 (`Panel.lua`; `tokens.panel` ships to
+`Style.lua` and is read), and a virtual row takes part in the scan rather than wearing the hatch
+and nothing else. Cue **C** became an open design question rather than a settled cue, because
+Blizzard ships a bar for the count it draws.
 
 **2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
 (`../spec.md` §3.1): the Lane column became Scan, every drawable row is a default ready-self
