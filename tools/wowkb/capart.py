@@ -2844,7 +2844,13 @@ def scenario_prefix(spec: str) -> str:
     return spec[:3].upper()
 
 
-def build(spec: str, tokens: dict, when: str) -> str:
+def build(spec: str, tokens: dict, when: str) -> tuple[str, int]:
+    """The page, and the BASE64 ASSET BYTES it embeds.
+
+    The second half is returned rather than recomputed because it is the only quantity
+    `tokens.budget.max_base64_kb` names, and the caller cannot get at it any other way without
+    re-fetching every icon. `cmd_build` warns on it; `cmd_check` throws it away.
+    """
     cfg = SPECS_BUILT[spec]
     roster = load_roster(cfg["catalog"])
     scenarios, origin = load_scenarios(spec)
@@ -2987,7 +2993,7 @@ def build(spec: str, tokens: dict, when: str) -> str:
     page = page.replace("/*__STEPPER_JS__*/", stepper_js_text(False))
     page = page.replace("/*__TOKENS_JSON__*/", json.dumps(tokens, separators=(",", ":")))
     page = page.replace("/*__DATA_JSON__*/", json.dumps(data, separators=(",", ":")))
-    return BUILT_MARK.format(date=when) + "\n" + page
+    return BUILT_MARK.format(date=when) + "\n" + page, total
 
 
 def _scenario_provenance(spec: str, cfg: dict) -> tuple:
@@ -3412,16 +3418,30 @@ def build_index(when: str) -> str:
 def cmd_build(args) -> None:
     tokens = load_tokens()
     when = args.date or date.today().isoformat()
-    cap = tokens["budget"]["max_base64_kb"]
+    # TWO CEILINGS, TWO QUANTITIES. Until 2026-08-27 there was one warning and it measured
+    # `len(page)` — the whole HTML, markup included — against `max_base64_kb`, whose own
+    # `_comment` says it exists for ASSET bloat. So the number had been raised from 300 to 350 to
+    # accommodate ~15 KB of per-ability state-table MARKUP, and the warning fired on Havoc and
+    # Protection, both of which carry no excess assets whatever (55 KB and 45 KB of payload). A
+    # ceiling moved to fit a quantity it does not name is not a ceiling. Each now measures the
+    # thing it is named after.
+    asset_cap = tokens["budget"]["max_base64_kb"]
+    page_cap = tokens["budget"]["max_page_kb"]
     for spec in _specs_of(args):
-        page = build(spec, tokens, when)
+        page, asset_bytes = build(spec, tokens, when)
         out = SPECS_BUILT[spec]["out"]
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page, encoding="utf-8")
-        print(f"wrote {out.relative_to(ROOT)} · {len(page) / 1024:.0f} KB · built {when}")
-        if len(page) / 1024 > cap:
-            _warn(f"{out.name} is over the {cap} KB budget in tokens.budget — "
-                  "run `wowkb.capart assets` for the per-asset table")
+        print(f"wrote {out.relative_to(ROOT)} · {len(page) / 1024:.0f} KB "
+              f"({asset_bytes / 1024:.0f} KB assets) · built {when}")
+        if asset_bytes / 1024 > asset_cap:
+            _warn(f"{out.name} embeds {asset_bytes / 1024:.0f} KB of base64 assets, over the "
+                  f"{asset_cap} KB tokens.budget.max_base64_kb — run `wowkb.capart assets "
+                  f"{spec}` for the per-asset table")
+        if len(page) / 1024 > page_cap:
+            _warn(f"{out.name} is {len(page) / 1024:.0f} KB, over the {page_cap} KB "
+                  f"tokens.budget.max_page_kb — this is PAGE WEIGHT, not assets "
+                  f"({asset_bytes / 1024:.0f} KB of it is asset payload)")
     prim_page = build_primitives(tokens, when)
     PRIMITIVES_OUT.write_text(prim_page, encoding="utf-8")
     print(f"wrote {PRIMITIVES_OUT.relative_to(ROOT)} · {len(prim_page) / 1024:.0f} KB · "
@@ -4433,10 +4453,36 @@ def _check_one(args) -> None:
         fails.append(f"no sidecar at {cfg['sidecar'].relative_to(ROOT)}")
     else:
         side = json.loads(cfg["sidecar"].read_text(encoding="utf-8"))["scenarios"]
-        d_ids = [s["id"] for s in doc]
+        # ⚠ RE-SCRAPE THE DOC HERE. Do NOT reuse `doc` from `load_scenarios`.
+        #
+        # For a sidecar-led spec `load_scenarios` returns the SIDECAR's rows and never opens
+        # `scenarios.md` at all — so every line below used to compare the sidecar with itself and
+        # could not fail. Measured 2026-08-27: a pass rewrote `devourer/scenarios.md` completely,
+        # never ran `import`, and `check` reported all ten scenarios ok, exit 0, against stale
+        # rows that `build` had rendered from the sidecar. This is the exact comparison the
+        # sidecar's own `_comment` promises ("`capart check` re-scrapes the CDM-row bullets and
+        # fails if they disagree with this file") and it was not being made.
+        #
+        # `import` writes `scrape_scenarios(...)` verbatim, so this is an EXACT comparison, not an
+        # mtime heuristic: equality here means the sidecar is precisely what the doc would seed.
+        #
+        # It is bound to its OWN name: `doc` above is what the page RENDERS (the sidecar), and the
+        # gates below it — 1b's reading rule especially — must keep judging that.
+        try:
+            doc_rows = scrape_scenarios(cfg["scenarios"])
+        except SystemExit as exc:
+            # `scrape_scenarios` speaks through `_die`. Inside `check` that would abort the run
+            # (and, under `--all`, every spec after it), so it is turned back into one FAIL.
+            fails.append(f"{cfg['scenarios'].name} cannot be parsed, so it cannot be compared "
+                         f"with the sidecar: {exc} — re-run: "
+                         f"wowkb.capart import scenarios {args.spec}")
+            doc_rows = list(side)
+        d_ids = [s["id"] for s in doc_rows]
         s_ids = [s["id"] for s in side]
         if d_ids != s_ids:
-            fails.append(f"scenario ids differ — doc {d_ids} vs sidecar {s_ids}")
+            fails.append(f"scenario ids differ — {cfg['scenarios'].name} {d_ids} vs "
+                         f"sidecar {s_ids} — re-run: "
+                         f"wowkb.capart import scenarios {args.spec}")
         else:
             # ⚠ Compare the WHOLE scenario, not a chosen tuple of fields.
             #
@@ -4452,7 +4498,7 @@ def _check_one(args) -> None:
             # edited in the doc and never appear on the page. A whitelist of compared fields is
             # wrong by construction here, because the failure mode is always a NEW field nobody
             # remembered to add to it.
-            for a, b in zip(doc, side):
+            for a, b in zip(doc_rows, side):
                 if a == b:
                     continue
                 fails.append(f"{a['id']}: {cfg['scenarios'].name} differs from the sidecar — "
@@ -4651,7 +4697,7 @@ def _check_one(args) -> None:
         m = BUILT_RE.search(committed)
         if not m:
             fails.append(f"{out.name} carries no build stamp — rebuild it")
-        elif build(args.spec, tokens, m.group(1)) != committed:
+        elif build(args.spec, tokens, m.group(1))[0] != committed:
             fails.append(f"{out.name} is stale — rebuild: wowkb.capart build {args.spec}")
 
     # 3 · the addon carries the same style as the preview. Generation buys nothing the first

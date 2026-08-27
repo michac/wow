@@ -484,7 +484,10 @@
     "quality": 90
   },
   "budget": {
-    "_comment": "The per-page base64 ceiling, as a WARNING from `build` — never a blocked rebuild. Raised from 300 when the per-ability state tables shipped: they add roughly 15 KB of MARKUP to a spec page and no new assets, so the old number had started reporting a section that exists on purpose rather than asset bloat, which is the only thing this is for. Havoc was already over it before they landed.",
-    "max_base64_kb": 350
+    "_comment": "TWO ceilings, because there are two quantities and one number was standing in for both. Each is a WARNING from `build` — never a blocked rebuild.",
+    "_comment_max_base64_kb": "The per-page BASE64 ASSET payload: badge sprites + spell icons + the hatch sheet, the sum `capart assets` totals. Nothing else. Until 2026-08-27 `build` measured `len(page)` against this, so it was reporting markup as asset bloat, and it had been raised 300 → 350 to accommodate roughly 15 KB of per-ability state-table MARKUP. Now that it measures what it names, 350 was six times the largest real payload (Havoc, 55 KB) and could not have fired for anything — so it is set to 80, which leaves room for a spec with a much longer roster and still notices a doubling. Move it when a spec legitimately needs more ART, never to quiet a page that has grown more HTML.",
+    "max_base64_kb": 80,
+    "_comment_max_page_kb": "TOTAL page weight — the whole built HTML, markup, embedded JSON and assets together. Distinct from `max_base64_kb`: this is what a browser downloads, and it grows for reasons that are nobody's mistake (a spec with more scenarios, the per-ability state tables). It exists so page weight is watched by a ceiling of its own instead of borrowing the asset one. Largest today is Havoc at 359 KB, with Protection next at 352; 400 gives the state tables room and still says something when a page grows substantially. ⚠ That is ~10 % of headroom, which is deliberate — a ceiling a page can never approach is the dead gate this pair was split to avoid.",
+    "max_page_kb": 400
   }
 }

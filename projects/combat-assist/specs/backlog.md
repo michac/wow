@@ -863,11 +863,17 @@ spec-and-hero pair is the unit (`authoring.md` §0).
   sound on other grounds, but if it cites a missing charge count it is citing something that was
   never required.
 
-- **The Protection preview is 1 KB over budget.** `previews/protection-stepper.html` is ~351 KB
-  against `render-tokens.json`'s `tokens.budget.max_base64_kb` of 350. It is a `capart build`
-  WARNING and not a `check` failure, so nothing is blocked — but it will warn on every build
-  until either the budget moves or the page does, and a warning nobody can clear is a warning
-  people stop reading. Decide which.
+- **~~The Protection preview is 1 KB over budget.~~ — RESOLVED 2026-08-27, and the budget was
+  the thing that was wrong.** The warning was real but it was not about Protection: `build`
+  measured `len(page)` — the whole HTML — against `tokens.budget.max_base64_kb`, a ceiling whose
+  own `_comment` says it exists for **asset** bloat. So the number had been moved twice (300 → 350,
+  and earlier 512 → 600 in a different unit) to accommodate pages that had grown more **markup**,
+  which is a ceiling being re-aimed at a quantity it does not name. Now split in two: the asset
+  payload is judged against `max_base64_kb` (**80**, against a worst case of 55 KB on Havoc) and
+  total page weight against a new `max_page_kb` (**400**, against a worst case of 359 KB, also
+  Havoc). No page warns today, and both warnings were proven able to fire. ⚠ `max_base64_kb` moves
+  for more **art** and never to quiet a page that has grown more HTML — that reflex is what this
+  entry records.
 
 - **A sealed sink for a secret POWER COUNT — the gap V16-V18 cannot cover, and Havoc is the
   proof.** Recorded 2026-08-26 as a clean NEGATIVE answer, because nothing anywhere said it:

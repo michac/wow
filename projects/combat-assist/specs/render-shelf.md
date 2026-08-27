@@ -1424,6 +1424,7 @@ published under blocks every external host), so a CDN `<img src>` renders nothin
 | a CSS tint written as `hue-rotate` | not emitted — the tint path is `mask-image` + `background-color` (or `background-blend-mode: multiply`) |
 | `tint: "desaturate+shelf"` | builds, and stamps a visible ⚠ *open* chip on that primitive |
 | total base64 over `tokens.budget.max_base64_kb` | a **warning printed by `build`** (and a per-asset table from `capart assets`), never a blocked rebuild; `check` does not test it |
+| total PAGE WEIGHT over `tokens.budget.max_page_kb` | a second, separate **warning printed by `build`**, never a blocked rebuild. ⚠ Distinct from the row above and added 2026-08-27: `build` used to measure the whole HTML against the *base64* ceiling, so markup was being reported as asset bloat and the asset number had been raised twice to accommodate pages that had simply grown more HTML. Each ceiling now measures the quantity it is named after |
 
 **The tint guard is the shelf's one mechanical promise and it is deliberately art-agnostic.** It
 started life guarding the flipbook rings; it now guards the badge sprites, V11's stripe sheet,
