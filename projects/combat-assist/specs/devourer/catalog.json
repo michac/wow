@@ -15,8 +15,14 @@
       "spell": 1226019,
       "note": "One button, three faces: Reap, Cull (in the form) and Eradicate (upgraded). Its APL gate is `action.reap.souls_consumed>=4` — fragments lying on the GROUND, which is a count of world objects rather than player state and has no API in any route (`fact-classification.md` §4.3). The row is directed by readiness alone."
     },
-    { "id": "void_ray", "spell": 473728 },
-    { "id": "soul_immolation", "spell": 1241937 },
+    {
+      "id": "void_ray",
+      "spell": 473728
+    },
+    {
+      "id": "soul_immolation",
+      "spell": 1241937
+    },
     {
       "id": "voidblade",
       "spell": 1245412,
@@ -46,8 +52,18 @@
     }
   ],
   "talents": [
-    { "id": "eradicate", "node": 107345, "entry": 132287, "spell": 1226033 },
-    { "id": "soul_glutton", "node": 108123, "entry": 134331, "spell": 1247534 }
+    {
+      "id": "eradicate",
+      "node": 107345,
+      "entry": 132287,
+      "spell": 1226033
+    },
+    {
+      "id": "soul_glutton",
+      "node": 108123,
+      "entry": 134331,
+      "spell": 1247534
+    }
   ],
   "talents_note": "Node + entry from knowledge/classes/demon-hunter/devourer/talents.json @ 12.1. `spell` is documentation only — nothing resolves through it, and Eradicate's `1226033` is the TALENT while `1239524` is the buff the upgrade puts up. ⚠ `devourers_bite` (node 110167 / entry 136692) is DELIBERATELY not declared: it gates rung 1, and rung 1 is authored as no cue at all (misordering 2), so a talent nothing reads would be a declaration with no consumer.",
   "entries": [
@@ -59,15 +75,34 @@
         {
           "id": "meta_bank_glutton",
           "when": [
-            { "pred": "identity", "args": ["void_metamorphosis", "base"] },
-            { "pred": "talent", "args": ["soul_glutton"] }
+            {
+              "pred": "identity",
+              "args": [
+                "void_metamorphosis",
+                "base"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "soul_glutton"
+              ]
+            }
           ],
           "display": {
             "kind": "sealed-count-bands",
             "ability": "void_metamorphosis_stack",
             "bands": [
-              { "threshold": 0, "draw": "count", "polarity": "negative", "hatch": true },
-              { "threshold": 35, "draw": "none" }
+              {
+                "threshold": 0,
+                "draw": "count",
+                "polarity": "negative",
+                "hatch": true
+              },
+              {
+                "threshold": 35,
+                "draw": "none"
+              }
             ]
           },
           "note": "Cue C, the *Soul Glutton* half. V17's complement: the marks draw BELOW the threshold and the band above clears them, so the row is ruled out until the bank reaches the number the catalog named and goes clean at it. The numeral is the readout the design argument is about — `how many more` is exactly the live question here — and the hatch beside it is what makes the elimination genuine. ⚠ It is gated on `identity(void_metamorphosis, \"base\")`: inside the form the row is Collapsing Star, the bank is expired (`sc_demon_hunter.cpp:9179`) and cannot refill, and this count would be drawing a number about a button that is not on screen."
@@ -75,15 +110,35 @@
         {
           "id": "meta_bank_deep",
           "when": [
-            { "pred": "identity", "args": ["void_metamorphosis", "base"] },
-            { "pred": "talent", "args": ["soul_glutton"], "negate": true }
+            {
+              "pred": "identity",
+              "args": [
+                "void_metamorphosis",
+                "base"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "soul_glutton"
+              ],
+              "negate": true
+            }
           ],
           "display": {
             "kind": "sealed-count-bands",
             "ability": "void_metamorphosis_stack",
             "bands": [
-              { "threshold": 0, "draw": "count", "polarity": "negative", "hatch": true },
-              { "threshold": 50, "draw": "none" }
+              {
+                "threshold": 0,
+                "draw": "count",
+                "polarity": "negative",
+                "hatch": true
+              },
+              {
+                "threshold": 50,
+                "draw": "none"
+              }
             ]
           },
           "note": "Cue C, the no-*Soul Glutton* half — 50 fragments, which is also the aura's own cap. The two halves are written as MUTUALLY EXCLUSIVE `when` gates on one readable talent read rather than as one table carrying both numbers, because a single authored threshold is wrong on one build or the other in a direction that matters: 35 on a deep-bank build clears a row the game will not cast, and 50 on a *Soul Glutton* build HATCHES a row the game will — eliminating the correct press, which is the failure class Protection's `as_guidance_capped` was. ⚠ A refused `talent` read is UNKNOWN and a gate reads a blind term as withheld (`Signal.Evaluate`), so on a build cap cannot resolve NEITHER half paints and the row is an ordinary candidate rather than a wrongly-hatched one."
@@ -91,14 +146,28 @@
         {
           "id": "star_counter",
           "when": [
-            { "pred": "identity", "args": ["void_metamorphosis", "transformed"] }
+            {
+              "pred": "identity",
+              "args": [
+                "void_metamorphosis",
+                "transformed"
+              ]
+            }
           ],
           "display": {
             "kind": "sealed-count-bands",
             "ability": "collapsing_star_stacking",
             "bands": [
-              { "threshold": 0, "draw": "count", "polarity": "negative", "hatch": true },
-              { "threshold": 30, "draw": "none" }
+              {
+                "threshold": 0,
+                "draw": "count",
+                "polarity": "negative",
+                "hatch": true
+              },
+              {
+                "threshold": 30,
+                "draw": "none"
+              }
             ]
           },
           "note": "Cue C's other count: the in-window harvest, on the same row, selected by identity. The threshold is the GRANT at 30 and not rung 5's 35, and that choice is authored rather than incidental. Rung 9 (AoE) carries no counter term at all, so any granted Star is pressable there; rung 5 (single target) wants 35. A band at 30 is one band early in single target — documented misordering 1, the Star is early rather than wasted — while a band at 35 would HATCH a row rung 9 wants pressed, which is the eliminate-the-correct-press direction. Early beats absent. ⚠ It carries no `aoe` term precisely because the safe direction is the same in both modes."
@@ -107,10 +176,29 @@
           "id": "meta_eradicate_hold",
           "cue": "blocked",
           "when": [
-            { "pred": "identity", "args": ["void_metamorphosis", "base"] },
-            { "pred": "aoe" },
-            { "pred": "talent", "args": ["eradicate"] },
-            { "pred": "proc", "args": ["reap"], "negate": true }
+            {
+              "pred": "identity",
+              "args": [
+                "void_metamorphosis",
+                "base"
+              ]
+            },
+            {
+              "pred": "aoe"
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "eradicate"
+              ]
+            },
+            {
+              "pred": "proc",
+              "args": [
+                "reap"
+              ],
+              "negate": true
+            }
           ],
           "note": "Cue D. Rung 2 holds the transform at 2+ targets while the Eradicate upgrade is not banked; cap draws `!proc(reap) & talent(eradicate) & aoe`. ⚠ IT IS A SOUND SLICE OF THE RUNG AND NOT THE RUNG. Eradicate `1239524` and Moment of Craving `1238495` both icon-highlight Reap / Cull / Eradicate, so `proc(reap)` is their OR and this marker encodes `!eradicate ∧ !moment_of_craving` where rung 2 negates `!eradicate` alone. It therefore holds STRICTLY LESS OFTEN than the rung would: `!proc ⇒ !eradicate.up`, so the badge can never fire in a state where the APL would cast, and what it loses is the hold where Moment of Craving is up with Eradicate down. Missing a hold is the safe direction; eliminating a press is not. `identity(void_metamorphosis, \"base\")` scopes it out of the form, where rung 2 is structurally dead — entering the form expires the bank with no way to refill it."
         },
@@ -118,11 +206,31 @@
           "id": "star_yields_to_void_ray",
           "cue": "blocked",
           "when": [
-            { "pred": "identity", "args": ["void_metamorphosis", "transformed"] },
-            { "pred": "aoe" },
-            { "pred": "ready", "args": ["void_ray"] }
+            {
+              "pred": "identity",
+              "args": [
+                "void_metamorphosis",
+                "transformed"
+              ]
+            },
+            {
+              "pred": "aoe"
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "void_ray"
+              ]
+            },
+            {
+              "pred": "proc",
+              "args": [
+                "reap"
+              ],
+              "negate": true
+            }
           ],
-          "note": "The AoE half of the position-1 correction. In AoE Collapsing Star is rung 9, BELOW Void Ray's rung 8, and the face is the leftmost icon on the line — so without this the scan takes it a rung early whenever Void Ray is up. `ready(void_ray)` is the whole point: a hold that names a row must check that row can actually fire, or it eliminates the correct press in every state where the outranker is swiped. In single target the hold is absent because rung 5 sits ABOVE rung 8 and position 1 is right. ⚠ The single-target/AoE split rests on cap's OWN `/cap aoe` toggle, not on a game read of enemy count."
+          "note": "The AoE half of the position-1 correction. In AoE Collapsing Star is rung 9, BELOW Void Ray's rung 8, and the face is the leftmost icon on the line — so without this the scan takes it a rung early whenever Void Ray is up. `ready(void_ray)` is necessary but NOT sufficient, and the fourth term is why. ⚠ Rung 8 is `!buff.eradicate.up|!buff.moment_of_craving.up|set_bonus...4pc`, so with BOTH procs banked and no 4-piece the APL skips Void Ray and rung 9 IS the press — and a hold on readiness alone would badge the correct press `blocked`, which is the one direction this catalog refuses (cue D is argued on exactly the opposite standard). cap cannot read that AND: the overlay channel gives Eradicate and Moment of Craving ONE row, so `proc(reap)` is their OR and rung 8 needs their AND (`fact-classification.md` §4.2, documented misordering 4). `!proc(reap)` is the strongest thing cap can say that is still SAFE — neither proc up implies `!eradicate`, which implies rung 8 fires. The cost is that with exactly ONE proc up the hold is missing and Collapsing Star over-ranks by one rung, which is a missed hold and not a wrong press. In single target the hold is absent because rung 5 sits ABOVE rung 8 and position 1 is right. ⚠ The single-target/AoE split rests on cap's OWN `/cap aoe` toggle, not on a game read of enemy count."
         }
       ],
       "states": [
@@ -131,10 +239,17 @@
           "condition": "out of the form, the soul bank below the transform threshold — 35 with Soul Glutton, else 50",
           "verdict": "ruled-sealed",
           "cues": [],
-          "sealed": ["count-bands"],
+          "sealed": [
+            "count-bands"
+          ],
           "slot": 0,
           "exception": "No rung expresses it. Rung 2 presses the transform and simc simply never offers it below the bank — a cast requirement is not a priority line. What eliminates the row is cap's own count band, evaluated by the CLIENT against a secret, and it has to be: Void Metamorphosis is fragment-gated and has no timer, so no swipe is ever drawn there, and the client's usability tint is not one of cap's three eliminating signals.",
-          "drawn_by": ["V11", "V13", "V16", "V17"],
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V16",
+            "V17"
+          ],
           "note": "This is what position 1 rests on, and it rests on nothing cap read. `tokens.verdicts[\"ruled-sealed\"]` declares `eliminates: true`, which is what lets the sweep step over the leftmost icon."
         },
         {
@@ -145,30 +260,50 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 2",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The band above the threshold draws `none`, so the client paints nothing at all and the row is an ordinary candidate reached by absence. Rung 2 is unconditional at a single target."
         },
         {
           "id": "meta_eradicate_hold",
           "condition": "out of the form, the bank at the threshold, AoE mode, Eradicate talented, no Reap-family glow up",
           "verdict": "open",
-          "cues": ["blocked"],
+          "cues": [
+            "blocked"
+          ],
           "sealed": [],
           "slot": "flow",
-          "combines": ["meta_eradicate_hold"],
+          "combines": [
+            "meta_eradicate_hold"
+          ],
           "apl": "voidscarred_ranged 2",
-          "drawn_by": ["V5", "V11", "V13"],
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "Cue D. The badge and the press point at the same plan: channelling Void Ray in full is exactly what turns Reap into Eradicate."
         },
         {
           "id": "meta_short_and_held",
           "condition": "out of the form, the bank BELOW the threshold and the AoE Eradicate hold also true",
           "verdict": "ruled-sealed",
-          "cues": ["blocked"],
-          "sealed": ["count-bands"],
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
           "slot": "flow",
           "exception": "The same absence of a rung as `meta_bank_short`, wearing cue D's badge as well. Cue D carries no bank term because there is none to carry, so nothing stops the two from being true together.",
-          "drawn_by": ["V5", "V11", "V13", "V16", "V17"],
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V16",
+            "V17"
+          ],
           "note": "⚠ POSSIBLE AND UNWALKED — written here rather than discovered later. The band hatches the row and whichever bank marker this build licenses draws the numeral; the badge flows beneath the ceded corners. Two independent negatives on one row is legal: elimination is not exclusive. `combines` is deliberately absent — it would have to name ONE of the two bank markers, and which one is a property of the build rather than of the state."
         },
         {
@@ -176,10 +311,17 @@
           "condition": "in the form — the row is Collapsing Star — with the harvest counter below the grant at 30",
           "verdict": "ruled-sealed",
           "cues": [],
-          "sealed": ["count-bands"],
+          "sealed": [
+            "count-bands"
+          ],
           "slot": 0,
           "exception": "No rung expresses it. Rungs 5 and 9 say when to press a GRANTED Star; below the grant there is no Star to press, and that is a cast requirement rather than a priority line. Blizzard does draw the unavailability — as the `ITEM_NOT_USABLE_COLOR` vertex tint, seen in game 2026-08-27 — but a tint is not one of cap's three eliminating signals, so the count band is what rules the row out of the walk.",
-          "drawn_by": ["V11", "V13", "V16", "V17"],
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V16",
+            "V17"
+          ],
           "note": "A different count on the same row, selected by identity. The form being active is readable and true, and it is not what draws anything here: the row is simply not showing Void Metamorphosis."
         },
         {
@@ -190,7 +332,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 5",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The band clears and the leftmost icon is the press. ⚠ Documented misordering 1: rung 5 wants 35 and the band clears at the grant of 30, so between 30 and 34 cap is one band early. The cost is a marginally shorter Impending Apocalypse chain — the Star is early, not wasted — and the alternative costs a press rung 9 wants."
         },
         {
@@ -201,37 +345,63 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 9",
-          "drawn_by": ["V13"],
-          "note": "Rung 9 is unconditional at 2+ targets once a Star is granted. Void Ray being unavailable is what makes rung 9 the top live line, and it is asserted here rather than assumed: with Void Ray up the row is held instead."
+          "drawn_by": [
+            "V13"
+          ],
+          "note": "Rung 9 is unconditional at 2+ targets once a Star is granted. Void Ray being unavailable is what makes rung 9 the highest live line CAP CAN SEE, and it is asserted here rather than assumed: with Void Ray up and neither Reap-family proc banked the row is held instead. ⚠ It is deliberately not called the top live line. Rungs 6-7 also sit above 9 and their gate is `action.reap.souls_consumed>=4` — fragments lying on the GROUND, which `fact-classification.md` §4.3 classifies as open with no API in any route. So this row being the press is true whenever a fact cap cannot read is false, and the note should not claim more than that."
         },
         {
           "id": "star_yields",
-          "condition": "in the form, AoE mode, the counter at or above the grant, Void Ray available",
+          "condition": "in the scan as Collapsing Star, AoE, Void Ray ready and NEITHER Reap-family proc banked — the state where rung 8 certainly fires",
           "verdict": "open",
-          "cues": ["blocked"],
+          "cues": [
+            "blocked"
+          ],
           "sealed": [],
           "slot": "flow",
-          "combines": ["star_yields_to_void_ray"],
+          "combines": [
+            "star_yields_to_void_ray"
+          ],
           "apl": "voidscarred_ranged 9",
-          "drawn_by": ["V5", "V11", "V13"],
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "⚠ POSSIBLE AND UNWALKED. Rung 8 outranks rung 9, and the face is leftmost, so the badge is the only thing that can say so — a row cannot move at runtime. In single target the same state carries no badge, because rung 5 sits above rung 8."
         },
         {
           "id": "star_short_and_yields",
-          "condition": "in the form, AoE mode, the counter below the grant AND Void Ray available",
+          "condition": "below the grant, AoE, Void Ray ready and neither Reap-family proc banked",
           "verdict": "ruled-sealed",
-          "cues": ["blocked"],
-          "sealed": ["count-bands"],
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [
+            "count-bands"
+          ],
           "slot": "flow",
-          "combines": ["star_counter", "star_yields_to_void_ray"],
+          "combines": [
+            "star_counter",
+            "star_yields_to_void_ray"
+          ],
           "exception": "The same absence of a rung as `star_short`, wearing the AoE hold as well. The hold carries no counter term — there is no readable one — so the two are simultaneously true whenever Void Ray is up early in a window.",
-          "drawn_by": ["V5", "V11", "V13", "V16", "V17"],
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V16",
+            "V17"
+          ],
           "note": "⚠ POSSIBLE AND UNWALKED. The row is doubly ruled out, and both statements are true: no Star has been granted, and Void Ray would outrank it if one had been."
         }
       ],
       "excludes": [
         {
-          "pair": ["meta_eradicate_hold", "star_yields_to_void_ray"],
+          "pair": [
+            "meta_eradicate_hold",
+            "star_yields_to_void_ray"
+          ],
           "why": "One is gated on `identity(void_metamorphosis, \"base\")` and the other on `identity(void_metamorphosis, \"transformed\")` — one predicate, both values, so the two badges can never stand on the row at once. It is the same seam that keeps the bank count and the harvest count apart."
         }
       ]
@@ -249,7 +419,9 @@
           "sealed": [],
           "slot": null,
           "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
-          "drawn_by": ["V11"]
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "reap_open",
@@ -259,7 +431,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 6",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The rung is a `call_action_list` into `reaps`, inlined at each call site rather than modelled as an entry. Its condition — `action.reap.souls_consumed>=4` — is a count of world objects and is undrawable, so the press is directed by readiness alone."
         },
         {
@@ -270,7 +444,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 6",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The identity spine and nothing else: R7 resolves the transform at bind and the icon changes itself. Written as its own state because the face is what tells the player the button became the in-window harvest."
         }
       ]
@@ -284,7 +460,13 @@
           "id": "void_ray_starved",
           "cue": "starved",
           "when": [
-            { "pred": "affordable", "args": ["void_ray"], "negate": true }
+            {
+              "pred": "affordable",
+              "args": [
+                "void_ray"
+              ],
+              "negate": true
+            }
           ],
           "note": "Havoc's cue A verbatim. ⚠ Rung 8's own hold is NOT authored, and it does not resolve by measuring: `!buff.eradicate.up|!buff.moment_of_craving.up|4pc` needs the AND of two auras that share one overlay channel, so `proc(reap)` is their OR and the necessary condition is authorable while the sufficient one is not. A badge on the necessary condition would fire in states where the APL casts."
         }
@@ -298,7 +480,9 @@
           "sealed": [],
           "slot": null,
           "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
-          "drawn_by": ["V11"]
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "void_ray_open",
@@ -308,19 +492,29 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 8",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Inside the form the channel is free and reduces the drain, which is why it is the press for most of a window."
         },
         {
           "id": "void_ray_starved",
           "condition": "ready, not affordable",
           "verdict": "open",
-          "cues": ["starved"],
+          "cues": [
+            "starved"
+          ],
           "sealed": [],
           "slot": "flow",
-          "combines": ["void_ray_starved"],
+          "combines": [
+            "void_ray_starved"
+          ],
           "exception": "Affordability is not a rung. The priority list assumes the resource is there — simc simply skips an action it cannot pay for — so this is cap re-presenting a cost, not a line of its own.",
-          "drawn_by": ["V5", "V11", "V13"],
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "The client already tints an unaffordable icon `ITEM_NOT_ENOUGH_MANA_COLOR`; the badge is what makes the fact one of cap's three eliminating signals, so the walk may step over the row."
         }
       ]
@@ -334,7 +528,13 @@
           "id": "soul_immolation_drain_save",
           "cue": "blocked",
           "when": [
-            { "pred": "identity", "args": ["void_metamorphosis", "transformed"] }
+            {
+              "pred": "identity",
+              "args": [
+                "void_metamorphosis",
+                "transformed"
+              ]
+            }
           ],
           "display": {
             "kind": "sealed-power-percent",
@@ -353,7 +553,9 @@
           "sealed": [],
           "slot": null,
           "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
-          "drawn_by": ["V11"]
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "soul_immolation_open",
@@ -363,19 +565,29 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 13",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The badge has cleared and the 30 Fury buys another few seconds of form. Out of the form the gate is false, so the curve never arms and the row is an ordinary candidate."
         },
         {
           "id": "soul_immolation_hold",
           "condition": "ready, transformed, Fury above the drain break point",
           "verdict": "open",
-          "cues": ["blocked"],
+          "cues": [
+            "blocked"
+          ],
           "sealed": [],
           "slot": "flow",
-          "combines": ["soul_immolation_drain_save"],
+          "combines": [
+            "soul_immolation_drain_save"
+          ],
           "apl": "voidscarred_ranged 13",
-          "drawn_by": ["V5", "V11", "V13"],
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
           "note": "A badge lit for most of a window that clears at the moment the save is worth spending is a single-state marker doing precisely one job. ⚠ cap reports that it OFFERED the curve, never whether the badge lit — only an eyeball in game can say."
         }
       ]
@@ -393,7 +605,9 @@
           "sealed": [],
           "slot": null,
           "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
-          "drawn_by": ["V11"]
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "voidblade_open",
@@ -403,7 +617,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 1",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "⚠ Rung 1 is the branch's ONLY out-of-Meta Voidblade line, so outside the pre-transform moment this button is never pressed — and cap cannot see the sealed fact that says which moment that is. Authored last for exactly that reason: at the end of the line it absorbs only states that already fell through. Documented misordering 2."
         },
         {
@@ -414,7 +630,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 12",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "Rungs 11–12 sit just above Soul Immolation's 13, so last is nearly right inside the form. ⚠ What cannot be drawn is whether the Voidsurge is still OWED: `buff.voidsurge_pierce_the_veil` is simc's `demonsurge_placeholder_buff`, `set_quiet(true)`, with nothing behind it to read. Documented misordering 3, and the same open fact as Havoc's `demonsurge_available`."
         },
         {
@@ -425,7 +643,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 11",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "The third face of a three-deep chain. `1245523` describes the REPLACEMENT — *Pierce the Veil is replaced with Reaper's Toll* — not the owed cast, so it settles which face is live and says nothing about whether to press it."
         }
       ]
@@ -443,7 +663,9 @@
           "sealed": [],
           "slot": null,
           "exception": "On cooldown. No rung expresses it — a priority list only ever says when to press, and Blizzard's swipe rules the row out before cap has an opinion of its own.",
-          "drawn_by": ["V11"]
+          "drawn_by": [
+            "V11"
+          ]
         },
         {
           "id": "vengeful_retreat_open",
@@ -453,7 +675,9 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 10",
-          "drawn_by": ["V13"],
+          "drawn_by": [
+            "V13"
+          ],
           "note": "In this branch Vengeful Retreat is NOT a mobility press and NOT press-on-cooldown: no Voidstep, no press, ever. cap cannot say that — a `noproc` badge here would be a mark on a surface the ordered reading model does not walk — so what directs the eye is Blizzard's glow, and what cap contributes is the hatch that says *not now*."
         }
       ]
@@ -472,7 +696,10 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 15",
-          "drawn_by": ["V12", "V13"],
+          "drawn_by": [
+            "V12",
+            "V13"
+          ],
           "note": "The unconditional floor. A standing row asks for no verdict, so V12's inverted unknown polarity does not arise here at all and the row depends on no open fact."
         },
         {
@@ -483,7 +710,10 @@
           "sealed": [],
           "slot": null,
           "apl": "voidscarred_ranged 14",
-          "drawn_by": ["V12", "V13"],
+          "drawn_by": [
+            "V12",
+            "V13"
+          ],
           "note": "⚠ NOT A SECOND ROW AND NOT A DECLARED TRANSFORM. `devour_t : public consume_base_t` shares Consume's cooldown object, so rungs 14 and 15 are one button — and cap may not say so in the catalog: `Catalog.Check` refuses any subject predicate naming a virtual ability, because a virtual ability has no CDM row and the read would be UNKNOWN for life. The face is resolved on the DRAW instead, by `Panel.Face` off `C_Spell.GetOverrideSpell`, which is a texture and never a condition."
         }
       ]

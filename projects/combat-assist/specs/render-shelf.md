@@ -731,11 +731,20 @@ Cooldown Manager row gets, because it is the same `Treatment.For` answer painted
 `Paint` builders. Two things separate it from a CDM row and only two: it has **no Cooldown
 Manager frame** behind it, and its **unknown polarity is inverted** (below).
 
-**Why it exists.** Devourer's Collapsing Star is a real press that outranks Void Ray and has no
-frame anywhere in the CDM pool: the castable (`1221167`) is in no category, and the row named for
-it (`1227702`) is the *aura*, not the button. An elimination scan cannot land on a button that has
-no icon, and no cue can point at one either. The alternative considered and rejected was
-re-anchoring the TrackedBuff row into the Essential line; `render-rationale.md` holds why.
+**Why it exists.** Devourer's **Consume** is the most-pressed button in its branch and has no
+Cooldown Manager frame in any category — not Essential, not Utility, not a tracked buff. An
+elimination scan cannot land on a button that has no icon, and no cue can point at one either. So
+without a cap-owned frame there are ordinary states where every entry on both surfaces is swiped or
+badged and the correct answer is reachable only from memory. The alternative considered and
+rejected was re-anchoring a TrackedBuff row into the Essential line; `render-rationale.md` holds
+why.
+
+⚠ **This section used to argue from Collapsing Star, and that example was WRONG** — corrected
+2026-08-27. The premise held (neither `1221150` nor `1221167` has a `CooldownSetSpell` row of its
+own) but the inference did not: it is a **spell override** on the Void Metamorphosis row, measured
+in the client, and an override borrows the row of the spell it replaces. R7 draws it and it is not
+cap-owned at all. V12 is unaffected — Consume has no frame either, which is why the primitive is
+still right — but the row it was designed around turned out not to need it.
 
 **The hatch means the same thing it means on a CDM row** — *not now* — and is drawn from
 `tokens.hatch`, the same generated `Media/stripes.tga`.
@@ -743,8 +752,14 @@ re-anchoring the TrackedBuff row into the Essential line; `render-rationale.md` 
 **A virtual row is one of two kinds, and the kind is fixed by the ability, not by the moment.**
 
 - **Gated** — availability varies, so the row is **hatched by default and clears only on a
-  positive readable verdict that the press is available**. Devourer's Collapsing Star is gated:
-  access is granted every 30 souls harvested inside Void Metamorphosis.
+  positive readable verdict that the press is available**. ⚠ **No catalog has one, and none has
+  ever had one.** It was authored for Devourer's Collapsing Star and that row turned out to be an
+  override on a real CDM frame (above), so the kind is **built, tested and unexercised**. It is
+  kept rather than deleted because the inverted-unknown rule it carries is the reason a gated row
+  is hard — a read that comes back UNKNOWN hatches the row forever with nothing saying why, which
+  is why `Catalog.Check` refuses any subject predicate naming a virtual ability. **The next spec
+  that wants one meets that rule before authoring, not after.** Until then it cannot be flown, and
+  an in-game pass must record it as unexercised rather than as passed.
 - **Standing** — availability is a **constant**, so the row draws **clear, permanently**, and asks
   for no verdict at all. Devourer's Consume is standing: no cooldown, no resource cost, no aura
   gate, castable while moving.

@@ -188,8 +188,8 @@ vocabulary for, and it is `scenarios.md` §7.5 item 1.
 **Authored 2026-08-27** (`catalog.json`; `Catalogs/Devourer.lua`). The fix is a **hold** rather
 than a promotion — nothing needs promoting when the face is already the leftmost icon — and it
 took two shapes, one per direction: the counter's own band below the grant, and, in AoE, a
-`blocked` badge gated on `ready(void_ray)` (cue **H**). Two things made it possible and one made
-it hard:
+`blocked` badge gated on `ready(void_ray) ∧ !proc(reap)` (cue **H**). Two things made it possible
+and one made it hard:
 
 - the face now has a **Cooldown Manager frame**, so it can host a sealed count band, which a V12
   virtual row could not (`Catalog.lua` refuses a sealed display on a virtual entry) — this is the
@@ -288,7 +288,8 @@ runtime, and all three are keys.
   *Facts:* `ready` (R2) for the tier; `aoe` + `talent(eradicate)` + `proc` (all readable) for
   the hold; the **soul bank** (sealed) for the readout; `identity` (R7) for the in-form face.
   *Treatment:* scan + a red `blocked` hold (cue **D**) + the sealed count readout (cue **C**) +,
-  in the form, a second red hold in AoE while Void Ray is up (cue **H**).
+  in the form, a second red hold in AoE while Void Ray is up **and neither Reap-family proc is
+  banked** (cue **H**).
   ⚠ **Inside the form this row is Collapsing Star** (§3), so it is one row with two jobs and two
   counts (§6) — the transform out of the form, the granted Star inside it — selected by the
   identity spine and by nothing cap computes.
@@ -365,7 +366,7 @@ Provisional. Every one is a hypothesis judged by play, exactly as the pilots wer
 | **B** the drain save | Soul Immolation wears `blocked` while you are transformed **and** Fury is above one tick of drain — *don't burn the save early* | secret Fury-% vs an authored `threshold` (17), gated on `identity(void_metamorphosis, transformed)`. ⚠ *Soul Glutton* drains a quarter faster and so moves the break point, and the marker does **not** fork on it — the number is fitted to the no-talent curve and is one number for both builds (§1c, open fact 4) | cue (sealed) + readable gate | S1 · `sealed-power-percent` → **V5** | colour curve → badge alpha | negative |
 | **C** the soul bank | the bank's count, drawn by the client, anchored beside the Void Metamorphosis row | `void_metamorphosis_stack` stacks, 0 to the selected threshold — **35 with *Soul Glutton*, else 50** (§1c) | **independent context** (sealed) | S2 · `sealed-count-bands` → **V16** (banded count) / **V17** (the complement that hatches below the threshold) | client-owned count | **none** |
 | **D** the Eradicate setup hold | Void Metamorphosis wears `blocked` in AoE mode while *Eradicate* is talented and no Reap-family glow is up | `aoe` + `talent` + `proc`, all readable | cue (readable) | the shipped `aoe` / `talent` predicates + `proc` | corner badge | negative |
-| **H** the AoE Void Ray hold | Collapsing Star — the in-form face of the Void Metamorphosis row — wears `blocked` in AoE mode while **Void Ray is available** | `identity` + `aoe` + `ready`, all readable | cue (readable) | the shipped `identity` / `aoe` / `ready` predicates | corner badge | negative |
+| **H** the AoE Void Ray hold | Collapsing Star — the in-form face of the Void Metamorphosis row — wears `blocked` in AoE mode while **Void Ray is available AND neither Reap-family proc is banked** | `identity` + `aoe` + `ready` + `proc`, all readable | cue (readable) | the shipped `identity` / `aoe` / `ready` / `proc` predicates | corner badge | negative |
 | **F** the talent fence | nothing of its own — it **withholds**: cue D where *Eradicate* is untalented, and rung 1 entirely where *Devourer's Bite* is | trait config | gate (readable) | the shipped `talent` predicate | no sink | — |
 | **G** target mode | four rungs move on target count; cap asks the player rather than counting enemies | `/cap aoe` | gate (readable) | the shipped `aoe` predicate | — | — |
 
@@ -666,8 +667,15 @@ the same table Fel-Scarred's 34 comes from; Annihilator is 124. What changed in 
   number is wrong on one build in a direction that eliminates a correct press. It costs a third
   ceded corner and two permanently blank steps, which is stated rather than discovered.
 - **The AoE over-rank at position 1 is held**, by cue **H** — `blocked` on
-  `identity(transformed) ∧ aoe ∧ ready(void_ray)`. The `ready` term is what keeps it off rows
-  where the outranker is swiped. The single-target direction stays a documented misordering: the
+  `identity(transformed) ∧ aoe ∧ ready(void_ray) ∧ !proc(reap)`. The `ready` term keeps it off rows
+  where the outranker is swiped; the `!proc(reap)` term keeps it off the rows where the outranker
+  is *ready but not the press*. ⚠ **That fourth term was added 2026-08-27 and the cue was WRONG
+  without it.** Rung 8 is `!eradicate|!moment_of_craving|4pc`, so with both procs banked and no
+  4-piece the APL skips Void Ray and rung 9 IS the press — a hold on readiness alone badged the
+  correct press `blocked`, which is the one direction this catalog refuses. cap cannot read rung
+  8's AND (one overlay row for two procs, misordering 4), so `!proc(reap)` is the strongest SAFE
+  approximation: neither proc up implies rung 8 fires. With exactly one proc up the hold is now
+  missing and Collapsing Star over-ranks by a rung — a missed hold, not a wrong press. The single-target direction stays a documented misordering: the
   in-form band is authored at the **grant** (30), not rung 5's 35, because 35 would hatch a row
   rung 9 wants pressed.
 - **Vengeful Retreat gets a walk** (`scenarios.md` DEV-11) rather than a deletion. A roster row no

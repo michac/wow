@@ -379,13 +379,33 @@ the reasoning and every row below rests on it.
   sits **below** Void Ray's rung 8, so in AoE the APL wants Void Ray first, and this row reads
   correctly because Void Ray is on its in-Meta cooldown. The state one step away — Void Ray **up**,
   a Star granted, AoE — is where position 1 used to stop the scan a rung early, and it is now held:
-  `star_yields_to_void_ray` wears `blocked` on `identity(transformed) ∧ aoe ∧ ready(void_ray)`.
-  The `ready` term is the load-bearing one; without it the badge would eliminate the correct press
+  `star_yields_to_void_ray` wears `blocked` on
+  `identity(transformed) ∧ aoe ∧ ready(void_ray) ∧ !proc(reap)`. The `ready` term keeps the badge
+  off rows where the outranker is swiped — without it the badge would eliminate the correct press
   in exactly this scenario. **The alternative was to leave the over-rank documented and undrawn**,
-  which is what §7.5 item 1 said until 2026-08-27. What is unsure is the split itself: it rests on
-  cap's own `/cap aoe` toggle, not on a game read of enemy count, so a player who leaves the toggle
-  wrong gets a hold in single target (where rung 5 outranks Void Ray and the hold is simply false)
-  or none in AoE. Nothing has flown.
+  which is what §7.5 item 1 said until 2026-08-27.
+- **⚠ UNSURE — the fourth term is an APPROXIMATION of rung 8, and it under-fires on purpose.**
+  Added 2026-08-27, after a post-release review found the cue wrong without it. Rung 8 is
+  `!eradicate|!moment_of_craving|4pc`, so **Void Ray being READY is not the same as Void Ray being
+  the press**: with both procs banked and no 4-piece the APL skips it and rung 9 is correct — and
+  the hold, on readiness alone, badged that correct press `blocked`. That is the one direction this
+  catalog refuses, and cue D is argued on exactly the opposite standard. cap cannot express rung
+  8's AND, because the overlay channel gives Eradicate and Moment of Craving **one row**, so
+  `proc(reap)` is their OR (§7.5, misordering 4). `!proc(reap)` is the strongest thing cap can say
+  that stays safe: neither proc up implies `!eradicate`, which implies rung 8 fires. **The
+  alternative was to delete cue H** and accept the over-rank as documented-and-undrawn again. What
+  is unsure is the residue: with exactly **one** proc banked the hold is now missing and Collapsing
+  Star over-ranks by a rung. That is a missed hold rather than a wrong press, which is the right
+  direction — but nobody has judged how often that state occurs in play, and a hold that is absent
+  in half its window may not be worth its corner. **A flight is what settles it.**
+- **⚠ UNSURE — no scenario in this walk exercises cue H, and that is how it shipped wrong.** Every
+  scenario that reaches Collapsing Star has Void Ray on cooldown, so the hold never arms in the
+  proof. The elimination gate therefore could not have caught the defect above: a gate reasons over
+  the states a walk reaches. The honest fix is a scenario in which Void Ray is **ready** and the
+  Star is granted; it is not written here, because the state it needs to argue about is the one the
+  fourth term was just added to settle, and authoring the walk and the rule in one pass is how the
+  first version got through. What is unsure is whether cue H earns its corner at all. Nothing has
+  flown. The split also rests on cap's own `/cap aoe` toggle, not on a game read of enemy count.
 
 ### M-3 · Single target, counter between 30 and 34
 
