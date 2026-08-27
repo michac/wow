@@ -633,6 +633,44 @@ stripe sheet with it. The other two remain lab entries — Part 7, deciding noth
       observation that may earn a shared recipe later**, not a rule to author up front.
 - [ ] **No dim comes back with them.** Stripes state a condition without subtracting light.
 
+### THE OWED FLIGHT — v0.13.1 is deployed and nothing in it has been SEEN
+
+Cut and deployed 2026-08-27, 20 commits, the largest catalog change the project has had. Every
+gate is green and no gate can see a pixel. cap reports `offered` / `armed` / `refused` and never
+learns whether a sealed band actually painted, so all of the below needs an eye.
+
+**On a Devourer Demon Hunter** — the spec that has never been flown at all:
+
+- [ ] The **standing virtual row** (Consume) draws at all, on cap's own strip, at the right end.
+- [ ] It shows **Devour** inside Void Metamorphosis. This is `Panel.Face` resolving
+      `C_Spell.GetOverrideSpell` on the draw, and it is the one thing in V12 that no test covers
+      end-to-end — the catalog is silent about the transform by construction, because
+      `Catalog.Check` refuses a subject predicate naming a virtual ability.
+- [ ] Inside the form, the **Void Metamorphosis row draws Collapsing Star** with its count band.
+      This is the 2026-08-27 measurement's whole consequence: an override borrowing the row of the
+      spell it replaces. If it does NOT, the override premise is wrong and Devourer's catalog needs
+      re-authoring, not patching.
+- [ ] Out of form, the bank band draws the **right threshold for the build** — 35 with *Soul
+      Glutton*, else 50. Two markers, mutually exclusive on `talent(soul_glutton)`.
+- [ ] The **three ceded corner steps** on that row, two of them permanently blank. Expected and
+      recorded; the question is only whether it reads as a fault.
+
+⚠ **V12's `gated` kind CANNOT be flown — it has no consumer anywhere.** It was built for Collapsing
+Star, which turned out not to need it. Record it as unexercised, never as passed.
+
+**On Protection and Retribution** — the failure mode `backlog.md` already records for Destruction
+is a display with no subject, which draws nothing and says nothing about why:
+
+- [ ] Protection's **Sacred Weapon (V19)** and the **Consecration presence band** have a subject
+      and actually draw.
+- [ ] Retribution's **Expurgation (V20)** proc bar has a subject and actually draws. ⚠ It binds
+      only if the player has added Expurgation to Tracked Buffs; if not, `aura:expurgation` reads
+      UNKNOWN and the marker stays DARK, which is correct behaviour and looks identical to a
+      broken one.
+
+**Then, and only then:** delete `render-shelf.md`'s **"Not flown."** under V12 (currently `:787`).
+It is the honest marker until an eye has been on it.
+
 ### The client's unusable tint is a FOURTH eliminating signal and the model does not admit it
 
 Part 0.5 counts three: Blizzard's swipe, cap's own negative badge, and — since 2026-08-22 — a
