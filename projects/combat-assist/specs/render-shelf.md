@@ -720,9 +720,14 @@ one way the replica beats the thing it replicates, and it is why generating beat
 ### V12 · Virtual row
 
 A press the Cooldown Manager does not carry draws as a **cap-owned icon** in its own panel:
-the spell's icon at `tokens.panel.icon_px`, laid out left to right at `tokens.panel.gap_px`,
-anchored per `tokens.panel.anchor`. It wears **V11's hatch, from the same sheet**, and nothing
-else — no scan edge, no badge. One fact, one surface.
+the spell's icon at `tokens.panel.icon_px`, laid out at `tokens.panel.gap_px`, anchored per
+`tokens.panel.anchor` / `x` / `y` and filling along `tokens.panel.grow`.
+
+**It takes part in the scan, and it draws like a row.** V11's hatch from the same sheet, V13's
+scan edge, the skip layer, and any cue badges its readable markers earn — the same treatment a
+Cooldown Manager row gets, because it is the same `Treatment.For` answer painted through the same
+`Paint` builders. Two things separate it from a CDM row and only two: it has **no Cooldown
+Manager frame** behind it, and its **unknown polarity is inverted** (below).
 
 **Why it exists.** Devourer's Collapsing Star is a real press that outranks Void Ray and has no
 frame anywhere in the CDM pool: the castable (`1221167`) is in no category, and the row named for
@@ -1216,7 +1221,9 @@ hatch's `SetDurationText` sink still rides its own slot, which is the measured p
 
 **A thin client-drained bar on the row's bottom edge, directly above V18's charge bar when one
 is declared: the proc's own remaining duration, emptying right-to-left as it expires.** The
-slot filters to the proc aura (`includeSpellIDs`, HELPFUL, unit player); while the aura is up
+slot filters to the proc aura (`includeSpellIDs`) on the ability's own declared `unit` — HELPFUL
+on `player`, HARMFUL on `target`, which is the same derivation all four container kinds use;
+while the aura is up
 the client shows the button and `SetDurationBar` → `SetTimerDuration(auraDuration,
 interpolation, RemainingTime)` drains the fill (§3.5.2, T1 — with the same trap as every
 duration bar: `SetMinMaxValues(0, 1)` FIRST or 0 % forever). Linear render mode — no radial,
@@ -1545,7 +1552,7 @@ Colors are `[r, g, b]` in 0–1, the way `SetVertexColor` wants them.
 > already treated it as its own namespace.
 
 **What reaches the client, and what does not.** `Style.lua` is `render-tokens.json` minus
-`capart.NOT_THE_STYLE`, and that list is not tidiness — six groups are declared here and
+`capart.NOT_THE_STYLE`, and that list is not tidiness — five groups are declared here and
 deliberately never shipped:
 
 | Group | Why it stays out of `Style.lua` |
@@ -1553,19 +1560,22 @@ deliberately never shipped:
 | `preview` | Fakes. Values that exist so the preview can draw a plausible row; the client has the real ones. |
 | `lab` | Part 7. It decides nothing, and the gallery reads it through `Lab.lua` instead. |
 | `text` · `assets` · `budget` | **capart's own generation inputs** — the preview's flicker limits, the icon encoder's settings, the base64 ceiling. They are style decisions about the *documents*, not about the overlay. |
-| `panel` | **V12's geometry — declared, not built.** The only spec that needs a virtual row is Devourer, which is authored and deferred. It ships the day something draws one; taking it off the list is part of building V12, not a separate decision. |
 
-⚠ **A group in that list is not a dead group.** `panel` in particular is a declared style for a
-primitive that has no implementation yet, which is the shelf working as intended — one declared
-style per primitive, written before the code. Nothing in this table may be deleted on the grounds
-that "no addon file reads it"; that is the test for whether it *ships*, not for whether it exists.
+⚠ **A group in that list is not a dead group, and the test for membership is not "does an addon
+file read it".** Every entry above is excluded because the CLIENT is the wrong audience for it —
+the preview's fakes, the gallery's lab, capart's own generation inputs — not because nothing has
+got round to reading it yet. A style may legitimately be declared here before the code that draws
+it exists; the shelf declares exactly one style per primitive and writing it first is the point.
+What such a group is waiting for is its primitive, and it joins `Style.lua` the day one arrives —
+`panel` did exactly that when V12 was built. Nothing in this table may be deleted on the grounds
+that "no addon file reads it".
 
 ⚠ **The converse is not the same rule.** `tokens.ring` / `tokens.motion` / `tokens.arrival` were
-deleted on 2026-08-25, and they were never on that list — they shipped. What killed them is that
-their **subject** went: V2 retired, then Part 7's `arrival-*` entries were judged and deleted, and
-a declared style whose primitive no longer exists in either half of the project is not a style
-written ahead of its code. `panel` has a primitive waiting to be built; the arrival had one that
-had already been taken out.
+deleted on 2026-08-25, and they were never on that list — they shipped. What killed them is that their
+**subject** went: V2 retired, then Part 7's `arrival-*` entries were judged and deleted, and a
+declared style whose primitive no longer exists in either half of the project is not a style
+written ahead of its code. The arrival had a primitive that had already been taken out; a style
+written ahead of its code has one still coming.
 
 
 **Which half of the project reads which field.** `swipe` is the only one the ADDON reads, in the

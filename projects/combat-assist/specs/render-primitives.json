@@ -37,7 +37,7 @@
     { "id": "V9",  "name": "Sealed color curve",      "kind": "mechanism" },
     { "id": "V10", "name": "Sealed range-gated texture", "kind": "mechanism" },
     { "id": "V11", "name": "Ruled-out hatch",         "kind": "primitive" },
-    { "id": "V12", "name": "Virtual row",             "kind": "declared" },
+    { "id": "V12", "name": "Virtual row",             "kind": "primitive" },
     { "id": "V13", "name": "Scan edge",               "kind": "primitive" },
     { "id": "V14", "name": "Promotion ring",          "kind": "primitive" },
     { "id": "V15", "name": "Hotkey text",             "kind": "primitive" },

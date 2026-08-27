@@ -339,10 +339,8 @@ LAB_SHEET_TEXTURE = "stripes"
 # `preview` and `lab` are the two the shelf calls out by name; `text`, `assets` and `budget`
 # are capart's own generation inputs — the preview's flicker limits, the icon encoder's
 # settings and the base64 ceiling — and shipping them to the addon put three tables in front
-# of every reader of `Style.lua` that no addon file has ever read. `panel` is V12's geometry,
-# DECLARED but not built: it ships the day something draws a virtual row, and taking it off
-# this list is part of that work.
-NOT_THE_STYLE = ("preview", "lab", "text", "assets", "budget", "panel")
+# of every reader of `Style.lua` that no addon file has ever read.
+NOT_THE_STYLE = ("preview", "lab", "text", "assets", "budget")
 # The only two files that may name `ns.LabStyle`: the generated data, and the gallery that draws it.
 LAB_READERS = ("Lab.lua", "StylePanel.lua")
 
@@ -1261,6 +1259,11 @@ def catalog_lua(spec: str) -> str:
     for i, e in enumerate(cat.get("entries", []), 1):
         out += _lua_comment(f"{i} · {e['id']}. {e['note']}" if e.get("note") else f"{i} · {e['id']}.", 2)
         head = f"    {{ id = {_lua_scalar(e['id'])}, ability = {_lua_scalar(e['ability'])},"
+        # V12's `virtual`, beside the ability it qualifies. ⚠ This emitter is FIELD BY FIELD, so
+        # a key it does not name is dropped in silence — the generated Lua stays valid and the
+        # declaration simply is not there. Anything added to an entry has to be added here too.
+        if e.get("virtual"):
+            head += f" virtual = {_lua_scalar(e['virtual'])},"
         out.append(head)
         if e.get("scan_when"):
             # One line when it fits, one alternative per line when it does not — the same
