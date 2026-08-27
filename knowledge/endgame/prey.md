@@ -2,7 +2,7 @@
 title: Prey System (Midnight)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-08-27
 sources:
   - IN-GAME field test 2026-07-10 (Uncomplete) — Nightmare available on fresh 90; trap-grind slow
   - https://www.icy-veins.com/wow/news/tank-tuning-class-fixes-prey-improvements-midnight-12-0-5-hotfixes-may-12th/  # 12.0.5: buffed non-trap progress
@@ -15,7 +15,10 @@ sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # 12.1 Curse of Ula'tek Content Update Notes — "Stalk New Prey in Season 2" + Anguish price cut (Tier 1)
   - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 information — pre-season vs Aug-18 split (Tier 1)
   - https://worldofwarcraft.com/en-us/news/24294369  # Midnight Season 2 overview — Prey S2 detail, vendors, 10-level track (Tier 1)
-  - https://www.wowhead.com/currency=3387/preyseekers-journey  # track name + 4,000-progress-per-reward (Tier 3, game data)
+  - https://www.wowhead.com/currency=3387/preyseekers-journey  # S1 track + 4,000-progress-per-reward (Tier 3, game data)
+  - https://warcraft.wiki.gg/wiki/Preyhunter%27s_Journey  # S2 track name + currency 3515 + rank-4 unlocks (Tier 3)
+  - https://warcraft.wiki.gg/wiki/Prey  # quotes the 2026-03-21 hotfix: first 4 hunts "on an account" (Tier 3 relaying Tier 1)
+  - IN-GAME field observation 2026-08-27 (Pollynomial + alts) — alt Nightmare hunts paying 50 progress while below Rank 4 ⇒ allowance is account-wide, catch-up not live in S2
   - https://www.method.gg/guides/prey-in-wow-midnight-season-2  # S2 target names, 100 Ossified Relics, Curse of the Isle toggle (Tier 3)
   - https://www.icy-veins.com/wow/prey-rewards-guide  # S2 rank unlocks (R4 Afflicted / R9 Tormented), vendors (Tier 3)
   - https://www.icy-veins.com/wow/news/this-wow-midnight-prey-boss-drops-a-mount-worth-the-hunt/  # Ral'kala summon + drops (Tier 3)
@@ -61,15 +64,53 @@ plan around it before Aug 18.
   terminal** and the Preyseeker's Journey ranks. That terminal, not the map, is
   why it stays on the list.
 
-## Preyseeker's Journey (seasonal track)
+## The Journey (seasonal track)
 
-- **10 ranks per season** (Season 2 track confirmed at 10 levels, Tier 1).
-  Progress currency is `Preyseeker's Journey` (currency 3387); **a new reward
-  unlocks every 4,000 progress**.
-- Points: **first 4 hunts each week = 1,000 pts each; additional hunts =
-  50 pts** (20× falloff — never grind past 4/week). 4 hunts = 4,000 = exactly
-  one rank per week. *(Measured in S1; @verify-ingame that S2 keeps the same
-  rates.)*
+- **The track is re-currencied each season, and the two names are not
+  interchangeable.** Season 1 = currency **3387**; **Season 2 = currency 3515**,
+  added in 12.1.0. ⚠ **Both currencies carry the same in-data name
+  `Preyseeker's Journey`** (verified on Wowhead 2026-08-27 — currency 3515's own
+  page is titled Preyseeker's Journey, flavor "Progress in your Preyseeker's
+  Journey"). The name **Preyhunter's Journey** is the Season 2 *track/faction*
+  display (**faction 2808**), which is what the Adventure Guide and the wiki
+  show. So: cite **3515** for S2 progress, and don't treat a "Preyseeker's"
+  string in game data as proof you're looking at the S1 track.
+- **10 ranks per season** (Season 2 track confirmed at 10 levels, Tier 1);
+  **a new reward unlocks every 4,000 progress**.
+- Points: **the first 4 hunts each week = 1,000 pts each; every hunt after that
+  = 50 pts** (20× falloff).
+- ⚠ **THE 4-HUNT ALLOWANCE IS ACCOUNT-WIDE, NOT PER CHARACTER.** Blizzard's own
+  hotfix wording is *"the amount of Journey progress awarded by your first 4
+  hunts **on an account** remains unchanged at 1000."* So hunts run on alts
+  after the account's 4 are spent pay **50** — three alt Nightmare hunts are
+  worth **150 progress**, not 3,000. Confirmed in the field 2026-08-27 (alt
+  Nightmare hunts paying 50 while the account sat below Rank 4).
+  Practical rule: **4 full-value hunts per WEEK per ACCOUNT = one rank/week**,
+  so a rank-4 unlock is ~4 weekly allowances on hunts alone.
+- ⚠ **Count allowances from the PATCH, not the season.** The S2 track was added
+  in 12.1.0 on **2026-08-11** — the pre-season week — and Normal/Hard hunts were
+  live that week, so **the pre-season week granted a full 4-hunt allowance**.
+  Anyone counting from the Season 2 opener (Aug 18) is one whole rank behind the
+  real progress. Field-corroborated 2026-08-27: a character at Rank 3 with
+  2,300/4,000 (≈14,300 total) after only two *seasonal* weeks — which needs the
+  Aug 11 allowance plus a couple of thousand of one-off quest progress to add up.
+- **Journey progress is NOT a datamined quest reward.** Checked 2026-08-27:
+  `Prey: Kursak the Coiled (Nightmare)` (quest **95022**, Weekly, added 12.1.0)
+  lists **experience only** under Gains — no currency. The progress is granted by
+  script, so **no DB reverse-lookup can enumerate what awards it**; don't go
+  looking for a currency-reward filter that will answer "which quests give
+  Journey progress." The S2 one-off chain that plausibly supplies the
+  above-baseline progress: *Prey: A Slithering Threat* (**96004**, the opener) →
+  *A Ghostly Nightmare* (96503) · *Anguish Island* (96466) · *Out of Our Depth*
+  (96525) · *Attending the Attendant* (96532) · *A Crimson Summons* (95114) ·
+  *Something for Astalor* (96474). @verify-ingame the per-quest amounts — they
+  are not readable from any source we have.
+- ⚠ **A March 2026 catch-up hotfix does NOT appear to be live in Season 2.**
+  Hotfix 2026-03-21 made hunts past the weekly 4 keep paying 1,000 *until you
+  reach Journey Rank 4* — it was written for S1, where Rank 4 gated Nightmare
+  difficulty. In S2 Nightmare is gated by the *A Slithering Threat* questline
+  instead, and field observation on 2026-08-27 (below Rank 4, extra hunts paying
+  50) says the catch-up is gone. @verify-ingame if a later hotfix restores it.
 - **Season 1's Rank 4 → Nightmare difficulty**, via Astalor questline *Dark
   Mending* → *The Sheep or the Wolf*. Season 2's entry point is the
   *Prey: A Slithering Threat* questline from Astalor instead
