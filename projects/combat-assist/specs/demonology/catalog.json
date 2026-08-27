@@ -898,7 +898,7 @@
           "drawn_by": [
             "V13"
           ],
-          "note": "Rung 10, and the only rung in `actions.diabolist` with NO condition on it. Both window holds carry `identity(hand_of_guldan, \"base\")` and therefore withhold here, so this is an ordinary open row reached with nothing on it — which is the honest drawing, because in this life there is no state in which the APL would not press it. Cue E cannot fire either: Ruination costs no shards, so `affordable` is always true."
+          "note": "Rung 10, and the only rung in `actions.diabolist` with NO condition on it. Both window holds carry `identity(hand_of_guldan, \"base\")` and therefore withhold here, so this is an ordinary open row reached with nothing on it — which is the honest drawing, because in this life there is no state in which the APL would not press it. Cue E cannot fire either: Ruination costs no shards, so `affordable` is always true. ⚠ AND IT RENDERS EXACTLY AS `hog_press` DOES — same verdict `open`, no cues, no sealed. The two states differ only in `apl` (rung 10 vs rung 11) and in their `condition` prose; the transform itself is drawn by the ICON and V13, not by anything in the state table. So a scenario row on this ability that wears no cue cannot say which of the two it is an instance of, and the walk's prose is the only thing that can. Stated here rather than fixed: the fix is the project-wide one, pinning a scenario row to a named state instead of to the cue keys it draws."
         },
         {
           "id": "hog_press",
@@ -911,7 +911,7 @@
           "drawn_by": [
             "V13"
           ],
-          "note": "Reached by elimination. The ordinary spend, and the button that builds the imps Implosion waits for."
+          "note": "Reached by elimination. The ordinary spend, and the button that builds the imps Implosion waits for. ⚠ Renders identically to `hog_ruination` — see that state's note."
         }
       ],
       "excludes": [
@@ -1167,7 +1167,7 @@
     {
       "id": "shadow_bolt",
       "ability": "shadow_bolt",
-      "note": "Default membership (ready-self): a filler is always a scan candidate. The row changed KIND is said by the icon itself; the ordering correction lives on Demonbolt, which is the row that has to move. Nothing here is load-bearing for visibility — Shadow Bolt has no cooldown, so `ready` never goes false.",
+      "note": "Default membership (ready-self): a filler is always a scan candidate. The row changed KIND is said by the icon itself; the ordering correction lives on Demonbolt, which is the row that has to move. Nothing here is load-bearing for visibility — Shadow Bolt has no cooldown, so `ready` never goes false. ⚠ AND NO `alt` ON THE ABILITY, WHICH IS ALSO AUTHORED — checked in the code 2026-08-27 rather than assumed, because this entry cites BOTH the Shadow Bolt rung (`diabolist` 15) and the Infernal Bolt rung (`diabolist` 16) while the ability declares one id, 686, with no `alt`. `alt` exists for a DIFFERENT ROW, never for an override on this one — so Havoc's base-only note and Retribution's four `alt` declarations are not rival conventions but the two halves of one rule. `Bind.buildRow` sets `base = info.spellID` and puts it in `row.spellIDs` unconditionally, beside the override, the tooltip id and the live id, and `Catalog.findRow` matches ANY member; so cooldownID 34990 answers to 686 whether the row is wearing Shadow Bolt or Infernal Bolt, and the base id binds in both lives. The `alt` cases are the other shape: Templar Strike, Hammer of Wrath and this catalog's own `grimoire` choice node each carry their OWN `info.spellID`, so a declared base alone would find nothing. Infernal Bolt has no Essential row of its own in any set (Category-2 TrackedBuff, OrderIndex 58/59 — `catalog.md`'s row-set table), so an `alt` of 433891 would match nothing today and, if a TrackedBuff row for it were ever laid out, would bind the WRONG row. The same reading covers Ruination riding Hand of Gul'dan.",
       "markers": [
         {
           "id": "ib_art_clock",

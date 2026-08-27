@@ -990,7 +990,7 @@
             "dt_awaits_wrath",
             "dt_overcap"
           ],
-          "apl": "generators 4",
+          "apl": "generators 1",
           "drawn_by": [
             "V5",
             "V11",
@@ -1214,7 +1214,7 @@
             "tv_awaits_blade",
             "tv_divine_storm_aoe"
           ],
-          "apl": "finishers 4",
+          "apl": "generators 5",
           "drawn_by": [
             "V5",
             "V11",
@@ -1235,7 +1235,7 @@
             "tv_awaits_blade",
             "tv_empyrean_power"
           ],
-          "apl": "finishers 4",
+          "apl": "generators 5",
           "drawn_by": [
             "V5",
             "V11",
@@ -1257,7 +1257,7 @@
             "tv_divine_storm_aoe",
             "tv_empyrean_power"
           ],
-          "apl": "finishers 4",
+          "apl": "finishers 1",
           "drawn_by": [
             "V5",
             "V11",
@@ -1458,7 +1458,7 @@
             "ds_aoe_only",
             "ds_awaits_blade"
           ],
-          "apl": "finishers 3",
+          "apl": "generators 5",
           "drawn_by": [
             "V5",
             "V11",
@@ -1599,7 +1599,7 @@
             "V13",
             "V14"
           ],
-          "note": "The vocabulary's second POSITIVE cue, and the reason is DENSITY rather than rank: `generators` 2 puts Blade of Justice first on a Holy Flames build, and saying that by elimination would mean holding FOUR rows above it. Two of those holds existed for no other reason and were deleted when this marker was authored. The condition IS the APL rung minus `time<5` — the aura latch subsumes it, because the only moment Expurgation is absent on a Holy Flames build is before the first Blade of Justice — PLUS `resource <= 4`, which is the rung's REACHABILITY: `generators` 1 diverts to `finishers` at five Holy Power with Wake of Ashes on cooldown, and rung 2 is never reached there."
+          "note": "The vocabulary's second POSITIVE cue, and the reason is DENSITY rather than rank: `generators` 2 puts Blade of Justice first on a Holy Flames build, and saying that by elimination would mean holding FOUR rows above it. Two of those holds existed for no other reason and were deleted when this marker was authored. The condition IS the APL rung minus `time<5` — the aura latch GENERALISES that term rather than subsuming it, and the difference is a target swap: Expurgation is a TARGET debuff, so `!aura(expurgation)` is true at the opener AND again on any swap to an un-DoTted mob, where `time<5` is false. The badge re-fires mid-fight, which is probably the right press but is cap's own claim rather than the rung's, and rests on unmeasured retarget behaviour (`catalog.md`, cue H) — PLUS `resource <= 4`, which is the rung's REACHABILITY: `generators` 1 diverts to `finishers` at five Holy Power with Wake of Ashes on cooldown, and rung 2 is never reached there."
         },
         {
           "id": "boj_opener_woa",
@@ -1711,5 +1711,5 @@
       ]
     }
   ],
-  "entries_note": "Entry order IS the authored priority; `Catalog.OrderCheck` reports when the player's Cooldown Manager disagrees with it."
+  "entries_note": "Entry order IS the authored priority; `Catalog.OrderCheck` reports when the player's Cooldown Manager disagrees with it.\n\n⚠ THE RUNG-CITATION CONVENTION, stated so nobody \"fixes\" it back. A state's `apl` names the rung that carries the FACT the state is about, not the rung that presses this row. So `dt_overcap` cites `generators 1` (where `holy_power=5` lives), not `generators 4` (Divine Toll's own rung), and `tv_awaits_blade` cites `generators 5` (the Blade of Justice proc rung that outranks it). A `_clear` state has no such fact and therefore cites the row's own rung. `finishers 1` is the `ds_castable` VARIABLE rung and citing it is deliberate, not sloppy: a `variable` line is where the fact is defined and the rungs below merely test it.\nFor a COMBINED state the tie is broken by the list itself: it cites the EARLIEST of its markers' rungs — the one the priority list reaches first, and so the one that actually eliminates this row. That is always the citation of one of its single-marker siblings, never a third number. Worked: `dt_overcap_and_wrath` cites `generators 1` over `generators 4`; `ds_aoe_only_and_blade` and the two `tv_blade_*` states cite `generators 5` over `finishers 1`/`4`, because their `resource <= 4` term means `generators` 1's conditional call into `finishers` cannot have fired; `tv_aoe_and_empyrean` cites `finishers 1` because both its markers do.\nThis is DISPLAY-ONLY and deliberately UNGATED — `catalog_gate_holds` and `catalog_gate_display_provenance` read these citations for their own purposes, and a gate on the convention itself would freeze an editorial choice."
 }

@@ -186,6 +186,19 @@ consequently spends no `capped` cue, because there is nothing to cap.
 | 8 | Demonbolt | 13, 14 |
 | 9 | Shadow Bolt / **Infernal Bolt** | 15 / **12** |
 
+⚠ **Rung coverage, counted rather than asserted (2026-08-27).** All sixteen `actions.diabolist`
+rungs land on a row in the table above. **Exactly one is genuinely undrawn: rung 2**
+(Hand of Gul'dan under Dominion of Argus), which is *Defeats* 5 and is blocked on one client
+measurement — whether the latch reads a Category-3 TrackedBar row (`fact-classification.md`).
+Three rungs — 2, 4 and 7 — carry **no `apl` citation** in `catalog.json`, and that is not the same
+count: **rung 4** (Grimoire: Fel Ravager) and **rung 7** (Call Dreadstalkers off Reign of Tyranny)
+are each the alternate-build twin of a cited rung on the *same row*, so the button is drawn and
+only the rung number is unsaid — a state carries one `apl` string and cites the Reign/Imp-Lord
+life. ⚠ **And rung 13 is NOT undrawn**: `db_doom_window` cites it. What is unsayable there is its
+`target_if` clause, which is *Defeats* 3 — a dead clause on a drawn rung, a different claim from a
+rung nothing draws. An earlier review paragraph merged the two and reported "only two undrawn";
+both halves of that were wrong.
+
 **The order is the flattened APL with one swap and three documented conflicts.**
 
 **The swap: Demonbolt sits above Shadow Bolt, and the transform is why.** Read as flat rungs the
@@ -513,6 +526,15 @@ row to its left by a cue rather than by position.
   No cues. The row's changed KIND is said by the icon itself, and the ordering correction lives
   entirely on Demonbolt (cue D), which is the row that has to move — badging the *press* would
   be a promotion, and this catalog does not spend one.
+  ⚠ **And the ability declares `686` with no `alt`, which is authored rather than an omission**
+  (checked in code 2026-08-27). `alt` is for a **different row**, never for an override on this
+  one: `Bind.buildRow` sets `base = info.spellID` and puts it in `row.spellIDs` unconditionally
+  beside the override, the tooltip id and the live id, and `Catalog.findRow` matches any member —
+  so cooldownID `34990` answers to `686` in both lives. Infernal Bolt has no Essential row of its
+  own in any set (the row-set table above), so an `alt` of `433891` would match nothing today and
+  would bind the *wrong* row if a TrackedBuff row for it were ever laid out. The `alt` cases are
+  the other shape — Templar Strike, Hammer of Wrath, and this catalog's own `grimoire` choice
+  node each carry their **own** `info.spellID`. Same reading for Ruination on Hand of Gul'dan.
   - `ib_art_clock` — **sealed** `sealed-proc-bar` (V20) on the armed Art
     (`art_mother_of_chaos`, aura `432794`): how long the transform — and so the Infernal Bolt
     on this row — has left, as the client-drained bar on the bottom edge. The slot filters to

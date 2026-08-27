@@ -247,7 +247,7 @@
             "V11",
             "V13"
           ],
-          "note": "`within = 30` is the complement of `remains>30` and is correct across the entire 120s cooldown without Righteous Protector."
+          "note": "`within = 30` is the complement of `remains>30` and is correct wherever the band draws anything at all — which is not the whole 120s cooldown. ⚠ The band reads NOTHING on a ready dependency: at `remains = 0` there is no cooldown for the client to evaluate the curve against, so the hold is silent exactly where Avenging Wrath is available. An earlier note claimed correctness \"across the entire 120s cooldown\", which overstated it by one endpoint; the omission is safe (a hold that does not draw cannot eliminate the correct press) but it is not the same claim."
         }
       ]
     },

@@ -227,11 +227,11 @@ and nothing about how it was measured.
   disagree**, and it is deliberate — `authoring.md` stage 6 has not run for it. Do not read the
   `.lua` as the design. It wants the same count primitive for Backdraft that Demonology now uses,
   which is now a transcription rather than a promotion.
-  - ⚠ **It has no `catalog.json`, and unlike Devourer's absence that is a finding rather than a
-    not-yet** (2026-08-25). Two of the six authored specs lack one. **Devourer** has never been
-    transcribed at all — it is still hand-written `catalog.md`, and its blocker is V12 (see its
-    entry below). **Destruction** was attempted, and the scenario↔state gate refused it —
-    **five scenarios, three cues**. `DES-1` draws Conflagrate
+  - ⚠ **It is now the ONE authored spec with no `catalog.json`, and that is a finding rather
+    than a not-yet** (2026-08-25; recounted 2026-08-27). Devourer was the other one until it was
+    transcribed on 2026-08-27 — its blocker was V12, and V12 is built — so the contrast this
+    bullet used to draw is gone and Destruction stands alone. **Destruction** was attempted, and
+    the scenario↔state gate refused it — **five scenarios, three cues**. `DES-1` draws Conflagrate
     wearing `capped`, `DES-2` and `DES-5` `blocked`, `DES-6` `overcap`, and the pilot declares
     none of those markers. Declaring the states would require declaring the markers, which is
     *authoring the catalog*, not transcribing it. So the gap between the pilot and its documents
@@ -847,6 +847,43 @@ spec-and-hero pair is the unit (`authoring.md` §0).
       `knowledge/classes/warlock/destruction/builds.md` carries it.
 
 ## Ideas
+
+- **`render-shelf.md`'s V12 section still argues from Collapsing Star, and that premise was
+  measured false.** Recorded 2026-08-27, from the catalog-review residue. V12's *Why it exists*
+  paragraph says Collapsing Star *"is a real press … and has no frame anywhere in the CDM pool"*,
+  and its `gated` kind is defined with Collapsing Star as the worked example. Collapsing Star was
+  then measured in game to be a spell **override on the Void Metamorphosis row**, so R7 draws it,
+  it is not cap-owned, and it is not a virtual row at all — which is also why **V12's `gated` kind
+  has no consumer anywhere** (the Devourer status entry above already says so). The one live
+  virtual row is Consume, `standing`. So the shelf's justification for the primitive rests on a
+  case that no longer holds, while the primitive itself is still right — Consume has no frame
+  either. **This is the shelf's call and was deliberately not edited here**: rewriting V12's
+  motivating example is a visual-opinion edit, and `render-shelf.md` is the one document that owns
+  those. What it needs is the standing example swapped in and `gated` re-justified or retired.
+  ⚠ The *other* half of the same finding is already fixed: the shelf's claim that a virtual row
+  wears the hatch *"and nothing else — no scan edge, no badge"* is gone, and V12 now says plainly
+  that a virtual row takes V13's scan edge, which is what the code always did.
+
+- **Destruction has never been catalog-reviewed.** The 2026-08-25 pass reviewed five specs —
+  Demonology, Havoc, Protection, Retribution, Devourer — and skipped Destruction because this file
+  records it shelved. Every other spec's review found something no gate looks at, including two
+  cross-cutting patterns (a hold naming a row it never checks is available; a recorded defeat that
+  went stale under a later primitive) that are now a **gate** and a **habit** respectively. Neither
+  has ever been run against Destruction's documents. It is cheap and it is read-only. ⚠ Do it
+  **before** stage 6 authors `specs/destruction/catalog.json`, not after: the patterns are about
+  the documents, and transcribing a document that carries them transcribes them too.
+
+- **Check a SETTLED claim as hard as a hedged one — the lesson of the Light's Deliverance
+  reversal, kept because it is about process rather than about Retribution.** Recorded 2026-08-27.
+  A review recommended a `sealed-count-bands` on Light's Deliverance; it was authored, and then
+  deleted, and both the band and the mechanic it rested on were wrong (`retribution/catalog.md`
+  holds the full account). The part worth generalising is the **provenance of the mistake**: an
+  agent had put an `@verify-ingame` on the threshold, and a later "settled" decision removed it,
+  having closed the question by reading spell text — a source that could not answer it. The hedge
+  was warranted and the settlement was not. **So a claim marked settled deserves the same scrutiny
+  as one marked open, and more when what settled it was prose rather than measurement.** The
+  practical form: when a marker or a defeat is removed *because a question was closed*, record what
+  closed it, and treat "the tooltip says so" as evidence about wording rather than about mechanics.
 
 - **An OR in the marker `when` grammar — wanted by a defeat that has no other exit.**
   Recorded 2026-08-26 out of Protection's Defeat 4. `when` is AND-only (`Signal.lua`), and the

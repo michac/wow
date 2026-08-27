@@ -530,9 +530,17 @@ that it is doing ordering work a sealed curve could not do.
   *Facts:* `ready` (R2), `talent` and the Expurgation latch (R8). *Treatment:* scan +
   - `boj_opener` — **readable** `priority`, cue **H**: `ready(blade_of_justice)` **and**
     `talent(holy_flames)` **and** `!aura(expurgation)` **and** `resource <= 4`. That is
-    generators 2 exactly, minus `time<5` — the latch subsumes it, since the only moment
-    Expurgation is absent on a Holy Flames build is before the first Blade of Justice — plus the
-    rung's **reachability**.
+    generators 2 exactly, minus `time<5`, plus the rung's **reachability**.
+    ⚠ **The latch GENERALISES `time<5`; it does not subsume it.** An earlier draft of this
+    paragraph said *subsumes*, on the reasoning that the only moment Expurgation is absent on a
+    Holy Flames build is before the first Blade of Justice. That is false on a target swap:
+    Expurgation is a **target** debuff, so `!aura(expurgation)` is true at the opener *and* again
+    on every swap to an un-DoTted mob, where `time<5` is not. The badge re-fires mid-fight. That
+    is probably the right press — re-applying the DoT on a fresh target is the reason rung 2
+    exists — but **no rung says so**, so the extra firing is cap's own claim rather than a
+    transcription, and it rests on a client behaviour nobody has measured: whether the debuff
+    read follows the *current* target and re-fires on a retarget at all. If it does not, the
+    marker is simply the opener latch it was written as. @verify-ingame
   - `boj_opener_woa` — **readable** `priority`, cue **H** again, unioned onto the same badge: the
     same three terms **and** `ready(wake_of_ashes)`.
   ⚠ **Cue H is worn by TWO markers, and that is how an OR is written.** `generators` 1 is a call
@@ -600,11 +608,11 @@ that it is doing ordering work a sealed curve could not do.
 
 | Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
-| **A** starved | a spender you cannot pay for wears the `starved` badge — Templar's Verdict, Divine Storm, and Wake of Ashes **while it is Hammer of Light** | `insufficientPower` on the **live** id | marker (readable) | R1 + R7 | corner badge, slot 2 |
-| **B** overcap | **Divine Toll only** wears the `overcap` badge at 5 Holy Power | `UnitPower(player, HolyPower) >= 5` | marker (readable) | R3 | corner badge, slot 2 |
+| **A** starved | a spender you cannot pay for wears the `starved` badge — Templar's Verdict, Divine Storm, and Wake of Ashes **while it is Hammer of Light** | `insufficientPower` on the **live** id | marker (readable) | R1 + R7 | corner badge, flowing stack |
+| **B** overcap | **Divine Toll only** wears the `overcap` badge at 5 Holy Power | `UnitPower(player, HolyPower) >= 5` | marker (readable) | R3 | corner badge, flowing stack |
 | **C** sealed hold | the `blocked` badge driven by a *related ability's cooldown remaining*, in two senses. `within` = *"it is nearly here, wait for it"*: Execution Sentence while Avenging Wrath ends within 15s · Wake of Ashes while Avenging Wrath ends within 6s · Wake of Ashes while Execution Sentence ends within 4s · Divine Toll while Avenging Wrath ends within 15s. `beyond` = *"it is nowhere near, this is not its moment"*: Execution Sentence while Wake of Ashes has at least 1.5s left. **Both read nothing at zero remaining.** **Two** readable companions, each on a row whose own band goes dark at zero: Execution Sentence while Avenging Wrath is *ready*, and Wake of Ashes while Execution Sentence is talented and *ready*. The first is there because row 1 sits left of what it waits on; the second because a **held** row 1 no longer eliminates row 3 | a related ability's cooldown remaining, plus two readinesses | cue (sealed) + two markers (readable) | S4 `sealed-cooldown-range` + R2 + the `talent` predicate | curve → badge, flowing stack |
-| **D** proc-defer | Templar's Verdict **and** Divine Storm wear `blocked` while a free Blade of Justice is waiting and Holy Power is below 5 | `IsSpellOverlayed(184575)` + `ready` + `resource` | marker (readable) | overlay `proc` + R2 + R3 | corner badge, slot 1 |
-| **E** Divine Storm skip | Templar's Verdict wears `blocked` while AoE mode is on **or** an Empyrean Power proc is live, and no Empyrean Legacy proc is | cap's `/cap aoe` toggle + two overlay procs + `affordable` | two markers unioned (readable) | `aoe` + overlay `proc` + R1 | corner badge, slot 1 |
+| **D** proc-defer | Templar's Verdict **and** Divine Storm wear `blocked` while a free Blade of Justice is waiting and Holy Power is below 5 | `IsSpellOverlayed(184575)` + `ready` + `resource` | marker (readable) | overlay `proc` + R2 + R3 | corner badge, flowing stack |
+| **E** Divine Storm skip | Templar's Verdict wears `blocked` while AoE mode is on **or** an Empyrean Power proc is live, and no Empyrean Legacy proc is | cap's `/cap aoe` toggle + two overlay procs + `affordable` | two markers unioned (readable) | `aoe` + overlay `proc` + R1 | corner badge, flowing stack |
 | **H** the opener promotion | **Blade of Justice only**, and only at the opener: it wears the gold `priority` badge while Holy Flames is talented, Expurgation is off the target, the button is ready, and `generators` 2 is actually REACHED — below five Holy Power, or with Wake of Ashes ready. The catalog's one **positive** cue, worn by **two markers** (`boj_opener` + `boj_opener_woa`) because that reachability is a disjunction and `when` is AND-only; its one scenario read by pass 1 | the same latch as G, plus `ready`, `talent`, `resource` and `ready(wake_of_ashes)` | two markers (readable) | R8 + R2 + the `talent` predicate | corner badge, rank 1 |
 | **G** target-aura hold | **Execution Sentence and Avenging Wrath** each wear `blocked` while Holy Flames is talented and the Expurgation DoT is **not** on the target — the opener state, released by the first Blade of Justice. One clause, `(!talent.holy_flames|dot.expurgation.ticking)`, on two rungs (`cooldowns` 10 and 11) and therefore two sibling markers, `es_awaits_expurgation` and `aw_awaits_expurgation`, written identically. Row 1's is what stops a **Radiant Glory** build drawing Execution Sentence clean and leftmost for a forbidden press | CDM `TrackedBuff` alert edges on `383346`, latched up/down | two markers (readable) | R8 + the `talent` predicate | corner badge, flowing stack |
 | **F** the talent gate | nothing of its own — it **withholds** three C bands on a Radiant Glory build, where the Avenging Wrath half of the condition does not exist | the trait config's node/entry selection | gate on a cue (readable) | the `talent` predicate | (no sink — it gates) |
