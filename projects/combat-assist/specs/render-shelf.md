@@ -1233,6 +1233,16 @@ no pcall dance. When the aura drops, the client hides the whole button and the b
 visibility is free (§3.5.1). cap reads nothing, authors no threshold, never learns where the
 fill is.
 
+⚠ **A V20 carries no POLARITY, and that is now load-bearing in a gate.** It says only how long
+an armed thing has left — the duration of a face the row is already wearing — where a *count* in
+the priority hue asserts *press this*. That difference is why Retribution's Light's Deliverance
+band was deleted (it drew a positive count the APL never reads) while Demonology's `ib_art_clock`
+was kept over an aura, `art_mother_of_chaos`, that appears in **no rung of its list**. The
+display-provenance gate (2026-08-27) makes every sealed display cite a rung or argue itself in a
+sentence, and that clock's sentence is this paragraph. **Meet it before authoring a second V20
+over an unread aura** — the exception is declared per marker, deliberately, so the next case is
+argued on its own rather than exempted by category.
+
 **Why a bar and not the corner dial it replaces** (2026-08-25, stepper feedback): the dial sat
 in the badge column, where **hue carries polarity** (V5.1) — a gold arc beside a red cue badge
 and a red hatch read as two verdicts arguing, exactly on the held rows where the countdown

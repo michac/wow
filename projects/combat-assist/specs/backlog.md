@@ -662,6 +662,33 @@ which is an eye question, not a measurement — and, if it is, whether the model
 neither reads nor decides. The `IsSpellUsable` measurement is a *different* question and does not
 answer this one: reading the gate in Lua would let cap draw its own badge, which is signal two.
 
+### The display-provenance gate resolves by SUBSTRING, over the row's whole rung set
+
+Shipped 2026-08-27 and working — 29 of 36 sealed displays resolve, 4 argue themselves in a
+declared sentence, 3 are skipped by kind because a `sealed-power-percent` display has no aura
+subject to check. What is worth writing down is the **shape of its remaining looseness**, so
+nobody later reads a green tally as a stronger claim than it is.
+
+**It matches the subject's APL token as a substring of the rungs the ENTRY cites**, not the
+wearing state's, and not against the rung's *condition*. Both halves are deliberate and both cost
+something:
+
+- **Per-row, not per-state.** A hold state cites the rung it yields *to*, which is another
+  button's line, so a per-state check fails every honest hold that carries a display. Per-row is
+  the claim actually worth making, and it is the same line the state gate already draws:
+  authoring discipline, not an APL correctness engine.
+- **Substring, so a subject can resolve against a rung that merely MENTIONS it.** The live
+  instance is Protection's `cons_field_up`: it resolves through rung 29's bare `consecration`,
+  while the fact it draws — the ground effect being up — actually lives in rungs 19 and 24's
+  `!consecration.up`. The gate is satisfied by a weaker thing than the one that would justify the
+  display.
+
+Tightening it means per-state condition matching, which fails the holds. `display_apl` already
+exists as the precise form when an author wants to name the exact rung — the residual question is
+whether it should be *required* wherever the bare-mention path is what resolved, which would make
+the loose case visible instead of silent. Not done: it would re-open every resolving display at
+once, and the gate has not yet been argued with by anyone but its author.
+
 ### Add a shelf section for what Blizzard already draws on a CDM icon
 
 Read off the Tier-1 source at
