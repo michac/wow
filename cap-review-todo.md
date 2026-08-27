@@ -101,6 +101,27 @@ primitives pass did not only add fields; it made these claims checkable, and the
    stricter than its marker; `backlog.md:206` says "fourteen scenarios" (15 since DEM-15) and
    `:210` calls V18 "Demonbolt's Core radial" (retired 2026-08-24); `catalog.md:375, 386` spell a
    `<` term the engine cannot author (it implements `<=` / `>=` only).
+   ⚠ **FIXED 2026-08-27 — option (a), the partition.** `implosion_imps_short` became two
+   mutually-exclusive `when`-gated markers, `implosion_imps_aoe` (`aoe`) and `implosion_imps_thab`
+   (`!aoe ∧ talent(to_hell_and_back)`), each carrying the full band table, plus five `excludes`.
+   In single target without To Hell and Back **neither draws**, so the row wears `aoe_only` alone.
+   The Havoc precedent was weighed and REJECTED as the mirror image, not the analogue: there the
+   POSITIVE cue was the correct answer and the negative was noise, so pass 1 landed the reader on
+   the right button. Here the negative badge is correct and the gold numeral is the lie — in
+   `tokens.count.rgb`, byte-identical to the `priority` and `capped` cue hues (V5.1). Accepted cost,
+   stated so it is not re-litigated: `cornerBase` 1 → 2 with one stack step permanently blank, and
+   the imp count is silent in ST-no-THAB and on a refused `talent` read. **Silence over a false
+   promotion.**
+   ⚠ **RESOLVED 2026-08-27, and the finding as written was WRONG TWICE.** (a) A `diabolist` rung
+   DOES read Demonic Core as a count — `simc-apl.md:51`, `power_siphon,if=buff.demonic_core.stack<=1`.
+   The true, narrower claim is that no rung reads it at a HIGH threshold or says four Cores is bad.
+   (b) **`"full": true` was INERT** — `Channel.BarPlan` copied it to `plan.full` and *nothing in the
+   addon ever read `plan.full`*; `Channel.Arm` adds the flip on `plan.kind` alone. So "drop
+   `full`" was never a behaviour change. The key is deleted from the catalog, `Catalog.Check` and
+   `BarPlan`; the flip still draws and the shelf owns it, unconditionally. No reading defect
+   remained: both marks are negative, both true, neither touches pass 1. The real defect was a
+   catalog key that read as a switch, controlled nothing, and had been cited in prose as if it fired
+   the flip. Two garbled `catalog.md` sentences rewritten with it.
 
 **Clean negatives worth keeping:** every `condition` checked against markers and bands — no
 inversion. No §3.6 violation. Of 16 `diabolist` rungs only two are undrawn and **both reasons still
@@ -268,6 +289,23 @@ transcription. No §3.6 violation. Nothing drawn with a primitive a better one s
 8. **Nit.** `catalog.md:461-476` still reasons in `slot 1` / `slot 2` about the fixed three-slot
    badge geometry deleted 2026-08-19. Havoc's `catalog.md:359, 452` has the same leftover. ⚠ `capart`'s
    vocabulary gate fails a *catalog* naming one, but these are in the `.md`, which is ungated.
+   ⚠ **REVERSED 2026-08-27 — the band was authored, then DELETED, and this item is what recommended
+   it.** Two things went wrong. **(a) The band drew a fact the priority list never consults.**
+   `lights_deliverance` appears **zero times** in `simc-apl.md`; the APL reads only the RESULT,
+   `buff.hammer_of_light_free.up` at `finishers` 2. Its state cited `generators 3`, which *resolves*
+   — but `generators 3` is the Wake of Ashes rung and never mentions it. **(b) The mechanic this
+   item and the catalog both asserted was wrong.** Consumption **IS** automatic; it is *conditional*
+   on Wake of Ashes and Hammer of Light both being unavailable. The docs read the spell text's
+   *"empowering yourself to **cast**"* — a claim about the CAST — as a claim about the COUNTER, and
+   concluded the counter never drains on its own. It does: WoA on cooldown with HoL spent is exactly
+   when 60 stacks convert, which is the *"an additional time"*. So there **is** a fill-and-empty
+   cycle the band would have drawn through.
+   ⚠ **And the pass's own delegation lesson INVERTS on this case.** The `@verify-ingame` an agent
+   put on this threshold was **warranted**; the recorded "settled" decision that removed it was the
+   unreliable one, having been closed from a source that could not settle it. Read that lesson as
+   *check a settled claim as hard as a hedged one* — especially when it was settled by reading prose
+   rather than by measurement. RET-14 was deleted with the band: without it, its nine rows were
+   byte-identical to RET-3, which its own title had already conceded.
 
 **Clean negatives worth keeping:** all 33 `condition` strings faithful to their markers — no
 disagreement. Rung coverage complete across all four lists; `generators 7` is dead on Templar

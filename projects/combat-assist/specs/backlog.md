@@ -406,6 +406,33 @@ and nothing about how it was measured.
   here: `{client: …}` was outside it from the day it shipped, so the client-paint layer could be
   edited in the doc and never reach the page.
 
+- **A sealed display may draw a fact its own rung citation does not contain, and nothing checks.**
+  Measured 2026-08-27, out of Retribution's Light's Deliverance band. Every state must already say
+  where it comes from — an `apl` citation or an `exception` — and the states gate confirms the
+  citation **resolves**. It does not confirm the cited rung is *about* the fact being drawn.
+  `woa_ld_armed` cited `generators 3`, which resolves cleanly; `generators 3` is the Wake of Ashes
+  rung and `lights_deliverance` appears **zero times in the whole priority list**. The band drew a
+  fact its own provenance did not contain, and was deleted for exactly that reason (2026-08-27) —
+  the APL reads only the *result*, `buff.hammer_of_light_free.up` at `finishers` 2.
+  **The gate:** for a marker carrying a `display`, the display's subject must appear in a rung the
+  entry cites, or the marker must declare why not.
+  ⚠ **Dry-run measured before writing this, and it is MEDIUM, not the one-liner it looks like.**
+  Across the four migrated catalogs **27 of 32 display markers resolve**. Of the five that do not:
+  **one is a real find** — `demonology/ib_art_clock` draws `art_mother_of_chaos`, which occurs **0
+  times** in the Demonology APL, off rungs `diabolist 15`/`16` that are bare actions with no
+  conditions. That is the Light's Deliverance shape exactly, though it is a V20 clock rather than a
+  positive count and so makes no press claim — it needs a ruling, not an assumption.
+  **One needs a human** — `protection/cons_awaits_hammer` draws `divine_guidance`, which IS in the
+  Protection APL but not in any of the three rungs that entry cites.
+  **Three are the gate's own problem** — `protection/cons_field_up` fails only because the catalog
+  id is `consecration_up` where the APL token is `consecration`, and Havoc's `felblade_overcap` /
+  `demons_bite_overcap` carry **no aura subject at all** (they read `UnitPower`, not an application
+  count).
+  So it needs two things it does not have: skip subject-less displays, and a **catalog-id → APL-token
+  map**. `catalog_gate_outranker` already builds a map like that from `catalog.md`'s *Bound
+  abilities* table — but that table maps ACTIONS, and these subjects are AURAS (`buff.X` / `dot.X`),
+  so it likely does not cover them. Budget a mapping table, not a predicate.
+
 ## Now
 
 ### Keybind hint on the CDM row — built, not flown
@@ -835,3 +862,36 @@ spec-and-hero pair is the unit (`authoring.md` §0).
   readable proc on the row, this is a marker and not a mechanism. That "if" is the whole of the
   work: measure first (`specs/havoc/catalog.md` → *Open facts* 6), then author. **Do not build it as
   part of the Havoc baseline** — the baseline ships without it and is coherent without it.
+
+- **Trinkets are in the Cooldown Manager since 12.1, they are in the APLs, and cap ignores them.**
+  Raised 2026-08-27. On-use trinkets are part of a rotation and are gated on **possession and
+  equipped slot**, not on spec or talent — so a catalog cannot enumerate them the way it enumerates
+  abilities, and declaring `item: <id>` would tie spec knowledge to a season's loot table.
+  **The unlock is that the player's own act of adding the trinket to Essential Cooldowns IS the
+  declaration.** 12.1 made that a first-class category rather than something to infer:
+  `EquipSlotEssential` (**7**) and `EquipSlotTracked` (**8**) join `SpecAgnostic*` for racials
+  (`knowledge/addon-dev/cooldown-manager.md:85-100`). Two equip trinkets, or two on-use ones the
+  player macros, means category 7 is empty and cap binds nothing — the fail-dark behaviour wanted,
+  for free. Motivating case: a **channeled** trinket cannot be macro'd, so it needs a visual.
+  **Bind by SLOT, not by item, because that is how the APL addresses it** — `use_item,slot=trinket1`,
+  and the CDM row carries `equipSlot`, read via `GetInventoryItemCooldown("player", equipSlot)`
+  (`cooldown-manager.md:325-340`). Both sides already key on the same thing. **36 of 40 specs' APLs
+  carry `use_item`**, so this is a project-wide primitive, not one spec's nicety.
+  Upstream already agrees with the hand-rolled ordering: Demonology's `actions.items` rung 1 branches
+  on `(!pet.demonic_tyrant.active&trinket.1.cast_time>0|!trinket.1.cast_time>0)` — a trinket with a
+  cast time goes BEFORE Tyrant, an instant one does not care.
+  ⚠ **One measurement blocks it, and it is a ClientLab question, not a design one.** An `EquipSlot*`
+  row's value does **not** come from `C_Spell.GetSpellCooldown` — it comes from
+  `GetInventoryItemCooldown`, a different API on a different key, and **the value cascade was derived
+  on spell-backed rows only and was never re-derived for the item path**
+  (`cooldown-manager.md:340-347`, `@verify-ingame`). cap's `ready()` rests on that cascade, and
+  `ready()` is what every hold and the default `scan_when` alternative are built on — so today cap
+  cannot establish that a trinket row is even IN the scan. Blizzard's own
+  `-- TODO: Support potions as well, this won't just be equipslot` (`CooldownViewer.lua:1018`) says
+  the item path is unfinished upstream. Nothing in §1.3 has been seen in a client.
+  ⚠ **What cap CANNOT do here, and it is already a recorded gap:** it never writes to or rearranges
+  the Cooldown Manager (`spec.md` §4), so the player drags the row and cap annotates it. Saying
+  *"this row is ranked below the rows to my right"* is the same grammar gap Protection's Defeat 4
+  records above. The deliverable is the overlay, not the ordering.
+  ⚠ **And the APL region is the known-weak one** — `wowkb.sim`'s `apl_append` exception exists
+  precisely because upstream deadlocks on two on-use trinkets, its default profile shipping only one.
