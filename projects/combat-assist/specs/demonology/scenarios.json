@@ -163,9 +163,6 @@
           "cues": [
             "aoe_only"
           ],
-          "sealed": [
-            "count-bands"
-          ],
           "count": 3,
           "count_dir": "neg"
         },
@@ -219,9 +216,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 3,
           "count_dir": "neg"
@@ -278,9 +272,6 @@
           "cues": [
             "aoe_only"
           ],
-          "sealed": [
-            "count-bands"
-          ],
           "count": 3,
           "count_dir": "neg"
         },
@@ -335,9 +326,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 4,
           "count_dir": "neg"
@@ -394,9 +382,6 @@
           "cues": [
             "aoe_only"
           ],
-          "sealed": [
-            "count-bands"
-          ],
           "count": 4,
           "count_dir": "neg"
         },
@@ -451,9 +436,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 2,
           "count_dir": "neg"
@@ -512,9 +494,6 @@
           "cues": [
             "aoe_only"
           ],
-          "sealed": [
-            "count-bands"
-          ],
           "count": 3,
           "count_dir": "neg"
         },
@@ -569,9 +548,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 3,
           "count_dir": "neg"
@@ -634,9 +610,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 3,
           "count_dir": "neg"
@@ -807,9 +780,6 @@
           "cues": [
             "aoe_only"
           ],
-          "sealed": [
-            "count-bands"
-          ],
           "count": 3,
           "count_dir": "neg"
         },
@@ -867,9 +837,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 2,
           "count_dir": "neg"
@@ -933,9 +900,6 @@
           "verdict": "open",
           "cues": [
             "aoe_only"
-          ],
-          "sealed": [
-            "count-bands"
           ],
           "count": 2,
           "count_dir": "neg"

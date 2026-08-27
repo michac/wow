@@ -290,7 +290,7 @@ to its right by position.
      clear and leftmost for a press `generators` 3 forbids. Cue H does not cover it: with Blade of
      Justice on cooldown nothing promotes and elimination runs. Row 3 therefore carries
      `woa_awaits_sentence_ready`, the readable half, authored as this marker's sibling; the
-     argument that used to say it was unnecessary is rewritten at row 3's own entry, and **RET-15**
+     argument that used to say it was unnecessary is rewritten at row 3's own entry, and **RET-14**
      is the walk that proves it. **The general form: a held row does not eliminate the row beneath
      it, so every hold authored onto a left-hand row is a question asked of every row to its
      right.**
@@ -420,39 +420,18 @@ to its right by position.
      Expurgation absent, **Blade of Justice on cooldown**) cue H is dark, so nothing promotes and
      elimination lands on this row — clear, for a press `generators` 3 forbids. That is the same
      defect `es_awaits_expurgation` closed, relocated one row, and it is closed by the readable
-     term rather than by a promotion. **RET-15 is the walk.**
+     term rather than by a promotion. **RET-14 is the walk.**
      ⚠ **Why the density trade came out the other way this time.** The 2026-08-25 deletion was
      made while `boj_opener` was a single unconditional marker carrying the whole opener; Phase 2
      split it into `boj_opener` + `boj_opener_woa` and gave both reachability terms, so cue H now
      fires in strictly **fewer** states than when that trade was struck. The premise moved, and
      the answer moved with it: correctness over density, and it is not close.
-  - `woa_lights_deliverance` — **no cue**, `sealed-count-bands` (V16) on `lights_deliverance`,
-    bands `{0 → none, 60 → mark (positive)}`. **Silent until armed**, then one positive mark in
-    the corner meaning *a free Hammer of Light is banked and waiting for you* — on the row that
-    will display it, and on a button you still have to press. cap
-    authors the number 60 and the **client** evaluates it against a count cap never receives.
-    `mark` and not `count`: *how many more* stops being the live question the moment the answer is
-    none, and V16's vocabulary makes the two exclusive.
-    ⚠ **The subject is `433674`, not `425518`.** `425518` is the Templar hero **talent** —
-    `CumulativeAura = 0`, and its SpellEffect 0 is `PROC_TRIGGER_SPELL` whose `EffectTriggerSpell`
-    is `433674`. `433674` carries `CumulativeAura = **60**`, the same 60 the spell text names, and
-    holds CooldownSet **901**'s Category-2 slot at OrderIndex 45 — a **Tracked Buff row in
-    Retribution's own set** *[T1 DB2: `SpellName` / `SpellEffect` / `SpellAuraOptions` /
-    `CooldownSetSpell` @ 12.1.0.69214]*, which is exactly the row the player was being asked to
-    watch. `family: "auras"` is declared rather than defaulted because a sealed display whose
-    subject does not resolve **draws nothing and looks identical to a client refusal**.
-    ⚠ **A count band claims a corner by declaration** (`Catalog.CORNER_DISPLAYS`), so this row's
-    cue badges start below it whether or not anything is drawing.
-    ⚠ **The stack HOLDS at 60, so the mark is a resting state and not a flicker.** `CumulativeAura
-    = 60` caps the counter and alone could not have answered this; the **spell text** does, and the
-    load-bearing word is *while*: *"**While Wake of Ashes and Hammer of Light are unavailable**,
-    you consume 60 stacks of Light's Deliverance, empowering yourself to cast Hammer of Light an
-    additional time for free"* *[T1: `knowledge/classes/paladin/retribution/ability-inventory.md:880`]*.
-    The consumption is **conditional, not automatic** — for as long as either button is available
-    the counter sits at 60 and stays there, so there is no fill-and-empty race for the band to
-    lose. **And nothing auto-casts:** the payoff is an *additional cast* the player still presses.
-    That is precisely what makes the band worth drawing — the mark means **a free Hammer of Light
-    is banked and waiting for you**, a state you can act on, not "the counter reached its cap".
+  ⚠ **Light's Deliverance is deliberately NOT drawn, and the reason is the priority list.**
+    `lights_deliverance` appears **zero times** in `simc-apl.md`. The list never reads the banked
+    count; it reads only the *result* — `buff.hammer_of_light_free.up` at `finishers` 2 — so a
+    count band on this row would be cap authoring a fact the APL does not consider. A band was
+    authored here on 2026-08-25 and deleted on 2026-08-27; the Changelog keeps its DB2 research
+    and the mechanic the deletion corrected.
   ⚠ **The Hammer of Light life carries no hold, and finishers 2's second half is still
   unexpressible — but the 60 is no longer among the reasons.** Finishers 2 is
   `hammer_of_light,if=!buff.hammer_of_light_free.up|buff.hammer_of_light_free.up&(…four clip conditions…)`.
@@ -630,12 +609,11 @@ that it is doing ordering work a sealed curve could not do.
 | **G** target-aura hold | **Execution Sentence and Avenging Wrath** each wear `blocked` while Holy Flames is talented and the Expurgation DoT is **not** on the target — the opener state, released by the first Blade of Justice. One clause, `(!talent.holy_flames|dot.expurgation.ticking)`, on two rungs (`cooldowns` 10 and 11) and therefore two sibling markers, `es_awaits_expurgation` and `aw_awaits_expurgation`, written identically. Row 1's is what stops a **Radiant Glory** build drawing Execution Sentence clean and leftmost for a forbidden press | CDM `TrackedBuff` alert edges on `383346`, latched up/down | two markers (readable) | R8 + the `talent` predicate | corner badge, flowing stack |
 | **F** the talent gate | nothing of its own — it **withholds** three C bands on a Radiant Glory build, where the Avenging Wrath half of the condition does not exist | the trait config's node/entry selection | gate on a cue (readable) | the `talent` predicate | (no sink — it gates) |
 
-**Two displays carry no cue at all, and that is not an omission.** `aw_expurgation_clock` (V20,
-the Expurgation bar on row 2) and `woa_lights_deliverance` (V16, the Light's Deliverance band on
-row 3) are client-evaluated **displays**, not badges: cap hands over a widget and a rule and never
-learns what was drawn, so there is nothing for a cue key to name. Neither eliminates a row —
-the band's lower band draws `none` and its upper band is positive, and a bar is not a verdict —
-so neither changes an elimination walk. `../render-shelf.md` V16 and V20 own both pictures.
+**One display carries no cue at all, and that is not an omission.** `aw_expurgation_clock` (V20,
+the Expurgation bar on row 2) is a client-evaluated **display**, not a badge: cap hands over a
+widget and a rule and never learns what was drawn, so there is nothing for a cue key to name. It
+eliminates no row — a bar is not a verdict — so it changes no elimination walk.
+`../render-shelf.md` V20 owns the picture.
 
 **Three cue keys, and the same red.** `blocked`, `starved` and `overcap` share one hue
 (`../render-shelf.md` V5.1); nothing in this catalog asks for a primitive the shelf does not
@@ -683,14 +661,14 @@ genuinely outranks it, which is precisely the failure a positive cue is dangerou
 
 **The one thing that would qualify is still unmeasured, and it is now a smaller thing.** A
 **free** Hammer of Light from Light's Deliverance expires, and letting it expire is loss in
-progress with no negative phrasing. What has changed is that **counting to 60 is no longer the
-obstacle** — `woa_lights_deliverance` draws the armed state with cap reading nothing (V16). What
-remains is telling the free Hammer from the ordinary one, which the overlay channel cannot do
-(*Open facts* 3). **Readability is not the reopening condition** — a sealed sink suffices: an
-AuraContainer slot filtered to the free-Hammer aura would paint it without Lua learning anything,
-so measuring whether that state *is* a player aura is what reopens this. ⚠ And note the band is
-**not** that cue: `capped` is a positive **cue** cap decides and shows, while the band is a rule
-the client evaluated. The band draws *stacks are banked*; it does not say *press this*.
+progress with no negative phrasing. What stands in the way is telling the free Hammer from the
+ordinary one, which the overlay channel cannot do (*Open facts* 3). **Readability is not the
+reopening condition** — a sealed sink suffices: an AuraContainer slot filtered to the free-Hammer
+aura would paint it without Lua learning anything, so measuring whether that state *is* a player
+aura is what reopens this. ⚠ **Counting to 60 is not the route in**, and briefly looked like one:
+the count is what the *player* watches, not what the APL reads, and `finishers` 2 keys on
+`buff.hammer_of_light_free.up` — the armed Hammer itself. The cue this section is about would be
+authored on that aura, if it is one.
 
 ---
 
@@ -774,10 +752,12 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, never as a TODO h
    the row exists. @verify-ingame
 3. **Can the free Hammer of Light be told from the ordinary one?** `SpellActivationOverlay` has a
    single row for Hammer of Light and both aura states seal. Still the one candidate that could
-   justify the positive cue. ⚠ **Narrowed 2026-08-26:** this no longer gates the whole of
-   finishers 2's second half. Counting to 60 is drawn (`woa_lights_deliverance`, V16); the four
-   clip conditions are blocked separately, on a missing aura-remaining S-form rather than on this
-   question. @verify-ingame / @pending-test
+   justify the positive cue. ⚠ **This is the WHOLE of what stands in the way, and a 2026-08-26
+   note claiming it had been narrowed is deleted.** That note said counting Light's Deliverance to
+   60 was now drawn and so no longer part of the problem; the count was never part of the problem,
+   because `finishers` 2 keys on `buff.hammer_of_light_free.up` and the priority list never reads
+   the stack at all. The four clip conditions remain blocked separately, on a missing
+   aura-remaining S-form. @verify-ingame / @pending-test
 4. **Does a Divine Purpose proc raise overlay `267345` / `267346`?** If it does,
    `proc(divine_storm)` and `proc(templars_verdict)` both read true on it and cue E is suppressed
    during a proc that makes either spender free. Modern Divine Purpose `408459`'s own overlay row
@@ -839,14 +819,17 @@ S4 already puts on a cooldown (`../authoring.md`'s recipe index S5). Writing tha
 Separately, and not a defeat at all: every `raid_event` / `fight_remains` / `target.time_to_die`
 term stays out as a product rule — cap does not model the encounter.
 
-⚠ **Two things this section used to defeat are now authored, and the claims have been rewritten
-rather than annotated** (2026-08-26, after the V16–V20 primitives shipped). **The 60-stack count**
-was *"cannot be logged; watch a Tracked Buff row"* and is now `woa_lights_deliverance`, a V16 band
-on `433674` — the count reaches pixels through a rule the client evaluates and cap never reads.
-**The Expurgation DoT's remaining time** had no form at all and is now `aw_expurgation_clock`, a
-V20 bar on the Avenging Wrath row. Neither closes the clip conditions above; the first narrows
-*Open facts* 3 and the second narrows nothing — it makes a **stale latch visible**, which is a
-different job from making the branch right.
+⚠ **One thing this section used to defeat is now authored, and the claim has been rewritten
+rather than annotated** (2026-08-26, after the V16–V20 primitives shipped). **The Expurgation
+DoT's remaining time** had no form at all and is now `aw_expurgation_clock`, a V20 bar on the
+Avenging Wrath row. It does not close the clip conditions above and narrows nothing — it makes a
+**stale latch visible**, which is a different job from making the branch right.
+⚠ **A second one was authored in the same pass and has been DELETED rather than kept** (2026-08-27).
+The 60-stack Light's Deliverance count was defeated here as *"cannot be logged; watch a Tracked
+Buff row"*, and the V16 band did make it drawable — but drawable was never the test. The priority
+list does not read the count in any rung, so drawing it was cap authoring a fact the APL does not
+consider, and the defeat was answered on the wrong question. **A primitive existing is not a
+reason to spend it.**
 
 ---
 
@@ -889,12 +872,11 @@ Stage 2 cut five of the fourteen candidate presses.
   abilities' cooldowns. cap authors the window in seconds, the client evaluates the curve, and cap
   reports `offered` / `armed` / `refused` and never reads back. **Accepted is not drawn**
   (`../authoring.md` → *Accepted is not drawn*).
-- **Two displays carry sealed facts with no cue attached:** an aura *duration* (`sealed-proc-bar`
-  on Expurgation, `SetDurationBar` → the client drains the fill) and an aura *stack count*
-  (`sealed-count-bands` on Light's Deliverance, `SetApplicationCount` against a breakpoint table
-  cap authored). cap authors one number in the whole of both — the **60** — and never learns which
-  side of it the count fell on. Same `offered` / `armed` / `refused` audit; same *accepted is not
-  drawn*.
+- **One display carries a sealed fact with no cue attached:** an aura *duration* (`sealed-proc-bar`
+  on Expurgation, `SetDurationBar` → the client drains the fill). cap authors **no number at all**
+  in it — the client owns the whole arithmetic. Same `offered` / `armed` / `refused` audit; same
+  *accepted is not drawn*. *(A `sealed-count-bands` on Light's Deliverance sat beside it until
+  2026-08-27 and was the catalog's only authored magic number, the **60**; see the Changelog.)*
 - **No cooldown remaining, no aura duration and no target state ever enters a Lua condition**, in
   either polarity.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable`,
@@ -908,14 +890,9 @@ Stage 2 cut five of the fourteen candidate presses.
 
 ## Changelog
 
-**2026-08-26 — two recorded defeats went stale, and the claims were rewritten.** The V16–V20
+**2026-08-26 — a recorded defeat went stale, and the claim was rewritten.** The V16–V20
 primitives did not only add fields; they made this file's *"we cannot do this yet"* claims
-checkable, and two failed. **Counting Light's Deliverance to 60** was written up as a Tracked
-Buff row the player has to watch and is now `woa_lights_deliverance`, a V16 band on **`433674`**
-— the stacking aura, not `425518`, which is the hero talent that triggers it
-(`CumulativeAura = 0` against `433674`'s **60**, and `433674` holds CooldownSet 901's Category-2
-slot at OrderIndex 45) *[T1 DB2 @ 12.1.0.69214]*. **The Expurgation DoT's remaining time** had no
-form at all and is now `aw_expurgation_clock`, a V20 proc bar hosted on the **Avenging Wrath** row
+checkable. **The Expurgation DoT's remaining time** had no form at all and is now `aw_expurgation_clock`, a V20 proc bar hosted on the **Avenging Wrath** row
 so the fact sits under the badge that depends on it — V20 and not V19, because V19's badge wears
 the full positive-cue treatment and nothing in this priority refreshes Expurgation. Separately,
 `es_awaits_expurgation` closed a genuine exposure the same latch had been available to close since
@@ -925,7 +902,7 @@ relocated that defect one row down, which is fixed in the same pass rather than 
 residual:** `woa_awaits_sentence_ready` gives row 3 the readable half of `generators` 3's
 Execution Sentence clause, because a **held** row does not eliminate the row beneath it and the
 `within = 4` band reads nothing at zero remaining. The 2026-08-25 argument that row 3 needed no
-readable companion is **rewritten in place**, not annotated; RET-15 is its walk. The density trade
+readable companion is **rewritten in place**, not annotated; RET-14 is its walk. The density trade
 that deleted `woa_awaits_wrath_ready` is not reopened — its premise moved when Phase 2 split
 `boj_opener` and gave both halves reachability terms, so cue H fires in strictly fewer states than
 when the trade was struck. **Two corrections folded into the same pass.**
@@ -936,12 +913,48 @@ client knows the spell, so it built its curve and reported **`armed`** on a buil
 `generators` 3 is unconditional and the hold could never be right. What kept it dark was a
 per-draw nil-guard in `Channel.HoldAlpha`. It now reports **`gated`**, which is a fact about
 authorship rather than about the client. (b) Whether Light's Deliverance holds at 60 or empties on
-fill was authored as an open `@verify-ingame` and **should not have been** — the spell text
-settles it: *"**while** Wake of Ashes and Hammer of Light are unavailable"* makes the consumption
-conditional, so 60 is a **resting state**, and *"empowering yourself to cast"* means nothing
-auto-casts. `CumulativeAura` alone genuinely could not answer it; the spell text could. The old
-claims are deleted, not annotated (staleness doctrine 7); what each item narrows and what it
+fill was closed from the spell text — see the 2026-08-27 entry, which reopens and settles it. The
+old claims are deleted, not annotated (staleness doctrine 7); what each item narrows and what it
 leaves open is stated at the item.
+
+**2026-08-27 — the Light's Deliverance band is deleted, and the mechanic it rested on was wrong.**
+
+*Why it went:* `lights_deliverance` appears **zero times** in
+`knowledge/classes/paladin/retribution/simc-apl.md`. The priority list never reads the banked
+count — it reads only the **result**, `buff.hammer_of_light_free.up` at `finishers` 2 — so the band
+was cap authoring a fact the APL does not consider. That is the whole reason, and it is stronger
+than the badge collision that surfaced it (a `capart check` gate learned on 2026-08-26 to see a
+positive sealed band beside a negative cue, and reported four undeclared pairs on this entry).
+**A primitive existing is not a reason to spend it.** Deleted: marker `woa_lights_deliverance`,
+state `woa_ld_armed`, the orphaned `lights_deliverance` ability declaration, and scenario RET-14 —
+whose row, once the band was gone, was byte-identical to RET-3 and asserted nothing. RET-15
+renumbered to RET-14; the walk is now **14 scenarios**.
+
+*The DB2 research is kept here because it was hard-won and stays true.* Light's Deliverance is
+**two** spells. `425518` is the Templar hero **talent**, `CumulativeAura = 0`; its SpellEffect 0 is
+a `PROC_TRIGGER_SPELL` whose `EffectTriggerSpell` is **`433674`**, and `433674` is the **stacking
+aura** — `CumulativeAura = 60`, the same 60 the spell text names — holding CooldownSet **901**'s
+Category-2 slot at OrderIndex 45, a Tracked Buff row in Retribution's own set
+*[T1 DB2: `SpellName` / `SpellEffect` / `SpellAuraOptions` / `CooldownSetSpell` @ 12.1.0.69214]*.
+Anything that ever draws this aura wants `433674`, not `425518`.
+
+*⚠ And the mechanic was wrong, which is the part worth remembering.* This file read the spell
+text's *"empowering yourself to **cast** Hammer of Light an additional time"* as settling that the
+**counter** never drains on its own, and concluded 60 was a **resting state** with *"no
+fill-and-empty race"*. The text settles only that the **cast** is not automatic. **The consumption
+is automatic — it is *conditional* on both buttons being unavailable.** The real cycle, from play:
+Wake of Ashes ready → the stack parks at 60 (Wake of Ashes is available, so nothing is consumed) →
+press Wake of Ashes, the row becomes Hammer of Light, still 60 (Hammer of Light is now available)
+→ press Hammer of Light, the row returns to base with Wake of Ashes on cooldown → **both now
+unavailable, so the 60 auto-consumes and the row becomes Hammer of Light again, free** — that is
+the *"additional time"* → press it. So there **is** a fill-and-empty cycle, and the band would
+have been drawing through it.
+
+*The `@verify-ingame` this file said "should not have been" open was warranted, and that judgement
+is rewritten rather than annotated.* `CumulativeAura` genuinely could not answer the question, and
+neither could the spell text — reading a claim about the *cast* as a claim about the *counter* is
+exactly the error a hedge exists to hold open. **The question was closed too early, from a source
+that could not settle it.** What settled it was play.
 
 **2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
 (`../spec.md` §3.1): the Lane column became Scan, and membership is now the row's one declared

@@ -3619,6 +3619,36 @@ def catalog_gate_vocab(cat: dict, tokens: dict) -> list[str]:
     return fails
 
 
+def _claims_polarity(marker: dict) -> str | None:
+    """What POLARITY this marker asserts, or None if it asserts none.
+
+    Two things assert one, and the whole point of this function is that they are the same
+    statement wearing different pixels:
+
+    * a **cue** — a badge cap shows, whose polarity the shelf declares per key;
+    * a **positive sealed band** — a mark the CLIENT draws, in the positive hue. How that hue is
+      reached differs by `draw` and the distinction does not matter here: `draw: "count"` is text,
+      so it takes `tokens.count.rgb` through a colour escape, while `draw: "mark"` is a texture
+      escape and `Channel.hued()` resolves it to a **pre-tinted `_pos` art file** — an escape
+      cannot be recoloured. Both land on the same gold as the `priority` and `capped` cues, and
+      under V5.1 hue carries polarity and only polarity, so either is cap saying *press this* as
+      surely as a gold badge is.
+
+    ⚠ **A negative band is deliberately NOT a claim here**, and that asymmetry is the reason this
+    stays usable as a hard gate. Negative marks agree with each other by construction — a row can
+    be ruled out for several reasons at once and elimination is not exclusive (`spec.md` §3.1) —
+    so pairing every negative band against every negative cue would be pure noise across five
+    catalogs. What cannot stand unexamined is a POSITIVE mark beside a negative one on the same
+    button, because that is the reader's two passes being told opposite things.
+    """
+    if marker.get("cue"):
+        return "cue"
+    for band in ((marker.get("display") or {}).get("bands") or []):
+        if band.get("polarity") == "positive":
+            return "band"
+    return None
+
+
 def catalog_gate_cooccurrence(cat: dict) -> list[str]:
     """Every pair of markers that can be simultaneously true is a declared state.
 
@@ -3627,10 +3657,21 @@ def catalog_gate_cooccurrence(cat: dict) -> list[str]:
     walking scenarios, which finds the pairs a scenario happens to reach and silently misses the
     rest. A pair is settled here by being written down — either as a combined state, or as an
     explicit `excludes` saying why it cannot happen.
+
+    ⚠ **A POSITIVE SEALED BAND IS A MARKER FOR THIS PURPOSE, since 2026-08-26.** It carries no
+    `cue` — V17's marks come out of a FontString the client writes, and a cue is a badge cap
+    shows — so until now it was invisible to every gate in this file, and Demonology's
+    `implosion_imps_short` shipped an ungated gold numeral that drew *beside* the red `aoe_only`
+    badge in single target with To Hell and Back untalented: cap's own promotion ink on a button
+    whose rung cannot fire. Nothing caught it. `reading_gate` and its two passes read cue keys
+    only; the `states` table said `sealed: ["count-bands"]` and nothing compared that against the
+    cue in the same row; and this gate filtered markers to `m.get("cue")`, which excluded the band
+    outright. The fix is one line of membership, and it costs the author an `excludes` with a
+    `why` — which is exactly the sentence the defect needed someone to try to write.
     """
     fails = []
     for e in cat.get("entries", []):
-        markers = [m for m in (e.get("markers") or []) if m.get("cue")]
+        markers = [m for m in (e.get("markers") or []) if _claims_polarity(m)]
         if len(markers) < 2:
             continue
         stated = set()
@@ -3646,11 +3687,23 @@ def catalog_gate_cooccurrence(cat: dict) -> list[str]:
             for b in markers[i + 1:]:
                 pair = frozenset((a["id"], b["id"]))
                 if pair not in stated:
+                    band = [m["id"] for m in (a, b) if _claims_polarity(m) == "band"]
+                    extra = ""
+                    if band:
+                        extra = (
+                            f"\n       {', '.join(band)} draws a POSITIVE band — a gold mark, in the "
+                            "same ink as the\n"
+                            "       `priority` and `capped` cues however the band reaches it (a "
+                            "`count` tints text with\n"
+                            "       `tokens.count.rgb`; a `mark` is pre-tinted `_pos` art). V5.1: hue "
+                            "carries polarity and\n"
+                            "       only polarity — so beside a negative cue that is the reader's two "
+                            "passes told opposite things.")
                     fails.append(
                         f"{e['id']}: markers {a['id']!r} and {b['id']!r} can both be true and "
                         "nothing says what that looks like.\n"
                         "       Add a state with `combines: [both]`, or an `excludes` entry "
-                        "with a `why` saying it cannot happen.")
+                        "with a `why` saying it cannot happen." + extra)
     return fails
 
 

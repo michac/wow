@@ -214,6 +214,14 @@ window, which is a throughput loss and never a wrong button.
 it is cue **G**. The **first** half is a stack count and is not (*Defeats*). Position 6 is right
 whenever the count is satisfied and wrong when it is not, and cue G covers only the
 single-target case.
+⚠ **The two halves are not independent, and reading them as though they were is what went wrong.**
+Until 2026-08-26 the sealed half drew in *every* state of the row, including the states the
+readable half had already closed — so at six or more imps in single target without To Hell and
+Back the row wore the red `aoe_only` badge (right) beside a **gold** numeral in cap's own
+promotion ink (wrong: nothing is loaded on a button whose rung cannot fire). The readable half
+now **gates** the sealed one, which is the general shape: where a rung's readable terms decide
+whether the rung exists at all, the sealed display authored from the rest of that rung belongs
+behind them, not beside them.
 
 **Conflict 3: Ruination outranks nothing it does not already sit above.** Rung 10 is above rung
 11 and below everything else, and both live on row 7. The identity carries it with no cue.
@@ -352,13 +360,27 @@ row to its left by a cue rather than by position.
     `!talent(to_hell_and_back)`. That is the second half of rung 9's gate, negated. The talent
     term is what makes it safe: To Hell and Back makes Implosion correct at any target count, so
     on that build the skip is never authored at all.
-  - `implosion_imps_short` — **sealed** `sealed-count-bands` (S7 + S8 + S11,
-    `../render-shelf.md` V16/**V17**) on Wild Imp `296553`, a Category-2 row in set 60 at
+  - `implosion_imps_aoe` / `implosion_imps_thab` — **sealed** `sealed-count-bands` (S7 + S8 +
+    S11, `../render-shelf.md` V16/**V17**) on Wild Imp `296553`, a Category-2 row in set 60 at
     OrderIndex 47. Below six the band draws a hatch, a plate and the **red** numeral out of one
     FontString — `buff.wild_imps.stack>=6` read as an elimination; at six the hatch clears and
     the numeral **recolors gold** (2026-08-25): *banked, the press is loaded*. The upper band
     used to emit the empty string, which made a loaded Implosion identical to an unremarkable
     one — the count is context in both directions and the hue alone carries the verdict.
+    ⚠ **TWO MARKERS BECAUSE RUNG 9'S READABLE HALF GATES ITS SEALED HALF** (2026-08-26). The
+    gold is `tokens.count.rgb`, which is **byte-identical** to the `priority` and `capped` cue
+    hues — so under V5.1, where hue carries polarity and only polarity, a gold numeral is cap
+    saying *press this* in its own promotion ink. Ungated it said so in single target with To
+    Hell and Back untalented, where rung 9 cannot fire at all and cue **G** is simultaneously
+    ruling the row out: cap's promotion ink on a button the priority list has closed, and the
+    reader's first pass is the one that finds gold. So the display now carries the same gate cue
+    G carries, inverted — `aoe` on one marker, `!aoe ∧ talent(to_hell_and_back)` on the other.
+    `when` is AND-only, so the rung's disjunction is two markers; they are written **mutually
+    exclusive** rather than as a plain OR because each count band claims a corner slot **by
+    declaration** (`Catalog.CORNER_DISPLAYS`), so two live at once would draw the same count as
+    two numerals on two corners. The price is paid in silence: in single target without the
+    talent, and on a build whose `talent` read refuses, cap now says nothing about the imp count
+    at all. That is an omission the player can see, against a promotion they cannot.
   - `implosion_no_imps` — **readable** `blocked`: `!aura(wild_imp)`. ⚠ **The one state the band
     cannot reach.** With no Wild Imp there is no aura, so the client hides the whole button and
     every sink on it draws nothing — which would leave a ready Implosion un-ruled-out at zero
@@ -434,10 +456,24 @@ row to its left by a cue rather than by position.
   - `db_core_charge` — **sealed** `sealed-count-bar` (S10, `../render-shelf.md` V18) on Demonic
     Core, `max = 4`. *How many* Cores are banked, as a segmented bar on the row's bottom edge —
     and **at four the whole bar flips to the negative red**: full stacks means procs about to be
-    wasted, which is exactly cue B's fear stated by the client instead of by a readable term. ⚠ It
-    is **graded and has no blank state** — `SetValue` clamps into `[0, max]`, so the track is on
-    the row for as long as the aura is up. `max` is the number that MATTERS rather than the
-    aura's real cap, which is what turns "or more" into "full" and fires the flip.
+    wasted. ⚠ It is **graded and has no blank state** — `SetValue` clamps into `[0, max]`, so the
+    track is on the row for as long as the aura is up. `max = 4` is Demonic Core's **real cap** —
+    *"Maximum 4 stacks"* *[T1: `knowledge/classes/warlock/demonology/ability-inventory.md:555`]* —
+    and the clamp is what turns "or more" into "full" and fires the flip.
+    ⚠ **THE FLIP IS AUTHORED PAST THE PRIORITY LIST, and that is stated rather than implied.** No
+    `actions.diabolist` rung reads Demonic Core at a **high** threshold: rung 1 reads
+    `buff.demonic_core.stack<=1` (Power Siphon — the *low* direction, and the fact `ps_cores_banked`
+    is built on) and rungs 13/14 read `buff.demonic_core.react`, a boolean. What the flip says is
+    the Tier-1 **game** fact the list leaves unsaid — at four stacks the next proc is lost. It is a
+    second true NEGATIVE beside cue B, **not a restatement of it**: cue B fires on four **Soul
+    Shards**, the flip on four **Demonic Cores**. Two different resources, two real costs, and the
+    elimination walk still names the button — cap puts both facts on the row and does not resolve
+    the bind for the player (`../spec.md` §3.6, the last combining step). The flip itself is V18's,
+    unconditional, and declared in the shelf: a catalog names no pixels and carries no switch for
+    it. *(A `full: true` key sat in this display until 2026-08-26. It was **inert** — `BarPlan`
+    copied it to `plan.full`, nothing ever read it, and `Channel.Arm` armed the flip slot on the
+    display KIND alone — while this bullet cited it as though it fired the flip. Deleted rather
+    than wired.)*
   - `db_doom_window` — **sealed** `sealed-pandemic` (S9, `../render-shelf.md` V19) on Doom
     `460553`, **gated on the readable `talent(doom)`**. The one sealed display cap authors no
     threshold for: the client computes `GetRefreshExtendedDuration − GetAuraBaseDuration` itself,
@@ -532,7 +568,7 @@ useful and did not eliminate; a hatch and a negative mark do.
 | **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, flowing stack |
 | **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, flowing stack |
 | — | Power Siphon **rules itself out** at two or more Demonic Cores: the client draws a hatch and a red mark | the aura's application count | sealed display | S7 + S11 `sealed-count-bands` | AuraContainer FontString → V16 |
-| — | Implosion **rules itself out** below six Wild Imps — red count + hatch — and at six the count turns **gold**: banked | the aura's application count | sealed display | S7 + S8 + S11 `sealed-count-bands` (two-polarity) | AuraContainer FontString → V16/V17 |
+| — | Implosion **rules itself out** below six Wild Imps — red count + hatch — and at six the count turns **gold**: banked. Drawn only where rung 9's readable half holds (AoE mode on, **or** To Hell and Back talented) | the aura's application count | sealed display + readable gate | S7 + S8 + S11 `sealed-count-bands` (two-polarity) + `aoe` / the `talent` predicate | AuraContainer FontString → V16/V17 |
 | — | Demonbolt carries a **segmented bar** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
 | — | Demonbolt carries a **badge while Doom's pandemic window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-pandemic` + the `talent` predicate | AuraContainer Region → V19 |
 | **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, flowing stack |
@@ -827,3 +863,29 @@ the sealed radial, V19 the pandemic window — and four things the transcription
   three treatments are new marker shapes and `Catalog.lua`, `Channel.lua` and `Overlay.lua` all
   moved. Per stage 6 that is the finding rather than a failure, and what it found is that three
   sinks share one seam.
+
+**2026-08-26 — two false claims deleted, both found by reading the sealed displays against the
+rungs they were authored from.**
+
+- **Implosion's gold numeral is now GATED on rung 9's readable half** (`implosion_imps_aoe` /
+  `implosion_imps_thab`, replacing the single ungated `implosion_imps_short`). `tokens.count.rgb`
+  is byte-identical to the `priority` and `capped` cue hues, so under V5.1 the upper band was cap
+  saying *press this* in its own promotion ink — and it said so in single target with To Hell and
+  Back untalented, beside the `aoe_only` badge, on a row whose rung cannot fire. Havoc's
+  `ia_pre_meta_and_skip` tolerates a gold-and-red row on the argument that the press answer stays
+  right because pass 1 reads the positive card first; invert the polarities and that argument
+  inverts with it, so this is the mirror image of that precedent rather than an instance of it.
+  ⚠ **The cost is accepted and is real:** the imp count is now silent in single target without the
+  talent, and on a refused `talent` read. `cornerBase` on this row goes 1 → 2, so its cue badges
+  start one step lower and one stack step is permanently blank.
+- **`db_core_charge`'s `full: true` was INERT and is deleted** — `Channel.BarPlan` copied it to
+  `plan.full`, nothing read it, and `Channel.Arm` armed V18's flip slot on the display kind alone.
+  It had been cited in this file as though it fired the flip. Deleted rather than wired: the shelf
+  owns the flip, and a catalog names no pixels. Two claims in the same bullet were rewritten with
+  it — the flip is **not** cue B restated (cue B is four Soul Shards, the flip is four Demonic
+  Cores), and `max = 4` **is** Demonic Core's real cap rather than a chosen number
+  *[T1: `knowledge/classes/warlock/demonology/ability-inventory.md:555`]*.
+- **`capart check` learned to see this class.** A positive sealed band now counts as a marker for
+  `catalog_gate_cooccurrence`, so it must be `combines`d or `excludes`d against every cue on its
+  entry. Nothing had been able to see the defect before: the two reading passes compare cue keys
+  only, and that gate filtered markers to those carrying a `cue`.

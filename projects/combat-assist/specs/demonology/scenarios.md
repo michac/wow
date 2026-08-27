@@ -156,9 +156,12 @@ is built on.
   clock is, so this silence is confirmed by eye in game, not by a capture.
 - **Cue set.** Dogs' window (J) → correctly **dark**, past the upper edge. Ramp hold (I) →
   dark — Tyrant is not ready. Single-target skip (G) → **have**. Core hold (C) → **have**, the
-  `noproc` card. The imp band (V16) → **drawing** its red `3` on Implosion. (⚠ All three were
-  missing from this row until 2026-08-25 — it predates the band-everywhere sweep and was the
-  one mid-fight scenario the sweep skipped.)
+  `noproc` card. The imp band → correctly **dark**: it is gated on rung 9's readable half, which
+  is false in single target without To Hell and Back, so neither `implosion_imps_aoe` nor
+  `implosion_imps_thab` is licensed here. (⚠ Both cues were missing from this row until
+  2026-08-25 — it predates the band-everywhere sweep and was the one mid-fight scenario the
+  sweep skipped. The band was added by that same sweep and removed again 2026-08-26, when
+  gating it on the rung's readable half turned out to be the whole fix for the gold numeral.)
 
 ### DEM-4 · Tyrant ready at 2 shards — the readable hold, and the filler underneath
 
@@ -180,8 +183,9 @@ is built on.
   5. **Demonbolt** — the `noproc` empty card from `db_awaits_core`: no Demonic Core, and
      Demonbolt appears in the APL only gated on one → skip.
   6. **Shadow Bolt** — **press.** Rung 15, the filler, reached entirely by subtraction.
-     Implosion, back at row 6, is also carrying its imp band — the client's `3` on the corner
-     plate over the gold hatch: three of the six imps rung 9 wants.
+     Implosion, back at row 6, carries the pawn and nothing else: its band is gated on rung 9's
+     readable half, and in single target without To Hell and Back that half is false, so cap
+     says nothing about the imp count on a button the rung has closed.
 - **Eye-direction.** ⚠ **This is the state the whole catalog is built around, and the card on
   row 5 is the point of it.** Holding a *ready* one-minute cooldown is the strongest claim cap
   makes anywhere in this spec, and it is safe to make because Soul Shards are **never-secret** —
@@ -228,7 +232,7 @@ is built on.
   is not waste — and DEM-8 is that state, where the badge is correctly dark.
 - **Cue set.** Overcap (B) → **have**, readable, and gated on `proc(demonbolt)` so it never lands
   on a Demonbolt that has no Core to spend. The Core bar (V18) and proc bar (V20) → **drawing**;
-  the imp band (V16) → **drawing** its `4` on Implosion.
+  the imp band → correctly **dark**, gated off in single target without To Hell and Back.
 
 ### DEM-7 · 3 shards, Tyrant 4 s out — bank for the window
 
@@ -286,7 +290,8 @@ is built on.
   pandemic rather than the community's 30 %. Reproducing the same picture from a duration band
   would be cap's guess wearing the same pixels.
 - **Cue set.** Starved (E) → **have**. Nothing else fires. Three sealed displays draw on one
-  row (V18, V19, V20), and the imp band (V16) draws its `2` on Implosion.
+  row (V18, V19, V20); the imp band is **dark**, gated off in single target without To Hell and
+  Back, so this row's three displays are the whole of what is drawn.
 
 ### DEM-9 · Ruination armed — row 7 is a different button
 
@@ -387,8 +392,8 @@ is built on.
   wear one. **DEM-13 is the state below six**, which this walk could not contain until
   2026-08-22.
 - **Cue set.** Single-target skip (G) → correctly **dark**. Five-shard hold (A) → **have**, as
-  the `building` card; ramp hold (I) → **have**, on Hand of Gul'dan. The imp band → **drawing
-  its gold `6`** on the press itself.
+  the `building` card; ramp hold (I) → **have**, on Hand of Gul'dan. The imp band
+  (`implosion_imps_aoe`, licensed by the toggle) → **drawing its gold `6`** on the press itself.
 
 ### DEM-13 · AoE mode on, three imps out — the count rules the row out
 
@@ -451,8 +456,8 @@ is built on.
 - **Density.** One client-drawn elimination and one mode pawn before the press. No budgeted hold
   at all.
 - **Cue set.** Overcap (B) → **have**. Single-target skip (G) → **have**. The Core band (V16) →
-  **drawing**, on Power Siphon; the imp band (V16) → **drawing**, on Implosion. The Core bar
-  (V18) and proc bar (V20) → **drawing**, on Demonbolt.
+  **drawing**, on Power Siphon; the imp band → **dark**, gated off by the same single-target fact
+  that lights cue G. The Core bar (V18) and proc bar (V20) → **drawing**, on Demonbolt.
 
 ### DEM-15 · Dreadstalkers in the dead zone — waiting on Tyrant's cooldown
 

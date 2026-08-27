@@ -524,7 +524,12 @@
           "note": "THE ONE STATE THE BAND CANNOT REACH, and it needs cap's own readable latch. With no Wild Imp at all there is no aura, so the client hides the whole button and every sink on it draws nothing. The `aura` predicate is readable and an unbound row reads UNKNOWN rather than false, so this stays dark rather than asserting the imps are gone."
         },
         {
-          "id": "implosion_imps_short",
+          "id": "implosion_imps_aoe",
+          "when": [
+            {
+              "pred": "aoe"
+            }
+          ],
           "display": {
             "kind": "sealed-count-bands",
             "ability": "wild_imp",
@@ -542,7 +547,40 @@
               }
             ]
           },
-          "note": "The NUMERAL, not the mark: `how many more` is exactly the live question below six, and the hatch beside it already carries `ruled out`. At six the count RECOLORS instead of clearing — same numeral, opposite polarity, no hatch, because hue carries polarity and only polarity (V5.1) and a positive band may not hatch."
+          "note": "Rung 9's readable half GATES its sealed half, and that is the whole of this pair. The band's upper polarity is cap's positive ink — `count.rgb` is byte-identical to the `priority` and `capped` cue hues — so under V5.1 a gold numeral is cap saying `press this`. Ungated it said so in single target with To Hell and Back untalented, where rung 9 cannot fire at all and `implosion_st_only` is simultaneously ruling the row out: cap's own promotion ink on a button the priority list has closed. `when` is AND-only, so the disjunction `active_enemies>2|talent.to_hell_and_back` is two markers; the gates are written MUTUALLY EXCLUSIVE rather than as a plain OR because each corner display claims its own stack slot by declaration, so two live at once would draw two numerals at two corners. This is the AoE-toggle half. The NUMERAL, not the mark: `how many more` is exactly the live question below six, and the hatch beside it already carries `ruled out`. At six the count RECOLORS instead of clearing — same numeral, opposite polarity, no hatch, because a positive band may not wear one."
+        },
+        {
+          "id": "implosion_imps_thab",
+          "when": [
+            {
+              "pred": "aoe",
+              "negate": true
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "to_hell_and_back"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-count-bands",
+            "ability": "wild_imp",
+            "bands": [
+              {
+                "threshold": 0,
+                "draw": "count",
+                "polarity": "negative",
+                "hatch": true
+              },
+              {
+                "threshold": 6,
+                "draw": "count",
+                "polarity": "positive"
+              }
+            ]
+          },
+          "note": "Rung 9's readable half GATES its sealed half, and that is the whole of this pair. The band's upper polarity is cap's positive ink — `count.rgb` is byte-identical to the `priority` and `capped` cue hues — so under V5.1 a gold numeral is cap saying `press this`. Ungated it said so in single target with To Hell and Back untalented, where rung 9 cannot fire at all and `implosion_st_only` is simultaneously ruling the row out: cap's own promotion ink on a button the priority list has closed. `when` is AND-only, so the disjunction `active_enemies>2|talent.to_hell_and_back` is two markers; the gates are written MUTUALLY EXCLUSIVE rather than as a plain OR because each corner display claims its own stack slot by declaration, so two live at once would draw two numerals at two corners. This is the To Hell and Back half: the talent makes Implosion a single-target press, so the count is live with the AoE toggle OFF. `!aoe` is what keeps it disjoint from `implosion_imps_aoe`. A refused `talent` read is UNKNOWN, and a gate reads a blind term as withheld (`Signal.Evaluate`), so this fails dark rather than painting on a build cap could not resolve."
         }
       ],
       "states": [
@@ -573,7 +611,7 @@
             "V11",
             "V13"
           ],
-          "note": "Cue H. ⚠ No aura means no sealed sink draws either — the band CANNOT reach this state, which is exactly why the readable latch exists."
+          "note": "Cue H. ⚠ No aura means no sealed sink draws either — the band CANNOT reach this state, which is exactly why the readable latch exists. With the AoE toggle on, or To Hell and Back talented, a band marker IS gated on here and still draws nothing: the client shows no button for an aura that is absent (`excludes`)."
         },
         {
           "id": "imp_st_skip",
@@ -582,18 +620,15 @@
           "cues": [
             "aoe_only"
           ],
-          "sealed": [
-            "count-bands"
-          ],
+          "sealed": [],
           "slot": "flow",
           "apl": "diabolist 9",
           "drawn_by": [
             "V5",
             "V11",
-            "V13",
-            "V17"
+            "V13"
           ],
-          "note": "Cue G plus the band drawing whatever the count is. The CUE is the eliminator here; the band is context beside it, which is why the verdict is `open` and not `ruled-sealed`."
+          "note": "Cue G alone, and it is the WHOLE row at every imp count. The band is gated off here — rung 9's readable half is false, so neither `implosion_imps_aoe` nor `implosion_imps_thab` is licensed to paint — which is what collapses this state back into one appearance. ⚠ Until 2026-08-26 the band drew here regardless, so at six or more imps the row wore the red `aoe_only` badge (right: the rung cannot fire) beside a GOLD numeral in cap's own promotion ink (wrong: nothing is loaded on a button the priority list has closed). Silence is the trade: cap no longer says how many imps are out in single target, and it no longer says the wrong thing."
         },
         {
           "id": "imp_short",
@@ -610,7 +645,7 @@
             "V13",
             "V17"
           ],
-          "note": "Hatch, plate and the RED numeral out of one FontString. The band is the ONLY eliminator, so the verdict names it: the client evaluated cap's rule against a secret."
+          "note": "Hatch, plate and the RED numeral out of one FontString, from whichever of the two gated markers this build licenses — `implosion_imps_aoe` under the toggle, `implosion_imps_thab` on a To Hell and Back build. The band is the ONLY eliminator, so the verdict names it: the client evaluated cap's rule against a secret."
         },
         {
           "id": "imp_banked",
@@ -626,7 +661,7 @@
             "V13",
             "V17"
           ],
-          "note": "The numeral recolors GOLD and the hatch clears: banked, the press is loaded. No hatch — a positive band may not wear one."
+          "note": "The numeral recolors GOLD and the hatch clears: banked, the press is loaded. No hatch — a positive band may not wear one. The gold is only reachable through a gate that says rung 9 can actually fire, which is the point of the pair: `implosion_imps_aoe` under the toggle, `implosion_imps_thab` on a To Hell and Back build."
         },
         {
           "id": "imp_st_and_no_imps",
@@ -648,7 +683,44 @@
             "V11",
             "V13"
           ],
-          "note": "⚠ POSSIBLE AND UNWALKED — no scenario reaches it, and it is written here rather than discovered later. Both badges flow in `rank` order; neither sink draws, because with no Wild Imp aura there is nothing for the band to paint. Two independent negatives on one row is legal: elimination is not exclusive."
+          "note": "⚠ POSSIBLE AND UNWALKED — no scenario reaches it, and it is written here rather than discovered later. Both badges flow in `rank` order. No sink draws, for two independent reasons that now both hold: rung 9's readable half is false so neither band marker is gated on, and with no Wild Imp aura there would be nothing for one to paint anyway. Two independent negatives on one row is legal: elimination is not exclusive."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "implosion_st_only",
+            "implosion_imps_aoe"
+          ],
+          "why": "Cue G needs the AoE toggle OFF; this band is gated ON it. One predicate, both polarities — so the badge that says `wrong mode` can never stand beside the numeral that says `banked`."
+        },
+        {
+          "pair": [
+            "implosion_st_only",
+            "implosion_imps_thab"
+          ],
+          "why": "Cue G needs To Hell and Back UNTALENTED; this band is gated on it being talented. One predicate, both polarities."
+        },
+        {
+          "pair": [
+            "implosion_imps_aoe",
+            "implosion_imps_thab"
+          ],
+          "why": "`aoe` and `!aoe` — disjoint by construction, and written down because two corner displays claim two stack slots: if both could draw, the row would carry the same count as two numerals on two corners."
+        },
+        {
+          "pair": [
+            "implosion_no_imps",
+            "implosion_imps_aoe"
+          ],
+          "why": "Not a contradiction in the gates — the toggle can be on with no imps out — but the SINK has no subject: with no Wild Imp aura the client shows no button, so nothing on it draws. Cue H is the readable latch that covers exactly this, and it is the one state a sealed band structurally cannot reach."
+        },
+        {
+          "pair": [
+            "implosion_no_imps",
+            "implosion_imps_thab"
+          ],
+          "why": "The same absence: To Hell and Back talented with no imps out leaves the gate true and the sink subjectless, so cue H draws alone."
         }
       ]
     },
@@ -919,10 +991,9 @@
           "display": {
             "kind": "sealed-count-bar",
             "ability": "demonic_core",
-            "max": 4,
-            "full": true
+            "max": 4
           },
-          "note": "V18 · how many Cores, as a shape. max = 4 is the number that MATTERS rather than the aura's real cap: SetValue clamps, so four and above reads FULL and the fired state is always the complete arc."
+          "note": "V18 · how many Cores, as a shape. `max = 4` is Demonic Core's REAL cap — *\"Maximum 4 stacks\"* (`knowledge/classes/warlock/demonology/ability-inventory.md:555`, Tier 1) — and SetValue clamps, so the fired state is always the complete shape. ⚠ THE WHOLE-BAR RED FLIP AT FOUR IS AUTHORED PAST THE PRIORITY LIST, and that is stated rather than implied. No `actions.diabolist` rung reads Demonic Core at a HIGH threshold: rung 1 reads `buff.demonic_core.stack<=1` (Power Siphon, the LOW direction) and rungs 13 and 14 read `buff.demonic_core.react`, a boolean. What the flip says is the Tier-1 game fact the list leaves unsaid — at four stacks the next proc is lost. It is a true NEGATIVE statement beside cue B's, not a second reading of it: cue B fires on four SOUL SHARDS, the flip on four DEMONIC CORES. Two costs, both real; the elimination walk still names the button. The flip itself is V18's, unconditional and declared in the shelf — a catalog names no pixels and carries no switch for it."
         },
         {
           "id": "db_doom_window",

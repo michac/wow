@@ -126,6 +126,73 @@ for sid, entries in (
     check(capart.reading_gate([scenario(sid, entries)], TOKENS) != [],
           f"{sid}: a row without exactly one press is reported")
 
+# --- 7 · a POSITIVE SEALED BAND is a marker for co-occurrence (2026-08-26) --------------------
+# The defect this pins: `tokens.count.rgb` is byte-identical to the `priority`/`capped` cue hues,
+# so under V5.1 a positive band is cap asserting a promotion in its own ink — but it carries no
+# `cue` key, so every gate in capart looked straight through it. Demonology's Implosion shipped a
+# gold numeral drawing beside the red `aoe_only` badge, on a row whose rung cannot fire, and
+# nothing could see it: the two reading passes compare cue keys, and this gate filtered markers to
+# those carrying a cue.
+POSITIVE_BAND = {"kind": "sealed-count-bands", "ability": "imp",
+                 "bands": [{"threshold": 0, "draw": "count", "polarity": "negative",
+                            "hatch": True},
+                           {"threshold": 6, "draw": "count", "polarity": "positive"}]}
+NEGATIVE_BAND = {"kind": "sealed-count-bands", "ability": "imp",
+                 "bands": [{"threshold": 0, "draw": "none"},
+                           {"threshold": 2, "draw": "mark", "polarity": "negative",
+                            "hatch": True}]}
+
+
+def entry(markers, excludes=None, states=None):
+    return {"entries": [{"id": "e", "markers": markers,
+                         "excludes": excludes or [],
+                         "states": states or []}]}
+
+
+check(capart._claims_polarity({"id": "m", "cue": "blocked"}) == "cue",
+      "a cue marker claims a polarity")
+check(capart._claims_polarity({"id": "m", "display": POSITIVE_BAND}) == "band",
+      "a positive band claims a polarity")
+# `draw: "mark"` reaches the same gold by a different route — a pre-tinted `_pos` texture escape
+# rather than a colour escape over text — so it claims a polarity just as a numeral does. This was
+# Retribution's shape (`woa_lights_deliverance`, deleted 2026-08-27).
+check(capart._claims_polarity({"id": "m", "display": {
+    "kind": "sealed-count-bands", "ability": "ld",
+    "bands": [{"threshold": 0, "draw": "none"},
+              {"threshold": 60, "draw": "mark", "polarity": "positive"}]}}) == "band",
+    "a positive MARK claims a polarity, not only a positive numeral")
+check(capart._claims_polarity({"id": "m", "display": NEGATIVE_BAND}) is None,
+      "a wholly negative band claims none — negatives agree by construction, and pairing every "
+      "one against every negative cue would be noise")
+
+# The pre-fix Implosion shape: an ungated positive band beside a negative cue, nothing stated.
+prefix = entry([{"id": "st_only", "cue": "aoe_only"},
+                {"id": "imps_short", "display": POSITIVE_BAND}])
+fails = capart.catalog_gate_cooccurrence(prefix)
+check(fails != [], "an unstated positive band beside a negative cue is reported")
+check(any("POSITIVE band" in f for f in fails),
+      "…and the message names the polarity clash rather than only the pairing")
+
+# …settled by an `excludes`, exactly as a cue pair is.
+check(capart.catalog_gate_cooccurrence(entry(
+    [{"id": "st_only", "cue": "aoe_only"},
+     {"id": "imps_short", "display": POSITIVE_BAND}],
+    excludes=[{"pair": ["st_only", "imps_short"], "why": "disjoint gates"}])) == [],
+    "an `excludes` with a `why` settles a band/cue pair")
+
+# …or by a state that says what the row looks like when both draw.
+check(capart.catalog_gate_cooccurrence(entry(
+    [{"id": "st_only", "cue": "aoe_only"},
+     {"id": "imps_short", "display": POSITIVE_BAND}],
+    states=[{"id": "s", "combines": ["st_only", "imps_short"]}])) == [],
+    "a `combines` state settles a band/cue pair")
+
+# A negative band beside a negative cue stays unexamined — the asymmetry is deliberate.
+check(capart.catalog_gate_cooccurrence(entry(
+    [{"id": "st_only", "cue": "aoe_only"},
+     {"id": "cores", "display": NEGATIVE_BAND}])) == [],
+    "a negative band beside a negative cue needs no declaration")
+
 print()
 print(f"{_total - len(_fails)}/{_total} passed")
 if _fails:

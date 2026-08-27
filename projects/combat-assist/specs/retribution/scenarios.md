@@ -301,34 +301,7 @@ which stopped being true when cue H was authored.)*
   `SetUnit`. So in that state the hold badge and the draining bar sit on one row saying opposite
   things — which is the tell. It does not fix the branch; the enablement detector still has to.
 
-### RET-14 · Light's Deliverance at 60 — RET-3 with one fact added
-
-- **State.** Single target, mid-fight, no procs, **Holy Power 5**. Execution Sentence and Avenging
-  Wrath are on cooldown, **Wake of Ashes is ready**, Divine Toll is up. **Light's Deliverance is at
-  60 stacks.** Holy Flames is not talented on this build, so neither the Expurgation hold nor its
-  clock exists and row 2 is an ordinary swiped row.
-- **Walk.**
-  1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
-  2. **Wake of Ashes** — available, nothing rules it out → **press.** `generators` 3, exactly as in
-     RET-3: at 5 Holy Power with Wake of Ashes *ready* the early `finishers` call at `generators` 1
-     does not fire, because its condition is `holy_power=5&cooldown.wake_of_ashes.remains`.
-     The row additionally carries one **positive mark** in its corner — the Light's Deliverance
-     band at its upper threshold (V16).
-- **Eye-direction.** ⚠ **This scenario is deliberately RET-3 with one fact changed**, and the
-  isolation is the point: same build, same cooldowns, same press, one extra thing on screen. What
-  the mark means is *a free Hammer of Light is banked and waiting for you*, on the row that will
-  display it — and on a button you still have to press, because nothing auto-casts it. It is not a
-  promotion and it does not move the press — the press was already this row.
-  ⚠ **The mark is silent below the threshold.** The lower band draws `none`, so at 0–59 stacks the
-  row is byte-identical to RET-3. That is the trade V16 buys over a bar: a bar has no blank state.
-  ⚠ **The 60 is a RESTING state, not a threshold the counter crosses and leaves.** The spell text
-  conditions the consumption on Wake of Ashes and Hammer of Light **both** being unavailable, so
-  with Wake of Ashes ready the stack sits at 60 and stays there — the mark is steady, not a
-  flicker, and it says "banked and waiting", never "press this now".
-- **Cue set.** No cue at all. The band is a client-evaluated display, not a badge: cap authored the
-  number 60 and never learns which side of it the count fell on.
-
-### RET-15 · Target swap — Execution Sentence held, and the row beneath it is NOT the press
+### RET-14 · Target swap — Execution Sentence held, and the row beneath it is NOT the press
 
 - **State.** Single target, mid-fight, fresh target. **Holy Flames and Execution Sentence are
   talented; Radiant Glory is not.** **Expurgation is not yet on this target.** Holy Power 2, no
@@ -375,14 +348,17 @@ which stopped being true when cue H was authored.)*
 **What the walk did not have to explain.** No state in it required cap to **know** a target count,
 a buff duration, an aura's remaining time or a stack count. Every *skip* above is a readable Lua
 term, a sealed band on a *cooldown*, a readable readiness where the band would go dark, or — at
-RET-1, RET-13 and RET-15 — the readable up/down latch on a target aura that cues **G** and **H**
-are both built from. Two things are now **drawn** without
-being known: the Expurgation clock on row 2 (RET-13) and the Light's Deliverance band on row 3
-(RET-14). Neither eliminates a row and neither enters a Lua condition — which is why they change no
-walk above. ⚠ Which of two Hammer of Light states is live is still not answerable, and
-`catalog.md`'s *Open facts* 3 still owns it.
+RET-1, RET-13 and RET-14 — the readable up/down latch on a target aura that cues **G** and **H**
+are both built from. One thing is **drawn** without being known: the Expurgation clock on row 2
+(RET-13). It eliminates no row and enters no Lua condition — which is why it changes no walk above.
+⚠ Which of two Hammer of Light states is live is still not answerable, and `catalog.md`'s
+*Open facts* 3 still owns it. *(A second such display, a Light's Deliverance count band on row 3,
+was authored 2026-08-25 and deleted 2026-08-27: `lights_deliverance` appears nowhere in the
+priority list, which reads only the result — `buff.hammer_of_light_free.up` at `finishers` 2 — and
+cap does not author facts the APL does not consider. `catalog.md`'s Changelog keeps the DB2
+research and the mechanic the deletion corrected.)*
 
-**One scenario in fifteen is read by pass 1.** RET-1 is the catalog's only promotion, and the
+**One scenario in fourteen is read by pass 1.** RET-1 is the catalog's only promotion, and the
 ratio is the point: a vocabulary where the positive cue is reached often has stopped being a
 reading model and become a pointer (`../render-shelf.md` Part 0.5).
 
