@@ -4032,6 +4032,147 @@ def catalog_gate_defeats(spec: str, cat: dict) -> list[str]:
     return fails
 
 
+#: A display subject's name in the CATALOG, mapped to the token the priority list writes it as.
+#:
+#: ⚠ **This is NOT `catalog_gate_outranker`'s map and could not be built from it.** That one goes
+#: over ACTIONS: it normalises `catalog.md`'s *Bound abilities* display names into APL action
+#: names, and every entry in it is a BUTTON with a roster row. These subjects are AURAS — buffs,
+#: debuffs, pet counts and player fields — and most of them (`demonic_core`, `wild_imp`,
+#: `divine_guidance`, `expurgation`, `inertia_trigger`) have no roster row at all, so the roster
+#: could not resolve them and the entries it does hold say nothing about how simc NAMES the aura.
+#:
+#: The map is therefore IDENTITY by default and holds only the exceptions: a catalog's aura id was
+#: authored off the simc token in the first place, so 33 of the 34 subjects in the corpus already
+#: read as themselves. One exception so far, and it is a naming difference rather than a fact
+#: difference — Protection's `consecration_up` is the ground effect's presence, which simc writes
+#: as `!consecration.up` off the bare action name (`consecration_up` occurs 0 times in the list,
+#: `consecration` 5).
+AURA_APL_TOKENS = {
+    "protection": {"consecration_up": "consecration"},
+}
+
+
+def _display_states(entry: dict, marker: dict) -> list[dict]:
+    """The states that WEAR this marker's display.
+
+    The same resolution `catalog_gate_outranker` does, read backwards: a state that names its
+    markers in `combines` is exact, and one that does not is matched by what it draws — the
+    marker's cue, or the sink its display kind fills.
+    """
+    sink = ((marker.get("display") or {}).get("kind") or "").replace("sealed-", "")
+    out = []
+    for st in entry.get("states") or []:
+        if st.get("combines"):
+            if marker["id"] in st["combines"]:
+                out.append(st)
+        elif (marker.get("cue") and marker["cue"] in (st.get("cues") or [])) \
+                or (sink and sink in (st.get("sealed") or [])):
+            out.append(st)
+    return out
+
+
+def catalog_gate_display_provenance(spec: str, cat: dict,
+                                    tally: dict | None = None) -> list[str]:
+    """A SEALED DISPLAY MUST DRAW A FACT THE PRIORITY LIST ACTUALLY READS.
+
+    ⚠ **The gap this closes.** Every catalog STATE says where it comes from — a rung, or one
+    sentence saying why no rung covers it — and `_state_provenance_gate` has enforced that since
+    the field pair existed. A DISPLAY was not covered by any of it. A display draws a FACT: a
+    count, a remaining, a presence. Nothing checked that the fact appears anywhere in the rung
+    citation of the state it decorates, so a display could quietly assert something the priority
+    list never consults — which is Retribution's deleted Light's Deliverance band exactly, found
+    by hand and only because someone happened to look.
+
+    The subject resolves through `AURA_APL_TOKENS` (identity plus its declared exceptions) and the
+    check is a substring of the cited rung's own text, resolved through `apl_line`.
+
+    **The citation set is the ENTRY's rungs, not the wearing state's**, and that is deliberate:
+    a HOLD state cites the rung it yields TO, which by construction is a different button's line
+    (`cons_ruled_by_band` cites `hammer_of_wrath`), while the fact the display draws comes from
+    this row's own rung. Checked per state, every honest hold-with-a-display would fail. Checked
+    per row, the claim is the one worth making: somewhere in what this row cites, the list reads
+    this fact. A marker whose fact lives in a rung the row's states do not otherwise cite widens
+    the citation with its own `display_apl` — that is the row citing one more rung, not an escape.
+
+    ⚠ **It abstains rather than guesses, in three places**, which is what keeps it a hard gate:
+
+    * **By KIND.** A display whose kind takes no aura subject has no aura provenance to check —
+      `sealed-power-percent` reads `UnitPower` and names no aura at all. Exempted by KIND and
+      not by naming the three markers that are currently of it (Havoc's two plus Devourer's
+      `soul_immolation_drain_save`), because a fourth would then fail for no reason.
+    * **Every wearing state is an `exception`.** The states have already declared they stand
+      outside the priority list; there is no rung under the display to check it against.
+    * **No citation resolves.** `apl_line` is lenient everywhere by design — upstream regenerates
+      on its own schedule and detecting that is `wowkb.simc --kb --check`'s job.
+
+    And it passes on a **declared `display_exception`**: one sentence, on the marker, arguing why
+    this display may draw a fact no rung reads. `display_apl` / `display_exception` are the
+    marker's version of a state's `apl` / `exception` pair, exactly one of them at a time, and
+    neither travels into the Lua — `catalog_lua` emits a marker field by field, and an argument
+    about provenance is authoring metadata rather than data for the client.
+    """
+    fails = []
+    names = AURA_APL_TOKENS.get(spec, {})
+    t = tally if tally is not None else {}
+    for k in ("resolved", "exception", "kind", "unresolvable"):
+        t.setdefault(k, 0)
+    for e in cat.get("entries", []):
+        entry_rungs = [ln for ln in (apl_line(spec, st.get("apl"))
+                                     for st in e.get("states") or []) if ln]
+        for m in e.get("markers") or []:
+            d = m.get("display")
+            if not d:
+                continue
+            where = f"{e['id']}/{m['id']}"
+            cite, excuse = m.get("display_apl"), m.get("display_exception")
+            if cite and excuse:
+                fails.append(f"{where}: carries both `display_apl` ({cite!r}) and "
+                             "`display_exception` — the fact this display draws is in the list or "
+                             "it is not, never both. Delete one.")
+            subject = d.get("ability")
+            if not subject:
+                t["kind"] += 1
+                if cite or excuse:
+                    fails.append(f"{where}: is a {d.get('kind')!r} display, which names no aura "
+                                 "and so has no aura provenance to argue — delete the "
+                                 "`display_apl`/`display_exception`, it is skipped by KIND.")
+                continue
+            if excuse:
+                t["exception"] += 1
+                continue
+            worn = _display_states(e, m)
+            if worn and all(st.get("exception") for st in worn):
+                t["exception"] += 1
+                continue
+            cites = list(entry_rungs)
+            if cite:
+                if not APL_CITE_RE.match(str(cite).strip()):
+                    fails.append(f"{where}: `display_apl` is {cite!r}, which is not a citation — "
+                                 'a sub-list name plus a 1-based index, as `"default 15"`.')
+                else:
+                    line = apl_line(spec, cite)
+                    if line:
+                        cites.append(line)
+            if not cites:
+                t["unresolvable"] += 1
+                continue
+            token = names.get(subject, subject)
+            if any(token in ln for ln in cites):
+                t["resolved"] += 1
+                continue
+            fails.append(
+                f"{where}: draws {subject!r} (APL token {token!r}), which appears in NO rung this "
+                f"row cites ({', '.join(sorted({st['apl'] for st in e.get('states') or [] if st.get('apl')})) or 'none'}).\n"
+                f"       A sealed display asserts a fact on a button. If the priority list never "
+                f"reads that fact, the picture is\n"
+                f"       cap's opinion wearing the client's authority — which is what "
+                f"Retribution's Light's Deliverance band was.\n"
+                f"       Either widen the citation — `\"display_apl\": \"<list> <n>\"` on this "
+                f"marker, naming the rung that carries\n"
+                f"       the fact — or argue it in one sentence as `display_exception`.")
+    return fails
+
+
 def catalog_gate_validator(spec: str) -> list[str]:
     """The generated table passes `Catalog.Check`, run by the addon's own Lua.
 
@@ -4845,6 +4986,10 @@ def _check_one(args) -> None:
     # Lua is still hand-written is skipped by absence rather than by a list, so the rollout does
     # not need a second place to record where it has reached.
     cjson = catalog_json_path(args.spec)
+    # The display-provenance gate's three-way tally, filled in by the gate and printed on the
+    # green line. The numbers are the point of reading it: a gate that resolves nothing and
+    # abstains on everything passes exactly as loudly as one that checked every display.
+    display_tally: dict = {}
     if cjson.exists():
         cat = _load_json(cjson)
         fails += catalog_gate_lua(args.spec)
@@ -4854,6 +4999,7 @@ def _check_one(args) -> None:
         fails += catalog_gate_outranker(args.spec, cat, roster)
         fails += catalog_gate_scenarios(cat, doc, roster)
         fails += catalog_gate_defeats(args.spec, cat)
+        fails += catalog_gate_display_provenance(args.spec, cat, display_tally)
         fails += catalog_gate_validator(args.spec)
 
     # 2 · the committed HTML is not stale.
@@ -4928,6 +5074,11 @@ def _check_one(args) -> None:
                      "     every `defeat` reference resolves and every Defeats item is either "
                      "referenced by an entry\n"
                      "     or declared unreferenced with a reason,\n"
+                     "     and every sealed display draws a fact the rungs its row cites also "
+                     f"read ({display_tally.get('resolved', 0)} resolved,\n"
+                     f"     {display_tally.get('exception', 0)} on a declared exception, "
+                     f"{display_tally.get('kind', 0)} skipped by kind, "
+                     f"{display_tally.get('unresolvable', 0)} with no rung to check against),\n"
                      if cjson.exists() else
                      "     (catalog gates SKIPPED — no catalog.json; this spec's Lua is "
                      "hand-written)\n")

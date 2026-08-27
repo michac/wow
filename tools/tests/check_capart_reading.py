@@ -193,6 +193,69 @@ check(capart.catalog_gate_cooccurrence(entry(
      {"id": "cores", "display": NEGATIVE_BAND}])) == [],
     "a negative band beside a negative cue needs no declaration")
 
+# --------------------------------------------------------------- the display-provenance gate
+#
+# A sealed display draws a FACT, and the gate asks whether the priority list reads it. These run
+# against the REAL Protection list, because the whole gate is a statement about upstream text and
+# a fabricated APL would only pin the string matching. Rung 15 is
+# `consecration,if=buff.divine_guidance.stack>=5`; rung 16 is a bare `hammer_of_wrath`.
+GUIDANCE = {"kind": "sealed-count-bands", "ability": "divine_guidance",
+            "bands": [{"threshold": 0, "draw": "mark", "polarity": "negative", "hatch": True}]}
+
+
+def prov(markers, states):
+    return capart.catalog_gate_display_provenance("protection", entry(markers, states=states))
+
+
+check(prov([{"id": "m", "display": GUIDANCE}],
+           [{"id": "s", "sealed": ["count-bands"], "apl": "default 15"}]) == [],
+      "a display whose subject the cited rung reads passes")
+
+miss = prov([{"id": "m", "display": GUIDANCE}],
+            [{"id": "s", "sealed": ["count-bands"], "apl": "default 16"}])
+check(miss != [], "a display drawing a fact no cited rung reads is reported")
+check(all("e/m" in f and "divine_guidance" in f for f in miss),
+      "…and the message names the marker and the subject it draws")
+
+check(prov([{"id": "m", "display": GUIDANCE, "display_apl": "default 15"}],
+           [{"id": "s", "sealed": ["count-bands"], "apl": "default 16"}]) == [],
+      "`display_apl` WIDENS the citation to the rung that carries the fact")
+check(prov([{"id": "m", "display": GUIDANCE, "display_exception": "argued here"}],
+           [{"id": "s", "sealed": ["count-bands"], "apl": "default 16"}]) == [],
+      "a declared `display_exception` passes")
+check(prov([{"id": "m", "display": GUIDANCE, "display_apl": "default 15",
+             "display_exception": "argued here"}],
+           [{"id": "s", "sealed": ["count-bands"], "apl": "default 15"}]) != [],
+      "…but not both at once — the fact is in the list or it is not")
+
+# ABSTAIN 1 · by KIND. Exempted for taking no aura subject, never by naming the markers that
+# currently are of that kind — a fourth would otherwise fail for no reason.
+check(prov([{"id": "m", "display": {"kind": "sealed-power-percent", "power": "fury",
+                                    "threshold": 90}}],
+           [{"id": "s", "sealed": ["power-percent"], "apl": "default 16"}]) == [],
+      "a display with no aura subject is skipped BY KIND, not by name")
+
+# ABSTAIN 2 · every state wearing it has declared its own exception, so there is no rung under
+# the display to check against.
+check(prov([{"id": "m", "display": GUIDANCE}],
+           [{"id": "s", "sealed": ["count-bands"], "exception": "authored past the list"}]) == [],
+      "a display worn only by `exception` states has no rung to check")
+
+# The AURA MAP, which is identity plus its declared exceptions: `consecration_up` is how the
+# catalog names the ground effect, `consecration` is how simc writes it.
+check(prov([{"id": "m", "display": dict(GUIDANCE, ability="consecration_up")}],
+           [{"id": "s", "sealed": ["count-bands"], "apl": "default 29"}]) == [],
+      "AURA_APL_TOKENS resolves a naming mismatch in the map, not by renaming the catalog id")
+
+tally = {}
+capart.catalog_gate_display_provenance("protection", entry(
+    [{"id": "a", "display": GUIDANCE},
+     {"id": "b", "display": GUIDANCE, "display_exception": "argued"},
+     {"id": "c", "display": {"kind": "sealed-power-percent", "power": "holy_power"}}],
+    states=[{"id": "s", "sealed": ["count-bands"], "apl": "default 15"}]), tally)
+check((tally["resolved"], tally["exception"], tally["kind"]) == (1, 1, 1),
+      "the three-way tally counts every display exactly once")
+
 print()
 print(f"{_total - len(_fails)}/{_total} passed")
 if _fails:

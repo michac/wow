@@ -587,7 +587,13 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
     **V17**) on Divine Guidance `433106`, the **complement**: **below five a hatch plus a negative
     mark**, and **at five it emits nothing and both clear**. Gated on the readable
     `identity(judgment) == transformed`, `ready(judgment)`, `talent(divine_guidance)` and
-    `ready(consecration)`.
+    `ready(consecration)`. ⚠ It carries `display_apl: "default 15"` — the **fact's own rung**,
+    which is not one of the three this row's states cite (16, the hammer that outranks it; 25 and
+    29, Consecration's own unconditional rungs). Rung 15,
+    `consecration,if=buff.divine_guidance.stack>=5`, is the **only** rung in the Protection list
+    that reads Divine Guidance at all, and it reads it at exactly the threshold this display bands:
+    the low band *is* rung 15's condition being false. The citation was too narrow, not absent —
+    which is the distinction the display-provenance gate exists to force.
   ⚠ **The gate is what makes the complement true, and this is the answer to Demonology's warning
   rather than an exception to it.** *"A complement is only correct where the low band is a REAL
   elimination"* — and below five Divine Guidance stacks Consecration is **not** eliminated in

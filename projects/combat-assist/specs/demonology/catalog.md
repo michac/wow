@@ -520,6 +520,13 @@ row to its left by a cue rather than by position.
     the visibility IS the gate, and it is context on the edge rather than a badge — so it is
     still not a promotion. ⚠ The aura id is **Tier-3-sourced** (maxroll's capture) and a wrong
     id dies silent (the cast-id/aura-id trap); flight question. @verify-ingame
+    ⚠ **`art_mother_of_chaos` appears in NO rung of the Demonology list**, so this display carries
+    a `display_exception` rather than a citation. The argument is that **a V20 clock carries no
+    polarity**: Retribution's Light's Deliverance band was deleted for drawing a positive count in
+    the priority hue — which asserts *press this* about a count the APL never reads — while this
+    one says only how long the armed transform has left, which is the duration of a face the row is
+    already wearing. Declared rather than exempted by category, so the next V20 over an unread aura
+    is argued on its own.
   ⚠ **Unlike Retribution's row 3, nothing here is load-bearing for visibility.** Shadow Bolt
   has no cooldown, so `ready` never goes false and the row simply stays in the scan.
 

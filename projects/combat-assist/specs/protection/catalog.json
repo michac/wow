@@ -728,7 +728,8 @@
               }
             ],
             "kind": "sealed-count-bands"
-          }
+          },
+          "display_apl": "default 15"
         },
         {
           "id": "cons_field_up",
