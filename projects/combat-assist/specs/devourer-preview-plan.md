@@ -1,5 +1,21 @@
 # Devourer — get it into the preview
 
+> ⛔ **SUPERSEDED 2026-08-27. Every blocker in this file is closed and two of its load-bearing
+> claims are false.** It is kept only until the migration artifacts are closed out
+> (`backlog.md` → *Close out the migration artifacts*); read `devourer/catalog.md` and
+> `devourer/scenarios.md` for the current state, and nothing here in the present tense.
+>
+> The two false claims, named so a reader who skips to §3 is not misled:
+>
+> 1. **There is ONE virtual row, not two** (§3, and the "author decision" below). Collapsing Star
+>    was measured in game on 2026-08-27 to be a spell **override** on the Void Metamorphosis row —
+>    an override borrows the row of the spell it replaces, so R7 draws it and it is not cap-owned.
+>    **Consume is the only virtual row and it is `standing`.**
+> 2. **Virtual rows do NOT draw inline.** V12 shipped as `Panel.lua`, a separate strip of
+>    cap-owned icons. The 2026-08-19 decision below was reversed by the build.
+>
+> The preview is registered, carries **11** scenarios, and Devourer is migrated to `catalog.json`.
+
 **Temporary migration artifact**, like `simplification-plan.md` beside it. Not a product
 authority. Delete it when Devourer's preview is registered and reviewed.
 
@@ -7,9 +23,10 @@ authority. Delete it when Devourer's preview is registered and reviewed.
 author can review the rotation **visually** and give feedback. Correctness of the walk is *not*
 the goal — scenarios nobody can stand behind get an in-render warning and ship anyway.
 
-**Author decision already taken (2026-08-19), do not re-open:** the two virtual rows draw
+⛔ ~~**Author decision already taken (2026-08-19), do not re-open:** the two virtual rows draw
 **inline in the row, styled as ordinary row icons, with a marker calling them out.** Not a
-separate strip, not omitted.
+separate strip, not omitted.~~ **Reversed by the build** — V12 shipped as `Panel.lua`, a separate
+strip, and there is one virtual row rather than two. See the banner above.
 
 ---
 

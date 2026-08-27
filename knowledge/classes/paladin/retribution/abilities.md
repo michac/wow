@@ -3,7 +3,7 @@ title: Retribution Paladin — Abilities (Midnight S1)
 patch: 12.1.0
 build: 12.1.0.69214
 fetched: 2026-08-17
-reviewed: 2026-08-19
+reviewed: 2026-08-27
 sources:
   - knowledge/classes/paladin/retribution/ability-inventory.md  # tier 1, generated from DB2 @ 12.1.0.69214 + Blizzard spell API — name/spellID/origin/cooldown/tooltip
   - https://wago.tools/db2 (Tier 1, DB2 pinned @ 12.1.0.69214)  # SpellName / CooldownSet / CooldownSetSpell — the Hammer of Light and Hammer of Wrath absences
@@ -87,7 +87,17 @@ with Hammer of Light for 20 sec after it is cast"* *[T1: resolved spell
 description @ 12.1.0.69214]* — so the window opener and the top finisher are the
 same button at different moments, and the Templar bar has a button the inventory
 does not list. Light's Deliverance 425518 later hands out an extra free cast of
-it. **Herald of the Sun** changes no spender and adds Dawnlight / Eternal Flame /
+it.
+
+⚠ **Light's Deliverance is TWO spells, and anything drawing the aura wants the other
+one.** `425518` is the Templar hero **talent** and its `CumulativeAura` is **0** — it holds
+no stacks at all. Its SpellEffect 0 is a `PROC_TRIGGER_SPELL` whose `EffectTriggerSpell`
+is **`433674`**, and `433674` is the **stacking aura**: `CumulativeAura = 60`, the same 60
+the spell text names, and a Tracked Buff row at OrderIndex 45 of Retribution's own
+CooldownSet `901`. So a reader who greps `425518` and binds it will watch a counter that
+never moves. *[T1 DB2: `SpellName` / `SpellEffect` / `SpellAuraOptions` / `CooldownSetSpell`
+@ 12.1.0.69214]* (`talents.md`'s `425518` row is the talent-tree entry and is correct as it
+stands — the two ids are not in conflict, they are the node and the aura it triggers.) **Herald of the Sun** changes no spender and adds Dawnlight / Eternal Flame /
 Sun's Avatar instead.
 
 ⚠ **It is *not* the Holy Power spender that is replaced**, which is the natural
@@ -96,7 +106,16 @@ Ashes as the replaced spell, and **Hammer of Light 427453 / 427441 have no
 `CooldownSetSpell` row in any set** at 12.1.0.69214, so the button can only ever
 surface as an override on another row.
 
-- Does the Wake of Ashes Cooldown-Manager row (cooldownID 19400) report `overrideSpellID = 427453` during the 20s Hammer of Light window? @verify-ingame
+**The Wake of Ashes Cooldown-Manager row (cooldownID 19400) reports `overrideSpellID = 427453`
+during the 20 s Hammer of Light window.** Two facts settle it and neither is a guess. **Light's
+Guidance `427445`** is Tier-1 spell data — *"Wake of Ashes is replaced with Hammer of Light for
+20 sec after it is cast"* — so this is a spell **replacement** rather than a second button. And a
+replacement surfaces on the replaced spell's own Cooldown-Manager row: measured in the client
+2026-08-27 on a different pair, Devourer's Void Metamorphosis → Collapsing Star, where the row
+kept its identity and changed its face for the whole window
+(`knowledge/classes/demon-hunter/devourer/rotation.md` → *The transform overrides*). ⚠ **The
+measurement is of the mechanism, not of this pair** — nobody has read cooldownID 19400 itself. If
+a future case shows the mechanism is not general, this is the claim to re-open.
 
 ## Inventory
 
@@ -215,6 +234,13 @@ still a live trap:
   not read a sub-10s `cooldown` on a charge ability as the recharge.
 
 ## Changelog
+
+**2026-08-27 — the Wake of Ashes override question is answered and its `@verify-ingame` retired.**
+It asked whether cooldownID 19400 reports `overrideSpellID = 427453` during the Hammer of Light
+window. Tier-1 spell data (Light's Guidance `427445`) establishes the replacement, and the client
+measurement of 2026-08-27 on Devourer's Void Metamorphosis → Collapsing Star establishes that a
+replacement surfaces on the replaced spell's own row. The marker is replaced by the claim plus the
+limit — the mechanism was measured, this pair was not.
 
 **2026-08-19 — front matter caught up with the body.** The 2026-08-17 pass below wrote ~35 lines
 of Tier-1 `12.1.0.69214` content into a file whose front matter still read `patch: 12.0.7`,

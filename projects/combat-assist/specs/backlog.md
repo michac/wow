@@ -286,11 +286,15 @@ and nothing about how it was measured.
   - **Two rungs are undrawn because a Category-3 TrackedBar row's alert edges are unmeasured**
     (`protection/catalog.md` Defeats 1 and 2). It is the same unmeasured fact as Demonology's
     Dominion of Argus, and one measurement closes it for both.
-- **Devourer is authored and has never been built or flown**, on the same terms: three files, and
-  the first spec whose definition needed **V12's virtual row** (Collapsing Star has no CDM frame at
-  all). No catalog Lua. **It does now have a preview** — registered in `SPECS_BUILT` on 2026-08-19,
-  10 scenarios (B-1…B-5 build phase, M-1…M-5 window phase), and the first page any spec has drawn a
-  virtual row on. Two things about it are deliberate and should not be read as settled work:
+- **Devourer is transcribed and has never been flown.** `Catalogs/Devourer.lua` is generated from
+  `catalog.json` and loads, so everything on the page draws in the client — but nothing on it has
+  been SEEN. It is the first spec whose definition needed **V12's virtual row**, and after
+  2026-08-27 it needs exactly **one**: Consume, `standing`. Collapsing Star was measured in game to
+  be a spell **override** on the Void Metamorphosis row, so R7 draws it and it is not cap-owned at
+  all — which means V12's **`gated` kind has no consumer anywhere**, built and tested and
+  unexercised. **The preview** was registered in `SPECS_BUILT` on 2026-08-19 and now carries
+  **11** scenarios (B-1…B-5 build phase, M-1…M-5 window phase, DEV-11 the Utility row), and is the
+  first page any spec has drawn a virtual row on. Two things about it are deliberate and should not be read as settled work:
   **M-3's row was DERIVED, not authored** (the doc had it as a prose delta on M-2 with no row of its
   own), and the page carries **loud `⚠ UNSURE` annotations** wherever the authoring docs doubt
   themselves — position 1's desaturation assumption, misordering 2, cue D's sound slice, cue B's
@@ -347,10 +351,10 @@ and nothing about how it was measured.
   - **Four specs are migrated** — Demonology, Havoc, Protection, Retribution. Each round-trip was
     proven DATA-IDENTICAL by loading the committed and the generated Lua through a
     `ns.Catalog.Register` stub and deep-comparing, never by reading a diff. **Two authored specs
-    are not migrated**, for different reasons: Destruction was attempted and refused by the
-    scenario↔state gate (measured above), while Devourer has not been attempted, because V12's
-    virtual row is `declared` and `drawn_by` rejects a `declared` primitive — the gate would
-    refuse precisely the two rows the design exists for.
+    was not migrated**: Destruction was attempted and refused by the scenario↔state gate (measured
+    above). Devourer **is migrated** as of 2026-08-27 — V12 became a `primitive` when it was built,
+    which is what `drawn_by` needs, and the second of the two rows the blocker named turned out to
+    be an override rather than a virtual row at all.
   - **Seven catalog gates**, applied to any spec that has a `catalog.json` and skipped by absence,
     so the remaining rollout needs no second list: Lua byte-compare, marker↔state,
     closed vocabulary, scenario↔state, co-occurrence, **outranker readiness**, and validator
@@ -637,6 +641,35 @@ stripe sheet with it. The other two remain lab entries — Part 7, deciding noth
       flying all three the renders turn out to be drawing something identical, **that is an
       observation that may earn a shared recipe later**, not a rule to author up front.
 - [ ] **No dim comes back with them.** Stripes state a condition without subtracting light.
+
+### The client's unusable tint is a FOURTH eliminating signal and the model does not admit it
+
+Part 0.5 counts three: Blizzard's swipe, cap's own negative badge, and — since 2026-08-22 — a
+sealed band the client hatched by evaluating a rule cap authored. There is a fourth and cap has
+never admitted it. When a spell's only bar is an access gate rather than a cooldown, the Cooldown
+Manager paints the row with `ITEM_NOT_USABLE_COLOR` (`knowledge/addon-dev/cooldown-manager.md`
+§3.4). A human reading the strip skips that row. The reading model does not, so the walk and the
+eye disagree, and the walk is the thing the elimination gate checks.
+
+**Two consumers, both live, found independently:**
+
+- **Destruction · Shadowburn** — out of execute without the proc, the row is tinted and the
+  catalog's own hold is undrawn because the gate is an unmeasured `IsSpellUsable` first return
+  (`destruction/catalog.md` → Defeats item 3).
+- **Devourer · in-form position 1** — Collapsing Star is granted every 30 fragments harvested
+  inside the window, so for most of that window the row draws tinted-but-reachable at the head of
+  the scan (`devourer/catalog.md` §3).
+
+⚠ **Not admitting it is the current decision, and it is deliberate.** Admitting a signal is a
+Part 0.5 change, Part 0.5 is the authority every treatment is judged against, and the minimal move
+while two specs have just been authored against the three-signal model is to leave the model
+alone. What this entry buys is that the next spec to hit it finds a recorded question instead of
+re-deriving it a third time.
+
+**What would settle it:** whether the tint is legible enough to carry an elimination on its own —
+which is an eye question, not a measurement — and, if it is, whether the model admits a signal cap
+neither reads nor decides. The `IsSpellUsable` measurement is a *different* question and does not
+answer this one: reading the gate in Lua would let cap draw its own badge, which is signal two.
 
 ### Add a shelf section for what Blizzard already draws on a CDM icon
 

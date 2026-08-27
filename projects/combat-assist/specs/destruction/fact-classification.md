@@ -200,16 +200,24 @@ rather than approximating: cue H carries the APL's second conjunct exactly and i
 is a **missing** hint on a Conflagration of Chaos build, not a wrong one.
 
 ⚠ **This is a stop-and-ask, and it is being asked rather than answered.** Reading the gate means
-`C_Spell.IsSpellUsable`'s **first** return on an access-gated spell — the same unmeasured read
-`devourer/fact-classification.md` names as *its* most load-bearing open fact (Collapsing Star,
-"a spell gated by aura-granted access"). Adding a predicate for it is an engine change nobody
-asked for, and it is not made here. @verify-ingame / @pending-test
+`C_Spell.IsSpellUsable`'s **first** return on an access-gated spell. Adding a predicate for it is
+an engine change nobody asked for, and it is not made here. @verify-ingame / @pending-test
+
+⚠ **This used to be framed as a measurement shared with Devourer, and it is not one any more.**
+Devourer named the same read as *its* most load-bearing open fact, for Collapsing Star. That
+consumer is gone: Collapsing Star was measured in game on 2026-08-27 to be a spell **override**
+on the Void Metamorphosis row rather than an access-granted row of its own, so R7 draws it and
+nothing there waits on `IsSpellUsable`. Shadowburn's own consumer is untouched — the execute gate
+is still an unmeasured first return — but it is Destruction's alone to carry, and a measurement
+here buys one spec rather than two.
 
 ⚠ **And note that the client is not silent.** Out of execute without the proc, Shadowburn is not
 castable and the Cooldown Manager paints it with `ITEM_NOT_USABLE_COLOR`
 (`knowledge/addon-dev/cooldown-manager.md` §3.4). The **player** is not stranded; the **reading
-model** is, because `../render-shelf.md` Part 0.5 counts two eliminating signals and this is a
-third. Admitting it is a Part 0.5 decision and belongs to whoever owns the shelf.
+model** is, because the tint eliminates a row and `../render-shelf.md` Part 0.5's three signals
+do not include it — it is neither the swipe, nor cap's badge, nor a band cap authored. Admitting
+it is a Part 0.5 decision and belongs to whoever owns the shelf; it now has **two** consumers,
+this row and Devourer's in-form position 1 (`../backlog.md` → *Now*).
 
 ### 5.5 Target selection
 

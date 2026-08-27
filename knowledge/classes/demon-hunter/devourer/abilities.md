@@ -2,7 +2,7 @@
 title: Demon Hunter Devourer — Abilities (Midnight, 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-17
+reviewed: 2026-08-27
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" Content Update Notes — CLASSES ▶ DEMON HUNTER ▶ Devourer
   - knowledge/_meta/patch-notes/12.1.md  # tier 1, verbatim archive of the above (lines 434-450)
@@ -133,6 +133,14 @@ guidance.)*
 > `SpecializationSpells` rows.
 > *[Tier 1: reconcile-ledger.md §4 + §5 G1/G2; re-verified against the 12.1.0.69214 inventory.]*
 >
+> ⚠ **A FOURTH override exists and it is not one of these — Void Metamorphosis itself
+> becomes Collapsing Star** for the duration of the form (in-game 2026-08-27;
+> `rotation.md` → *The transform overrides*). It is listed separately because the caveat
+> above does not apply to it: Collapsing Star `1221167` **is** in the generated inventory,
+> as a `TraitNodeEntry` (`ability-inventory.md` item 7). What the generators cannot show is
+> that it is an *override* rather than an additional button — an acquisition row says a
+> spell exists, never which button casts it.
+>
 > ⚠ **The `maxroll-*.md` captures in this directory are Tier 3 and several carry a
 > `kb_caveat`** — do not lift builds or stat orders from them without checking them
 > against `talents.md`.
@@ -161,7 +169,7 @@ guidance.)*
 | **Void Ray** | Rotational-spender | **100 Fury** `[T1]`; consumes 5 Fury per 0.1s while channelling. Free inside Meta `[T1]` | **Channelled, ends after ~2.7s or at 0 Fury** `[T1]`; you stand still | The main spender and a huge chunk of Devourer's damage. Outside Meta: no cooldown, costs Fury. Inside Meta: **no Fury cost, reduces Fury drain, and deals increased damage — 12.1 set that bonus to +40% (was +67%)**. It **does** have a cooldown inside Meta: Tier 1 confirms the cooldown exists via *Voidpurge* (**−2.0s during Void Metamorphosis** `[T1]`); the magnitude itself is still Tier 3 at **~16s (14s with Voidpurge)** — @verify-ingame. Fully channelling it upgrades Reap to **Eradicate** `[T1]`. |
 | **Reap** | Rotational-builder | **Gathers up to 4 Souls** `[T1]`; +10 Fury with *Scythe's Embrace* `[T1]` | ~8s CD (charge ability — see the floor note); *Second Helping* adds a charge and *Umbral Blade* reduces the CD by your Haste `[T1]` | Instant ranged Cosmic bolt that collects up to 4 Soul Fragments. **The "resets on a full Void Ray channel" behaviour is a talent, not baseline** — *Moment of Craving*: after fully channelling Void Ray, Reap's cooldown resets and the next Reap collects up to 6 **additional** fragments `[T1]`. *Soulshaper* makes each fragment Reap gathers raise its damage by 8% `[T1]`. Becomes **Cull** inside Void Metamorphosis. **Class-baseline `[T1]`** — granted with the spec, in every build. |
 | **Soul Immolation** | Rotational-builder / maintenance | **Heals 24% of max health, generates 30 Fury, shatters 3 Soul Fragments — all over 5s** `[T1]` | ~1 min CD (Tier 3; the generated file carries no usable value) | On-demand Soul/Fury/health pump. *Singed Spirit* adds +12 Fury over the duration; *Tempered Soul* cuts 30s off the cooldown and adds a charge; *Spontaneous Immolation* adds +6% health healed and resets it on a killing blow `[T1]`. ⚠ The 24% figure is **percentage-based**, so it tracks the 12.1 +25% health pool. |
-| **Void Metamorphosis** | Major cooldown | **Requires 50 Soul Fragments** `[T1]` (35 w/ *Soul Glutton*); Fury drains while active | Fragment-gated (no fixed timer) | The defining transform and burst window. Consumes banked Souls to activate; **Consume and Reap are enhanced, Fury slowly drains, and Void Ray reduces that drain, costs no Fury and deals increased damage** `[T1]`. Unlocks **Collapsing Star**. ⚠ *Soul Glutton*'s discount has a cost the pre-12.1 file omitted: **Fury drains 25% faster** `[T1]`. **12.1: the Void Ray bonus dropped to +40% (was 67%), and Mastery's in-Meta bonus fell by 66% — this window is deliberately less dominant than it was in Season 1.** |
+| **Void Metamorphosis** | Major cooldown | **Requires 50 Soul Fragments** `[T1]` (35 w/ *Soul Glutton*); Fury drains while active | Fragment-gated (no fixed timer) | The defining transform and burst window. Consumes banked Souls to activate; **Consume and Reap are enhanced, Fury slowly drains, and Void Ray reduces that drain, costs no Fury and deals increased damage** `[T1]`. ⚠ **This button BECOMES Collapsing Star for the whole window** — an override, not an unlock: same keybind, changed art, drawn unusable below the 30-fragment grant, and no Void Metamorphosis button on the bar until the form ends (in-game 2026-08-27; `rotation.md` → *The transform overrides*). ⚠ *Soul Glutton*'s discount has a cost the pre-12.1 file omitted: **Fury drains 25% faster** `[T1]`. **12.1: the Void Ray bonus dropped to +40% (was 67%), and Mastery's in-Meta bonus fell by 66% — this window is deliberately less dominant than it was in Season 1.** |
 | **Collapsing Star** | Rotational-spender (Meta only) | **Every 30 Soul Fragments harvested inside Meta grants a cast** `[T1]` — a gate, not a flat "costs 30" | Meta-only | The in-Meta payoff button: a single cataclysmic blast on the target plus splash to all nearby enemies, **reduced beyond 8 targets**, and **your Fury drain is significantly reduced while casting it** `[T1]`. **12.1: damage +12%.** *Impending Apocalypse* now makes each cast buff the next by **+20% (12.1; was 30%)**; *Star Fragments* makes it generate 3 Soul Fragments; *Voidrush* has it cut 10s off Voidblade `[T1]`. |
 | **Midnight** | Spec capstone | — | — | Spell 1242486. **Resolved at 12.1 — Tier 1 tooltip: "Collapsing Star always critically strikes."** (The old @verify-ingame on this row is discharged.) Pairs hard with *Calamitous*, which raises critical-strike damage to 240% from the usual 200% `[T1]`. |
 | **Cull** | Rotational-builder (Meta form of Reap) | Up to 4 Souls | Meta-only | Enhanced Reap while transformed. ⚠ **Not in any generated inventory** (see the override caveat above), so nothing below the name is Tier 1. The pre-12.1 claim that Cull is "buffed by *Student of Suffering*" was **wrong** and is removed — Tier 1 says *Student of Suffering* is applied by **Void Ray** (see Void-Scarred note below). |
@@ -191,6 +199,13 @@ guidance.)*
 | **Voidfall** | Passive (Annihilator mechanic) | — | passive | **Consume has a 35% chance to grant a stack; at 3 stacks, Reap consumes one to call down a meteor** in an 8 yd area, reduced beyond 8 targets `[T1]`. *Meteoric Fall* makes Reap consume **all 3** for a rapid three-meteor sequence; *Meteoric Rise* also grants a stack on a full Void Ray channel; each stack additionally gives 2% Haste (*Swift Erasure*), 2% damage reduction (*Phase Shift*) or 3% movement speed (*Path to Oblivion*) `[T1]`. **12.1: *Final Hour* now persists those per-stack bonuses for 6s after the stacks are consumed (was 8s)** — ⚠ the 12.1.0.69214 tooltip still reads "8 sec"; the Tier-1 patch notes are the floor and say 6, so **6s is what this file asserts**, with the disagreement flagged. **12.1: *Otherworldly Focus* now gives Collapsing Star and Voidfall meteors +30% against a single target (was 35%), decaying 5% per additional target** `[T1]`. |
 
 ## Changelog
+
+**2026-08-27 — Collapsing Star is an override of Void Metamorphosis, not an unlock.** Two claims
+here were weaker than the measured fact: the override caveat named only Cull, Devour and Pierce
+the Veil, and the Void Metamorphosis row said the transform *"unlocks"* Collapsing Star. In the
+client the transform button **becomes** Collapsing Star for the duration of the window — same
+keybind, changed art, unusable below the 30-fragment grant. Both rewritten; the full table is in
+`rotation.md` → *The transform overrides*.
 
 **2026-08-17 — three Meta-form buttons named, and the Voidstep claim rewritten.** Reading simc's
 `sc_demon_hunter.cpp` (Tier 1) against `SpellName` / `Spell` @ `12.1.0.69214` resolved three actions the

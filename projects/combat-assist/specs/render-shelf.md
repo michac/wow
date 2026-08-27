@@ -89,6 +89,8 @@ pass 1 — scan left to right for a POSITIVE cue. If one is present, press it.
 pass 2 — scan left to right, skipping:
            · anything Blizzard's swipe has already run down
            · anything wearing at least one RED cue
+           · anything the CLIENT has hatched, having evaluated a band this
+             catalog authored against a value cap never saw
          press the first item that survives.
 ```
 

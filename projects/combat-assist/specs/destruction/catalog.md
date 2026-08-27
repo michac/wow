@@ -547,19 +547,22 @@ would reopen it**. None of these is a bare "cannot".
    *[T1 @ 12.1.0.69214]* — which is `C_Spell.IsSpellUsable`'s **first** return. R1 says to use the
    second return and never the first, because `isUsable` is true for a spell on cooldown; that
    warning is about *cooldowns*, not about access gates, and the first return on an
-   **access-gated** spell is unmeasured. It is exactly the open fact `devourer/fact-classification.md`
-   names as its most load-bearing, for Collapsing Star.
-   *What would reopen it:* one measurement, shared with Devourer — does `isUsable`'s first return
-   read plain and correct in restricted combat for a spell gated by target health or by
-   aura-granted access? If yes, an `usable` predicate expresses the execute gate with no new
-   *kind* of read, and Retribution's Hammer-of-Wrath trick (the override *is* the gate) is not
-   needed. @verify-ingame / @pending-test
+   **access-gated** spell is unmeasured.
+   *What would reopen it:* one measurement — does `isUsable`'s first return read plain and correct
+   in restricted combat for a spell gated by target health? If yes, an `usable` predicate expresses
+   the execute gate with no new *kind* of read, and Retribution's Hammer-of-Wrath trick (the
+   override *is* the gate) is not needed. @verify-ingame / @pending-test
+   ⚠ **This was written as a measurement shared with Devourer and it is one no longer.** Devourer
+   cited the same read for Collapsing Star; on 2026-08-27 that button was measured in game to be a
+   spell **override** on the Void Metamorphosis row, so R7 draws it and it waits on nothing here.
+   The read is still open and still load-bearing — for this row, alone.
    ⚠ **And note what the player sees meanwhile.** Out of execute without the proc, Blizzard
    greys the icon with `ITEM_NOT_USABLE_COLOR` (`knowledge/addon-dev/cooldown-manager.md` §3.4).
-   The human eye is not stranded; **the reading model is**, because `../render-shelf.md` Part 0.5
-   counts exactly two eliminating signals — the swipe and cap's badge — and the client's
-   unusable tint is a third. Whether to admit it is a **Part 0.5 decision** and is deliberately
-   not taken here.
+   The human eye is not stranded; **the reading model is**: the tint rules a row out, and none of
+   Part 0.5's three eliminating signals is the tint — not the swipe, not cap's badge, not a band
+   cap authored. Whether to admit it is a **Part 0.5 decision**, deliberately not taken here, and
+   it now has **two** consumers — this row and Devourer's in-form position 1
+   (`../backlog.md` → *Now*).
 4. **`target_if` — choosing which enemy to hit.**
    *Scenario:* four targets, and `aoe_dia` rung 4 reads
    `conflagrate,target_if=max:(dot.immolate.remains-99*debuff.havoc.remains),…` — press

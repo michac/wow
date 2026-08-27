@@ -2,7 +2,7 @@
 title: Demon Hunter Devourer — Rotation (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-17
-reviewed: 2026-08-17
+reviewed: 2026-08-27
 augments: simc-apl.md @5f916c6
 sources:
   - knowledge/classes/demon-hunter/devourer/simc-apl.md  # tier 1, the generated 12.1 priority list this file explains (apl_demon_hunter.cpp @5f916c6, 2026-08-14)
@@ -63,11 +63,11 @@ from last to first.
 ⚠ **Do not read a rung number across branches.** Rung numbers below count lines **within
 their own list**, because this spec has no shared body.
 
-## The transform overrides — three pairs, and two of them are invisible to the generators
+## The transform overrides — six pairs, and the transform button is one of them
 
 Void Metamorphosis re-skins buttons the way demon form does for Havoc, and the same
-override-identity care applies. `sc_demon_hunter.cpp` (Tier 1, read 2026-08-17) names them
-by inheritance:
+override-identity care applies. `sc_demon_hunter.cpp` (Tier 1, read 2026-08-17) names the first
+five by inheritance; the sixth is not a simc fact and was measured in the client:
 
 | Outside Meta | Inside Meta | Evidence |
 | --- | --- | --- |
@@ -76,6 +76,18 @@ by inheritance:
 | **Voidblade** `1245412` | **Pierce the Veil** `1245483` | `pierce_the_veil_t : voidsurge_trigger_t<PIERCE_THE_VEIL, voidblade_base_t>` |
 | **Hungering Slash** `1239123` ⚠ *[T3]* | **Reaper's Toll** `1245470` `[T1]` | `reapers_toll_t : voidsurge_trigger_t<REAPERS_TOLL, hungering_slash_base_t>` |
 | **The Hunt** `1246167` | **Predator's Wake** `1259431` | `predators_wake_t : voidsurge_trigger_t<PREDATORS_WAKE, the_hunt_base_t>` |
+| **Void Metamorphosis** `1217605` | **Collapsing Star** `1221167` | in-game 2026-08-27 — the button itself is overridden for the whole window |
+
+⚠ **The transform button becomes the payoff button, and that is stronger than "unlocks".**
+Collapsing Star is not a new button that appears somewhere: **Void Metamorphosis's own button
+becomes it for the duration of the form** — the same keybind casts it, the art changes, and below
+the 30-fragment grant it simply draws unusable rather than disappearing. Measured in the client
+2026-08-27. It behaves like every other row above, which is why it is in this table; what makes it
+worth its own note is that the other five re-skin a *rotational* button while this one re-skins the
+**cooldown you pressed to get here**, so for the whole window there is no Void Metamorphosis button
+on the bar at all. Neither `1221167` nor `1221150` has a `CooldownSetSpell` row of its own
+(`CooldownSetID 1864` @ `12.1.0.69214` `[T1]`) — which is exactly what an override does not need,
+since it borrows the row of the spell it replaces.
 
 ⚠ **Hungering Slash is a FAMILY of ids, and only one of them is Tier 1 here.** `1239519` is the
 **talent entry** — the node you take — and it is what `all-talents.tsv` and
@@ -239,6 +251,13 @@ three-state `voidscarred_melee` — is unknown. `@verify-ingame`
   Season 2 has not opened.
 
 ## Changelog
+
+**2026-08-27 — Void Metamorphosis → Collapsing Star added to the override table.** The table
+listed five pairs and omitted the sixth, and `abilities.md` said only that the transform
+*"unlocks"* Collapsing Star. Measured in the client: the Void Metamorphosis button **becomes**
+Collapsing Star for the whole window — same keybind, changed art, drawn unusable below the
+30-fragment grant. "Unlocks" was not wrong so much as weaker than the fact, and the difference
+is load-bearing for anything reading the button rather than the spell.
 
 **2026-08-17 — rewritten as a supplement to the generated `simc-apl.md`.** The file was a
 hand-transcription of the **12.0.7** MID1 profiles, at `confidence: low`, with no reference
