@@ -95,6 +95,7 @@
     {
       "id": "power_siphon",
       "ability": "power_siphon",
+      "defeat": [2],
       "note": "Its rung gate is buff.demonic_core.stack<=1, which is a SEALED count — so the row carries no readable cue at all and the display does the whole of the work. Below two Cores the band draws nothing and the row is an ordinary candidate; at two it hatches and marks itself, which is the row RULED OUT by a fact cap never read.",
       "markers": [
         {
@@ -306,6 +307,7 @@
     {
       "id": "call_dreadstalkers",
       "ability": "call_dreadstalkers",
+      "defeat": [1],
       "note": "Cue I is the block's shared readable hold; cue J is the TWO-SIDED sealed band — hold while Tyrant's remaining is inside (10.5, 21.5), rung 6's own dead zone at S4's unhasted 1.5 s floor, Reign-gated.",
       "markers": [
         {
@@ -490,6 +492,7 @@
     {
       "id": "implosion",
       "ability": "implosion",
+      "defeat": [2],
       "note": "Two halves of one rung, split exactly on the readable/sealed line: active_enemies>2|talent.to_hell_and_back is readable and is the cue; wild_imps.stack>=6 is sealed and is the display. The display is V17's COMPLEMENT — it draws BELOW the threshold and clears at it — and it is the first time a sealed fact enters elimination rather than merely being displayed.",
       "markers": [
         {
@@ -727,6 +730,7 @@
     {
       "id": "hand_of_guldan",
       "ability": "hand_of_guldan",
+      "defeat": [5],
       "note": "Two lives, one lane: both are shard spenders. The identity carries the transform with no cue, because Ruination outranks the ordinary press by one rung and both are pressed from this position. ⚠ But the two HOLDS are rung-11 facts and both carry `identity(hand_of_guldan, \"base\")` to say so: rung 10 (Ruination) is unconditional, so nothing the window rule knows can hold it.",
       "markers": [
         {
@@ -1205,6 +1209,16 @@
           "note": "⚠ NO IDENTITY MARKER, AND THAT IS AUTHORED. R7 resolves the transform at bind and the icon changes itself; nothing here names Infernal Bolt's id. The bar's slot filters to the ART aura, so it exists exactly while the transform does — the visibility IS the gate. Context on the edge, not a badge, so still not a promotion."
         }
       ]
+    }
+  ],
+  "defeats_unreferenced": [
+    {
+      "n": 3,
+      "why": "Target selection is a statement about a SURFACE, not about a button. The rung it quotes is Demonbolt's 13, but `target_if` is unsayable on every row cap draws — a Cooldown Manager row is a button and \"press this at that enemy\" has nowhere to go on one. Destruction authors the same defeat verbatim as its own item 4. Attributing it to Demonbolt would tell a reader that row is where cap gave up, when the row is right and only the target choice is unsaid."
+    },
+    {
+      "n": 4,
+      "why": "No entry is its site. Art: Overlord changes no button, so there is no row cap would draw it on — fact-classification.md's routing column for it reads \"nothing — noted because it is one measurement from closing\". Demonology has no analogue of Destruction's Art-spending rung, so there is not even a rung to hang it off."
     }
   ],
   "entries_note": "Entry order IS the authored priority, and it is the flattened actions.diabolist with one swap. Catalog.OrderCheck compares it against Blizzard's layoutIndex, which stopped being the drawn order when Anchor shipped — so read its verdict as `the saved layout disagrees`, never as `the row on screen disagrees`."

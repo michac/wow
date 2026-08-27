@@ -848,6 +848,63 @@ def scrape_scenarios(path: Path) -> list[dict]:
     return out
 
 
+#: `catalog.md`'s one numbered section: the rungs the catalog knowingly does not draw.
+#: Matched on the HEADING PREFIX rather than the full sentence, because the sentence after the
+#: em-dash is prose an author is entitled to reword and a gate that breaks on a reworded subtitle
+#: teaches people to stop rewording subtitles.
+DEFEATS_HEAD_RE = re.compile(r"(?m)^##\s+Defeats\b.*$")
+DEFEAT_ITEM_RE = re.compile(r"(?m)^(?P<n>\d+)\.\s+")
+DEFEAT_TITLE_RE = re.compile(r"^\*\*(?P<title>.+?)\*\*")
+
+
+def scrape_defeats(path: Path) -> list[dict]:
+    """`catalog.md` → the numbered `## Defeats` items: number, title, body.
+
+    ⚠ **ABSENCE IS THE SKIP.** Only three catalogs carry a numbered Defeats section; the others
+    either argue their defeats in running prose or have none. A spec with no section returns `[]`
+    and the page leaves the block out entirely — the same shape `catalog_json_path(...).exists()`
+    already uses for the catalog gates, so the rollout has no second place recording where it has
+    reached.
+
+    A defeat is the most honest thing in the corpus — the scenario, the rung it died on, and what
+    would reopen it — and until 2026-08-27 it reached the preview only where an author happened to
+    type "Defeats, item N" into a free-text `note`. The page therefore showed a catalog that
+    handled everything, because the places it knowingly gives up were the places nothing rendered.
+
+    The body is paragraphs of the same small markdown subset every other doc-sourced block on the
+    page uses (`_inline`), so a defeat is rendered by the same machinery as a scenario's `State`
+    bullet rather than by a second one.
+    """
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+    head = DEFEATS_HEAD_RE.search(text)
+    if head is None:
+        return []
+    stop = next((m.start() for m in re.finditer(r"(?m)^##\s+", text) if m.start() > head.end()),
+                len(text))
+    # The section's own trailing horizontal rule is a separator, not content.
+    body = re.split(r"(?m)^---\s*$", text[head.end():stop])[0]
+
+    marks = list(DEFEAT_ITEM_RE.finditer(body))
+    out = []
+    for i, m in enumerate(marks):
+        chunk = body[m.end(): marks[i + 1].start() if i + 1 < len(marks) else len(body)]
+        paras = [_flat(p) for p in re.split(r"\n\s*\n", chunk) if p.strip()]
+        title = ""
+        if paras:
+            tm = DEFEAT_TITLE_RE.match(paras[0])
+            if tm:
+                title = tm.group("title").strip()
+                paras[0] = paras[0][tm.end():].strip()
+        out.append({
+            "n": int(m.group("n")),
+            "title": _inline(title),
+            "body": [_inline(p) for p in paras if p],
+        })
+    return out
+
+
 def validate_lab_isolation(tokens: dict) -> None:
     """Part 7's rule 1: the lab is unreachable from the declared style.
 
@@ -1224,7 +1281,10 @@ def catalog_lua(spec: str) -> str:
 
     The source is `specs/<spec>/catalog.json`, which is hand-edited and canonical. `states` do
     not travel: they are the per-ability state table the doc and the preview read, and the addon
-    resolves the same thing at runtime from the markers. `note` fields travel as comments —
+    resolves the same thing at runtime from the markers. Neither does `defeat`, for the same
+    reason and one more: it names a rung this catalog knowingly does NOT draw, so there is nothing
+    in the client for it to be data for — carrying it would put a citation of a paragraph in
+    `catalog.md` into a file whose whole contract is "data only". `note` fields travel as comments —
     they are the addon-seam prose that has no counterpart in `catalog.md`, and losing it to a
     format change is the one real cost of generating this file.
     """
@@ -2796,6 +2856,11 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
             "name": by_key.get(e["ability"], e["ability"]),
             "code": code,
             "note": e.get("note"),
+            # WHERE THIS ENTRY GIVES UP. The numbers of `catalog.md`'s `## Defeats` items this
+            # row is the site of — authoring metadata, gated in both directions by
+            # `catalog_gate_defeats`, and rendered on the row so a reader of the state table sees
+            # it there rather than only in a section further down the page.
+            "defeat": e.get("defeat") or [],
             "states": [
                 {
                     "id": st["id"],
@@ -2958,6 +3023,10 @@ def build(spec: str, tokens: dict, when: str) -> tuple[str, int]:
         # page so the table is RENDERED rather than merely written — the same data that generates
         # `Catalogs/<Spec>.lua`, drawn with the same primitives the scenarios use.
         "states": catalog_states(spec, roster),
+        # The rungs this catalog knowingly does not draw. `[]` for a spec with no numbered
+        # `## Defeats` section, and the page drops the whole block rather than drawing an empty
+        # one — skip by absence, exactly as the catalog gates skip a spec with no catalog.json.
+        "defeats": scrape_defeats(cfg["catalog"]),
         "scan_samples": cfg["scan_samples"],
         "scan_sample": cfg["scan_samples"][0],
         "scenarios": scenarios,
@@ -3865,6 +3934,104 @@ def catalog_gate_scenarios(cat: dict, scenarios: list[dict], roster: dict) -> li
     return fails
 
 
+def catalog_gate_defeats(spec: str, cat: dict) -> list[str]:
+    """`catalog.json`'s `defeat` references and `catalog.md`'s `## Defeats` items, BOTH WAYS.
+
+    A defeat is a rung the catalog knowingly does not draw, and it is the most honest thing in the
+    corpus. Both halves of the reference can rot on their own, so both are gated:
+
+    1. **Every referenced number exists.** A `"defeat": [9]` on an entry whose catalog authors
+       eight items points a reader at nothing, and renumbering the section is exactly the edit
+       that produces it.
+    2. **Every item is referenced by at least one entry.** This is the direction that matters,
+       because it is the one the defect was: fifteen carefully argued items and none of them
+       reachable from the row they are about.
+
+    ⚠ Direction 2 has a **declared** escape and deliberately not a silent one. Some defeats are
+    genuinely nobody's row — target selection is a statement about a surface rather than a button,
+    and Protection's item 7 is a finding about the boundary between rows. Those go in
+    `defeats_unreferenced`, an ARRAY OF `{n, why}`: the number, and the argument for why no entry
+    is its site. Naming the number is not enough on its own — a bare number list would be a
+    category exemption, and the point is that the next unreferenced defeat is argued individually.
+
+    ⚠ Skipped entirely for a spec with no `catalog.json` (Destruction hand-writes its Lua). Its
+    defeats still RENDER — rendering keys off `catalog.md` — because a page that hides a spec's
+    givings-up until it has a machine-readable catalog would be hiding them for the reason least
+    connected to whether a reader needs to see them.
+    """
+    fails = []
+    defeats = scrape_defeats(SPECS_BUILT[spec]["catalog"])
+    numbers = [d["n"] for d in defeats]
+    md = SPECS_BUILT[spec]["catalog"].name
+
+    # The numbering is the whole address space. A section that skips or repeats a number makes
+    # every reference to it ambiguous, and `defeat: [4]` cannot be checked against a list with two
+    # 4s in it.
+    if numbers and numbers != list(range(1, len(numbers) + 1)):
+        fails.append(f"{spec}/{md}'s `## Defeats` items are numbered {numbers} — they are the "
+                     "address a `defeat` reference resolves against, so they have to run 1..N "
+                     "with no gap and no repeat.")
+
+    referenced: dict[int, list[str]] = {}
+    for e in cat.get("entries", []):
+        for n in e.get("defeat") or []:
+            if not isinstance(n, int):
+                fails.append(f"{e['id']}: `defeat` names {n!r} — a defeat is cited by the item's "
+                             "NUMBER, as an integer.")
+                continue
+            referenced.setdefault(n, []).append(e["id"])
+            if not defeats:
+                fails.append(f"{e['id']}: cites `defeat` {n}, but {spec}/{md} has no numbered "
+                             "`## Defeats` section at all — there is nothing for it to resolve "
+                             "against.")
+            elif n not in numbers:
+                fails.append(f"{e['id']}: cites `defeat` {n}, which {spec}/{md}'s `## Defeats` "
+                             f"section does not have (it authors {numbers[0]}..{numbers[-1]}). "
+                             "A reference to a defeat that does not exist points the reader at "
+                             "nothing — renumbering the section is what usually causes it.")
+
+    declared = {}
+    for i, item in enumerate(cat.get("defeats_unreferenced") or [], 1):
+        if not isinstance(item, dict) or not isinstance(item.get("n"), int) \
+                or not str(item.get("why") or "").strip():
+            fails.append(f"defeats_unreferenced[{i}] is {item!r} — each is "
+                         '`{"n": <item number>, "why": "<why no entry is its site>"}`, and the '
+                         "`why` is the point: a number on its own is a category exemption, and "
+                         "this escape exists so the next unreferenced defeat is argued one at a "
+                         "time.")
+            continue
+        n = item["n"]
+        if n in declared:
+            fails.append(f"defeats_unreferenced declares item {n} twice.")
+        declared[n] = item["why"]
+        if n not in numbers:
+            fails.append(f"defeats_unreferenced declares item {n}, which {spec}/{md}'s "
+                         "`## Defeats` section does not have — a stale escape reads as coverage "
+                         "of a defeat nobody authored.")
+        if n in referenced:
+            fails.append(f"defeats_unreferenced declares item {n} has no home, but "
+                         f"{', '.join(referenced[n])} cites it. Delete one: the escape says no "
+                         "entry is its site and the reference says one is.")
+
+    for d in defeats:
+        if d["n"] in referenced or d["n"] in declared:
+            continue
+        fails.append(
+            f"{spec}/{md} `## Defeats` item {d['n']} "
+            f"({re.sub(r'<[^>]+>', '', d['title']) or 'untitled'}) is referenced "
+            "by no entry.\n"
+            "       A defeat is a rung this catalog knowingly does not draw, and one no row "
+            "points at is invisible\n"
+            "       to a reader of that row. Add the number to the entry that is its site — "
+            '`"defeat": [' + str(d["n"]) + ']` —\n'
+            "       or, if it is genuinely nobody's row, declare it in the catalog's "
+            "`defeats_unreferenced` with a reason.\n"
+            "       ⚠ If its home is AMBIGUOUS, declare it rather than guess: a wrong attribution "
+            "tells a reader this row\n"
+            "       is the site of a giving-up that happened somewhere else.")
+    return fails
+
+
 def catalog_gate_validator(spec: str) -> list[str]:
     """The generated table passes `Catalog.Check`, run by the addon's own Lua.
 
@@ -4686,6 +4853,7 @@ def _check_one(args) -> None:
         fails += catalog_gate_cooccurrence(cat)
         fails += catalog_gate_outranker(args.spec, cat, roster)
         fails += catalog_gate_scenarios(cat, doc, roster)
+        fails += catalog_gate_defeats(args.spec, cat)
         fails += catalog_gate_validator(args.spec)
 
     # 2 · the committed HTML is not stale.
@@ -4757,6 +4925,9 @@ def _check_one(args) -> None:
                      "     and names only BUILT primitives in drawn_by,\n"
                      "     every hold that yields to another row asks whether that row can "
                      "fire,\n"
+                     "     every `defeat` reference resolves and every Defeats item is either "
+                     "referenced by an entry\n"
+                     "     or declared unreferenced with a reason,\n"
                      if cjson.exists() else
                      "     (catalog gates SKIPPED — no catalog.json; this spec's Lua is "
                      "hand-written)\n")

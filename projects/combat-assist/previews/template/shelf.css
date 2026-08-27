@@ -1197,6 +1197,18 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 .statecell:target .statecode { outline: 2px solid var(--accent, currentColor); }
 .statecell .cap code.muted { font-size: .72rem; opacity: .65; }
 
+/* ===== Defeats ===========================================================================
+   `catalog.md`'s numbered `## Defeats` items, drawn. Same block idiom as a state group on
+   purpose: they are the same kind of thing — the authored definition, rendered — and the one
+   answers the other. A defeat that looked like a different sort of object would read as a
+   footnote, which is exactly the standing it had while it reached the page only by accident. */
+.defeat p { max-width: 46rem; }
+.defeatbody { color: var(--ink-dim); font-size: .86rem; line-height: 1.55; margin: .45rem 0; }
+/* On the ROW, above its states: this row is where cap gives up. It sits between the group's
+   heading and its `note`, because it qualifies the row rather than any one state of it. */
+.defeatref { font-size: .8rem; margin: .2rem 0 0; color: var(--ink-dim); }
+.defeatref b { color: var(--ink); font-weight: 600; }
+
 /* The state's PROVENANCE: where it comes from and what draws it. Set apart from the caption's
    vocabulary lines by a rule, because the two answer different questions — the lines above say
    what the row IS, these say why it exists and which primitives put it on screen. */

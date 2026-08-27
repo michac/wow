@@ -175,6 +175,7 @@
     {
       "id": "divine_toll",
       "ability": "divine_toll",
+      "defeat": [1],
       "note": "Rung 7, the spec's largest Holy Power injection, and it belongs inside Wings. ⚠ The rung has two disjuncts and only the second is authorable: the first is `buff.avenging_wrath.up`, and whether a Category-3 (TrackedBar) row raises the `aura` latch's alert edges is UNMEASURED. A latch on an unmeasured edge is a hold that may never release, so it is not authored.",
       "markers": [
         {
@@ -328,6 +329,7 @@
     {
       "id": "holy_armaments",
       "ability": "holy_armaments",
+      "defeat": [3, 4],
       "note": "Rungs 10 / 14, 23. One button, two jobs. ⚠ Rung 23's charge dump is not authored and the reason is the ROW ORDER, not missing data (Defeats, item 4).",
       "markers": [
         {
@@ -502,6 +504,7 @@
     {
       "id": "avengers_shield",
       "ability": "avengers_shield",
+      "defeat": [6],
       "note": "Rungs 13 and 18. It FEELS like the top of the rotation and rung 18 is the low unconditional one, with three rungs between it and rung 13. Only Glory of the Vanguard genuinely puts it first — which is why the Vanguard term is a READABLE GATE on a sealed display, the `when`-beside-`display` shape. Without it the hatch would rule out the row in the one state rung 13 puts it first.",
       "markers": [
         {
@@ -678,6 +681,7 @@
     {
       "id": "consecration",
       "ability": "consecration",
+      "defeat": [2],
       "note": "Rungs 15, 19, 24 and 29. ⚠ Rungs 19 and 24 are now expressed on a BLESSED ASSURANCE build, as a V16 presence band on the player aura 188370 -- not as an `aura` latch, so the unmeasured Category-3 alert-edge question is bypassed rather than answered. On a Divine Guidance build they remain unmodelled, because rung 15 presses Consecration with the field up on a count cap may not read (Defeats, item 2).",
       "markers": [
         {
@@ -834,6 +838,7 @@
     {
       "id": "judgment",
       "ability": "judgment",
+      "defeat": [5],
       "note": "Rungs 17, 22 / 16. ⚠ Rung 17 is not authored — the second-charge dump, and `charged` is undeclarable on this spec.",
       "markers": [
         {
@@ -1009,6 +1014,16 @@
           "note": "No cooldown state: Word of Glory has no cooldown of its own."
         }
       ]
+    }
+  ],
+  "defeats_unreferenced": [
+    {
+      "n": 7,
+      "why": "A finding about the BOUNDARY BETWEEN rows, not about one row: a sealed display may demote the row it is armed on and may never promote any row, because promotion is a comparison across rows. Its scenario spans Shield of the Righteous, Holy Bulwark, Avenger's Shield, Consecration and Hammer of Wrath in sequence, and the marker it was resolved by deleting (`cons_no_guidance`) was the common term of two such trios. Any single attribution would name one of five rows arbitrarily."
+    },
+    {
+      "n": 8,
+      "why": "A three-hold trio, and the trio is the defeat: cue B on Divine Toll, cue D on Holy Armaments and cue F on Judgment stand together before the press lands on Blessed Hammer. No one of the three is the site — each is correct on its own row, and it is the density budget across them that is overspent. The item's own reopening note picks cue B as the candidate to delete IF a flight ever finds the state, which is a decision about the set rather than a home for the item."
     }
   ],
   "entries_note": "Entry order IS the authored priority, and it is the flattened `actions.default` — one list, no sub-lists and no hero fork, with four rows whose rungs straddle another row's. `Catalog.OrderCheck` reports when the player's Cooldown Manager disagrees with it."

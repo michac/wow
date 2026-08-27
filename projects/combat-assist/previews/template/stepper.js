@@ -1467,6 +1467,17 @@
       h.innerHTML = '<a class="statecode" href="#' + grp.code + '">' + grp.code + "</a> " +
                     grp.name + ' <code class="muted">' + grp.entry + "</code>";
       box.appendChild(h);
+      // WHERE THIS ROW GIVES UP. A defeat is authored as a numbered item in `catalog.md` and
+      // reached the page, before 2026-08-27, only where an author happened to type "Defeats,
+      // item N" into a free-text note — so the reader of a row could not see that this row was
+      // the site of one. It is drawn here, on the row, and links to the item itself.
+      if (grp.defeat && grp.defeat.length) {
+        var dl = el("p", "defeatref");
+        dl.innerHTML = "⚑ <b>cap gives up here</b> — " + grp.defeat.map(function (n) {
+          return '<a href="#defeat-' + n + '">Defeats, item ' + n + "</a>";
+        }).join(" · ");
+        box.appendChild(dl);
+      }
       if (grp.note) {
         var n = el("p", "muted");
         n.textContent = grp.note;
@@ -1513,6 +1524,44 @@
     });
   }
   renderStates();
+
+  /* ------------------------------------------------------------------------ defeats */
+
+  // `catalog.md`'s `## Defeats` items, drawn. ⚠ ABSENCE IS THE SKIP, exactly as it is for the
+  // state table above: only three catalogs carry a numbered section, and a spec without one
+  // drops the heading and the lede with the box rather than growing an empty block under a
+  // paragraph promising items that are not there. That is the same defect the state table's
+  // early return was written to fix, and it would arrive here by the same route.
+  //
+  // Deliberately NOT keyed off `catalog.json`: Destruction hand-writes its Lua and so can carry
+  // no `defeat` references at all, and hiding its ten authored givings-up for that reason would
+  // hide them for the reason least connected to whether a reader needs to see them.
+  function renderDefeats() {
+    var hostEl = document.getElementById("defeats");
+    if (!hostEl) return;
+    if (!D.defeats || !D.defeats.length) {
+      ["defeatshead", "defeatslede", "defeats"].forEach(function (id) {
+        var n = document.getElementById(id);
+        if (n) n.parentNode.removeChild(n);
+      });
+      return;
+    }
+    D.defeats.forEach(function (d) {
+      var box = el("div", "stategroup defeat");
+      box.id = "defeat-" + d.n;
+      var h = el("h3");
+      h.innerHTML = '<a class="statecode" href="#defeat-' + d.n + '">' + d.n + "</a> " +
+                    (d.title || "");
+      box.appendChild(h);
+      (d.body || []).forEach(function (para) {
+        var pp = el("p", "defeatbody");
+        pp.innerHTML = para;
+        box.appendChild(pp);
+      });
+      hostEl.appendChild(box);
+    });
+  }
+  renderDefeats();
 
   host("prov").innerHTML = D.provenance_html;
 

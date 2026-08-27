@@ -84,6 +84,18 @@ for bad in ("gated ", "GATED", "virtual"):
     cat = {**FIXTURE, "entries": [dict(FIXTURE["entries"][1], virtual=bad)]}
     check(f'virtual = "{bad}"' in emit(cat), f"the value {bad!r} travels verbatim")
 
+# ⚠ THE OTHER DIRECTION, and it needs a test for the same reason the ones above do: this file
+# asserts that authored keys REACH the Lua, so the obvious way to make a new key safe is to add
+# it to the emitter — and `defeat` must not be. It cites a numbered item in `catalog.md`, i.e. a
+# rung this catalog knowingly does NOT draw, so there is nothing in the client for it to be data
+# for; `Catalogs/<Spec>.lua` is data only. It travels exactly as far as `states` do, which is to
+# the preview and the gates and no further.
+lua = emit({**FIXTURE, "entries": [dict(FIXTURE["entries"][0], defeat=[1, 4])],
+            "defeats_unreferenced": [{"n": 2, "why": "catalog-wide"}]})
+check("defeat" not in lua, "an entry's `defeat` does NOT reach the Lua (authoring metadata)")
+check("catalog-wide" not in lua and "defeats_unreferenced" not in lua,
+      "the catalog's `defeats_unreferenced` escape does NOT reach the Lua either")
+
 print()
 print(f"{_total - len(_fails)}/{_total} passed")
 if _fails:

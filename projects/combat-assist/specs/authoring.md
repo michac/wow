@@ -306,7 +306,30 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
   row, whose negative carries `[searched 2026-08-17: PowerType.csv, the CDM readable surface, the
   shipped UI's DemonHunterSoulFragmentsBar]`. **A defeat lives in a named section of the catalog** —
   `## Defeats — the scenarios that beat this catalog, and what reopens them`
-  (`specs/demonology/catalog.md:517`, `specs/destruction/catalog.md:497`).
+  (`specs/demonology/catalog.md:648`, `specs/destruction/catalog.md:502`,
+  `specs/protection/catalog.md:870`). ⚠ The heading is matched on its `## Defeats` prefix, so
+  the sentence after the em-dash is yours to reword; the numbering is not — it is the address a
+  `defeat` reference resolves against and has to run 1..N.
+
+- **And a defeat must reach the page, on the row it happened on.** Numbered items in that section
+  are parsed and rendered on the spec's preview, and a spec with a `catalog.json` also says
+  *which entry each one is the site of*: `"defeat": [1, 4]` on the entry, gated **both ways** by
+  `capart check` — every number referenced exists, and every item is referenced. This exists
+  because the honest half of the corpus was the invisible half: before 2026-08-27 a defeat
+  reached the preview only where an author happened to type *"Defeats, item N"* into a free-text
+  `note`, so the page showed a catalog that handled everything.
+
+  ⚠ **Some defeats are genuinely nobody's row** — target selection is a statement about a
+  *surface*, and Protection's item 7 is a finding about the boundary *between* rows. Those go in
+  the catalog's `defeats_unreferenced`, an array of `{"n": …, "why": …}`. The `why` is the point:
+  a bare number list would be a category exemption, and this escape exists so the next
+  unreferenced defeat is argued one at a time. **If a defeat's home is ambiguous, declare it here
+  rather than guess** — a wrong attribution tells a reader that row is the site of a giving-up
+  that happened somewhere else, which is worse than an unattributed one.
+
+  ⚠ The reference does **not** travel to `Catalogs/<Spec>.lua`. It cites a rung the catalog
+  knowingly does *not* draw, so there is nothing in the client for it to be data for; it goes as
+  far as `states` do, which is the preview and the gates.
 
 ---
 
