@@ -59,11 +59,14 @@ would otherwise have no row for is simply another life of a row it already has, 
 override *is* the availability test. Second, **every proc this rotation turns on is a registered
 spell-activation overlay**, so Art of War, Righteous Cause, Empyrean Power and Empyrean Legacy
 are all readable through the plain `proc` predicate. The result is a catalog with **no sealed
-resource cue at all**: the only sealed facts it uses are five cooldown *remaining times*, exactly as
-Havoc's cue C2, and every ordering decision is a readable rank or a readable badge. Five cues do
+resource cue at all** — every ordering decision is a readable rank or a readable badge, and the
+sealed facts it uses reach pixels only as **displays**: five cooldown *remaining times* (exactly as
+Havoc's cue C2), plus, since the V16–V20 primitives shipped, one aura *duration* and one aura
+*stack count* that carry no cue and eliminate nothing. Five cues do
 the work — **A** starved, **B** overcap, **C** the sealed cooldown-alignment holds, **D** the
 proc'd builder that defers a spender, and **E** the Divine Storm skip — with **F**, a talent
-gate, withholding three of the C bands on a Radiant Glory build.
+gate, withholding three of the C bands on a Radiant Glory build, and **G**, a target-aura latch,
+holding **two** rows on one APL clause.
 
 **The positive cue is deliberately not spent** — see *The cues, collected*.
 
@@ -76,9 +79,9 @@ Base spell IDs from `knowledge/classes/paladin/retribution/ability-inventory.tsv
 
 | Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `execution_sentence` | Execution Sentence | `343527` | — | scan | — | three sealed/readable holds (C) |
-| `avenging_wrath` | Avenging Wrath | `31884` | — | scan | — | — |
-| `wake_of_ashes` | Wake of Ashes | `255937` | **Hammer of Light `427453`** | scan (conditional — see `scan_when` below) | — | two sealed holds (C, base life only) + starved (A) |
+| `execution_sentence` | Execution Sentence | `343527` | — | scan | — | three sealed/readable holds (C) + the Expurgation hold (G) |
+| `avenging_wrath` | Avenging Wrath | `31884` | — | scan | — | the Expurgation hold (G) |
+| `wake_of_ashes` | Wake of Ashes | `255937` | **Hammer of Light `427453`** | scan (conditional — see `scan_when` below) | — | two sealed holds + one readable (C, base life only) + starved (A) |
 | `divine_toll` | Divine Toll | `375576` | — | scan | — | one sealed hold (C) + overcap (B) |
 | `templars_verdict` | Templar's Verdict | `85256` | **Final Verdict `383328`** (permanent) | scan | — | starved (A) + proc-defer (D) + Divine Storm skip (E) |
 | `divine_storm` | Divine Storm | `53385` | — | scan | — | starved (A) + proc-defer (D) |
@@ -257,8 +260,9 @@ to its right by position.
   press-on-cooldown one, and both of its placement rules are invisible on the icon. Its line is
   `(cooldown.avenging_wrath.remains>15|talent.radiant_glory)&(target.time_to_die>10)&cooldown.wake_of_ashes.remains<gcd&(!talent.holy_flames|dot.expurgation.ticking)`.
   *Facts:* `ready` (R2) for membership; two related-ability cooldowns, one readable and one sealed
-  in each direction. *Treatment:* scan + **three markers unioned onto one `blocked` badge**
-  (the band grammar is AND-only, so naming one cue three times **is** the OR):
+  in each direction; and the Expurgation latch (R8). *Treatment:* scan + **four markers unioned
+  onto one `blocked` badge** (the band grammar is AND-only, so naming one cue four times **is**
+  the OR):
   1. `es_awaits_wrath_ready` — **readable**, Avenging Wrath is *ready*. Needed because Execution
      Sentence sits at position 1, **left** of Avenging Wrath, so elimination reaches it first and
      a sealed band reads nothing at zero remaining.
@@ -268,8 +272,30 @@ to its right by position.
      left. This is the `beyond` sense: *"it is nowhere near, so this is not its moment."* The GCD
      is haste-modified and `UnitSpellHaste` is sealed in instanced combat, so the band is authored
      at the **unhasted** 1.5 and never computed (S4's guard).
+  4. `es_awaits_expurgation` — **readable** `blocked`, cue **G**, gated on `talent(holy_flames)`.
+     The clause is `(!talent.holy_flames|dot.expurgation.ticking)`, the last term of the same rung,
+     and it is the **identical clause `aw_awaits_expurgation` authors one entry down** — same fact,
+     same latch, same talent gate, on the row that reaches the eye first. ⚠ **The APL term is an
+     OR and the hold is its negation, which is a plain AND** — Holy Flames talented **and** the DoT
+     absent — so this is **one** marker, not the two-marker union `boj_opener` needed for a
+     disjunction `when` could not otherwise spell.
+     ⚠ **What this closed.** The clause is INDEPENDENT of the Avenging Wrath alignment, and markers
+     1 and 2 are both withheld on a **Radiant Glory** build (cue F). So on that build, with Wake of
+     Ashes ready, all three original markers were dark and Execution Sentence drew **clear at row
+     1, leftmost** — the first button elimination hands you — for a press `cooldowns` 10 forbids
+     while Expurgation is not ticking on a Holy Flames build.
+     ⚠ **It moved the defect one row down, and row 3 was fixed in the same pass.** Holding a
+     *ready* Execution Sentence hands the walk to row 3, whose only Execution Sentence hold was a
+     **sealed** `within = 4` band that reads nothing at zero remaining — so Wake of Ashes drew
+     clear and leftmost for a press `generators` 3 forbids. Cue H does not cover it: with Blade of
+     Justice on cooldown nothing promotes and elimination runs. Row 3 therefore carries
+     `woa_awaits_sentence_ready`, the readable half, authored as this marker's sibling; the
+     argument that used to say it was unnecessary is rewritten at row 3's own entry, and **RET-15**
+     is the walk that proves it. **The general form: a held row does not eliminate the row beneath
+     it, so every hold authored onto a left-hand row is a question asked of every row to its
+     right.**
   Markers 1 and 2 are gated on the readable **`!talent(radiant_glory)`** (cue F) because Radiant
-  Glory deletes that half of the condition outright. All three are gated on
+  Glory deletes that half of the condition outright. All four are gated on
   **`ready(execution_sentence)`** — `Treatment.For` passes cues through for rows the Cooldown
   Manager has already swiped, and a hold badge on a greyed-out icon says nothing.
   ⚠ **Marker 3 is the one most likely to be lit a lot.** Execution Sentence's cooldown is 60s and
@@ -277,12 +303,37 @@ to its right by position.
   of Ashes is not. That is *correct* — the APL genuinely holds it — but whether it reads as
   useful or as nagging is a flight question (*Open facts* 6).
 - **Avenging Wrath** (`31884`, cooldowns 11). *Problem:* the window everything aligns into.
-  *Facts:* `ready` (R2) plus **the Expurgation latch** (R8). *Treatment:* scan + one hold.
+  *Facts:* `ready` (R2) plus **the Expurgation latch** (R8). *Treatment:* scan + one hold + one
+  **sealed display** on the same fact.
   - `aw_awaits_expurgation` — **readable** `blocked`, cue **G**, gated on `talent(holy_flames)`.
     Its line's only non-simulation term is `(!talent.holy_flames|dot.expurgation.ticking)`, so on a
     Holy Flames build Avenging Wrath is **not castable** until the DoT lands — a forbidden press,
     not a low-ranked one. The `talent` gate is what makes the marker safe: on a build without Holy
     Flames the term is vacuously true and the marker is never authored at all.
+  - `aw_expurgation_clock` — **no cue**, `sealed-proc-bar` (V20) on `expurgation`, gated on
+    `talent(holy_flames)`. The DoT the hold above waits on, as a bar on the row's bottom edge that
+    the **client** drains off the aura's own remaining time. It carries no cue and eliminates
+    nothing: it is the fact under the badge, made visible.
+    ⚠ **Why V20 and not V19.** V19's badge wears the **full positive-cue treatment** — the
+    promotion ring blazing and the halo breathing — because a pandemic window IS a promotion:
+    *refresh this now*. **Nothing in this priority refreshes Expurgation.** The DoT is applied by
+    Blade of Justice as a side effect of `generators` 2/5/8, and no rung anywhere says "reapply it
+    because its window is open". A refresh badge on the Avenging Wrath row would be a press
+    instruction for a press that does not exist, on the wrong button. An edge carries quantity,
+    not verdict, so the clock goes on the bottom edge.
+    ⚠ **It needs no Cooldown-Manager row for its subject, and that is the whole payoff.** A sealed
+    container is **cap's own frame** — `Channel.Arm` builds an `AuraContainer` on the host,
+    filters the candidate set with `includeSpellIDs`, derives `HELPFUL`/`HARMFUL` from
+    `plan.unit` and calls `container:SetUnit(plan.unit)`. Cue G's latch, by contrast, rides the
+    Cooldown Manager's `TrackedBuff` alert edges and goes **blind** when the player never enabled
+    the Expurgation row (`HideByDefault`). So in the failure recorded below — no edge ever
+    arrives, the seed stays "absent", cap holds Wings for the whole fight while looking confident
+    — the hold badge and the draining bar sit on one row saying opposite things. **A sealed
+    display cannot fix the branch; it makes a stale latch visible.** The enablement detector stays
+    a correctness requirement (`catalog.json`'s `aw_stale_latch` state).
+    ⚠ Gated on the talent, the same readable-gate seam Demonology's Doom window uses: without Holy
+    Flames the fact is not part of the priority, and a display armed for it would sit dark forever
+    with no way to tell that from a client refusal.
   ⚠ On a **Radiant Glory** build this row may not exist; the C bands naming it are talent-gated for
   that reason, and cue G's own gate is independent of it.
   ⚠ On a **Radiant Glory** build this row may not exist at all — *"Avenging Wrath is replaced with
@@ -313,29 +364,117 @@ to its right by position.
     say this and the cue must.
   - `woa_awaits_wrath` — **sealed** (`within = 6`) on Avenging Wrath, from `cooldown.avenging_wrath.remains>6`.
   - `woa_awaits_sentence` — **sealed** (`within = 4`) on Execution Sentence, from
-    `cooldown.execution_sentence.remains>4`.
-  Both bands are gated on `identity(wake_of_ashes) == base` so they vanish while the row is
-  Hammer of Light, on `ready(wake_of_ashes)`, and the Avenging Wrath one additionally on
-  `!talent(radiant_glory)`. Neither needs a readable half: both dependencies sit **left** of this
-  row, so a ready Avenging Wrath or Execution Sentence stops the elimination walk before it
-  arrives.
-  ⚠ **That argument survived a real challenge, and it is worth recording how.** Cue G makes a
-  *ready* Avenging Wrath holdable, so at the opener the walk no longer stops there — which briefly
-  put a `woa_awaits_wrath_ready` companion on this row, and a matching one on Divine Toll, purely
-  so the scan would step over both to reach Blade of Justice. Both were **deleted** when the
-  opener was promoted instead (cue H): a hold whose only job is to steer the scan past its own row
-  is scaffolding, and `../render-shelf.md` Part 0.5's density rule exists to catch exactly that.
-  ⚠ **The Hammer of Light life carries no hold, and one of its rungs is unexpressible.**
-  Finishers 2 is `hammer_of_light,if=!buff.hammer_of_light_free.up|buff.hammer_of_light_free.up&(…four clip conditions…)`.
-  The **ordinary** Hammer is pressed unconditionally, which the row already says. The **free**
-  one (Light's Deliverance 425518) should be held until one of four buff-remaining thresholds,
-  and cap has neither an aura-duration range display nor an authored way to tell the free Hammer
-  from the ordinary one **through the overlay channel**: `SpellActivationOverlay` @ 12.1.0.69214
-  carries a single row for Hammer of Light (`SpellID 427441`), so both states light the same
-  overlay. What is unmeasured is the other route: if Light's Deliverance's free-Hammer state is a
-  **player aura**, an AuraContainer slot filtered to it paints it client-side with Lua reading
-  nothing (`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5, the S2 recipe).
-  *Open facts* 3.
+    `cooldown.execution_sentence.remains>4`, gated on **`talent(execution_sentence)`**.
+    ⚠ **The talent gate was missing until 2026-08-26, and its two siblings on this entry both had
+    one.** On a build without Execution Sentence the clause's first disjunct `!talent.execution_sentence`
+    is TRUE and `generators` 3 is **unconditional**, so a hold derived from that clause has no
+    business drawing there. The pair is now gated consistently — this and
+    `woa_awaits_sentence_ready` carry the same term for the same reason.
+    ⚠ **It was NOT harmless-by-refusal, and that is worth recording as the reason it looked
+    fine.** A `sealed-cooldown-range` binds on the **catalog's static** `spell` number
+    (`Channel.HoldPlan` → `Channel.ArmHold`) and never asks the client whether the spell is
+    known, so on an untalented build the plan built, the Step curve built, and
+    `Overlay.armGraded` reported status **`armed`**. What kept it dark was the per-draw nil-guard
+    in `Channel.HoldAlpha`: `C_Spell.GetSpellCooldownDuration` is `MayReturnNothing`, and its
+    sibling `C_Spell.GetSpellCooldown` is recorded returning nil on an unknown spell
+    (`knowledge/addon-dev/cooldown-manager.md:2065`). **Safe by accident of the client, and
+    reported as `armed` in every capture on a build where the hold could never be right.** With
+    the talent term the marker's readable gate resolves false, the badge is hidden and the status
+    is **`gated`** — nothing failed, the row simply is not in the state that licenses the display
+    (`Overlay.lua:265-267`, `Signal.lua:137`). Safe because we said so, and the capture says so
+    too.
+  - `woa_awaits_sentence_ready` — **readable** `blocked`, the other half of the same clause:
+    `talent(execution_sentence)` **and** `ready(execution_sentence)`. `generators` 3's second
+    clause is
+    `(!talent.execution_sentence|cooldown.execution_sentence.remains>4|target.time_to_die<10)`,
+    and with Execution Sentence talented and at **zero** remaining the first two disjuncts are
+    false — the APL does not press Wake of Ashes at all — while the `within = 4` band reads
+    nothing at zero. It is the exact sibling of `es_awaits_wrath_ready` one row to the left.
+    ⚠ **The `talent` term is load-bearing, not belt-and-braces.** On a build without Execution
+    Sentence the first disjunct is TRUE and this rung is **unconditional**, so an ungated hold
+    would badge a press the APL makes freely.
+    ⚠ **One honest over-hold.** `target.time_to_die<10` also satisfies the clause, and cap does
+    not model the encounter — no `fight_remains`, by product rule, the same exclusion Demonology's
+    rung 1 records. So in the last ten seconds of a fight this holds a Wake of Ashes the APL
+    presses. That is a **missed press, not a wrong one**, which is the direction this project
+    accepts everywhere else; it is written here rather than left silent.
+  All three holds are gated on `identity(wake_of_ashes) == base` so they vanish while the row is
+  Hammer of Light, and on `ready(wake_of_ashes)`; the Avenging Wrath one additionally on
+  `!talent(radiant_glory)`.
+  ⚠ **This row USED to argue that neither band needed a readable half**, on the grounds that both
+  dependencies sit **left** of it, *"so a ready Avenging Wrath or Execution Sentence stops the
+  elimination walk before it arrives."* **That claim is now false, and it was false in two
+  different ways.** The general principle it missed is the one worth carrying to every future
+  spec: **a HELD row does not eliminate the row beneath it.** A left-hand dependency only protects
+  a right-hand row while the left-hand row is *quiet* when ready — and every hold authored onto it
+  destroys that protection for the rows below.
+  1. **Avenging Wrath — closed by PROMOTION.** Cue G makes a *ready* Avenging Wrath holdable, so
+     at the opener the walk no longer stops there. That briefly put a `woa_awaits_wrath_ready`
+     companion on this row and a matching one on Divine Toll, purely so the scan would step over
+     both to reach Blade of Justice; both were **deleted** when the opener was promoted instead
+     (cue H). A hold whose only job is to steer the scan past its own row is scaffolding, and
+     `../render-shelf.md` Part 0.5's density rule exists to catch exactly that.
+  2. **Execution Sentence — closed by a TERM, `woa_awaits_sentence_ready` above.** Cue G's
+     sibling `es_awaits_expurgation` makes a *ready* Execution Sentence holdable too, and here
+     promotion does not save the walk: in the state that matters (Holy Flames talented,
+     Expurgation absent, **Blade of Justice on cooldown**) cue H is dark, so nothing promotes and
+     elimination lands on this row — clear, for a press `generators` 3 forbids. That is the same
+     defect `es_awaits_expurgation` closed, relocated one row, and it is closed by the readable
+     term rather than by a promotion. **RET-15 is the walk.**
+     ⚠ **Why the density trade came out the other way this time.** The 2026-08-25 deletion was
+     made while `boj_opener` was a single unconditional marker carrying the whole opener; Phase 2
+     split it into `boj_opener` + `boj_opener_woa` and gave both reachability terms, so cue H now
+     fires in strictly **fewer** states than when that trade was struck. The premise moved, and
+     the answer moved with it: correctness over density, and it is not close.
+  - `woa_lights_deliverance` — **no cue**, `sealed-count-bands` (V16) on `lights_deliverance`,
+    bands `{0 → none, 60 → mark (positive)}`. **Silent until armed**, then one positive mark in
+    the corner meaning *a free Hammer of Light is banked and waiting for you* — on the row that
+    will display it, and on a button you still have to press. cap
+    authors the number 60 and the **client** evaluates it against a count cap never receives.
+    `mark` and not `count`: *how many more* stops being the live question the moment the answer is
+    none, and V16's vocabulary makes the two exclusive.
+    ⚠ **The subject is `433674`, not `425518`.** `425518` is the Templar hero **talent** —
+    `CumulativeAura = 0`, and its SpellEffect 0 is `PROC_TRIGGER_SPELL` whose `EffectTriggerSpell`
+    is `433674`. `433674` carries `CumulativeAura = **60**`, the same 60 the spell text names, and
+    holds CooldownSet **901**'s Category-2 slot at OrderIndex 45 — a **Tracked Buff row in
+    Retribution's own set** *[T1 DB2: `SpellName` / `SpellEffect` / `SpellAuraOptions` /
+    `CooldownSetSpell` @ 12.1.0.69214]*, which is exactly the row the player was being asked to
+    watch. `family: "auras"` is declared rather than defaulted because a sealed display whose
+    subject does not resolve **draws nothing and looks identical to a client refusal**.
+    ⚠ **A count band claims a corner by declaration** (`Catalog.CORNER_DISPLAYS`), so this row's
+    cue badges start below it whether or not anything is drawing.
+    ⚠ **The stack HOLDS at 60, so the mark is a resting state and not a flicker.** `CumulativeAura
+    = 60` caps the counter and alone could not have answered this; the **spell text** does, and the
+    load-bearing word is *while*: *"**While Wake of Ashes and Hammer of Light are unavailable**,
+    you consume 60 stacks of Light's Deliverance, empowering yourself to cast Hammer of Light an
+    additional time for free"* *[T1: `knowledge/classes/paladin/retribution/ability-inventory.md:880`]*.
+    The consumption is **conditional, not automatic** — for as long as either button is available
+    the counter sits at 60 and stays there, so there is no fill-and-empty race for the band to
+    lose. **And nothing auto-casts:** the payoff is an *additional cast* the player still presses.
+    That is precisely what makes the band worth drawing — the mark means **a free Hammer of Light
+    is banked and waiting for you**, a state you can act on, not "the counter reached its cap".
+  ⚠ **The Hammer of Light life carries no hold, and finishers 2's second half is still
+  unexpressible — but the 60 is no longer among the reasons.** Finishers 2 is
+  `hammer_of_light,if=!buff.hammer_of_light_free.up|buff.hammer_of_light_free.up&(…four clip conditions…)`.
+  The **ordinary** Hammer is pressed unconditionally, which the row already says. Two things stood
+  between cap and the **free** one, and they have come apart:
+  1. **Counting to 60 — CLOSED, as a display.** It was recorded as something only a Tracked Buff
+     row could tell the player. V16 defeats exactly that: the band above draws it with cap reading
+     nothing, out of cap's own container, on a row the player need not have enabled.
+  2. **The four clip conditions — STILL OPEN, and narrowed to one missing form.**
+     `buff.undisputed_ruling.remains<gcd*1.5`, `buff.avenging_wrath.remains<gcd*2`,
+     `buff.hammer_of_light_free.remains<gcd*2` and `target.time_to_die<gcd*2` are **buff-remaining
+     comparisons**, and there is no aura-remaining **band** in the shelf — S4's step curve exists
+     only on a cooldown. `C_UnitAuras.GetAuraDuration`'s duration object takes the same curve
+     (`../authoring.md`'s recipe index S5); writing that S-form reopens all four. The fourth is out
+     on a product rule regardless: cap does not model the encounter.
+  3. **Telling the free Hammer from the ordinary one — STILL OPEN.**
+     `SpellActivationOverlay` @ 12.1.0.69214 carries a single row for Hammer of Light
+     (`SpellID 427441`), so both states light the same overlay. The other route is unmeasured: if
+     the free-Hammer state is a **player aura** of its own, an AuraContainer slot filtered to it
+     paints it client-side with Lua reading nothing
+     (`knowledge/addon-dev/security-taint-and-restricted-data.md` §3.5, the S2 recipe).
+     *Open facts* 3.
 - **Divine Toll** (`375576`, generators 4). *Problem:* a large Holy Power injection, and with
   Divine Hammer the seed of Templar's area damage — so it belongs *inside* the burst window, and
   it is the one builder that genuinely must not be pressed at cap. *Facts:* `ready` (R2),
@@ -484,12 +623,19 @@ that it is doing ordering work a sealed curve could not do.
 | --- | --- | --- | --- | --- | --- |
 | **A** starved | a spender you cannot pay for wears the `starved` badge — Templar's Verdict, Divine Storm, and Wake of Ashes **while it is Hammer of Light** | `insufficientPower` on the **live** id | marker (readable) | R1 + R7 | corner badge, slot 2 |
 | **B** overcap | **Divine Toll only** wears the `overcap` badge at 5 Holy Power | `UnitPower(player, HolyPower) >= 5` | marker (readable) | R3 | corner badge, slot 2 |
-| **C** sealed hold | the `blocked` badge driven by a *related ability's cooldown remaining*, in two senses. `within` = *"it is nearly here, wait for it"*: Execution Sentence while Avenging Wrath ends within 15s · Wake of Ashes while Avenging Wrath ends within 6s · Wake of Ashes while Execution Sentence ends within 4s · Divine Toll while Avenging Wrath ends within 15s. `beyond` = *"it is nowhere near, this is not its moment"*: Execution Sentence while Wake of Ashes has at least 1.5s left. **Both read nothing at zero remaining.** One readable companion — Execution Sentence while Avenging Wrath is *ready* — because that row sits left of the one it waits on | a related ability's cooldown remaining, plus one readiness | cue (sealed) + one marker (readable) | S4 `sealed-cooldown-range` + R2 | curve → badge, rank 3 |
+| **C** sealed hold | the `blocked` badge driven by a *related ability's cooldown remaining*, in two senses. `within` = *"it is nearly here, wait for it"*: Execution Sentence while Avenging Wrath ends within 15s · Wake of Ashes while Avenging Wrath ends within 6s · Wake of Ashes while Execution Sentence ends within 4s · Divine Toll while Avenging Wrath ends within 15s. `beyond` = *"it is nowhere near, this is not its moment"*: Execution Sentence while Wake of Ashes has at least 1.5s left. **Both read nothing at zero remaining.** **Two** readable companions, each on a row whose own band goes dark at zero: Execution Sentence while Avenging Wrath is *ready*, and Wake of Ashes while Execution Sentence is talented and *ready*. The first is there because row 1 sits left of what it waits on; the second because a **held** row 1 no longer eliminates row 3 | a related ability's cooldown remaining, plus two readinesses | cue (sealed) + two markers (readable) | S4 `sealed-cooldown-range` + R2 + the `talent` predicate | curve → badge, flowing stack |
 | **D** proc-defer | Templar's Verdict **and** Divine Storm wear `blocked` while a free Blade of Justice is waiting and Holy Power is below 5 | `IsSpellOverlayed(184575)` + `ready` + `resource` | marker (readable) | overlay `proc` + R2 + R3 | corner badge, slot 1 |
 | **E** Divine Storm skip | Templar's Verdict wears `blocked` while AoE mode is on **or** an Empyrean Power proc is live, and no Empyrean Legacy proc is | cap's `/cap aoe` toggle + two overlay procs + `affordable` | two markers unioned (readable) | `aoe` + overlay `proc` + R1 | corner badge, slot 1 |
 | **H** the opener promotion | **Blade of Justice only**, and only at the opener: it wears the gold `priority` badge while Holy Flames is talented, Expurgation is off the target, the button is ready, and `generators` 2 is actually REACHED — below five Holy Power, or with Wake of Ashes ready. The catalog's one **positive** cue, worn by **two markers** (`boj_opener` + `boj_opener_woa`) because that reachability is a disjunction and `when` is AND-only; its one scenario read by pass 1 | the same latch as G, plus `ready`, `talent`, `resource` and `ready(wake_of_ashes)` | two markers (readable) | R8 + R2 + the `talent` predicate | corner badge, rank 1 |
-| **G** target-aura hold | **Avenging Wrath only** wears `blocked` while Holy Flames is talented and the Expurgation DoT is **not** on the target — the opener state, released by the first Blade of Justice | CDM `TrackedBuff` alert edges on `383346`, latched up/down | marker (readable) | R8 + the `talent` predicate | corner badge, slot 1 |
+| **G** target-aura hold | **Execution Sentence and Avenging Wrath** each wear `blocked` while Holy Flames is talented and the Expurgation DoT is **not** on the target — the opener state, released by the first Blade of Justice. One clause, `(!talent.holy_flames|dot.expurgation.ticking)`, on two rungs (`cooldowns` 10 and 11) and therefore two sibling markers, `es_awaits_expurgation` and `aw_awaits_expurgation`, written identically. Row 1's is what stops a **Radiant Glory** build drawing Execution Sentence clean and leftmost for a forbidden press | CDM `TrackedBuff` alert edges on `383346`, latched up/down | two markers (readable) | R8 + the `talent` predicate | corner badge, flowing stack |
 | **F** the talent gate | nothing of its own — it **withholds** three C bands on a Radiant Glory build, where the Avenging Wrath half of the condition does not exist | the trait config's node/entry selection | gate on a cue (readable) | the `talent` predicate | (no sink — it gates) |
+
+**Two displays carry no cue at all, and that is not an omission.** `aw_expurgation_clock` (V20,
+the Expurgation bar on row 2) and `woa_lights_deliverance` (V16, the Light's Deliverance band on
+row 3) are client-evaluated **displays**, not badges: cap hands over a widget and a rule and never
+learns what was drawn, so there is nothing for a cue key to name. Neither eliminates a row —
+the band's lower band draws `none` and its upper band is positive, and a bar is not a verdict —
+so neither changes an elimination walk. `../render-shelf.md` V16 and V20 own both pictures.
 
 **Three cue keys, and the same red.** `blocked`, `starved` and `overcap` share one hue
 (`../render-shelf.md` V5.1); nothing in this catalog asks for a primitive the shelf does not
@@ -535,12 +681,16 @@ APL puts a banked Blade of Justice charge above the finishers — generators 5 n
 generators 8 is below them — so a positive cue there would redirect the scan past a spender that
 genuinely outranks it, which is precisely the failure a positive cue is dangerous for.
 
-**The one thing that would qualify is unmeasured.** A **free** Hammer of Light from Light's
-Deliverance expires, and letting it expire is loss in progress with no negative phrasing. cap
-has no authored way to see it today (*Open facts* 3). **Readability is not the reopening
-condition** — a sealed sink suffices: an AuraContainer slot filtered to the free-Hammer aura would
-paint it without Lua learning anything, so measuring whether that state *is* a player aura is what
-reopens this.
+**The one thing that would qualify is still unmeasured, and it is now a smaller thing.** A
+**free** Hammer of Light from Light's Deliverance expires, and letting it expire is loss in
+progress with no negative phrasing. What has changed is that **counting to 60 is no longer the
+obstacle** — `woa_lights_deliverance` draws the armed state with cap reading nothing (V16). What
+remains is telling the free Hammer from the ordinary one, which the overlay channel cannot do
+(*Open facts* 3). **Readability is not the reopening condition** — a sealed sink suffices: an
+AuraContainer slot filtered to the free-Hammer aura would paint it without Lua learning anything,
+so measuring whether that state *is* a player aura is what reopens this. ⚠ And note the band is
+**not** that cue: `capped` is a positive **cue** cap decides and shows, while the band is a rule
+the client evaluated. The band draws *stacks are banked*; it does not say *press this*.
 
 ---
 
@@ -563,9 +713,21 @@ Almost none, which is the point of the pattern shelf. Against the current source
    boolean and the latch already produces one; a `target_aura` predicate would be the right shape
    once a second spec wants it. Affliction is that spec. Every other term above is one of the
    eight.
-2. **No new display kind.** The five sealed bands are `sealed-cooldown-range`, in both of its
-   existing senses. **`sealed-power-percent` is not used at all** — the first catalog to need no
-   graded resource curve, because its resource is readable.
+2. **Two display kinds, neither of them new to the shelf.** The five sealed **bands** are
+   `sealed-cooldown-range`, in both of its existing senses. Since V16–V20 shipped this catalog
+   also declares two **container** displays that carry no cue: `sealed-proc-bar` (V20) on
+   Expurgation, hosted on the Avenging Wrath row, and `sealed-count-bands` (V16) on Light's
+   Deliverance, hosted on the Wake of Ashes row. Both were recorded here as defeats and stopped
+   being ones when the primitives arrived; the sinks, the plans and the `Channel.Arm` path are
+   Demonology's, unchanged. **`sealed-power-percent` is still not used at all** — the first
+   catalog to need no graded resource curve, because its resource is readable.
+   ⚠ **A target-unit container is not new either, and the shelf's prose is narrower than the
+   code.** V20's entry describes its slot as *"`includeSpellIDs`, HELPFUL, unit player"*;
+   `Channel.Arm` derives the filter from `plan.unit` (`plan.unit == "player" and "HELPFUL" or
+   "HARMFUL"`) and calls `container:SetUnit(plan.unit)` for **all four** container kinds, and
+   `Channel.ProcBarPlan` carries `unit = ability.unit or "player"` exactly as the other three do.
+   So a proc bar on a **target** debuff — which is what `expurgation` is — is the ordinary path,
+   not an extension. The shelf sentence is what needs widening, not the code.
 3. **No new marker shape or channel pairing**, so under `../authoring.md`'s **marker seam** (stage 6's renderer test, the definition-of-done for Phase 9.4)
    this spec should edit **nothing** in `Treatment.lua` / `Overlay.lua` and be authored purely as
    catalog data. If a renderer edit turns out to be needed, that is a finding about the seam.
@@ -611,9 +773,11 @@ Route as `@verify-ingame` / ClientLab `@pending-test` markers, never as a TODO h
    from `CooldownSetSpell`. The filler entry is authored blind — safely, since it binds only if
    the row exists. @verify-ingame
 3. **Can the free Hammer of Light be told from the ordinary one?** `SpellActivationOverlay` has a
-   single row for Hammer of Light and both aura states seal. Gates the whole of finishers 2's
-   second half — four clip conditions on buff-remaining times — and is the one candidate that
-   could justify the positive cue. @verify-ingame / @pending-test
+   single row for Hammer of Light and both aura states seal. Still the one candidate that could
+   justify the positive cue. ⚠ **Narrowed 2026-08-26:** this no longer gates the whole of
+   finishers 2's second half. Counting to 60 is drawn (`woa_lights_deliverance`, V16); the four
+   clip conditions are blocked separately, on a missing aura-remaining S-form rather than on this
+   question. @verify-ingame / @pending-test
 4. **Does a Divine Purpose proc raise overlay `267345` / `267346`?** If it does,
    `proc(divine_storm)` and `proc(templars_verdict)` both read true on it and cue E is suppressed
    during a proc that makes either spender free. Modern Divine Purpose `408459`'s own overlay row
@@ -668,12 +832,21 @@ whether the latch tracks the *current* target or the one held when the last edge
 stale answer as a cleave annoyance; **Affliction does not**, since multi-dotting is the spec. Flight:
 `../backlog.md` → *"Seed, release and retarget"*.
 
-**Defeated this pass, with the reopening named:** the three buff-remaining clip conditions on
+**Defeated, with the reopening named:** the three buff-remaining clip conditions on
 finishers 2. They died on the **shelf**, not the client — an aura-remaining *band* is an S-form
 nobody has written, and `C_UnitAuras.GetAuraDuration`'s duration object takes the same step curve
 S4 already puts on a cooldown (`../authoring.md`'s recipe index S5). Writing that S-form reopens all three.
 Separately, and not a defeat at all: every `raid_event` / `fight_remains` / `target.time_to_die`
 term stays out as a product rule — cap does not model the encounter.
+
+⚠ **Two things this section used to defeat are now authored, and the claims have been rewritten
+rather than annotated** (2026-08-26, after the V16–V20 primitives shipped). **The 60-stack count**
+was *"cannot be logged; watch a Tracked Buff row"* and is now `woa_lights_deliverance`, a V16 band
+on `433674` — the count reaches pixels through a rule the client evaluates and cap never reads.
+**The Expurgation DoT's remaining time** had no form at all and is now `aw_expurgation_clock`, a
+V20 bar on the Avenging Wrath row. Neither closes the clip conditions above; the first narrows
+*Open facts* 3 and the second narrows nothing — it makes a **stale latch visible**, which is a
+different job from making the branch right.
 
 ---
 
@@ -716,16 +889,59 @@ Stage 2 cut five of the fourteen candidate presses.
   abilities' cooldowns. cap authors the window in seconds, the client evaluates the curve, and cap
   reports `offered` / `armed` / `refused` and never reads back. **Accepted is not drawn**
   (`../authoring.md` → *Accepted is not drawn*).
+- **Two displays carry sealed facts with no cue attached:** an aura *duration* (`sealed-proc-bar`
+  on Expurgation, `SetDurationBar` → the client drains the fill) and an aura *stack count*
+  (`sealed-count-bands` on Light's Deliverance, `SetApplicationCount` against a breakpoint table
+  cap authored). cap authors one number in the whole of both — the **60** — and never learns which
+  side of it the count fell on. Same `offered` / `armed` / `refused` audit; same *accepted is not
+  drawn*.
 - **No cooldown remaining, no aura duration and no target state ever enters a Lua condition**, in
   either polarity.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable`,
   `resource`, `proc` or `talent` withholds; it does not assert the opposite.
-- The catalog declares **no** graded resource curve, no aura-stack display, no continuous grade,
-  no silence list, no cast sequence, no coverage rule, and no vocabulary a cue does not use.
+- The catalog declares **no** graded resource curve, no continuous grade, no silence list, no cast
+  sequence, no coverage rule, and no vocabulary a cue does not use. It **does** declare one
+  aura-stack display and one aura-duration display, both cueless (above); until V16–V20 shipped it
+  declared neither.
 
 ---
 
 ## Changelog
+
+**2026-08-26 — two recorded defeats went stale, and the claims were rewritten.** The V16–V20
+primitives did not only add fields; they made this file's *"we cannot do this yet"* claims
+checkable, and two failed. **Counting Light's Deliverance to 60** was written up as a Tracked
+Buff row the player has to watch and is now `woa_lights_deliverance`, a V16 band on **`433674`**
+— the stacking aura, not `425518`, which is the hero talent that triggers it
+(`CumulativeAura = 0` against `433674`'s **60**, and `433674` holds CooldownSet 901's Category-2
+slot at OrderIndex 45) *[T1 DB2 @ 12.1.0.69214]*. **The Expurgation DoT's remaining time** had no
+form at all and is now `aw_expurgation_clock`, a V20 proc bar hosted on the **Avenging Wrath** row
+so the fact sits under the badge that depends on it — V20 and not V19, because V19's badge wears
+the full positive-cue treatment and nothing in this priority refreshes Expurgation. Separately,
+`es_awaits_expurgation` closed a genuine exposure the same latch had been available to close since
+cue G shipped: on a **Radiant Glory** build cue F withholds both Avenging Wrath holds, so
+Execution Sentence drew clear at row 1, leftmost, for a press `cooldowns` 10 forbids. **And it
+relocated that defect one row down, which is fixed in the same pass rather than recorded as a
+residual:** `woa_awaits_sentence_ready` gives row 3 the readable half of `generators` 3's
+Execution Sentence clause, because a **held** row does not eliminate the row beneath it and the
+`within = 4` band reads nothing at zero remaining. The 2026-08-25 argument that row 3 needed no
+readable companion is **rewritten in place**, not annotated; RET-15 is its walk. The density trade
+that deleted `woa_awaits_wrath_ready` is not reopened — its premise moved when Phase 2 split
+`boj_opener` and gave both halves reachability terms, so cue H fires in strictly fewer states than
+when the trade was struck. **Two corrections folded into the same pass.**
+(a) `woa_awaits_sentence` was missing the `talent(execution_sentence)` gate its two siblings on
+the same entry both carry — the H1 shape — and it was **not** harmless-by-refusal: a
+`sealed-cooldown-range` binds on the catalog's **static** spell number, never on whether the
+client knows the spell, so it built its curve and reported **`armed`** on a build where
+`generators` 3 is unconditional and the hold could never be right. What kept it dark was a
+per-draw nil-guard in `Channel.HoldAlpha`. It now reports **`gated`**, which is a fact about
+authorship rather than about the client. (b) Whether Light's Deliverance holds at 60 or empties on
+fill was authored as an open `@verify-ingame` and **should not have been** — the spell text
+settles it: *"**while** Wake of Ashes and Hammer of Light are unavailable"* makes the consumption
+conditional, so 60 is a **resting state**, and *"empowering yourself to cast"* means nothing
+auto-casts. `CumulativeAura` alone genuinely could not answer it; the spell text could. The old
+claims are deleted, not annotated (staleness doctrine 7); what each item narrows and what it
+leaves open is stated at the item.
 
 **2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
 (`../spec.md` §3.1): the Lane column became Scan, and membership is now the row's one declared

@@ -918,6 +918,18 @@ reads the text back** — which is why this is a display and not a read. Promote
 2026-08-22 per Part 7 rule 4, out of `count_band` (L1), `count_polarity` (L2) and `count_mark`
 (L5).
 
+⚠ **A ONE-BAND table is a legal and now-shipping use of V16, and it answers a different question:
+*does this exist* rather than *how many*.** A single band at `threshold: 0` draws for any value the
+container reports, so the mark tracks the aura's **presence** — it appears while the aura is on the
+unit and vanishes with it, needing no latch, no alert edge and no count the catalog can name.
+**It is the only form available on an aura whose `Duration` is `-1`**, where V19 and V20 have no
+clock to ride: such an aura is present-or-absent and nothing else.
+*(First shipped 2026-08-26 — Protection's `cons_field_up` on the Consecration player aura `188370`,
+`Duration = -1`, one band `{threshold 0, mark, hatch, negative}` saying "the field is already
+down".)* ⚠ Read it together with `spec.md` §3.6's limit: this asserts an aura's **presence** only.
+The complement — *this aura is absent* — draws nothing, and nothing cannot be told apart from a
+refused display or a wrong spell id.
+
 **A band is authored as MEANING, never as a format string.** A catalog picks from a closed
 vocabulary and the shelf owns what each one resolves to:
 
@@ -1150,6 +1162,14 @@ not the same fact**: the badge appears on Blizzard's real window, computed per s
 clears at `outside_s`, a number the **catalog** authors. They can disagree near the boundary —
 authoring `outside_s` at the ability's nominal window makes the seam small, and whether it is
 visible is a flight question. A catalog that declares no `outside_s` gets the badge alone.
+
+⚠ **`outside_s` has a FIRST CONSUMER as of 2026-08-26, so the seam is no longer hypothetical.**
+Protection's `ha_weapon_healthy` declares `outside_s: 6` on Sacred Weapon `432502` — `6` is the
+APL's own number (rung 10's `buff.sacred_weapon.remains<6`) and the buff runs **20s**, so the
+catalog's hatch edge falls at 30 % of the life and should very nearly coincide with the client's
+own window edge. **That near-coincidence is exactly the case that makes the seam measurable**, and
+it is marked `@verify-ingame` on the claim rather than assumed either way. Demonology declares V19
+without `outside_s`, so it exercises the badge half only.
 
 **The badge's centre is a DIAL — a real radial countdown of the DoT's own lifetime.** Plate at
 `badges.plate.alpha`, no region-wide pulse, and where the glyph sat, a radial `StatusBar` the

@@ -1,8 +1,8 @@
 ---
 title: Protection Paladin — Ability Inventory (Midnight S1)
 patch: 12.0.7
-fetched: 2026-08-06
-reviewed: 2026-08-06
+fetched: 2026-08-26
+reviewed: 2026-08-26
 sources:
   - knowledge/classes/paladin/protection/ability-inventory.tsv  # tier 1, generated from DB2 @ build 12.0.7.67808 — name/spellID/origin/cooldown floor
   - knowledge/classes/_abilities/reconcile-ledger.md  # tier 1 adjudication of this file's claims @ 12.0.7.67808
@@ -11,12 +11,22 @@ sources:
   - https://www.icy-veins.com/wow/protection-paladin-pve-tank-spell-summary  # tier 3, 12.0.7
   - raw/wago/SpellName.csv  # tier 1, name reconciliation @ build 12.0.7.67808
   - knowledge/classes/paladin/protection/talents.md  # tier 1 talent tree (Blizzard API + wago)
+  - raw/wago/SpellName-12.1.0.69214.csv  # tier 1, spell-ID anchors @ build 12.1.0.69214
+  - raw/wago/Spell-12.1.0.69214.csv  # tier 1, spell + aura description text @ build 12.1.0.69214
+  - raw/wago/SpellEffect-12.1.0.69214.csv  # tier 1, effect/aura types + implicit targets @ build 12.1.0.69214
+  - raw/wago/SpellMisc-12.1.0.69214.csv  # tier 1, DurationIndex @ build 12.1.0.69214
+  - raw/wago/SpellDuration-12.1.0.69214.csv  # tier 1, aura durations @ build 12.1.0.69214
+  - raw/wago/CooldownSetSpell-12.1.0.69214.csv  # tier 1, Cooldown-Manager rows @ build 12.1.0.69214
+  - raw/wago/CooldownSet-12.1.0.69214.csv  # tier 1, CooldownSetID -> ChrSpecialization @ build 12.1.0.69214
 confidence: high
 ---
 
-> ⚠ **NOT RE-VERIFIED FOR 12.1 (as of 2026-08-11).** This file still describes
-> **Midnight Season 1 / patch 12.0.7** and its `patch:`/`reviewed:` stamps are
-> deliberately left at that, because nobody checked its claims against 12.1.
+> ⚠ **NOT RE-VERIFIED FOR 12.1.** The prose and the ability table below still
+> describe **Midnight Season 1 / patch 12.0.7**, which is why `patch:` stays at
+> 12.0.7 — nobody has checked those claims against 12.1. The `reviewed:` stamp is
+> **2026-08-26 and covers only** the section
+> **"Spell-ID anchors — Tier 1 @ build 12.1.0.69214"** near the end of this file,
+> which is read straight from 12.1 game data. Everything else is 12.0.7-era.
 > Patch **12.1 "Curse of Ula'tek"** went live 2026-08-11 and changed things that
 > affect **every** spec:
 >
@@ -100,12 +110,12 @@ values below are guide-derived; `@verify-ingame` marks what Tier 1 could not set
 | Blessed Hammer | Rotational-builder | Generates 1 Holy Power | Instant / ~3 charges, ~4.5s recharge | Choice-node builder (vs Hammer of the Righteous). Throws hammers that damage and briefly reduce enemy damage. Default M+/AoE builder. |
 | Hammer of the Righteous | Rotational-builder | Generates Holy Power | Instant / charges | Choice-node alternative to Blessed Hammer; melee builder, favored in some single-target/Templar setups (Blessed Assurance empowerment). |
 | Avenger's Shield | Rotational-builder / Interrupt / Utility | Generates Holy Power (up to 3 w/ Glory of the Vanguard) | Instant, ranged / ~15s (reset by Grand Crusader) | Throws shield at up to 3 targets (more with Bulwark of Order/Soaring Shield), **interrupts and silences** the first for 3s, applies a small absorb. Grand Crusader procs reset it. |
-| Consecration | Rotational / Utility | — | Instant / ~9s (or by charge) | Ground effect (~12s) that deals Holy damage and enables/boosts several talents; stay standing in it. Refresh when it drops or when moving off it. |
+| Consecration | Rotational / Utility | — | Instant / ~9s (or by charge) | Ground effect that deals Holy damage and enables/boosts several talents; stay standing in it. Refresh when it drops or when moving off it. The cast is **`26573`** (**12s** field) and the *"you are standing in it"* player buff is a separate spell, **`188370`** — see **Spell-ID anchors** below. |
 | Hammer of Wrath | Rotational-builder (execute) | Generates Holy Power | Instant, ranged / usable during Avenging Wrath or on low-HP targets | Now a **Judgment transform** during Avenging Wrath; also usable baseline on enemies below the execute HP threshold. High-priority builder when available. |
 | Divine Toll | Major cooldown / Rotational-builder | Generates Holy Power | Instant / ~1 min | Casts Avenger's Shield at up to 5 nearby enemies, generating a burst of Holy Power. **Templar:** casting it grants **Hammer of Light** for 12s. Synced with the Avenging Wrath window. |
 | Hammer of Light | Rotational-spender (Templar) | 3 Holy Power | Instant / available 12s after Divine Toll | Templar-only. Big Holy AoE nuke that replaces Divine Toll for 12s after it is cast; top priority while active. Sustains Shake the Heavens. |
 | Word of Glory | Rotational-spender (Self-heal) | 3 Holy Power | Instant / no CD | Holy-Power heal scaling with missing health; **free/empowered with Shining Light** procs (and, for Templar, cheaper with Shake the Heavens active). |
-| Sacred Weapon | Utility buff (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a weapon buff that adds Holy damage/healing. Refresh when the buff drops below ~5s; use while Avenging Wrath is unavailable. **Not a talent of its own [T1]** — the tree node is **Holy Armaments**, which alternates this with Holy Bulwark (the tsv carries the `Holy Bulwark ⇄ Holy Armaments` alias). |
+| Sacred Weapon | Utility buff (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a weapon buff that adds Holy damage/healing. The cast is **`432472`**; the buff it applies is **`432502`** and lasts **20s** *[Tier 1: `SpellMisc` → `SpellDuration` @ 12.1.0.69214]* — see **Spell-ID anchors** below. Refresh when the buff drops below ~5s; use while Avenging Wrath is unavailable. **Not a talent of its own [T1]** — the tree node is **Holy Armaments**, which alternates this with Holy Bulwark (the tsv carries the `Holy Bulwark ⇄ Holy Armaments` alias). |
 | Holy Bulwark | Defensive (Lightsmith) | Holy Armaments charge | Instant / rechargeable charges | Lightsmith armament: a personal absorb shield. Shares the Holy Armaments charge pool with Sacred Weapon; spend outside the Wings window. Same acquisition point as Sacred Weapon [T1]. |
 | **Holy Armaments** | Major cooldown / armament source (Lightsmith) | — | Instant / rechargeable charges @verify-ingame (recharge) | **The acquisition point for both armaments** — the Lightsmith tree node itself (432459 `talent-active`, hero subtree Lightsmith, node 95234) *[Tier 1]*. Each cast alternates between **Sacred Weapon** and **Holy Bulwark**, which is why neither of those has a row of its own in `ability-inventory.tsv`. The tsv carries this entry under the `Holy Bulwark ⇄ Holy Armaments` alias; one trait entry, two names, not a conflict. |
 | Avenging Wrath | Major cooldown (offensive) | — | Instant / ~2 min (≈1 min with Righteous Protector) | "Wings." +20% damage/healing (and crit when talented) for the burst window; converts Judgment to Hammer of Wrath. Choice node vs Sentinel. |
@@ -148,3 +158,56 @@ values below are guide-derived; `@verify-ingame` marks what Tier 1 could not set
 - **Sacred Weapon is an output of Holy Armaments, not a talent** — no spell named Sacred
   Weapon has an acquisition row at all. The rows above are re-anchored to Holy Armaments
   (live tree 790, Lightsmith subtree).
+
+## Spell-ID anchors — Tier 1 @ build 12.1.0.69214
+
+Which spell id a display should bind when a name maps to several ids. Everything
+below is read from wago DB2 at build **12.1.0.69214** — `SpellName`, `Spell`
+(description + aura-description text), `SpellEffect`, `SpellMisc` →
+`SpellDuration`, and `CooldownSetSpell` → `CooldownSet`.
+
+### Consecration — the player aura is `188370`
+
+Four ids carry the Consecration flow and exactly one of them is the *"you are
+standing in your own Consecration"* **player buff**.
+
+| ID | What it is | Evidence |
+|---|---|---|
+| `26573` | **The cast.** `SpellEffect` idx1 `Effect=179` (create area-trigger) `EffectMiscValue_0=4488`; idx2 `Effect=28` (summon). `SpellMisc.DurationIndex=29` → `SpellDuration.Duration=12000` — the **12s field**. Also the only Consecration row in the Protection Cooldown-Manager set: `CooldownSetSpell` at `CooldownSetID=637` (`CooldownSet.ChrSpecialization=66`) carries `SpellID=26573` twice, `Category=0 OrderIndex=33` and `Category=3 OrderIndex=24`. |
+| `81297` | **The periodic damage inside the field.** `SpellEffect` idx0 `Effect=2` (school damage), `ImplicitTarget_0=87` (destination/area), `EffectRadiusIndex_1=14`. Its `Spell.Description_lang` is *"Deals $s1 Holy damage every $26573t1 sec to enemies within $A1 yards."* — a damage spell, not the cast and not an aura. |
+| **`188370`** | ✅ **The player aura — bind this.** All three `SpellEffect` rows are `Effect=6` (apply aura) with `ImplicitTarget_0=1` (**caster**): `EffectAura=4`, `EffectAura=108`, and `EffectAura=87 EffectMiscValue_0=127` (damage-taken percent, all schools). `Spell.AuraDescription_lang` ends `$?!s53595&$w3=0[Standing in Consecration.][]`. `SpellMisc.DurationIndex=21` → `SpellDuration.Duration=-1`. |
+| `204242` | **The enemy debuff, not a player buff.** `Effect=6` on `ImplicitTarget_0=6` (**target enemy**) with `EffectAura=33` (movement-speed decrease); `SpellMisc.DurationIndex=29` → `Duration=12000`. `Spell.Description_lang` is `$@spelldesc204054` and the aura text reads *"Taking Holy damage every $26573t1 sec$?$w2<0[ and movement speed reduced by $w2%.][.]"* — i.e. this is the **Consecrated Ground** (`204054`) snare on the enemies inside the field. |
+
+Cross-check: **Strength of Conviction** (`379008`) is `Effect=6 EffectAura=107`
+(add flat modifier) with `EffectTriggerSpell=188370` — the Protection talent that
+deepens the damage-taken reduction points at exactly this aura, which no other
+candidate id carries.
+
+⚠ **`188370` has `Duration=-1`**, so a *remaining time* readout cannot come from
+the player buff — it is present-or-absent for as long as you stand in the field.
+The 12s clock belongs to the cast (`26573`).
+
+### Sacred Weapon — the buff is `432502`
+
+Five ids in `SpellName` are named "Sacred Weapon".
+
+| ID | What it is | Evidence |
+|---|---|---|
+| `432472` | **The armament cast.** `SpellEffect` idx0 `Effect=32` (trigger missile) `EffectTriggerSpell=432502`; idx1 `Effect=30` (energize) `EffectMiscValue_0=9` (Holy Power) `EffectBasePointsF=3`. `SpellMisc.DurationIndex=0` — the cast itself has no duration. Description: *"Will the Light to coalesce and become manifest as a Holy Armament, wielded by your target."* |
+| **`432502`** | ✅ **The applied buff — bind this.** The only "Sacred Weapon" id with any `Effect=6` (apply aura) rows: five of them, every one at `ImplicitTarget_0=21` (**target ally**), including `EffectAura=468 EffectTriggerSpell=469703` (*Tempered in Battle*) — the proc engine rides this aura. `SpellMisc.DurationIndex=18` → `SpellDuration.Duration=20000` (**20s**), and the description ends *"Lasts $d."* This is the aura whose life a "plenty left" band rides. |
+| `432616` | **The damage side of the proc.** `Effect=2` (school damage) at `ImplicitTarget_0=53` (destination at target enemy), `EffectRadiusIndex_1=14`. Its description is `$@spelldesc432502` — it is described *by* the buff, and `432502`'s own text spends `$432616s1` / `$432616s2` for the proc's numbers. |
+| `441590` | **The healing side of the same proc.** `Effect=10` (heal) at `ImplicitTarget_0=132`, plus an `Effect=3` dummy. Also `$@spelldesc432502`. |
+| `432757` | **Name residue on the armament pairing.** One `Effect=3` (dummy) row, no aura, no duration — and its description is `$@spelldesc432459`, i.e. it renders **Holy Bulwark**'s text under the Sacred Weapon name. Not a button and not a buff. |
+
+**This agrees with the "no Cooldown-Manager row" finding.** Filtering
+`CooldownSetSpell` on an exact `SpellID` match for
+`{432472, 432502, 432616, 432757, 441590}` returns **zero rows**
+*[searched 2026-08-26: `CooldownSetSpell` DB2 @ 12.1.0.69214, all rows, exact
+`SpellID` column match — not a substring grep]*. The Protection set
+(`CooldownSetID=637`) carries **`432459` Holy Bulwark** at `Category=0
+OrderIndex=23` and nothing else from the armament pair; the Holy set
+(`CooldownSetID=1164`, `ChrSpecialization=65`) carries the same id at
+`OrderIndex=46`. The swap that puts Sacred Weapon on that row is
+`1289892` *Holy Armaments*: `Effect=6 EffectAura=332` (action-bar override) with
+`EffectTriggerSpell=432459` and `EffectBasePointsF=432459`.
+

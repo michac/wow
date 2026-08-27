@@ -21,7 +21,7 @@ Demonology is the model this walk is shaped against.
 
 ## The state walk
 
-Sixteen states, each naming the press, and for **every button that is available and skipped**,
+Twenty states, each naming the press, and for **every button that is available and skipped**,
 the reason. Buttons the Cooldown Manager has already swiped need no explanation. The walk reads
 the authored row order left to right and must satisfy the shape `capart check`'s **elimination
 gate** enforces: *the leftmost entry that is neither swiped nor wearing a negative badge is the
@@ -83,8 +83,16 @@ client found is deliberately nowhere in this file: that is the one thing cap can
 argued in `catalog.md` (*Why this catalog does not spend a positive cue*), and the closest call —
 `priority` on the Judgment row — is what *Resolving the density problem* below settles.
 
-⚠ **Five states are deliberately absent from this walk**, and their absence is the finding rather
-than an omission — see *The state this walk does not contain*, at the end.
+⚠ **Four states are deliberately absent from this walk**, and their absence is the finding rather
+than an omission — see *The state this walk does not contain*, at the end. It was five until
+2026-08-26: PROT-17 and PROT-18 walk what used to be item 3, and PROT-19 walks half of item 2.
+
+⚠ **`{sealed: …}` gained a second sink on 2026-08-26.** `pandemic` (V19) is now armed beside
+`count-bands`, on Holy Armaments, and it is the **pair** rather than one picture: a gold
+do-not-refresh hatch while the Sacred Weapon buff has plenty left, and the badge while Blizzard's
+own refresh window is open. The hatch state is `ruled-sealed` like every other client-drawn
+elimination; the badge state is `open`, because the client showing it is the client saying *press
+this*.
 
 ---
 
@@ -238,6 +246,10 @@ cue vocabulary is otherwise confirmed as authored.
 - **Density.** No budgeted hold before the press.
 - **Cue set.** Starved (C) → **have**. Bank the Bulwark (D) → correctly **dark**, on the identity
   gate. The V16 band on Avenger's Shield → **armed and silent** at two stacks, drawing nothing.
+  `ha_weapon_healthy` (V19) → **armed and drawing nothing**, and that is the whole of rung 10's
+  second disjunct: with no Sacred Weapon buff on the player there is no matching aura, so the
+  container's slot has no button, no hatch and no badge. PROT-17 and PROT-18 are the other two
+  states of the same display.
 
 ### PROT-5 · Holy Bulwark armed, Wings far — the bank hold, and the count is silent
 
@@ -256,6 +268,8 @@ cue vocabulary is otherwise confirmed as authored.
   and the row says the opposite thing. A treatment that only ever lights is a treatment nobody can
   read, so the silent half of the V16 table earns its place here rather than in the state where it
   draws.
+  ⚠ **Holy Bulwark's own charges are not stated here and PROT-20 states them**: at two banked
+  charges cue D still draws, and rung 18 is still the press, which is why the hold is right there.
   ⚠ Rung 17 — the Judgment second-charge dump — sits between rungs 16 and 18 and is **not
   authored** (`charged` is undeclarable on this row, *Defeats*, item 5), so if the second charge
   were two globals from full the APL would press Judgment here and the walk would still say
@@ -625,6 +639,139 @@ cue vocabulary is otherwise confirmed as authored.
   V17) → structurally **dark**, no subject on this build. Starved (C) → **have**. Shining Light
   (G) → drawing, right of the press.
 
+
+### PROT-17 · Sacred Weapon with plenty of buff left — the row rules itself out
+
+- **State.** Mid-fight on the default build. Row 4 is displaying **Sacred Weapon** and is ready,
+  and the **Sacred Weapon buff has about 14 s of its 20 s left**. Avenging Wrath ~40 s out,
+  Divine Toll swiped, **2 HP**, row 7 in its base life with its second charge nowhere near full,
+  DG at **2 stacks**, no Glory of the Vanguard, Avenger's Shield ready, Consecration ready.
+- **Walk.**
+  1. **Avenging Wrath / Divine Toll** — swiped → skip.
+  2. **Shield of the Righteous** — `starved` at two HP → skip.
+  3. **Sacred Weapon** — the client draws the **gold do-not-refresh hatch**: cap authored
+     `outside_s = 6` and the client compared the aura's own remaining seconds against it. Rung 10
+     is `next_armament=sacred_weapon&(buff.sacred_weapon.remains<6|!buff.sacred_weapon.up)` and
+     both disjuncts are false → `ruled-sealed` → skip.
+  4. **Avenger's Shield** — cue **E** needs row 7 transformed and it is not; the V16 band is armed
+     and silent at two stacks → **press.** Rung 18.
+- **Eye-direction.** ⚠ **This is the state the catalog used to call a defeat, and the defeat was
+  measured against a shorter vocabulary.** *Defeats*, item 3 said the first half of rung 10 needed
+  *"an aura-remaining band — an S-form nobody has written"*. **V19's `outside_s` shipped
+  2026-08-24** and is exactly that band, drawn by the client off `SetDurationText` breakpoints on
+  the aura's remaining seconds, with cap authoring the number and reading nothing back.
+  ⚠ **The elimination needs no outranker term, and it is the only hold in this catalog that does
+  not.** In the Sacred Weapon life rungs 14 and 23 are dead too — both name
+  `next_armament=holy_bulwark` — so with rung 10 false the row has **no live rung anywhere in the
+  list** and every row to its right outranks it unconditionally. A hold that names one row must
+  check that row; a hold that says *"this row is not in the priority at all right now"* has none
+  to check.
+  ⚠ **The seam is a flight question, not an argument.** The hatch clears at the catalog's 6 and
+  the badge appears on Blizzard's own window, computed per spell — two different facts about one
+  aura. They very nearly coincide here (6 s is 30 % of the buff's 20 s), which is what makes the
+  number defensible, but *how* nearly can only be watched.
+- **Density.** No budgeted hold before the press: `starved` is unbudgeted and `ruled-sealed` is
+  client-drawn and carries no cue.
+- **Cue set.** `ha_weapon_healthy` (V19) → **drawing its hatch**, and this is the state it exists
+  for. Bank the Bulwark (D) → **dark**, on the identity gate. The V16 band on Avenger's Shield →
+  armed, silent. Starved (C) → **have**.
+
+### PROT-18 · Sacred Weapon inside the refresh window — the badge the client shows
+
+- **State.** As PROT-17, but the **Sacred Weapon buff has about 4 s left** and Blizzard's own
+  refresh window for it is open.
+- **Walk.**
+  1. **Avenging Wrath / Divine Toll** — swiped → skip.
+  2. **Shield of the Righteous** — `starved` → skip.
+  3. **Sacred Weapon** — the hatch has cleared and **V19's badge is up**: promotion ring, halo and
+     a dial the client drains → **press.** Rung 10, which sits above everything from rung 13 down.
+- **Eye-direction.** ⚠ **The badge is a promotion cap did not make.** It carries the full
+  positive-cue treatment and it is decided entirely by the client — *the window is open* and
+  *press this* are the same statement in the same grammar. It is **not** a cue: no key, no rank,
+  no badge slot negotiated with anything, and `catalog.md`'s claim that this catalog spends no
+  positive cue survives it unchanged, because a cue is a badge **cap** shows.
+  ⚠ **Read this against PROT-17 and PROT-4 together** — one display, three states, and the row
+  says a different thing in each: hatched while the buff is healthy, badged inside the window,
+  and completely bare with no buff at all. The bare state is the one that costs nothing to
+  express, and it is the half of rung 10 that this catalog previously called unsourced.
+- **Density.** No budgeted hold before the press.
+- **Cue set.** `ha_weapon_healthy` (V19) → **drawing its badge**. Everything else as PROT-17.
+
+### PROT-19 · Consecration off cooldown with its field still under you — a Blessed Assurance build
+
+- **State.** A **Blessed Assurance build**, so Divine Guidance does not exist and rung 15 is dead.
+  **Consecration is off cooldown but its ground effect is still ticking** under the player. Row 7
+  is in its **base** life and ready; the Blessed Assurance buff is **not** up. **2 HP**; Avenging
+  Wrath, Divine Toll, Holy Bulwark and Avenger's Shield all swiped; Blessed Hammer available; no
+  Shining Light.
+- **Walk.**
+  1. **Avenging Wrath / Divine Toll** — swiped → skip.
+  2. **Shield of the Righteous** — `starved` at two HP → skip.
+  3. **Holy Bulwark, Avenger's Shield** — swiped → skip.
+  4. **Consecration** — the client draws the **presence band**: a hatch and a negative mark, from
+     a one-band table on the player aura `188370`. Rungs 19 and 24 are `!consecration.up` and the
+     field is up, so both are dead; rung 15 does not exist on this build; Consecration's only
+     surviving rung is **29**, the last in the list → `ruled-sealed` → skip.
+  5. **Judgment** — base life, and cue **F** needs Blessed Assurance up, which it is not → nothing
+     draws → **press.** Rung 22.
+- **Eye-direction.** ⚠ **The subject is the player aura and not the cast**, and that distinction is
+  the whole of why this is authorable. `26573` is the cast — the 12 s field, and the Cooldown
+  Manager row — while **`188370` is the buff that says you are standing in it**, three `Effect=6`
+  rows at `ImplicitTarget=1` with *Strength of Conviction* `379008` hanging its points on that id
+  *[T1 DB2 @ 12.1.0.69214]*. `81297` is the periodic damage and `204242` is the enemy snare;
+  neither is a player buff.
+  ⚠ **A sealed container needs no Cooldown-Manager row.** The filter is cap's own — `plan.unit`
+  chooses HELPFUL, `includeSpellIDs` bounds the candidates, and `container:SetUnit(plan.unit)`
+  binds it — so the Category-3 (TrackedBar) alert-edge question that blocks the `aura` latch here
+  is **bypassed rather than answered**. Demonology's `ib_art_clock` is the precedent: a V20 on an
+  aura with no row of its own.
+  ⚠ **`188370` carries `Duration = -1`**, so this can only ever be a **presence** band: there is no
+  remaining time on the player buff to band or to drain, and V19 and V20 are both impossible on it.
+  The 12 s clock is the cast's.
+  ⚠ **The talent gate is what makes it honest, and it is not decoration.** Rung 15 —
+  `consecration,if=buff.divine_guidance.stack>=5` — carries **no** `!consecration.up` term, so on a
+  Divine Guidance build a capped count presses Consecration with the field still under you. The
+  count is sealed, so cap could never gate on it; `talent(blessed_assurance)` is the other half of
+  choice node 95235, where rung 15 cannot exist at all. Read positively rather than as
+  `!talent(divine_guidance)` on purpose: same coverage, one fewer negation in the safety case, and
+  it makes the mutual exclusion with `cons_awaits_hammer` a property of the node.
+  ⚠ **`ready(crusader_strike)` is the outranker term.** Rung 29 is an *unconditional* Consecration,
+  so with the whole rest of the row unavailable a field-up Consecration **is** the press and the
+  hatch would eliminate the correct button. With the hammer row available, rung 25 or 26 fires
+  above rung 29 and the elimination is true.
+- **Density.** No budgeted hold before the press.
+- **Cue set.** `cons_field_up` (V16) → **drawing**, and this is the state it exists for. Both count
+  tables on Divine Guidance → structurally **dark**, no subject on this build. The Blessed
+  Assurance yield (F) → correctly **withheld**, the buff is down. Starved (C) → **have**.
+
+### PROT-20 · Holy Bulwark with both charges banked — why the hold stands
+
+- **State.** As PROT-5, but **both Holy Armaments charges are up**: row 4 is displaying **Holy
+  Bulwark**, ready, at max charges, with Avenging Wrath ~40 s away. **2 HP**, DG at **2 stacks**,
+  row 7 base, no Glory of the Vanguard, Avenger's Shield ready, Consecration ready.
+- **Walk.**
+  1. **Avenging Wrath / Divine Toll** — swiped → skip.
+  2. **Shield of the Righteous** — `starved` → skip.
+  3. **Holy Bulwark** — `blocked` from `ha_banks_bulwark`, exactly as in PROT-5 → skip.
+  4. **Avenger's Shield** — nothing draws → **press.** Rung 18.
+- **Eye-direction.** ⚠ **This scenario exists to show that the hold is RIGHT at two charges**, and
+  it is the walk that refuses an edit. `capped(holy_armaments)` is a readable fact on this row —
+  `Sense.readCapped` calls `C_Spell.GetSpellCharges` live, reads `maxCharges` off the client, and
+  self-withholds at `maxCharges <= 1`; it **never** consults `ability.charged`, which `Track.lua`
+  says in as many words. So the fact the catalog said it did not have, it has. **Releasing cue D on
+  it would still be wrong.** Rung 23 (`holy_armaments,if=next_armament=holy_bulwark&charges=2`)
+  sits **below** rungs 15, 16, 18 and 20–22, and Holy Armaments is **position 4** — above Avenger's
+  Shield, Consecration and Judgment. Dropping the hold at max charges puts the row back at rung
+  14's rank and makes it the leftmost clean entry in exactly this state, where the APL is at rung
+  18. `blocked` is binary: a row that wears it is out of the walk, and there is no way to say
+  *"ranked below the three rows to my right"* in a left-to-right scan.
+  ⚠ **So Defeat 4 is rewritten rather than closed, and the blocker moved.** It is not missing data
+  and it is not `charged`; it is the row order, plus the absence of an OR in the marker grammar.
+  `catalog.md` → *Defeats*, item 4.
+- **Density.** One budgeted hold (Holy Bulwark) before the press. Well inside Part 0.5.
+- **Cue set.** Bank the Bulwark (D) → **sealed and drawing**, and correctly so. Starved (C) →
+  **have**. The V16 band on Avenger's Shield → armed, silent at two stacks.
+
 ---
 
 ## The state this walk does not contain
@@ -642,32 +789,27 @@ reading the player cannot perform. Each is argued in full at `catalog.md` → *D
    `OnAuraApplied` / `OnAuraRemoved` alert edges? Avenging Wrath's buff is one (set 637, ord 27).
    If it does, `aura(avenging_wrath)` becomes a readable boolean, cue B is replaced by a marker
    correct on **both** builds, and gate H is deleted with it. `catalog.md` → *Defeats*, item 1.
-2. **Consecration ready with its ground effect still ticking.** Rungs 19 and 24 are false, so the
-   APL presses the hammer, Judgment or Word of Glory and only reaches Consecration at rung 29; cap
-   draws nothing and position 6 takes the press. *Reopened by the same single measurement* —
-   Consecration's duration is the Category-3 row at ord 24. **Both defeats close together or
-   neither does**, which is the argument for doing it. ⚠ This one now also bounds PROT-13's cost:
-   with the ground effect up, the deletion's one-rung loss is a rung-29 press instead of a rung-19
-   one. `catalog.md` → *Defeats*, item 2.
-3. **A Sacred Weapon buff with eighteen seconds left.** Rung 10 fires on
-   `buff.sacred_weapon.remains<6 | !buff.sacred_weapon.up`; with a healthy buff the APL skips row
-   4 and cap cannot tell that row from PROT-4's. The walk stops at **position 4** in a state the
-   APL steps over. *Reopened by* an **aura-remaining band** — the S-form nobody has written, whose
-   step curve S4 already applies to a cooldown — plus one census read for whether Sacred Weapon's
-   buff holds a Category-2 row. **Retribution wants the same S-form**, so it now has two consumers.
-   `catalog.md` → *Defeats*, item 3.
-4. **Holy Bulwark at two charges with Wings a minute away**, and **Judgment's second charge two
-   globals from full.** Rungs 23 and 17 are pure charge facts and `charged` is undeclarable here —
-   no Tier-1 charge count exists for Holy Armaments at all, and Judgment's is talent-conditional
-   while `charged` has no conditional form. In the first, cue D holds a press the APL makes and a
-   charge may be lost, which is the worst failure direction in the catalog. *Reopened by* a
-   measured charge count (item 4) and a talent-conditional `charged` (item 5) — **a measurement
-   and a mechanism, which do not close together.** ⚠ The measurement would also give this catalog
-   its first positive cue: `capped` on row 4 is loss in progress with no negative phrasing, and a
-   scenario wearing a positive cue is judged by pass 1 and leaves the density budget entirely —
-   so the same measurement that closes item 4 would also have offered a second route out of
-   PROT-13. `catalog.md` → *Defeats*, items 4 and 5.
-5. **A third trio that survives the deletion, on a doubly-rare build.** On a **non-Righteous
+2. **Consecration ready with its ground effect still ticking, on a DIVINE GUIDANCE build.** Rungs
+   19 and 24 are false, so the APL presses the hammer, Judgment or Word of Glory and only reaches
+   Consecration at rung 29; cap draws nothing and position 6 takes the press. ⚠ **The other half
+   of this state is now walked** — PROT-19 — and the half that remains is the Divine Guidance one,
+   for a reason that is not the Category-3 measurement at all: rung 15 carries **no**
+   `!consecration.up` term, so at five or more stacks the APL presses Consecration *with the field
+   up*, and the count is sealed. The presence band is therefore gated to a **Blessed Assurance**
+   build. *Reopened by* a readable substitute for the Divine Guidance count — the same thing
+   *Defeats*, item 7 wants — **not** by the alert-edge measurement, which this display bypasses
+   rather than answers. `catalog.md` → *Defeats*, item 2.
+3. **Holy Bulwark at two charges with Wings a minute away**, and **Judgment's second charge two
+   globals from full.** Rungs 23 and 17 are the two rungs whose whole content is a charge fact.
+   ⚠ **Both are still unauthored and the reason has changed** — `capped` needs no `charged` and is
+   readable on both rows, so the old *"no subject"* argument is gone. Rung 23 sits **below** three
+   rows to Holy Armaments' right, and a `blocked` badge cannot say *"ranked below my neighbours"*
+   (PROT-20 walks it). Rung 17 asks for *about to cap*, where `capped` answers *already at max* —
+   a different fact — and expressing it would mean **promoting** Judgment over Avenger's Shield
+   and Consecration, whose own rank turns on the sealed Divine Guidance count. *Reopened by* an OR
+   in the marker grammar, and by *Defeats*, item 7's readable substitute. `catalog.md` →
+   *Defeats*, items 4 and 5.
+4. **A third trio that survives the deletion, on a doubly-rare build.** On a **non-Righteous
    Protector, Blessed Assurance** build with Avenger's Shield *and* Consecration both swiped, cues
    **B**, **D** and **F** stand three budgeted holds before Blessed Hammer. It is not in the walk
    because every term of it is a conjunction of rarities — the build gate H exists to withhold
@@ -676,8 +818,9 @@ reading the player cannot perform. Each is argued in full at `catalog.md` → *D
    worth. ⚠ **If a flight finds it, cue B is the candidate**, not cue D: B already exists only on
    that build, and item 1's single measurement would replace it outright.
 
-**It is not a client limit in any of the five.** Four are measurements or a written S-form, and
-the fifth is a design choice this walk took deliberately. That is a set of named shapes, which is
+**It is not a client limit in any of the four.** One is a measurement, two want a readable
+substitute for a sealed count or an OR in the marker grammar, and the fourth is a design choice
+this walk took deliberately. That is a set of named shapes, which is
 a different and much better thing than "cap cannot do this".
 
 ---
@@ -707,10 +850,31 @@ not edit it.**
    `{A, as_awaits_hammer, cons_no_guidance}`, in which Avenging Wrath's own hold takes cue D's
    place. That is why the deletion is `cons_no_guidance` rather than cue D: only the common term
    fixes both.
+3. **`capped` has a subject in this catalog, and the claim that it has none is false** (2026-08-26).
+   Both *Defeats* 4 and 5 and *Why this catalog does not spend a positive cue* rested on
+   *"`capped` needs a `charged` declaration and there is no Tier-1 charge count"*. That is not how
+   the predicate works: `Sense.readCapped` calls `C_Spell.GetSpellCharges` on the **live** id every
+   tick, reads `maxCharges` off the client, and returns UNKNOWN at `maxCharges <= 1`; `Track.lua`
+   records that it deliberately bypasses the charge ledger. The catalog never had to author the
+   number — the client owns it, and self-withholding is what a one-charge row gets. The three
+   claims are rewritten in `catalog.md`.
+4. **…and the edit that follows from it does NOT.** Adding `!capped(holy_armaments)` to
+   `ha_banks_bulwark`'s `when` — so the bank hold releases at two charges, where rung 23 presses —
+   makes cap **wrong in the common state**: Holy Armaments is position 4 and rung 23 sits below
+   rungs 15, 16, 18 and 20–22, so a released hold makes the row leftmost-clean where the APL is at
+   rung 18. **PROT-20 is that walk**, and it is why no such term was added. The argument is the
+   same one that keeps the `capped` **badge** off this row, applied to the gate instead of the
+   badge.
+5. **Rung 10's second half was never unsourced.** *Defeats*, item 3 held that
+   `!buff.sacred_weapon.up` needed a Category-2 Cooldown-Manager row for the buff, which this
+   repo's census does not establish. A **sealed container needs no row**: the filter comes from
+   `plan.unit`, the candidates from `includeSpellIDs`, and `container:SetUnit(plan.unit)` binds it.
+   With no aura there is no button and no sink, so the row draws nothing and is a live candidate —
+   which is exactly what that half of the rung wants. PROT-4 was already walking it.
 
 **Everything else in the catalog survived the walk.** All nine entries, the authored order, all
-seven cues plus gate H, both `sealed-count-bands` tables and all three `sealed-cooldown-range`
-bands are exercised above and none of them read wrong in the state they were written for. Two
+seven cues plus gate H, all three `sealed-count-bands` tables, the `sealed-pandemic` pair and all
+three `sealed-cooldown-range` bands are exercised above and none of them read wrong in the state they were written for. Two
 mutual exclusions the catalog does not state fell out of the walk and are worth keeping: **cues A
 and B can never both draw** (A needs Divine Toll on cooldown, B needs it ready), and **cues A and
 D can never both draw** (A needs Avenging Wrath ready, D needs it beyond five seconds), which
@@ -719,10 +883,15 @@ together cap the pressed-on-sight group's contribution to the density budget at 
 **What the walk did not have to explain.** No state above required cap to know a target count, a
 target's health, an aura duration, a cooldown's remaining *value*, an aura stack count, or which
 armament the game considers next beyond the icon it is drawing. Every skip is a readable Lua term,
-one sealed band on a cooldown (A, B, D), or a band table the client evaluated against a count cap
-never received (PROT-6, PROT-8, PROT-9).
+one sealed band on a cooldown (A, B, D), a band table the client evaluated against a count cap
+never received (PROT-6, PROT-8, PROT-9, PROT-19), or a duration band the client evaluated against
+an aura's own remaining seconds (PROT-17). ⚠ **PROT-17 is the first state in any Protection walk
+where a skip rests on an aura's remaining TIME**, and cap still reads none of it: the number is
+authored, the comparison is the client's.
 
-**Sixteen states, no promotion, and one marker deleted to keep it that way.** The catalog's own
-argument for spending no positive cue turned on a state it could not evaluate; the walk found that
-state, found a second one the catalog had not seen, and answered both by removing vocabulary
-rather than adding it — which is the shelf's own test for a design that is getting simpler.
+**Twenty states, no promotion cap makes, and one marker deleted to keep it that way.** The
+catalog's own argument for spending no positive cue turned on a state it could not evaluate; the
+walk found that state, found a second one the catalog had not seen, and answered both by removing
+vocabulary rather than adding it. What 2026-08-26 added is not a cue: PROT-18's badge is a
+promotion the **client** makes out of its own pandemic window, and PROT-17's, PROT-19's and
+PROT-20's statements are all eliminations or holds.

@@ -607,7 +607,7 @@
           "name": "Immolation Aura",
           "verdict": "press",
           "cues": [
-            "capped"
+            "priority"
           ]
         },
         {
@@ -746,6 +746,137 @@
           "cues": [
             "overcap"
           ]
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-13",
+      "title": "Felblade — Inertia armed, and the window has a clock",
+      "state": "<b>ST-11's state, on an Inertia build.</b> Not transformed, <b>Fury low</b> (~25), every cooldown down — Vengeful Retreat included, which is what armed the window — and <b>Immolation Aura out of charges</b>. <b>Inertia is ARMED</b>: <code>buff.inertia_trigger</code> is up with part of its 12s left. Single-target mode.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "cd"
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "cd"
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "cd"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "cd"
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Felblade",
+          "verdict": "press",
+          "sealed": [
+            "proc-bar"
+          ]
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
+        },
+        {
+          "name": "Fel Rush",
+          "verdict": "open"
+        },
+        {
+          "name": "Throw Glaive",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "ST-14",
+      "title": "Immolation Aura — spend the charge before Violent Transformation resets it",
+      "state": "Fel-Scarred with <b>Violent Transformation, A Fire Inside and Burning Wound</b>. <b>Metamorphosis is ~3s from returning.</b> Eye Beam has ~12s left and Blade Dance is on cooldown; <b>The Hunt and Vengeful Retreat and Essence Break are all ready</b>. <b>Immolation Aura holds ONE charge</b> — available, not capped. <b>Fury low</b> (~25). Single-target mode.",
+      "row": [
+        {
+          "name": "Vengeful Retreat",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Metamorphosis",
+          "verdict": "cd"
+        },
+        {
+          "name": "The Hunt",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Eye Beam",
+          "verdict": "cd"
+        },
+        {
+          "name": "Essence Break",
+          "verdict": "open"
+        },
+        {
+          "name": "Blade Dance",
+          "verdict": "cd"
+        },
+        {
+          "name": "Immolation Aura",
+          "verdict": "press",
+          "cues": [
+            "priority"
+          ]
+        },
+        {
+          "name": "Chaos Strike",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ]
+        },
+        {
+          "name": "Felblade",
+          "verdict": "open"
+        },
+        {
+          "name": "Demon's Bite",
+          "verdict": "open"
         },
         {
           "name": "Fel Rush",

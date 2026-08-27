@@ -308,6 +308,35 @@ and nothing about how it was measured.
 
 ### Tooling
 
+- **A DEFEAT is invisible on the preview, and that is the page telling a comfortable lie.**
+  Measured 2026-08-26. A defeat is the project's word for *"this rung exists and we knowingly do
+  not draw it"* (`authoring.md` → *How to write a defeat*: scenario, failing rung, reopening
+  condition). It lives **only** as prose in each `catalog.md` → *Defeats*. **`defeat` is not a
+  field in any `catalog.json`.**
+  It reaches the preview only by accident: `previews/template/stepper.js:1494` renders a state's
+  free-form `note` as muted text, so a defeat is visible exactly where an author happened to type
+  *"Defeats, item 4"* into that note. Counted across the six specs — mentions in `catalog.md`
+  versus mentions reaching the page: **Protection 47 → 3** (and all three were written the same
+  day, mid-rewrite), **Demonology 15 → 0**, **Destruction 10 → 0**, **Havoc 5 → 1**,
+  **Retribution 6 → 1**.
+  ⚠ **So a reader of the preview cannot answer "which buttons have conditions we deliberately do
+  not draw?"** — there is no section, no badge, no flag. Protection is the sharp case: rung 23's
+  charge dump and rung 17's second charge are **both** unauthored and both correctly argued in the
+  doc, and the Holy Armaments row on the page shows an ordinary set of states with nothing saying
+  two of its rungs are missing on purpose. The page looks complete precisely where it is known to
+  be incomplete.
+  **This is the same shape as the scenario↔state gap below** — the artifact people look at drifting
+  from the authored truth — and it is the page-level form of what the 2026-08-25 review found at
+  the gate level: every gate green while every finding was true.
+  **The fix is structured and gated, not a reminder to authors:** give a state (or entry) a
+  `defeat` reference into its `catalog.md` Defeats list; render it on the preview as a marker on
+  the ability plus a Defeats block on the page; and **gate it both ways** — every Defeats item must
+  be cited by at least one state, and every cited id must resolve. The second half is the valuable
+  one: it converts *"did anyone remember to say this?"* into something `check` answers, exactly as
+  the outranker gate converted *"did anyone remember the readiness term?"*.
+  **Scheduled for the review pass's Phase 6** (the sweep-and-close step), alongside the
+  scenario↔state decision, because the two are one question asked twice.
+
 - **Every generation input is its own structured file, and the per-ability state table is the
   source of truth** (2026-08-25). `specs/render-tokens.json` (the style's numbers) and
   `specs/render-lab.json` (Part 7) came out of `render-shelf.md`, which dropped 2313 → 1677
@@ -740,6 +769,63 @@ spec-and-hero pair is the unit (`authoring.md` §0).
       `knowledge/classes/warlock/destruction/builds.md` carries it.
 
 ## Ideas
+
+- **An OR in the marker `when` grammar — wanted by a defeat that has no other exit.**
+  Recorded 2026-08-26 out of Protection's Defeat 4. `when` is AND-only (`Signal.lua`), and the
+  project's one workaround is **two markers wearing the same cue**, whose union is the disjunction
+  (Retribution's `boj_opener`/`boj_opener_woa`, Havoc's rung-2 merge). That works when each
+  disjunct is a *positive* statement. It does **not** work for Defeat 4, whose statement is
+  *"every rung above mine is unavailable"* — a conjunction of negations over OTHER rows, which is
+  not a disjunction and does not decompose into markers.
+  ⚠ **And on Protection it is not merely awkward, it is UNSOUND — do not author it as a
+  many-term marker.** Rung 16 is a bare `hammer_of_wrath`, it outranks rung 23, and **Hammer of
+  Wrath has no roster row at all** (`specs/protection/catalog.json` → `abilities`). So a marker
+  spelling out `!ready(avengers_shield) ∧ !ready(judgment) ∧ !ready(consecration) ∧
+  !aura(blessed_assurance)` would still be blind to one of the rungs it claims to have cleared,
+  and would fire when Hammer of Wrath is the press. **A hold that enumerates its outrankers is
+  only as sound as the roster is complete**, which is a property no gate checks and no author can
+  see from the marker.
+  The real shapes worth considering, in order of appetite: a **per-marker rank** so a row can say
+  *"I am ranked below the rows to my right"* directly; or alternatives inside `when`; or binding
+  the missing rows so enumeration becomes sound. The first says the actual thing — the other two
+  make the workaround safer without making it honest.
+
+- **`capped` needs no `charged` declaration — a project-wide correction, not a Protection one.**
+  Measured 2026-08-26. `Sense.lua:96-106` `readCapped` calls `C_Spell.GetSpellCharges` on the
+  **live** id every tick, reads `maxCharges` off the client, returns UNKNOWN (never `false`) at
+  `maxCharges <= 1`, and **never consults `ability.charged`** — `Track.lua:190-199` says it
+  deliberately bypasses the charge ledger, and `Catalog.lua:17` gives `capped` `arity = 1,
+  subject = true` with no `charged` requirement. So the self-withholding at one charge **is** the
+  talent-conditional behaviour that two separate defeats asked someone to build.
+  ⚠ **Protection's Defeats 4 and 5 both rested on this false premise and are rewritten.** The
+  sweep this implies has not been done: **any catalog that declines `capped` should have its
+  stated reason re-read against `Sense.readCapped`**, Retribution's first — its reason may be
+  sound on other grounds, but if it cites a missing charge count it is citing something that was
+  never required.
+
+- **The Protection preview is 1 KB over budget.** `previews/protection-stepper.html` is ~351 KB
+  against `render-tokens.json`'s `tokens.budget.max_base64_kb` of 350. It is a `capart build`
+  WARNING and not a `check` failure, so nothing is blocked — but it will warn on every build
+  until either the budget moves or the page does, and a warning nobody can clear is a warning
+  people stop reading. Decide which.
+
+- **A sealed sink for a secret POWER COUNT — the gap V16-V18 cannot cover, and Havoc is the
+  proof.** Recorded 2026-08-26 as a clean NEGATIVE answer, because nothing anywhere said it:
+  **V16/V17/V18 cannot state Fury.** All three ride an aura's *application count*
+  (`SetApplicationCount` / `SetApplicationBar`), and Fury is `UnitPower` — a different thing
+  entirely. The only sealed sink that takes a power value at all is `sealed-power-percent`, whose
+  channel is a **colour curve**: it can say *"you are near a break point"* by hue, and cannot say
+  *how much* by any means. So there is no form in which a number derived from a secret power
+  reaches the screen.
+  ⚠ **The consequence is that Havoc using none of V16-V20 is not an oversight**, which is how it
+  reads if you only count adoptions. Havoc has **no stacking aura and no DoT of its own** — the
+  two things those primitives are built on — so the absence is structural. Its one sealed-count
+  question is Fury, and Fury has nowhere to go.
+  **This is a missing SINK, not a missing catalog edit**, and it is the honest form of the
+  question *"why does the spec with the most sealed facts adopt the fewest sealed displays?"*.
+  If a Fury bar is ever wanted it is a lab question first — whether a `UnitPower` value can reach
+  a client-owned bar without Lua ever comparing it — and only then a shelf primitive. **Do not
+  author it as a catalog edit; there is nothing to author it with.**
 
 - **The empowered-cast (Demonsurge) cue — an optimisation over the baseline, not part of it.**
   Havoc's rung 3 has three holds and the catalog draws two. The third is

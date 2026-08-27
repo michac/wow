@@ -20,7 +20,7 @@ and its safety case.
 
 ## The state walk
 
-Thirteen states, each naming the press, and for **every button that is available and skipped**,
+Fifteen states, each naming the press, and for **every button that is available and skipped**,
 the reason. Buttons the Cooldown Manager has already swiped need no explanation. The walk reads
 the authored row order left to right and must satisfy the shape `capart check`'s **elimination
 gate** enforces: *the leftmost entry that is neither swiped nor wearing a negative badge is the
@@ -76,9 +76,12 @@ which stopped being true when cue H was authored.)*
      because `generators` 1 diverts to `finishers` and rung 2 is never reached — which is what the
      two reachability terms are for.
   2. Everything else is read only if the eye goes looking. Execution Sentence and Avenging Wrath
-     are genuinely held — `es_awaits_wrath_ready` and `aw_awaits_expurgation` — and the two
-     spenders are unaffordable at 0 Holy Power. None of that has to be interpreted to find the
-     press.
+     are genuinely held — Execution Sentence by **two** markers at once (`es_awaits_wrath_ready`
+     and `es_awaits_expurgation`, state `es_expurgation_and_wrath_ready`), Avenging Wrath by
+     `aw_awaits_expurgation` — and the two spenders are unaffordable at 0 Holy Power. None of that
+     has to be interpreted to find the press. ⚠ Row 1 and row 2 are held by the **same clause**
+     here, `(!talent.holy_flames|dot.expurgation.ticking)`, on two different rungs; the badge does
+     not distinguish them and does not need to.
 - **Eye-direction.** ⚠ **This is the catalog's worked example of the density rule.** Said by
   elimination, the opener needs **four** holds — Execution Sentence, Avenging Wrath, Wake of Ashes
   and Divine Toll all standing down so a left-to-right scan can reach position 7. That is over
@@ -273,8 +276,11 @@ which stopped being true when cue H was authored.)*
   **Expurgation is ticking** and `aw_awaits_expurgation` is dark — the difference from RET-1.
 - **Walk.**
   1. **Execution Sentence** — `blocked` from `es_awaits_wrath_ready`, the **readable** half of the
-     hold: `cooldown.avenging_wrath.remains>15` is false at zero → skip.
-  2. **Avenging Wrath** — **press.**
+     hold: `cooldown.avenging_wrath.remains>15` is false at zero → skip. `es_awaits_expurgation` is
+     dark, because the DoT is up.
+  2. **Avenging Wrath** — **press**, and its bottom edge carries the **Expurgation clock** (V20):
+     the DoT that released this hold, draining. Nothing cap read — the slot filters to `383346`
+     and the client owns the fill.
 - **Eye-direction.** ⚠ **A sealed band deliberately reads nothing at zero remaining**, so RET-12's
   band goes dark in exactly the state where the hold matters most. Row 1 is the only row in this
   catalog carrying a readable companion to a sealed hold, and the reason is **position**: it sits
@@ -285,14 +291,98 @@ which stopped being true when cue H was authored.)*
   Wrath, so the walk does not stop at row 2 and rows 3 and 4 briefly needed companions of their
   own. Promoting the opener (cue H) removed the need and both were deleted. The rule survives
   because a promoted scenario is never read by elimination at all.
-- **Cue set.** Readable hold (C) → **have**, the counter to RET-12's sealed one.
+- **Cue set.** Readable hold (C) → **have**, the counter to RET-12's sealed one. The Expurgation
+  clock carries **no cue** — a bar is not a verdict.
+  ⚠ **The clock is here for the state this walk is NOT in.** Cue G's latch is seeded out of
+  combat and mutated by alert edges afterwards, so on a setup where the Expurgation row was never
+  added to Tracked Buffs no edge ever arrives, the seed stays "absent", and cap holds Avenging
+  Wrath for the whole fight while looking confident (`catalog.json`'s `aw_stale_latch`). The
+  container needs no such row: it is cap's own frame, `includeSpellIDs`-filtered and pointed with
+  `SetUnit`. So in that state the hold badge and the draining bar sit on one row saying opposite
+  things — which is the tell. It does not fix the branch; the enablement detector still has to.
 
-**What the walk did not have to explain.** No state in it required cap to know a target count, a
-buff duration, or which of two Hammer of Light states was live. Every skip above is a readable Lua
-term, a sealed band on a *cooldown*, or — at RET-1 only — the readable up/down latch on a target
-aura that cues **G** and **H** are both built from.
+### RET-14 · Light's Deliverance at 60 — RET-3 with one fact added
 
-**One scenario in thirteen is read by pass 1.** RET-1 is the catalog's only promotion, and the
+- **State.** Single target, mid-fight, no procs, **Holy Power 5**. Execution Sentence and Avenging
+  Wrath are on cooldown, **Wake of Ashes is ready**, Divine Toll is up. **Light's Deliverance is at
+  60 stacks.** Holy Flames is not talented on this build, so neither the Expurgation hold nor its
+  clock exists and row 2 is an ordinary swiped row.
+- **Walk.**
+  1. **Execution Sentence / Avenging Wrath** — on cooldown → skip.
+  2. **Wake of Ashes** — available, nothing rules it out → **press.** `generators` 3, exactly as in
+     RET-3: at 5 Holy Power with Wake of Ashes *ready* the early `finishers` call at `generators` 1
+     does not fire, because its condition is `holy_power=5&cooldown.wake_of_ashes.remains`.
+     The row additionally carries one **positive mark** in its corner — the Light's Deliverance
+     band at its upper threshold (V16).
+- **Eye-direction.** ⚠ **This scenario is deliberately RET-3 with one fact changed**, and the
+  isolation is the point: same build, same cooldowns, same press, one extra thing on screen. What
+  the mark means is *a free Hammer of Light is banked and waiting for you*, on the row that will
+  display it — and on a button you still have to press, because nothing auto-casts it. It is not a
+  promotion and it does not move the press — the press was already this row.
+  ⚠ **The mark is silent below the threshold.** The lower band draws `none`, so at 0–59 stacks the
+  row is byte-identical to RET-3. That is the trade V16 buys over a bar: a bar has no blank state.
+  ⚠ **The 60 is a RESTING state, not a threshold the counter crosses and leaves.** The spell text
+  conditions the consumption on Wake of Ashes and Hammer of Light **both** being unavailable, so
+  with Wake of Ashes ready the stack sits at 60 and stays there — the mark is steady, not a
+  flicker, and it says "banked and waiting", never "press this now".
+- **Cue set.** No cue at all. The band is a client-evaluated display, not a badge: cap authored the
+  number 60 and never learns which side of it the count fell on.
+
+### RET-15 · Target swap — Execution Sentence held, and the row beneath it is NOT the press
+
+- **State.** Single target, mid-fight, fresh target. **Holy Flames and Execution Sentence are
+  talented; Radiant Glory is not.** **Expurgation is not yet on this target.** Holy Power 2, no
+  procs. **Execution Sentence is ready**, **Wake of Ashes is ready**, Divine Toll is up, **Blade of
+  Justice is on cooldown**, and Avenging Wrath is ~40s out — far outside every band that names it.
+- **Walk.**
+  1. **Execution Sentence** — available, and `blocked` from `es_awaits_expurgation` alone: at 40s
+     out neither Avenging Wrath marker fires, and Wake of Ashes is ready so `es_awaits_wake` is
+     dark too. `cooldowns` 10's last term, `(!talent.holy_flames|dot.expurgation.ticking)`, is
+     false → skip.
+  2. **Avenging Wrath** — on cooldown → skip.
+  3. **Wake of Ashes** — available, and `blocked` from **`woa_awaits_sentence_ready`**.
+     `generators` 3's second clause is
+     `(!talent.execution_sentence|cooldown.execution_sentence.remains>4|target.time_to_die<10)`:
+     Execution Sentence is talented and its cooldown remaining is **zero**, so the first two
+     disjuncts are false and the APL does not press this → skip.
+  4. **Divine Toll** — available, nothing rules it out → **press.** `generators` 4, whose only
+     non-simulation term is `cooldown.avenging_wrath.remains>15`, true at 40s. `dt_awaits_wrath`
+     is dark for the same reason and `dt_overcap` needs 5 Holy Power.
+  5. Everything to the right is read only if the eye goes looking: the two spenders are `starved`
+     at 2 Holy Power and Blade of Justice is swiped, which is why cue **H** does not promote here.
+- **Eye-direction.** ⚠ **This scenario is the reason `woa_awaits_sentence_ready` exists, and it is
+  the defect `es_awaits_expurgation` closed, relocated one row.** Row 3 used to carry only the
+  **sealed** `within = 4` band on Execution Sentence, justified by *"a ready Execution Sentence
+  stops the elimination walk before it arrives."* That was true while row 1 was quiet when ready.
+  It is not true now: **a held row does not eliminate the row beneath it** — the walk steps over
+  row 1's badge and lands on row 3, and a sealed band reads nothing at zero remaining. Without the
+  readable term Wake of Ashes drew **clear and leftmost for a press `generators` 3 forbids**.
+  **Position in the row decides which halves a hold needs — and so does what the rows to your left
+  are wearing.** That is the general form RET-13's note only had half of.
+  ⚠ **Two holds stand before the press, which is exactly Part 0.5's budget and not over it.** The
+  alternative — promoting Divine Toll — would spend a positive cue on a rank claim, which the
+  shelf excludes.
+  ⚠ **The `talent` term on the new marker is load-bearing.** On a build *without* Execution
+  Sentence the rung's first disjunct is true and Wake of Ashes is unconditional there; an ungated
+  hold would badge a press the APL makes freely.
+  ⚠ **One honest over-hold, stated rather than left silent.** `target.time_to_die<10` also
+  satisfies the clause, and cap does not model the encounter — no `fight_remains`, by product
+  rule. So in the last ten seconds of a fight this holds a Wake of Ashes the APL presses. That is
+  a **missed press, not a wrong one**, which is the direction this project accepts everywhere else.
+- **Cue set.** Readable hold (C) → **have**, on rows 1 and 3, and both are readable halves of
+  conditions whose sealed bands go dark at zero. Affordability (A) → **have**.
+
+**What the walk did not have to explain.** No state in it required cap to **know** a target count,
+a buff duration, an aura's remaining time or a stack count. Every *skip* above is a readable Lua
+term, a sealed band on a *cooldown*, a readable readiness where the band would go dark, or — at
+RET-1, RET-13 and RET-15 — the readable up/down latch on a target aura that cues **G** and **H**
+are both built from. Two things are now **drawn** without
+being known: the Expurgation clock on row 2 (RET-13) and the Light's Deliverance band on row 3
+(RET-14). Neither eliminates a row and neither enters a Lua condition — which is why they change no
+walk above. ⚠ Which of two Hammer of Light states is live is still not answerable, and
+`catalog.md`'s *Open facts* 3 still owns it.
+
+**One scenario in fifteen is read by pass 1.** RET-1 is the catalog's only promotion, and the
 ratio is the point: a vocabulary where the positive cue is reached often has stopped being a
 reading model and become a pointer (`../render-shelf.md` Part 0.5).
 

@@ -102,12 +102,21 @@ row to pass 2. Until 2026-08-17 `capart check` ran both on every scenario, so bo
 same press — which made *pass 1 overriding elimination* unrepresentable, and that override is the
 entire reason a positive cue exists. ST-10 is the case.
 
-All fourteen pass. A scenario that fails its pass fails **by name**, and a second declared positive
-cue fails `check` outright, since pass 1 does not say how two of them would rank.
+All sixteen pass. A scenario that fails its pass fails **by name**. ⚠ **What `check` refuses is two
+different positive CUES on one entry, not two markers wearing one** — pass 1 says *press the
+positive cue*, singular, and it has no tie-break between two of them, but two markers naming the
+same cue is a union and draws one card. Immolation Aura is the case: rungs 2 and 10, one
+`priority`. *(An earlier draft of this sentence said "a second declared positive cue fails `check`
+outright", which read as a ban on the vocabulary rather than on the collision.)*
 
-⚠ **One positive cue exists** (`capped`, ST-10). No scenario relies on it to *reach* its press by
-elimination; it carries a fact — *you are wasting a charge right now* — that elimination
-structurally cannot carry, because elimination expresses rank and that fact is about loss.
+⚠ **One positive cue exists** — `priority`, worn by **two markers** on the Immolation Aura entry:
+rung 10's capped charges (**ST-10**) and rung 2's pre-Meta window (**ST-14**). One cue, so one card
+on screen even where both are true. Each carries a rung that **jumps the queue on a condition**,
+which is what elimination structurally cannot express, because elimination can only say rank and a
+jump is not a rank. ⚠ **It was `capped` until 2026-08-26**, and re-badging it to `priority` deleted
+a reading: `capped` said *you are wasting a charge right now*, and `priority` says only *press this
+one*. That was paid deliberately so that two rungs meaning the same action would show one badge —
+`catalog.md`, under the rung table.
 
 | Verdict | What cap concluded | Whose signal |
 | --- | --- | --- |
@@ -142,9 +151,9 @@ normally. A `cues` group names corner-badge cues by their `../render-shelf.md` k
 
 ⚠ **The cue vocabulary is negative by default**, so a group almost always appears on a button that
 is ruled out, and a satisfied dependency draws **nothing** — there is no `go` state to write. The
-one exception is `capped` (ST-10), the vocabulary's single positive cue: it reports **impending
-loss**, which is urgent regardless of rank, so it may ride a button that is *not* ruled out —
-including the press itself. `capart`'s elimination gate counts **negative** cues only, precisely so
+one exception is `priority` (ST-10, ST-14), the vocabulary's single positive cue on this spec: it
+reports a rung that **jumps the queue**, which is urgent regardless of position, so it may ride a
+button that is *not* ruled out — including the press itself. `capart`'s elimination gate counts **negative** cues only, precisely so
 that cue cannot eliminate its own button. (The retired
 `{dots: X go|wait}` grammar is rejected by name if it reappears: `capart` errors rather than
 silently ignoring it, because a silently-ignored group would let this file keep asserting a cue the
@@ -187,10 +196,13 @@ in the constitution:
    against another's — and still be moving emphasis only by readable facts, not computing a
    press. **ST-1/ST-3** are the archetype: Metamorphosis is "go" or "wait" entirely off its reset
    targets' state, shown as a dependency **mark** that draws only when the reset would be wasted.
-2. **Emphasis has intensity, not just on/off.** To reproduce the order, "lit" must rank:
-   **promoted (a windowed spender) > lit COOLDOWN > lit ROTATION baseline > dim/off.** The eye
-   goes to the brightest — several scenarios are only correct because a promoted spender
-   out-shines a lit cooldown (**ST-6**).
+2. **Emphasis has intensity, not just on/off.** To reproduce the order, "lit" must be able to
+   rank: a windowed spender may outrank a lit cooldown, and the eye goes to the brightest. ⚠ **It
+   is a spec-wide rule with no Havoc consumer today**, and saying otherwise is what cue D's
+   retirement corrected. The promotion this used to cite at **ST-6** was demon form, which moves
+   nothing (rungs 18/19 are adjacent, 21-over-23 is already the row order); the promotion that
+   would use it is rung 12's Essence-Break/Demonsurge window, and that is **Open fact 1**. ST-6
+   resolves by elimination alone, as its own walk says.
 3. **Eye-direction by elimination.** A low-priority button is directed-to by the **absence** of
    competing emphasis, not by a bright cue of its own. The default spender and the filler need no
    signal; they win when they are the only button the walk reaches (**ST-0**, **ST-9**,
@@ -223,8 +235,15 @@ Classifying every single-target scenario by how cap directs the eye to its press
 
 | Verdict | Meaning | Scenarios |
 | --- | --- | --- |
-| **readable rank** | every skip above the press is a readable fact — a cooldown, a readiness mark, affordability, a demon-form window, the AoE toggle, or plain elimination | ST-0, ST-1, ST-3, ST-4, ST-6, ST-7, ST-9, ST-10, ST-11, ST-12 |
+| **readable rank** | every skip above the press is a readable fact — a cooldown, a readiness mark, affordability, a demon-form window, the AoE toggle, or plain elimination | ST-0, ST-1, ST-3, ST-4, ST-6, ST-7, ST-9, ST-10, ST-11, ST-12, ST-13 |
 | **sealed-modulated** | at least one *load-bearing* skip rides a sealed value the client paints and cap never reads | ST-2, ST-5, ST-8 |
+| **sealed-promoted** | the **press itself** is named by a sealed value the client paints — a positive cue whose paint is a curve, not a Lua branch | ST-14 |
+
+⚠ **The third row is new on 2026-08-26 and it is the interesting one.** Until then every sealed
+fact on this spec *withheld* a press (a hold band) or *annotated* one; ST-14 is the first where a
+sealed fact **names** the press. It is still not a branch — cap hands the client a curve and the
+client decides whether the badge paints — which is exactly why it is legal, and why the row is
+named for what the client did rather than for what cap knew.
 
 No scenario is a genuine "cap can't rank it." The open facts (Demonsurge / Essence-Break-window
 promotion, the Inertia proc, buff-maintenance markers) only **sharpen** a scenario that already
@@ -242,7 +261,7 @@ gold badge quietly stops appearing and nobody is told.
 
 | Status | Meaning |
 | --- | --- |
-| **have** | Readable cue already in the catalog's core: readiness (R2), affordability (A), readable hold (C1), demon-form promotion (D), Immolation-at-full (R6), the talent gate (F) and the single-target skip (G). Reads a readable fact; ships now. ⚠ *Ships* is about the **fact**, not the pixels — a cue whose only expression would be positive (demon-form promotion) is `have` and currently undrawn. |
+| **have** | Readable cue already in the catalog's core: readiness (R2), affordability (A), readable hold (C1), Immolation-at-full (R6), the talent gate (F) and the single-target skip (G). Reads a readable fact; ships now. ⚠ **Demon-form promotion (cue D) is no longer on this list — it is RETIRED**, and not for want of a treatment: the anchored row order already delivers rung 21-over-23, so the promotion would move no button. `catalog.md`'s cue table carries the argument. |
 | **sealed** | A specified sealed-display cue: the Fury break-point readout (B) and every hold band (C2), plus the demon-form bar. The client paints it from a secret value; cap reports `offered`/`armed`/`refused` and never reads back. |
 | **open** | Needs in-client measurement; **produces no hint until resolved** (`../spec.md` §3.6). Where an open cue would apply, the press is already carried by a **have** cue or by elimination; the open cue is flagged as "would additionally sharpen *if* measured," never relied on. |
 
@@ -296,11 +315,22 @@ first because it is the easiest to read, not because the others are measured aga
   2. **Metamorphosis** — available, and nothing cap can see rules it out. The half of rung 3 the
      catalog covers is `!cooldown.blade_dance.up & cooldown.eye_beam.remains>8`, and both terms
      are satisfied, so all three of its markers stay dark: the reset banks two casts. It is the
-     first button the scan reaches with no swipe and no badge → **press.**
+     first button the scan reaches with no swipe and no badge → **press.** (This build has
+     Chaotic Transformation. On one that does not, the same three markers stay dark for a
+     different reason — see the gate below.)
 - **Eye-direction.** Meta's *own* readiness didn't decide it — the state of the two abilities it
   *resets* did, and it decided it **by not objecting**. The dependency comparison is still
   happening; it just has nothing to say when the answer is "go." ST-2 and ST-3 are the same fact
   speaking.
+- ⚠ **All three markers are gated on `talent(chaotic_transformation)`, and the gate is the
+  first disjunct of the rung — not a nicety.** Chaotic Transformation is what makes Metamorphosis
+  reset anything; without it `!talent.chaotic_transformation` is true, rung 3 is **unconditional**,
+  and there is no hold to draw. Ungated, `meta_wastes_death_sweep` and `meta_wastes_eye_beam` would
+  fire on the *steady state* of such a build — Blade Dance or Eye Beam merely being ready — and
+  Metamorphosis is at row position 2, so **the leftmost GCD row would wear a permanent red badge**.
+  The Hunt's identical structure was already gated this way one entry down, on Eternal Hunt, with
+  the same sentence as justification; this file and `catalog.md` both *claimed* the gate existed
+  before the markers carried it *(added 2026-08-26)*.
 - ⚠ **The three markers are a SLICE of rung 3, and one hold is missing entirely.** The full rung is
   `(!talent.chaotic_transformation | !cooldown.blade_dance.up & cooldown.eye_beam.remains>8) &
   !action.death_sweep.demonsurge_available & !action.annihilation.demonsurge_available`. Those two
@@ -310,7 +340,8 @@ first because it is the easiest to read, not because the others are measured aga
   as *nothing cap can see*, which is the honest reading everywhere in this file.
 - **Cue set.** Readiness (R2) → **have**. Reset marks — Blade Dance ready and Eye Beam ready
   (readable, R2 + R7) → **have**. Reset band — Eye Beam's cooldown ≤8s (C2, S4) → **sealed**.
-  All three drawn only in their blocking state.
+  Talent gate — Chaotic Transformation (F, trait config) → **have**, and it withholds all three.
+  All of them drawn only in their blocking state.
 
 ### ST-2 · Metamorphosis held — Eye Beam ≤8s out
 
@@ -339,7 +370,8 @@ first because it is the easiest to read, not because the others are measured aga
   Beam's *right*, needs only the band; elimination covers its zero case. Row position decides
   which halves a hold needs.
 - **Cue set.** Reset band — Eye Beam cooldown ≤8s (C2, S4) → **sealed**. Reset mark — Eye Beam
-  ready (C1) → **have**, the counter above. Both name one cue and union into one badge.
+  ready (C1) → **have**, the counter above. Both name one cue and union into one badge, and both
+  are withheld outright without **Chaotic Transformation** (F) — see ST-1.
 
 ### ST-3 · Metamorphosis held — Blade Dance is ready
 
@@ -357,7 +389,7 @@ first because it is the easiest to read, not because the others are measured aga
   relationship between two buttons*, computing nothing. ✅ This marker is the one the APL
   re-source confirmed **unchanged** — `!cooldown.blade_dance.up`, exactly as authored.
 - **Cue set.** Readiness (R2) → **have**. Reset mark — Blade Dance ready (C1, readable) →
-  **have**. Affordability (A) → **have**.
+  **have**, and withheld without **Chaotic Transformation** (F). Affordability (A) → **have**.
 
 ### ST-4 · The Hunt — Metamorphosis is ready, so cast it
 
@@ -422,19 +454,22 @@ first because it is the easiest to read, not because the others are measured aga
      and open the window) → skip.
   3. **Death Sweep** — available, and nothing rules it out → **press.** Rung 12,
      `death_sweep,if=debuff.essence_break.up`, which is six rungs above the baseline Death Sweep
-     at 18 — the promotion the APL performs and cap can only imply. The readable **demon-form
-     window** is *why* it belongs here (promoted > lit COOLDOWN, `../spec.md` §3.1) — but the
-     ranking argument does no work in this particular state: everything above it is on cooldown,
-     so elimination alone reaches it. The promotion would matter in a state where a COOLDOWN
-     button were also up, and that is the state a flight should build if it wants to test whether
-     the promotion needs to be *drawn*.
+     at 18 — the promotion the APL performs and **cap draws nothing for**. The ranking argument
+     does no work in this particular state anyway: everything above Death Sweep is on cooldown, so
+     elimination alone reaches it. It would matter in a state where a COOLDOWN button were also
+     up, and that is the state a flight should build if it wants to test whether the promotion
+     needs to be *drawn*. ⚠ **What promotes here is rung 12's condition — the Essence Break
+     debuff, or an owed Demonsurge cast — not demon form.** Demon form is merely the reason the
+     icon says *Death Sweep*; rungs 18 and 19 are adjacent, so the flip moves no button. The cue
+     that used to claim this rise (**D**) is retired for exactly that reason; the real promotion
+     is **Open fact 1** and stays open.
 - **Fidelity.** This is the override showcase: the row reads *Abyssal Gaze · Death Sweep ·
   Consuming Fire · Annihilation*. cap authors none of it — R7 resolves the live `overrideSpellID`,
   so the CDM shows precisely what the client shows.
-- **Cue set.** Demon-form promotion (D, R7) → **have**. Demonsurge-active promotion → **open**.
-  Essence-Break-window promotion → **open**. *(Demon form carries the promotion today; the two
-  windows would sharpen it if their active-state proves readable — until then they mark, never
-  promote.)*
+- **Cue set.** Readiness (R2) → **have**. Identity re-skin (R7) → **have**, and it is a re-skin
+  rather than a rank. Demonsurge-active promotion → **open**. Essence-Break-window promotion →
+  **open**. *(Nothing promotes this row today. The two windows would, if their active-state proves
+  readable — until then they mark, never promote.)*
 
 ### ST-7 · Essence Break — open the window
 
@@ -500,8 +535,9 @@ first because it is the easiest to read, not because the others are measured aga
   2. **Immolation Aura** — its charges **read full** (`isActive` is `false`, and `NeverSecret`),
      so the second charge is not recharging and time on it is being thrown away → **press.**
      Rung 10 is exactly this: `charges=2` spends the surplus rather than sitting on it.
-- ⚠ **This is the row that carries the vocabulary's one positive cue, and rung 10 is why it earns
-  the exception.** Rung 10 carries **no target term** — a banked charge outranks the spenders,
+- ⚠ **This row carries the vocabulary's one positive cue — one of TWO markers wearing it — and
+  rung 10 is why it earns the exception.** *(ST-14 is the other marker, rung 2. Same cue, same
+  card, different rung and a different fence; read the two together.)* Rung 10 carries **no target term** — a banked charge outranks the spenders,
   and Eye Beam, at any target count. Row position cannot express that: encoding rung 10 would
   demand a slot above Eye Beam in *every* state, which is wrong in the far commoner state where
   no charge is banked. A cue that jumps the queue on a condition is exactly what pass 1 of the
@@ -530,6 +566,12 @@ first because it is the easiest to read, not because the others are measured aga
   left, and **pass 1 is right**, because rung 10 outranks rung 14 and no row position can say so.
   `capart check` used to demand both passes name the same press, which made that row
   unrepresentable; since 2026-08-17 it runs the passes as the ordered chain Part 0.5 defines.
+- ⚠ **The cue on this row was `capped` and is now `priority`** (2026-08-26), because rung 2's
+  marker joined it on this entry and `Catalog.Check` refuses two *different* positive cues on one
+  button. The condition here did not change; the **reading** did. `capped` said *impending loss* —
+  you are wasting a charge right now — and `priority` says only *press this one*. The hue is the
+  same gold (hue carries polarity and only polarity) but the glyph is not: the stacked-cards mark
+  became the flame. Stated because it is a real loss, not a rename.
 - **Cue set.** Immolation's charge state (`GetSpellCharges().isActive`, `NeverSecret`) →
   **have**, drawn in the capped direction only *(open-to-confirm: does that read behave the same
   on Havoc's row in instanced combat? OBS-066 measured Conflagrate)*. Talent gate (F) →
@@ -584,6 +626,13 @@ first because it is the easiest to read, not because the others are measured aga
   so nothing else was stopping it. Drop `affordable(chaos_strike)` and it fires when there is no
   spender to be sent to (ST-11). Drop the rung-10 term and it fights the gold badge on the same
   button.
+- ⚠ **And it does NOT clear for rung 2, which is a stated exception rather than an invariant.**
+  Rung 2's third conjunct is a *sealed* band, and a sealed fact cannot be negated into a readable
+  `when` — so on a Violent Transformation build inside the pre-Meta window this row can wear gold
+  and red at once (`ia_pre_meta_and_skip`). The only readable exclusion available would delete cue
+  G on the mainline build, which is worse. It is mild because the **press answer is still right**:
+  pass 1 runs first, `priority` ranks above `blocked` in the badge stack, and rung 2 is the top of
+  the list where rung 25 is the bottom. `catalog.md`, misordering 5.
 - ⚠ **That last term is authored as THREE markers unioned** — `!capped`, `!a_fire_inside`,
   `!burning_wound` — because it means `!(capped & a_fire_inside & burning_wound)`, the exact
   negation of the gold badge's own rung-10 test, and a marker's grammar is AND-only. Union is the
@@ -614,6 +663,102 @@ first because it is the easiest to read, not because the others are measured aga
   speaks in the opposite direction. `catalog.md`, misordering 3.
 - **Cue set.** Readiness (R2) → **have**. Affordability (A) → **have**. Fury break-point readout
   on both generators (B, S1) → **sealed**.
+
+### ST-13 · Felblade — Inertia armed, and the window has a clock
+
+- **State.** **ST-11's state, on an Inertia build.** Not transformed, **Fury low** (~25), every
+  cooldown down — Vengeful Retreat included, which is what armed the window — and **Immolation
+  Aura out of charges**. **Inertia is ARMED**: `buff.inertia_trigger` is up with part of its 12s
+  left. Single-target mode.
+- **Walk.**
+  1. **Vengeful Retreat … Essence Break** — on cooldown → skip. (Vengeful Retreat's own cooldown
+     is *why* the trigger is armed: rung 5 spent it, and The Hunt and Vengeful Retreat are the two
+     things that arm Inertia.)
+  2. **Blade Dance** — available but `starved` (cue A) → skip.
+  3. **Immolation Aura** — no charges → swiped by the CDM → skip.
+  4. **Chaos Strike** — `starved` → skip.
+  5. **Felblade** — a generator, never unaffordable, and nothing badges it → **press.** The rung
+     is **16**, `felblade,if=buff.inertia_trigger.up`, not 22/24: with the trigger up Felblade
+     sits *above* Essence Break in the list. Everything on rungs 3–15 is on cooldown or
+     inapplicable here, so rung 16 is the first line that fires.
+- **What is new on this row.** Felblade carries a **proc bar** (`../render-shelf.md` **V20**) —
+  a thin client-drained bar on the bottom edge, running down the armed window's own remaining
+  time. cap authors no threshold, reads nothing, and never learns where the fill is; the slot
+  filters to the aura, so the bar exists exactly while the window does and **visibility is the
+  gate**.
+- ⚠ **The bar is not a promotion and does not move the press.** V20 carries no cue and
+  eliminates nothing, so pass 2 is untouched: Felblade is the press here because everything to
+  its left swiped or starved itself out, exactly as in ST-11. What the bar adds is the half
+  elimination cannot carry — *how long you have to spend it.* Whether Inertia can also **promote**
+  Felblade is Open fact 3 and stays open; a readable proc glow has not been measured, and this
+  ships without asserting one.
+- ⚠ **Which of Inertia's three ids the bar rides, and why it is the ARMED one.** 12.1 carries
+  three spells named Inertia (`abilities.md` → *Spell-ID anchors*): `427640` the talent passive
+  and the Cooldown-Manager row, `427641` the **held** +12% buff (5s), and `1215159` the **armed**
+  state (12s). The bar rides **`1215159`**. Two reasons, and they agree. The APL's own term is
+  `buff.inertia_trigger.up`, which is the armed state — so the bar and the rung that presses this
+  button have **one subject**. And the two auras answer different questions: the held buff says
+  *you already spent it*, which is history on a row whose job is the press, while the armed state
+  says *this is how long you have to cash it in*, which is the only one a Felblade row can act on.
+- ⚠ **And on this build one badge can argue with rung 16.** `felblade_overcap` is the negation of
+  rung 22's `fury<=100`, and rung 16 carries no Fury term at all — so with the trigger armed and
+  Fury above 100 the row wears a red badge on a button the APL says to press. It is **not** gated
+  on the aura, because `aura(inertia_trigger)` would assert a readability nobody has measured
+  (Open fact 3). Stated, not papered over: `catalog.md`, misordering 4. It is dark here — ~25 Fury
+  is nowhere near any break.
+- **Cue set.** Readiness (R2) → **have**. Affordability (A) → **have**. The armed window's
+  remaining time → **sealed** (`sealed-proc-bar`, V20). Inertia-proc *promotion* → **open**, and
+  not relied on.
+
+### ST-14 · Immolation Aura — spend the charge before Violent Transformation resets it
+
+- **State.** Fel-Scarred with **Violent Transformation, A Fire Inside and Burning Wound**.
+  **Metamorphosis is ~3s from returning.** Eye Beam has ~12s left and Blade Dance is on cooldown;
+  **The Hunt, Vengeful Retreat and Essence Break are all ready**. **Immolation Aura holds one
+  charge** — available, not capped. **Fury low** (~25). Single-target mode.
+- **Walk (pass 1, and that is the whole point).**
+  1. **Vengeful Retreat** — ready, but `blocked`: Metamorphosis is inside the 4s band, so the
+     retreat is worth holding for it. Off the GCD either way.
+  2. **Metamorphosis** — on cooldown → skip. Its own three holds are dark: Eye Beam is neither
+     ready nor within 8s, and Blade Dance is spent.
+  3. **The Hunt** — ready, and `blocked` on **both** its bands: Eye Beam is beyond 10s and
+     Metamorphosis is within 15s. Rung 4 agrees — none of its three disjuncts is satisfied → skip.
+  4. **Eye Beam / Blade Dance** — on cooldown → skip.
+  5. **Essence Break** — ready, Eye Beam is more than 4s out, so its band is dark. **It is clean,
+     and elimination would stop here.**
+  6. **Immolation Aura** — wears the gold `priority` badge → **press.** Rung **2**,
+     `immolation_aura,if=talent.violent_transformation&talent.a_fire_inside&
+     cooldown.metamorphosis.remains<gcd.max*3`: all three terms hold, and it is the first line in
+     the whole list after `auto_attack`. Violent Transformation resets Immolation Aura when you
+     transform, so a charge spent in the last ~3 globals costs nothing and a charge *held* is
+     thrown away by the reset.
+- **Eye-direction — ⚠ this scenario is read by PASS 1, and ST-13 was read by pass 2.** That is a
+  different proof. ST-13's press is whatever an unobstructed scan reaches; here the scan reaches
+  **Essence Break** first, sitting clean at position 5, and **pass 1 is right anyway** — rung 2
+  outranks rung 17 and no row position can say so. A promoted row proves the positive cue can
+  *override* elimination; an eliminated row proves only that nothing got in the way. Both proofs
+  are needed and neither substitutes for the other.
+- ⚠ **Rung 2 carries NO cooldown fence, and that is the difference from ST-10.** Rung 10 sits
+  *below* rungs 3 and 4, so its badge is gated on Metamorphosis and The Hunt not being ready —
+  without that it would point past cooldowns that outrank it. Rung 2 sits **above** everything, so
+  there is nothing to point past: The Hunt is ready here and the badge is still correct. Anywhere
+  a positive cue looks over-eager, ask what rung it is; the fence is a function of the answer.
+- **Why one badge and not two.** Rungs 2 and 10 wear the **same** `priority` cue on the same
+  entry, so at full charges inside the pre-Meta window the row still shows **one** card
+  (`ia_pre_meta_and_capped`). Both rungs mean the same action — *press Immolation Aura now* — and
+  cap does not owe the player a reason code on a button it is already telling them to press.
+  ⚠ **What that costs is real and is not hidden:** `capped` said *impending loss*, and `priority`
+  says only *press this one*. The impending-loss reading is **deleted on this entry**. It is the
+  price of one honest badge over two competing ones, and it was paid deliberately.
+- **The sealed half.** `cooldown.metamorphosis.remains<gcd.max*3` is 4.5s at a 1.5s global; the
+  band is authored at **5**, and that is a **rounding**, said out loud rather than presented as a
+  measurement. cap hands the client the curve and never learns the clock — so this is the first
+  positive cue on the spec whose *paint* is decided by a secret. Legal, and the reason is precise:
+  §3.6 forbids cap **branching** on a sealed value, and here the **display does the reading**.
+- **Cue set.** Readiness (R2) → **have**. Talent gates — Violent Transformation + A Fire Inside
+  (F) → **have**. The pre-Meta band (S4, `sealed-cooldown-range within: 5`) → **sealed**.
+  Affordability (A) → **have**, and it is what keeps the single-target skip dark here: at ~25 Fury
+  Chaos Strike cannot be paid for, so there is no spender to be sent to.
 
 ---
 
@@ -670,7 +815,10 @@ badged. ST-2 and ST-8 are the two scenarios where the retreat's badge is actuall
 
 **Without Chaotic Transformation**, VR-3 and VR-4 dissolve — Metamorphosis stops resetting Eye
 Beam, rung 3 goes unconditional, and Meta becomes a plain on-cooldown press. VR-1, VR-2 and
-VR-5/6 are unaffected, running off Eye Beam and Eternal Hunt.
+VR-5/6 are unaffected, running off Eye Beam and Eternal Hunt. ⚠ **And cap now draws that**: all
+three Metamorphosis holds are gated on `talent(chaotic_transformation)`, so on such a build the row
+goes clean instead of wearing a standing red badge. Until 2026-08-26 this paragraph was true of the
+*game* and false of the *addon*.
 
 **Three things the bands do not claim:**
 
@@ -747,9 +895,11 @@ hint. The Meta + Essence Break burst is the same COOLDOWN readiness as single ta
 
 **Complete cue set for comprehensive coverage (have / sealed):** readiness (R2), affordability
 (A), readable holds C1 (Metamorphosis's two reset marks), sealed holds C2 (four of them —
-Metamorphosis, The Hunt, Essence Break, Vengeful Retreat), demon-form promotion (D),
-Immolation-at-full (R6) with its talent gate (F), the single-target skip (G), the Fury
-break-point readout (B), identity re-skin (R7), and the demon-form bar. Plus **two non-cue mechanisms** the walk made explicit: the
+Metamorphosis, The Hunt, Essence Break, Vengeful Retreat) **plus the Chaotic-Transformation gate
+on all three Metamorphosis holds**, Immolation-at-full (R6) with its talent gate (F), the
+single-target skip (G), the Fury break-point readout (B), identity re-skin (R7), the Inertia
+armed-window proc bar (V20, ST-13), **rung 2's pre-Meta band (E's second marker, ST-14)**, and the
+demon-form bar. Plus **two non-cue mechanisms** the walk made explicit: the
 **emphasis-intensity hierarchy** and **eye-direction by elimination** (both now `../spec.md`
 §3.1), and the **AoE-mode input** that re-weights without a readable count.
 
@@ -761,16 +911,17 @@ break-point readout (B), identity re-skin (R7), and the demon-form bar. Plus **t
 | Essence Break's parked "banked ≥35" positive | The APL has no Fury term on Essence Break. The number came from prose, not a source. |
 | The claim that cap *cannot* deliver the AoE re-weight | Wrong twice. Its premise ("the row's order is the client's") stopped being true when `Anchor.lua` shipped; and it surveyed only positive treatments, so "no treatment exists" was a statement about half the vocabulary. Shipped as cue G. |
 | The claim that Immolation Aura's single-target rung "is 25" | It ignored rung 10, which has no target term at all. |
+| **Cue D, demon-form promotion** *(2026-08-26)* | Retired on its **content**, after its parking reason turned out to be dead. Annihilation is rung 21 where Chaos Strike is 23, over rung 22's conditional Felblade — and the anchored row already puts this entry at position 8 and Felblade at 9 in both forms, so the promotion moves no button. The rise worth drawing is rung 12's Essence-Break/Demonsurge window, which is not demon form and is Open fact 1. |
 
 **Gaps — cues the walk would use but we have not measured (open, produce no hint until resolved):**
 
 | Named cue | Where it appears | Status | Gates |
 | --- | --- | --- | --- |
-| **The trait-config call** `[gap]` | ST-10, ST-12 | **built, unmeasured** | The `talent` predicate ships, keyed on `ranksPurchased` + `activeEntry.entryID`. `knowledge/addon-dev/` records nothing about that shape or whether it survives combat restriction. The code is unknown-safe, so this is a **fidelity** question, not a safety one: a silent refusal costs the gold badge and frees the skip, and nobody is told. |
+| **The trait-config call** `[gap]` | ST-10, ST-12, ST-14 | **built, unmeasured** | The `talent` predicate ships, keyed on `ranksPurchased` + `activeEntry.entryID`. `knowledge/addon-dev/` records nothing about that shape or whether it survives combat restriction. The code is unknown-safe, so this is a **fidelity** question, not a safety one: a silent refusal costs the gold badge and frees the skip, and nobody is told. |
 | **Demonsurge-active promotion** | ST-6 | **open** | Whether the Demonsurge window exposes a *readable* active-state so cap may **promote** (else it may only mark). |
 | **An owed empowered cast** (`action.<x>.demonsurge_available`) | ST-1 | **open** | Rung 3's third hold — *don't recast Metamorphosis while empowered Death Sweep or Annihilation casts are still owed* — is drawn by nothing. `proc` already exists in `Catalog.PREDICATES`, so if an owed empowered cast surfaces as a readable proc on the row this is cheap; it is filed in `../backlog.md` as an optimisation over the baseline, not built. |
 | **Essence-Break-window promotion** | ST-6 | **open** | Whether the Essence Break amp window's active-state is readable (else promote → mark). |
-| **Inertia-proc rise** | (Inertia build only) | **open** | Whether Felblade shows a readable Inertia proc that lifts it above baseline. Not load-bearing on the Exergy build walked here. |
+| **Inertia-proc rise** | ST-13 (Inertia build only) | **open** | Whether Felblade shows a *readable* Inertia proc that lifts it above baseline — the **promotion** half, and it would move the press. Still open, still undrawn. ⚠ The **clock** half shipped 2026-08-26 and is a different thing: V20's proc bar on the armed state (`1215159`) is a sealed display with no cue, so it says *how long*, never *press this*. Not load-bearing on the Exergy build walked elsewhere. |
 | **Buff-maintenance marker** (Exergy / Serrated Glaive) | the VR sequences, ST-12's tail | **open** (candidate readable-present + sealed-remaining) | Whether "buff present" reads as a plain boolean while the remaining time stays sealed. If so it is a readable marker; the countdown is a sealed duration. |
 | **Hold-band airtime** | ST-2, ST-5, the VR sequences | **open — measurement, not a cue** | Whether 8s / 15s / 8s / 4s are the right widths. cap reports that it *offered* a sealed rule, never whether the badge lit, so this is an eyeball in game rather than a capture. |
 

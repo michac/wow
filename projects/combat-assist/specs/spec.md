@@ -333,6 +333,36 @@ may *compare*, never what it may *show*:
   put the facts where the answer is obvious, not to compute the answer. A rule that will not reduce
   to one mark is usually still expressible as two.
 
+- **Polarity is not the boundary — a sealed value may drive a POSITIVE paint.** A cue whose curve
+  the client evaluates is legal in either direction, because the display does the reading: cap
+  hands over a rule and a sink, the client decides whether the mark is opaque, and no value crosses
+  back. So *"sealed-driven"* is a statement about **who evaluates**, not about which polarity may
+  be drawn; a sealed positive cue is one secret with a fence of readable gates around it, exactly
+  like a sealed negative one. §3.6 forbids cap **comparing** a secret, not showing one. *(Havoc's
+  rung 2 is the first — `talent ∧ talent ∧ sealed-cooldown-range`, 2026-08-26. Nothing in
+  `Channel`, `Catalog` or `Overlay` knows a cue's polarity when it arms a curve; what made this
+  look forbidden was a doc habit — every prior positive cue happened to be readable — not a code
+  constraint.)*
+
+**And two things it does NOT permit, both discovered by trying.** These are limits of the *grammar*,
+not of the platform, and neither is closed by a measurement:
+
+- **A sealed display may assert an aura's PRESENCE. It may never assert its ABSENCE.** Presence
+  draws by the container existing; absence draws nothing — and **nothing is indistinguishable from
+  a refusal, a wrong spell id, or a display that never armed**. So *"this aura is up"* is
+  expressible and *"this aura is down"* is not, and the pair is not symmetric however it is
+  phrased. *(This is what separates Protection's Defeats 1 and 2: `!consecration.up` routes as a
+  presence band, `buff.avenging_wrath.up` needs a boolean in a Lua condition and still owes one.
+  It will separate the same pair in every future catalog.)*
+- **A negative badge cannot say *"I am ranked below the rows to my right."*** A hold is binary and
+  a scan is left-to-right, so a row whose rung sits *below* rows drawn to its right has no way to
+  say so — releasing the hold makes it leftmost-and-clean and names the wrong button, while
+  keeping it holds a press that is sometimes correct. ⚠ **Enumerating the outrankers in `when` is
+  not a fix, and is unsound where the roster is incomplete:** Protection's rung 23 is outranked by
+  a bare `hammer_of_wrath` that has **no roster row at all**, so a marker listing its outrankers
+  would be blind to one of them and fire when that button is the press. *(Protection's Defeat 4.
+  The honest exits are a per-marker rank or alternatives in `when` — `backlog.md` → Tooling.)*
+
 **Be optimistic about carrying a priority list.** Most rules that look sealed-and-therefore-out-of-
 reach turn out to be a readable gate plus a client-side paint, or two marks the player reads
 together. Reach for those before concluding anything cannot be done — and when something genuinely

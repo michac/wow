@@ -165,13 +165,31 @@ question for `backlog.md` → Ideas, not a catalog edit.
    sinks need **no** Category-2 CDM row — `Channel.WindowPlan`/`ProcBarPlan` bind `ability.spell`
    and nothing else, and Demonology's shipped `ib_art_clock` is a V20 on an aura with no row. The
    census read blocks the *readable* latch only. **Still genuinely open:** the buff's spell id.
-4. **`[reported]` Defeats 4 + 5 rest on a false premise.** Pattern B. Highest-value single edit:
+4. **`[reported]` Defeats 4 + 5 rest on a false premise.** ⚠ **PARTLY WRONG — measured
+   2026-08-26. The PREMISE is confirmed; the prescribed FIX is not applied and should not be.**
+   `capped` does have a subject here (`Sense.readCapped` reads the client live and self-withholds
+   at one charge, consulting no `charged` declaration), so Defeats 4/5's stated reason was false
+   and both are rewritten. But adding `capped(holy_armaments) negate` to `ha_banks_bulwark`
+   **inverts the priority in the common case**: rung 23 sits BELOW rungs 15-22, while Holy
+   Armaments is row 4 and Avenger's Shield is row 5 — so releasing the hold at two charges makes
+   Holy Armaments leftmost-and-clean whenever Avenger's Shield is ready, and cap names the wrong
+   button. It trades a rare missed press for a common WRONG one. Defeat 4's real blocker is the
+   grammar (no way to say *"ranked below the rows to my right"*), and enumerating the outrankers
+   is unsound because rung 16's `hammer_of_wrath` has no roster row. See `specs/backlog.md` →
+   Tooling. **Original text below, kept because the premise half of it is right:**
+   Pattern B. Highest-value single edit:
    add `capped(holy_armaments) negate` to `ha_banks_bulwark.when` — cue D currently holds at two
    charges where rung 23 presses, which the catalog itself calls *"the worst failure direction"*.
    ⚠ Do **not** also add the `capped` badge `fact-classification.md` §5.4 anticipates without
    argument: a positive cue is judged by pass 1 and redirects the scan, and at two banked charges
    the APL's press is usually rung 18.
 5. **`[speculative]` Defeats 1 and 2 do NOT close together, and both docs claim they do.**
+   ⚠ **CONFIRMED and PARTLY AUTHORED 2026-08-26.** The asymmetry is real and is now a stated rule
+   in `spec.md` §3.6: a sealed display may assert an aura's **presence** and never its **absence**.
+   Defeat 2 is **narrowed, not closed** — the presence band ships on a *Blessed Assurance* build
+   only, because rung 15 presses Consecration on a capped Divine Guidance count **with the field
+   still up**, so an ungated band would eliminate the correct button there. Defeat 1 stands whole.
+   Original text below:
    (`catalog.md:735`, `scenarios.md`, `fact-classification.md` §5.2.) A sealed container slot is
    visible *while the aura exists* — so a sealed display can say "this aura is up" and can never
    say "this aura is absent". Defeat 2 (`!consecration.up`) needs **presence** and may be routable

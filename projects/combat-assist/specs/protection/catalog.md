@@ -71,7 +71,17 @@ Holy Bulwark banking for the window, **E** Avenger's Shield yielding to an armed
 plus **H**, a talent gate that withholds **B** on the build almost everyone plays.
 
 **No positive cue is spent, and this is the first catalog where that is a close call.** See *Why
-this catalog does not spend a positive cue*.
+this catalog does not spend a positive cue*. ⚠ One promotion-shaped picture does appear on the row
+and cap does not make it: V19's badge on the Sacred Weapon life is decided by the client's own
+pandemic window and carries no cue key.
+
+**Two more sealed displays landed on 2026-08-26**, and what they share is that neither subject
+holds a Cooldown-Manager row: **V19's pair** on the Sacred Weapon buff, which says both halves of
+rung 10 — a gold hatch while the buff is healthy, the badge once Blizzard's refresh window opens,
+and nothing at all when there is no buff — and a **V16 presence band** on the Consecration player
+aura, which says *the field is already under you* on the build where rung 15 cannot contradict it.
+A sealed container is cap's own frame; a **latch** needs a row and a **display** does not, and that
+one line is what closes one defeat and narrows another.
 
 ---
 
@@ -104,6 +114,38 @@ is the `aura` latch's home ground *[T1 DB2: `CooldownSet` / `CooldownSetSpell` @
 | `blessed_assurance` | Blessed Assurance | `433015` | 637 / cat2 / ord 39 | cue F |
 | `divine_guidance` | Divine Guidance | `433106` | 637 / cat2 / ord 40 | both sealed count tables |
 | `shining_light` | Shining Light | `321136` | 637 / cat2 / ord 30 | cue G |
+
+**Two more aura subjects, and they hold no Cooldown-Manager row at all** — which is legal, and the
+distinction is worth stating because the four above make it look otherwise. A row is what the
+`aura` **latch** needs, and neither of these is ever read by a latch: each is only ever the
+**subject of a sealed display**, and a sealed container is cap's own frame. `Channel.Arm` builds
+an `AuraContainer` on cap's overlay, filters it with `includeSpellIDs`, chooses HELPFUL or HARMFUL
+from `plan.unit` and binds it with `container:SetUnit(plan.unit)`; nothing in that path consults
+the Cooldown Manager. Demonology's `ib_art_clock` is the shipped precedent.
+
+| Key | Aura | Spell ID | Row | Read by |
+| --- | --- | ---: | --- | --- |
+| `sacred_weapon` | Sacred Weapon (the **buff**) | `432502` | **none, anywhere** | `ha_weapon_healthy`'s V19 pair |
+| `consecration_up` | Standing in Consecration | `188370` | **none** | `cons_field_up`'s V16 presence band |
+
+⚠ **Both ids are the ones a name-match would get wrong**, and both are settled Tier 1 at
+12.1.0.69214 (`knowledge/classes/paladin/protection/abilities.md` → *Spell-ID anchors*).
+**`432502`** is the only "Sacred Weapon" id carrying `Effect=6` apply-aura rows — five of them, all
+at `ImplicitTarget=21`, including `EffectAura=468` → *Tempered in Battle* — with
+`SpellDuration.Duration = 20000` and a description ending *"Lasts $d."*; `432472` is the **cast**,
+`432616` / `441590` are the proc's damage and healing, and `432757` is name residue that renders
+*Holy Bulwark*'s text. **`188370`** is the **player** buff — three `Effect=6` rows at
+`ImplicitTarget=1` (caster), and the Protection talent *Strength of Conviction* `379008` hangs its
+points on that id specifically; `26573` is the cast and the 12 s field, `81297` the periodic damage
+inside it, and `204242` the **enemy** snare at `ImplicitTarget=6`.
+⚠ **`188370` carries `Duration = -1`**, which is a hard constraint rather than a curiosity: the
+player buff is **present-or-absent only**, so V19 and V20 are both impossible on it and a
+**presence band** is the one available form. The 12 s clock belongs to the cast.
+⚠ **Sacred Weapon's absence from `CooldownSetSpell` is exhaustive, not a gap.** An exact-`SpellID`
+filter over all five ids returns **zero rows** *[searched 2026-08-26: `CooldownSetSpell` DB2 @
+12.1.0.69214, whole file, exact column match]* — which is the same finding that makes the row-4
+override the only route Sacred Weapon reaches the Cooldown Manager by, now stated as a positive
+measurement rather than as a failed search.
 
 **Three talent subjects**, declared in the separate `talents` family because a talent has no CDM
 row and must never be resolved as if it did *[T1: `ability-inventory.tsv` @ 12.1.0.69214, node +
@@ -220,10 +262,25 @@ one.*
 - **Shield of the Righteous** and **Crusader Strike** are marked for the same absence: neither
   carries a Tier-1 charge count in this repo, and the APL puts no charge term on either.
 
+⚠ **`capped` DOES NOT NEED `charged`, and the claim that it does was this catalog's largest
+single error** (corrected 2026-08-26). `Sense.readCapped` calls **`C_Spell.GetSpellCharges` on the
+live id, every tick**, reads `maxCharges` off the client, and returns **UNKNOWN** — never `false` —
+at `maxCharges <= 1` or on any refusal; `Track.lua` records that `capped` *"deliberately bypasses
+the charge ledger"* and is copied straight through from the live read. It **never consults
+`ability.charged`**, which is a declaration about *readiness tracking* (`Sense.seedBaseline`) and
+about nothing else. So the number this catalog cannot author is a number **cap never has to
+author**: the client owns `maxCharges`, and a one-charge row self-withholds instead of lying. The
+paragraphs above stand — no row declares `charged` and none should — but **`capped` has a subject
+on every row in this catalog**, and the two rungs below are unauthored for reasons that have
+nothing to do with it.
+
 **Two consequences, and both are named as defeats rather than swallowed.** Rung 23 and rung 17
 (`judgment,if=full_recharge_time<=gcd*2`) are the two rungs whose whole content is a charge fact,
-and neither is authored — *Defeats*, items 4 and 5. And because there is no `charged`, **there is
-no subject for the `capped` cue**, which is half of why this catalog spends no positive one.
+and neither is authored — *Defeats*, items 4 and 5. Both are blocked by the **row order** rather
+than by the fact: rung 23 sits below three rows to Holy Armaments' right, and rung 17 would have
+to **promote** Judgment past two rows to its left. Rung 17 also wants a fact `capped` does not
+carry — it asks *about to cap* (`full_recharge_time<=gcd*2`) where `capped` answers *already at
+max*, and those differ by exactly the window the rung exists to use.
 
 ---
 
@@ -282,9 +339,11 @@ to move. Badging the *press* would be a promotion and this catalog does not spen
 1. **Divine Toll on a Righteous Protector build wears nothing at all**, so at position 2 a ready
    Divine Toll stops the walk in every state where the APL holds it. This is the largest hole in
    the catalog and it is *Defeats*, item 1.
-2. **A Consecration whose ground effect is still down cannot be told from one whose is up**, so
-   rungs 19 and 24 are not modelled and position 6 over-fires against rungs 22, 25, 26 and 28.
-   *Defeats*, item 2.
+2. **A Consecration whose ground effect is still up is now told apart from one whose is down — on
+   a Blessed Assurance build only.** `cons_field_up` is a V16 presence band on the player aura
+   `188370`, so rungs 19 and 24 are expressed there. On a **Divine Guidance** build they are still
+   not modelled and position 6 over-fires against rungs 22, 25, 26 and 28, because rung 15 presses
+   Consecration with the field up on a count cap may not read. *Defeats*, item 2.
 3. **Consecration is one rung late while Hammer of Wrath is armed and the Divine Guidance aura is
    absent, and the cause is a deletion rather than an error.** The yield on Consecration is the
    sealed complement, gated on Divine Guidance being below five; at five or more with Hammer of
@@ -297,7 +356,10 @@ to move. Badging the *press* would be a promotion and this catalog does not spen
    The marker was deleted for the **density budget**, not for being wrong (*Defeats*, item 7), so
    what remains is a one-rung throughput loss in exactly that state and never a forbidden press.
    The deletion is a density trade, and this line is where it is paid.
-4. **Rung 17 and the charge half of rung 23 are not modelled** (*The Charges column*).
+4. **Rung 17 and the charge half of rung 23 are not modelled**, and **not for want of the fact** —
+   `capped` is readable on both rows (*The Charges column*). Rung 23 sits below three rows to Holy
+   Armaments' right and a `blocked` badge cannot express that; rung 17 would have to promote
+   Judgment past two rows to its left. *Defeats*, items 4 and 5.
 5. **`apex.3` on rung 13's second disjunct is not a game fact.** It is absent from `talents.json`,
    from `ability-inventory.tsv` and from the whole repo; it is a sim-side Apex rank. The
    `buff.vanguard.up` half of the same rung stands and is authored.
@@ -401,18 +463,36 @@ membership condition would be a claim with no consumer.
     is not its moment.
   ⚠ **The identity gate is load-bearing in both directions.** Without it the hold would sit on the
   Sacred Weapon life, where the APL's rung is ten and the correct press is *now*; with it, the
-  Sacred Weapon life carries no cue at all, which is a separate exposure (below).
-  ⚠ **Cue D is wrong at two charges, and that is rung 23.** `holy_armaments,if=…&charges=2` puts
-  the Bulwark back above the filler when the charges would otherwise cap, and cap declares no
-  `charged` (*The Charges column*), so the hold keeps drawing. The failure direction is a held
-  press and a possibly-wasted charge, which is worse than the ordinary throughput loss and is why
-  it is a named defeat rather than a footnote — *Defeats*, item 4.
-  ⚠ **The Sacred Weapon life carries nothing, and its rung is the one this catalog cannot say.**
-  Rung 10 fires on `buff.sacred_weapon.remains<6 | !buff.sacred_weapon.up`. The first term is an
-  **aura remaining duration**, for which cap has no authored form; the second needs Sacred Weapon's
-  buff to hold a Category-2 row, which this repo's DB2 census does not establish. So an armed
-  Sacred Weapon with a healthy buff is lit at position 4 and stops the walk in a state where the
-  APL skips it. *Defeats*, item 3.
+  Sacred Weapon life carries **its own display instead**, which is `ha_weapon_healthy` below.
+  - `ha_weapon_healthy` — **sealed** `sealed-pandemic` (`../render-shelf.md` **V19**) on the
+    Sacred Weapon **buff** `432502`, with **`outside_s = 6`**, gated on the readable
+    `identity(holy_armaments) == transformed` and `ready(holy_armaments)`. That is rung 10, both
+    disjuncts, said by the client.
+  ⚠ **Cue D keeps drawing at two charges and that is CORRECT, which is the opposite of what this
+  file said until 2026-08-26.** `capped(holy_armaments)` is readable here (*The Charges column*),
+  so the temptation is to release the hold on it — and releasing it inverts the priority. Rung 23
+  (`holy_armaments,if=…&charges=2`) sits **below** rungs 15, 16, 18 and 20–22, while Holy Armaments
+  is **position 4**, above Avenger's Shield, Consecration and Judgment. A released hold makes the
+  row leftmost-clean in the ordinary state, where the APL is at rung 18. `scenarios.md` → *PROT-20*
+  walks it. What remains unauthored is rung 23 itself, and the blocker is the row order plus the
+  absence of an OR in the marker grammar — *Defeats*, item 4, rewritten.
+  ⚠ **The Sacred Weapon life is no longer silent, and V19's pair is what says it.** Rung 10 fires
+  on `buff.sacred_weapon.remains<6 | !buff.sacred_weapon.up`, and the pair covers **both**
+  disjuncts without cap reading either. Plenty of buff left → the **gold do-not-refresh hatch**,
+  drawn from `SetDurationText` breakpoints on the aura's own remaining seconds at the catalog's
+  `outside_s`. Inside Blizzard's refresh window → the **badge**, on a window the client computes
+  per spell with no threshold from cap at all. **No buff → no aura, no button, no sink**, so the
+  row draws nothing and is a live candidate, which is the second disjunct for free.
+  ⚠ **`6` is the APL's own number and it is also 30 % of the buff's 20 s duration**, so the
+  catalog's hatch edge and the client's window edge very nearly coincide. That is what makes the
+  number defensible rather than invented; *how* nearly is a flight question, and the shelf says so.
+  ⚠ **The elimination needs no outranker term, and it is the only hold here that does not.** In
+  the Sacred Weapon life rungs 14 and 23 are dead as well — both name `next_armament=holy_bulwark`
+  — so with rung 10 false the row has **no live rung anywhere in the list** and everything to its
+  right outranks it unconditionally.
+  ⚠ **The identity gate rests on the same open direction as cue D's** (`fact-classification.md`
+  §5.1). Two treatments now depend on it rather than one, in opposite directions — which raises
+  the value of the single observation that settles it and raises the cost of it being wrong.
 
 ### The decision surface
 
@@ -542,10 +622,36 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
   deleting cue D moves the press to Holy Bulwark at rung 23, and deleting `as_awaits_hammer` costs
   two rungs in **every** execute state on **every** build. And it is **reversible** — a readable
   substitute for the Divine Guidance count makes the marker free again.
-  ⚠ **Rungs 19 and 24 are not modelled and this row is the one that pays.** `!consecration.up`
-  reads Consecration's own ground-effect duration, which is a **Category-3 (TrackedBar)** row in
-  set 637 (OrderIndex 24) — the same unmeasured alert-edge question as Avenging Wrath's buff.
-  *Defeats*, item 2.
+  - `cons_field_up` — **sealed** `sealed-count-bands` (`../render-shelf.md` **V16**) on the
+    **player aura** `188370`, a **presence band**: one band at threshold 0 drawing a hatch plus a
+    negative mark, and the client's own blank when the aura is absent as the other state. Gated on
+    the readable `talent(blessed_assurance)`, `ready(consecration)` and `ready(crusader_strike)`.
+    That is rungs 19 and 24's `!consecration.up`, read as an elimination.
+  ⚠ **A presence band is the only shape `188370` allows**, and that is a game fact rather than a
+  design preference: the player aura carries `Duration = -1`, so there is no remaining time on it
+  to band or to drain. The 12 s clock lives on the cast `26573`. V19 and V20 are both structurally
+  unavailable here.
+  ⚠ **This bypasses the Category-3 alert-edge question rather than answering it.** The reason
+  rungs 19 and 24 were unmodelled was that `!consecration.up` looked like a job for the `aura`
+  latch, which rides Cooldown-Manager alert edges and has never been measured on a TrackedBar row.
+  A sealed container needs no row at all — so the fact reaches pixels without the latch, and
+  *Defeats*, item 1 is **unaffected**: that one genuinely needs a boolean in a Lua condition.
+  ⚠ **The talent gate is what makes it honest, and without it the band would eliminate the correct
+  press.** Rung 15 — `consecration,if=buff.divine_guidance.stack>=5` — carries **no**
+  `!consecration.up` term, so on a Divine Guidance build a capped count presses Consecration with
+  the field still under the player. The count is sealed, so cap can never gate on it.
+  `talent(blessed_assurance)` is the other half of choice node `95235`, where rung 15 cannot exist
+  at all. It is read **positively** rather than as `!talent(divine_guidance)` on purpose: identical
+  coverage, one fewer negation in the safety case, and the mutual exclusion with
+  `cons_awaits_hammer` becomes a property of the node rather than of an argument.
+  ⚠ **`ready(crusader_strike)` is the outranker term**, and it is the same shape as cue F's. Rung
+  29 is an *unconditional* Consecration, so with the whole rest of the row unavailable a field-up
+  Consecration **is** the press and the hatch would rule out the correct button. With the hammer
+  row available, rung 25 or 26 fires above rung 29.
+  ⚠ **Rungs 19 and 24 remain unmodelled on a DIVINE GUIDANCE build**, which is half the state and
+  is the honest residue. *Defeats*, item 2, rewritten — and what reopens it is no longer the
+  alert-edge measurement but a **readable substitute for the Divine Guidance count**, the same
+  thing *Defeats*, item 7 wants.
 - **Judgment / Hammer of Wrath** (`275779` → `24275`, rungs 17, 22 / 16). *Problem:* in its base
   life, one problem only — Blessed Assurance makes the *hammer* to its right worth more than
   Judgment for exactly one cast, and nothing on either icon says so. In its **Hammer of Wrath**
@@ -618,12 +724,19 @@ and goes unread. `Catalog.Check` requires `power` only when a `resource` term ex
 | **H** the talent gate | nothing of its own — it **withholds cue B** on a Righteous Protector build, where that half of the rung does not exist | the trait config's node/entry selection | gate on a cue (readable) | the `talent` predicate | (no sink — it gates) |
 | — | **Avenger's Shield rules itself out** at five or more Divine Guidance stacks: the client draws a hatch and a negative mark, and both clear below five | the aura's application count | sealed display + three readable gates | S7 + S11 `sealed-count-bands` (V16) | AuraContainer FontString → V16 |
 | — | **Consecration rules itself out** below five Divine Guidance stacks **while Hammer of Wrath is armed**, and goes clean at five | the aura's application count | sealed display + four readable gates | S7 + S11 `sealed-count-bands` (V17, complement) | AuraContainer FontString → V17 |
+| — | **Holy Armaments rules itself out** while a Sacred Weapon buff has 6 s or more left, and wears a **badge** once Blizzard's own refresh window opens | the aura's remaining seconds, and the client's per-spell pandemic window | sealed display (the pair) + two readable gates | `sealed-pandemic` (V19, `outside_s = 6`) | `SetDurationText` band + `AddPandemicRegion` → V19 |
+| — | **Consecration rules itself out** while its own ground effect is under the player, on a **Blessed Assurance** build | whether the player aura `188370` exists at all | sealed display + three readable gates | `sealed-count-bands` (V16, a presence band) | AuraContainer FontString → V16 |
 
 **Two cue keys, and they share one hue.** `blocked` and `starved` are the whole of it
 (`../render-shelf.md` V5.1); `overcap`, `aoe_only`, `st_only`, `capped` and `priority` are all
 unspent. **That is the smallest cue vocabulary of any catalog so far**, and it is not restraint —
-it is what the priority list contains: no resource term, no target-count term, no charge term that
-survives *The Charges column*, and no state that earns a promotion.
+it is what the priority list contains: no resource term, no target-count term, and no state that
+earns a promotion **cap makes**.
+⚠ **One picture on the row IS a promotion, and cap does not make it.** V19's badge on the Sacred
+Weapon life wears the full positive-cue treatment — promotion ring, halo, a client-drained dial —
+and it is decided entirely by the client's own pandemic window. It carries no cue key, no rank and
+no badge slot negotiated against anything, so *"this catalog spends no positive cue"* survives it
+literally: a cue is a badge **cap** shows.
 
 **Badge-slot arithmetic.** Badges stack down the right edge in `rank` order, so several cues on one
 entry is ordinary; the only undefined case is two **positive** cues on one entry, and this catalog
@@ -643,9 +756,18 @@ for `/cap aoe` to switch, so no row wears `aoe_only` or `st_only`.
 it is the closest call in any catalog so far, because unlike Retribution and Demonology this one
 has a state where the density rule genuinely asks for a promotion and cannot have it.
 
-1. **`capped` has no subject.** It is scoped to impending loss of a *charge*, and **no row in this
-   catalog declares `charged`** (*The Charges column*). Two rungs — 17 and 23 — are pure charge
-   facts, and both are defeats rather than cues. There is nothing to lose that cap can see.
+1. **`capped` has a subject, and it is still not spent** — which is a change of argument rather
+   than of conclusion (2026-08-26). The old claim was that `capped` needs a `charged` declaration
+   and no Tier-1 charge count exists; that is false (*The Charges column*), and the predicate is
+   readable on Holy Armaments today. **A `capped` badge is a POSITIVE cue and therefore a
+   promotion, judged by pass 1 against every row to its left and its right.** Rung 23 sits *below*
+   rungs 15, 16, 18 and 20–22, so at two banked charges the press is usually Avenger's Shield at
+   rung 18 — badging Holy Armaments there promotes a row the priority does not press.
+   ⚠ **The gate this catalog would need is a conjunction it cannot write**: the dump is genuinely
+   the press only when Avenger's Shield, Judgment and Consecration are all unavailable *and* the
+   Blessed Assurance hammers cannot fire. Every one of those terms is readable, so the cue is
+   **authorable** — as a seven-term marker naming four negations — and it is left unauthored as an
+   author's call rather than as a boundary. `scenarios.md` → *PROT-20*.
 2. **`priority` has a candidate, and the candidate is unreachable.** In one real state the walk
    cost **three** budgeted holds before the press: Shield of the Righteous unaffordable (unbudgeted
    — `starved` restates a resource the player is already reading), Holy Armaments held by cue D,
@@ -661,9 +783,11 @@ has a state where the density rule genuinely asks for a promotion and cannot hav
    *everything* to its left, and Hammer of Wrath is outranked by Consecration whenever Divine
    Guidance is capped. Gating the promotion on that would mean cap comparing a sealed count. So the
    promotion fails on the boundary itself. *Defeats*, item 7, and it is the finding of this pass.
-3. **Nothing else is a loss in progress.** A lapsed Sacred Weapon is the nearest thing, and cap
-   cannot see it (*Defeats*, item 3) — its reopening condition is an aura-remaining band, not a
-   positive cue.
+3. **The nearest loss in progress is a lapsing Sacred Weapon, and it now has a picture that is
+   not a cue.** V19's pair says it: hatched while the buff is healthy, badged once Blizzard's own
+   refresh window opens. The promotion is real and the client makes it, so no cue key is spent and
+   no rank is negotiated. *Defeats*, item 3 is closed by that, and its old reopening condition —
+   *"an aura-remaining band nobody has written"* — was answered on 2026-08-24 by `outside_s`.
 
 ⚠ **The walk settled it, and it deleted a hold rather than adding a badge.** The density rule is
 enforced per **scenario** in `wowkb.capart check` and cannot be evaluated from this document, so it
@@ -686,17 +810,18 @@ Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, 
 `sealed-count-bands`, `sealed-count-bar`, `sealed-pandemic`, `sealed-proc-bar`,
 `sealed-power-percent`, `sealed-cooldown-range`):
 
-⚠ **`sealed-proc-bar` was missing from that list until 2026-08-26, and what it dates is the
-*Defeats* section below.** The list was written before V20 shipped and before V19 grew
-`outside_s`, so every *"no S-form exists for this"* claim under *Defeats* was measured against a
-shorter vocabulary than the one in `Catalog.lua` today. Those claims have **not** been re-argued
-here; treat each as needing a re-read against the current forms before it is cited.
+**That re-read has now happened** (2026-08-26). `sealed-proc-bar` was missing from the list until
+that date and `outside_s` shipped on 2026-08-24, so every *"no S-form exists for this"* claim under
+*Defeats* had been measured against a shorter vocabulary than `Catalog.lua`'s. Two of them were
+false and are rewritten in place; a third — *"`capped` has no subject"* — was never about the
+vocabulary at all and was simply wrong about the predicate. Nothing below is left standing against
+the old list.
 
 1. **No new predicate and no new display kind.** Every readable term above is one of the nine, and
-   both sealed forms are ones the shelf already declares. `proc`, `resource`, `capped`,
-   `sealed-power-percent`, `sealed-count-bar`, `sealed-pandemic` and `sealed-proc-bar` are all
-   unused — the largest unused fraction of the vocabulary in any catalog, and the reason is the
-   priority list rather than the design.
+   all three sealed forms are ones the shelf already declares. `proc`, `resource`, `capped`,
+   `aoe`, `sealed-power-percent`, `sealed-count-bar` and `sealed-proc-bar` are unused — still the
+   largest unused fraction of the vocabulary in any catalog, and the reason is the priority list
+   rather than the design.
 2. **First sealed display armed on one entry to rule out that entry on ANOTHER row's aura.**
    `as_guidance_capped` puts Divine Guidance's count on Avenger's Shield. The mechanism is
    unchanged — `Channel.Plan` has always read `display.ability` independently of `entry.ability`,
@@ -715,11 +840,26 @@ here; treat each as needing a re-read against the current forms before it is cit
    whole design. Protection's 12.1 list carries none, so the field is absent by measurement rather
    than by omission — and that is worth writing down, because "Paladin ⇒ declare `HolyPower`" is
    exactly the kind of inference a second Paladin catalog invites.
-5. **The unwritten S-form is the same one Retribution wanted: an aura-remaining band.** Rung 10's
-   `buff.sacred_weapon.remains<6` and finishers 2's four clip conditions are the same shape, and
-   `C_UnitAuras.GetAuraDuration`'s duration object takes the same step curve S4 already puts on a
-   cooldown (`../authoring.md`'s recipe index, S5). **Two specs now want it.** It is not prebuilt,
-   per the standing rules; this is the second note saying one does.
+5. **The aura-remaining band this catalog wanted EXISTS, and Protection is its first consumer.**
+   Rung 10's `buff.sacred_weapon.remains<6` used to be filed here as *"an S-form nobody has
+   written"*; **V19's `outside_s` shipped 2026-08-24** and is exactly that band — the client
+   evaluating `SetDurationText` breakpoints against the aura's own remaining seconds, with cap
+   authoring the number and reading nothing back. Demonology declared V19 without `outside_s`, so
+   `ha_weapon_healthy` is the **first use of the pair's second half anywhere**. ⚠ Retribution's
+   finishers-2 clip conditions are the same shape and should be re-read against it rather than
+   against this file's old claim.
+6. **A sealed display can carry a fact whose row the Cooldown Manager does not have.** Both new
+   subjects — Sacred Weapon's buff `432502` and the Consecration player aura `188370` — hold **no**
+   `CooldownSetSpell` row, and neither needs one: the container is cap's own frame, filtered by
+   `includeSpellIDs` and bound with `SetUnit(plan.unit)`. That is what closes *Defeats*, item 3's
+   second half and what lets *Defeats*, item 2 be answered without the Category-3 alert-edge
+   measurement. It is also the line that separates the two: a **latch** needs a row, a **display**
+   does not, so *Defeats*, item 1 — which needs a boolean in a Lua condition — is untouched.
+7. **A one-band presence table.** `cons_field_up` declares a single band at threshold 0, so the
+   client draws for every value the aura can have and the blank when the aura is absent is the
+   entire other state. Nothing about that is new machinery — it is V16 with a degenerate table —
+   but it is the first time the sink is used to answer *does this exist* rather than *how many*,
+   and it is the only form available on an aura whose `Duration` is `-1`.
 6. **A wanted mechanism that is NOT an S-form, and probably cannot be one.** A **positive cue the
    client gates** — a band that participates in pass 1 rather than only in elimination. It is
    described precisely under *Defeats*, item 7, and the reason it is listed here is that the next
@@ -746,50 +886,99 @@ would reopen it**. None of these is a bare "cannot".
    *What would reopen it:* one measurement — does a Category-3 row raise the alert edges? If it
    does, `aura(avenging_wrath)` is a readable boolean and cue B is replaced by a marker that is
    correct on **both** builds, deleting the talent gate H with it. @verify-ingame
-2. **Consecration whose ground effect is still down — or still up.**
+   ⚠ **This defeat does NOT close with item 2, and both files claimed it did until 2026-08-26.**
+   The two were filed together because both facts live on a Category-3 row — but they are not the
+   same *kind* of need, and item 2 has since been answered without the measurement. **A sealed
+   display can say "this aura is up" and can never say "this aura is ABSENT."** Item 2 needs
+   presence (*the field is under you, so do not press this*), which a container filtered to the
+   aura draws by existing; item 1 needs **absence** (*Avenging Wrath's buff is not up, so Divine
+   Toll waits*), which is nothing at all — no matching aura means no button, no slot and no sink,
+   and a display that draws nothing is indistinguishable from one the client refused. Absence has
+   to enter a **Lua condition**, and that is what the `aura` latch is for and why the measurement
+   is still owed. **Item 2 closes on a Blessed Assurance build; item 1 stands, whole.**
+2. **Consecration whose ground effect is still up — on a Divine Guidance build.**
    *Scenario:* Consecration is off cooldown and its ground effect is still ticking under the
    player. Rungs 19 and 24 (`!consecration.up`) are false, so the APL presses Hammer of the
    Righteous, Judgment or Word of Glory instead and only reaches Consecration at rung 29. cap
    draws nothing and position 6 takes the press.
-   *Rung it died on:* **the client, the same rung as item 1.** Consecration's duration is a
-   Category-3 (TrackedBar) row in set 637 (OrderIndex 24).
-   *What would reopen it:* the same single measurement. Both defeats close together or neither
-   does, which is the argument for doing it. @verify-ingame
-3. **A Sacred Weapon buff about to lapse.**
+   ⚠ **NARROWED 2026-08-26 to one half of the choice node.** On a **Blessed Assurance** build the
+   state is now covered: `cons_field_up` is a **V16 presence band on the player aura `188370`**,
+   and it hatches the row for as long as the aura exists. It needs **no Cooldown-Manager row and
+   no alert edge** — a sealed container is cap's own frame, filtered by `includeSpellIDs` and
+   bound with `SetUnit(plan.unit)` — so the Category-3 question is *bypassed*, not answered.
+   `scenarios.md` → *PROT-19*.
+   *Rung it died on, on the half that survives:* **rung 15, and the sealed count.**
+   `consecration,if=buff.divine_guidance.stack>=5` carries **no** `!consecration.up` term, so on a
+   Divine Guidance build a capped count presses Consecration *with the field up*. Cap may not
+   compare that count, so the presence band would eliminate the correct button there and is gated
+   off it by `talent(blessed_assurance)`.
+   ⚠ **The constraint on the display is a game fact, not a shelf gap:** `188370` carries
+   `Duration = -1`, so there is no remaining time on the player buff at all. V19 and V20 are
+   structurally impossible on it and a presence band is the only available form; the 12 s clock
+   belongs to the cast `26573`.
+   *What would reopen the rest:* a **readable substitute for the Divine Guidance count** — the same
+   thing item 7 wants, and no longer the alert-edge measurement.
+3. **A Sacred Weapon buff about to lapse.** ⚠ **CLOSED 2026-08-26 by V19's `outside_s`.**
    *Scenario:* row 4 is displaying Sacred Weapon and the buff has four seconds left. Rung 10 fires
    on `buff.sacred_weapon.remains<6|!buff.sacred_weapon.up`, putting it above everything from rung
-   13 down; cap draws nothing and the row is indistinguishable from the same row with eighteen
-   seconds left, which the APL skips.
-   *Rung it died on:* **the shelf, for the first term, and the census for the second.** An
-   **aura-remaining band** is an S-form nobody has written — S4's step curve is authored on a
-   cooldown, and the same curve over `C_UnitAuras.GetAuraDuration`'s duration object is the missing
-   piece (`../authoring.md`'s recipe index, S5). The `!buff.sacred_weapon.up` half is a different
-   problem: this repo's DB2 census does not establish that Sacred Weapon's buff holds a Category-2
-   row in set 637, so even the boolean is unsourced.
-   *What would reopen it:* writing the aura-remaining S-form — which Retribution also wants, so it
-   now has two consumers — plus one census read for the Category-2 row. Neither is a client
-   question. @verify-ingame
-4. **A Holy Armaments charge about to cap.**
-   *Scenario:* row 4 is displaying Holy Bulwark, both charges are up, and Avenging Wrath is a
-   minute away. Rung 23 (`…&charges=2`) puts it above the filler; cue D holds it anyway, so the
-   walk steps over a press the APL makes and a charge may be lost.
-   *Rung it died on:* **catalog grammar, and missing Tier-1 data.** `charged` is a static
-   declaration with no talent-conditional form, and Holy Armaments' charge count is not in this
-   repo's Tier-1 game data at all (`ability-inventory.tsv` carries no charge column and records
-   `cd=0`). Declaring it would be inventing the number, and `capped` needs it to have a subject.
-   *What would reopen it:* a measured charge count for Holy Armaments — at which point `capped`
-   becomes authorable on this row and would be the catalog's one positive cue, since a stalled
-   recharge at two charges is loss in progress with no negative phrasing.
-5. **Judgment's second charge about to cap.**
+   13 down; the row used to be indistinguishable from the same row with eighteen seconds left,
+   which the APL skips.
+   *What it died on, and why that is over:* the first term was filed as **an aura-remaining band
+   nobody had written**. `outside_s` shipped **2026-08-24** and is that band — `SetDurationText`
+   breakpoints the client evaluates against the aura's own remaining seconds, with cap authoring
+   the number and reading nothing back. The second term, `!buff.sacred_weapon.up`, was filed as
+   unsourced because no Category-2 row for the buff exists; **it never needed one.** A sealed
+   container is cap's own frame, so with no aura there is no button and no sink, the row draws
+   nothing, and *"nothing drawn"* is exactly the live-candidate state that disjunct wants. Both
+   halves are now authored as `ha_weapon_healthy`, and the id is settled Tier 1: **`432502` is the
+   buff**, 20 s, `Effect=6` at `ImplicitTarget=21` *[T1 DB2 @ 12.1.0.69214]*.
+   *What is left of it:* the **seam**. The hatch clears at the catalog's `outside_s = 6`; the badge
+   appears on Blizzard's own window, computed per spell. Six seconds is 30 % of a 20 s buff, so the
+   two edges should very nearly coincide — but *very nearly* is a flight observation, not a claim.
+   `scenarios.md` → *PROT-17*, *PROT-18*. @verify-ingame
+4. **A Holy Armaments charge about to cap.** ⚠ **REWRITTEN 2026-08-26: the old reason was false.**
+   *Scenario:* row 4 is displaying Holy Bulwark, both charges are up, Avenging Wrath is a minute
+   away, and Avenger's Shield, Consecration and Judgment are all unavailable. Rung 23
+   (`…&charges=2`) is then the top live rung; cue D holds the row anyway, the walk falls through to
+   Crusader Strike at rung 25, and a charge may be lost.
+   *What the old text said, and why it was wrong:* it said `capped` needs a `charged` declaration
+   and that Holy Armaments' charge count is absent from Tier-1 data. **`capped` does not consult
+   `charged` at all.** `Sense.readCapped` calls `C_Spell.GetSpellCharges` on the live id every
+   tick, reads `maxCharges` off the **client**, and returns UNKNOWN at `maxCharges <= 1`;
+   `Track.lua` records that it deliberately bypasses the charge ledger. The number nobody could
+   author is a number nobody has to.
+   *Rung it died on:* **the row order, and the absence of an OR in the marker grammar.** Rung 23
+   sits **below** rungs 15, 16, 18 and 20–22, while Holy Armaments is **position 4** — above
+   Avenger's Shield, Consecration and Judgment. `blocked` is binary: a row wearing it is out of the
+   walk, and a row not wearing it is the press. There is no way to say *"ranked below the three
+   rows to my right"*, so **releasing cue D on `!capped` inverts the priority in the ordinary
+   state** — the row becomes leftmost-clean where the APL is at rung 18. `scenarios.md` → *PROT-20*
+   is that walk, and it is why no such term was added.
+   *What would reopen it:* an **OR in the marker grammar** (or a per-marker rank), so one cue could
+   hold on `!capped` *or* on any of the three outrankers being available. Failing that, the state is
+   expressible as a **seven-term positive `capped` marker** — `capped` ∧ `identity == base` ∧
+   `ready(self)` ∧ `!ready(avengers_shield)` ∧ `!ready(judgment)` ∧ `!ready(consecration)` ∧
+   `!aura(blessed_assurance)` — every term readable. That would be this catalog's first positive
+   cue and is left as an author's decision, not a boundary.
+5. **Judgment's second charge about to cap.** ⚠ **REWRITTEN 2026-08-26 for the same reason as
+   item 4, and it is no longer the same defeat.**
    *Scenario:* Crusader's Judgment `204023` is talented, one charge is banked and the second is two
    globals from full. Rung 17 (`full_recharge_time<=gcd*2`) puts Judgment above Avenger's Shield 18
    and Consecration 19; cap draws nothing.
-   *Rung it died on:* **the same rung as item 4**, plus one that is specific to it — the charge
-   count is **talent-conditional** (1 without Crusader's Judgment, 2 with), and `charged` cannot be
-   made conditional. This is Retribution's Blade of Justice case verbatim.
-   *What would reopen it:* a talent-conditional `charged`, which is a `Catalog.lua` + `Sense.lua`
-   change and not a client question. Note that item 4 needs a **measurement** and this one needs a
-   **mechanism**; they do not close together.
+   *What the old text said, and why it was wrong:* it said the charge count is talent-conditional
+   and `charged` has no conditional form. `capped` needs no `charged`, and **the talent-conditional
+   case is precisely the one `readCapped` handles**: without Crusader's Judgment `maxCharges` is 1
+   and the read self-withholds; with it the fact is live. The mechanism this item asked for is not
+   needed.
+   *Rung it died on:* **two things, and neither is the old one.** First, `capped` is the **wrong
+   fact**: it answers *already at max*, where rung 17 asks *two globals from full* — they differ by
+   exactly the window the rung exists to use, and nothing readable carries a recharge remaining.
+   Second, even the right fact would have to **promote** Judgment past Avenger's Shield and
+   Consecration, and Consecration's own rank turns on the sealed Divine Guidance count (rung 15
+   above rung 16) — which is item 7's boundary verbatim.
+   *What would reopen it:* a readable *recharge-remaining* fact, **and** item 7's readable
+   substitute for the Divine Guidance count. It no longer shares a blocker with item 4: that one
+   wants an OR, this one wants a fact and a promotion.
 6. **`apex.3`.**
    *Scenario:* rung 13's second disjunct is `buff.avenging_wrath.up&apex.3`.
    *Rung it died on:* **the source.** `apex.3` is not a talent, not a buff, and appears nowhere in
@@ -899,14 +1088,24 @@ An ability with no named player problem gets no row; so does one with no Cooldow
   boolean, on four Category-2 rows and nowhere else. **`resource` is not used and the catalog
   declares no `power`**; `proc`, `capped` and `aoe` are not used either.
 - **Cues and displays carry sealed facts to client-owned sinks:** three `sealed-cooldown-range`
-  bands (Divine Toll's cooldown once, Avenging Wrath's cooldown twice) and two
-  `sealed-count-bands` tables, both on Divine Guidance's application count and running in opposite
-  directions. cap authors the window in seconds and the breakpoints in whole counts, and nothing
-  else. The client evaluates every one of them and cap reports `offered` / `armed` / `refused` and
+  bands (Divine Toll's cooldown once, Avenging Wrath's cooldown twice), **three**
+  `sealed-count-bands` tables — two on Divine Guidance's application count running in opposite
+  directions, and one **presence** band on the Consecration player aura `188370` — and one
+  `sealed-pandemic` **pair** on the Sacred Weapon buff `432502`, whose `outside_s = 6` is the only
+  number in this file authored against an aura's remaining **seconds**. cap authors the window in
+  seconds, the breakpoints in whole counts, and that one duration threshold, and nothing else. The client evaluates every one of them and cap reports `offered` / `armed` / `refused` and
   never reads back. **Accepted is not drawn** (`../authoring.md` → *Accepted is not drawn*).
 - **No cooldown remaining, no aura duration, no aura stack count and no target state ever enters a
-  Lua condition**, in either polarity. ⚠ That holds with both count tables drawing: a band table is
-  a rule cap hands over, not a comparison cap performs, and cap never learns which band fired. The
+  Lua condition**, in either polarity. ⚠ That holds with all three count tables and the pandemic
+  pair drawing: a band table is a rule cap hands over, not a comparison cap performs, and cap never
+  learns which band fired. ⚠ **`outside_s` is not an exception and this is the line to hold.** Cap
+  authors `6`; the client compares it against the aura's remaining seconds and writes a FontString.
+  Nothing reads the seconds back, and no Lua branch anywhere in this catalog depends on them.
+  ⚠ **Two of the sealed subjects hold no Cooldown-Manager row**, which is legal and load-bearing:
+  a **latch** needs a row and a **display** does not. That is what expresses rungs 19/24 and both
+  halves of rung 10 without answering the Category-3 alert-edge question — and it is exactly why
+  *Defeats*, item 1 is untouched by either, since absence has to enter a Lua condition and a
+  display that draws nothing cannot be told from one the client refused. The
   one readable thing about an aura anywhere here is the `aura` latch's boolean — *is there one at
   all* — which is a different fact from *how many*, and the two are never mixed in one condition.
 - **Unknown never becomes confidence,** including through negation. A refused `affordable`,
@@ -926,6 +1125,44 @@ An ability with no named player problem gets no row; so does one with no Cooldow
 ---
 
 ## Changelog
+
+**2026-08-26 — three defeats re-read against V16–V20, and one of them was never true.** The
+*Defeats* section had been written against a shorter display vocabulary and against a false belief
+about one predicate. The re-read:
+
+- **`capped` does not need `charged`, and never did.** `Sense.readCapped` calls
+  `C_Spell.GetSpellCharges` on the live id every tick, reads `maxCharges` off the client and
+  returns UNKNOWN at `maxCharges <= 1`; it never consults `ability.charged` (`Track.lua`). So
+  *"there is no subject for the `capped` cue"* was false in *The Charges column*, in *Why this
+  catalog does not spend a positive cue* item 1, and in *Defeats* items 4 and 5. All four are
+  rewritten. **The conclusion survives and the argument is replaced**: `capped` is still unspent,
+  because rung 23 sits below three rows to Holy Armaments' right and a positive cue is a promotion.
+- **The edit that premise invited was refused by the walk.** Adding `!capped(holy_armaments)` to
+  `ha_banks_bulwark` would release the bank hold at two charges — and make the row leftmost-clean
+  in the ordinary state, where the APL is at rung 18. `scenarios.md` → *PROT-20*. **No such term
+  was added**; the residue is *Defeats*, item 4, whose blocker is now the row order and the absence
+  of an OR in the marker grammar.
+- **Defeat 3 is CLOSED.** V19's `outside_s` shipped 2026-08-24 and is the aura-remaining band this
+  file said nobody had written; `ha_weapon_healthy` authors the pair on the Sacred Weapon buff
+  `432502` at `outside_s = 6`. The second half — `!buff.sacred_weapon.up` — needed no Category-2
+  row at all: no aura means no button and no sink, which is the live-candidate state. What is left
+  is the **seam** between the catalog's threshold and the client's own window, which is a flight
+  question. *PROT-17*, *PROT-18*.
+- **Defeat 2 is NARROWED, not closed, and it does not close with Defeat 1.** `cons_field_up` is a
+  V16 **presence** band on the player aura `188370` — the only shape that aura allows, since it
+  carries `Duration = -1`. It is gated on `talent(blessed_assurance)` because rung 15 carries no
+  `!consecration.up` term, so on a Divine Guidance build a capped count presses Consecration with
+  the field up and cap may not read that count. *PROT-19*.
+- **Defeat 1 STANDS, whole, and the claim that 1 and 2 close together was wrong.** A sealed display
+  can say *this aura is up* and can never say *this aura is absent*: absence draws nothing, and
+  nothing is indistinguishable from a refusal. Item 1 needs a boolean in a **Lua condition**, which
+  is the `aura` latch, which is the Category-3 alert-edge measurement. Item 2's answer **bypassed**
+  that measurement rather than making it.
+- **Two aura subjects with no Cooldown-Manager row** are declared (`sacred_weapon` `432502`,
+  `consecration_up` `188370`), both Tier 1 @ 12.1.0.69214 from
+  `knowledge/classes/paladin/protection/abilities.md` → *Spell-ID anchors*. A latch needs a row; a
+  display does not.
+- **Four scenarios** (*PROT-17* … *PROT-20*) and the state table entries behind them.
 
 **2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
 (`../spec.md` §3.1): the Lane column became Scan, and membership is now the row's one declared

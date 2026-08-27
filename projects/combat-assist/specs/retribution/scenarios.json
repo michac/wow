@@ -615,7 +615,10 @@
         },
         {
           "name": "Avenging Wrath",
-          "verdict": "press"
+          "verdict": "press",
+          "sealed": [
+            "proc-bar"
+          ]
         },
         {
           "name": "Wake of Ashes",
@@ -639,6 +642,115 @@
         {
           "name": "Blade of Justice",
           "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-14",
+      "title": "Light's Deliverance at 60 — RET-3 with one fact added",
+      "state": "Single target, mid-fight, no procs, <b>Holy Power 5</b>. Execution Sentence and Avenging Wrath are on cooldown; <b>Wake of Ashes is ready</b>; Divine Toll is up. <b>Light's Deliverance is at 60 stacks.</b> Holy Flames is not talented on this build, so neither the Expurgation hold nor its clock exists and the Avenging Wrath row is an ordinary swiped row.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "press",
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "open",
+          "cues": [
+            "overcap"
+          ]
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "aoe_only"
+          ]
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Crusader Strike",
+          "verdict": "open"
+        }
+      ]
+    },
+    {
+      "id": "RET-15",
+      "title": "Target swap — Execution Sentence held, and the row beneath it is NOT the press",
+      "state": "Single target, mid-fight, fresh target. <b>Holy Flames and Execution Sentence are talented; Radiant Glory is not.</b> <b>Expurgation is not yet on this target.</b> Holy Power 2, no procs. <b>Execution Sentence is ready</b>, <b>Wake of Ashes is ready</b>, Divine Toll is up, <b>Blade of Justice is on cooldown</b>, and Avenging Wrath is ~40s out — far outside every band that names it.",
+      "row": [
+        {
+          "name": "Execution Sentence",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Wake of Ashes",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "press"
+        },
+        {
+          "name": "Final Verdict",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Divine Storm",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Blade of Justice",
+          "verdict": "cd"
         },
         {
           "name": "Judgment",

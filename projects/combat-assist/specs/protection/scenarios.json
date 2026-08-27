@@ -838,6 +838,219 @@
           ]
         }
       ]
+    },
+    {
+      "id": "PROT-17",
+      "title": "Sacred Weapon with plenty of buff left — the row rules itself out",
+      "state": "Mid-fight on the default build. Row 4 is displaying <b>Sacred Weapon</b> and is ready, and the <b>Sacred Weapon buff has about 14 s of its 20 s left</b>. Avenging Wrath ~40 s out, Divine Toll swiped, <b>2 HP</b>, row 7 in its base life with its second charge nowhere near full, DG at <b>2 stacks</b>, no Glory of the Vanguard, Avenger&#x27;s Shield ready, Consecration ready.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Sacred Weapon",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "pandemic"
+          ],
+          "outside": true
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "press"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-18",
+      "title": "Sacred Weapon inside the refresh window — the badge the client shows",
+      "state": "As PROT-17, but the <b>Sacred Weapon buff has about 4 s left</b> and Blizzard&#x27;s own refresh window for it is open.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Sacred Weapon",
+          "verdict": "press",
+          "sealed": [
+            "pandemic"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "open"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-19",
+      "title": "Consecration off cooldown with its field still under you — a Blessed Assurance build",
+      "state": "A <b>Blessed Assurance build</b>, so Divine Guidance does not exist and rung 15 is dead. <b>Consecration is off cooldown but its ground effect is still ticking</b> under the player. Row 7 is in its <b>base</b> life and ready; the Blessed Assurance buff is <b>not</b> up. <b>2 HP</b>; Avenging Wrath, Divine Toll, Holy Bulwark and Avenger&#x27;s Shield all swiped; Blessed Hammer available; no Shining Light.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "cd"
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "cd"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "ruled-sealed",
+          "sealed": [
+            "count-bands"
+          ]
+        },
+        {
+          "name": "Judgment",
+          "verdict": "press"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROT-20",
+      "title": "Holy Bulwark with both charges banked — why the hold stands",
+      "state": "As PROT-5, but <b>both Holy Armaments charges are up</b>: row 4 is displaying <b>Holy Bulwark</b>, ready, at max charges, with Avenging Wrath ~40 s away. <b>2 HP</b>, DG at <b>2 stacks</b>, row 7 base, no Glory of the Vanguard, Avenger&#x27;s Shield ready, Consecration ready.",
+      "row": [
+        {
+          "name": "Avenging Wrath",
+          "verdict": "cd"
+        },
+        {
+          "name": "Divine Toll",
+          "verdict": "cd"
+        },
+        {
+          "name": "Shield of the Righteous",
+          "verdict": "open",
+          "cues": [
+            "starved"
+          ],
+          "client": "not-enough-power"
+        },
+        {
+          "name": "Holy Bulwark",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "Avenger's Shield",
+          "verdict": "press"
+        },
+        {
+          "name": "Consecration",
+          "verdict": "open"
+        },
+        {
+          "name": "Judgment",
+          "verdict": "open"
+        },
+        {
+          "name": "Blessed Hammer",
+          "verdict": "open"
+        },
+        {
+          "name": "Word of Glory",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
+        }
+      ]
     }
   ]
 }

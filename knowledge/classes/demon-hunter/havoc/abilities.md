@@ -1,8 +1,8 @@
 ---
 title: Havoc Demon Hunter — Ability Inventory (Midnight 12.1)
 patch: 12.1
-fetched: 2026-08-11
-reviewed: 2026-08-22
+fetched: 2026-08-26
+reviewed: 2026-08-26
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" Content Update Notes — the CLASSES > DEMON HUNTER > Havoc list
   - knowledge/_meta/patch-notes/12.1.md  # tier 1 verbatim archive of the above
@@ -12,6 +12,12 @@ sources:
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # tier 1, simc midnight branch APL + default profile (Fel-Scarred), 2026-07-11 — PRE-12.1, colour only
   - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, 12.0.7-era, 2026-07-11 — colour only, superseded wherever the 12.1 notes disagree
   - https://www.method.gg/guides/havoc-demon-hunter/playstyle-and-rotation  # tier 3, 12.0.7-era, 2026-07-11 — colour only
+  - raw/wago/SpellName-12.1.0.69214.csv  # tier 1, spell-ID anchors @ build 12.1.0.69214
+  - raw/wago/Spell-12.1.0.69214.csv  # tier 1, spell + aura description text @ build 12.1.0.69214
+  - raw/wago/SpellEffect-12.1.0.69214.csv  # tier 1, effect/aura types + implicit targets @ build 12.1.0.69214
+  - raw/wago/SpellMisc-12.1.0.69214.csv  # tier 1, DurationIndex @ build 12.1.0.69214
+  - raw/wago/SpellDuration-12.1.0.69214.csv  # tier 1, aura durations @ build 12.1.0.69214
+  - raw/wago/CooldownSetSpell-12.1.0.69214.csv  # tier 1, Cooldown-Manager rows @ build 12.1.0.69214
 confidence: high
 ---
 
@@ -86,11 +92,15 @@ buttons went up, the aura came down — consistent with the Fury note above.
   can take Chaotic Transformation *and* Inner Demon together, and you can no
   longer take Inner Demon alongside Chaos Theory.
   *[Tier 1: `talents.md` / `_talents/all-talents.tsv` @ 12.1.0.]*
-- **Inertia** (`427640`): **+12% damage for 6 seconds** (was 18% for 5 seconds) —
-  a smaller, longer window, so it is less punishing to line up but worth less at
-  its peak. ⚠ The live spell tooltip transcribed into `ability-inventory.md`
-  still renders "12% for 5 sec"; the **Tier-1 patch note (6 sec) is the floor**
-  and the tooltip is the disagreement. @verify-ingame (Inertia buff duration)
+- **Inertia** (`427640`, the talent passive): **+12% damage for 5 seconds** (was
+  18%) — a smaller window, worth less at its peak. `427640` itself grants
+  nothing: both its `SpellEffect` rows are `Effect=6 EffectAura=4` (dummy) on the
+  caster, and it has no `SpellMisc.DurationIndex`. The **buff** is a separate
+  spell, **`427641`**, and the **armed state** a third, **`1215159`** — see
+  **Spell-ID anchors** below, which is also where the 5s comes from
+  (`SpellDuration.Duration=5000`). ⚠ The 12.1 patch note prose says **6 seconds**
+  and both the client tooltip and DB2 say **5**; number conflicts resolve to game
+  data, so 5s stands here. @verify-ingame (Inertia buff duration — 5s or 6s)
 - **REMOVED — Dash of Chaos.** Gone entirely. It reaches no trait node on the
   12.1 Demon Hunter tree; three legacy spellIDs (427793 / 428160 / 428393) still
   carry the name in `SpellName`, which is only name residue, not a button.
@@ -227,6 +237,35 @@ They are Tier-3 `verbatim: true` captures and, as of the 12.1 recapture, several
 recommend talents 12.1 deleted or moved. `talents.md` / `talents.json` (Tier 1, DB2 @
 12.1.0) are the floor for whether a talent exists and where it sits.
 
+## Spell-ID anchors — Tier 1 @ build 12.1.0.69214
+
+Which spell id a display should bind when a name maps to several ids. Read from
+wago DB2 at build **12.1.0.69214** — `SpellName`, `Spell` (description +
+aura-description text), `SpellEffect`, `SpellMisc` → `SpellDuration`, and
+`CooldownSetSpell` → `CooldownSet`.
+
+### Inertia — three ids, three different things
+
+The simc APL treats `buff.inertia` and `buff.inertia_trigger` as **two auras**
+(`MID1_Demon_Hunter_Havoc.simc` uses `buff.inertia.up` and
+`!buff.inertia_trigger.up` in one term), and `SpellName` @ 12.1.0.69214 carries
+exactly three ids named "Inertia". They map one-to-one.
+
+| ID | What it is | Evidence |
+|---|---|---|
+| `427640` | **The talent passive.** Two `SpellEffect` rows, both `Effect=6 EffectAura=4` (dummy) at `ImplicitTarget_0=1` (caster), `EffectBasePointsF` 20 and 24000 — no modifier, no duration (`SpellMisc.DurationIndex=0`). `Spell.Description_lang`: *"The Hunt and Vengeful Retreat cause your next Fel Rush or Felblade to empower you, increasing damage by $427641s1% for $427641d."* — i.e. it *names* `427641` as the thing you actually get. It is also the **Cooldown-Manager row**: `CooldownSetSpell` at `CooldownSetID=1599` (`CooldownSet.ChrSpecialization=577`, Havoc) carries `SpellID=427640` twice, `Category=2 OrderIndex=25` and `Category=3 OrderIndex=26`. |
+| **`427641`** | ✅ **`buff.inertia` — the damage buff you have.** Three `Effect=6` rows on the caster: `EffectAura=108` (add percent modifier) ×2 and `EffectAura=344`, every one `EffectBasePointsF=12` — the +12%. `Spell.AuraDescription_lang` is *"Damage increased by $w1%."* `SpellMisc.DurationIndex=28` → `SpellDuration.Duration=5000` (**5s**). |
+| **`1215159`** | ✅ **`buff.inertia_trigger` — the armed state.** One `Effect=6 EffectAura=4` (dummy) row on the caster, `EffectBasePointsF=300`, carrying no damage modifier at all. `Spell.AuraDescription_lang` is *"Your next Fel Rush or Felblade increases your damage by $427641s1% for $427641d."* — future tense, and it points at `427641` for both the magnitude and the duration. `SpellMisc.DurationIndex=29` → `SpellDuration.Duration=12000` (**12s**), the window The Hunt / Vengeful Retreat gives you to spend it. |
+
+The split is unambiguous on two independent axes: only `427641` carries a damage
+modifier aura, and the durations differ (5s held vs 12s armed), which is exactly
+the shape `buff.inertia.up & !buff.inertia_trigger.up` needs.
+
+⚠ **The empowerment spenders are Fel Rush and Felblade, per `427640`'s own
+description at 12.1.0.69214 — not Immolation Aura.**
+
 ## Changelog
 
 2026-08-22 — Abyssal Gaze row rewritten. The old text called Demonic Intensity's description Devourer-worded and unconfirmed for Havoc; it is spec-CONDITIONAL text with a Havoc branch that reads normally, so the row now carries the raw conditional. Two narrower unknowns replace the old blanket one: Abyssal Gaze's own description states no increase over Eye Beam, and Eternal Hunt's empower names "Eye Beam" while Abyssal Gaze is a separate spell id.
+
+2026-08-26 — Spell-ID anchors section added (Tier 1, DB2 @ 12.1.0.69214) resolving Inertia's three ids: 427640 talent passive / CDM row, 427641 the 5s damage buff (`buff.inertia`), 1215159 the 12s armed state (`buff.inertia_trigger`). The Inertia talent-change bullet now carries 5s from `SpellDuration` rather than the patch note's 6s, per game-data-resolves-numbers.

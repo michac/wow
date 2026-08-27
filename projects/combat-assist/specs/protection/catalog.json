@@ -63,6 +63,20 @@
       "id": "shining_light",
       "spell": 321136,
       "family": "auras"
+    },
+    {
+      "id": "sacred_weapon",
+      "spell": 432502,
+      "family": "auras",
+      "unit": "player",
+      "note": "The Sacred Weapon BUFF, not the cast. 432502 is the only \"Sacred Weapon\" id carrying Effect=6 apply-aura rows (five, all ImplicitTarget=21 target-ally, including EffectAura=468 -> Tempered in Battle), SpellMisc.DurationIndex=18 -> Duration=20000, description ending \"Lasts $d.\" [T1 DB2 @ 12.1.0.69214, knowledge/classes/paladin/protection/abilities.md -> Spell-ID anchors]. This is what `buff.sacred_weapon.remains<6` reads. 432472 is the CAST, 432616/441590 the proc's damage and healing, 432757 name residue rendering Holy Bulwark's text. It holds NO CooldownSetSpell row anywhere and needs none: a sealed container is cap's OWN frame, filtered by includeSpellIDs and bound with SetUnit(plan.unit) (Channel.lua:768, :849)."
+    },
+    {
+      "id": "consecration_up",
+      "spell": 188370,
+      "family": "auras",
+      "unit": "player",
+      "note": "The Consecration PLAYER aura -- \"Standing in Consecration\" -- and NOT the cast. All three of 188370's SpellEffect rows are Effect=6 at ImplicitTarget=1 (caster), and the Protection talent Strength of Conviction 379008 hangs its points on this id specifically [T1 DB2 @ 12.1.0.69214, abilities.md -> Spell-ID anchors]. 26573 is the cast and the CDM row (the 12 s field); 81297 is the periodic damage inside the field; 204242 is the enemy snare (ImplicitTarget=6, EffectAura=33). WARNING 188370 has Duration = -1: it is PRESENT/ABSENT only, so V19 and V20 are impossible on it and a presence band is the only available form. Like every aura subject it needs no CDM row -- the container is cap's own frame."
     }
   ],
   "talents": [
@@ -314,7 +328,7 @@
     {
       "id": "holy_armaments",
       "ability": "holy_armaments",
-      "note": "Rungs 10 / 14, 23. One button, two jobs.",
+      "note": "Rungs 10 / 14, 23. One button, two jobs. ⚠ Rung 23's charge dump is not authored and the reason is the ROW ORDER, not missing data (Defeats, item 4).",
       "markers": [
         {
           "id": "ha_banks_bulwark",
@@ -339,6 +353,30 @@
             "beyond": 5,
             "kind": "sealed-cooldown-range"
           }
+        },
+        {
+          "id": "ha_weapon_healthy",
+          "when": [
+            {
+              "pred": "identity",
+              "args": [
+                "holy_armaments",
+                "transformed"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "holy_armaments"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-pandemic",
+            "ability": "sacred_weapon",
+            "outside_s": 6
+          },
+          "note": "V19, and the FIRST consumer of `outside_s` in any catalog. Rung 10 is `holy_armaments,if=next_armament=sacred_weapon&(buff.sacred_weapon.remains<6|!buff.sacred_weapon.up)`, and V19's pair says both halves without cap reading either. Plenty of buff left -> the gold do-not-refresh hatch, off SetDurationText bands on the aura's remaining seconds at the catalog's own 6 (Channel.lua:625-643); inside Blizzard's refresh window -> the badge, on a window the CLIENT computes per spell. No buff at all -> no aura, no button, no sink, so the row draws nothing and is a live candidate, which is the `!buff.sacred_weapon.up` half for free. 6 is the APL's own number and is also 30 % of the buff's 20 s duration, so the hatch's edge and the client's window edge very nearly coincide -- the seam is a flight question. Gated on the SACRED WEAPON life: in the Bulwark life rung 10 cannot fire and the weapon buff says nothing about the Bulwark. That gate rests on the same open direction as cue D (fact-classification.md 5.1) -- if the identity reads the other way round, BOTH treatments land on the wrong life."
         }
       ],
       "states": [
@@ -372,20 +410,7 @@
             "V11",
             "V13"
           ],
-          "note": "One button, two jobs, and which job it has right now is written only on the icon's own artwork. As Holy Bulwark it wants SAVING until Wings. ⚠ The hold is wrong at two charges (rung 23) and no `charged` is declarable on this spec, so it keeps drawing where the priority would dump the charge — a named defeat, not a footnote."
-        },
-        {
-          "id": "ha_sacred_weapon",
-          "condition": "ready, in its SACRED WEAPON life",
-          "verdict": "open",
-          "cues": [],
-          "sealed": [],
-          "slot": null,
-          "apl": "default 10",
-          "drawn_by": [
-            "V13"
-          ],
-          "note": "⚠ Quiet by DESIGN and that is the named exposure. The identity gate is load-bearing in both directions: without it the hold would sit on this life, where the correct press is now; with it, this life carries no cue at all, because rung 10's `buff.sacred_weapon.remains<6` is an aura-remaining band nobody has written."
+          "note": "One button, two jobs, and which job it has right now is written only on the icon's own artwork. As Holy Bulwark it wants SAVING until Wings. ⚠ The hold stands at TWO charges as well, and that is deliberate rather than an oversight: rung 23 (`charges=2`) sits BELOW rungs 15, 16, 18 and 20-22, so a row the priority would dump at 23 is still outranked by three rows to this one's right. Releasing the hold there would put the row back at rung 14's rank. What is not authored is rung 23 itself — Defeats, item 4, rewritten."
         },
         {
           "id": "ha_bulwark_free",
@@ -399,6 +424,78 @@
             "V13"
           ],
           "note": "The hold releases: this is the window the bulwark was being banked for."
+        },
+        {
+          "id": "ha_weapon_absent",
+          "condition": "ready, in its SACRED WEAPON life, no Sacred Weapon buff on the player",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [],
+          "slot": null,
+          "apl": "default 10",
+          "drawn_by": [
+            "V13"
+          ],
+          "note": "Rung 10's second disjunct, `!buff.sacred_weapon.up`, and it costs nothing to say: no aura means no matching aura, no button and no sink, so V19 draws neither its hatch nor its badge and the row is a clean candidate. That is the half this catalog used to call unsourced because no Category-2 row for the buff could be found — a sealed container needs no Cooldown-Manager row at all."
+        },
+        {
+          "id": "ha_weapon_window",
+          "condition": "ready, Sacred Weapon life, the buff up and INSIDE Blizzard's own refresh window",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "pandemic"
+          ],
+          "slot": 0,
+          "combines": [
+            "ha_weapon_healthy"
+          ],
+          "apl": "default 10",
+          "drawn_by": [
+            "V13",
+            "V19"
+          ],
+          "note": "V19's badge — promotion ring, halo and the client-drained dial — on a window cap authors no threshold for. Rung 10's first disjunct, `buff.sacred_weapon.remains<6`, said by the client instead of by cap."
+        },
+        {
+          "id": "ha_weapon_healthy",
+          "condition": "ready, Sacred Weapon life, the buff up with 6s or more left",
+          "verdict": "ruled-sealed",
+          "cues": [],
+          "sealed": [
+            "pandemic"
+          ],
+          "slot": 0,
+          "combines": [
+            "ha_weapon_healthy"
+          ],
+          "apl": "default 10",
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V19"
+          ],
+          "note": "The pair's other state: the gold do-not-refresh hatch, drawn from a SetDurationText band table on `outside_s = 6`. ⚠ The elimination is unconditional and needs no outranker gate, which is unusual: in the Sacred Weapon life rungs 14 and 23 are dead too (both name `next_armament=holy_bulwark`), so with rung 10 false the row has NO live rung anywhere in the list and every row to its right outranks it."
+        },
+        {
+          "id": "ha_charges_capped",
+          "condition": "ready, Holy Bulwark life, Avenging Wrath beyond 5s, and BOTH charges banked",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "ha_banks_bulwark"
+          ],
+          "apl": "default 14",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
+          "note": "Written down as its own state because it is the one the Defeats section argues about. `capped(holy_armaments)` is readable here — Sense.readCapped calls C_Spell.GetSpellCharges live and never consults `ability.charged` — but the hold still stands, because rung 23 outranks nothing this row is drawn above. Defeats, item 4."
         }
       ]
     },
@@ -581,7 +678,7 @@
     {
       "id": "consecration",
       "ability": "consecration",
-      "note": "Rungs 15, 19, 24 and 29. ⚠ Rungs 19 and 24 are not modelled: `!consecration.up` reads a Category-3 (TrackedBar) row, the same unmeasured alert-edge question as Avenging Wrath's buff.",
+      "note": "Rungs 15, 19, 24 and 29. ⚠ Rungs 19 and 24 are now expressed on a BLESSED ASSURANCE build, as a V16 presence band on the player aura 188370 -- not as an `aura` latch, so the unmeasured Category-3 alert-edge question is bypassed rather than answered. On a Divine Guidance build they remain unmodelled, because rung 15 presses Consecration with the field up on a count cap may not read (Defeats, item 2).",
       "markers": [
         {
           "id": "cons_awaits_hammer",
@@ -628,6 +725,42 @@
             ],
             "kind": "sealed-count-bands"
           }
+        },
+        {
+          "id": "cons_field_up",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "blessed_assurance"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "consecration"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "crusader_strike"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-count-bands",
+            "ability": "consecration_up",
+            "bands": [
+              {
+                "threshold": 0,
+                "draw": "mark",
+                "polarity": "negative",
+                "hatch": true
+              }
+            ]
+          },
+          "note": "A PRESENCE band, and the only shape 188370 allows: the player aura carries Duration = -1, so it is present-or-absent and there is no remaining time on it to band or drain — the 12 s clock lives on the cast, 26573. One band at threshold 0 therefore draws for every value the aura can have, and the client's own blank when the aura is absent is the whole of the other state. That is rungs 19 and 24's `!consecration.up` read as an elimination, with no aura duration entering a Lua condition and no latch on an unmeasured row class. ⚠ GATED ON talent(blessed_assurance), which is what makes it honest rather than merely narrow. Rung 15 (`consecration,if=buff.divine_guidance.stack>=5`) carries NO `!consecration.up` term, so on a Divine Guidance build a capped count presses Consecration with the field still under you — and the count is sealed, so cap could never gate on it. On the other half of choice node 95235 rung 15 cannot exist at all. The gate is a POSITIVE talent read rather than `!talent(divine_guidance)` on purpose: same coverage, one fewer negation in the safety case, and it makes the mutual exclusion with `cons_awaits_hammer` (which requires talent(divine_guidance)) a property of the choice node rather than of an argument. ⚠ ready(crusader_strike) is the outranker term: rung 29 is an UNCONDITIONAL Consecration, so with the whole rest of the row unavailable the field-up Consecration IS the press and the hatch would eliminate the correct button."
         }
       ],
       "states": [
@@ -675,6 +808,26 @@
             "V17"
           ],
           "note": "⚠ The complement's readable gate is what makes it TRUE, and this is the answer to Demonology's warning rather than an exception to it. Below five stacks Consecration is not eliminated in general — rung 19 presses it whenever the ground effect is down. The gate narrows the display to the one state where the low band IS an elimination: while Hammer of Wrath is armed and off cooldown, where rung 16 outranks rung 19. Outside that gate the client is never asked to paint anything. ⚠ With no Divine Guidance aura at all the table has no subject and NOTHING covers that state; the readable marker that filled it was deleted for DENSITY, not for being wrong."
+        },
+        {
+          "id": "cons_field_up",
+          "condition": "ready, its own ground effect still under the player, on a Blessed Assurance build, with the hammer row available",
+          "verdict": "ruled-sealed",
+          "cues": [],
+          "sealed": [
+            "count-bands"
+          ],
+          "slot": 0,
+          "combines": [
+            "cons_field_up"
+          ],
+          "apl": "default 25",
+          "drawn_by": [
+            "V11",
+            "V13",
+            "V16"
+          ],
+          "note": "⚠ A presence band rather than a count band, and V16 rather than V17: there is one band, at threshold 0, so it draws whenever the aura exists and the client's blank carries the other state. With the field up rungs 19 and 24 are dead and rung 15 does not exist on this build, so Consecration's only live rung is 29 — the last one in the list — and everything to this row's right outranks it. ⚠ It cannot co-occur with `cons_awaits_hammer`: that marker requires talent(divine_guidance) and this one talent(blessed_assurance), and they are the two halves of choice node 95235."
         }
       ]
     },

@@ -1033,3 +1033,27 @@ or more". Sibling state `as_awaits_hammer_band_armed` was checked and is fine �
 
 Nothing catches the next one: the gate would have to compare a sentence against a band
 table, which is the derivation above.
+
+## Trigger-spell auras are missing from the generated `ability-inventory.tsv`
+
+Found 2026-08-26 while authoring a cap sealed display for Retribution's *Light's Deliverance*.
+
+`ability-inventory.tsv` carries the **talent** `425518`, whose SpellEffect index 0 is a
+`PROC_TRIGGER_SPELL` (`EffectAura = 42`) pointing at `433674` — and **`433674` is the thing that
+actually matters**: it holds `CumulativeAura = 60` (the 60 stacks the spell text names) and it is
+a real Tracked Buff row, `CooldownSetSpell` set **901**, Category **2**, OrderIndex **45**.
+`[T1 DB2: SpellName / SpellEffect / SpellAuraOptions / CooldownSetSpell @ 12.1.0.69214]`
+
+The talent carries `CumulativeAura = 0`, so anything that reads the inventory and takes the id at
+face value gets a stack count of **zero** for a 60-stack mechanic. In cap that failure is silent —
+a sealed display bound to a subject with no stacks draws nothing and never says why (the same
+shape as the Destruction `family` bug, `projects/combat-assist/specs/backlog.md`).
+
+**This looks systematic rather than Retribution-specific**: whatever generates the inventory walks
+the talent/spec spell list and does not follow `EffectTriggerSpell`, so every mechanic whose
+counter or duration lives on a *triggered* aura is represented in the KB only by the talent that
+procs it. Worth a sweep: for each inventory row whose effects include `EffectAura = 42`, check
+whether the triggered spell is the one carrying `CumulativeAura` / `DurationIndex`, and decide
+whether the generator should surface it as its own row or as a `triggers:` column.
+
+Not fixed, not scoped — parked here deliberately rather than half-implemented.

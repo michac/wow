@@ -58,6 +58,13 @@
       "spell": 383346,
       "family": "auras",
       "unit": "target"
+    },
+    {
+      "id": "lights_deliverance",
+      "spell": 433674,
+      "family": "auras",
+      "unit": "player",
+      "note": "The STACKING aura, and it is NOT the id the review named. `425518` is the Templar hero TALENT — `CumulativeAura = 0`, and its SpellEffect 0 is a PROC_TRIGGER_SPELL whose `EffectTriggerSpell` is 433674. `433674` carries `CumulativeAura = 60`, which is the same 60 the spell text names, and it holds CooldownSet 901's Category-2 slot at OrderIndex 45 — a Tracked Buff row in Retribution's own set, which is the row the player was being asked to watch [T1 DB2: SpellName / SpellEffect / SpellAuraOptions / CooldownSetSpell @ 12.1.0.69214]. ⚠ `family` is declared rather than defaulted BECAUSE a sealed display whose subject does not resolve draws nothing at all and is indistinguishable from a client refusal — the Destruction bug. **The stack HOLDS at 60, and the mark is therefore a resting state rather than a flicker.** `CumulativeAura = 60` caps it and alone could not have answered this; the spell text does: *\"**While Wake of Ashes and Hammer of Light are unavailable**, you consume 60 stacks…\"* The consumption is CONDITIONAL, not automatic — for as long as either button is available the counter sits at 60 and stays there, so there is no fill-and-empty race for the band to lose. And nothing auto-casts: the payoff is *\"empowering yourself to cast Hammer of Light an additional time for free\"*, which the player still presses. That is exactly why the band is worth drawing — it says a free Hammer is banked and waiting."
     }
   ],
   "talents": [
@@ -72,14 +79,20 @@
       "node": 81549,
       "entry": 102525,
       "spell": 458359
+    },
+    {
+      "id": "execution_sentence",
+      "node": 109373,
+      "entry": 115435,
+      "spell": 343527
     }
   ],
-  "talents_note": "Node + entry from `knowledge/classes/paladin/retribution/ability-inventory.tsv`.",
+  "talents_note": "Node + entry from `knowledge/classes/paladin/retribution/ability-inventory.tsv`. ⚠ `execution_sentence` is declared as a TALENT as well as an ability because `generators` 3's first disjunct is `!talent.execution_sentence` — the rung is unconditional on a build without it, so the hold that yields to it must ask whether it is TAKEN, not only whether it is ready.",
   "entries": [
     {
       "id": "execution_sentence",
       "ability": "execution_sentence",
-      "note": "1. A PLACED cooldown, not a press-on-cooldown one. Three markers, one cue key, so the AND-only band grammar unions them into a single badge.",
+      "note": "1. A PLACED cooldown, not a press-on-cooldown one. FOUR markers, one cue key, so the AND-only band grammar unions them into a single badge.",
       "markers": [
         {
           "id": "es_awaits_wrath_ready",
@@ -146,6 +159,32 @@
             "beyond": 1.5,
             "kind": "sealed-cooldown-range"
           }
+        },
+        {
+          "id": "es_awaits_expurgation",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "ready",
+              "args": [
+                "execution_sentence"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "holy_flames"
+              ]
+            },
+            {
+              "pred": "aura",
+              "args": [
+                "expurgation"
+              ],
+              "negate": true
+            }
+          ],
+          "note": "The SAME clause `aw_awaits_expurgation` authors one entry down — `(!talent.holy_flames|dot.expurgation.ticking)`, the last term of cooldowns 10 — and it is one marker rather than two because the APL's OR negates into a plain AND: Holy Flames talented AND the DoT absent."
         }
       ],
       "states": [
@@ -273,6 +312,87 @@
             "V11",
             "V13"
           ]
+        },
+        {
+          "id": "es_awaits_expurgation",
+          "condition": "ready, Holy Flames talented, Expurgation NOT on the target",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_expurgation"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
+          "note": "The clause is a forbidden press, not a low-ranked one, and it is INDEPENDENT of the two Wrath holds: on a Radiant Glory build cue F withholds both of those, so without this marker Execution Sentence drew clear at row 1, leftmost, for a press cooldowns 10 refuses. ⚠ If the player has not added Expurgation to Tracked Buffs the latch reads UNKNOWN and this stays DARK rather than reading as \"the DoT is down\"."
+        },
+        {
+          "id": "es_expurgation_and_wrath_ready",
+          "condition": "ready, Expurgation absent AND Avenging Wrath READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_expurgation",
+            "es_awaits_wrath_ready"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
+          "note": "The opener state — RET-1 draws this one, not `es_awaits_wrath_ready` alone. Two markers, one cue key, one badge."
+        },
+        {
+          "id": "es_expurgation_and_wrath",
+          "condition": "ready, Expurgation absent AND Avenging Wrath within 15s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_expurgation",
+            "es_awaits_wrath"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ]
+        },
+        {
+          "id": "es_expurgation_and_wake",
+          "condition": "ready, Expurgation absent AND Wake of Ashes' cooldown beyond 1.5s",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "es_awaits_expurgation",
+            "es_awaits_wake"
+          ],
+          "apl": "cooldowns 10",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ]
         }
       ],
       "excludes": [
@@ -314,12 +434,28 @@
               "negate": true
             }
           ]
+        },
+        {
+          "id": "aw_expurgation_clock",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "holy_flames"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-proc-bar",
+            "ability": "expurgation"
+          },
+          "note": "V20 · the DoT the hold above waits on, as a bar the CLIENT drains, hosted on the row whose badge depends on it. It is V20 and not V19 deliberately: V19's badge wears the FULL positive-cue treatment — promotion ring and halo — and nothing in this priority refreshes Expurgation, so \"press now\" is a sentence this row must not say. A bottom edge carries quantity, not verdict. ⚠ It needs NO Cooldown-Manager row for its subject: a sealed container is cap's own frame, filtered by `includeSpellIDs` and pointed with `SetUnit(plan.unit)` — which is exactly why it is worth having. The `aura` latch above goes blind when the player never enabled the Tracked Buff row; the bar does not. GATED on the talent, the same readable-gate seam Demonology's Doom window uses: without Holy Flames the fact is not part of the priority and an armed display would sit dark forever with no way to tell that from a refusal."
         }
       ],
       "states": [
         {
           "id": "aw_on_cd",
-          "condition": "on cooldown",
+          "condition": "on cooldown, and no Expurgation clock drawing",
           "verdict": "cd",
           "cues": [],
           "sealed": [],
@@ -330,8 +466,23 @@
           ]
         },
         {
+          "id": "aw_on_cd_clock",
+          "condition": "on cooldown, Holy Flames talented, Expurgation ticking",
+          "verdict": "cd",
+          "cues": [],
+          "sealed": [
+            "proc-bar"
+          ],
+          "slot": null,
+          "exception": "On cooldown. No rung expresses it, and the bar does not answer to the swipe either — its slot filters to the DoT, so the client keeps draining it on a greyed row. Written down because a state table that only described the ready row would be claiming the container turns off, which it does not.",
+          "drawn_by": [
+            "V11",
+            "V20"
+          ]
+        },
+        {
           "id": "aw_clear",
-          "condition": "ready, and either Holy Flames untalented or Expurgation ticking",
+          "condition": "ready, and nothing draws: Holy Flames untalented, or the DoT is down and its row is unbound so the latch withholds",
           "verdict": "open",
           "cues": [],
           "sealed": [],
@@ -340,11 +491,11 @@
           "drawn_by": [
             "V13"
           ],
-          "note": "Without Holy Flames the APL term is vacuously true and this marker must not exist."
+          "note": "Without Holy Flames the APL term is vacuously true and neither the marker nor the clock is authored at all. The other way into this state is the honest unknown: Holy Flames talented, the Expurgation row never added to Tracked Buffs, the DoT genuinely down — the latch withholds and the container has no aura to show."
         },
         {
           "id": "aw_awaits_expurgation",
-          "condition": "ready, Holy Flames talented, Expurgation NOT on the target",
+          "condition": "ready, Holy Flames talented, Expurgation NOT on the target, and the latch says so",
           "verdict": "open",
           "cues": [
             "blocked"
@@ -361,6 +512,44 @@
             "V13"
           ],
           "note": "On a Holy Flames build the window is FORBIDDEN, not merely outranked, until Expurgation is on the target. ⚠ If the player has not added Expurgation to Tracked Buffs the aura reads UNKNOWN and this stays DARK rather than reading as \"the DoT is down\" — which is the whole reason no enablement check is needed."
+        },
+        {
+          "id": "aw_expurgation_up",
+          "condition": "ready, Holy Flames talented, Expurgation ticking — the hold released",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "proc-bar"
+          ],
+          "slot": null,
+          "apl": "cooldowns 11",
+          "drawn_by": [
+            "V13",
+            "V20"
+          ],
+          "note": "The window is castable and the bar says how long the condition that unlocked it has left. RET-13 draws this."
+        },
+        {
+          "id": "aw_stale_latch",
+          "condition": "ready, Holy Flames talented, Expurgation ticking, but no edge ever arrived and the latch's seed still says absent",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [
+            "proc-bar"
+          ],
+          "slot": "flow",
+          "combines": [
+            "aw_awaits_expurgation"
+          ],
+          "exception": "No rung expresses it because the APL would press Avenging Wrath here. This is cap being WRONG — the row carries `HideByDefault`, so on a setup where the player never added Expurgation to Tracked Buffs no `OnAuraApplied` ever arrives, the seed stays \"absent\", and cap holds Wings for the whole fight while looking confident. THE POINT OF THE CLOCK IS THAT THIS STATE IS NO LONGER SILENT: the hold badge and the draining bar are on the same row, saying opposite things, and the contradiction is the readout. It does not fix the branch — a sealed display cannot — and the enablement detector remains a correctness requirement.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V20"
+          ]
         }
       ]
     },
@@ -455,13 +644,71 @@
               "args": [
                 "wake_of_ashes"
               ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "execution_sentence"
+              ]
             }
           ],
           "display": {
             "ability": "execution_sentence",
             "kind": "sealed-cooldown-range",
             "within": 4
-          }
+          },
+          "note": "The SEALED half of `generators` 3's Execution Sentence clause, and the pair is now gated CONSISTENTLY: both this and `woa_awaits_sentence_ready` carry `talent(execution_sentence)`, for the same reason and in the same words. The clause is `(!talent.execution_sentence|cooldown.execution_sentence.remains>4|target.time_to_die<10)`, so on a build WITHOUT Execution Sentence the first disjunct is TRUE and `generators` 3 is unconditional — a hold derived from that clause has no business drawing there at all. ⚠ **This was NOT harmless-by-refusal, and the difference is the point.** A `sealed-cooldown-range` binds on the CATALOG's static `spell` number (`Channel.HoldPlan` / `Channel.ArmHold`), never on whether the client knows the spell — so on an untalented build the plan built, the Step curve built, and `Overlay.armGraded` reported status **`armed`**. What kept it dark was the per-draw nil-guard in `Channel.HoldAlpha`: `C_Spell.GetSpellCooldownDuration` is `MayReturnNothing` and its sibling `C_Spell.GetSpellCooldown` is recorded as returning nil on an unknown spell (`knowledge/addon-dev/cooldown-manager.md:2065`). That is safe by accident of the client, and it printed `armed` in every capture on a build where the hold could never be right. With the talent term the marker's readable gate resolves false, `Overlay` hides the badge and reports **`gated`** — nothing failed, the row is simply not in the state that licenses the display. Safe because we said so, and it says so in the capture."
+        },
+        {
+          "id": "woa_awaits_sentence_ready",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "identity",
+              "args": [
+                "wake_of_ashes",
+                "base"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "wake_of_ashes"
+              ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "execution_sentence"
+              ]
+            },
+            {
+              "pred": "ready",
+              "args": [
+                "execution_sentence"
+              ]
+            }
+          ],
+          "note": "The READABLE half of `woa_awaits_sentence`, and the sibling of `es_awaits_wrath_ready` one row to the left. `generators` 3's second clause is `(!talent.execution_sentence|cooldown.execution_sentence.remains>4|target.time_to_die<10)`: with Execution Sentence talented and READY the first two disjuncts are false, so the APL does not press Wake of Ashes at all — and the `within = 4` band reads NOTHING at zero remaining, exactly as the Avenging Wrath band does on row 1. ⚠ The `talent` term is load-bearing and not belt-and-braces: on a build without Execution Sentence the first disjunct is TRUE and this rung is unconditional, so an ungated hold would badge a press the APL makes freely. ⚠ ONE HONEST OVER-HOLD: `target.time_to_die<10` also satisfies the clause and cap does not model the encounter — no `fight_remains`, by product rule, the same exclusion Demonology's rung 1 records. So in the last ten seconds of a fight this holds a Wake of Ashes the APL presses. That is a MISSED PRESS, not a wrong one, which is the direction this project accepts everywhere else."
+        },
+        {
+          "id": "woa_lights_deliverance",
+          "display": {
+            "kind": "sealed-count-bands",
+            "ability": "lights_deliverance",
+            "bands": [
+              {
+                "threshold": 0,
+                "draw": "none"
+              },
+              {
+                "threshold": 60,
+                "draw": "mark",
+                "polarity": "positive"
+              }
+            ]
+          },
+          "note": "V16 · silent until armed. `draw = \"none\"` below 60 is the whole resting state — the row is unchanged and the player is not being asked to read a counter — and at 60 one positive mark meaning A FREE HAMMER OF LIGHT IS BANKED AND WAITING FOR YOU, on the row that will display it and on a button you still have to press. The 60 is a RESTING state, not a threshold the counter crosses and leaves: the spell text conditions the consumption on Wake of Ashes and Hammer of Light both being unavailable, so while either is available the stack sits at 60 and stays there. `mark` and not `count`: \"how many more\" stops being the live question the moment the answer is none. cap authors the 60 and the client evaluates it against a secret; cap never learns which side the count fell on. ⚠ This narrows the finishers-2 defeat and does not close it — the four clip conditions are buff-REMAINING comparisons and still have no S-form. ⚠ A count band CLAIMS A CORNER by declaration (`Catalog.CORNER_DISPLAYS`), so this row's cue badges start below it whether or not anything is drawing."
         }
       ],
       "states": [
@@ -531,7 +778,7 @@
         },
         {
           "id": "woa_awaits_sentence",
-          "condition": "BASE life, ready, Execution Sentence within 4s",
+          "condition": "BASE life, ready, Execution Sentence TALENTED and within 4s",
           "verdict": "open",
           "cues": [
             "blocked"
@@ -550,7 +797,7 @@
         },
         {
           "id": "woa_both_holds",
-          "condition": "BASE life, ready, Avenging Wrath within 6s AND Execution Sentence within 4s",
+          "condition": "BASE life, ready, Avenging Wrath within 6s AND Execution Sentence talented and within 4s",
           "verdict": "open",
           "cues": [
             "blocked"
@@ -568,6 +815,63 @@
             "V13"
           ],
           "note": "Two bands armed at once, unioned onto one badge."
+        },
+        {
+          "id": "woa_ld_armed",
+          "condition": "ready in its BASE life, no hold applies, and Light's Deliverance is at 60",
+          "verdict": "open",
+          "cues": [],
+          "sealed": [
+            "count-bands"
+          ],
+          "slot": null,
+          "apl": "generators 3",
+          "drawn_by": [
+            "V13",
+            "V16"
+          ],
+          "note": "The mark rides the row's OTHER states too — the band is armed on the container, not on the verdict — but this is the one the walk reaches (RET-14) and the one where it means something a player can act on. The swiped and starved combinations are POSSIBLE AND UNWALKED, written here rather than discovered later. ⚠ At 60 with Wake of Ashes READY the stacks are not spent and will not be: the spell text conditions the consumption on Wake of Ashes and Hammer of Light both being unavailable, so the counter RESTS at 60 while either is up. The mark therefore reads \"a free Hammer is banked and waiting for you\", never \"press this\" — and it is a steady mark, not a flicker."
+        },
+        {
+          "id": "woa_awaits_sentence_ready",
+          "condition": "ready in its BASE life, Execution Sentence talented and READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "woa_awaits_sentence_ready"
+          ],
+          "apl": "generators 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
+          "note": "The state RET-15 walks, and the reason this marker exists: a HELD row does not eliminate the row beneath it. Once `es_awaits_expurgation` holds Execution Sentence, the walk no longer stops at row 1, and the sealed band here reads nothing at zero remaining — so without this term Wake of Ashes drew clear and leftmost for a press `generators` 3 forbids. That is the SAME defect `es_awaits_expurgation` closed, relocated one row."
+        },
+        {
+          "id": "woa_wrath_and_sentence_ready",
+          "condition": "ready in its BASE life, Avenging Wrath within 6s AND Execution Sentence talented and READY",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": "flow",
+          "combines": [
+            "woa_awaits_wrath",
+            "woa_awaits_sentence_ready"
+          ],
+          "apl": "generators 3",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13"
+          ],
+          "note": "Both halves of the rung's condition failing at once. One cue key, one badge."
         }
       ],
       "excludes": [
@@ -584,6 +888,20 @@
             "woa_awaits_sentence"
           ],
           "why": "Same reason: starved implies the transformed life, this hold requires the base one."
+        },
+        {
+          "pair": [
+            "woa_starved",
+            "woa_awaits_sentence_ready"
+          ],
+          "why": "`woa_starved` asks affordability of the LIVE id, so it can only fire while the row is Hammer of Light; this marker requires `identity(base)`. The two lives are disjoint by construction, exactly as for the other two holds."
+        },
+        {
+          "pair": [
+            "woa_awaits_sentence",
+            "woa_awaits_sentence_ready"
+          ],
+          "why": "The readable marker requires Execution Sentence READY — cooldown remaining zero — and the `within = 4` band reads nothing at zero remaining, drawing only inside (0, 4]. Ready is outside it by construction, which is exactly why the readable marker is not redundant with the band."
         }
       ]
     },
