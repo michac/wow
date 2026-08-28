@@ -142,8 +142,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -193,8 +196,12 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "building"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -251,8 +258,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -306,8 +316,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -361,8 +374,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -416,8 +432,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -473,8 +492,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -525,8 +547,12 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "building"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -590,8 +616,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -648,8 +677,12 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked",
+            "building"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -705,8 +738,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -759,8 +795,11 @@
           ]
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",
@@ -814,8 +853,11 @@
           "verdict": "cd"
         },
         {
-          "name": "Grimoire: Imp Lord",
-          "verdict": "cd"
+          "name": "Singe Magic",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ]
         },
         {
           "name": "Summon Doomguard",

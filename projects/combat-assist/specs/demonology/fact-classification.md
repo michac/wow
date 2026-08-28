@@ -68,7 +68,7 @@ recipes).
 | **Soul Shard current value** | **readable** | R3 | one of the seven never-secret secondaries; `power = "SoulShards"` has shipped since the pilot (`Catalogs/Demonology.lua`, resolved `Enum.PowerType[name]` at `Sense.lua`). T1 blue *Midnight Public Alpha Addon API Changes, 2025-11-24*; `security-taint-and-restricted-data.md` §4.12 | cues **A**, **B**, **D**, **F**'s gate |
 | Readiness of a cooldown row | **readable** | R2 | CDM `Available` / `OnCooldown` alert-edge latch; `security-…` §4.8 | every lit row, and cue A's gate |
 | Affordability of a spender | **readable** | R1 | `C_Spell.IsSpellUsable` **second** return, no `SecretWhen*` predicate | cue **E** on Hand of Gul'dan / Ruination |
-| Spell identity across an override | **readable** | R7 | `overrideSpellID` readable in combat on 21/21 rows (`cooldown-manager.md`); the two override paths here are established from spell data and logs, not observed in the client — §3 | row 9's two bands, cue **D**, and cue E's live-id read |
+| Spell identity across an override | **readable** | R7 | `overrideSpellID` readable in combat on 21/21 rows (`cooldown-manager.md`); of the three override paths here two are established from spell data and logs and the third was read moving mid-pull on this very cooldownID — §3 | row 9's two bands, cue **D**, cue **K** on the Grimoire row, and cue E's live-id read |
 | **Demonic Core proc** | **readable** | overlay `proc` | `SpellActivationOverlay` @ 12.1.0.69214 row **3697**: trigger **Demonic Core `264173`**, `IconHighlightSpellClassMask_2 = 64`, which matches **Demonbolt `264178`**'s `SpellClassOptions` mask `[0, 131072, 64, 0]` *[T1 DB2]*. So `IsSpellOverlayed(264178)` is true exactly while a Core is up | cues **B**, **C** |
 | AoE / single-target intent | **readable, not a game read** | cap's own `/cap aoe` toggle | n/a — cap owns the value | cue **G** |
 | Whether To Hell and Back is taken | **readable** | the `talent` predicate | node 110199 / entry 136728 (`ability-inventory.tsv` @ 12.1.0.69214); ⚠ the `C_Traits` call shape is `[gap]` — Havoc's *Open facts* 7 | cue **G** |
@@ -91,26 +91,38 @@ recipes).
 
 ---
 
-## 3. The two transforms, in full — they are what makes this catalog small
+## 3. The three transforms, in full — they are what makes this catalog small
 
 `../authoring.md`'s recipe index R7 names "Shadow Bolt↔Infernal Bolt" as the canonical case, and this is
-the catalog it was named for. Both transforms are established from **spell data**, not from a
-secrecy argument, and they are not equally well established.
+the catalog it was named for. All three transforms are established from **spell data**, not from a
+secrecy argument, and they are not equally well established. Two are armed by the Diabolic Ritual
+wheel; the third is armed by the row's own cooldown and is the one this catalog got wrong until
+2026-08-28.
 
 | Transform | Established by | Confidence |
 | --- | --- | --- |
 | Shadow Bolt `686` → **Infernal Bolt `433891`** | the aura's own Tier-1 description, spec-conditional: *"Mother of Chaos empowers your next `$?s137044[Shadow Bolt][Incinerate]` to become Infernal Bolt."* `137044` is the **Demonology Warlock** spec aura *[T1 DB2: `SpecializationSpells` @ 12.1.0.69214]*, so the string itself picks Shadow Bolt here | **Tier 1** |
 | Hand of Gul'dan `105174` → **Ruination `433885`** | ⚠ **Tier 2.** The Tier-1 description on `428522` says *"your next **Chaos Bolt** to become Ruination"* — Destruction's spell, in an unbranched hero-tree string. `knowledge/classes/warlock/demonology/diabolist-sequences.md` reads the transform off six top Warcraft Logs parses (Ruination cast count matches the Diabolic Ritual: Pit Lord count 1:1 — 13 = 13 on one parse, 77 vs 76 pooled) and reports **Hand of Gul'dan** | **Tier 2 — marked** @verify-ingame |
+| Grimoire: Imp Lord `1276452` → **Singe Magic `132411`**, and Grimoire: Fel Ravager `1276467` → **Devour Magic `388215`** | override rows `1276623` / `1276610`, `EffectAura` **333**, misc-form: the effect names the Grimoire in `EffectMiscValue_0` and carries the dispel in `EffectBasePointsF` *[T1 DB2: `SpellEffect` + `SpellName` @ 12.1.0.69214]*. The driver is **the base spell entering cooldown** (`cooldown-manager.md` §2.9), and the swap was observed moving mid-pull on cooldownID 135056, `1276452 → 132411`, in 3 of 5 in-combat runs *[client 2026-08-06]* | **Tier 1, and field-read** |
 
 Neither `433885` nor `433891` holds a Category-0 (Essential) row in any `CooldownSet` at
 12.1.0.69214; both are Category-2 rows in set 60 (OrderIndex 58 and 59) *[T1 DB2]*. So an
 override on a row that *does* have one is the only way either reaches the Cooldown Manager, which
 is what makes the transform argument necessary rather than merely convenient.
 
-**Neither transform has a cooldown of its own**, so the "does the row keep drawing the base
-spell's swipe" question that nearly broke Retribution's row 3 does not arise here — the dial
-resolves `overrideSpellID` before reading (`knowledge/addon-dev/cooldown-manager.md` §3.1.1) and
-finds no cooldown either way.
+**Neither RITUAL transform has a cooldown of its own**, so for those two the "does the row keep
+drawing the base spell's swipe" question that nearly broke Retribution's row 3 does not arise —
+the dial resolves `overrideSpellID` before reading
+(`knowledge/addon-dev/cooldown-manager.md` §3.1.1) and finds no cooldown either way.
+
+⚠ **The third transform is exactly that question, and this file used to deny it.** The dispels
+carry `RecoveryTime = 15000` against the Grimoires' `CategoryRecoveryTime = 120000`
+*[T1 DB2: `SpellCooldowns` @ 12.1.0.69214]*, so the dial on that row answers about the **dispel**:
+the Grimoire's two minutes never draw a swipe, and the 15-second swipe that sometimes does draw
+belongs to a different spell. Retribution's row 3 is the same shape and survived it by being
+authored with identity branches; this row was authored with a `cd` verdict that cannot happen.
+The fix is cue **K** — one `identity(grimoire, "transformed")` term, readable, no sealed value
+involved — and the state that keeps the swipe honest is `grimoire_dispel_on_cd`.
 
 ### The proc measurement
 

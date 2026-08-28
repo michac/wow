@@ -1699,9 +1699,10 @@ is asking is decoration and should be deleted.
 **The lab was empty from 2026-08-19 until 2026-08-20**, when eight entries were added at once —
 the first *capability* questions the lab had ever held. Seven of them left on 2026-08-22: **six
 were promoted into four primitives** (V16–V19 — three of them fold into V16 alone) and one,
-`composites`, was deleted as an argument its subject had overtaken. **One remains**, and an
-empty-or-nearly-empty lab means every idea drawn here has been adopted or answered, not that
-nobody is trying anything.
+`composites`, was deleted as an argument its subject had overtaken. The eighth, `duration_band`,
+was cleared on 2026-08-27, and `ring_collision` — added and withdrawn — left on 2026-08-28.
+**The lab is empty again**, and an empty lab means every idea drawn here has been adopted or
+answered, not that nobody is trying anything.
 
 ⚠ **That intake was a different KIND of entry from most of the ledger below, and the difference
 matters.** Almost every earlier entry was a *taste* question — five fonts, three stripe phases,
@@ -1718,73 +1719,6 @@ about the client to make it possible.** Every measurement was in hand on 2026-08
 the way was rule 1 — a catalog may not cite a lab entry — so the fact was expressible and unusable
 at the same time. **Promotion is a pipeline step, and it was the entire cost.** Budget it as work,
 not as paperwork.
-
-### L9 · `ring_collision` — a row that is IN the scan and RULED OUT at the same time
-
-**Asks:** Part 3 records this as an **open design question** and Part 4 as a **settled rule**, and
-they do not agree. A row wearing a negative cue is `scan: true` — the verdicts carrying `blocked`
-all are — so it draws V13's yellow edge *and* cap's half of V11's red hatch, which say opposite
-things about the same button. Drawn side by side: does the double ring read as **one** statement
-or two?
-
-⚠ **This is a LOOK question, not a capability one, and that is why it has cells at all.** Every
-pixel in it already ships. Nothing here needs a flight to find out whether the client will honour
-it — the client is already honouring it on every ruled-out row of every spec. What is unsettled is
-only whether a reader gets one statement or two, which is exactly the kind of question a preview
-can answer and Part 7's 2026-08-22 intake could not.
-
-⚠ **What resolves the collision today is GEOMETRY, not order** (Part 3).
-`tokens.hatch.skip.overhang_px` holds cap's red ring 2px **outside** the icon rect, so red sits at
-−2 and yellow at 0: adjacent, never overlapping. **The order is therefore moot — and unstated at
-the same time.** Part 4 asserts that an eliminating mark draws over an including one and that *the
-frame level says so*; neither `Paint.Border` nor `Paint.Hatch` calls `SetFrameLevel`, so the two
-are sibling frames at one level and construction order decides. The preview has the identical hole
-in CSS: neither `.ready-line` nor `.skip-hatch` sets a `z-index`, so DOM order decides there. **Two
-implementations, both right by accident, neither declaring anything.** Measured 2026-08-27.
-
-**The three candidate answers**, unchanged from Part 3 and none of them chosen:
-
-1. **Overlap** — drop `overhang_px` to 0 and give the eliminating frame an explicit level above the
-   row's, so red covers yellow. Needs *both*: the overhang alone buries the red under the yellow,
-   because the edge is currently drawn last.
-2. **Suppression** — no scan edge at all on a row wearing a negative cue. One mark, no negotiation,
-   and the row stops claiming membership it has been eliminated from.
-3. **Adjacency** — keep the two rings and accept the double statement as the price of the overhang.
-   This is the shipped behaviour, and it is shipped by default rather than by decision.
-
-**What the cells are for.** Two controls and the subject. Each is **labelled on the page**, so a
-review comment can name one instead of describing it — the header line above each caption reads
-the same `Immolation Aura · open` for two of the three, which is exactly the ambiguity the labels
-remove.
-
-| | verdict | cues | draws | what it is for |
-| --- | --- | --- | --- | --- |
-| **L9a** | `open` | — | yellow scan edge alone | The control. V13 at the shipped 2px and alpha, with nothing arguing against it — what the red has to compete with. |
-| **L9b** | `cd` | — | black cooldown hatch, **no** edge | The other control. `cd` is the *only* verdict in the vocabulary that is `scan: false`, so it is the only ruled-out row that gets to be unambiguous. |
-| **L9c** | `open` | `blocked` | red hatch + red border + yellow edge + red badge | **The subject.** Both verdict marks at once, plus the badge. |
-| **L9d** | `open` | `blocked` | the same, with the red ring **on** the rect and **over** the edge | **The proposal.** L9c with two changes: skip overhang `2 → 0` so the opaque red border lands on the icon rect where the yellow edge lives, and a `lift` putting it above. Stripe fill `0.45 → 0.85`. |
-
-**The badge is the only mark carrying a REASON.** The other two carry verdicts — and on L9c one of
-those verdicts is wrong about the row.
-
-⚠ **L9d is OCCLUSION, not suppression, and that is the whole reason it is worth drawing.** The scan
-edge is still built, still 2px, still gold, still in the DOM — it is simply covered. That matters
-because the three candidate answers are not equally cheap: **adding a texture over a line is a
-geometry change and a draw order, while withholding the edge means teaching `Treatment.For` that a
-row can be in the scan and not wear the scan's mark** — a new state in the thing that decides what
-a verdict draws. If L9d reads as one statement, candidate 2 never has to be built, and candidate 1
-turns out to have been the cheap answer all along.
-
-⚠ **L9d is drawn through a `skip_overrides` block on the entry, not by editing the shelf.** Its two
-numbers arrive as `--lab-ring_collision-skip-overlap-*` and are repointed onto that one item, so
-L9c beside it keeps drawing the shipped `tokens.hatch.skip` for comparison. **An override may only
-name what it CHANGES** — the hue, the border weight and the stripe phase stay the shelf's, because
-an override that could restate everything would be a second style, and a cell drawing a second
-style answers nothing about the first. `lift` is a z-index on the skip layer alone: without it,
-dropping the overhang buries the red border *under* the yellow, since `itemNode` appends the edge
-last. It is the CSS stand-in for the `SetFrameLevel` this Part asserts and `Paint.lua` does not
-make.
-
 
 ### What has left, and where it went
 
@@ -1808,6 +1742,7 @@ question it asked got an answer. Nothing here is cited by the style; this is a l
 | `pandemic_mark` (L3) | 2026-08-22 | → **V19**, `tokens.pandemic`. The only sealed display cap authors no threshold for, and the only one whose cost is a per-tile `OnUpdate`. |
 | `composites` (L8) | 2026-08-22 | **Deleted, not promoted.** It was the argument that the four above compose on one row — three whole Demonology scenarios built out of them. Once Demonology was built its subject became a real spec's walk, drawn by `demonology-stepper.html` against a shipped catalog. An argument that has been overtaken by the thing it argued for is not an experiment. |
 | `duration_band` (L7) | 2026-08-27 | **Cleared, not promoted.** Its cells had drifted out of agreement with its own `asks`: they drew the `RemainingPercent` route as an open question after V19 had promoted the SECONDS form, so the entry was arguing for a mechanism half of which was already the style. Part 7 says an entry that cannot say what it is asking is decoration — and one whose cells no longer draw its question is the same thing arrived at by drift. The open half is real and unchanged: `RemainingPercent` via `options.textFormat` is **source-read only**, never flown, and the quiet-middle band shapes V19 cannot express are still unexpressed. Re-add it from `git log` with cells that draw *that*, when a built spec wants a banded clock. |
+| `ring_collision` (L9) | 2026-08-28 | **Withdrawn without an answer.** It drew the collision Part 3 records as an open design question and Part 4 as a settled rule: a row wearing a negative cue is `scan: true`, so V13's yellow edge and cap's half of V11's red hatch say opposite things about the same button. Two controls, the subject, and one proposal — occlusion, red over yellow, the edge still drawn underneath — were built and then removed before the look was called. **The question is untouched by this**: geometry, not order, still keeps the two rings apart (`hatch.skip.overhang_px` holds red 2px outside the rect), and neither `Paint.Border` nor `Paint.Hatch` calls `SetFrameLevel`, so both implementations are still right by accident and neither declares anything. The three candidates — overlap, suppression, adjacency — are in Part 3, where they were before the entry existed. The `skip_overrides` machinery it needed went with it; `git log` has both. |
 | `hotkey-l1` … `hotkey-l10` | 2026-08-19 | **V15**'s font, size and dark edge were chosen out of this set of ten — five faces, then a plate, then a title bar. The winner is `tokens.hotkey`; what the losers cost is written into V15 itself, which is the point of promotion rather than citation. |
 
 ⚠ **A deleted entry is not a refuted one.** Nothing in this table is a claim that the treatment

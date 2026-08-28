@@ -606,6 +606,59 @@ was written before the aura/cooldown ambiguity was named. Amend V7 or this contr
 unmistakably different sweeps, Metamorphosis during demon form stops reading as available without
 cap drawing anything extra on it.
 
+### Draw the Grimoire's REAL remaining cooldown, which Blizzard hides behind the dispel
+
+Found while fixing DEM-S2 (2026-08-28). Whichever Grimoire is talented becomes a dispel while its
+own cooldown runs, and §3.1.1's rule — the swipe belongs to the button on the icon — means the
+120 s is drawn nowhere at all. Cue **K** rules the row out, which is the correct reading, but the
+player still cannot see *how long*. cap could say it.
+
+- [ ] Gate on `C_Spell.GetSpellCooldown(baseID).isActive`, which is a **plain, discriminating
+      boolean in restricted combat** — that struct seals per member rather than whole
+      (`security-taint-and-restricted-data.md` §4.8's table; `cooldown-manager.md` §7 Tier 3), and
+      `Sense.lua`'s own `readCapped` already exploits exactly this on `GetSpellCharges`.
+- [ ] Feed the picture from `C_Spell.GetSpellCooldownDuration(baseID, false)` into a
+      duration-object sink — the pattern `Bars.lua` and `Channel.lua` already use, so no new
+      mechanism.
+
+⚠ `Sense.lua`'s `readCooldown` cannot answer this today: it reads `startTime` / `duration`, which
+are secret in combat. Its comment — *"`C_Spell.GetSpellCooldown` is secret in combat"* — is
+imprecise in a way that closes off the route, and correcting it is part of this item.
+
+### `devourer`'s `voidblade_on_cd` is the same defect class, unexamined
+
+DEM-S2's shape — a `cd` verdict on a row that will be displaying a non-swiping replacement — has
+a live candidate inside the built set. Voidblade is replaced by **Hungering Slash `1239123`** for
+6 s with Voidblade's own cooldown running underneath, and `voidblade_on_cd` carries the identical
+boilerplate exception while gating nothing on `identity`.
+
+- [ ] Check what the row actually draws for those 6 s, and whether the scenarios that call it
+      swiped are describing a state that happens.
+
+Retribution's Wake of Ashes row already carries identity branches and is lower risk. ⚠ The
+Grimoire pair are the only abilities in the corpus whose transform driver is *the base spell's own
+cooldown*; this one's driver is the post-cast window, so it is a different driver reaching the
+same wrong verdict.
+
+### Roll `shows` out to the other three catalogs' transformed states
+
+Shipped on demonology 2026-08-28: a state may carry `"shows": "<roster name>"` so its state card
+draws the face the row is actually displaying, instead of the entry's base face. The other
+catalogs still draw the base face on every state, which is the same defect DEM-S2 had.
+
+- [ ] **devourer**, 9 states — `star_short`, `star_granted_st`, `star_granted_aoe`,
+      `star_yields`, `star_short_and_yields` → Collapsing Star; `cull_open` → Cull;
+      `voidblade_pierce_the_veil` → Pierce the Veil; `voidblade_reapers_toll` → Reaper's Toll;
+      `devour_standing` → Devour.
+- [ ] **protection**, 3 — `ha_weapon_absent`, `ha_weapon_window`, `ha_weapon_healthy` →
+      Sacred Weapon.
+- [ ] **retribution**, 1 — `woa_starved` → Hammer of Light.
+
+⚠ **KNOWN LIMITATION — `shows` is single-valued and cannot express a DUAL-LIFE state.**
+`reap_open` (*"Reap, **or** Eradicate once banked"*), `voidblade_open`, `woa_clear` and
+`judgment_clear` each describe a row that may be wearing either face. Leave them alone; forcing
+one is the same class of error as drawing the base face on a transformed state.
+
 ### There is no positive-cue budget — say so in the docs
 
 Author's correction, 2026-08-16: **the single-positive-cue rule is being read as a budget, and it is

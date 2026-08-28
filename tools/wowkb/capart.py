@@ -253,6 +253,7 @@ ICON_FDID = {
     433885: 135803,    # Ruination        (Hand of Gul'dan's / Chaos Bolt's Pit-Lord override)
     1276452: 5178162,  # Grimoire: Imp Lord
     1276467: 136217,   # Grimoire: Fel Ravager
+    132411: 135791,    # Singe Magic      (Grimoire: Imp Lord's on-cooldown dispel, via 1276623)
     1276672: 615103,   # Summon Doomguard
     # Devourer's six override identities — same lookup, same table (SpellMisc @ 12.1.0.69214).
     1245453: 7554202,  # Cull             (Reap's Void Metamorphosis override)
@@ -2647,48 +2648,6 @@ def root_css(tokens: dict) -> str:
                 f"{pre}pulse-a1: {entry['pulse']['alpha'][1]};",
             ]
 
-    # Part 7 · SKIP-LAYER OVERRIDES. A lab cell may redraw V11's skip layer with its own
-    # geometry while `tokens.hatch.skip` — the shipped value — is untouched. This is the only way
-    # the lab can ask a question ABOUT the declared style rather than beside it: the alternative
-    # was editing the shelf, looking, and remembering to put it back, which is the exact cost
-    # Part 7 exists to remove.
-    #
-    # Only the keys an override NAMES are emitted. The hue, the border weight and the stripe
-    # phase are deliberately not re-declarable here — an override that could restate everything
-    # would be a second style, and a cell drawing a second style answers nothing about the first.
-    # So `rgb` is the SHELF's, carrying only the lab's alpha.
-    #
-    # `lift` is a z-index on the skip layer alone. `itemNode` appends the scan edge AFTER the skip
-    # layer, so geometry alone cannot put red over yellow — without a lift, dropping the overhang
-    # just buries the red border under the edge. It is the CSS stand-in for the `SetFrameLevel`
-    # call render-shelf.md Part 4 asserts and `Paint.lua` does not make.
-    for key, entry in lab.items():
-        if key.startswith("_") or not isinstance(entry, dict):
-            continue
-        overrides = entry.get("skip_overrides")
-        if not overrides:
-            continue
-        shelf_skip = tokens["hatch"]["skip"]
-        for name, o in overrides.items():
-            if name.startswith("_"):
-                continue
-            pre = f"  --lab-{key}-skip-{name}-"
-            lines += ["", f"  /* Part 7 · {key} — skip layer redrawn as {name!r} */"]
-            if "overhang_px" in o:
-                lines.append(f"{pre}over: {o['overhang_px']}px;")
-            if "alpha" in o:
-                lines.append(f"{pre}rgb: {rgba(shelf_skip['rgb'], o['alpha'])};")
-            if "line_px" in o:
-                lines.append(f"{pre}line: {o['line_px']}px;")
-            if "lift" in o:
-                lines.append(f"{pre}lift: {o['lift']};")
-            # The chrome lift is a SEPARATE number because it is a separate job: `lift` puts the
-            # hatch over the scan edge, and doing that puts it over everything appended after the
-            # edge as well — the badge and the hotkey included. A hatch that conceals the badge has
-            # eaten the only mark on the row carrying a reason, so the chrome is put back on top.
-            if "chrome_lift" in o:
-                lines.append(f"{pre}chrome: {o['chrome_lift']};")
-
     # Part 7 · the font candidates. Each hotkey entry names its own family and its own two
     # dials, so the entries can be read side by side at the same size or at different ones.
     for key, entry in (tokens.get("lab") or {}).items():
@@ -2889,6 +2848,21 @@ def strict_css(path: Path) -> list[str]:
 # --------------------------------------------------------------------------- build
 
 
+def catalog_shows(spec: str) -> list[tuple[str, str, str]]:
+    """Every `(entry, state, shows)` in this spec's catalog — the override faces its state
+    cards draw.
+
+    Split out of `catalog_states` because `build` needs the NAMES before it fetches icons, and
+    a name whose art was never embedded renders as an empty square.
+    """
+    src = catalog_json_path(spec)
+    if not src.exists():
+        return []
+    return [(e["id"], st["id"], st["shows"])
+            for e in _load_json(src).get("entries", [])
+            for st in (e.get("states") or []) if st.get("shows")]
+
+
 def catalog_states(spec: str, roster: dict) -> list[dict] | None:
     """`catalog.json`'s `states[]`, flattened for the preview.
 
@@ -2930,6 +2904,11 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
                     "id": st["id"],
                     "code": f"{code}{chr(ord('a') + j)}",
                     "condition": st["condition"],
+                    # THE FACE THIS STATE'S CARD DRAWS, when it is not the entry's own. A row
+                    # displaying an override is displaying a DIFFERENT button, and the card has
+                    # to draw that one — the same rule a scenario row already follows. A roster
+                    # name; `None` when the row is wearing the entry's base face.
+                    "shows": st.get("shows"),
                     "verdict": st["verdict"],
                     "cues": st.get("cues") or [],
                     "sealed": st.get("sealed") or [],
@@ -3022,8 +3001,19 @@ def build(spec: str, tokens: dict, when: str) -> tuple[str, int]:
                 _die(f"lab.{key}: verdict {cell['verdict']!r} is not in the closed vocabulary")
             lab_names.add(name)
 
+    # A state card may draw an OVERRIDE face rather than the entry's own, so its art has to be
+    # embedded too — held to the roster exactly as a scenario row's name is, and checked here
+    # beside the lab names rather than with the catalog gates: `icon_assets` raises a bare
+    # KeyError on an unknown name, and `build` runs before `check` prints anything it collected.
+    shows_names = set()
+    for entry_id, state_id, name in catalog_shows(spec):
+        if name not in roster:
+            _die(f"{spec} catalog: state {state_id!r} on entry {entry_id!r} shows {name!r}, "
+                 f"which is not in {cfg['catalog'].relative_to(ROOT)}'s bound-abilities table")
+        shows_names.add(name)
+
     used = sorted({e["name"] for sc in scenarios for e in sc["row"]}
-                  | set(cfg["scan_samples"]) | lab_names)
+                  | set(cfg["scan_samples"]) | lab_names | shows_names)
     missing = [n for n in cfg["scan_samples"] if n not in roster]
     if missing:
         _die(f"scan sample {missing} not in the roster")
@@ -3272,7 +3262,8 @@ def cmd_assets(args) -> None:
     roster = load_roster(cfg["catalog"])
     scenarios, _ = load_scenarios(args.spec)
     used = sorted({e["name"] for sc in scenarios for e in sc["row"]}
-                  | set(cfg["scan_samples"]))
+                  | set(cfg["scan_samples"])
+                  | {name for _, _, name in catalog_shows(args.spec)})
     icons = icon_assets(used, roster, tokens)
 
     print(f"{'asset':<40} {'kind':<6} {'b64 KB':>8}  notes")
@@ -4805,6 +4796,8 @@ def _check_one(args) -> None:
         else:
             names = {e["name"] for sc in data.get("scenarios", []) for e in sc.get("row", [])}
             names |= set(data.get("scan_samples", []))
+            names |= {st["shows"] for e in (data.get("states") or [])
+                      for st in e.get("states", []) if st.get("shows")}
             if not names:
                 fails.append(f"{cfg['out'].name} embeds no row entries at all — the page renders "
                              "an empty shelf.")

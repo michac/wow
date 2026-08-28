@@ -57,20 +57,24 @@ Demonology's primary decision resource, **Soul Shards, is readable** — one of 
 never-secret power types, and the one R3 names first
 (`power = "SoulShards"` has shipped since the pilot). So the single largest decision in the
 spec — *do I have five shards for Tyrant?* — is an **exact Lua comparison**, and it is the
-catalog's centrepiece. Two override transforms (R7) do most of the rest: **Ruination rides the
-Hand of Gul'dan row** and **Infernal Bolt rides the Shadow Bolt row**, so the two buttons the
-Diabolic Ritual wheel hands you are not scheduled — they are rows cap already has, wearing a
-hat, and the override *is* the availability test. Beyond that the spec is **pet-shaped**, and
+catalog's centrepiece. Three override transforms (R7) do most of the rest, and they are not the
+same kind of thing. Two are the Diabolic Ritual's: **Ruination rides the Hand of Gul'dan row**
+and **Infernal Bolt rides the Shadow Bolt row**, so the two buttons the wheel hands you are not
+scheduled — they are rows cap already has, wearing a hat, and the override *is* the availability
+test. The third runs the other way: the **Grimoire becomes a dispel while its own cooldown
+runs**, so the row keeps drawing a live button and the identity — not a swipe — is what rules it
+out (cue **K**). Beyond that the spec is **pet-shaped**, and
 that is where it gets hard: five of its ordering-reasons are **aura stack counts** — Demonic
 Core ≤1, Wild Imps ≥6 — and the shelf's only aura-stack form is a *count display*, not a
 curve→badge. So this catalog has **one row that elimination cannot rule out**, and it says so
-rather than inventing a mechanism. Ten cues do the work: **A** the readable five-shard Tyrant
+rather than inventing a mechanism. Eleven cues do the work: **A** the readable five-shard Tyrant
 hold, **B** the readable Demonbolt overcap, **C** the readable Demonbolt core hold (the
 `noproc` empty card), **D** Demonbolt yielding to an armed Infernal Bolt, **E** Hand of
 Gul'dan starved, **F** Hand of Gul'dan banking for the Tyrant window, **G** Implosion's
 single-target skip, **H** Implosion with no imps at all, **I** the ramp hold — the whole
 summon block and Hand of Gul'dan wearing the `building` card while Tyrant is ready below five
-shards — and **J** the dogs' two-sided "waiting on Tyrant's cooldown" band.
+shards — **J** the dogs' two-sided "waiting on Tyrant's cooldown" band, and **K** the dispel
+stand-in — the Grimoire row wearing `blocked` while it is displaying the dispel it becomes.
 
 **No positive cue is spent.** See *Why this catalog does not spend a positive cue*. ⚠ Cue I is
 the catalog's one deliberate departure from the APL (rungs 3–6 press the summons
@@ -87,7 +91,7 @@ Base spell IDs from `knowledge/classes/warlock/demonology/ability-inventory.tsv`
 | Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
 | `power_siphon` | Power Siphon | `264130` | — | scan | — | — (its rung's gate is a sealed **count** — see *The one row elimination cannot rule out*) |
-| `grimoire` | Grimoire: Imp Lord | `1276452` | Grimoire: Fel Ravager `1276467` (choice node, not a transform) | scan | — | the ramp hold (I) |
+| `grimoire` | Grimoire: Imp Lord | `1276452` | **Singe Magic `132411`** — the dispel the row becomes while its own cooldown runs / Grimoire: Fel Ravager `1276467` — the `alt`, a **choice node** rather than an override, whose own dispel is Devour Magic `388215` | scan | — | the ramp hold (I) + the dispel stand-in (K) |
 | `summon_doomguard` | Summon Doomguard | `1276672` | — | scan | — | the ramp hold (I) |
 | `call_dreadstalkers` | Call Dreadstalkers | `104316` | — | scan | — | the ramp hold (I) + the dogs' two-sided sealed window (J) |
 | `summon_demonic_tyrant` | Summon Demonic Tyrant | `265187` | — | scan | — | readable five-shard hold (A) |
@@ -96,7 +100,7 @@ Base spell IDs from `knowledge/classes/warlock/demonology/ability-inventory.tsv`
 | `demonbolt` | Demonbolt | `264178` | — | scan | — | core hold (C) + overcap (B) + Infernal-Bolt yield (D) |
 | `shadow_bolt` | Shadow Bolt | `686` | **Infernal Bolt `433891`** | scan | — | — |
 
-### The row set is measured, and the two transforms are why it is this small
+### The row set is measured, and the transforms are why it is this small
 
 **Demonology's `CooldownSet` is 60** and at 12.1.0.69214 its **Category-0 (Essential)** members
 are, in `OrderIndex` order *[T1 DB2: `CooldownSet` / `CooldownSetSpell` @ 12.1.0.69214]*:
@@ -141,7 +145,7 @@ cast counts that match the ritual wheel 1:1 (Diabolic Ritual: Pit Lord **13** �
 **13**, one parse; 77 vs 76 pooled). That is strong behavioural evidence and it is not game data.
 **The row is authored on it and the assumption is marked.** @verify-ingame
 
-**What the two transforms buy.** cap never asks which Demonic Art is armed — a fact it has no
+**What the two ritual transforms buy.** cap never asks which Demonic Art is armed — a fact it has no
 readable route to (*fact-classification.md*). It reads **which spell the row is**. Art: Pit Lord
 armed *is* "row 7 says Ruination"; Art: Mother of Chaos armed *is* "row 9 says Infernal Bolt".
 The third Art, Overlord, changes no button, and cap correctly says nothing about it.
@@ -152,11 +156,20 @@ therefore carries **two bands**, identity first, and it forces the one cross-row
 catalog (cue **D**). Row 7 is easier: Ruination outranks the ordinary Hand of Gul'dan by one
 rung and both are pressed from the same position, so the identity needs no cue at all.
 
-⚠ **An absent swipe does not mean the underlying ability is ready.** For any transforming row
-the Cooldown Manager's dial answers a question about the button **currently displayed** — the
-cooldown branch resolves `overrideSpellID` before reading
-(`knowledge/addon-dev/cooldown-manager.md` §3.1.1, settled 2026-08-18 on Retribution). Neither
-Demonology transform has a cooldown of its own, so both simply draw no swipe.
+⚠ **An absent swipe does not mean the underlying ability is ready, and a present one does not
+mean the row's own ability is down.** For any transforming row the Cooldown Manager's dial
+answers a question about the button **currently displayed** — the cooldown branch resolves
+`overrideSpellID` before reading (`knowledge/addon-dev/cooldown-manager.md` §3.1.1, settled
+2026-08-18 on Retribution). Neither ritual transform has a cooldown of its own, so both simply
+draw no swipe. **The Grimoire's is the other half of the same rule and is what cue K exists
+for:** its dispel carries `RecoveryTime = 15000` against the Grimoire's
+`CategoryRecoveryTime = 120000` *[T1 DB2: `SpellCooldowns` @ 12.1.0.69214]*, so the row draws a
+15-second dial that belongs to the dispel while a two-minute one runs invisibly underneath.
+A swipe on this row is therefore never the Grimoire's.
+
+**A state card draws whichever face the row is showing in that state**, not the entry's base
+face: a state carries `shows: <roster name>` when its condition is a transformed life, so the
+preview's state table matches the client the way a scenario row already does.
 
 ### The Charges column
 
@@ -305,14 +318,31 @@ row to its left by a cue rather than by position.
     `ready(summon_demonic_tyrant)` **and** `{ "resource", "<=", 4 }`. The whole summon block
     waits while the board is built to five — written as *"at most four"*, because `Signal.lua`'s
     `resource` term implements `<=` and `>=` only — and every term is readable.
+  - `grimoire_shows_dispel` — **readable** `blocked`, cue **K**:
+    `identity(grimoire, "transformed")`, a single term about **this row's own** identity. It is
+    the shape `protection`'s `ha_banks_bulwark` and `devourer`'s `star_counter` use, not cue D's,
+    which reads a *different* row.
   ⚠ **This hold is the PILOT'S ramp reading, not the APL's rung.** Rungs 3/4 are
   **unconditional** — simc presses Grimoire the moment it is up — and this catalog knowingly
   authors past that: holding the summons while shards climb to the Tyrant window is how the
   pilot actually plays the ramp, the whole block hatching red as one statement. Playtest-gated;
   the changelog (2026-08-24) carries the relaxation and what reopens it.
-  ⚠ **This is a choice node, not a transform**, and the two ids go in the catalog's
-  `alt` field rather than through R7: both have their own Essential row (OrderIndex 6 and 36) and
-  exactly one exists on any build. The APL lists both unconditionally for the same reason.
+  ⚠ **It is a choice node AND the base of a transform**, and the two facts are independent.
+  The *choice* is why the two ids go in the catalog's `alt` field rather than through R7: both
+  have their own Essential row (OrderIndex 6 and 36) and exactly one exists on any build, so
+  nothing swaps at runtime between them and the APL lists both unconditionally. The *transform*
+  is what whichever one exists then does: it becomes a **dispel** while its own cooldown runs —
+  Imp Lord `1276452` → **Singe Magic `132411`** via override row `1276623`, Fel Ravager
+  `1276467` → **Devour Magic `388215`** via `1276610`, both `EffectAura` **333**, misc-form
+  *[T1 DB2: `SpellEffect` + `SpellName` @ 12.1.0.69214]*, and the swap was read moving mid-pull
+  on this exact cooldownID *[client 2026-08-06]*. `knowledge/addon-dev/cooldown-manager.md` §2.9
+  states the same pair. **So the row is not swiped for two minutes; it is a live utility button
+  for two minutes**, and until 2026-08-28 this catalog said the opposite.
+  ⚠ **What cue K is a statement about, and what it is not.** cap's overlay reads the
+  **rotation**; while the row is displaying the dispel it is not the rotation entry the reader is
+  looking for. `blocked` says *this is not your Grimoire* — identity — and it is deliberately not
+  advice to avoid the button. The dispel is castable and is sometimes exactly the right press;
+  `../spec.md` §1's *"without telling you what to press"* runs in both directions.
 - **Summon Doomguard** (`1276672`, rung 5). *Problem:* as Grimoire's — a summon spent outside
   the ramp it feeds. *Facts:* `ready` (R2); `ready(summon_demonic_tyrant)`; R3. *Treatment:*
   scan +
@@ -603,6 +633,7 @@ useful and did not eliminate; a hatch and a negative mark do.
 | **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, flowing stack |
 | **I** the ramp hold | Grimoire, Summon Doomguard, Call Dreadstalkers and Hand of Gul'dan wear the `building` card while Tyrant is READY and Soul Shards are below five | `ready(summon_demonic_tyrant)` + `UnitPower(player, SoulShards) < 5` | marker (readable) | R2 (cross-row) + R3 | corner badge, flowing stack |
 | **J** the dogs' window | Call Dreadstalkers wears `blocked` while Tyrant's cooldown remaining is inside `(10.5, 21.5)` — close enough that recast dogs miss the window, far enough that casting now wastes the extension | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 two-sided (`beyond = 10.5`, `within = 21.5`) + `talent(reign_of_tyranny)` | curve → badge, flowing stack |
+| **K** dispel stand-in | **Grimoire** wears `blocked` while its own row is displaying the dispel it becomes on cooldown | `overrideSpellID ~= spellID` on the Grimoire row | marker (readable) | R7 | corner badge, flowing stack |
 | — | Demonbolt carries a **proc bar** of the Demonic Core's remaining lifetime above its charge bar, and the Infernal Bolt row one of the armed Art's, drained by the client | the aura's own duration object | sealed display | `sealed-proc-bar` → V20 | AuraContainer StatusBar → V20 |
 
 **Five cue keys, one red.** `blocked`, `starved`, `overcap`, `building` and `noproc` share a
@@ -819,6 +850,33 @@ An ability with no named player problem gets no row; so does one with no Cooldow
 ---
 
 ## Changelog
+
+**2026-08-28 — the Grimoire row was never swiped, and now says so (cue K).** `grimoire_on_cd`
+claimed *"Blizzard's swipe rules the row out before cap has an opinion of its own"*. False:
+whichever Grimoire is talented becomes a **dispel** while its own cooldown runs (Singe Magic
+`132411` / Devour Magic `388215`, via override rows `1276623` / `1276610`, `EffectAura` 333), and
+§3.1.1's rule — the swipe belongs to the button on the icon — means the 120 s never reaches the
+dial. Thirteen of sixteen scenarios were drawing a `cd` that does not happen. The claim is
+rewritten rather than annotated, and the row is ruled out by cue **K**, a single readable
+`identity(grimoire, "transformed")` term.
+
+- **`grimoire_on_cd` becomes `grimoire_dispel_on_cd`** and keeps a genuine subject: the dispels
+  carry their own `RecoveryTime = 15000`, so a transformed row IS sometimes swiped — by a 15 s
+  dial that is not the Grimoire's.
+- **`grimoire_dispel_during_ramp` states the co-occurrence.** `grimoire_awaits_shards` carries no
+  identity term, so during a ramp with the Grimoire down the icon wears both cards. Both are
+  negative and the same hue; `blocked` is the one that governs, because the ramp's card is advice
+  about a button that is not on the icon.
+- **Six "not a transform" sites rewritten.** The pair is a choice node **and** each id is the
+  base of a transform; the two facts are independent and `cooldown-manager.md` §2.9 states both.
+  The *Bound abilities* row's Live-override column bound Fel Ravager as though it were an
+  override — the live override is the dispel, and Fel Ravager is the `alt`.
+- **The 13 scenario rows now write `Singe Magic`**, per the roster contract that a row carries
+  whichever name the client would show. That is what makes the defect visible in the preview.
+- **State cards draw the transformed face too.** The state table drew the entry's name for
+  every state, so DEM-S2's three dispel states showed the Imp Lord. A state may now carry
+  `shows`; five do — the three Grimoire dispel states, `hog_ruination` (Ruination) and
+  `sb_transformed` (Infernal Bolt).
 
 **2026-08-25 — the lanes leave the model.** The spec-wide verdict/tier collapse
 (`../spec.md` §3.1): the Lane column became Scan, every row is a default ready-self scan member,

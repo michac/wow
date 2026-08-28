@@ -2,13 +2,14 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-21   # 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
+reviewed: 2026-08-28   # 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
 sources:
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua
   - wago.tools DB2 @ 12.0.7 — CooldownSet, CooldownSetSpell, CooldownSetLinkedSpell (raw/wago/)
+  - wago.tools DB2 @ 12.1.0.69214 — SpellEffect, SpellName, SpellClassOptions, SpecializationSpells (raw/wago/)  # §2.9 the override-effect rule and the driver taxonomy
   - projects/cooldown-hud/docs/ — CDMProbe in-client captures, session detail
   - in-client capture, CDMProbe AlertTape v0.32.27 (/cdmp alerts), Destruction Warlock, 2026-07-30  # §5.1 alert-channel confirmations. ⚠ NOT RE-CHECKABLE — no extract of this session survives on disk; the surviving alert-tape extract holds only v0.32.44 / 2026-07-31 sessions
   - in-client capture, CDMProbe AlertTape v0.32.29, Destruction/Hellcaller Warlock, 2026-07-30  # §5.4 same-frame refresh tie; simultaneous PandemicTime on both Immolate cooldownIDs. ⚠ NOT RE-CHECKABLE — same rolled-off session set as the line above
@@ -648,6 +649,93 @@ overridden display is a spell with no `CooldownSetSpell` row of its own — obse
 Diabolist Demonic-Art transform arming on `cid 66181` (114 of 137 logged decision changes
 carried an armed Art) `[client 2026-07-30]`. So the override channel is usable for abilities
 the Cooldown Manager does not otherwise track.
+
+### 2.9 What drives a transform — and where the client reports it
+
+A button that swaps to another spell is **one mechanism with several drivers**. The drivers
+differ in what arms them and in how long the swap lasts; what they share is a single Tier-1
+tell in DB2, and a single rung the CDM row reports the result on. This subsection is about
+what the **row** reports — action-bar override behaviour outside the Cooldown Manager is a
+different question.
+
+**The tell: an override effect names the BASE spell and carries the REPLACEMENT in
+`EffectBasePointsF`.** The effect's `EffectAura` is **332** or **333**; the base is named by
+`EffectMiscValue_0` where that resolves to a spell, **and/or** selected by
+`EffectSpellClassMask` matched within the owning spell's `SpellClassSet`. The two selection
+forms are not alternatives — rows carry one, both (`108208` Subterfuge names Stealth `1784`
+in `EffectMiscValue_0` *and* carries a mask) or neither, and `EffectMiscValue_0` is not
+always a spell id (`199452` Ultimate Sacrifice carries `2`). `EffectMiscValue_1` is a flag
+field, not a spell reference. **770** effects carry aura 332 or 333, 713 and 57 respectively
+`[T1 db2: SpellEffect @ 12.1.0.69214]`.
+
+The rule reproduces ids the client was independently measured returning:
+
+| Case | Override row | Base | Replacement in DB2 | Client read |
+|---|---|---|---|---|
+| Immolate → Wither | `445465` Wither, aura 332, misc-form | `EffectMiscValue_0 = 348` | `445468` | `445468` (§2.7) |
+| Grimoire: Imp Lord → Singe Magic | `1276623` Singe Magic, aura **333**, misc-form | `EffectMiscValue_0 = 1276452` | `132411` | `132411` (§2) |
+
+`[T1 db2: SpellEffect + SpellName @ 12.1.0.69214]`
+
+So the replacement an addon will later see arrive on `overrideSpellID` is derivable from DB2
+ahead of time, on both aura types, without running the client — with one exception, the pet
+driver, recorded in §9.
+
+**The drivers.** Each row is an API-scoped statement; the exemplars illustrate it, they do
+not bound it.
+
+| Driver | What arms it | Permanent or temporary | Exemplar |
+|---|---|---|---|
+| **Spec-granted spell** | the specialization itself — `SpecializationSpells.OverridesSpellID`, not the override rule above | permanent | Shadow Bolt `686` → Incinerate `29722` (`SpecializationSpells` ID `7291`, SpecID 267) `[T1 db2: SpecializationSpells @ 12.1.0.69214]` |
+| **Hero-tree choice** | a hero talent taken in the build | permanent for the build | Immolate `348` → Wither `445468`, via `445465` (§2.7) |
+| **Buff / aura / proc armed** | an aura being active | temporary — dies with the aura | Metamorphosis `162264`, mask-form, `EffectMiscValue_0 = 0` → Annihilation `201427` / Death Sweep `210152` |
+| **Post-cast timed window** | casting the arming spell; a subtype of the row above, separated because the base's own cooldown keeps running underneath | temporary — the window | Light's Guidance `427445` triggers `427441`, whose mask `[0,0,16,0]` selects Wake of Ashes `255937` (family 10, mask `[134217728,0,18,0]`) → Hammer of Light `427453`. See `cooldown-manager.md` §3.1.1 for what the swipe then shows |
+| **Base spell on cooldown** | the base entering cooldown — the button becomes a utility spell while it runs | temporary — the base's cooldown | Grimoire: Imp Lord `1276452` → Singe Magic `132411`, via `1276623`; Grimoire: Fel Ravager `1276467` → Devour Magic `388215`, via `1276610` — both aura **333**, misc-form |
+| **Active pet** | which pet is summoned; the button's identity follows it | temporary — the pet's lifetime, and it moves mid-pull (§2) | Command Demon `119898` → Axe Toss `119914` |
+
+`[T1 db2: SpellEffect + SpellName @ 12.1.0.69214]` for every row but the first.
+
+**Boundary case — a talent choice node is NOT a transform.** Grimoire: Imp Lord `1276452`
+and Grimoire: Fel Ravager `1276467` are the two `CHOICE` entries on node `110197`
+(`knowledge/classes/_talents/all-talents.tsv`): only one of them exists on a given build and
+nothing swaps at runtime, so no override effect is involved in choosing between them. The
+subtlety is that these same two ids are *also* each the base of a cooldown-driven transform,
+per the table above. The two facts are independent — the choice node picks which button
+exists, the override rows say what that button becomes while its cooldown runs.
+
+**Which rung it arrives on.** Every transform this file has **field-read** arrives on
+**rung 4, `overrideSpellID`** — the field is always populated, the honest test is
+`overrideSpellID ~= spellID`, it is the only identity route that stayed plain through
+restricted combat (21/21 rows), and it was observed *moving mid-pull* on exactly two of the
+drivers above (§2). Rung 2 was never elected at all on the measured character, 0 of 72 rows
+`[client 2026-07-31]` (§2.5), so nothing read here arrived by the linked-spell election.
+
+Three bounds on that, all of them load-bearing:
+
+1. **"Field-read", not "every transform."** 770 override effects exist game-wide; a handful
+   of rows on Warlock and Paladin characters were read.
+2. **The Templar case in §3.1.1 was eyeballed by the player**, not field-read
+   `[client 2026-08-18]`, so its rung was never read.
+3. **§0b applies.** Every measurement above predates 12.1 and the identity ladder was not
+   re-derived at 12.1. Generalising the rung to a transform this file has not read is
+   `@verify-ingame`.
+
+**What a consumer reads** — four terms, and they answer four different questions:
+
+| Question | Term |
+|---|---|
+| Is the row wearing another spell? | `overrideSpellID ~= spellID` |
+| What does the dial mean? | `item.wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` |
+| Is the BASE spell still on cooldown? | `C_Spell.GetSpellCooldown(baseID).isActive` — plain; this struct's other members are secret |
+| Draw the base's real remaining | `C_Spell.GetSpellCooldownDuration(baseID, false)` → `Cooldown:SetCooldownFromDurationObject(d)` |
+
+The sink half of that last row is source inspection plus confirmed-by-use, not a fresh
+measurement (§7 Tier 3).
+
+The consequence is `cooldown-manager.md` §3.1.1's: the swipe reads the **display** identity,
+so a transformed row draws the replacement's cooldown — or none, when the replacement has
+none — while the base's runs unseen. Reading the cooldown on the **base** id is what
+recovers it, which is why the identity test and the dial have to be read together.
 
 ---
 
@@ -2196,6 +2284,21 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
   one measured character are un-hidden by a saved layout — but nobody has performed the
   enable and re-read the bind, so "the player can turn it on" is an inference.
   `@verify-ingame`
+- **`[gap]`** The **pet driver** is the one the override rule does not resolve. `119904`
+  "Override Command Demon" is aura 332, mask-form, and its `EffectBasePointsF` is `1` — not a
+  spell id — while Command Demon `119898` and Axe Toss `119914` carry the *identical*
+  `SpellClassMask` `[0,0,0,128]` in family 5, so the mask does not tell base from replacement
+  either `[T1 db2: SpellEffect + SpellClassOptions @ 12.1.0.69214]`. The replacement follows
+  whichever pet is summoned, and that binding lives outside DB2. The client still reports the
+  result on rung 4 — §2 records it moving mid-pull — so this is a gap in *predicting* the
+  swap, not in reading it.
+- **`[gap]`** What distinguishes `EffectAura` **332** from **333** is unknown. 333 is not "the
+  cooldown-driven aura type": its 57 rows have 36 distinct owning spells, among them Dark
+  Simulacrum `77616`, Holy Ground `433408`, Quaking Leap, Rodeo, Racing, G.R.A.V. Glove,
+  Test WS Replacement and two `[DNT]` rows. The one structural difference visible in the data
+  is selection form — only 2 of the 57 are mask-form, so 333 is essentially misc-only, against
+  a 332 population that uses both `[T1 db2: SpellEffect @ 12.1.0.69214]`. Whether the client
+  treats the two differently at all has not been tested. `@verify-ingame`
 - **Not covered here:** the settings/layout serialization format, Edit Mode anchoring of
   the viewer frames, and the `CooldownViewerVisualAlert` pool. None has a consumer in
   this KB yet.
@@ -2203,6 +2306,12 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
 ---
 
 ## Changelog
+
+- 2026-08-28 — **§2.9 is new: the spell-transform taxonomy.** Six drivers of a button
+  swapping to another spell, discriminated by what arms them, plus the one DB2 rule that
+  reads any of them out of `SpellEffect` — aura 332 or 333, base in `EffectMiscValue_0`
+  and/or `EffectSpellClassMask`, replacement in `EffectBasePointsF`. Two §9 gaps with it:
+  the pet driver, which the rule does not resolve, and what separates aura 332 from 333.
 
 - 2026-08-19 — **§5.1: the aura edges survive 12.1, and a TARGET DoT raises them**
   `[client 2026-08-19]`. Every aura-edge measurement here was 12.0.7 and §5.4 named them the

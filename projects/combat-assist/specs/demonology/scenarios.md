@@ -43,8 +43,9 @@ including the ones no walk reaches. Reading a row out of a text bullet was alway
 option; it was only ever there because nothing else held the data.
 
 In the JSON, the ability name is whatever the Cooldown Manager would *display* in that state —
-`Ruination`, not `Hand of Gul'dan`, while row 7 is transformed — because that is the identity the
-client draws and the swipe follows.
+`Ruination`, not `Hand of Gul'dan`, while row 7 is transformed, and `Singe Magic`, not
+`Grimoire: Imp Lord`, for the whole of the Grimoire's own cooldown — because that is the identity
+the client draws and the swipe follows.
 
 A verdict says what cap concluded, never what the button looks like: **the pixels belong to
 `../render-shelf.md`**. `cd` = swiped by Blizzard, no cap opinion. `open` = shown, in the
@@ -127,10 +128,24 @@ is built on.
   for half the row are the wrong tool, promote the press instead — is relaxed, not repealed:
   five cards are ONE statement (*the board is below five shards*) worn by a block, and the gate
   to a `priority` on the builder stays open if the hatched block reads as noise in a pull.
-  ⚠ **The row shows whichever Grimoire is talented, and cap binds both ids as one entry.** This
-  is a **choice node**, not an R7 transform — the two have separate Essential rows (OrderIndex
-  6 and 36) and the catalog's `alt` field covers it. A build with Fel Ravager reads this
-  scenario with `Grimoire: Fel Ravager` in the same position.
+  ⚠ **The row shows whichever Grimoire is talented, and cap binds both ids as one entry.** That
+  is a **choice node** — the two have separate Essential rows (OrderIndex 6 and 36) and the
+  catalog's `alt` field covers it. A build with Fel Ravager reads this scenario with
+  `Grimoire: Fel Ravager` in the same position.
+  ⚠ **And whichever one exists is ALSO the base of a transform, which is why this row reads
+  `Grimoire: Imp Lord` here and `Singe Magic` in DEM-3 through DEM-15.** The two facts are
+  independent: the choice node picks which button exists, and an override row says what that
+  button becomes while its cooldown runs — Imp Lord `1276452` → Singe Magic `132411` via
+  `1276623`, Fel Ravager `1276467` → Devour Magic `388215` via `1276610`
+  (`catalog.md` → *Bound abilities*; `knowledge/addon-dev/cooldown-manager.md` §2.9). So the
+  Grimoire's 120 s **never reaches the dial** — §3.1.1's rule is that the swipe belongs to the
+  button on the icon — and thirteen scenarios in this walk used to draw a `cd` that does not
+  happen. What rules the row out there is cue **K**, one readable
+  `identity(grimoire, "transformed")` term: *this is not your Grimoire*. It is a statement about
+  identity and not advice about the dispel, which is castable and sometimes correct.
+  ⚠ **A swipe on that row is the DISPEL's**, whose own `RecoveryTime` is 15 s against the
+  Grimoire's 120 s — the state `catalog.json` calls `grimoire_dispel_on_cd`, and the reason the
+  `cd` verdict was corrected rather than deleted.
 - **Density.** No budgeted hold — every card here is unbudgeted `building`, one fact worn by a
   block (Part 0.5).
 - **Cue set.** Ramp hold (I) → **have**, five subjects. No-imps (H) → **have**. The Core bar
@@ -143,7 +158,8 @@ is built on.
   **Tyrant has ~30 s left**. Reign of Tyranny talented, 3 shards, no Demonic Core, three Wild
   Imps out.
 - **Walk.**
-  1. **Power Siphon … Summon Doomguard** — on cooldown → skip.
+  1. **Power Siphon … Summon Doomguard** — on cooldown, except row 2, which shows **Singe Magic**
+     and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Call Dreadstalkers** — ready, and rung 6's first clause holds: 30 s is at least
      `20 + gcd` → **press.** Right of it, the row keeps stating what it knows: Implosion wears
      the pawn and its red imp count, Demonbolt the empty card at zero Cores — none of which
@@ -162,6 +178,7 @@ is built on.
   2026-08-25 — it predates the band-everywhere sweep and was the one mid-fight scenario the
   sweep skipped. The band was added by that same sweep and removed again 2026-08-26, when
   gating it on the rung's readable half turned out to be the whole fix for the gold numeral.)
+  Dispel stand-in (K) → **have**, on row 2.
 
 ### DEM-4 · Tyrant ready at 2 shards — the readable hold, and the filler underneath
 
@@ -170,7 +187,8 @@ is built on.
   and Back is not talented** — on a build that takes it, Implosion is a single-target press and
   row 6 wears no pawn.
 - **Walk.**
-  1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
+  1. **Power Siphon … Call Dreadstalkers** — on cooldown, except row 2, which shows **Singe
+     Magic** and wears cue K's `blocked` beside the ramp's card (DEM-2) → skip.
   2. **Summon Demonic Tyrant** — ready, and the `building` card lights on the exact readable
      predicate `resource < 5`. Rung 8 is `soul_shard=5`; pressing a one-minute cooldown at two
      shards spends the window on a half-built board → skip.
@@ -192,19 +210,21 @@ is built on.
   the term is `{ "resource", "<=", 4 }`, an exact Lua comparison, not a curve handed to the
   client. Havoc's equivalent decision rests on a sealed Fury readout and can only be *shown*;
   this one can be *reasoned about*.
-- **Density.** No budgeted hold at all since the 2026-08-24 re-badges: row 5 wears unbudgeted
-  `building` and row 8 unbudgeted `noproc`; `starved` and `aoe_only` were never budgeted. The
-  walk still steps over four marks to reach the press, which is the reading Part 0.5's budget
+- **Density.** One budgeted hold before the press — row 2's cue K. Row 5 wears unbudgeted
+  `building`, row 8 unbudgeted `noproc`, and `starved` and `aoe_only` were never budgeted. The
+  walk still steps over five marks to reach the press, which is the reading Part 0.5's budget
   deliberately does not count — each restates a fact the player already has.
 - **Cue set.** Five-shard hold (A) → **have**, as the `building` card. Single-target skip (G) →
   **have**. Starved (E) → **have**. Core hold (C) → **have**, as the `noproc` card. The imp
-  band (V16) → **drawing** its numeral on Implosion.
+  band (V16) → **drawing** its numeral on Implosion. Dispel stand-in (K) → **have**, on row 2,
+  beside the ramp hold (I) — Tyrant is ready at two shards, so both cards arm on that icon.
 
 ### DEM-5 · Tyrant ready at 5 shards — press it
 
 - **State.** As DEM-4, but **Soul Shards are 5**. A Demonic Core is up; the three imps still are.
 - **Walk.**
-  1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
+  1. **Power Siphon … Call Dreadstalkers** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Summon Demonic Tyrant** — `tyrant_awaits_shards` requires `resource < 5`, which is false
      here, so the badge is dark → **press.** Rung 8.
 - **Eye-direction.** The badge going *out* is what says "now". Row 5 is the only row in this
@@ -212,7 +232,8 @@ is built on.
   the signal and cap needs no second mark for it.
 - **Cue set.** Nothing fires on the press — the `building` cards all released at five, which is
   the transition doing the talking. Demonbolt still wears `overcap` at five shards (cue B),
-  which is correct and which the walk never reaches; its two bars draw with the Core.
+  which is correct and which the walk never reaches; its two bars draw with the Core. Dispel
+  stand-in (K) → **have**, on row 2.
 
 ### DEM-6 · 4 shards, Core up, Tyrant far — Hand of Gul'dan, and the Core waits
 
@@ -220,7 +241,8 @@ is built on.
   cooldown, **Tyrant ~40 s out**, **4 Soul
   Shards**, a **Demonic Core up**, four Wild Imps out.
 - **Walk.**
-  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
+  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
   3. **Hand of Gul'dan** — affordable at four shards, and `hog_awaits_tyrant`'s sealed band is
      nowhere near range at 40 s → **press.** Rung 11:
@@ -232,14 +254,16 @@ is built on.
   is not waste — and DEM-8 is that state, where the badge is correctly dark.
 - **Cue set.** Overcap (B) → **have**, readable, and gated on `proc(demonbolt)` so it never lands
   on a Demonbolt that has no Core to spend. The Core bar (V18) and proc bar (V20) → **drawing**;
-  the imp band → correctly **dark**, gated off in single target without To Hell and Back.
+  the imp band → correctly **dark**, gated off in single target without To Hell and Back. Dispel
+  stand-in (K) → **have**, on row 2.
 
 ### DEM-7 · 3 shards, Tyrant 4 s out — bank for the window
 
 - **State.** As DEM-6, but **Tyrant's cooldown has ~4 s left** and shards are **3**. A Demonic
   Core is up.
 - **Walk.**
-  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
+  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
   3. **Hand of Gul'dan** — affordable, but `blocked` lights from `hog_awaits_tyrant`: Tyrant's
      cooldown ends within 5 s and shards are below five, so rung 11's
@@ -254,9 +278,11 @@ is built on.
   learns where inside it the value fell — so this is confirmed by eye in game, not by a capture.
   ⚠ It reads nothing at zero remaining, which is correct: at zero, Tyrant is ready and row 5 is
   the press.
-- **Density.** One budgeted hold before the press. Well inside Part 0.5.
+- **Density.** Two budgeted holds before the press — row 2's cue K and row 7's cue F. At the
+  Part 0.5 limit and not over it.
 - **Cue set.** Tyrant bank (F) → **sealed**. Overcap (B) → dark, at three shards. The Core bar
-  (V18) and proc bar (V20) → **drawing**, on the press itself.
+  (V18) and proc bar (V20) → **drawing**, on the press itself. Dispel stand-in (K) → **have**, on
+  row 2.
 
 ### DEM-8 · 1 shard, Core up — the Core is the press
 
@@ -264,7 +290,8 @@ is built on.
   Tyrant far away, two Wild Imps out. **Doom is talented and the target's Doom is inside its
   pandemic window.**
 - **Walk.**
-  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
+  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
   3. **Hand of Gul'dan** — `starved` at one shard against a cost of three → skip.
   4. **Demonbolt** — **press.** Rung 14. All three of its markers are dark: a Core is up
@@ -291,7 +318,8 @@ is built on.
   would be cap's guess wearing the same pixels.
 - **Cue set.** Starved (E) → **have**. Nothing else fires. Three sealed displays draw on one
   row (V18, V19, V20); the imp band is **dark**, gated off in single target without To Hell and
-  Back, so this row's three displays are the whole of what is drawn.
+  Back, so this row's three displays are the whole of what is drawn. Dispel stand-in (K) →
+  **have**, on row 2.
 
 ### DEM-9 · Ruination armed — row 7 is a different button
 
@@ -299,7 +327,8 @@ is built on.
   displaying Ruination**. Single target, **2 Soul Shards**, a Demonic Core up, three Wild Imps
   out, Tyrant on cooldown.
 - **Walk.**
-  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
+  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
   3. **Ruination** — **press.** Rung 10, which sits above the ordinary Hand of Gul'dan and below
      everything else — exactly where row 7 already is, so the identity needs no cue to carry it.
@@ -312,7 +341,8 @@ is built on.
   says "Chaos Bolt", which Demonology does not have; six Warcraft Logs parses say Hand of Gul'dan
   with 1:1 cast counts (`fact-classification.md` §3). If that is wrong, this scenario does not
   merely mis-order — Ruination is drawn on no row at all. @verify-ingame
-- **Cue set.** Identity (R7) → **have**. Nothing else fires.
+- **Cue set.** Identity (R7) → **have** on row 7, and again on row 2 as cue **K**'s dispel
+  stand-in — the same recipe, two rows, opposite consequences. Nothing else fires.
 
 ### DEM-10 · Infernal Bolt armed at 2 shards — the filler outranks the proc
 
@@ -320,7 +350,8 @@ is built on.
   is displaying Infernal Bolt**. Single target, **2 Soul Shards**, a **Demonic Core up**, three
   Wild Imps out, Tyrant ready.
 - **Walk.**
-  1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
+  1. **Power Siphon … Call Dreadstalkers** — on cooldown, except row 2, which shows **Singe
+     Magic** and wears cue K's `blocked` beside the ramp's card (DEM-2) → skip.
   2. **Summon Demonic Tyrant** — the `building` card at two shards, cue A → skip.
   3. **Implosion** — the `aoe_only` pawn → skip.
   4. **Hand of Gul'dan** — `starved` at two shards → skip.
@@ -344,19 +375,20 @@ is built on.
   two verdicts arguing — the stepper-feedback finding that re-formed V20 onto the edge.) And
   row 9 wears its own proc bar: the armed Art's remaining lifetime under the press itself
   — ⚠ its aura id is Tier-3-sourced and dies silent if wrong; flight question.
-- **Density.** One budgeted hold (row 8's `blocked`, cue D) before the press — row 5's card is
-  unbudgeted `building`. Under budget.
+- **Density.** Two budgeted holds before the press — row 2's cue K and row 8's cue D. Row 5's
+  card is unbudgeted `building`. At the Part 0.5 limit and not over it.
 - **Cue set.** Infernal-Bolt yield (D) → **have**. Five-shard hold (A) → **have**, as the
   `building` card. Starved (E) → **have**. The Core bar (V18) and proc bar (V20) →
   **drawing**, stacked on Demonbolt's bottom edge; the Art's proc bar (V20) → **drawing** on
-  Infernal Bolt.
+  Infernal Bolt. Dispel stand-in (K) → **have**, on row 2, beside the ramp hold (I).
 
 ### DEM-11 · Infernal Bolt armed at 4 shards — and it loses
 
 - **State.** As DEM-10, but **4 Soul Shards** and Tyrant on cooldown. Row 9 is still displaying
   Infernal Bolt; a Demonic Core is up, the three imps still out.
 - **Walk.**
-  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
+  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
   3. **Hand of Gul'dan** — affordable, Tyrant far → **press.** Rung 11.
   4. **Demonbolt** — `overcap` at four shards; it never competes.
@@ -365,7 +397,8 @@ is built on.
   the armed Infernal Bolt is simply a better filler waiting its turn. Cue D carries the
   `resource < 3` term for exactly this reason — without it, Demonbolt would be held here too and
   the walk would run off the right edge of the row to a button the APL does not want.
-- **Cue set.** Overcap (B) → **have**. Cue D → correctly **dark**.
+- **Cue set.** Overcap (B) → **have**. Cue D → correctly **dark**. Dispel stand-in (K) → **have**,
+  on row 2.
 
 ### DEM-12 · AoE mode on, 4 targets, imps banked — Implosion
 
@@ -373,7 +406,8 @@ is built on.
   after a Hand of Gul'dan chain, **3 Soul Shards**, Tyrant ready, To Hell and Back **not**
   talented, and **no Demonic Core up**.
 - **Walk.**
-  1. **Power Siphon … Call Dreadstalkers** — on cooldown → skip.
+  1. **Power Siphon … Call Dreadstalkers** — on cooldown, except row 2, which shows **Singe
+     Magic** and wears cue K's `blocked` beside the ramp's card (DEM-2) → skip.
   2. **Summon Demonic Tyrant** — the `building` card at three shards, cue A → skip.
   3. **Implosion** — the `aoe_only` pawn requires the toggle to be **off**, and it is on, so the
      badge is dark → **press.** Rung 9, which outranks both Ruination and the ordinary Hand of
@@ -393,18 +427,20 @@ is built on.
   2026-08-22.
 - **Cue set.** Single-target skip (G) → correctly **dark**. Five-shard hold (A) → **have**, as
   the `building` card; ramp hold (I) → **have**, on Hand of Gul'dan. The imp band
-  (`implosion_imps_aoe`, licensed by the toggle) → **drawing its gold `6`** on the press itself.
+  (`implosion_imps_aoe`, licensed by the toggle) → **drawing its gold `6`** on the press
+  itself. Dispel stand-in (K) → **have**, on row 2, where it draws beside the ramp hold (I).
 
 ### DEM-13 · AoE mode on, three imps out — the count rules the row out
 
 - **State.** As DEM-12 — AoE toggle on, four targets, **3 Soul Shards**, To Hell and Back not
-  talented, no Demonic Core up — except that a Hand of Gul'dan chain has **not** landed, only **three Wild Imps**
-  are out, and **Tyrant is ~40 s out**. (⚠ Until 2026-08-24 this line inherited "Tyrant ready"
+  talented, no Demonic Core up — except that a Hand of Gul'dan chain has **not** landed, only
+  **three Wild Imps** are out, and **Tyrant is ~40 s out**. (⚠ Until 2026-08-24 this line inherited "Tyrant ready"
   from DEM-12 while the walk below said "Tyrant far" — the walk was always the truth: rung 11
   does not fire with Tyrant ready at three shards, so a ready Tyrant would make Hand of
   Gul'dan a held row, not the press. The ramp cues made the contradiction visible.)
 - **Walk.**
-  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown → skip.
+  1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
+     Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn is dark, because the toggle is on. What rules the row out
      instead is the **client**: cap handed it a two-band table over the Wild Imp application
      count, and below six the lower band draws V11's stripe sheet, a plate and the numeral out
@@ -427,10 +463,12 @@ is built on.
   ⚠ **At ZERO imps there is no aura and therefore no button, so no sink on it draws at all.** That
   state is covered by a readable marker instead (`implosion_no_imps`, on the `aura` latch), which
   is the one thing a sealed display structurally cannot reach.
-- **Density.** One client-drawn elimination before the press; no budgeted hold.
+- **Density.** One client-drawn elimination and one budgeted hold (row 2's cue K) before the
+  press.
 - **Cue set.** Five-shard hold (A) → **dark** — Tyrant is on cooldown, and the 2026-08-24 state
   correction removed the hold this line used to claim. Single-target skip (G) → correctly
   **dark**. The imp band (V17) → **drawing**, and it is what makes this scenario expressible.
+  Dispel stand-in (K) → **have**, on row 2.
 
 ### DEM-14 · Two Cores banked — Power Siphon rules itself out
 
@@ -441,7 +479,9 @@ is built on.
   1. **Power Siphon** — ready, and the client rules it out: the band table over the Demonic Core
      count is silent below two and hatches at two → skip. Rung 1's `buff.demonic_core.stack<=1` is
      false, and pressing it here converts two imps into Cores you are already holding.
-  2. **Grimoire … Summon Demonic Tyrant** — on cooldown → skip.
+  2. **Singe Magic … Summon Demonic Tyrant** — Summon Doomguard, Call Dreadstalkers and Tyrant are
+     on cooldown; the Grimoire's is running too, which is why row 2 shows **Singe Magic**, wearing
+     cue K's `blocked` (DEM-2) → skip.
   3. **Implosion** — the `aoe_only` pawn → skip.
   4. **Hand of Gul'dan** — affordable at four shards, Tyrant far → **press.** Rung 11.
 - **Eye-direction.** ⚠ **This is the worst place in the row for an un-ruled-out entry, and it was
@@ -453,11 +493,12 @@ is built on.
   V18's real cost against: a bar has **no blank state**, so the track is on the row at every value
   the aura is up for. It says *how many more*, continuously, which nothing else in this catalog
   answers — and it is a permanent mark on a row that also wears `overcap`.
-- **Density.** One client-drawn elimination and one mode pawn before the press. No budgeted hold
-  at all.
+- **Density.** One client-drawn elimination, one mode pawn and one budgeted hold (row 2's cue K)
+  before the press.
 - **Cue set.** Overcap (B) → **have**. Single-target skip (G) → **have**. The Core band (V16) →
   **drawing**, on Power Siphon; the imp band → **dark**, gated off by the same single-target fact
-  that lights cue G. The Core bar (V18) and proc bar (V20) → **drawing**, on Demonbolt.
+  that lights cue G. The Core bar (V18) and proc bar (V20) → **drawing**, on Demonbolt. Dispel
+  stand-in (K) → **have**, on row 2.
 
 ### DEM-15 · Dreadstalkers in the dead zone — waiting on Tyrant's cooldown
 
@@ -466,7 +507,8 @@ is built on.
   Shards, no Demonic Core, two Wild Imps out; Power Siphon, Grimoire and Summon Doomguard on
   cooldown.
 - **Walk.**
-  1. **Power Siphon … Summon Doomguard** — on cooldown → skip.
+  1. **Power Siphon … Summon Doomguard** — on cooldown, except row 2, which shows **Singe Magic**
+     and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Call Dreadstalkers** — `blocked` from `dreadstalkers_awaits_tyrant`: 16 s is inside the
      two-sided band `(10.5, 21.5)`, so recast dogs would come back too late for the window and
      casting now wastes the extension → skip. (Its `building` card is dark — Tyrant is not
@@ -486,9 +528,11 @@ is built on.
   ⚠ **The two-sided curve itself is unflown** — the one-sided senses are, severally, the same
   measured machinery, but no client has evaluated a three-point band. `catalog.md` → *Defeats*,
   item 1 carries the closure.
-- **Density.** One budgeted hold (the dogs' `blocked`, cue J) before the press. Under budget.
+- **Density.** Two budgeted holds before the press — row 2's cue K and the dogs' `blocked`
+  (cue J). At the Part 0.5 limit and not over it.
 - **Cue set.** Dogs' window (J) → **sealed**, drawing. Core hold (C) → **have**, the `noproc`
-  card on a row right of the press. Ramp hold (I) → dark everywhere — Tyrant is not ready.
+  card on a row right of the press. Ramp hold (I) → dark everywhere — Tyrant is not ready. Dispel
+  stand-in (K) → **have**, on row 2.
 
 ### DEM-16 · Ruination armed during the ramp
 

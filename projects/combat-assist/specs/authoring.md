@@ -331,6 +331,13 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
   knowingly does *not* draw, so there is nothing in the client for it to be data for; it goes as
   far as `states` do, which is the preview and the gates.
 
+- **A state whose row is TRANSFORMED says which face it draws.** `"shows": "<roster name>"` on
+  the state; the preview's state card then draws that button instead of the entry's base one,
+  the way a scenario row already writes whichever name the client would show. Gated: the name
+  must bind in the catalog's *Bound abilities* table. It is single-valued, so a state describing
+  a row that may be wearing **either** face is left without it rather than forced to pick.
+  ⚠ Like `defeat`, it does not travel to `Catalogs/<Spec>.lua` — states never do.
+
 ---
 
 ## The recipe index
