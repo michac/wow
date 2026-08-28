@@ -97,6 +97,27 @@ and nothing about how it was measured.
   client-decided. First consumer: Demonic Core (full stacks = procs about to be wasted). The
   move off the corner also ends the DEM-8 geometry conflict with V19's badge (Part 5 #10 is now
   a readability question). Radial render mode retired from the style. **Not flown.**
+- **Badge geometry is a ratio of the row's MEASURED width, not of the shelf's nominal icon.**
+  `Paint.Ratios(width)` is the arithmetic, `Paint.Geometry(host)` is it with the width read off
+  a host, and every badge, plate, glyph, halo and promotion ring is sized through one of them.
+  The three frozen escape sizes are gone from `render-tokens.json` — `count.hatch_px`,
+  `plate_px` and `mark_px` were `Geometry()` outputs computed once against a 56 px icon, so on
+  any other icon size every badge on every row was mis-sized and mis-placed. `Channel.CountGeometry`
+  derives them at arm time; `capart` derives the preview's from the same ratios.
+  ⚠ **Which makes PINNING ORDER load-bearing.** `Overlay.acquire` anchors onto the CDM item
+  before it builds a single primitive, `rebuild` re-anchors before `configure`, and
+  `Channel.Arm` returns **`deferred`** on a host with no valid rect so the per-draw retry picks
+  it up. An escape's size is a literal baked into the band string when the sink is armed and
+  never revisited, so arming against a 0x0 host froze the whole row at the nominal.
+  `/cap band` has lost its size argument for the same reason — the offset is still nudgeable,
+  the size is now read-only, and the no-argument readout prints measured width beside drawn
+  diameter as the assertion. **Not flown.**
+- ⚠ **A band is still sized ONCE, at arm time.** An Edit Mode icon-size change leaves the bands
+  sized for the old rect until `/reload`. Re-applying needs `SetApplicationCount` to be callable
+  a second time on a live button, which is an open client question
+  (`@pending-test: aura-sink-recall`, `security-taint-and-restricted-data.md` §3.5.3) — the
+  source reads as a plain setter but nothing in the 12.1 UI calls one twice. **Not built, and
+  gated on that test.**
 - **V19 is a two-state DoT pair; V16/V17 changed shape** (2026-08-24). Aura up but OUTSIDE its
   refresh window: a gold do-not-refresh hatch, drawn by `SetDurationText` band tables on
   remaining seconds off an optional catalog `outside_s` (the threshold is the catalog's; the
@@ -170,17 +191,42 @@ and nothing about how it was measured.
   off" / "Keep trying") and cap never stops on its own; a destructive stomp or a live
   `GetCooldownID()` mismatch triggers a **rebuild** from a fresh bind; `X{STALE:<n>}` reports the
   mismatch the old `X{ok}` could not see; and `/cap anchor retry` is the manual recovery.
-  - **Not flown.** The classifier has unit coverage; the dialog, the rebuild and the stale
-    detector have only been reasoned about. Fly before believing the counts.
-  - ⚠ **What moved the frames in the stuck sessions is still unattributed.** The capture shows
-    displacement with neither `Layout` nor `RefreshLayout` firing, which is either a competitor
-    or a layout path `Anchor.lua` does not hook. The new behaviour is correct either way, but it
-    does not answer this.
+  - **Ordering holds in combat.** Nothing on the anchor path is gated on `InCombatLockdown()`:
+    the CDM's item frames are unprotected (`IsProtected()` returned `false, false` on 9 of 9
+    Havoc rows, in and out of combat — `knowledge/addon-dev/cooldown-manager.md` §4.1) and a
+    bind resolve is pure reads. `Anchor.Judge` reads no combat flag, so a re-assert is the same
+    verdict in a pull as out of one. The accepted cost is that icons may move mid-fight, which
+    is the trade for a row that never silently reverts to Blizzard's order.
+  - **The re-assert is per frame and synchronous.** `Anchor.lua` hooks each tracked item
+    frame's own `SetPoint` and puts it back inside the call that moved it, discriminating cap's
+    own writes by whether the point is relative to cap's anchor frame. The 0.5 s sampler is an
+    **auditor**: it measures drift, drives `Judge`/contention and re-places as a backstop, but
+    the repair no longer waits for it. `S{reassert:<n>}` counts the corrections.
+    ⚠ **A layout pass may still move the row; a displacement may not.** Correcting inside
+    Blizzard's own `SetPoint` destroys the evidence of where it was moving the row TO, so the
+    hook reads the position first and `apply` adopts it as the new origin — but only when the
+    apply came from an event rather than from a judged displacement, or a competitor could drag
+    the row simply by losing to cap repeatedly.
+  - **Not flown.** The classifier has unit coverage; the dialog, the rebuild, the stale detector
+    and the per-frame re-assert have only been reasoned about. Fly before believing the counts.
+  - ⚠ **The unattributed case is unresolved but should now be attributable.** The capture showed
+    displacement with neither `Layout` nor `RefreshLayout` firing. A mover that goes through
+    `SetPoint` is now caught whether or not it exposes a hook; one that survives to the sampler
+    reached the frame by another route (a scale or parent change) and reads as `# contended`.
+    The flight is what tells the two apart.
   - ⚠ **Not built:** the always-show / un-hide half. `SetCooldownToCategory` writes the player's
     saved CDM layout, which the ordering design deliberately avoided, and it needs an author call.
-  - `Anchor.lua`'s `InCombatLockdown()` guard on `apply()` is **caution, not a restriction**:
-    `IsProtected()` returned `false, false` on 9 of 9 Havoc rows, in and out of combat
-    (`knowledge/addon-dev/cooldown-manager.md` §4.1).
+  - **A claimed frame the plan loses is PARKED, not abandoned.** `Anchor` tracks every item
+    frame it has moved (`claimed`), and one that drops out of a rebuilt plan is held offscreen
+    instead of left sitting in the row in nobody's order — `spec.md` §3.9's fifth property,
+    amended for it. The commonest way in is a live `GetCooldownID()` that stopped matching,
+    which takes a row out of `Bind`'s list without taking the icon off the screen. `disarm`
+    restores `claimed` rather than `tracked`, so turning ordering off returns parked icons too,
+    and a destructive stomp drops every claim — the pool re-issues those frames against new
+    rows, and a stale park would make a live ability silently invisible. `A{parked:<n>}` is how
+    many are off the row now, `S{park:<n>}` how many have been across the session, and the
+    `# parked` mark is emitted by the apply that MOVED them, never by the plan rebuild that
+    decided to. **Not flown.**
 
 ### The specs
 
@@ -509,13 +555,15 @@ The feature ships and holds; these are the things to notice in play, not a gate 
       ⚠ **A frozen sample is not evidence of a failed apply.** A competitor that wins
       deterministically every round produces a byte-identical `D{}` across every sample, because
       each sample catches the frames in *its* layout. `stomp:0` is what separates the two.
+- [ ] **Fly the park.** Get a row to drop out of the plan without a pool release (a
+      `GetCooldownID()` identity change is the reachable one) and confirm `# parked n=1`, the icon
+      leaving the row, `A{parked:1}` standing in the readout, and `/cap anchor off` bringing it
+      back with `# restored n=<all>` and `orphans=0`. ⚠ **The failure to watch for is the
+      opposite one:** a park that survives a destructive stomp would hide a live ability, so
+      confirm `A{parked:0}` after every `# stomp … destructive=1`.
 - [ ] **Fly the recovery.** Force a re-pool (spec swap, or a settings change that alters the row
       count) and confirm `# stale` → `# rearmed` → `X{ok}`, rather than a silently scrambled row.
       Then answer the dialog both ways and confirm `# restored` / `# armed` follow.
-- [ ] **Decide whether `Anchor` re-applies in combat now that it may.** The cheap version is to drop
-      the `InCombatLockdown()` guard in `apply()` and let the existing `# stomp` path re-anchor; the
-      question is whether re-anchoring mid-pull is *desirable*, since a row that moves during combat
-      is its own kind of wrong.
 - [ ] **The un-hide half needs an author call** before anything is built. `/cap anchor rows` reports
       which catalog entries have no pooled frame; making one appear means `SetCooldownToCategory`,
       a write to the player's saved CDM layout, which sits against `spec.md` §4's "does not replace

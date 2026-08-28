@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-08-21   # 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
+reviewed: 2026-08-27   # 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1246,6 +1246,25 @@ So the throb is **gated by the client's evaluation of a rule the addon authored*
 branches on nothing at any point. The same holds for a Region handed to `AddPandemicRegion`, where
 the client owns `Shown` outright — there the gating is even cleaner, since the region is genuinely
 hidden rather than merely empty.
+
+⚠ **Whether a sink may be RE-CALLED on a button that already has one is open**
+`@pending-test: aura-sink-recall`. It matters because everything a sink is given is fixed at the
+moment it is given: a formatter's bands, and with them every size literal inside a format string,
+are set once and never revisited, so a display that must follow a changing icon rect has no other
+route. The source reads as a plain setter — it overwrites `self.applicationCount` and calls
+`UpdateAuraDisplay()`, with a matching `ClearApplicationCount` and no combat guard
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua —
+CustomAuraButtonSharedMixin:SetApplicationCount, ClearApplicationCount]`, and `AddAuraSlot` returns
+the very button `initializeFrame` was handed
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_CustomAuraContainer.lua —
+CustomAuraContainerSharedMixin:AddAuraSlot]`, so a caller can hold one. Against that: **no shipped
+12.1 code calls any of these setters twice**, and a second call re-runs
+`ValidateInboundScriptObject`'s `IsForbidden()` / `IsProtected()` gates and then
+`AddSecretAspect` / `AddForbiddenAspects` on a region the first call already sealed
+`[T1 src @12.1.0: Blizzard_AuraContainer/Blizzard_AuraContainerUtil.lua —
+ValidateInboundScriptObject, InitializeInboundScriptObject]`. How an already-sealed FontString
+answers its own `IsForbidden()` is C-side and not readable from the shipped Lua. **Do not build a
+re-arming display on the assumption that it works.**
 
 Three limits, all real:
 

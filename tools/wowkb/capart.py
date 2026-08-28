@@ -1861,6 +1861,24 @@ def count_tinted(img: Image.Image, rgb: list, alpha: float = 1.0) -> Image.Image
     ))
 
 
+def _count_px(tokens: dict) -> dict:
+    """The three V16/V17 escape sizes, derived from the badge ratios at the nominal icon.
+
+    ⚠ These are NOT tokens and must not become tokens again. In the addon each one is computed
+    from the width the row actually draws at (`Channel.CountGeometry`), because an escape's size
+    is a literal baked into the band string; freezing them made every badge on every row the
+    wrong size at any icon size but 56. What is emitted here is the same arithmetic at the
+    nominal, so the preview shows what a nominal-sized row shows.
+    """
+    b, icon = tokens["badges"], tokens["surfaces"]["icon_px"]
+    d = b["diameter_pct"] / 100 * icon
+    return {
+        "hatch": icon,
+        "plate": d * b["plate"]["scale"],
+        "mark": d * (1 - 2 * b["sprite_inset_pct"] / 100),
+    }
+
+
 def band_hatch(tokens: dict) -> Image.Image:
     """V17's hatch as a SINGLE CROP, pre-rendered at the size it will be drawn.
 
@@ -1869,12 +1887,16 @@ def band_hatch(tokens: dict) -> Image.Image:
     icon size; an escape has no such control and crams the whole 128px sheet into whatever box it
     is given, so the same file came out coarse and squashed two icons from a correct one.
 
-    So the band gets its own crop, generated at `tokens.count.hatch_px` with the pitch chosen so
-    the ON-SCREEN result matches V11's. It is not tileable and does not need to be: it is drawn
-    exactly once, at one size, and seaming is a property of repetition.
+    So the band gets its own crop, authored against the shelf's NOMINAL icon with the pitch
+    chosen so the ON-SCREEN result matches V11's. It is not tileable and does not need to be: it
+    is drawn exactly once, at one size, and seaming is a property of repetition.
+
+    ⚠ The crop's resolution is not the size it draws at. The escape stretches it to whatever the
+    row measures, so this is authored art at a reference size, not a placement decision — which
+    is why the size is `surfaces.icon_px` and not a token of its own.
     """
-    cnt, h = tokens["count"], tokens["hatch"]
-    px = cnt["hatch_px"]
+    h = tokens["hatch"]
+    px = tokens["surfaces"]["icon_px"]
     # The file is power-of-two (the client wants it); the pitch is scaled so that squeezing the
     # file into `hatch_px` lands the stripes on V11's own pitch.
     size = 1 << (px - 1).bit_length()
@@ -2408,11 +2430,11 @@ def root_css(tokens: dict) -> str:
             f"  --count-outline: 1px;",
             f"  --count-rgb: {rgba(cnt['rgb'])};",
             f"  --count-low: {rgba(cnt['low_rgb'])};",
-            f"  --count-mark: {cnt['mark_px']}px;",
+            f"  --count-mark: {_count_px(tokens)['mark']:.0f}px;",
             f"  --count-mark-x: {cnt['mark_offset_px'][0]}px;",
             f"  --count-mark-y: {cnt['mark_offset_px'][1]}px;",
-            f"  --count-plate: {cnt['plate_px']}px;",
-            f"  --count-hatch: {cnt['hatch_px']}px;",
+            f"  --count-plate: {_count_px(tokens)['plate']:.0f}px;",
+            f"  --count-hatch: {_count_px(tokens)['hatch']:.0f}px;",
             f"  --count-hatch-alpha: {cnt.get('hatch_alpha', 1.0)};",
             f"  --count-pulse-dur: {cnt['pulse']['duration_s']}s;",
             f"  --count-pulse-a0: {cnt['pulse']['alpha'][0]};",
@@ -2624,6 +2646,48 @@ def root_css(tokens: dict) -> str:
                 f"{pre}pulse-a0: {entry['pulse']['alpha'][0]};",
                 f"{pre}pulse-a1: {entry['pulse']['alpha'][1]};",
             ]
+
+    # Part 7 · SKIP-LAYER OVERRIDES. A lab cell may redraw V11's skip layer with its own
+    # geometry while `tokens.hatch.skip` — the shipped value — is untouched. This is the only way
+    # the lab can ask a question ABOUT the declared style rather than beside it: the alternative
+    # was editing the shelf, looking, and remembering to put it back, which is the exact cost
+    # Part 7 exists to remove.
+    #
+    # Only the keys an override NAMES are emitted. The hue, the border weight and the stripe
+    # phase are deliberately not re-declarable here — an override that could restate everything
+    # would be a second style, and a cell drawing a second style answers nothing about the first.
+    # So `rgb` is the SHELF's, carrying only the lab's alpha.
+    #
+    # `lift` is a z-index on the skip layer alone. `itemNode` appends the scan edge AFTER the skip
+    # layer, so geometry alone cannot put red over yellow — without a lift, dropping the overhang
+    # just buries the red border under the edge. It is the CSS stand-in for the `SetFrameLevel`
+    # call render-shelf.md Part 4 asserts and `Paint.lua` does not make.
+    for key, entry in lab.items():
+        if key.startswith("_") or not isinstance(entry, dict):
+            continue
+        overrides = entry.get("skip_overrides")
+        if not overrides:
+            continue
+        shelf_skip = tokens["hatch"]["skip"]
+        for name, o in overrides.items():
+            if name.startswith("_"):
+                continue
+            pre = f"  --lab-{key}-skip-{name}-"
+            lines += ["", f"  /* Part 7 · {key} — skip layer redrawn as {name!r} */"]
+            if "overhang_px" in o:
+                lines.append(f"{pre}over: {o['overhang_px']}px;")
+            if "alpha" in o:
+                lines.append(f"{pre}rgb: {rgba(shelf_skip['rgb'], o['alpha'])};")
+            if "line_px" in o:
+                lines.append(f"{pre}line: {o['line_px']}px;")
+            if "lift" in o:
+                lines.append(f"{pre}lift: {o['lift']};")
+            # The chrome lift is a SEPARATE number because it is a separate job: `lift` puts the
+            # hatch over the scan edge, and doing that puts it over everything appended after the
+            # edge as well — the badge and the hotkey included. A hatch that conceals the badge has
+            # eaten the only mark on the row carrying a reason, so the chrome is put back on top.
+            if "chrome_lift" in o:
+                lines.append(f"{pre}chrome: {o['chrome_lift']};")
 
     # Part 7 · the font candidates. Each hotkey entry names its own family and its own two
     # dials, so the entries can be read side by side at the same size or at different ones.

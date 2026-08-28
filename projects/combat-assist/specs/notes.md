@@ -320,3 +320,70 @@ Destruction Incinerate/Conflagrate dropped their both-lit two-band flips to defa
 membership, so those filler rows now stay lit under an unknown identity/resource where the
 old blind rule darkened them. The uniform blind rule (no ON alternative + any BLIND
 alternative ⇒ withheld, `blind = true`) is likewise unflown.
+
+---
+
+## 2026-08-27 — the combat teardown, and badges that were the wrong size everywhere but 56
+
+**What changed.** Every combat gate on the ordering path was deleted, a per-frame `SetPoint`
+re-assert replaced the deferred repair, and badge geometry stopped being arithmetic on the
+shelf's nominal icon. Files: `Anchor.lua`, `Bind.lua`, `Overlay.lua`, `Paint.lua`,
+`Channel.lua`, `Panel.lua`, `Sense.lua`, `StylePanel.lua`, the anchor/style/channel specs,
+`render-tokens.json`, `render-shelf.md`, `flight-reading.md`, `capart.py`, and
+`security-taint-and-restricted-data.md` §3.5.3.
+
+**Why it still binds.** Three arguments a future reader must not re-derive.
+
+*The gates were never protecting anything.* The CDM's item templates declare no `protected`
+attribute and no secure template, `IsProtected()` had already measured `false, false` on 9 of 9
+Havoc rows in and out of combat, and a bind resolve is `pcall`'d getters end to end. What the
+gates cost was concrete: `RefreshLayout` releases the whole item-frame pool from the viewer's
+full-aura-update path, so a destructive stomp mid-pull left Blizzard's order on screen for the
+rest of the fight while the row still read as a priority scan. `Anchor.Judge` no longer takes a
+combat flag at all. The accepted trade — icons may move during a pull — is the author's
+decision and is the reason the always-true alternative was not chosen.
+
+*A deferred repair has a window; a synchronous one does not.* Correcting inside the mover's own
+`SetPoint` call is what EllesmereUI does, and it catches a mover that exposes no hook of its
+own, which is the shape of cap's standing unattributed case. The discriminator is the anchor
+frame: everything cap writes is relative to it, so a point relative to anything else came from
+outside. `P.expected` is stamped before the write that sets it, because the hook fires inside
+that call.
+
+*Three tokens were outputs, not decisions.* `count.hatch_px` 56, `plate_px` 25 and `mark_px` 15
+were `Geometry()` evaluated once against a 56 px icon — `56×1.0`, `22.4×1.12`, `22.4×0.68` —
+and the ratios they came from were already in the shelf. Worse, `Paint.Geometry()` took no host
+at all, so on any other icon size every badge on every row was mis-sized. Making them
+arithmetic on a measured width made pinning order load-bearing: an escape's size is a literal
+baked into the band string at arm time, and a host with no rect measures nothing.
+
+**Caveat.** None of it has flown. Re-applying a band's size when the icon rect changes was not
+built: it depends on `SetApplicationCount` being callable twice on a live button, which is now an
+open ClientLab question rather than an assumption.
+
+---
+
+## 2026-08-27 — a claimed frame the plan loses is parked, not abandoned
+
+**What changed.** `spec.md` §3.9 gained a fifth property and §4 was widened to match, then
+`Anchor.lua` grew a claim/park/release lifecycle. Files: `spec.md`, `Anchor.lua`,
+`anchor_spec.lua`, `backlog.md`, `flight-reading.md`. `Lab.lua` was re-exported in passing — it
+had been left behind by the commit that put L9 `ring_collision` in `render-lab.json`, and
+`StylePanel` gained the `composition` drawer that entry declares, so the gallery can draw it.
+
+**Why it still binds.** `adopt` rebuilt `tracked` wholesale and `disarm` restored only
+`tracked`, so a frame cap had moved and then stopped tracking was left at cap's coordinates,
+inside a row that still reads as a priority scan, in nobody's order — and turning ordering off
+would not have restored it either. Making `Bind.ItemFrame` clear a stale frame earlier the same
+day made that path reachable rather than theoretical. So `claimed` is now the set cap answers
+for, `tracked` is the subset the plan places, and `parked` is the difference: held off the row
+rather than drawn in the wrong place, which is the same choice `Overlay.quiet` and Sense's dark
+latch already make one level up. Two riders are load-bearing. A park and a placement use the
+**same anchor keyword**, because a same-keyword `SetPoint` replaces and a different one
+accumulates a second conflicting anchor. And a destructive stomp drops every claim: the viewer
+re-issues those frame objects against different rows, so a park that outlived the pool would
+make a live ability silently invisible.
+
+**Caveat.** Unflown. The `# parked` mark is emitted by the apply that moves the frames rather
+than the adopt that decides to, so an adopt followed by a failed apply reports nothing — which
+is correct but means a park can be decided and not yet done.

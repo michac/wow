@@ -196,13 +196,20 @@ unchanged by the promotion.)*
 
 ```
 t120.4 # armed
-A{n:8 named:6 extra:2 miss:1} P{31,12,44,9,17,3,52,28} D{31,12,44,9,17,3,52,28} X{ok} S{stomp:0 icombat:0 disp:0 cont:0 stale:0 strike:0}
+A{n:8 named:6 extra:2 miss:1 parked:0} P{31,12,44,9,17,3,52,28} D{31,12,44,9,17,3,52,28} X{ok} S{stomp:0 icombat:0 disp:0 cont:0 reassert:0 park:0 stale:0 strike:0}
 t131.7 # stomp RefreshLayout destructive=1 combat=1
 ```
 
 - `A{}` is the plan: `n` frames placed, `named` of them in the catalog's authored order,
-  `extra` rows the catalog does not name (they keep client order behind the named ones), and
-  `miss` authored entries with no live row on this build.
+  `extra` rows the catalog does not name (they keep client order behind the named ones),
+  `miss` authored entries with no live row on this build, and `parked` icons cap has moved OFF
+  the row and is holding offscreen.
+- ⚠ **`miss` and `parked` are different failures and only one is a fault.** A `miss` is an
+  authored entry the Cooldown Manager never made a row for — normal, and usually an ability
+  with no cooldown. A `parked` icon is one cap moved and then lost its place for: it exists,
+  the player configured it, and cap is deliberately holding it out of the row rather than
+  letting it read as part of a priority scan it is no longer ordered by. **A steady non-zero
+  `parked` is worth chasing**; it means the plan keeps losing a row it once held.
 - `P{}` is the **authored** order as cooldownIDs; `D{}` is the **drawn** order, read off each
   frame's `GetLeft()`. `X{ok}` means they agree; `X{MISMATCH}` means they do not, including when
   a frame's position could not be read.
@@ -211,9 +218,17 @@ t131.7 # stomp RefreshLayout destructive=1 combat=1
   different one — the pool re-issued them. `P{}`/`D{}` are then describing icons the plan no
   longer owns, so neither `ok` nor `MISMATCH` would mean what it says.
 - `S{}` counts, for the session: `stomp` layout passes seen through `Anchor.lua`'s own hooks,
-  `icombat` how many of those landed inside a pull, `disp` displacements attributable to one of
-  those passes, `cont` displacements with no observed cause, `stale` re-pool episodes, and
-  `strike` the contention run standing right now (it decays, so it is a level, not a total).
+  `icombat` how many of those landed inside a pull, `park` how many icons have been taken off
+  the row across the session (a total; `A{parked}` is how many are off it right now),
+  `reassert` frames put back inside the
+  `SetPoint` call that moved them, `disp` displacements the sampler still saw within the window
+  after one of cap's own re-asserts, `cont` displacements the sampler saw with no recent
+  re-assert of cap's, `stale` re-pool episodes, and `strike` the contention run standing right
+  now (it decays, so it is a level, not a total).
+- **`reassert` is the healthy counter and it climbs.** Every layout pass moves the frames and
+  every move is answered inside the same call, so a busy pull produces many re-asserts and no
+  `# displaced`. What is worth reading is the ratio: `disp` and `cont` are the moves that
+  reached the screen.
 
 ⚠ **`P{}`/`D{}` are the only evidence here.** The `bind` stream's `# row-order` note and
 `Catalog.OrderCheck` both derive order from `layoutIndex`, which a `SetPoint` re-anchor does not
@@ -224,15 +239,16 @@ Marks:
 
 | Mark | Means |
 | --- | --- |
-| `# armed` / `# restored orphans=<n>` | cap took and gave back the frames; a non-zero `orphans` is a bug — a frame left with no points |
+| `# armed` / `# restored n=<n> orphans=<m>` | cap took and gave back the frames — `n` is every frame it had moved, placed and parked alike, since restoring only the placed ones would leave a parked icon offscreen for good. A non-zero `orphans` is a bug: a frame left with no points |
 | `# combat start` / `# combat end` | the `PLAYER_REGEN_*` edge, which is where every `combat=` flag comes from |
 | `# stomp <source> destructive=<0\|1> combat=<0\|1>` | Blizzard's layout ran. `destructive=1` is `RefreshLayout`, which releases the frame pool, so the frames afterwards are new ones — cap answers it with a rebuild, not a re-place |
-| `# displaced n=<count> combat=<0\|1>` | frames left where cap put them, within the window after a stomp — **cap versus Blizzard's layout engine** |
-| `# contended n=<count> strike=<n> combat=<0\|1>` | frames moved with **no** preceding stomp — something that is neither cap nor Blizzard's layout engine is anchoring them, i.e. a re-anchoring Cooldown Manager addon. The claim is positional only; cap names no addon. `strike` is the run so far; the third inside 10 s opens the dialog |
-| `# stale n=<count> combat=<0\|1>` | `n` tracked frames are serving other rows: the pool re-issued them and the plan is stale. Out of combat this is followed by a `# rearmed`; in combat it stands until the pull ends |
+| `# displaced n=<count> combat=<0\|1>` | frames left where cap put them and were **still** displaced half a second later, within the window after one of cap's own re-asserts — the layout engine settling around a move cap has already answered |
+| `# contended n=<count> strike=<n> combat=<0\|1>` | frames displaced with **no** recent re-assert of cap's, so they moved by a route `SetPoint` does not carry — a scale or parent change, or something re-anchoring them harder than cap. The claim is positional only; cap names no addon. `strike` is the run so far; the third inside 10 s opens the dialog |
+| `# stale n=<count> combat=<0\|1>` | `n` tracked frames are serving other rows: the pool re-issued them and the plan is stale. A `# rearmed` follows, in combat as well as out |
 | `# rearmed why=<reason>` | cap rebuilt the plan from a fresh bind rather than re-placing frames whose identity it no longer knew |
+| `# parked n=<count> combat=<0\|1>` | `n` icons cap had moved dropped out of the plan and were taken off the row (`spec.md` §3.9). Emitted by the apply that MOVED them, never by the plan rebuild that decided to — an adopt followed by a failed apply has parked nothing. Cleared wholesale by a destructive stomp, because the pool re-issues those frames against new rows |
 | `# asking` | cap opened the contention dialog. Nothing after it until the player answers — the two answers are `# restored` (turn it off) or `# armed` (keep trying) |
-| `# reapply why=<reason>` | cap re-applied its order, out of combat, after that event |
+| `# reapply why=<reason>` | cap re-applied its order, in combat as well as out, after that event |
 
 **`# contended` changes what the flight measures.** A run carrying contention is measuring cap
 against another addon, not cap against the client, so its persistence result answers a different
@@ -242,9 +258,12 @@ question than the one you asked. `status` and the stream `Meta` carry the count.
 a dialog asking whether to turn ordering off, and both answers are visible in the stream. A
 capture that simply goes quiet after a `# contended` is a bug, not a back-off.
 
-`# stomp … combat=1` is the top persistence risk: `RefreshLayout` fires in a pull from the
-viewer's full-aura-update path, and cap never writes geometry in combat, so a destructive stomp
-inside a pull is expected to lose the order until the next out-of-combat pass.
+**`# stomp … combat=1` is the case to read first.** `RefreshLayout` fires in a pull from the
+viewer's full-aura-update path and releases the whole frame pool. Every one of them must be
+followed by a `# rearmed` or `# reapply` carrying `X{ok}`. A destructive stomp with nothing after
+it until `# combat end` is the failure: the row spent the rest of the pull in Blizzard's order
+while still looking like a priority scan. The item frames are unprotected, so nothing about
+combat excuses it.
 
 ## The Havoc row — one flight for S3–S7
 

@@ -13,6 +13,7 @@ Report.lua
 Dumps.lua
 Autorun.lua
 Ask.lua
+T_AuraSink.lua
 
 # DRAINED 2026-08-21 — questions answered, claims written, rows removed from questions.json.
 # The suite is empty, which is its correct resting state (a T_ file holds only what is OPEN).

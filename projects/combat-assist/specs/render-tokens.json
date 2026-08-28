@@ -242,17 +242,14 @@
       0.3
     ],
     "mark": "cards_stack_high",
-    "mark_px": 15,
     "mark_offset_px": [
       20,
       -18
     ],
-    "plate_px": 25,
     "plate_offset_px": [
       20,
       -18
     ],
-    "hatch_px": 56,
     "hatch_alpha": 0.55,
     "hatch_offset_px": [
       2,

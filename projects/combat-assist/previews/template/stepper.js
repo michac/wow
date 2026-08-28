@@ -669,6 +669,34 @@
 
   function stripedItem(key, cell) {
     var item = bareItem(cell.ability, cell.verdict || "open", { cues: cell.cues || [] });
+
+    // A cell may REDRAW V11's skip layer with its own geometry, so the lab can ask a question
+    // about the declared style instead of beside it. The shelf's `tokens.hatch.skip` is not
+    // touched: the override arrives as its own `--lab-<key>-skip-<name>-*` variables and is
+    // repointed here, on THIS item only, which is what keeps the other cells drawing the shipped
+    // treatment for comparison.
+    //
+    // ⚠ `lift` is not decoration. The scan edge is appended AFTER the skip layer, so dropping the
+    // overhang alone buries the red border UNDER the yellow one rather than over it — the
+    // opposite of what such a cell is asking. z-index is the CSS stand-in for the frame level
+    // Part 4 asserts and `Paint.lua` does not set.
+    var skipName = cell.skip;
+    if (skipName) {
+      var pre = "--lab-" + key + "-skip-" + skipName + "-";
+      item.style.setProperty("--hatch-skip-over", "var(" + pre + "over)");
+      item.style.setProperty("--hatch-skip-rgb", "var(" + pre + "rgb)");
+      item.style.setProperty("--hatch-skip-line", "var(" + pre + "line)");
+      var skipNode = item.querySelector(".skip-hatch");
+      if (skipNode) skipNode.style.setProperty("z-index", "var(" + pre + "lift)");
+      // ⚠ Putting the hatch over the scan edge puts it over everything appended after the edge,
+      // which is the badge and the hotkey. That is a regression, not a look: the badge is the only
+      // mark on the row carrying a REASON, and V11's hatch concealing it inverts what the hatch is
+      // for. So the chrome is lifted back over both.
+      [].forEach.call(item.querySelectorAll(".slot, .hotkey"), function (n) {
+        n.style.setProperty("z-index", "var(" + pre + "chrome)");
+      });
+    }
+
     var layers = cell.stripes || [];
     // Inserted BEFORE the first badge slot, so the stripes lie over the icon and the swipe but
     // under the corner badges — the badges are the thing that says *why* and must stay legible.

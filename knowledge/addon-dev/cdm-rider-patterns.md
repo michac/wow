@@ -2,11 +2,14 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-21   # 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
+reviewed: 2026-08-27   # 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
   - "EllesmereUI Cooldown Manager 8.8.4 (live install)"
+  - "EllesmereUI 9.0.5 (live install, EllesmereUICooldownManager) — mined 2026-08-27 for the
+    CDM item-frame reposition question. License CUSTOM, ALL RIGHTS RESERVED; read for API
+    discovery only, no code copied"
   - "Blizzard UI source 12.1.0 — Blizzard_ActionBar, Blizzard_SharedXML/BindingUtil.lua, Blizzard_APIDocumentationGenerated/ActionBarFrameDocumentation.lua"
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Blizzard_APIDocumentationGenerated/LuaDurationObjectAPIDocumentation.lua, UnitDocumentation.lua. `[T1 docs @12.1.0]` locators resolve here
 confidence: medium
@@ -418,14 +421,91 @@ live id that disagrees with the cached one as the signal to discard the whole ta
 sets `alwaysUpdateLayout` and never clears it, so every `Layout()` call re-anchors every
 child unconditionally — there is no "nothing changed" early-out to ride on.
 
-**On the combat gate.** The mined text says *any* repositioning of a Blizzard viewer must
-be gated so it never runs in combat. As a rule that is wrong, and as caution it is sound.
-The item templates declare no `protected` attribute — a fact about the XML, not a
-runtime guarantee (`cooldown-manager.md` §4.1, where the runtime question is explicitly
-open) — so `InCombatLockdown()` is not the thing that decides whether a `SetPoint` is
-legal here. What the gate *does* buy you is a cheap way to keep re-anchoring work off the
-combat path. Prefer to do positioning once on a setup path and re-apply it when a hook
-tells you the layout was rebuilt:
+**On the combat gate. Repositioning a CDM item frame in combat is a SHIPPING technique,
+not a theoretical one** `[T3 obs 2026-08-27]`. The earlier mined text said *any*
+repositioning of a Blizzard viewer must be gated so it never runs in combat. That is
+wrong, and the correction is now evidenced on both sides:
+
+- **Tier 1, the absence check.** The item templates declare no `protected` attribute and
+  no secure template
+  `[searched 2026-08-27: Blizzard_CooldownViewer/CooldownViewer.xml for `protected`,
+  `SecureFrameTemplate`, `SecureActionButtonTemplate` — no match]`, and the one
+  secure-named file in the folder is about secret aura-instance
+  map KEYS, not frame protection `[T1 src @12.1.0: CooldownViewerSecure.lua —
+  CreateSecureAuraInstanceMap, 36 lines, entire file]`. Nothing marks these frames
+  protected at load or at runtime.
+- **Tier 3, the existence proof.** EllesmereUI's whole CDM bar system re-anchors
+  individual item frames onto its own containers and **carries no `InCombatLockdown`
+  gate anywhere on that path** — not in `LayoutCDMBar`, not in `CollectAndReanchor`, and
+  not in the reassert hook `[T3 obs: EllesmereUICooldownManager 9.0.5 (live install) —
+  EllesmereUICooldownManager.lua:4106-4620 scanned exhaustively for InCombatLockdown, no
+  hits; EllesmereUICdmHooks.lua:6107 CollectAndReanchor head. Read for API discovery
+  only, no code copied]`.
+
+So `InCombatLockdown()` is **not** what decides whether a `SetPoint` is legal here, and a
+rider that gates its re-apply on it will simply lose its layout for the length of every
+fight in which the CDM rebuilds.
+
+### 4.6.1 The reassert seam is the ITEM FRAME's own `SetPoint`, not the viewer's `Layout`
+
+⚠ **This is the finding that matters, and it is an architecture difference rather than a
+tuning one.** Hooking the viewer's `Layout` / `RefreshLayout` and re-applying afterwards
+is a *deferred* repair: Blizzard moves your frames, your hook fires, and you put them
+back on a later frame or a later tick. Every path that can refuse in between — a combat
+gate, a re-bind that needs to run out of combat, a debounce timer — is a window in which
+the player sees Blizzard's layout.
+
+The shipping alternative hooks **`SetPoint` on each item frame** and re-applies
+*synchronously, inside Blizzard's own call*:
+
+```lua
+-- OUR illustration of the fact, written from scratch. `anchor` is the position this
+-- rider decided the frame should hold; `container` is the rider's own frame.
+hooksecurefunc(itemFrame, "SetPoint", function(_, _point, relativeTo)
+    if relativeTo == container then return end   -- our own write; do not recurse
+    itemFrame:ClearAllPoints()
+    itemFrame:SetPoint(anchor.point, container, anchor.relPoint, anchor.x, anchor.y)
+end)
+```
+
+There is no window: whatever moved the frame — `Layout`, `RefreshLayout`, or an internal
+path with no hook of its own — the correction lands in the same call stack.
+`[T3 obs: EllesmereUICooldownManager 9.0.5 — EllesmereUICdmHooks.lua:2624-2657, the
+per-frame SetPoint hook; EllesmereUICooldownManager.lua:4473 and :4598, where the desired
+anchor is stamped. Read for API discovery only, no code copied]`
+
+Two mechanics the seam requires, both derivable from the code rather than from its
+comments:
+
+1. **Recognise your own writes or recurse forever.** The discriminator used in the wild is
+   the `relativeTo` argument — if the frame is being pointed at the rider's own container,
+   the rider did it. `[T3 obs: EllesmereUICdmHooks.lua:2651-2652]`
+2. **Stamp the desired anchor BEFORE calling `SetPoint`**, because the hook fires
+   synchronously during that call and will otherwise read the previous anchor and undo the
+   move you are making. `[T3 obs: EllesmereUICooldownManager.lua:4595-4599 — the store
+   precedes the SetPoint]`
+
+⚠ **`SetPoint` with the same anchor keyword REPLACES that point; a different keyword
+ACCUMULATES a second, conflicting one.** A reassert path and a claim path that disagree
+about the keyword will fight rather than overwrite.
+`[T3 obs: EllesmereUICdmHooks.lua:2639-2641]` `@verify-ingame`
+
+`[gap]` Whether EllesmereUI applies a **user-authored** order to the icons it collects, or
+merely packs them into its bars in the viewer's own order, was not established — it does
+not change the reassert mechanism, but it is the open half of "is anyone else ordering
+rows by intent". Not searched.
+
+⚠ **One claim here is comment-sourced only and is graded accordingly:** that the client
+re-raises an item frame's alpha through paths a `SetAlpha` hook cannot observe
+(`SetAlphaFromBoolean`, alpha animations), which is why an unclaimed frame is parked
+off-screen by POSITION rather than hidden by alpha. The code shows only the choice, not
+the reason. `[T3 comment: EllesmereUICdmHooks.lua:2634-2638]` `confidence: low`
+`@verify-ingame`
+
+### 4.6.2 The deferred shape, for riders that only move whole viewers
+
+Still correct, and cheaper, when the rider repositions a viewer as a unit rather than
+re-ordering its children:
 
 ```lua
 local function OnViewerRelaidOut(viewer)

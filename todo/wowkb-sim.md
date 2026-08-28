@@ -918,3 +918,78 @@ and Stormbound **0×**; every bit of this behaviour comes from the two declared
 **Consequence for the vault question:** taking Knot of Writhing Serpents evicts
 Freightrunner's Flask, leaving ONE on-use. The `trinket1` override rung goes inert and
 `sim_overrides.json` needs re-checking for this character before the next comparison.
+
+### 2026-08-27 — Void-Reaper's Libram: which trinket does it replace, and the firing gate's first FALSE NEGATIVE
+
+Question: Encomplete looted a **Hero-track (305) Void-Reaper's Libram** (id 251785); sim it
+at Hero 2/6 and 6/6 and say which equipped trinket it replaces. Six variants in one frame
+each (1T/300s, 5T/120s), 10,023 iterations: the libram at 305 / 308 / 321 in `trinket1`
+(evicting Freightrunner's Flask) and in `trinket2` (evicting Stormbound Emblem of Dazar).
+
+**The find, before the numbers: the item was not in the export at all.** The 08-25 `/simc`
+paste carries a *different* copy — bonus `12834/41`, **295** — and nothing else. The 305 one
+was located in **Syndicator's** `Characters > Encomplete-Kil'jaeden > bags` (line 13171,
+bonus `12841/6652`). Syndicator stores **no item level**, so the ilvl was recovered by
+calibrating the **bonus ID** against the export itself, which prints both: `12841` = 305 on
+four separate items in that file, `12834` = 295 on six. That is a usable workaround for
+"is X in my bags" between pastes, and it is *only* a workaround — it cannot price anything,
+and the sim still had to run off a two-day-old baseline.
+
+**⚠ NEW ARTIFACT — the firing gate WARNed on a proc that was firing perfectly.** All six
+variants printed:
+
+```
+⚠ WARN  trinket1  Void-Reaper's Libram
+        → spell 1253113, equip/proc — registered in simc's item table but produced
+          no buff and no action — possibly unimplemented
+        observed 0.0; expected not computable
+```
+
+It is implemented — `unique_gear_midnight.cpp:2825 voidreapers_libram`, registered at 5552 —
+and it fired ~7.4 times per 300s in **every** gate run. The gate missed it because it looks
+for a buff or action **named after the item**, and this effect registers its children under
+their own spell names: action `sacred_text` (1266394), child `text_ignite` (1266407), buff
+`sacred_duty` (1266403). Nothing in the item's own name appears anywhere in the output.
+
+This is the **inverse** of the failure the gate was built for. Stormbound Emblem sat inert and
+nothing said so; here the gate said "possibly unimplemented" about a working trinket, which is
+the shape that gets a real upgrade thrown away. It also nearly cost this answer: the previous
+session's Knot of Writhing Serpents entry established "gate is quiet ⇒ stats-only ⇒ the number
+is a floor", and applying that rule here would have branded a fully-modelled result as a floor
+and inflated it.
+
+**Gate to build:** resolve the driver spell's own **triggered spell ids** (simc's
+`item_effect.inc` → driver → `sc_spell_data` effect rows already carry them; the DBC comment
+block above each implementation lists them literally) and look for actions/buffs under *those*
+names, not the item's. Failing that, at minimum widen the WARN text: "no action or buff
+matching this item's name — the effect may register under its spell's name; check the JSON
+before treating this as unmodelled." The one-line check that settled it here was grepping the
+gate JSON's `stats`/`buffs` for the spell names in the implementation's comment header.
+
+**Results** (medians, `_baseline` = gear as of the 08-25 export, both `apl_append` rungs live):
+
+| variant | what it evicts | 1T/300s | 5T/120s |
+|---|---|---|---|
+| libram 321 (Hero 6/6) → trinket1 | Freightrunner's Flask | **+1.85%** | **+1.25%** |
+| libram 308 (Hero 2/6) → trinket1 | Freightrunner's Flask | **+1.03%** | **+0.41%** |
+| libram 305 (as looted) → trinket1 | Freightrunner's Flask | +0.73% | +0.22% |
+| *(baseline — both on-use trinkets)* | — | — | — |
+| libram 321 → trinket2 | Stormbound Emblem | -0.03% NOISE | -1.80% |
+| libram 308 → trinket2 | Stormbound Emblem | -0.92% | -2.56% |
+| libram 305 → trinket2 | Stormbound Emblem | -1.09% | -2.68% |
+
+Unambiguous and monotone in both frames: **it replaces Freightrunner's Flask; dropping
+Stormbound Emblem loses at every ilvl.** The surviving on-use fires in both arms (Stormbound
+2.88×/300s, 18.3% uptime in the `t1` arm; Freightrunner 3.10× / 15.3% in the `t2` arm), so
+neither `apl_append` rung went inert and the split is not an artifact of a dead override —
+which was the specific thing the 08-25 entry warned the next session to check.
+
+**Proc size, for the record.** `sacred_text`'s `compound_amount` (which *includes* its
+`text_ignite` child — 265,272 + 235,942) is ~1,670 dps of a 123,080 total at ilvl 321,
+i.e. **~1.36% of DPS is the proc**, ~1.06% at 305. The rest of each delta is stats minus the
+evicted on-use. The 5T column being *lower* than 1T is correct here and not the Knot's
+unmodelled-AoE inversion: Sacred Text is single-target by construction.
+
+**Two things this run did not price**, both stated in the answer rather than guessed:
+the baseline is two days old (the 08-25 vault pick may since be worn), and the Hero 2/6
+target of **308** is `~interp` ±1 on the same interpolation `crests` brands.

@@ -619,11 +619,11 @@ It is on by default. There is no opinion here to configure — the order is the 
 catalog is cap's — but the *placement* is the player's screen, so two controls exist:
 `/cap anchor [on|off|retry|rows]` and the position of cap's own panel (`/cap move`).
 
-Four properties are the whole of the promise, and each is a boundary rather than a feature:
+Five properties are the whole of the promise, and each is a boundary rather than a feature:
 
 - **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
-  written. No row is added, removed or hidden. Turn it off and the next layout pass restores
-  Blizzard's order.
+  written. No row is added or removed, and none is hidden except under the parking rule below.
+  Turn it off and the next layout pass restores Blizzard's order.
 - **It orders the Essential viewer only** — which is the viewer the reading model walks. A row in
   any other viewer is untouched, and a scan edge there marks membership in a scan that does not
   happen (`discussion.md` carries the open question that follows from this).
@@ -632,8 +632,22 @@ Four properties are the whole of the promise, and each is a boundary rather than
   displacement it caused to itself, and treats a run of unattributable moves as **contention** —
   at which point it *asks the player*, out of combat, and stops only when told to. It never
   latches itself off silently, and it never opens a dialog mid-pull.
-- **It is out-of-combat work.** Re-anchoring is frame placement, so combat lockdown governs it
-  exactly as it governs cap's own panel: it happens between pulls, never during one.
+- **It holds through a pull.** Re-anchoring is a `SetPoint` on frames the Cooldown Manager does
+  not protect, so combat lockdown does not govern it, and waiting for the pull to end was not
+  free: a full aura update makes the viewer release its whole item-frame pool mid-fight, so a
+  re-anchor that waited left the row in Blizzard's order for the rest of the pull while it still
+  *read* as a priority scan. **The accepted cost is the other way round: an icon can move during
+  a pull.** That is the trade — a row that is briefly unsettled over a row that is quietly wrong.
+  The contention dialog is the one thing still held out of combat, because a question mid-pull is
+  its own problem.
+- **It parks a row it can no longer place.** An icon cap has moved, and can no longer say where
+  in the order it belongs, is taken out of the row rather than left sitting inside it. This is
+  the one case where cap hides something the player configured, and the argument for it is
+  §3.1's: a row that keeps its full length while part of it is in nobody's order still reads as a
+  priority scan, and a scan that is wrong is worse than a scan that is short. It is placement
+  like the rest — the saved layout is untouched, the row is moved and not disabled, and turning
+  ordering off restores every parked row with the next layout pass. cap parks a frame **it has
+  claimed**; a row it never touched is never parked.
 
 ⚠ **This is the one place cap touches Blizzard's own frames rather than drawing beside them**,
 which is why the yield rule is a product promise and not an implementation detail.
@@ -665,7 +679,9 @@ distinguish "nothing to say" from "broken".
 - It is not a WeakAuras-style rule editor and does not accept user-authored priority packs.
 - It does not replace the Cooldown Manager, and it does not write the player's saved Cooldown
   Manager configuration. It does **re-anchor** the Essential viewer's rows into the catalog's
-  order while it is running (§3.9), which is placement and is reversible by turning it off.
+  order while it is running, and **park** — move out of the row — one it has claimed but can no
+  longer place (§3.9). Both are placement, neither touches the player's configuration, and both
+  are reversible by turning ordering off.
 - It does nothing on specs and builds without an authored experience.
 - It does not own keybinds or action-bar layout; that is BucketBinds. It may *show* you the
   binding you already have (§3.8), which is a read and changes nothing.

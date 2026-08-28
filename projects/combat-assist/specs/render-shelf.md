@@ -980,6 +980,17 @@ which lays V11's stripe sheet across the face. `hatch` is the only item on that 
 the elimination walk: it says the row is **ruled out**, not decorated. The format strings are built
 in `Channel.CountRules` out of `tokens.count`, and that is the only place pixels enter.
 
+⚠ **Every SIZE in a band string is a ratio of the row's measured width, and none of them is a
+token.** An escape carries its size as a literal in the string, baked when the sink is armed, so
+the three of them — hatch, plate, mark — are computed from what the row actually draws at
+(`Channel.CountGeometry`, off `tokens.badges.diameter_pct`, `plate.scale` and `sprite_inset_pct`,
+the same arithmetic `Paint.Ratios` does for every other badge). Frozen numbers here were right at
+one icon size and wrong at every other, on every row at once. The OFFSETS stay tokens
+(`count.hatch_offset_px`, `mark_offset_px`, `plate_offset_px`) — where an escape sits on the text
+baseline is a judgment nobody can derive — and `/cap band` nudges those and only those. Its
+no-argument readout prints the measured width beside the drawn diameter, which is the assertion:
+the diameter must be `badges.diameter_pct` of the width.
+
 ⚠ **`hatch` is therefore legal only on a NEGATIVE band.** A hatch means *ruled out* and a
 positive band means *enough* — one band declaring both is a contradiction wearing pixels, and it
 was on screen until 2026-08-24: the gallery's positive V16 swatch drew the face hatched in gold,
@@ -1708,44 +1719,72 @@ the way was rule 1 — a catalog may not cite a lab entry — so the fact was ex
 at the same time. **Promotion is a pipeline step, and it was the entire cost.** Budget it as work,
 not as paperwork.
 
-### L7 · `duration_band` — the same bands, on the DoT's CLOCK instead of a count
+### L9 · `ring_collision` — a row that is IN the scan and RULED OUT at the same time
 
-**Asks:** `SetDurationText` takes a `textFormatter` of type `NumericFormatter` — the same object
-the count sink takes — bound to a `DurationTextBindingProperty` such as `RemainingPercent`. If a
-rule formatter is accepted there, every band shape V16 and V17 draw becomes available on a DoT's
-**remaining time**, including the inversion `AddPandemicRegion` structurally cannot express. What
-does that cost, and is it worth authoring the threshold the pandemic sink computes for you?
+**Asks:** Part 3 records this as an **open design question** and Part 4 as a **settled rule**, and
+they do not agree. A row wearing a negative cue is `scan: true` — the verdicts carrying `blocked`
+all are — so it draws V13's yellow edge *and* cap's half of V11's red hatch, which say opposite
+things about the same button. Drawn side by side: does the double ring read as **one** statement
+or two?
 
-**It survived the promotion because no composite needed it**, not because it lost. V16–V19 all
-band a *count*; this bands a *clock*, and no built spec has yet wanted one badly enough to pay for
-it. Havoc's `buff.demonsurge.remains < gcd.max` is the nearest real subject.
+⚠ **This is a LOOK question, not a capability one, and that is why it has cells at all.** Every
+pixel in it already ships. Nothing here needs a flight to find out whether the client will honour
+it — the client is already honouring it on every ruled-out row of every spec. What is unsettled is
+only whether a reader gets one statement or two, which is exactly the kind of question a preview
+can answer and Part 7's 2026-08-22 intake could not.
 
-⚠ **Its open half is a route, not a look.** `SetDurationText` reached through a bare
-`textFormatter` gives thresholds in **SECONDS**, measured `[client 2026-08-21]`. The
-`RemainingPercent` route — via `options.textFormat`'s `{property, formatter}` components, which is
-what the cells below draw — is **source-read only** and has never been flown. Every percentage in
-this entry is therefore a proposal about a mechanism, and the entry says so rather than quietly
-drawing what it hopes for.
+⚠ **What resolves the collision today is GEOMETRY, not order** (Part 3).
+`tokens.hatch.skip.overhang_px` holds cap's red ring 2px **outside** the icon rect, so red sits at
+−2 and yellow at 0: adjacent, never overlapping. **The order is therefore moot — and unstated at
+the same time.** Part 4 asserts that an eliminating mark draws over an including one and that *the
+frame level says so*; neither `Paint.Border` nor `Paint.Hatch` calls `SetFrameLevel`, so the two
+are sibling frames at one level and construction order decides. The preview has the identical hole
+in CSS: neither `.ready-line` nor `.skip-hatch` sets a `z-index`, so DOM order decides there. **Two
+implementations, both right by accident, neither declaring anything.** Measured 2026-08-27.
 
-⚠ **The duration sink seals MORE than the count sink does, and it costs the free motion.**
-`SetApplicationCount` adds `Text` and `Shown`, which is what leaves V16's animation channel in
-cap's hands. `SetDurationText` adds `Text`, **`Alpha`** and **`VertexColor`** — so an alpha
-animation cannot run on a FontString whose `Alpha` the client owns. **No cell here pulses, and
-that is not an oversight.** What cap gets instead is `SetTextColorCurve`, bound to the same clock:
-colour that moves with the remaining time rather than a breath the sink would overwrite. That
-asymmetry is the strongest argument against assuming the two sinks are interchangeable just
-because they take the same formatter object.
+**The three candidate answers**, unchanged from Part 3 and none of them chosen:
 
-**What the cells are for.** The three that matter are the last three: the **inversion** — hatched
-while there is plenty of DoT left, clearing as it enters the pandemic window — and the **quiet
-middle**, three bands where the row says neither *do not* nor *now* for most of the DoT's life.
-V19 cannot express either. It calls `SetShown(inWindow)` and has no rule to flip, which is the
-straight trade against it authoring no threshold at all: `AddPandemicRegion` is right for free and
-cannot be asked a different question.
+1. **Overlap** — drop `overhang_px` to 0 and give the eliminating frame an explicit level above the
+   row's, so red covers yellow. Needs *both*: the overhang alone buries the red under the yellow,
+   because the edge is currently drawn last.
+2. **Suppression** — no scan edge at all on a row wearing a negative cue. One mark, no negotiation,
+   and the row stops claiming membership it has been eliminated from.
+3. **Adjacency** — keep the two rings and accept the double statement as the price of the overhang.
+   This is the shipped behaviour, and it is shipped by default rather than by decision.
 
-⚠ **The inversion's SECONDS form has been promoted** — it is V19's outside-window hatch now, the
-authored-threshold half of the DoT pair. What keeps this entry open is the `RemainingPercent`
-route and the quiet-middle band shapes, neither of which the pair uses.
+**What the cells are for.** Two controls and the subject. Each is **labelled on the page**, so a
+review comment can name one instead of describing it — the header line above each caption reads
+the same `Immolation Aura · open` for two of the three, which is exactly the ambiguity the labels
+remove.
+
+| | verdict | cues | draws | what it is for |
+| --- | --- | --- | --- | --- |
+| **L9a** | `open` | — | yellow scan edge alone | The control. V13 at the shipped 2px and alpha, with nothing arguing against it — what the red has to compete with. |
+| **L9b** | `cd` | — | black cooldown hatch, **no** edge | The other control. `cd` is the *only* verdict in the vocabulary that is `scan: false`, so it is the only ruled-out row that gets to be unambiguous. |
+| **L9c** | `open` | `blocked` | red hatch + red border + yellow edge + red badge | **The subject.** Both verdict marks at once, plus the badge. |
+| **L9d** | `open` | `blocked` | the same, with the red ring **on** the rect and **over** the edge | **The proposal.** L9c with two changes: skip overhang `2 → 0` so the opaque red border lands on the icon rect where the yellow edge lives, and a `lift` putting it above. Stripe fill `0.45 → 0.85`. |
+
+**The badge is the only mark carrying a REASON.** The other two carry verdicts — and on L9c one of
+those verdicts is wrong about the row.
+
+⚠ **L9d is OCCLUSION, not suppression, and that is the whole reason it is worth drawing.** The scan
+edge is still built, still 2px, still gold, still in the DOM — it is simply covered. That matters
+because the three candidate answers are not equally cheap: **adding a texture over a line is a
+geometry change and a draw order, while withholding the edge means teaching `Treatment.For` that a
+row can be in the scan and not wear the scan's mark** — a new state in the thing that decides what
+a verdict draws. If L9d reads as one statement, candidate 2 never has to be built, and candidate 1
+turns out to have been the cheap answer all along.
+
+⚠ **L9d is drawn through a `skip_overrides` block on the entry, not by editing the shelf.** Its two
+numbers arrive as `--lab-ring_collision-skip-overlap-*` and are repointed onto that one item, so
+L9c beside it keeps drawing the shipped `tokens.hatch.skip` for comparison. **An override may only
+name what it CHANGES** — the hue, the border weight and the stripe phase stay the shelf's, because
+an override that could restate everything would be a second style, and a cell drawing a second
+style answers nothing about the first. `lift` is a z-index on the skip layer alone: without it,
+dropping the overhang buries the red border *under* the yellow, since `itemNode` appends the edge
+last. It is the CSS stand-in for the `SetFrameLevel` this Part asserts and `Paint.lua` does not
+make.
+
 
 ### What has left, and where it went
 
@@ -1768,6 +1807,7 @@ question it asked got an answer. Nothing here is cited by the style; this is a l
 | `count_bar` (L4) | 2026-08-22 | → **V18**, `tokens.arc`. Its cells had been drawn as an explicitly-labelled proposal off a source read; the flight settled it. What promotion added is the honest half — a bar has no blank state, so the track is declared rather than incidental. |
 | `pandemic_mark` (L3) | 2026-08-22 | → **V19**, `tokens.pandemic`. The only sealed display cap authors no threshold for, and the only one whose cost is a per-tile `OnUpdate`. |
 | `composites` (L8) | 2026-08-22 | **Deleted, not promoted.** It was the argument that the four above compose on one row — three whole Demonology scenarios built out of them. Once Demonology was built its subject became a real spec's walk, drawn by `demonology-stepper.html` against a shipped catalog. An argument that has been overtaken by the thing it argued for is not an experiment. |
+| `duration_band` (L7) | 2026-08-27 | **Cleared, not promoted.** Its cells had drifted out of agreement with its own `asks`: they drew the `RemainingPercent` route as an open question after V19 had promoted the SECONDS form, so the entry was arguing for a mechanism half of which was already the style. Part 7 says an entry that cannot say what it is asking is decoration — and one whose cells no longer draw its question is the same thing arrived at by drift. The open half is real and unchanged: `RemainingPercent` via `options.textFormat` is **source-read only**, never flown, and the quiet-middle band shapes V19 cannot express are still unexpressed. Re-add it from `git log` with cells that draw *that*, when a built spec wants a banded clock. |
 | `hotkey-l1` … `hotkey-l10` | 2026-08-19 | **V15**'s font, size and dark edge were chosen out of this set of ten — five faces, then a plate, then a title bar. The winner is `tokens.hotkey`; what the losers cost is written into V15 itself, which is the point of promotion rather than citation. |
 
 ⚠ **A deleted entry is not a refuted one.** Nothing in this table is a claim that the treatment

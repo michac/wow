@@ -1,158 +1,51 @@
 {
   "version": 2,
   "lab": {
-    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. ⚠ ONE entry. `duration_band` is the leftover of the eight-entry intake whose other seven were promoted (V16-V19) or deleted — it bands a CLOCK rather than a count, which is why no composite needed it; its SECONDS form has since been promoted as V19's outside-window hatch, leaving the RemainingPercent route as its open half. `segment_bar` (L8) left same-day for V18 — the ledger has the row. Its cells draw the `RemainingPercent` route, which is a SOURCE READ and has never been flown — the flown route (a bare `textFormatter`) gives thresholds in seconds. So every percentage in it is a proposal about a mechanism, clearly labelled, exactly as `count_bar` was before its flight settled it.",
-    "duration_band": {
-      "title": "L7 · duration_band — the same bands, on the DoT's CLOCK instead of a count",
-      "asks": "`SetDurationText` takes a `textFormatter` of type NumericFormatter — the same object the count sink takes — bound to a DurationTextBindingProperty such as RemainingPercent. If a rule formatter is accepted there, every band shape L5 and L6 draw becomes available on a DoT's remaining time, INCLUDING the inversion `AddPandemicRegion` structurally cannot express. What does that cost, and is it worth authoring the threshold the pandemic sink computes for you?",
-      "draws": "duration",
-      "form": "S12",
-      "flown": "2026-08-21",
-      "size_px": 15,
-      "rgb": [
-        0.45,
-        0.86,
-        0.85
-      ],
-      "alt_rgb": [
-        0.95,
-        0.3,
-        0.3
-      ],
-      "pulse": {
-        "duration_s": 1.9,
-        "alpha": [
-          0.72,
-          1.0
-        ],
-        "scale": 1.1
-      },
+    "_comment": "NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. ⚠ ONE entry. `duration_band` (L7) was CLEARED 2026-08-27 — the ledger has the row: its cells had drifted out of agreement with its own `asks`, drawing the RemainingPercent route as though the question were still open after V19 promoted the seconds form. An entry whose cells no longer draw its question is decoration, which Part 7 says to delete rather than repair. `ring_collision` (L9) replaces it and is a LOOK question, not a capability one: every pixel in it is already shipped, so there is nothing to fly — what is unsettled is whether the composition reads as one statement or two.",
+    "ring_collision": {
+      "title": "L9 · ring_collision — a row that is IN the scan and RULED OUT at the same time",
+      "asks": "Part 3 records this as an OPEN DESIGN QUESTION and Part 4 as a settled rule, and they do not agree. A row wearing a negative cue is `scan: true` — the verdicts carrying `blocked` all are — so it draws V13's yellow edge AND cap's half of V11's red hatch, which say opposite things about the same button. Today GEOMETRY keeps them apart rather than order: `hatch.skip.overhang_px` holds the red 2px OUTSIDE the icon rect, so the rings are adjacent at −2 and 0 and never overlap. Part 4 nonetheless asserts that an eliminating mark draws over an including one and that THE FRAME LEVEL SAYS SO — and neither `Paint.Border` nor `Paint.Hatch` calls `SetFrameLevel`, so nothing declares it and construction order decides. Drawn side by side: does the double ring read as ONE statement or two, and if two, is the answer the overlap (drop the overhang and let red cover yellow), suppression (no edge on a ruled-out row), or the adjacency we already have?",
+      "draws": "composition",
       "cells": [
         {
           "ability": "Immolation Aura",
           "verdict": "open",
-          "remaining_pct": 80,
-          "place": "centre",
-          "bands": [
-            {
-              "threshold": 0,
-              "format": "%d"
-            }
-          ],
-          "caption": "<b>control — the sink's own job</b>. `SetDurationText` normally draws a countdown, and with no rule it is Blizzard's seconds formatter. Everything to the right replaces that text with a rule cap wrote."
+          "caption": "<b>L9a</b> · <b>control — in the scan, nothing against it.</b> V13's yellow edge alone, at the shipped 2px and alpha. This is what the red has to argue with; rule 2 says an entry needing a comparison draws its own control, since the declared style is no longer one scroll away."
+        },
+        {
+          "ability": "Immolation Aura",
+          "verdict": "cd",
+          "caption": "<b>L9b</b> · <b>control — ruled out with NO contradiction.</b> `cd` is the one verdict that is `scan: false`, so V11's cooldown half draws and no edge competes with it. One statement, and the only ruled-out row in the vocabulary that gets to be unambiguous."
         },
         {
           "ability": "Immolation Aura",
           "verdict": "open",
-          "remaining_pct": 20,
-          "place": "badge",
-          "composited": true,
-          "bands": [
-            {
-              "threshold": 0,
-              "format": "|A:fire:15:15|a"
-            },
-            {
-              "threshold": 31,
-              "format": ""
-            }
+          "cues": [
+            "blocked"
           ],
-          "caption": "<b>the pandemic mark, re-created</b> — a mark only in the last 30 %. Same picture as L3's badge, and ⚠ NOT the same fact: this threshold is cap's guess, where L3's is the client computing `GetRefreshExtendedDuration − GetAuraBaseDuration` per spell."
+          "caption": "<b>L9c</b> · <b>THE SUBJECT — both at once.</b> Yellow edge (in the scan), red hatch with its own red border (ruled out), and the red `blocked` badge saying why. Three marks, two of which disagree. The badge is the only one carrying a REASON; the other two carry verdicts, and one of those verdicts is wrong about this row."
         },
         {
           "ability": "Immolation Aura",
           "verdict": "open",
-          "remaining_pct": 80,
-          "place": "badge",
-          "composited": true,
-          "bands": [
-            {
-              "threshold": 0,
-              "format": "|A:fire:15:15|a"
-            },
-            {
-              "threshold": 31,
-              "format": ""
-            }
+          "cues": [
+            "blocked"
           ],
-          "caption": "<b>the same rule, early in the DoT</b> — clear, because 80 % takes the upper band. The pair to its left is the whole of L3's behaviour reproduced out of two breakpoints."
-        },
-        {
-          "ability": "Immolation Aura",
-          "verdict": "open",
-          "remaining_pct": 80,
-          "place": "badge",
-          "bands": [
-            {
-              "threshold": 0,
-              "format": ""
-            },
-            {
-              "threshold": 31,
-              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
-            }
-          ],
-          "caption": "<b>THE INVERSION</b> — hatched while there is plenty left, which is `do not refresh yet`. This is the direction `AddPandemicRegion` cannot express at all: it calls `SetShown(inWindow)` with no rule to flip."
-        },
-        {
-          "ability": "Immolation Aura",
-          "verdict": "press",
-          "remaining_pct": 20,
-          "place": "badge",
-          "bands": [
-            {
-              "threshold": 0,
-              "format": ""
-            },
-            {
-              "threshold": 31,
-              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
-            }
-          ],
-          "caption": "<b>the inversion, refreshable</b> — the hatch clears as the DoT enters the last 30 %, so the row becomes a live candidate exactly when refreshing it stops clipping. Read it against the cell to its left."
-        },
-        {
-          "ability": "Immolation Aura",
-          "verdict": "open",
-          "remaining_pct": 80,
-          "place": "badge",
-          "composited": true,
-          "alt_hue": true,
-          "bands": [
-            {
-              "threshold": 0,
-              "format": ""
-            },
-            {
-              "threshold": 31,
-              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t|A:fire:15:15:20:-18|a"
-            }
-          ],
-          "caption": "<b>hatch and badge, inverted</b> — two escapes, one band, the second offset onto the corner. Identical machinery to L6's imp shape; the only difference is which sealed number the client feeds the formatter."
-        },
-        {
-          "ability": "Immolation Aura",
-          "verdict": "open",
-          "remaining_pct": 45,
-          "place": "badge",
-          "composited": true,
-          "bands": [
-            {
-              "threshold": 0,
-              "format": "|A:fire:15:15|a"
-            },
-            {
-              "threshold": 31,
-              "format": ""
-            },
-            {
-              "threshold": 61,
-              "format": "|TInterface/AddOns/CombatAssistPlus/Media/stripes:56:56|t"
-            }
-          ],
-          "caption": "<b>three bands, mid-DoT</b> — hatched above 60 %, SILENT between 30 and 60, marked below 30. The quiet middle is the shape only a band table can draw: neither `do not` nor `now`, which is most of a DoT's life."
+          "skip": "overlap",
+          "caption": "<b>L9d</b> · <b>THE PROPOSAL — red covers yellow, and the yellow is never removed.</b> Same row as L9c with two changes and no others: the skip ring's overhang drops to <b>0</b> so its opaque red border lands exactly on the icon rect where V13's yellow edge lives, and it is <b>lifted above</b> the edge so it actually covers it. The stripe fill goes to <b>0.85</b>. ⚠ The scan edge is still drawn, in full, underneath — this is OCCLUSION, not suppression, which is the point: adding a texture over a line is cheap, and teaching `Treatment.For` to withhold the edge on a ruled-out row is not. If this reads, candidate 2 (suppression) never has to be built."
         }
-      ]
+      ],
+      "skip_overrides": {
+        "_comment": "A lab cell may redraw V11's SKIP layer with its own geometry, WITHOUT touching `tokens.hatch.skip`. Only the keys an override names change; the hue, the stripe sheet and the phase stay the shelf's, so a cell is a question about ONE dimension rather than a second style. TWO lifts, and they are not the same job. `lift` raises the skip layer over V13's scan edge — the preview appends that edge AFTER the skip layer, so without it the yellow paints over the red no matter what the geometry says; it is the CSS stand-in for the `SetFrameLevel` Part 4 asserts and `Paint.lua` does not make. `chrome_lift` puts the BADGE and the HOTKEY back on top of both. Raising the hatch over the edge raises it over everything else drawn after it too, and a hatch that conceals the badge has eaten the only mark on the row carrying a REASON — which inverts what V11 is for. Measured on L9d 2026-08-27.",
+        "overlap": {
+          "_comment": "The overhang STAYS at the shelf's 2 — the hatch reading slightly larger than the icon is the effect being kept, not the one under test. What covers the yellow is the BORDER WEIGHT: at 4px, drawn 2px outside the rect, the red band spans −2..+2 and swallows V13's 0..2 edge whole while still overhanging. Dropping the overhang to 0 also covers the edge and was tried first — it throws away the overhang to buy nothing the thicker border does not.",
+          "overhang_px": 2,
+          "line_px": 4,
+          "alpha": 0.85,
+          "lift": 1,
+          "chrome_lift": 2
+        }
+      }
     }
   }
 }
