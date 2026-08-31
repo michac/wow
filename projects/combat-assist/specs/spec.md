@@ -19,7 +19,7 @@ the primary resource, the cooldown numbers, the cast identity. Rather than fight
 that, cap treats it as the design brief. **cap presents information you already
 have, differently.**
 
-**Two principles:**
+**Three principles:**
 
 - **a)** **cap does not fight the secret restrictions.** The readable/sealed split
   (§3.6) is the platform boundary, and it is the one line enforced in code —
@@ -27,6 +27,13 @@ have, differently.**
   reaches it.
 - **b)** **cap freely uses non-secret information to give good hints.** Whatever the
   client hands an addon in the clear is fair material, and using it well is the job.
+- **c)** **The order and the augments are ONE product.** §3.1's reading — *"scan left to
+  right, press the first thing not ruled out"* — is a claim about **position**, so an augment
+  drawn on a row cap did not order is pointing at the wrong icon. These are not two features
+  a player can run apart. **If cap cannot order the row, cap draws nothing at all** — not a
+  reduced overlay, not the positive cues only. Better nothing than a scan that lies. Two
+  states reach it, and both are reported by `/cap status` (§3.10): the player turned ordering
+  off, or cap stood down beside another addon that manages the same row (§3.9).
 
 Underneath them, three moves, in order of preference:
 
@@ -52,8 +59,10 @@ your class and spec, chosen by us. It is deliberately not WeakAuras: there is no
 trigger editor, no condition builder, no library of user-made packs. If cap's
 opinion about your spec is wrong, the fix is to change cap's opinion, not to
 expose a slider. The few controls that exist are **inputs and placement**, never
-opinions: single-target/AoE mode (§2), where cap's own panel sits, and whether it
-re-anchors the Cooldown Manager's rows (§3.9).
+opinions: single-target/AoE mode (§2), where cap's frames sit (`/cap move`), and whether it
+re-anchors the Cooldown Manager's rows (§3.9). ⚠ That last one is **not** a switch between
+two working configurations — by principle (c) it is effectively cap's off switch, since
+without the order there is nothing true to draw.
 
 **The vocabulary, in one place, and this is the only place.** Eleven words carry most of the
 weight below. Each is defined here and **nowhere else** — `render-shelf.md` and the catalogs point
@@ -670,9 +679,11 @@ Seven properties are the whole of the promise, and each is a boundary rather tha
   rider. cap therefore checks, **before** it places anything, whether a known manager is both
   installed and actually holding the row, and if so orders nothing and says why: once in chat,
   and once in a dialog with a single button, because there is nothing here for the player to
-  decide beyond a toggle on their addon list. **The notice is not remembered** — it returns on
-  every login while both are enabled, since a row that reads as a priority scan and is not one
-  is exactly what §3.1 forbids. It is raised only where cap would otherwise have ordered, so a
+  decide beyond a toggle on their addon list. **And cap goes dark for the duration** — it draws
+  no augments at all while it is stood down, by principle (c): a row that reads as a priority
+  scan and is not one is exactly what §3.1 forbids, and the fix for that is to stop drawing,
+  not to keep drawing and warn. **The notice is not remembered** — it returns on every login
+  while both are enabled. It is raised only where cap would otherwise have ordered, so a
   player who turned ordering off is never told about it, and it waits for the pull to end like
   the contention dialog does.
 
@@ -681,11 +692,17 @@ which is why the yield rule is a product promise and not an implementation detai
 
 ### 3.10 When cap draws nothing, and why the player is told
 
-cap can be installed, enabled, and correct, and still draw nothing. Three states produce that,
-and **all three are reportable through `/cap status`** — because a dark overlay and a working one
+cap can be installed, enabled, and correct, and still draw nothing. Four states produce that,
+and **all four are reportable through `/cap status`** — because a dark overlay and a working one
 are visually identical on a row that happens to need no cue, so the screen alone can never
 distinguish "nothing to say" from "broken".
 
+- **Not ordering.** The row is not in cap's order — the player turned ordering off, or cap
+  stood down beside another addon that manages the same row (§3.9). This is principle (c):
+  the augments mean nothing without the position, so cap draws none of them. It is listed
+  **first** because it dominates the three below it — while it holds, none of them is worth
+  reporting, and `/cap status` names it and stops. The two causes are not interchangeable to
+  the player, so the advice differs: one is a setting to flip, the other an addon to disable.
 - **Not bound.** No catalog entry reached a Cooldown Manager row: an unauthored spec (§2), or a
   viewer cap could not read. This is the designed inert case, not a failure.
 - **Not settled.** cap has bound but is still waiting for the roster to stop changing. It clears

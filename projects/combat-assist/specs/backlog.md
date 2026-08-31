@@ -327,6 +327,37 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       the grid arithmetic (`anchor_spec`, 6). **What has not:** the drag itself, the seed from a
       live viewer, and whether the panel holds across a spec swap and an Edit Mode icon-size
       change — the acceptance set for the flight.
+  - **cap draws nothing when it cannot order the row** (2026-08-31) — `spec.md` §1's new
+    **principle (c)**, which is a line in the sand rather than a feature. Ordering and the
+    augments were separable and should not have been: §3.1's reading is a claim about POSITION,
+    so an overlay on a row cap did not order points at the wrong icon. Measured before changing
+    anything: **nothing outside `Anchor.lua` consulted ordering at all**, so `/cap anchor off`
+    and the rider stand-down both drew the full overlay — scan edge, badges, elimination — onto
+    a row in Blizzard's arbitrary saved order.
+    - The stand-down was the sharp version of it: its modal said *"the row's left-to-right order
+      is not cap's and should not be read as a priority"* and then cap drew the thing whose
+      entire meaning is "read this as a priority". The message now says cap is drawing nothing,
+      and `riders_spec` asserts the old sentence is **gone** rather than merely present.
+    - **Enforced in ONE place**, `Sense.Verdicts` — which already described itself as the one
+      place the settle and dark-for-the-fight rules live rather than being re-derived per
+      surface. There are two subscribers today (`Overlay`, `Panel`) and a third inherits it for
+      free; returning nil is also what makes them HIDE, since nil is the draw-nothing path every
+      surface already handles.
+    - `/cap status` gains a **DARK — NOT ORDERING** term directly under `OFF` and above every
+      finer diagnosis, because while it holds none of them is worth reporting. `Anchor.NotOrdering`
+      returns `"off"` / `"rider"` / nil, passed INTO `Status.Verdict` rather than read off the
+      namespace so the classifier stays pure. The two causes get different advice: one is a
+      setting to flip, the other an addon to disable.
+    - ⚠ **It settles half of `discussion.md`'s open Vengeful Retreat question and not the other
+      half.** The sub-question — should the scan edge be suppressed outside the scanned viewer —
+      is answered yes, by the same argument, and is now a general rule. The top-level call
+      (bind for the hatch, or unbind) is still the author's, and is cleaner for it. **Per-viewer
+      suppression is NOT built**: a bound Utility row still draws its edge, deliberately left
+      until that question is answered, since unbinding would make the suppression moot.
+    - **What has been exercised:** the ordering term's place in the status order and its two
+      reasons (`status_spec`, 5 assertions) and the rewritten stand-down message (`riders_spec`).
+      **What has not:** that the overlay actually goes dark in the client on `/cap anchor off`
+      and comes back on `/cap anchor on` — the acceptance set for the flight.
 
 ### The specs
 

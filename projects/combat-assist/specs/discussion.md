@@ -58,7 +58,23 @@ Two things make the question sharper rather than academic:
   now* and says it without the walk reaching the row. Whether that alone is worth binding a row
   outside the scanned line is a product call.
 
-**The two answers, either of which is fine:** bind it for the hatch and say that is why — which
-also means deciding whether the scan edge should be suppressed outside the scanned viewer; or
+**The two answers, either of which is fine:** bind it for the hatch and say that is why; or
 unbind it and let Blizzard's own swipe carry the row, which is what it does on every other Utility
 button today.
+
+⚠ **Half of this question was settled on 2026-08-31 and the other half was not.** `spec.md` §1's
+principle (c) — the order and the augments are one product, so cap draws nothing on a row it did
+not order — answers the sub-question this used to carry: **yes, the scan edge should be suppressed
+outside the scanned viewer**, for exactly the reason given above, that it marks membership in a
+scan that never happens. That is now a general rule and not a Devourer decision.
+
+What is still open is the top-level call, and principle (c) narrows rather than answers it: with
+the edge suppressed, binding Vengeful Retreat buys **only** V11's cooldown hatch. So the question
+is now the cleaner one — *is the hatch alone worth binding a row outside the scanned line?* —
+with no scan-edge confound in it.
+
+⚠ **Not yet implemented.** The engine enforces principle (c) at `Sense.Verdicts` for the whole
+overlay (ordering off, or stood down), which is the state that made cap's reading a lie
+everywhere at once. Per-viewer suppression is the same principle applied one row at a time and is
+NOT built: today a bound Utility row still draws its edge. It is deliberately left until the
+question above is answered, because unbinding the row would make the suppression moot.
