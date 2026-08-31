@@ -77,12 +77,16 @@ and *Stormbound Emblem of Dazar* (273649) are both on the S-tier line of
 *Sylvan Wakrapuku*, which that same table rates **Junkyard**. This is the single
 biggest quality jump in the kit and it is already done.
 
-**Enchants — 3 of 9 enchantable slots filled.** Filled: **chest, legs, weapon**.
-**Bare (6): head, shoulders, feet, cloak, ring 1, ring 2.** (Enchantable slots in
-Midnight: helm, shoulders, cloak, chest, legs, feet, both rings, weapon. Neck
-takes a gem, not an enchant; wrist takes an added socket.) Encomplete has
-**Midnight Enchanting 25/100**, so these are self-craftable as recipes unlock —
-still the cheapest gains on the character.
+**Enchants — 3 of 8 enchantable slots filled.** Filled: **chest, legs, weapon**.
+**Bare (5): head, shoulders, feet, ring 1, ring 2.** (Enchantable slots in
+Midnight: helm, shoulders, chest, legs, feet, both rings, weapon — legs is the
+Tailoring **spellthread**, the other seven are Enchanting. **There is no back
+enchant in Midnight**: neither the Midnight Enchanting nor the Midnight Tailoring
+skill tier contains one, and maxroll's enchant table has no Back row. Neck takes
+a gem; wrist and waist take an added socket.) Encomplete has **Midnight
+Enchanting 25/100**, so the five bare slots are self-craftable once the recipes
+unlock — still the cheapest gains on the character. Route:
+`../systems/enchanting-leveling.md`.
 
 **Gems/sockets: none detected, and the S1 socketed pieces are all gone.** The API
 item data returned no gems on any slot; the three socketed S1 items (Preyseeker's
@@ -229,8 +233,10 @@ only as a historical calibration point and must not be quoted as current.
 - **Tailoring — Midnight tier MAXED (100/100)** (all older tiers maxed too).
   Self-crafts Midnight spark gear + both embellishments; no crafting orders
   needed.
-- **Enchanting — Midnight 25/100** (was 21). Self-enchanting the six bare slots
-  is gated on this leveling.
+- **Enchanting — Midnight 25/100** (was 21), 20 Midnight recipes known.
+  Self-enchanting the five bare slots is gated on this leveling — and the gate
+  is **skill 50**, not 100: every enchant on the Demonology BiS list is
+  `Midnight Enchanting (50)`. Route: `../systems/enchanting-leveling.md`.
 - Cooking 214/300, Fishing 135/300 (Classic tiers).
 
 ## Implications for advice

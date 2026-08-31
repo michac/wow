@@ -354,6 +354,8 @@ reagents. It does not touch Blacksmithing/Engineering recipes.
       still uncatalogued here. See `../planning/activities/profession-weekly.md`.
 - [x] Midnight Tailoring leveling → dedicated file
       `tailoring-leveling.md` (2026-06-03)
+- [x] Midnight Enchanting leveling → dedicated file
+      `enchanting-leveling.md` (2026-08-29)
 - [ ] **S2 crafted-gear ilvl brackets + Spark of Tides costs** — not published
       at Tier 1. Open a spark recipe after 2026-08-18 and read the optional
       reagents + quality ladder. (Also: Liadrin's S2 weekly spark options and
