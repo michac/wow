@@ -6,6 +6,11 @@ questions that still require an author decision.
 
 The live addon version comes from `wowkb.addon list`, never from prose here.
 
+**A committed item may carry a plan file in `backlog/`.** The one-line entry stays here, in
+order, and the steps live beside it — `backlog/<slug>.md`, deleted when the work lands and
+`notes.md` records the round. That is the only thing the folder is for: it is not a second work
+list, and an item with no plan file is not lesser.
+
 **An item here has to keep earning its place.** Completed phases, migration checkpoints and
 corrective passes are history and belong in `notes.md`; the measurement behind a status line
 belongs in `notes.md` or `knowledge/addon-dev/`. If an item's premise stopped being true, rewrite
@@ -435,6 +440,59 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       - ⚠ Both were invisible because the numbers agreed by coincidence. That is the shape to
         watch for elsewhere: a duplicated constant is not caught by a test that only ever runs
         at the value where the duplicates match.
+  - **The panel's second row is real** (2026-08-31). The panel has been `6x2` since it was
+    named, but placement laid every icon out on one axis and ignored the second row of cells, so
+    a roster longer than six ran off the right-hand edge of a panel that claimed to hold it.
+    Three pure functions carry it: `Anchor.Cells` (offsets for `n` icons), `Anchor.ReadOrder`
+    (the drawn order), and `Anchor.Plan` gaining a `breakAt`.
+    - **A catalog may name ONE break, `break_before = "<entry id>"`,** and a break entry that is
+      not talented **falls through to the next present entry** — the alternative is a hole in
+      the row every time a talent moves. It is resolved in PLAN space, not in `Catalog.Resolve`:
+      Resolve's `byEntry` does not know about the dedup that drops the second of two entries
+      naming one row, nor about the unnamed rows appended after the named ones, and both change
+      which item is first past the break. `Catalog.Check` refuses an undeclared id, the first
+      entry, a non-string, and a **virtual** entry — the last because a virtual entry never
+      reaches `byEntry`, so the key would be a permanent no-op with no error behind it.
+    - **The break is a MINIMUM wrap point, not the only one.** A row also ends when it runs out
+      of columns. ⚠ **That is a visible change for Havoc and the only spec long enough to show
+      it:** twelve entries into a six-wide panel now draw 6 + 6 instead of one line running off
+      the side. No catalog authors a break yet — where Havoc's should go is an authoring call,
+      and it is entangled with the open reading-model question below.
+    - ⚠ **The row split is part of the VERDICT, and that was nearly missed.** `Anchor.Drawn`
+      returned an id sequence and `match` compared it elementwise, so a pass that collapsed all
+      twelve icons onto one row would produce the *identical* sequence to the correct two-row
+      draw and read `X{ok}` forever — the phase would have shipped with no instrument for the
+      only thing it added. `Drawn` now measures how many landed on the first row and `match`
+      requires it to equal what `apply` placed. The wire carries it as a `|` in **both** `P{}`
+      and `D{}`, so the two are read beside each other; a count in `A{}` would have restated the
+      plan's own number and could never have disagreed with itself.
+    - ⚠ **Two things that look like details and are not.** The y axis points **up**, so
+      descending a row is negative — and a positive `y` would draw the second row above the
+      first with the drift auditor reporting **zero drift**, because `want.top` would be wrong
+      in the same direction. Nothing already in the addon catches that, so the sign is asserted
+      by a test. And the reading sort is **top descending, left ascending**: a higher `GetTop()`
+      is higher on screen, so an all-ascending comparator passes every same-row assertion and
+      silently reverses the rows.
+    - ⚠ **The row comparator uses an integer bucket, not a tolerance, deliberately.** A
+      comparator of the form `abs(a.top - b.top) > TOL` is not transitive and Lua's `table.sort`
+      raises `invalid order function for sorting` on a large enough shuffled input — a hard
+      error, on a capture path, at a frame count nobody tested. Rounding to a whole unit is
+      transitive by construction, and row pitch is at least 51 panel units at any size cap draws.
+    - **`Catalog.Check` now refuses a roster the panel cannot hold**, counting **non-virtual**
+      entries and validating the **partition** rather than the total — a break authored late runs
+      the first row past the edge even when the roster fits. It reads `cols`/`rows` from the
+      tokens and never a literal, so widening the row stays a `render-tokens.json` edit.
+      ⚠ **It is an authoring tripwire, not a safety net:** `Anchor.Plan` appends every viewer row
+      the catalog does not name, so a player enabling one extra ability in the Essential viewer
+      can overflow a catalog that passes — from outside the catalog's control. The column clamp
+      is what holds at runtime.
+    - **Havoc is at twelve of twelve cells.** One more authored entry needs a wider panel
+      (`cols` is a token, so 7x2 is a token edit and shrinking `icon_px` holds the screen width),
+      not a code change.
+    - **Not yet flown.** What the tests cannot reach: that the second row draws where the
+      arithmetic says, and that parked frames stay out of the reading sort — they are absent
+      from `P.tracked` and would sort ahead of the first row if a future edit walked `P.claimed`
+      instead. `X{MISMATCH}` with matching ids either side of a differing `|` is the signal.
 
 ### The specs
 
@@ -683,6 +741,14 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
   so it likely does not cover them. Budget a mapping table, not a predicate.
 
 ## Now
+
+### Shard projection — anticipate the post-cast count → `backlog/shard-projection.md`
+
+Demonology, three abilities, one number: while Shadow Bolt, Infernal Bolt or Hand of Gul'dan is in
+flight, `world.resource` reads the count the cast will leave you at, so every shard cue already in
+the catalog becomes anticipatory with no catalog edit. Nothing is sealed — Soul Shards are
+never-secret — and the plan file holds the five steps, the CDMProbe traps and the
+`cdm-rider-patterns.md` §9.2 correction it rests on.
 
 ### Keybind hint on the CDM row — built, not flown
 

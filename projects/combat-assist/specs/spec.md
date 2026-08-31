@@ -669,7 +669,12 @@ Eight properties are the whole of the promise, and each is a boundary rather tha
 - **The row has a position of its own, and it is the player's.** cap's row is a named panel of
   a fixed size — six cells across and two deep, whatever the roster's length — so it can be
   dragged, remembered across sessions, and used as an anchor by other UI. Its size is known at
-  login rather than measured, so nothing about it waits for the Cooldown Manager to draw. ⚠ **A
+  login rather than measured, so nothing about it waits for the Cooldown Manager to draw. **A
+  roster longer than one row wraps onto the second**, at a break the catalog may name and at the
+  panel's edge regardless; it no longer runs off the side. ⚠ **What that costs is stated in
+  §3.1 and is not yet settled**: a wrapped row is two lines, and *"left to right, press the
+  first thing not ruled out"* does not say by itself whether the second line continues the scan
+  or sits beneath it. Only Havoc is long enough to ask, and the question is open. ⚠ **A
   consequence, stated because it is a change and not an oversight:** the row no longer follows
   the Cooldown Manager's own placement. Moving the Essential viewer in Edit Mode moves
   Blizzard's row and leaves cap's where the player put it. The first time cap orders, the

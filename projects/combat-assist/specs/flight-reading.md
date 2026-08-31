@@ -211,8 +211,20 @@ t131.7 # stomp RefreshLayout destructive=1 combat=1
   letting it read as part of a priority scan it is no longer ordered by. **A steady non-zero
   `parked` is worth chasing**; it means the plan keeps losing a row it once held.
 - `P{}` is the **authored** order as cooldownIDs; `D{}` is the **drawn** order, read off each
-  frame's `GetLeft()`. `X{ok}` means they agree; `X{MISMATCH}` means they do not, including when
-  a frame's position could not be read.
+  frame's measured position. `X{ok}` means they agree; `X{MISMATCH}` means they do not, including
+  when a frame's position could not be read.
+- ⚠ **`D{}` is read in TWO dimensions, top row first and then left to right** — it used to be
+  `GetLeft()` alone, which was right only while the row was one row. A higher `GetTop()` is
+  higher on the screen, so the first row to read is the one with the *larger* top.
+- **`|` marks the row break**, in both orders: `P{a,b,c|d,e}` is two rows intended,
+  `D{a,b,c|d,e}` is two rows drawn. No `|` means everything landed on one row.
+  ⚠ **This is the instrument for the second row, and reading the two beside each other is the
+  whole point.** The id sequence cannot show a row split by itself: a pass that collapsed every
+  icon onto one row produces the *identical* sequence to the correct two-row draw. So
+  `P{a,b,c|d,e} D{a,b,c,d,e}` is a real failure — the right order, on the wrong number of rows —
+  and it reads `X{MISMATCH}` because the split is part of the verdict, not a decoration beside
+  it. A count in `A{}` would have restated the plan's own number and could never have disagreed
+  with itself.
 - **`X{STALE:<n>}` outranks both** and is read first. It is a live `GetCooldownID()` read
   against the id cap recorded when it took each frame, and `n` frames now answer with a
   different one — the pool re-issued them. `P{}`/`D{}` are then describing icons the plan no
