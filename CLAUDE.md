@@ -32,24 +32,6 @@ that to me first. (`check` is read-only and exits non-zero when anything is
 local-only — a clean pre-push gate.) Cutting a release is a separate, ask-first
 step — this is just "don't leave addon commits stranded on one machine."
 
-## Substantial multi-step work: the `plan-and-execute` skill
-
-For work that spans **several documents that must agree**, or that **asserts a claim other
-files will later cite**, invoke **`plan-and-execute`** and write the plan before touching
-anything. Its standard is one sentence: **a good plan is one that another agent could execute
-for you** — which holds whether or not you actually delegate, because a plan you could not
-hand off is one still half-living in your head.
-
-The sequence is: hand-write the plan → **one** adversarial review (dispute a blocking finding
-by re-verifying it yourself, not by reviewing twice) → revise → *then* decide delegate-or-self
-→ accept from the **diff, never the summary**.
-
-⚠ **This is deliberately not for most work.** A single-file edit, or anything `kblint` /
-`citecheck` / `capart check` fully covers, should just be done. Running the full weight on a
-small change is the failure mode, not the safe default. The reason it exists: a gate that
-checks a `[searched]` tag EXISTS does not check that the search was adequate — and that class
-of error is exactly what a hand-written plan plus one adversarial review catches.
-
 ## Current game state
 
 - **Live: patch 12.1 "Curse of Ula'tek"** — Midnight expansion, level cap **90**,
