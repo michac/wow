@@ -88,6 +88,26 @@
     return slot;
   }
 
+  /* V22 · the badge with a number in it, where cap holds the count. Same slot, same plate, same
+   * hue and same corner as the sprite badge it stands in for — the ONLY thing it replaces is the
+   * glyph. `implosion_no_imps` is the case: `!aura(wild_imp)` means zero, so the `0` is cap's own
+   * literal rather than the client's FontString, and the row reads 0 → red 1-5 → gold 6+. */
+  function numeralNode(key, value) {
+    var slot = badgeNode(key, 0);
+    var sprite = slot.querySelector(".sprite");
+    if (sprite) slot.removeChild(sprite);
+    var n = el("div", "cue-numeral");
+    n.textContent = String(value);
+    /* The NEGATIVE count ink, which is byte-identical to the shared badge red: a `0` and a `1`
+     * are the same statement about the same row and must not be two reds. A positive numeral
+     * would take `--count-rgb`; no cue asks for one. */
+    var cue = T.cues[key] || {};
+    n.style.setProperty("--sx-ink",
+      cue.polarity === "positive" ? "var(--count-rgb)" : "var(--count-low)");
+    slot.appendChild(n);
+    return slot;
+  }
+
   /* ------------------------------------------------------------------ V13 · the scan edge
    *
    * One hue, no roles, no motion. Its numbers come from `tokens.ready`, emitted as --ready-* by
@@ -100,7 +120,39 @@
     var n = el("div", "ready-line");
     n.style.setProperty("--rl-rgb", "var(--ready-rgb)");
     n.style.setProperty("--rl-rest", "var(--ready-alpha)");
-    n.style.setProperty("--rl-line", "var(--ready-line)");
+    outlineMask(n);
+    return n;
+  }
+
+  /* THE ONE OUTLINE SHEET, nine-sliced (render-shelf.md V13). The same generated file the addon
+   * ships as `Media/outline.tga`, tinted here by `background-color` under the mask exactly as
+   * `SetVertexColor` multiplies it there.
+   *
+   * ⚠ SLICED, not stretched: `mask-box-image`'s slice keeps the corners at native size and
+   * stretches each edge along one axis, so the outline is a crisp `--outline-line` at any icon size.
+   * Stretching the whole sheet would fatten and blur the line off the nominal icon — the same
+   * defect frozen escape sizes had, arriving through the art.
+   *
+   * ⚠ Resolved AT CALL TIME for the reason `maskedStripe` documents: the gallery is built before
+   * this file's Part 7 section runs, so a module-scope hoist of the sheet is still undefined.
+   * Without the mask the element is a filled block rather than an outline, so the fallback is a
+   * plain border in the same ink — visibly the old treatment, never a solid square over the icon.
+   */
+  function outlineMask(n) {
+    var sheet = D.outline_sheet;
+    if (!sheet) return n;
+    var v = "url(" + sheet.uri + ") var(--outline-slice) stretch";
+    n.style.setProperty("-webkit-mask-box-image", v);
+    n.style.setProperty("mask-border", v);
+    // ⚠ THE CLASS GOES ON ONLY IF THE MASK ACTUALLY TOOK, and that guard is load-bearing.
+    // `setProperty` is SILENT on a property the renderer does not know, while `.outlined` trades
+    // the border for a fill — so adding it unconditionally left any renderer without
+    // `mask-border` drawing a SOLID BLOCK over the icon instead of an outline. Measured
+    // 2026-08-29; the plain border below is the real fallback only because of this line.
+    if (n.style.getPropertyValue("-webkit-mask-box-image")
+        || n.style.getPropertyValue("mask-border")) {
+      n.classList.add("outlined");
+    }
     return n;
   }
 
@@ -140,13 +192,19 @@
     // FontString that draws the mark, so it reads exactly as ruled out — and it carries no cue,
     // because a cue is a badge cap shows and this is not one.
     if (rule.eliminates) ruledOut = true;
-    if (ruledOut) item.appendChild(skipLayer());
 
     // Every non-`cd` row is IN THE SCAN and wears the edge. `press` and `open` render
     // IDENTICALLY, and that is the point: the press is "the leftmost thing not
     // ruled out", not a thing cap draws (render-shelf.md Part 0.5). The edge goes OVER the art
     // — it is a rim on the button, not a layer across it.
     if (rule.scan) item.appendChild(scanMark());
+    // ⚠ AND THE ELIMINATING HATCH GOES OVER THE EDGE, which is why it is appended after it.
+    // A scan edge says *this row is in the read*; this says *this row is out*. A row wearing a
+    // negative cue wears both, so the contradiction is the normal case rather than an edge case,
+    // and the later word wins (render-shelf.md Part 2.5). It stays BELOW the chrome, the sealed
+    // displays and the badges appended after it: those are the marks that say *why*, and they
+    // have to stay legible on top of the thing they caused.
+    if (ruledOut) { item.appendChild(skipLayer()); item.appendChild(skipOutline()); }
 
     // V15 · the keybind hint. CHROME, not a cue (spec.md §3.8): it names the row and takes no
     // part in the scan, so it holds the top-left corner the badges never flow into and no
@@ -172,6 +230,42 @@
       item.appendChild(vm);
     }
 
+    var open = false;
+    cueList.forEach(function (k) { if ((T.cues[k] || {}).open) open = true; });
+    // THE Z-STACK'S WINNER, and it is the only badge built. The corner is one pixel deep: every
+    // badge draws at the same place and the top of the order is what you see. That order is
+    // Part 0.5's reading model rather than the cue rank — negatives occlude positives, rank
+    // decides inside a polarity — because the two failure directions are not symmetric: a
+    // negative hidden behind a positive makes a HELD row look pressable, which costs the press.
+    // A loser is not drawn at all, which is this page's version of the addon hiding its frame.
+    //
+    // ⚠ RESOLVED BEFORE THE SEALED DISPLAYS ARE BUILT, because one of them may BE the winner:
+    // a cue whose block is a cooldown draws that cooldown live (`cue_dials`) instead of the
+    // frozen clock glyph, and the dial must then not also be built underneath as an ornament.
+    var winner = null;
+    cueList.forEach(function (k) {
+      var cue = T.cues[k] || {};
+      var it = { key: k, band: cue.polarity === "positive" ? 1 : 0, rank: cue.rank || 99 };
+      if (!winner || it.band < winner.band
+          || (it.band === winner.band && it.rank < winner.rank)
+          || (it.band === winner.band && it.rank === winner.rank && it.key < winner.key)) {
+        winner = it;
+      }
+    });
+    // Does the winning cue draw as a LIVE DIAL? The catalog entry says so: a marker declaring
+    // both a `cue` and a cooldown display (`sealed-base-cooldown` / `sealed-cooldown-range`)
+    // means this cue's badge IS the countdown, red arc and white numeral, not the still clock.
+    var winnerIsDial = !!(winner && (entry.cue_dials || []).indexOf(winner.key) !== -1);
+    // WHICH dial. `cue_dials` says a cue draws as one; the row's own `{sealed: …}` group says
+    // which sink is drawing it — the cooldown form with its numeral, or the aura form without.
+    var dialKind = ((entry.sealed || []).indexOf("aura-remaining") !== -1)
+      ? "aura-remaining" : "base-cooldown";
+    // ...or as a NUMERAL (V22)? Same declaration-driven question, one table over: the entry says
+    // which of its cues cap draws as a number it authored rather than as the shared glyph.
+    var nums = entry.cue_numerals || {};
+    var winnerNumeral = (winner && !winnerIsDial && nums[winner.key] != null)
+      ? nums[winner.key] : null;
+
     // The SEALED DISPLAYS (render-shelf.md V16-V19). Every one of them is art the client draws
     // from a rule cap authored and never reads back, so the preview draws the SHAPE and states
     // the value nowhere: a scenario names the sink, and what value the client found is exactly
@@ -179,36 +273,66 @@
     // Corner sealed displays (V19/V20) take stack slots 0..n-1 in declared order; the cue
     // badges below start at slot n (render-shelf.md Part 2.5's cession rule — static, because
     // whether the client is showing one is sealed).
-    var cornerAt = 0;
-    (entry.sealed || []).forEach(function (kind) {
-      var sn = sealedNode(kind, entry);
-      // The corner CLAIMERS: V19's badge, and V16's corner elements (whose own node draws at
-      // slot 0 by its inner CSS — counted so the cue badges below start one step down, which
-      // is what the addon's countSink does with the same claim). V20 claims nothing: it lives
-      // on the bottom edge.
-      if (kind === "pandemic" || kind === "count-bands") {
-        sn.setAttribute("data-index", String(cornerAt));
-        cornerAt += 1;
-      }
-      item.appendChild(sn);
+    // ⚠ THE CLAIM IS THE ENTRY'S, NOT THIS ROW'S. `corner_claims` is every corner display the
+    // catalog ENTRY declares, in marker order; the addon claims those slots off
+    // `item.entry.markers` whether or not the client is drawing into one, because whether it
+    // is drawing is sealed and the stack cannot re-flow on it. So a declared-but-undrawn claim
+    // still holds its slot here and the cue badges still start below it. Reading the row's own
+    // `{sealed: …}` group instead — what THIS state draws — is the bug this replaced: it put
+    // `imp_st_and_no_imps`'s two cue badges at slots 0 and 1 where the client puts them at 2
+    // and 3, and drew two badges for a row the client gives four.
+    var claims = entry.corner_claims;
+    // A spec still on a hand-written catalog ships no claims; fall back to the row's own
+    // corner-claiming displays, which is what every spec did before catalog.json existed.
+    if (!claims) {
+      claims = (entry.sealed || []).filter(function (k) {
+        return k === "pandemic" || k === "count-bands" || k === "base-cooldown";
+      });
+    }
+    // V20 claims nothing (it lives on the bottom edge) and V18's bar rides its own slot, so the
+    // non-claiming displays this row draws are appended without moving anything.
+    var unclaimed = (entry.sealed || []).filter(function (k) {
+      // ⚠ The dial is ONE widget. A row whose winning cue is drawn as the countdown declares
+      // `sealed: ["base-cooldown"]` as well — that declaration is what says the client is
+      // draining a duration here — so building it again below the badge would stack two
+      // identical dials, the lower one invisible and the upper one arriving from the other path.
+      return !(winnerIsDial && k === dialKind);
+    });
+    // ⚠ APPENDED IN REVERSE DECLARATION ORDER, and that IS the z-order. Absolutely-positioned
+    // siblings with no z-index paint in DOM order, so appending last-declared first leaves the
+    // first-declared claim on top of the ones after it and every one of them under the cue
+    // badges appended below — which is the addon's frame-level order (`Paint.CornerLevel`,
+    // `Paint.CueLevel`) expressed in the one mechanism CSS gives for free.
+    claims.slice().reverse().forEach(function (kind) {
+      var at = unclaimed.indexOf(kind);
+      // Declared but not drawing in this state: the claim is ceded and nothing is built for it.
+      // ⚠ An entry may declare the SAME kind twice (implosion's two count-bands markers) and the
+      // row's group names it once — the doc does not say which marker armed, so the first
+      // matching claim draws and the rest reserve. That is an approximation and the only one here.
+      if (at === -1) return;
+      unclaimed.splice(at, 1);
+      item.appendChild(sealedNode(kind, entry));
+    });
+    unclaimed.forEach(function (kind) {
+      item.appendChild(sealedNode(kind, entry));
     });
 
-    var open = false;
-    // Sorted by the cue's RANK, not by the order the catalog happened to name them, so two rows
-    // wearing the same pair always stack them the same way round. Positives rank above
-    // negatives, so a promotion lands on the corner (render-shelf.md Part 1).
-    var cues = cueList.slice().sort(function (a, b) {
-      return ((T.cues[a] || {}).rank || 99) - ((T.cues[b] || {}).rank || 99);
-    });
-    cues.forEach(function (k, i) {
-      if ((T.cues[k] || {}).open) open = true;
-      var node = badgeNode(k, i + cornerAt);
-      // V14 rides the badge it belongs to, so it moves with the stack rather than being
-      // anchored to the corner independently.
-      if ((T.cues[k] || {}).polarity === "positive") node.insertBefore(promoRing(), node.firstChild);
+    if (winner) {
+      // The badge, or the dial that has taken its place. `sealedNode("base-cooldown")` is the
+      // same widget V21 draws in the corner — plate, red radial, white countdown — and drawing
+      // it here rather than there is the whole of "not a new badge; a truthful one".
+      var node = winnerIsDial ? sealedNode(dialKind, entry)
+        : winnerNumeral !== null ? numeralNode(winner.key, winnerNumeral)
+        : badgeNode(winner.key, 0);
+      // V14 rides the WINNER: a ring around an occluded badge would put a promotion's glow on a
+      // row cap is ruling out.
+      if (!winnerIsDial && (T.cues[winner.key] || {}).polarity === "positive") {
+        node.insertBefore(promoRing(), node.firstChild);
+      }
       item.appendChild(node);
-    });
+    }
     if (open) item.setAttribute("data-open", "1");
+
 
     var col = el("div", "lane");
     col.appendChild(item);
@@ -394,6 +518,9 @@
     opts = opts || {};
     return itemNode({ name: name, verdict: verdict, cues: opts.cues,
                       sealed: opts.sealed, count: opts.count,
+                      // A gallery swatch has no catalog entry behind it, so it says for itself
+                      // which cues it wants drawn as the live dial rather than the still glyph.
+                      cue_dials: opts.cue_dials, cue_numerals: opts.cue_numerals,
                       outside: opts.outside, full: opts.full }, 0).firstChild;
   }
 
@@ -475,21 +602,29 @@
    *   count-bar      — V18. The radial, inside the badge plate. Drawn at a nominal fraction: a
    *                    bar has no blank state, so "there is an arc here" is the whole claim.
    *   pandemic — V19. The badge the client shows and hides on Blizzard's own window.
+   *   base-cooldown  — V21, and since 2026-08-28 the LIVE `blocked` BADGE: the dial again, with
+   *                    the countdown numeral inside it, red arc and white numeral because this
+   *                    IS the negative cue rather than a quantity beside one. Two catalog
+   *                    displays reach it — `sealed-base-cooldown` (this row's own base spell,
+   *                    hidden under a transform) and `sealed-cooldown-range` (another
+   *                    ability's, named by key) — and they differ only in whose cooldown, which
+   *                    is a fact about `Channel.lua` and not about the picture.
    */
   /* The dial. In the client this is a radial StatusBar the CLIENT drains off the aura's own
    * duration (SetDurationBar, direction = RemainingTime) — cap reads nothing. Here a
    * conic-gradient counting down over a nominal looping window, driven so the swatch shows a
    * LIVE drain: a static wedge is exactly the lie timer_CW_75 was retired for. Shared by V19's
    * window badge and V20's proc dial — one dial look, wherever a dial draws. */
-  function liveDial() {
-    var dial = el("div", "sealed-pd-dial");
+  function liveDial(arc, track, cls) {
+    var dial = el("div", cls || "sealed-pd-dial");
+    var arcVar = arc || "--pd-dial-rgb", trackVar = track || "--pd-dial-track";
     var pdWin = 6, pdLive = false;
     var pdTick = setInterval(function () {
       if (dial.isConnected) pdLive = true;
       else if (pdLive) { clearInterval(pdTick); return; }
       var frac = 1 - ((Date.now() / 1000) % pdWin) / pdWin;
-      dial.style.background = "conic-gradient(var(--pd-dial-rgb) " +
-        (frac * 360).toFixed(1) + "deg, var(--pd-dial-track) 0)";
+      dial.style.background = "conic-gradient(var(" + arcVar + ") " +
+        (frac * 360).toFixed(1) + "deg, var(" + trackVar + ") 0)";
     }, 100);
     return dial;
   }
@@ -534,6 +669,30 @@
       }, 100);
       pb.appendChild(pbFill);
       return pb;
+    }
+    if (kind === "base-cooldown") {
+      /* V21: the row's OWN cooldown, where the client is drawing another button's. A corner
+       * badge whose centre is a client-drained radial with the countdown numeral inside it.
+       * The number is nominal — cap never learns one, and the point of drawing it here is
+       * judging whether it is legible at this diameter before any of it reaches the game. */
+      var bc = el("div", "sealed sealed-basecd");
+      bc.appendChild(el("div", "sealed-plate"));
+      bc.appendChild(liveDial("--basecd-rgb", "--basecd-track", "sealed-basecd-dial"));
+      var bcn = el("div", "sealed-basecd-count");
+      bcn.textContent = "104";
+      bc.appendChild(bcn);
+      return bc;
+    }
+    if (kind === "aura-remaining") {
+      /* V21's third supplier: an AURA's remaining, in the badge's place. Same plate and same red
+       * radial as `base-cooldown` — and NO numeral, because the number is genuinely unavailable:
+       * V21's comes from `FormatRemainingDuration` on a cooldown object cap holds, and the only
+       * aura-side text sink (`SetDurationText`) emits fixed strings, never a value. The arc alone
+       * is still strictly more than a clock frozen at 50 %. */
+      var ar = el("div", "sealed sealed-basecd");
+      ar.appendChild(el("div", "sealed-plate"));
+      ar.appendChild(liveDial("--basecd-rgb", "--basecd-track", "sealed-basecd-dial"));
+      return ar;
     }
     if (kind === "pandemic") {
       /* The pair's OTHER state: aura up, OUTSIDE the window — the gold do-not-refresh hatch,
@@ -629,6 +788,19 @@
     var n = maskedStripe("stripes skip-hatch", "var(--hatch-skip-rgb)",
                          "var(--hatch-skip-phase)");
     return n;
+  }
+
+  /* cap's own ruled-out OUTLINE, and it is a SEPARATE element on purpose. It used to be a CSS
+   * `border` on the striped layer above — and a mask clips an element's border along with
+   * everything else, so the stripe sheet was cutting the outline into dashes. It was never a
+   * ring. Here it is the same sliced ring sheet V13's scan edge uses, at the same place, in the
+   * skip ink: the red covers the yellow exactly instead of ringing it. The stripes keep the
+   * overhang; the outline sits on the icon rect. */
+  function skipOutline() {
+    var n = el("div", "ready-line skip-outline");
+    n.style.setProperty("--rl-rgb", "var(--hatch-skip-edge-rgb)");
+    n.style.setProperty("--rl-rest", "var(--hatch-skip-edge-alpha)");
+    return outlineMask(n);
   }
 
   /* V14 · the promotion ring — a glowing ring around the badge of a row wearing a positive cue.
@@ -1492,7 +1664,24 @@
         // client would be showing, not the entry's base face, so the art (and the simulated
         // hotkey, which is per roster position) differ from the heading above.
         cell.appendChild(itemNode({
-          name: st.shows || grp.name, verdict: st.verdict, cues: st.cues, sealed: st.sealed
+          name: st.shows || grp.name, verdict: st.verdict, cues: st.cues, sealed: st.sealed,
+          // Every state of an entry cedes the same corner slots — the claim is the entry's.
+          corner_claims: grp.corner_claims,
+          // ...and which of its cues are drawn as a live countdown rather than a still glyph,
+          // or as a numeral cap authored. Entry-level for the same reason: the claim is the
+          // declaration's.
+          cue_dials: grp.cue_dials,
+          cue_numerals: grp.cue_numerals,
+          // The band's NUMERAL and its hue. Without these the count-bands sink falls through to
+          // the mark glyph, which is a picture neither Implosion band declares — both say
+          // `draw: "count"`. ⚠ Nominal, unlike V22's literal: the card illustrates the band, and
+          // what value the client found is exactly the thing cap cannot know.
+          count: st.count,
+          count_dir: st.count_dir,
+          // WHAT BLIZZARD PAINTS ON THIS ICON, when the state says so. `itemNode` already runs
+          // `clientPaint` off `entry.client` for a scenario row; a state card is the source of
+          // truth for what a row looks like and had no way to mention the client's own tint.
+          client: st.client
         }, 0));
         cell.id = st.code;
         var cap = el("div", "cap");
@@ -1500,6 +1689,7 @@
                    '<code class="muted">' + st.id + "</code><br>" +
                    "<b>" + st.condition + "</b><br><code>" + st.verdict + "</code>";
         if (st.shows) bits += " · the icon is " + st.shows + ", not the heading's";
+        if (st.client) bits += " · the client tints it " + st.client;
         if (st.cues.length) bits += " · cues " + st.cues.join(", ");
         if (st.sealed.length) bits += " · sealed " + st.sealed.join(", ");
         if (st.slot !== null && st.slot !== undefined) bits += " · slot " + st.slot;

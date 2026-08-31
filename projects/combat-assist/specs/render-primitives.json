@@ -45,6 +45,8 @@
     { "id": "V17", "name": "Count complement",        "kind": "primitive" },
     { "id": "V18", "name": "Sealed bar",              "kind": "primitive" },
     { "id": "V19", "name": "Pandemic window",         "kind": "primitive" },
-    { "id": "V20", "name": "Proc bar",                "kind": "primitive" }
+    { "id": "V20", "name": "Proc bar",                "kind": "primitive" },
+    { "id": "V21", "name": "Live cooldown dial",      "kind": "primitive" },
+    { "id": "V22", "name": "Count badge",             "kind": "primitive" }
   ]
 }

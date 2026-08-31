@@ -91,7 +91,7 @@ Base spell IDs from `knowledge/classes/warlock/demonology/ability-inventory.tsv`
 | Key | Ability | Base spell ID | Live override | Scan | Charges | Cues |
 | --- | --- | ---: | --- | --- | --- | --- |
 | `power_siphon` | Power Siphon | `264130` | — | scan | — | — (its rung's gate is a sealed **count** — see *The one row elimination cannot rule out*) |
-| `grimoire` | Grimoire: Imp Lord | `1276452` | **Singe Magic `132411`** — the dispel the row becomes while its own cooldown runs / Grimoire: Fel Ravager `1276467` — the `alt`, a **choice node** rather than an override, whose own dispel is Devour Magic `388215` | scan | — | the ramp hold (I) + the dispel stand-in (K) |
+| `grimoire` | Grimoire: Imp Lord | `1276452` | **Singe Magic `132411`** — the dispel the row becomes while its own cooldown runs / Grimoire: Fel Ravager `1276467` — the `alt`, a **choice node** rather than an override, whose own dispel is Devour Magic `388215` | scan | — | the ramp hold (I) + the dispel stand-in (K), whose badge is the live cooldown dial + the Tyrant band |
 | `summon_doomguard` | Summon Doomguard | `1276672` | — | scan | — | the ramp hold (I) |
 | `call_dreadstalkers` | Call Dreadstalkers | `104316` | — | scan | — | the ramp hold (I) + the dogs' two-sided sealed window (J) |
 | `summon_demonic_tyrant` | Summon Demonic Tyrant | `265187` | — | scan | — | readable five-shard hold (A) |
@@ -164,8 +164,10 @@ answers a question about the button **currently displayed** — the cooldown bra
 draw no swipe. **The Grimoire's is the other half of the same rule and is what cue K exists
 for:** its dispel carries `RecoveryTime = 15000` against the Grimoire's
 `CategoryRecoveryTime = 120000` *[T1 DB2: `SpellCooldowns` @ 12.1.0.69214]*, so the row draws a
-15-second dial that belongs to the dispel while a two-minute one runs invisibly underneath.
-A swipe on this row is therefore never the Grimoire's.
+15-second dial that belongs to the dispel while a two-minute one runs underneath.
+A swipe on this row is therefore never the Grimoire's — and the two-minute one is no longer
+invisible: **V21** draws it as a corner badge, an arc and a numeral the client fills from the
+base id's own duration object.
 
 **A state card draws whichever face the row is showing in that state**, not the entry's base
 face: a state carries `shows: <roster name>` when its condition is a transformed life, so the
@@ -322,6 +324,39 @@ row to its left by a cue rather than by position.
     `identity(grimoire, "transformed")`, a single term about **this row's own** identity. It is
     the shape `protection`'s `ha_banks_bulwark` and `devourer`'s `star_counter` use, not cue D's,
     which reads a *different* row.
+  - `grimoire_base_cooldown` — **readable** `blocked`, cue **K**'s badge, drawn as **V21**'s
+    live dial and gated on `baseoncd(grimoire)`. Cue K rules the row out on identity and says
+    nothing about *when it comes back*, which is the fact a ramp is waiting for: the swipe on
+    this row is the dispel's 15 s and the Grimoire's 120 s is drawn nowhere. Since 2026-08-28
+    those are **one badge**: a `blocked` badge whose block is a cooldown draws that cooldown —
+    a red radial on the real remaining with a white countdown in it — instead of `timer_CW_50`,
+    a picture of a clock frozen at 50 % on a row where the real remaining is right there. The
+    gate is readable — `C_Spell.GetSpellCooldown(baseID).isActive` is NeverSecret and plain in
+    restricted combat — and the number is not: the base id's duration object goes straight into
+    the arc and the numeral, and cap never reads a second of it.
+    ⚠ **The id read is the BOUND ROW's `base`, not the entry's declared `spell`.** This entry
+    covers both halves of a choice node through `alt`, so on a Fel Ravager build the declared
+    `1276452` is the wrong half; `display.ability` names the subject, not the spell.
+  - `grimoire_awaits_tyrant` — **sealed** `blocked`, `sealed-cooldown-range` on
+    `summon_demonic_tyrant`, band `(3, 10)`, gated on `talent(reign_of_tyranny)` **and**
+    `!baseoncd(grimoire)`. The same picture as above, drawing a *different* clock: while the
+    Grimoire is up and Tyrant is 3–10 s out, the badge is **Tyrant's** remaining, which is what
+    the hold is actually waiting on. The client evaluates the band; cap never learns the number.
+    ⚠ **`!baseoncd` is load-bearing.** This row is never swiped — the button on it is the dispel,
+    with its own 15 s — so without that term the band would arm while the Grimoire itself is on
+    cooldown and two dials would claim one badge. The three `excludes` in `catalog.json` say the
+    same thing against each of the other markers.
+    ⚠ **Authored past the APL**, in cue I's style, and the evidence is on the marker's
+    `display_exception`: 200 Season-2 M+ parses (zone 55, top-25 DPS per dungeon, 82 players,
+    2467 Grimoire casts) put the within-pull Grimoire gap at a median **125.2 s** on a 120 s
+    cooldown, landing a median **4.4 s before** Tyrant, |Δ| ≤ 10 s in **70.7 %**; a synthetic
+    strictly-on-cooldown control against the same logs lands at chance (31.8 % against a 33.3 %
+    uniform baseline), and banking a Grimoire a whole Tyrant cycle is 0.9 %. Players **nudge,
+    they do not hold** — which is why the band is one cast wide rather than a hold. Its
+    weaknesses are recorded with it: the control is *synthetic*, the observations are not
+    independent (82 players, one holding 5 of 8 rank-1 slots), top-parse selection, ten days of
+    data. **`3` and `10` are not measured optima** — `3` is 2 × `gcd.max` and `10` is rung 6's
+    own idiom (`12 - gcd.max` = 10.5, `20 + gcd.max` = 21.5) narrowed to one cast.
   ⚠ **This hold is the PILOT'S ramp reading, not the APL's rung.** Rungs 3/4 are
   **unconditional** — simc presses Grimoire the moment it is up — and this catalog knowingly
   authors past that: holding the summons while shards climb to the Tyrant window is how the
@@ -424,7 +459,16 @@ row to its left by a cue rather than by position.
     two numerals on two corners. The price is paid in silence: in single target without the
     talent, and on a build whose `talent` read refuses, cap now says nothing about the imp count
     at all. That is an omission the player can see, against a promotion they cannot.
-  - `implosion_no_imps` — **readable** `blocked`: `!aura(wild_imp)`. ⚠ **The one state the band
+  - `implosion_no_imps` — **readable** `blocked`, cue **H**, drawing a **red `0`**
+    (`badge: { kind: "numeral", value: 0 }`, `../render-shelf.md` **V22**): `!aura(wild_imp)`.
+    ⚠ **The `0` is cap's own literal and this marker's own `when` is what licenses it** —
+    `!aura(wild_imp)` *means* zero, so the numeral asserts nothing that was not already
+    established readably. Everywhere else on this row the count is the **client's**, out of an
+    AuraContainer FontString cap never reads back; that is exactly why the zero could not come
+    from the band, and why it wore `timer_CW_50` — a picture of a clock face frozen at 50 %, on a
+    row where nothing is on cooldown and nothing is being waited out — until 2026-08-28. The four
+    states now read as one grammar: **0 → red 1–5 → gold 6+**.
+    ⚠ **The one state the band
     cannot reach.** With no Wild Imp there is no aura, so the client hides the whole button and
     every sink on it draws nothing — which would leave a ready Implosion un-ruled-out at zero
     imps, the worst kind of hole because it looks like a live candidate. The `aura` latch is
@@ -439,7 +483,13 @@ row to its left by a cue rather than by position.
   Tyrant's sealed cooldown remaining. *Fact (Ruination):* `identity` (R7). *Treatment:* scan
   (one row, both lives — unlike Retribution's row 3, both lives of this row are shard spenders
   and neither is a cooldown) +
-  - `hog_starved` — **readable** `starved`, cue **E**: `!affordable(hand_of_guldan)`.
+  - `hog_starved` — **readable** `building`, cue **E**: `!affordable(hand_of_guldan)`.
+    ⚠ **It said `starved` until 2026-08-28, and the badge was restating the client.**
+    `RefreshIconColor` already tints an unaffordable icon with `ITEM_NOT_ENOUGH_MANA_COLOR`
+    *(`cooldown-manager.md` §3.4)*, so a `starved` disc spent cap's one corner saying a thing the
+    player is already looking at. `building` says what the client does not — *the board is still
+    being built, keep placing* — which is what the player does about it. The `when` did not move.
+    (The state declares `client: "not-enough-power"` so the card draws Blizzard's tint too.)
     `Sense.buildReads` asks affordability of the **live** id (`info.override or row.primary`), so
     on the transformed row this is Ruination's cost — **which is none** — and on the base row it
     is Hand of Gul'dan's three shards. One marker covers both lives correctly, and R1's warning
@@ -492,6 +542,32 @@ row to its left by a cue rather than by position.
     `identity(shadow_bolt) == transformed` **and** `{ "resource", "<=", 2 }`. Rung 12 puts an
     armed Infernal Bolt above Demonbolt, and only below three shards — *"at most two"* in the
     only comparison the engine has. Both terms are readable.
+  - `db_yields_window` — **sealed** `blocked`, cue **D**'s badge (`sealed-aura-remaining` on
+    `art_mother_of_chaos`, `../render-shelf.md` **V21**), carrying cue D's two terms **verbatim**
+    as its readable gate.
+    ⚠ **Two markers, one cue, and that is the Grimoire row's shape** (`grimoire_shows_dispel` +
+    `grimoire_base_cooldown`) rather than a duplication. A marker carrying a `display` never
+    contributes a cue — `Signal.markersOf` routes it to `verdict.gates` — and **a cue is what
+    hatches the row**, so folding the display into the marker above would have traded cap's
+    readable elimination for a picture: the badge would still draw, and the red skip hatch under
+    it would not. The readable marker keeps the verdict; this one is the badge.
+    ⚠ **Both terms are needed on the gate.** The slot's aura filter alone would paint the clock at
+    three or more shards, where the row is not held at all.
+    ⚠ **The badge is the duration of the hold itself.** Rung 12 outranks Demonbolt exactly while
+    row 9 is displaying Infernal Bolt, and row 9 is displaying Infernal Bolt exactly while the Art
+    is armed — so the aura's remaining *is* how long this row stays held, which is the one quantity
+    `timer_CW_50` (a clock face frozen at 50 %) was failing to say. The slot filters to the Art, so
+    the badge exists exactly while the transform does; a container's aura is the one the **marker**
+    names rather than the bound row's, which is what lets this reach across rows with no new
+    mechanism.
+    ⚠ **No numeral, and that is a limit rather than a choice.** V21's number comes from
+    `FormatRemainingDuration` on a **cooldown** object cap holds; the aura's duration object is the
+    client's, and `SetDurationText` — the only aura-side text sink — emits fixed strings, never a
+    value over remaining seconds. The arc alone is still strictly more than a still clock.
+    ⚠ **It is the SECOND consumer of aura id `432794`, which is Tier-3-sourced and dies silent.**
+    A wrong id matches nothing forever and is indistinguishable from a refusal (the
+    cast-id/aura-id trap). `ib_art_clock` already carries an `@verify-ingame` on that id; this
+    doubles what one wrong number costs and does not clear it.
   ⚠ **This is the first marker in any catalog that reads another row's identity**, which is
   `../spec.md` §3.1's readable-relationship rule applied to R7 rather than to `ready`. It needs
   no new predicate — `identity` has arity 2 and takes a subject — but it is the first time a
@@ -619,26 +695,43 @@ useful and did not eliminate; a hatch and a negative mark do.
 
 | Cue | What the player sees | Fact | Tool / class | Recipe | Sink |
 | --- | --- | --- | --- | --- | --- |
-| **A** five-shard hold | **Summon Demonic Tyrant** wears the `building` card below five Soul Shards | `UnitPower(player, SoulShards) < 5` | marker (readable) | R3 | corner badge, flowing stack |
-| **B** overcap | **Demonbolt only** wears the `overcap` badge at four or more Soul Shards while a Demonic Core is up | `UnitPower(player, SoulShards) >= 4` + `IsSpellOverlayed(264178)` | marker (readable) | R3 + overlay `proc` | corner badge, flowing stack |
-| **C** core hold | Demonbolt wears the `noproc` empty card while **no** Demonic Core is up | `IsSpellOverlayed(264178)` | marker (readable) | overlay `proc` | corner badge, flowing stack |
-| **D** Infernal-Bolt yield | Demonbolt wears `blocked` while row 9 is displaying **Infernal Bolt** and Soul Shards are below three | `overrideSpellID ~= spellID` on row 9 + `resource` | marker (readable) | R7 + R3 | corner badge, flowing stack |
-| **E** starved | Hand of Gul'dan wears `starved` when its **live** id is unaffordable — three shards as itself, none as Ruination | `insufficientPower` on the live id | marker (readable) | R1 + R7 | corner badge, flowing stack |
-| **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, flowing stack |
-| **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, flowing stack |
+| **A** five-shard hold | **Summon Demonic Tyrant** wears the `building` card below five Soul Shards | `UnitPower(player, SoulShards) < 5` | marker (readable) | R3 | corner badge, z-stack |
+| **B** overcap | **Demonbolt only** wears the `overcap` badge at four or more Soul Shards while a Demonic Core is up | `UnitPower(player, SoulShards) >= 4` + `IsSpellOverlayed(264178)` | marker (readable) | R3 + overlay `proc` | corner badge, z-stack |
+| **C** core hold | Demonbolt wears the `noproc` empty card while **no** Demonic Core is up | `IsSpellOverlayed(264178)` | marker (readable) | overlay `proc` | corner badge, z-stack |
+| **D** Infernal-Bolt yield | Demonbolt wears `blocked` while row 9 is displaying **Infernal Bolt** and Soul Shards are below three, and the badge is the armed Art's own remaining — how long the hold lasts | `overrideSpellID ~= spellID` on row 9 + `resource`; the Art's duration for the arc | marker (readable) + sealed display | R7 + R3 + `sealed-aura-remaining` | AuraContainer StatusBar → V21, z-stack |
+| **E** unaffordable | Hand of Gul'dan wears the `building` card when its **live** id is unaffordable — three shards as itself, none as Ruination — over Blizzard's own not-enough-power tint | `insufficientPower` on the live id | marker (readable) | R1 + R7 | corner badge, z-stack |
+| **F** Tyrant bank | Hand of Gul'dan wears `blocked` while Summon Demonic Tyrant's cooldown ends within 5 s **and** Soul Shards are below five | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 `sealed-cooldown-range` (`within = 5`) + R3 | curve → badge, z-stack |
+| **G** single-target skip | Implosion wears the `aoe_only` pawn while AoE mode is **off** and To Hell and Back is not talented | cap's `/cap aoe` toggle + the trait config | marker (readable) | `aoe` + the `talent` predicate | corner badge, z-stack |
 | — | Power Siphon **rules itself out** at two or more Demonic Cores: the client draws a hatch and a red mark | the aura's application count | sealed display | S7 + S11 `sealed-count-bands` | AuraContainer FontString → V16 |
 | — | Implosion **rules itself out** below six Wild Imps — red count + hatch — and at six the count turns **gold**: banked. Drawn only where rung 9's readable half holds (AoE mode on, **or** To Hell and Back talented) | the aura's application count | sealed display + readable gate | S7 + S8 + S11 `sealed-count-bands` (two-polarity) + `aoe` / the `talent` predicate | AuraContainer FontString → V16/V17 |
 | — | Demonbolt carries a **segmented bar** of how many Demonic Cores are banked | the aura's application count | sealed display | S10 `sealed-count-bar` | AuraContainer StatusBar → V18 |
 | — | Demonbolt carries a **badge while Doom's pandemic window is open** | the client's own `GetRefreshExtendedDuration − GetAuraBaseDuration` | sealed display + readable gate | S9 `sealed-pandemic` + the `talent` predicate | AuraContainer Region → V19 |
-| **H** no imps at all | Implosion wears `blocked` while **no** Wild Imp is out | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | corner badge, flowing stack |
-| **I** the ramp hold | Grimoire, Summon Doomguard, Call Dreadstalkers and Hand of Gul'dan wear the `building` card while Tyrant is READY and Soul Shards are below five | `ready(summon_demonic_tyrant)` + `UnitPower(player, SoulShards) < 5` | marker (readable) | R2 (cross-row) + R3 | corner badge, flowing stack |
-| **J** the dogs' window | Call Dreadstalkers wears `blocked` while Tyrant's cooldown remaining is inside `(10.5, 21.5)` — close enough that recast dogs miss the window, far enough that casting now wastes the extension | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 two-sided (`beyond = 10.5`, `within = 21.5`) + `talent(reign_of_tyranny)` | curve → badge, flowing stack |
-| **K** dispel stand-in | **Grimoire** wears `blocked` while its own row is displaying the dispel it becomes on cooldown | `overrideSpellID ~= spellID` on the Grimoire row | marker (readable) | R7 | corner badge, flowing stack |
+| **H** no imps at all | Implosion wears `blocked` as a red **`0`** while **no** Wild Imp is out — cap's own literal, fixed by the marker's own `when` | the `aura` latch on a Category-2 row | marker (readable) | R2's alert edges | numeral badge → V22, z-stack |
+| **I** the ramp hold | Grimoire, Summon Doomguard, Call Dreadstalkers and Hand of Gul'dan wear the `building` card while Tyrant is READY and Soul Shards are below five | `ready(summon_demonic_tyrant)` + `UnitPower(player, SoulShards) < 5` | marker (readable) | R2 (cross-row) + R3 | corner badge, z-stack |
+| **J** the dogs' window | Call Dreadstalkers wears `blocked` while Tyrant's cooldown remaining is inside `(10.5, 21.5)` — close enough that recast dogs miss the window, far enough that casting now wastes the extension | Tyrant's cooldown remaining | cue (sealed) + readable gate | S4 two-sided (`beyond = 10.5`, `within = 21.5`) + `talent(reign_of_tyranny)` | curve → badge, z-stack |
+| **K** dispel stand-in | **Grimoire** wears `blocked` while its own row is displaying the dispel it becomes on cooldown | `overrideSpellID ~= spellID` on the Grimoire row | marker (readable) | R7 | corner badge, z-stack |
 | — | Demonbolt carries a **proc bar** of the Demonic Core's remaining lifetime above its charge bar, and the Infernal Bolt row one of the armed Art's, drained by the client | the aura's own duration object | sealed display | `sealed-proc-bar` → V20 | AuraContainer StatusBar → V20 |
+| — | **Grimoire** carries a **countdown for its own 120 s** while the row is displaying the dispel — the cooldown the swipe on that row is not | `isActive` on the base id, and the base id's own duration object | sealed display + readable gate | `sealed-base-cooldown` + the `baseoncd` predicate | StatusBar + leaf FontString → V21 |
 
-**Five cue keys, one red.** `blocked`, `starved`, `overcap`, `building` and `noproc` share a
+**Four cue keys, one red.** `blocked`, `overcap`, `building` and `noproc` share a
 hue (`../render-shelf.md` V5.1) and are told apart by shape; nothing here asks for a primitive
 the shelf does not have, and no cue is described in pixels.
+
+### Why this catalog does not spend `starved`
+
+**Because Blizzard already draws it.** `RefreshIconColor` tints an icon the player cannot pay for
+with `ITEM_NOT_ENOUGH_MANA_COLOR` — a blue multiply over the whole face, larger and earlier in the
+eye than anything cap puts on a corner *(`cooldown-manager.md` §3.4)*. The only shard spender in
+this catalog is Hand of Gul'dan, so `starved` had exactly one subject here, and on that one row it
+was cap's one corner spent restating the client. It says `building` instead, which is a statement
+the client does not make: *the board is below five shards, keep placing.* Both readings of the row
+survive — unaffordable is still drawn, by Blizzard, and `hog_starved`'s state says so with
+`client: "not-enough-power"`.
+
+⚠ **This is a declined cue, not a missing one.** The key stays declared in the shelf and is worn
+by devourer, havoc, protection and retribution, where the affordability fact is not the whole of
+what the badge would say. It comes back here the day this catalog gains a spender whose cost the
+player would not otherwise see.
 
 ### Why this catalog does not spend a positive cue
 
@@ -728,8 +821,9 @@ would reopen it**. None of these is a bare "cannot".
    `Catalog.Check`'s exactly-one assertion relaxed to accept the pair (with `beyond < within`
    demanded, because the reversed pair is an empty band that would arm and never draw). The
    marker is `dreadstalkers_awaits_tyrant` — cue **J**, the "waiting on cooldown" hold —
-   scenario DEM-15. ⚠ Still **unflown**: the two-sided curve is authored on the same measured
-   machinery as `within`, but no client has evaluated a three-point band.
+   scenario DEM-15. ⚠ The two-sided curve is authored on the same measured machinery as
+   `within`, but **no client has evaluated a three-point band** — that specific fact, not a
+   blanket status, is what is open here.
 2. **A stack count as a hold, wanted twice — CLOSED 2026-08-22.**
    *Scenario A:* Power Siphon is ready with two or more Demonic Cores banked (rung 1's
    `buff.demonic_core.stack<=1` is false). *Scenario B:* AoE mode is on, Implosion is ready, and
@@ -827,10 +921,11 @@ An ability with no named player problem gets no row; so does one with no Cooldow
   (R1), `identity` (R7), `resource` (R3 — Soul Shards, never-secret), `proc` (the
   spell-activation overlay boolean), `talent` (the trait config), and `aoe` — which is not a
   game read at all but cap's own toggle.
-- **Cues and displays carry sealed facts to client-owned sinks:** one `sealed-cooldown-range`
-  band on Summon Demonic Tyrant's cooldown (cue F); two `sealed-count-bands` tables, on Demonic
-  Core and on Wild Imp; one `sealed-count-bar` on Demonic Core; and one `sealed-pandemic` on
-  Doom. cap authors the window in seconds, the breakpoints in whole counts, and the bar's maximum
+- **Cues and displays carry sealed facts to client-owned sinks:** two `sealed-cooldown-range`
+  bands on Summon Demonic Tyrant's cooldown — Call Dreadstalkers' `(10.5, 21.5)` dead zone and
+  the Grimoire's `(3, 10)` nudge; two `sealed-count-bands` tables, on Demonic Core and on Wild
+  Imp; one `sealed-count-bar` on Demonic Core; one `sealed-base-cooldown` on the Grimoire's own
+  base id; and one `sealed-pandemic` on Doom. cap authors the window in seconds, the breakpoints in whole counts, and the bar's maximum
   — and nothing else. The client evaluates every one of them and cap reports `offered` / `armed` /
   `refused` and never reads back. **Accepted is not drawn**
   (`../authoring.md` → *Accepted is not drawn*).
@@ -850,6 +945,70 @@ An ability with no named player problem gets no row; so does one with no Cooldow
 ---
 
 ## Changelog
+
+**2026-08-28 — Implosion's zero is a number, Hand of Gul'dan stops restating the client, and
+three states that described invisible badges are gone.** One round of stepper feedback, read
+against the state cards.
+
+- **`implosion_no_imps` draws a red `0`** (`../render-shelf.md` **V22**) instead of the shared
+  clock glyph. Its own `when` is the licence — `!aura(wild_imp)` *means* zero — so the numeral is
+  cap's literal rather than a count it read. The row is one grammar now: **0 → red 1–5 → gold
+  6+**, where the zero used to be the only value in the sequence drawn as a symbol.
+- **`hog_starved` says `building`, not `starved`.** Blizzard's own not-enough-power tint already
+  covers *you cannot pay for this*; cap's one corner now says the thing the client does not.
+  The `when` did not move. *Why this catalog does not spend `starved`*, above, is the record.
+- **`imp_short` and `imp_banked` draw their numerals** (`count: 3` / `count: 6`). Both bands say
+  `draw: "count"` and both state cards were drawing the **mark glyph** instead, because a state
+  had no way to name the value the numeral is illustrating — so the two cards showed a picture
+  neither band declares, directly under prose describing "the RED numeral". With cue H's `0`
+  beside them the row's four ready states now read as authored: **0 → red 3 → gold 6**.
+- **A state may declare what the CLIENT paints.** States carry a `client` field now, the same one
+  scenario rows have always had; `hog_starved` declares `not-enough-power`. The state table is the
+  source of truth for what a row looks like and could not previously mention Blizzard's own paint.
+- **`hog_both_holds` was impossible, not unknown, and is deleted.** It hedged — *"cap never learns
+  which way it went"* — and carried an `@verify-ingame`. `Channel.HoldPoints(within)` builds
+  `{ {0,0}, {LIVE,1}, {within,0} }` on a **Step** curve, and Step holds the previous point's
+  value, so at zero remaining the band evaluates to 0 and cannot paint. The points are **cap's
+  own**; nothing about the shape of a curve cap authored is sealed. It is an `excludes` now —
+  which is how `call_dreadstalkers` had been stating the same fact, one entry over, the whole time.
+- **Cue D's badge is Infernal Bolt's window, not a clock glyph** (`sealed-aura-remaining`,
+  `../render-shelf.md` **V21**'s third supplier). Same defect as the two the day before, one row
+  over: a hold whose whole content is *how long* was drawing a picture of a clock frozen at 50 %
+  while the duration was reachable. It has no numeral — the aura-side text sink emits fixed
+  strings — so it ships as the arc alone, and the marker carries the Tier-3 aura-id risk it
+  now shares with `ib_art_clock`.
+- **`imp_st_and_no_imps` and `db_no_core_and_yields` are deleted, and their pairs are recorded as
+  `overlaps`.** Both existed only because `catalog_gate_cooccurrence` demanded every
+  simultaneously-true marker pair be written down and offered only two branches: invent a state,
+  or say it cannot happen. Under the z-stack (2026-08-27) the corner is one badge deep, so each of
+  those states was a card describing a badge nobody can see — and both notes still claimed
+  otherwise. The gate has a third branch: **it happens, and this cue draws**, gated on the named
+  cue actually winning the z-stack. `authoring.md` carries the rule they violated — a state is a
+  situation the player sees, not a marker pair.
+
+**2026-08-28 — the `blocked` badge tells the time.** `blocked` drew `timer_CW_50`: a picture of
+a clock face frozen at 50 %, on rows where the real remaining time exists and is reachable. Every
+`blocked` badge whose block is a **cooldown** now draws that cooldown — a red radial on the real
+remaining with a white countdown in it. Same cue, same polarity, same rank, same red hatch beside
+it; not a new badge, a truthful one. Three things moved in this catalog:
+
+- **`grimoire_base_cooldown` declares `cue: "blocked"`.** It was a corner ornament beside cue K's
+  disc; it *is* cue K's badge now. The two markers say the same thing — the row is the dispel
+  exactly while the Grimoire's cooldown runs — so drawing both was the statement made twice, once
+  falsely. The still clock is not drawn over the running one.
+- **`grimoire_awaits_tyrant` is new**: a `(3, 10)` band on Tyrant, gated on
+  `talent(reign_of_tyranny)` **and `!baseoncd(grimoire)`**, drawing **Tyrant's** clock on a
+  Grimoire that is up. Authored past the APL on 2467 logged Grimoire casts; the evidence and its
+  four weaknesses are on the marker's `display_exception`, and `3`/`10` are idiom, not measured
+  optima.
+- **`dogs_dead_zone` inherits it for free.** Cue J was already a `sealed-cooldown-range`; it now
+  draws Tyrant's remaining rather than a still clock, with no change to the marker.
+
+⚠ This reopens the 2026-08-23 ruling that retired animated negatives after the first Demonology
+flight. What that flight rejected was a five-frame flipbook of a *fake* clock — decoration on a
+loop, conveying nothing. A real radial terminates, carries information, and matches the swipe
+mechanics the player already reads everywhere else in the game. `render-shelf.md` V5.1 carries
+the narrowed rule.
 
 **2026-08-28 — the Grimoire row was never swiped, and now says so (cue K).** `grimoire_on_cd`
 claimed *"Blizzard's swipe rules the row out before cap has an opinion of its own"*. False:

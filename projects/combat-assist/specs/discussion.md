@@ -30,6 +30,13 @@ arrived that day:
   and got it. Immolation Aura sits above Chaos Strike at rung 20, with a skip badge carrying the
   single-target case.
 
+**2026-08-28 — V21 occluded by the cue that made it necessary.** Cue K's condition
+(`identity(grimoire, "transformed")`) and V21's gate (`baseoncd(grimoire)`) are the same window,
+so the red disc covered the countdown for the whole of it. The four options written down were all
+about *which of the two wins*. The answer was a fifth: **neither — they are one statement**, so
+`blocked` draws the cooldown it is held on and the frozen clock glyph is not drawn at all. See
+`render-shelf.md` V5.1 and V21, and `demonology/catalog.md`'s changelog for the same date.
+
 An empty file is this file's correct resting state, not a defect — but it is not empty now:
 the question below is open.
 

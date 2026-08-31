@@ -290,7 +290,30 @@ ICON_FDID = {
 #: The sealed-display kinds a scenario may name in a `{sealed: …}` group. The same closed list
 #: `Catalog.DISPLAYS` holds on the Lua side, minus the two GRADED kinds — those draw a cue and are
 #: stated as one (`hold-sealed`), where these three draw their own art.
-SEALED_DISPLAYS = ("count-bands", "count-bar", "pandemic", "proc-bar")
+SEALED_DISPLAYS = ("count-bands", "count-bar", "pandemic", "proc-bar", "base-cooldown",
+                   "aura-remaining")
+
+#: The subset that CLAIMS THE CORNER — `Catalog.CORNER_DISPLAYS` on the Lua side. The other two
+#: ride elsewhere (V18's charge bar and V20's proc bar live on the bottom edge), so they take no
+#: part in the corner's z-order. Kept as its own name because the cession rule needs the corner
+#: subset and nothing else does.
+CORNER_DISPLAYS = ("count-bands", "pandemic", "base-cooldown")
+
+#: The display kinds that draw as a LIVE COOLDOWN DIAL — a red radial on the real remaining time
+#: with a white countdown in it — rather than as a cue sprite. Both resolve a cooldown and hand
+#: the client's own duration object to a StatusBar; they differ only in WHOSE cooldown, and that
+#: difference lives in `Channel.lua`, not here.
+#:
+#: ⚠ A marker that declares one of these AND a `cue` draws that cue: the dial takes the cue's own
+#: level in the z-stack, IN PLACE OF the sprite, which is not drawn at all — a clock face frozen at
+#: 50 % on top of a clock that is telling the time is one statement made twice, once falsely. A
+#: dial whose marker declares NO cue is an ornament and keeps its corner claim (`CORNER_DISPLAYS`);
+#: `grimoire_dispel_on_cd` is that case.
+#:
+#: ⚠ `sealed-aura-remaining` is the third, and it resolves no cooldown at all — the client drains
+#: the bar off an AURA's own duration object, filtered by an AuraContainer slot. What it shares
+#: with the two above is the picture and the rule: it takes the cue's level IN PLACE OF the sprite.
+DIAL_DISPLAYS = ("sealed-base-cooldown", "sealed-cooldown-range", "sealed-aura-remaining")
 
 CLIENT_PAINT = {
     "_source": "CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273",
@@ -1149,6 +1172,9 @@ def addon_style(tokens: dict) -> dict:
     # texture name, so no path is spelled out in Lua.
     if "hatch" in out:
         out["hatch"] = dict(out["hatch"], texture_root=MEDIA_TEXTURE_ROOT)
+    # The shared OUTLINE sheet, same directory and same reason.
+    if "outline" in out:
+        out["outline"] = dict(out["outline"], texture_root=MEDIA_TEXTURE_ROOT)
     # V14's promotion ring, same reason and the same directory. It ships to `Media/` rather than
     # `Media/lab/` because it is the STYLE now — promotion moved the art with the treatment,
     # exactly as V11's stripe sheet moved on 2026-08-16.
@@ -1229,7 +1255,7 @@ CATALOG_JSON = "catalog.json"
 # The Lua field order a generated catalog emits. Named rather than sorted, because a catalog is
 # read top-down by a person deciding whether it says what they meant: `id` before `cue` before
 # the condition before the picture is the sentence order, and alphabetical is not.
-_MARKER_ORDER = ("id", "cue", "when", "display")
+_MARKER_ORDER = ("id", "cue", "when", "display", "badge")
 _ABILITY_ORDER = ("id", "spell", "alt", "family", "unit", "charged")
 _TALENT_ORDER = ("id", "node", "entry", "spell")
 
@@ -1358,6 +1384,11 @@ def catalog_lua(spec: str) -> str:
                     out.append(f"          when = {_lua_when(m['when'], 5)},")
                 if m.get("display"):
                     out.append(f"          display = {_lua_value(m['display'], 5)},")
+                # V22's numeral, which stands in for the cue's sprite. ⚠ Field by field, per the
+                # warning above: without this line the declaration is dropped in silence, the
+                # generated Lua stays valid, and the badge is dark forever.
+                if m.get("badge"):
+                    out.append(f"          badge = {_lua_value(m['badge'], 5)},")
                 out.append("        },")
             out.append("      },")
         out.append("    },")
@@ -1578,6 +1609,69 @@ def hatch_sheet(params: dict) -> Image.Image:
             .crop((margin, margin, margin + tile, margin + tile)))
     white = Image.new("L", (tile, tile), 255)
     return Image.merge("RGBA", (white, white, white, mask))
+
+
+def outline_line(tokens: dict) -> int:
+    """The outline width, from the one place it is declared. Both outlines draw at it."""
+    return int((tokens.get("outline") or {}).get("line_px", 0))
+
+
+def outline_sheet(params: dict) -> Image.Image:
+    """The outline sheet: white, with a `line_px` outline in the alpha channel.
+
+    ⚠ **IT IS DRAWN AS A NINE-SLICE, and that is the whole reason one file can serve every icon
+    size.** Stretched whole, a 2 px outline authored against a 56 px icon renders 2.9 px on an
+    80 px one and filtered soft with it — which is the same defect frozen escape sizes had before
+    `Paint.Ratios`, arriving through the art instead of through the arithmetic. Sliced, the four
+    corners draw at native size and each edge stretches along ONE axis, so the line stays a crisp
+    `line_px` wherever it lands. `slice_px` is where the corner regions end.
+
+    Authored rather than vendored (Part 4), and white-with-alpha for the same reason the stripe
+    sheet is: every consumer multiplies its own colour onto it — `SetVertexColor` in the client,
+    `background-color` under a mask in CSS — so no hue is baked in here. It replaced four
+    `SetColorTexture` strips per outline on 2026-08-29.
+    """
+    tile = int(params["tile_px"])
+    line = int(params["line_px"])
+    slice_px = int(params["slice_px"])
+    if line <= 0 or tile <= 0:
+        _die(f"outline: tile_px {tile} and line_px {line} must both be positive")
+    if slice_px <= line:
+        _die(f"outline: slice_px {slice_px} must exceed line_px {line} — the nine-slice corner "
+             "region has to contain the whole corner, or the stretch eats into the join.")
+    if 2 * slice_px >= tile:
+        _die(f"ring: two slice margins ({2 * slice_px}px) do not fit inside tile_px {tile} — "
+             "there would be no middle left to stretch.")
+    from PIL import ImageDraw
+    alpha = Image.new("L", (tile, tile), 255)
+    ImageDraw.Draw(alpha).rectangle(
+        (line, line, tile - line - 1, tile - line - 1), fill=0)
+    white = Image.new("L", (tile, tile), 255)
+    return Image.merge("RGBA", (white, white, white, alpha))
+
+
+def outline_asset(tokens: dict) -> dict | None:
+    """The outline sheet as a data: URI, for the preview. Same file the addon ships."""
+    outline = tokens.get("outline")
+    if not outline:
+        return None
+    img = outline_sheet(outline)
+    measure = uiart.tintability(img)
+    assert_tintable("outline sheet (V13/V11)", "capart.outline_sheet (generated)",
+                    outline.get("tint", "none"), measure["mean_saturation"], measure["tintable"])
+    buf = io.BytesIO()
+    img.save(buf, "PNG", optimize=True)
+    uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+    return {"uri": uri, "bytes": len(uri), "size": list(img.size),
+            "mean_saturation": measure["mean_saturation"], "tintable": measure["tintable"]}
+
+
+def export_outline(tokens: dict) -> list[tuple[str, tuple[int, int]]]:
+    """Vendor the outline sheet into `Media/`, beside the stripe sheet."""
+    outline = tokens.get("outline")
+    if not outline:
+        return []
+    return [(outline["texture"], _write_tga(outline_sheet(outline), outline["texture"], MEDIA_DIR))]
 
 
 # Every glyph a keybind can contain — digits, letters in both cases (a lowercase-modifier
@@ -2277,9 +2371,20 @@ def root_css(tokens: dict) -> str:
         "     carry the hue: see the shelf's V13 ruling. */",
         f"  --ready-rgb: {','.join(str(round(x * 255)) for x in rd['rgb'])};",
         f"  --ready-alpha: {rd['alpha']:.2f};",
-        f"  --ready-line: {rd['line_px']}px;",
         f"  --ready-blend: {CSS_BLEND[rd['blend']]};",
     ]
+    # THE ONE OUTLINE SHEET (V13 + V11's). `line_px` is emitted once, here, and both
+    # consumers read it — which is what makes "the red outline exactly overlays the yellow one"
+    # true by construction. `slice` is the nine-slice margin, in the image's own pixels, so the
+    # outline stays crisp at any icon size instead of stretching with it.
+    outline = tokens.get("outline")
+    if outline:
+        lines += [
+            "",
+            "  /* V13/V11 · the shared outline sheet, drawn as a nine-slice. */",
+            f"  --outline-line: {outline['line_px']}px;",
+            f"  --outline-slice: {outline['slice_px']};",
+        ]
 
     # The first badge hangs off the top-right corner: its right edge sits `overhang` past the
     # icon's right edge and its top edge `overhang` above the top, so it reads as ON the icon
@@ -2343,8 +2448,11 @@ def root_css(tokens: dict) -> str:
             border = skip.get("border")
             if border:
                 lines += [
-                    f"  --hatch-skip-line: {border['line_px']}px;",
                     f"  --hatch-skip-edge: {rgba(border['rgb'], border.get('alpha', 1.0))};",
+                    # Split as well, because `.ready-line` composes its own rgba() from the two.
+                    f"  --hatch-skip-edge-rgb: "
+                    f"{','.join(str(round(x * 255)) for x in border['rgb'])};",
+                    f"  --hatch-skip-edge-alpha: {border.get('alpha', 1.0):.2f};",
                 ]
     # V15 · the hotkey hint. `root_css` is hand-written per token group rather than a generic
     # flattener, so a new token group needs a line here or `strict_css` fails the stylesheet that
@@ -2432,8 +2540,6 @@ def root_css(tokens: dict) -> str:
             f"  --count-rgb: {rgba(cnt['rgb'])};",
             f"  --count-low: {rgba(cnt['low_rgb'])};",
             f"  --count-mark: {_count_px(tokens)['mark']:.0f}px;",
-            f"  --count-mark-x: {cnt['mark_offset_px'][0]}px;",
-            f"  --count-mark-y: {cnt['mark_offset_px'][1]}px;",
             f"  --count-plate: {_count_px(tokens)['plate']:.0f}px;",
             f"  --count-hatch: {_count_px(tokens)['hatch']:.0f}px;",
             f"  --count-hatch-alpha: {cnt.get('hatch_alpha', 1.0)};",
@@ -2495,6 +2601,23 @@ def root_css(tokens: dict) -> str:
                 f"  --pd-glow-a1: {glow['alpha_max']};",
                 f"  --pd-glow-scale: {glow['scale']};",
             ]
+    # V21 · the base cooldown dial. The one dial that is not an aura's: the arc drains the row's
+    # OWN cooldown while the client is drawing another button's, and the numeral inside it is the
+    # half a bare arc cannot say. Both are the client's to draw here as in the game — the preview
+    # runs its arc over a nominal looping window and prints a nominal number, because a swatch's
+    # job is showing a live drain rather than a value.
+    bcd = tokens.get("basecd")
+    if bcd:
+        dial = bcd["dial"]
+        lines += [
+            "",
+            "  /* V21 · base cooldown dial — the cooldown of the spell the row is NOT showing */",
+            f"  --basecd-size: {dial['size_px']}px;",
+            f"  --basecd-rgb: {rgba(dial['rgb'])};",
+            f"  --basecd-track: {rgba(dial['track_rgb'], dial.get('track_alpha', 1.0))};",
+            f"  --basecd-text: {rgba(bcd['rgb'])};",
+            f"  --basecd-text-size: {bcd['size']}px;",
+        ]
 
     lab = tokens.get("lab") or {}
     if sheet:
@@ -2863,6 +2986,98 @@ def catalog_shows(spec: str) -> list[tuple[str, str, str]]:
             for st in (e.get("states") or []) if st.get("shows")]
 
 
+def catalog_corner_claims(spec: str) -> dict[str, list[str]]:
+    """Per ability key, the corner display kinds the ENTRY declares, in declaration order.
+
+    ⚠ The claim is the ENTRY's, not the state's, and it stands whether or not the client is
+    currently drawing anything into it. `Catalog.lua`'s `CORNER_DISPLAYS`: *"Claimed BY
+    DECLARATION, in marker order, whether or not the client is currently showing anything —
+    that fact is sealed and the stack cannot re-flow on it."* `Overlay.lua` counts them off
+    `item.entry.markers` and starts the cue badges below at `f.cornerBase`.
+
+    The preview used to compute the same cession rule off the ROW's own `{sealed: …}` group —
+    which names what THIS state draws — so an entry declaring a corner display it is not
+    currently drawing lost the slot entirely and every cue badge moved up. Measured 2026-08-28:
+    `implosion` declares two `sealed-count-bands` markers, so `imp_st_and_no_imps` (a state since
+    deleted) puts its two
+    cue badges at slots 2 and 3 in the client and the preview drew them at 0 and 1 — two badges
+    where the client draws four, in the wrong place. Nothing in `check` could see it: the
+    elimination gate reads whether a row CARRIES a cue, never where the badge lands.
+
+    Returns `{}` for a spec still on a hand-written catalog, which is the same silence
+    `catalog_states` keeps.
+    """
+    src = catalog_json_path(spec)
+    if not src.exists():
+        return {}
+    return {e["ability"]: _corner_claims_of(e)
+            for e in _load_json(src).get("entries", [])}
+
+
+def catalog_cue_dials(spec: str) -> dict[str, list[str]]:
+    """Per ability key, the cue keys this entry draws as a LIVE COOLDOWN DIAL.
+
+    The badge for such a cue is the dial itself (`tokens.basecd`) — the fixed `timer_CW_50` clock
+    glyph is not drawn over it, because a still picture of a clock beside a running one is the
+    same claim made twice and only one of them is true. A marker qualifies by declaring both a
+    `cue` and a display in `DIAL_DISPLAYS`.
+
+    Returns `{}` for a spec still on a hand-written catalog, which is the same silence
+    `catalog_states` and `catalog_corner_claims` keep.
+    """
+    src = catalog_json_path(spec)
+    if not src.exists():
+        return {}
+    out = {}
+    for e in _load_json(src).get("entries", []):
+        keys = []
+        for m in e.get("markers") or []:
+            if m.get("cue") and (m.get("display") or {}).get("kind") in DIAL_DISPLAYS:
+                if m["cue"] not in keys:
+                    keys.append(m["cue"])
+        out[e["ability"]] = keys
+    return out
+
+
+def catalog_cue_numerals(spec: str) -> dict[str, dict]:
+    """Per ability key, the cue keys this entry draws as a NUMERAL, and the number each draws.
+
+    render-shelf.md V22. The badge for such a cue is a number cap authored, in the cue's own hue
+    and place, and the sprite is not drawn — the two are the same statement and the glyph is the
+    one that is not true. A marker qualifies by declaring both a `cue` and a `badge`.
+
+    ⚠ The value is CAP'S OWN LITERAL and the marker's `when` is its licence: `!aura(wild_imp)`
+    means zero, so the numeral asserts nothing that was not already established readably. A
+    numeral whose value its own marker does not fix would be cap asserting a count it does not
+    hold, which is what `Catalog.Check` refuses on the addon side.
+
+    Returns `{}` for a spec still on a hand-written catalog, which is the same silence
+    `catalog_states`, `catalog_corner_claims` and `catalog_cue_dials` keep.
+    """
+    src = catalog_json_path(spec)
+    if not src.exists():
+        return {}
+    out = {}
+    for e in _load_json(src).get("entries", []):
+        keys = {}
+        for m in e.get("markers") or []:
+            badge = m.get("badge") or {}
+            if m.get("cue") and badge.get("kind") == "numeral":
+                keys.setdefault(m["cue"], badge.get("value"))
+        out[e["ability"]] = keys
+    return out
+
+
+def _corner_claims_of(entry: dict) -> list[str]:
+    """One catalog entry's corner claims, bare-named, in marker declaration order."""
+    kinds = []
+    for m in entry.get("markers") or []:
+        bare = (m.get("display") or {}).get("kind", "").replace("sealed-", "")
+        if bare in CORNER_DISPLAYS:
+            kinds.append(bare)
+    return kinds
+
+
 def catalog_states(spec: str, roster: dict) -> list[dict] | None:
     """`catalog.json`'s `states[]`, flattened for the preview.
 
@@ -2880,6 +3095,8 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
     for name, rec in roster.items():
         by_key.setdefault(rec["key"], name)
     prefix = scenario_prefix(spec)
+    dials = catalog_cue_dials(spec)
+    numerals = catalog_cue_numerals(spec)
     out = []
     for i, e in enumerate(cat.get("entries", []), 1):
         # `DEM-S6c` — the scenario family's own prefix, the entry's position in the authored
@@ -2893,6 +3110,14 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
             "ability": e["ability"],
             "name": by_key.get(e["ability"], e["ability"]),
             "code": code,
+            # The entry's corner claims travel with the GROUP, not the state: every state of
+            # this entry cedes the same slots, because the claim is the declaration's.
+            "corner_claims": _corner_claims_of(e),
+            # WHICH CUES THIS ENTRY DRAWS AS A DIAL rather than as a sprite. Entry-level for the
+            # same reason `corner_claims` is: the claim is the declaration's.
+            "cue_dials": dials.get(e["ability"], []),
+            # ...and V22's, entry-level for the same reason: the declaration is the entry's.
+            "cue_numerals": numerals.get(e["ability"], {}),
             "note": e.get("note"),
             # WHERE THIS ENTRY GIVES UP. The numbers of `catalog.md`'s `## Defeats` items this
             # row is the site of — authoring metadata, gated in both directions by
@@ -2910,6 +3135,21 @@ def catalog_states(spec: str, roster: dict) -> list[dict] | None:
                     # name; `None` when the row is wearing the entry's base face.
                     "shows": st.get("shows"),
                     "verdict": st["verdict"],
+                    # WHAT BLIZZARD PAINTS ON THIS ICON, when the state says so. A scenario row
+                    # has carried a `{client: …}` group for months; states could not mention the
+                    # client's own tint at all, which left the table that is supposed to BE the
+                    # source of truth for a row's appearance structurally unable to say
+                    # `and the icon is blue here` — the thing that decided cue E.
+                    "client": st.get("client"),
+                    # WHICH VALUE THE BAND'S NUMERAL IS ILLUSTRATING, and its hue when the verdict
+                    # does not settle that. A scenario row has carried `{count: N}` since the band
+                    # existed; a state could not say it, so every count-band state card fell back
+                    # to the MARK glyph — a picture neither Implosion band declares (both say
+                    # `draw: "count"`). ⚠ Unlike V22's numeral this value is NOMINAL: cap never
+                    # learns a count, and the card is illustrating the band rather than asserting
+                    # a number. `catalog_gate_states` is what keeps it inside a declared band.
+                    "count": st.get("count"),
+                    "count_dir": st.get("count_dir"),
                     "cues": st.get("cues") or [],
                     "sealed": st.get("sealed") or [],
                     "slot": st.get("slot"),
@@ -2966,6 +3206,26 @@ def build(spec: str, tokens: dict, when: str) -> tuple[str, int]:
         _die(f"{spec} has neither {SCENARIOS_JSON} nor a sidecar — run: "
              f"wowkb.capart import scenarios {spec}")
     validate(scenarios, tokens, roster)
+
+    # THE CESSION RULE'S INPUT. A scenario row cedes the corner slots its ENTRY declares, not
+    # the ones this row happens to draw — see `catalog_corner_claims`. Attached here, after
+    # validation, because the row parser has no roster and no catalog: it reads a display name
+    # out of prose, and only the roster turns that into the ability key an entry is filed under.
+    claims = catalog_corner_claims(spec)
+    dials = catalog_cue_dials(spec)
+    numerals = catalog_cue_numerals(spec)
+    if claims or dials or numerals:
+        for sc in scenarios:
+            for e in sc["row"]:
+                key = (roster.get(e["name"]) or {}).get("key")
+                e["corner_claims"] = claims.get(key, [])
+                # ...and the cues it draws as a live dial, resolved the same way and for the same
+                # reason: the parser reads a display name out of prose and only the roster turns
+                # that into the ability key the entry is filed under.
+                e["cue_dials"] = dials.get(key, [])
+                # ⚠ AND V22'S NUMERALS, HERE AS WELL AS ON THE STATE CARDS. Both, or the scenario
+                # rows and the state table disagree about the same row on the same page.
+                e["cue_numerals"] = numerals.get(key, {})
 
     # Lab cells draw real icons on real verdicts, so their ability names are held to exactly the
     # same standard a scenario row's are — an experiment on invented art proves nothing.
@@ -3094,6 +3354,7 @@ def build(spec: str, tokens: dict, when: str) -> tuple[str, int]:
         # font candidates. A spec page carried all three for as long as the lab was appended to
         # it, which is most of why an experiment could add half a megabyte to every spec at once.
         "lab_stripes": stripes,
+        "outline_sheet": outline_asset(tokens),
         "promotion": promotion_asset(tokens),
         "provenance_html": provenance_html(spec, tokens, icons, frames, stripes, total, when),
     }
@@ -3148,7 +3409,7 @@ def provenance_html(spec, tokens, icons, frames, stripes, total, when) -> str:
     rd = tokens["ready"]
     rows.append((
         "in the scan · V2",
-        f"one treatment, no roles, no motion — a {rd['line_px']}px {rd['blend']} edge at "
+        f"one treatment, no roles, no motion — a {outline_line(tokens)}px {rd['blend']} edge at "
         f"alpha {rd['alpha']:.2f}, drawn ON the icon rect. The blend mode is declared because "
         "ADD clipped this hue to white on a bright icon; the restrained area is why full "
         "brightness is not loud. It has no falloff, so it cannot bleed into a neighbour at any "
@@ -3208,7 +3469,7 @@ def cmd_tokens(args) -> None:
     rd = tokens["ready"]
     r, g, b = (round(x * 255) for x in rd["rgb"])
     print("  V2 · the scan edge (ONE binary treatment: in the scan, or not)")
-    print(f"    edge     rgb({r:>3},{g:>3},{b:>3}) · {rd['line_px']}px · alpha {rd['alpha']:.2f} · "
+    print(f"    edge     rgb({r:>3},{g:>3},{b:>3}) · {outline_line(tokens)}px · alpha {rd['alpha']:.2f} · "
           f"{rd['blend']}, drawn ON the icon rect")
     print("    rank     row order plus elimination — there is no hue ladder and no motion")
 
@@ -3233,8 +3494,13 @@ def cmd_tokens(args) -> None:
           "onto the corner)")
     for key, cue in tokens["cues"].items():
         pol = cue.get("polarity", "negative")
+        # A ONE-FRAME cue spends no duration and holds no loop mode: it is a single picture, and
+        # `Paint.Badge` builds no FlipBook for it. Only a flipbook carries the two.
+        n = len(cue["frames"])
+        motion = (f"{n}f @{cue['duration_s']}s {cue.get('loop', 'HOLD')}" if n > 1
+                  else f"{n}f still")
         print(f"    {key:<9} {'+' if pol == 'positive' else '-'} rank {cue['rank']} · "
-              f"{len(cue['frames'])}f @{cue['duration_s']}s {cue['loop']:<7} {cue['means'][:48]}")
+              f"{motion:<20} {cue['means'][:48]}")
 
     t = tokens["text"]
     print()
@@ -3396,6 +3662,7 @@ def build_lab(tokens: dict, when: str) -> str:
         "scenarios": [], "scan_samples": [], "notes": [],
         "frames": frames,
         "lab_stripes": hatch_asset(tokens) if used else None,
+        "outline_sheet": outline_asset(tokens) if used else None,
         "lab_sprites": lab_sprite_assets(tokens) if used else {},
         "lab_vfx": vfx_assets(tokens) if used else {},
         "lab_fonts": lab_font_assets(tokens),
@@ -3447,6 +3714,7 @@ def build_primitives(tokens: dict, when: str) -> str:
         "scenarios": [], "notes": [],
         "frames": badge_assets(tokens),
         "lab_stripes": hatch_asset(tokens),
+        "outline_sheet": outline_asset(tokens),
         "promotion": promotion_asset(tokens),
         "provenance_html": primitives_provenance_html(tokens, icons, when),
     }
@@ -3665,6 +3933,79 @@ def _state_provenance_gate(entry: dict, st: dict, reg: dict) -> list[str]:
     return fails
 
 
+def _band_for(bands: list, value: int) -> dict | None:
+    """The band a value lands in. `threshold` is the MINIMUM input a band applies to, so a value
+    ON a threshold takes the UPPER band — `tokens.count`'s own rule, and `Channel.CountRules`'.
+    """
+    hit = None
+    for band in sorted(bands, key=lambda b: b.get("threshold", 0)):
+        if value >= band.get("threshold", 0):
+            hit = band
+    return hit
+
+
+def _state_count_gate(entry: dict, st: dict) -> list[str]:
+    """A state's `count` is a value the client would really draw, in the hue it would really use.
+
+    ⚠ **The card is ILLUSTRATING a band, not asserting a count** — cap never learns one — which is
+    exactly why the number needs a gate rather than a free hand. Two things can be wrong with a
+    nominal value and both mislead the reader of the state table: it can fall in a band that draws
+    something else (or nothing at all), and it can be drawn in a hue the band does not use. The
+    second is the one with history: `sealedNode` picks the hue from the verdict unless the state
+    says otherwise, and the preview's own note records a red band on an off-mode row drawing gold
+    that way. `count_dir` is the override, and this is what says when one is needed.
+    """
+    where = f"{entry['id']}/{st['id']}"
+    value, fails = st.get("count"), []
+    if st.get("count_dir") not in (None, "neg", "pos"):
+        fails.append(f"{where}: count_dir is {st['count_dir']!r} — it is `neg` or `pos`.")
+    if value is None:
+        if st.get("count_dir"):
+            fails.append(f"{where}: declares count_dir with no `count` — the direction is the "
+                         "numeral's hue, and there is no numeral.")
+        return fails
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        return fails + [f"{where}: count is {value!r} — an aura application count is a "
+                        "non-negative whole number."]
+    if "count-bands" not in (st.get("sealed") or []):
+        return fails + [f"{where}: declares `count` {value} but draws no `count-bands` sink. The "
+                        "number is the BAND's numeral; a state not drawing the band has nothing "
+                        "to put it in."]
+    # The hue the card will draw, resolved exactly as `sealedNode` resolves it.
+    negative = (st["count_dir"] == "neg") if st.get("count_dir")         else st["verdict"] == "ruled-sealed"
+    seen = []
+    for m in entry.get("markers") or []:
+        bands = (m.get("display") or {}).get("bands")
+        if not bands:
+            continue
+        band = _band_for(bands, value)
+        if band is None:
+            continue
+        seen.append((m["id"], band))
+    if not seen:
+        return fails + [f"{where}: declares `count` {value}, which lands in no band any "
+                        f"`sealed-count-bands` marker on {entry['id']} declares."]
+    for mid, band in seen:
+        if band.get("draw") != "count":
+            fails.append(
+                f"{where}: `count` {value} lands in {mid}'s band at threshold "
+                f"{band.get('threshold')}, which draws {band.get('draw')!r} rather than the "
+                "numeral.\n"
+                "       Pick a value inside a `count` band, or drop `count` and let the card "
+                "draw what that band declares.")
+            continue
+        band_neg = band.get("polarity") != "positive"
+        if band_neg != negative:
+            fails.append(
+                f"{where}: `count` {value} lands in {mid}'s "
+                f"{'negative' if band_neg else 'positive'} band, but the card draws it "
+                f"{'red' if negative else 'gold'}.\n"
+                "       Hue carries polarity and only polarity (V5.1), so the card would state "
+                "the opposite of what the client draws.\n"
+                f"       Say `\"count_dir\": \"{'neg' if band_neg else 'pos'}\"` on the state.")
+    return fails
+
+
 def catalog_gate_states(cat: dict) -> list[str]:
     """Every marker appears in some state, and every state's cues name declared markers.
 
@@ -3694,6 +4035,7 @@ def catalog_gate_states(cat: dict) -> list[str]:
                 if mid not in markers:
                     fails.append(f"{e['id']}/{st['id']}: combines undeclared marker {mid!r}")
             fails += _state_provenance_gate(e, st, reg)
+            fails += _state_count_gate(e, st)
         for mid, m in markers.items():
             if m.get("cue") and m["cue"] not in seen_cues:
                 fails.append(f"{e['id']}: marker {mid!r} declares cue {m['cue']!r} but no state "
@@ -3762,9 +4104,28 @@ def catalog_gate_vocab(cat: dict, tokens: dict) -> list[str]:
                 if sink not in STATE_SINKS:
                     fails.append(f"{where}: sealed sink {sink!r} is not one of cap's display "
                                  f"kinds ({', '.join(sorted(STATE_SINKS))})")
+            cl = st.get("client")
+            if cl is not None and cl not in CLIENT_PAINT["tints"]:
+                fails.append(f"{where}: client state {cl!r} is not one of Blizzard's branches "
+                             f"({', '.join(sorted(CLIENT_PAINT['tints']))}).\n"
+                             "       The fourth branch — usable — is the absence of a "
+                             "declaration, not a name you may write.")
+            # The companion rule a scenario row already follows (`validate`): the client paints
+            # ONE of these per icon, and a swiped row is already ruled out natively, so claiming
+            # both asserts a composite the source does not describe.
+            if cl and st["verdict"] == "cd":
+                fails.append(f"{where}: is `cd` and also declares client state {cl!r}. A swiped "
+                             "row is already ruled out natively; stating a second client mark on "
+                             "it asserts a composite the source does not describe.")
             slot = st.get("slot")
-            if slot is not None and slot != "flow" and not isinstance(slot, int):
-                fails.append(f"{where}: slot {slot!r} is neither `flow`, a corner index, nor null")
+            # ⚠ `"flow"` was retired 2026-08-28 with the last of the flowing stack. The corner is
+            # one badge deep and the badges are separated by frame LEVEL, so a cue badge claims no
+            # slot at all (`null`) and an integer means what it has always meant: which corner slot
+            # a sealed CORNER DISPLAY claims by declaration.
+            if slot is not None and not isinstance(slot, int):
+                fails.append(f"{where}: slot {slot!r} is neither a corner index nor null — "
+                             "`flow` went with the flowing stack (2026-08-28); a cue badge claims "
+                             "no slot, because the corner is one badge deep.")
             blob = " ".join(str(st.get(k) or "") for k in ("condition", "note"))
             if RETIRED_SLOTS.search(blob):
                 fails.append(f"{where}: names a RETIRED fixed badge slot — badges have flowed "
@@ -3803,7 +4164,24 @@ def _claims_polarity(marker: dict) -> str | None:
     return None
 
 
-def catalog_gate_cooccurrence(cat: dict) -> list[str]:
+def _stack_winner(a_cue: str, b_cue: str, tokens: dict) -> str:
+    """Which of two cue keys the z-stack leaves visible.
+
+    Part 2.5's reading model, computed exactly as `Treatment.Stack` and the preview compute it:
+    **negatives occlude positives, and within a polarity the lower `rank` wins.** The tie-break on
+    the key itself is the same one `stepper.js` applies, so a pair of equal-rank cues resolves
+    here the way it draws.
+    """
+    cues = tokens["cues"]
+
+    def order(key):
+        cue = cues.get(key) or {}
+        return (0 if cue.get("polarity") != "positive" else 1, cue.get("rank", 99), key)
+
+    return a_cue if order(a_cue) <= order(b_cue) else b_cue
+
+
+def catalog_gate_cooccurrence(cat: dict, tokens: dict) -> list[str]:
     """Every pair of markers that can be simultaneously true is a declared state.
 
     ⚠ This is the gate that exists because of Protection's own note: *"Both fell out of the walk
@@ -3811,6 +4189,17 @@ def catalog_gate_cooccurrence(cat: dict) -> list[str]:
     walking scenarios, which finds the pairs a scenario happens to reach and silently misses the
     rest. A pair is settled here by being written down — either as a combined state, or as an
     explicit `excludes` saying why it cannot happen.
+
+    ⚠ **THERE IS A THIRD WAY TO SETTLE A PAIR, since 2026-08-28: `overlaps`.** The two branches
+    above could say *it cannot happen* (`excludes`) or *here is the state it makes* (`combines`),
+    and there was no way to say the true thing about a pair whose second cue is **invisible**: it
+    happens, and ONE badge draws. Under the z-stack (2026-08-27) the corner is one badge deep, so
+    every such state was a card describing a badge nobody can see — and `authoring.md`'s rule is
+    that a state is a situation the player sees, not a marker pair. An `overlaps` entry is
+    `{ "pair": [a, b], "draws": "<cue key>", "why": … }` and it is **not a rubber stamp**: the cue
+    it names must be one of the two markers' own, and it must WIN the z-stack against the other's,
+    computed here the way `Treatment.Stack` computes it. An author who has the order backwards is
+    told so rather than believed.
 
     ⚠ **A POSITIVE SEALED BAND IS A MARKER FOR THIS PURPOSE, since 2026-08-26.** It carries no
     `cue` — V17's marks come out of a FontString the client writes, and a cue is a badge cap
@@ -3837,6 +4226,48 @@ def catalog_gate_cooccurrence(cat: dict) -> list[str]:
         for ex in e.get("excludes") or []:
             if len(ex.get("pair") or []) == 2:
                 stated.add(frozenset(ex["pair"]))
+        by_id = {m["id"]: m for m in (e.get("markers") or [])}
+        for ov in e.get("overlaps") or []:
+            pair = ov.get("pair") or []
+            if len(pair) != 2:
+                fails.append(f"{e['id']}: an `overlaps` entry needs a pair of two marker ids")
+                continue
+            stated.add(frozenset(pair))
+            if not ov.get("why"):
+                fails.append(f"{e['id']}: overlaps {pair[0]}+{pair[1]} carries no `why` — the "
+                             "sentence is the whole of what this branch buys over inventing a "
+                             "state nobody can see.")
+            cues = []
+            for mid in pair:
+                m = by_id.get(mid)
+                if m is None:
+                    fails.append(f"{e['id']}: overlaps names undeclared marker {mid!r}")
+                    cues = None
+                    break
+                if not m.get("cue"):
+                    fails.append(
+                        f"{e['id']}: overlaps names {mid!r}, which declares no cue. This branch "
+                        "says WHICH OF TWO BADGES DRAWS, so both markers need one — a pair "
+                        "involving a sealed band is settled with `excludes` or with a state.")
+                    cues = None
+                    break
+                cues.append(m["cue"])
+            if cues is None:
+                continue
+            draws = ov.get("draws")
+            if draws not in cues:
+                fails.append(
+                    f"{e['id']}: overlaps {pair[0]}+{pair[1]} says it draws {draws!r}, which "
+                    f"neither marker declares (they declare {cues[0]!r} and {cues[1]!r}).")
+                continue
+            if cues[0] != cues[1]:
+                winner = _stack_winner(cues[0], cues[1], tokens)
+                if winner != draws:
+                    fails.append(
+                        f"{e['id']}: overlaps {pair[0]}+{pair[1]} says it draws {draws!r}, but "
+                        f"the z-stack leaves {winner!r} visible.\n"
+                        "       Part 2.5: negatives occlude positives, and within a polarity the "
+                        "lower `rank` wins. The order is backwards.")
         for i, a in enumerate(markers):
             for b in markers[i + 1:]:
                 pair = frozenset((a["id"], b["id"]))
@@ -3871,7 +4302,8 @@ APL_DIRECTIVES = {
 
 #: The predicates that NAME a subject row. `resource`, `aoe` and the bare `aura` toggle carry no
 #: row, so they can never satisfy the outranker check.
-SUBJECT_PREDS = {"ready", "identity", "capped", "proc", "affordable", "aura", "talent"}
+SUBJECT_PREDS = {"ready", "identity", "capped", "proc", "affordable", "aura", "talent",
+                 "baseoncd"}
 
 
 def _apl_action(spec: str, cite: str | None) -> str | None:
@@ -4286,6 +4718,10 @@ def cmd_export(args) -> None:
             print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → pre-tinted (V16/V17)")
     if what in ("hatch", "all"):
         for name, size in export_hatch(tokens):
+            print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
+                  f"{MEDIA_DIR.relative_to(ROOT)}")
+    if what in ("outline", "all"):
+        for name, size in export_outline(tokens):
             print(f"  {name + '.tga':<24} {size[0]}x{size[1]} 32-bit → "
                   f"{MEDIA_DIR.relative_to(ROOT)}")
     if what in ("promotion", "all"):
@@ -4733,7 +5169,7 @@ def _check_one(args) -> None:
     # comment are the finding: V14 shipped declaring `tint: "lane"`, a value from the retired lane
     # vocabulary that `assert_tintable` does not match — so the primitive whose whole advantage
     # over Blizzard's own proc glow is that it is NEUTRAL was the one going unguarded.
-    for name in ("badges", "hatch", "promotion", "count", "pandemic"):
+    for name in ("badges", "hatch", "outline", "promotion", "count", "pandemic", "basecd"):
         art = tokens.get(name)
         if art is None:
             continue
@@ -4915,24 +5351,6 @@ def _check_one(args) -> None:
             fails.append("two cues share a `rank` — the stack order would depend on dict order, "
                          "so two rows wearing the same pair could stack them differently.")
 
-    # 0e · A NEGATIVE CUE DOES NOT MOVE. Motion is the third polarity carrier (render-shelf.md
-    # V5.1, 2026-08-23), and it is the one the other two cannot cover: hue and glow are read where
-    # the eye already is, motion pulls it. A negative is up for as long as its skip is true, which
-    # in a pull is most of the fight, so animating one spends the player's attention on precisely
-    # the rows that wanted none of it. That was the player's own report on the first Demonology
-    # flight — the blinking negatives were "too much" — and it is the kind of ruling that decays
-    # back into prose the moment someone adds a cue and copies the two-frame `BOUNCE` off a
-    # neighbour, so it is a gate rather than a paragraph.
-    for key, cue in sorted(tokens["cues"].items()):
-        if cue.get("polarity") == "positive":
-            continue
-        if len(cue.get("frames") or []) > 1:
-            fails.append(
-                f"negative cue {key!r} declares {len(cue['frames'])} frames — a negative cue is a "
-                "STILL IMAGE (render-shelf.md V5.1). Motion carries polarity: gold + halo + "
-                "animation says act, red + still says skip. Pick the one frame that states the "
-                "condition on its own and drop the rest.")
-
     # 0f · the SHIPPED font is the one the shelf declares, byte for byte.
     #
     # Gated exactly as Style.lua is, and for the same reason: generation buys nothing the first
@@ -5052,7 +5470,7 @@ def _check_one(args) -> None:
         fails += catalog_gate_lua(args.spec)
         fails += catalog_gate_states(cat)
         fails += catalog_gate_vocab(cat, tokens)
-        fails += catalog_gate_cooccurrence(cat)
+        fails += catalog_gate_cooccurrence(cat, tokens)
         fails += catalog_gate_outranker(args.spec, cat, roster)
         fails += catalog_gate_scenarios(cat, doc, roster)
         fails += catalog_gate_defeats(args.spec, cat)
@@ -5102,6 +5520,19 @@ def _check_one(args) -> None:
                 if buf.getvalue() != path.read_bytes():
                     fails.append(f"{path.name} disagrees with tokens.hatch — "
                                  "run: wowkb.capart export hatch")
+        # 3c-ii · the OUTLINE sheet, same gate and same reason: it is drawn on every scan edge in
+        # every spec and on cap's own ruled-out outline, so a stale one is wrong everywhere.
+        if tokens.get("outline"):
+            path = MEDIA_DIR / f"{tokens['outline']['texture']}.tga"
+            if not path.exists():
+                fails.append(f"no {path.relative_to(ROOT)} — run: wowkb.capart export outline")
+            else:
+                buf = io.BytesIO()
+                outline_sheet(tokens["outline"]).save(buf, "TGA",
+                                                      compression="tga_rle", orientation=1)
+                if buf.getvalue() != path.read_bytes():
+                    fails.append(f"{path.name} disagrees with tokens.outline — "
+                                 "run: wowkb.capart export outline")
         # 3d · the sheet moved to Media/ when V11 was promoted; a leftover copy under Media/lab/
         # is a second texture that can silently drift from the one that ships.
         stale = LAB_DIR / f"{LAB_SHEET_TEXTURE}.tga"
@@ -5186,7 +5617,7 @@ def main() -> None:
     e = sub.add_parser("export",
                        help="write the shelf into the addon (Style.lua + badge art + Lab.lua)")
     e.add_argument("what", nargs="?", default="all",
-                   choices=["lua", "badges", "hatch", "promotion", "count", "lab",
+                   choices=["lua", "badges", "hatch", "outline", "promotion", "count", "lab",
                             "catalog", "all"])
     e.add_argument("spec", nargs="?", help="for `export catalog`: one spec, or every spec that "
                                           "has a catalog.json")

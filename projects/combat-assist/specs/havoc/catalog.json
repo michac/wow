@@ -155,7 +155,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "vr_awaits_eye_beam"
           ],
@@ -175,7 +175,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "vr_awaits_meta"
           ],
@@ -194,7 +194,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "vr_awaits_eye_beam",
             "vr_awaits_meta"
@@ -302,7 +302,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "meta_wastes_eye_beam"
           ],
@@ -322,7 +322,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "meta_awaits_eye_beam"
           ],
@@ -341,7 +341,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "meta_wastes_death_sweep"
           ],
@@ -361,7 +361,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "meta_wastes_eye_beam",
             "meta_wastes_death_sweep"
@@ -382,7 +382,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "meta_awaits_eye_beam",
             "meta_wastes_death_sweep"
@@ -486,7 +486,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "hunt_awaits_eye_beam"
           ],
@@ -506,7 +506,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "hunt_awaits_meta"
           ],
@@ -526,7 +526,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "hunt_awaits_eye_beam",
             "hunt_awaits_meta"
@@ -621,7 +621,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "essence_break_awaits_eye_beam"
           ],
@@ -687,7 +687,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "blade_dance_starved"
           ],
@@ -890,7 +890,7 @@
             "priority"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_capped"
           ],
@@ -910,7 +910,7 @@
             "priority"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_pre_meta"
           ],
@@ -930,7 +930,7 @@
             "priority"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_capped",
             "immolation_pre_meta"
@@ -952,7 +952,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_pre_meta",
             "immolation_single_target",
@@ -975,7 +975,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_single_target"
           ],
@@ -995,7 +995,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_single_target_no_fire"
           ],
@@ -1014,7 +1014,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_single_target_no_wound"
           ],
@@ -1033,7 +1033,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "immolation_single_target",
             "immolation_single_target_no_fire",
@@ -1119,7 +1119,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "chaos_strike_starved"
           ],
@@ -1188,7 +1188,7 @@
             "overcap"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "felblade_overcap"
           ],
@@ -1229,7 +1229,7 @@
           "sealed": [
             "proc-bar"
           ],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "felblade_overcap",
             "felblade_inertia_clock"
@@ -1282,7 +1282,7 @@
             "overcap"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "demons_bite_overcap"
           ],

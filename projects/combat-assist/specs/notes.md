@@ -387,3 +387,122 @@ make a live ability silently invisible.
 **Caveat.** Unflown. The `# parked` mark is emitted by the apply that moves the frames rather
 than the adopt that decides to, so an adopt followed by a failed apply reports nothing — which
 is correct but means a park can be decided and not yet done.
+
+## 2026-08-28 — the `blocked` badge tells the time
+
+**What changed.** `blocked` drew `timer_CW_50` — a clock face frozen at 50 % — on rows where the
+real remaining time exists and is reachable. Every `blocked` badge whose block is a **cooldown**
+now draws that cooldown: a red radial on the real remaining with a white countdown in it. Same
+cue, same polarity, same rank, same red hatch. One widget, two suppliers — `sealed-base-cooldown`
+(this row's own base spell under a transform, readable `baseoncd` gate) and `sealed-cooldown-range`
+(another ability's, the band's Step curve writing the frame's alpha as it used to write a badge's)
+— which stay separate because they resolve different spells and share only the picture. A marker
+declaring both a dial display and a `cue` draws that cue AS the dial; the sprite is not drawn.
+Demonology's Grimoire gained a `(3, 10)` Tyrant band beside its own dial, gated on `!baseoncd` so
+the two cannot claim one badge; cue J on Call Dreadstalkers inherited the dial with no change at
+all. Files: `render-shelf.md` (V5.1 ×4 sites, V21, Part 2.5, Part 5), `render-tokens.json`,
+`render-primitives.json`, `demonology/catalog.json` + `.md`, `discussion.md`, `backlog.md`,
+`capart.py`, `previews/template/{stepper,gallery}.js`, and in the addon `Channel.lua`,
+`Overlay.lua`, `Catalog.lua`, `Sense.lua` + three specs.
+
+**Why it still binds.** This reopened the 2026-08-23 ruling that retired animated negatives after
+the first Demonology flight. The distinction, and it is the whole argument: what that flight
+rejected was a **five-frame flipbook of a fake clock** — decoration on a loop, conveying nothing
+whichever frame you caught. A real radial **terminates**, carries information, and matches the
+swipe mechanics the player already reads on every button in the game. The narrowed rule is
+"no decorative loops", not "no motion".
+
+**Caveat.** `capart check` gate 0e (a negative may declare only one frame) was **deleted**, not
+widened — it compared a literal in its own body against `tokens.cues[k].frames`, one source
+restated, and could not have caught the case it existed for since a StatusBar declares no frames.
+Measured inert before removal. So `Paint.Badge` still builds a FlipBook for any multi-frame cue
+and nothing stops a future multi-frame negative; that rule is now prose in V5.1. **Unflown** —
+the whole change, and the Tyrant band's `3`/`10` are idiom, not measured optima.
+
+---
+
+## 2026-08-28 — the numbers cap already holds, and three states nobody could see
+
+**What changed.** One round of author feedback read against the Demonology state cards, and the
+through-line is the same as the day before: cap was drawing generic pictures where it held
+specific facts. `implosion_no_imps` drew `timer_CW_50` — a clock frozen at 50 %, on a row where
+nothing is on cooldown — and now draws a red **`0`** (V22), so the row reads 0 → red 1–5 → gold
+6+. `db_yields_to_infernal_bolt` gained a sibling marker carrying the armed Art's own remaining as
+a red radial (V21's third supplier, `sealed-aura-remaining` — an AuraContainer slot, not a
+cooldown). States also gained `count`, so the two count-band cards beside that `0` draw their
+numerals instead of the mark glyph neither band declares. Cue E stopped saying `starved`. Three states were deleted: two migrated to a new
+`overlaps` branch on `catalog_gate_cooccurrence`, one to an `excludes`. Blanket "unflown" stamps
+left `backlog.md` → Status. Files: `render-shelf.md` (V21, V22, Part 3), `render-primitives.json`,
+`authoring.md`, `backlog.md`, `demonology/{catalog.json,catalog.md,scenarios.json,scenarios.md}`,
+`capart.py`, `previews/template/{stepper,gallery}.js` + `shelf.css`, and in the addon
+`Channel.lua`, `Catalog.lua`, `Overlay.lua` + three specs.
+
+**Why it still binds.** Three arguments a future reader must not re-derive.
+
+1. **A cap-authored numeral is legal only where the marker's own `when` fixes the value.**
+   `!aura(wild_imp)` *means* zero, so the `0` asserts nothing cap did not already establish
+   readably. Everywhere else a count is the client's, out of a FontString cap never reads back.
+2. **A state is a situation the player sees, not a marker pair.** The cooccurrence gate demands
+   every simultaneously-true pair be written down, and the cheapest way to satisfy it was to
+   invent a state. Under the z-stack the corner is one badge deep, so each of those states
+   described a badge nobody could see — two of them still carrying notes about badges flowing in
+   rank order, a layout retired the day before. The third branch records the pair and asserts that
+   the cue it names actually wins the stack.
+3. **A cue is what hatches a row, so a display cannot be folded into a readable marker that has
+   one.** `Signal.markersOf` routes a marker carrying a `display` to `verdict.gates`, where it
+   contributes no cue at all — measured here by a product test failing the moment cue D's marker
+   grew a display. Cue D keeps its readable marker and the clock rides a sibling, which is the
+   shape the Grimoire row already had.
+
+**Also, 2026-08-29 — the eliminating hatch draws over the scan edge.** Author's call, settling the
+collision Part 3 had carried open since 2026-08-24. `Paint.Z` gained `edge` (1) and `skip` (2), so
+the order is declared rather than inherited from the sequence two frames were built in. The finding
+underneath is the asymmetry: `Channel.Arm` had lifted the CLIENT's sealed hatch above the edge for
+this exact reason, and cap's own hatch was the one eliminating layer the rule had never reached —
+which let the client and the preview resolve the same row opposite ways. Files: `Paint.lua`,
+`Overlay.lua`, `presentation_spec`, `stepper.js`, `render-shelf.md` (Part 2.5, Part 3, Part 5 q2),
+`render-rationale.md`. ⚠ Settled is the ORDER; whether the muted yellow then reads as *out* rather
+than as a third thing is a look-at-it question, and if it fails the named answer is suppressing the
+edge on a negative row — the candidate this did not take, because that changes what the edge means
+on every row in every spec.
+
+**Also, 2026-08-29 — the outline is a texture, and it covers the scan edge.** Author's call, two
+steps past the ordering ruling above. Both outlines now draw from ONE generated nine-sliced sheet
+(`tokens.outline` → `Media/outline.tga` + a data: URI), replacing four `SetColorTexture` strips in
+the client and a CSS `border` in the preview; cap's own outline moved onto the icon rect so its
+opaque red covers V13's yellow exactly, while the STRIPES keep the overhang that reads as the hatch
+spilling past the button. Hatch alpha 0.45 → 0.75. Files: `render-tokens.json`, `capart.py`,
+`Paint.lua`, `style_spec`, `stepper.js`, `shelf.css`, `render-shelf.md` (V13, Part 3, Part 5 q2),
+`render-rationale.md`.
+
+**Why it still binds.** The bug underneath was not the ordering: the preview's outline was a CSS
+`border` on the element carrying the stripe MASK, and a mask clips a border along with its
+background — so it had been dashes, never an outline, since it was written. Two renderers
+implementing one declaration independently is what let that survive unseen. ⚠ And the argument
+from precedent was wrong: `tokens.ring` was deleted with V2's ANIMATION, not as a judgment against
+ring textures, and V13 never chose strips — it inherited them. ⚠ The new group is `outline`, not
+`ring`, because reusing the retired name silently defeated `style_spec`'s guard keeping V2's
+arrival machinery dead; that collision is how it was caught.
+
+**Also, 2026-08-29 — Retribution's state table lost twelve cards that drew one badge.** Prompted
+by the author playing it and asking why Execution Sentence is always red. It is: rung 10 holds it
+unless Wake of Ashes is within a GCD, which is all but the last sliver of every Wake cooldown — the
+logic is a faithful negation and the observation confirmed it. What was wrong was the TABLE: 22 of
+52 states rendered identically to a neighbour, because a marker pair was being written as a card.
+Twelve became `overlaps`; 40 remain. `ds_aoe_only_and_blade` was kept because RET-6 walks it.
+Files: `retribution/{catalog.json,catalog.md,scenarios.md}`.
+
+**Why it still binds.** The discriminator, and it is the same one the Demonology pass used: **a
+pair a scenario walks is a situation somebody identified; a pair that exists only because
+`catalog_gate_cooccurrence` asked is an artifact.** Three of the deleted cards were also still
+claiming *"two keys, two badges"* and *"the flowing stack, in rank order"* — a layout retired
+2026-08-27, so the second cue in each was occluded and always would be.
+
+**Caveat.** Nine-slice is a source read — `SetTextureSliceMargins` is Tier 1 and Blizzard's UI is
+built on it, but cap has never watched one draw, so the Lua carries `--@unverified` and a client
+refusal leaves a stretched outline rather than none. Verified at 56/80/120 px in the preview only.
+
+**Caveat.** The aura dial has **no numeral**: `SetDurationText`'s breakpoints emit fixed strings,
+never a value over remaining seconds, so no sink anywhere draws a number off an aura duration. It
+is also the second consumer of aura id `432794`, which is Tier-3-sourced and dies silent; the
+`@verify-ingame` on that id is unchanged and this doubles what one wrong number costs.

@@ -13,13 +13,17 @@ it or delete it — never leave it standing with a note underneath.
 
 ## Status
 
-This is the project's only implementation-status source. It says what is built and what has flown,
-and nothing about how it was measured.
+This is the project's only implementation-status source. **It records what is BUILT.** Per-fact
+uncertainty is not a status field here — it lives as a marker on the fact itself, where it names
+what would be wrong and is read at the point of use: `@verify-ingame` on a claim, `--@unverified`
+beside the call it doubts. A blanket "unflown" stamp on a paragraph had no owner, no removal
+criterion and no reader, and went stale the moment anyone logged in; it was retired 2026-08-28.
 
 ### The engine
 
 - The engine supports the readable predicates its catalogs use — `ready` · `proc` · `identity` ·
-  `capped` · `affordable` · `resource` · `talent` · `aoe` — propagates unknown safely, composes a
+  `capped` · `affordable` · `aura` · `baseoncd` · `resource` · `talent` · `aoe` — propagates
+  unknown safely, composes a
   row as **scan membership + badges**, dims Blizzard's proc glow to
   `tokens.surfaces.proc_glow_alpha` so cap's own emphasis is not competing with it
   (`render-shelf.md` Part 3), and owns one independent
@@ -35,10 +39,9 @@ and nothing about how it was measured.
   when required reads are unknown. `Catalog.TIERS` is deleted, the catalogs' `| Lane |` columns
   became `| Scan |`, and the lane names **COOLDOWN / ROTATION / FALLBACK** survive only as prose
   grouping in the catalogs. `Treatment.For` reads the one bit, which `presentation_spec` asserts.
-  **Authored, not flown:** the uniform blind rule (no ON alternative + any BLIND alternative ⇒
-  withheld) and the two accepted behavior changes — Demonology Shadow Bolt and Destruction
-  Incinerate/Conflagrate now stay lit under blindness where their deleted two-band flips
-  darkened them. Both join the flight acceptance set.
+  It carries the uniform blind rule (no ON alternative + any BLIND alternative ⇒ withheld) and
+  two accepted behavior changes: Demonology Shadow Bolt and Destruction Incinerate/Conflagrate
+  stay lit under blindness where their deleted two-band flips darkened them.
 - Engine guarantees and provisional per-spec examples are separate test groups.
 
 ### The style
@@ -59,12 +62,13 @@ and nothing about how it was measured.
   only in-combat write is `Show`/`Hide`. It replaced V2's four-hue ring flipbook and its arrival
   snap, and as of 2026-08-25 **nothing of the arrival is left**: `tokens.ring` / `.motion` /
   `.arrival`, `Media/ring.tga`, `capart export ring` and `Paint.Arrival` went with Part 7's
-  `arrival-*` entries, which had been deleted six days earlier. **Not flown** — Part 5 question 2.
+  `arrival-*` entries, which had been deleted six days earlier. Part 5 question 2 asks whether a
+  static line is loud enough in a pull.
 - **V11's cooldown hatch is shipped** (2026-08-16), on every row the CDM says is down.
   `verdicts.cd` is the only verdict carrying `hatch: true`, and **only `false` draws** — an
   `UNKNOWN` or absent readiness draws bare, so absence of a hatch never asserts a button is up.
   ⚠ A **charged** ability and a row whose first readiness edge has not landed will not wear it, so
-  the hatch is not a complete census of what is down. **Not flown** — Part 5 question 9.
+  the hatch is not a complete census of what is down. Part 5 question 9 is the readability ask.
 - **The cue vocabulary is negative by default** (positives: `capped` and `priority`, gold). The
   negatives — `blocked`, `starved`, `overcap`, `st_only`/`aoe_only`, and since 2026-08-24 the two
   cards `building` (a ramp holds this while resource climbs) and `noproc` (the proc that makes
@@ -88,15 +92,15 @@ and nothing about how it was measured.
   bakes `strip_<cue>` for every multi-frame cue), the promotion ring, and every strip to come. The
   shared `C_Timer` stepper and `Paint.FrameIndex` are deleted; `style_spec` asserts Paint holds
   no ticker. Motivated by the measured seal on handed-over regions (security-taint §3.5.3).
-  **Not flown** — FlipBook semantics are a source read (`--@unverified` on `Paint.FlipBook`), so
-  the capped badge and the promotion ring are in the next flight's acceptance set.
+  ⚠ FlipBook semantics are a **source read** and the doubt is marked where it belongs:
+  `--@unverified` on `Paint.FlipBook`.
 - **V18 is the segmented bar, red at full** (2026-08-24, replacing the radial). The sealed
   count draws as a left-to-right bar on the row's BOTTOM edge over a segment grid (cap's own
   track art), and at `max` the **whole bar flips to the negative red** — a second slot's count
   band (`Channel.BarFlipRules` → the pre-tinted `bar_full` crop) at threshold = max,
   client-decided. First consumer: Demonic Core (full stacks = procs about to be wasted). The
   move off the corner also ends the DEM-8 geometry conflict with V19's badge (Part 5 #10 is now
-  a readability question). Radial render mode retired from the style. **Not flown.**
+  a readability question). Radial render mode retired from the style.
 - **Badge geometry is a ratio of the row's MEASURED width, not of the shelf's nominal icon.**
   `Paint.Ratios(width)` is the arithmetic, `Paint.Geometry(host)` is it with the width read off
   a host, and every badge, plate, glyph, halo and promotion ring is sized through one of them.
@@ -111,7 +115,7 @@ and nothing about how it was measured.
   never revisited, so arming against a 0x0 host froze the whole row at the nominal.
   `/cap band` has lost its size argument for the same reason — the offset is still nudgeable,
   the size is now read-only, and the no-argument readout prints measured width beside drawn
-  diameter as the assertion. **Not flown.**
+  diameter as the assertion.
 - ⚠ **A band is still sized ONCE, at arm time.** An Edit Mode icon-size change leaves the bands
   sized for the old rect until `/reload`. Re-applying needs `SetApplicationCount` to be callable
   a second time on a live button, which is an open client question
@@ -130,11 +134,11 @@ and nothing about how it was measured.
   made true — that was static art; this is a value the client drains. Around it the FULL
   positive-cue treatment — V14's promotion ring plus the halo behind the plate; no region
   pulse, no numeral. The halo alone read as a faint gold mist beside a real promotion,
-  measured in the preview. ⚠ The `AddPandemicRegion` + `SetDurationBar` **one-button pair is
-  unflown** (each half measured alone — Part 5 #11) and joins the flight acceptance set. Count bands: the hatch is
-  legal on **negative** bands only (`Channel.CountRules` refuses a positive hatch), and the
+  measured in the preview. ⚠ The `AddPandemicRegion` + `SetDurationBar` **one-button pair has
+  only ever been measured a half at a time** — Part 5 #11 asks it as a readability question.
+  Count bands: the hatch is legal on **negative** bands only (`Channel.CountRules` refuses a positive hatch), and the
   numeral rides ON the badge plate as its own `plate` element/slot (`Channel.CountElements` is
-  now hatch → plate → mark → count). No catalog declares `outside_s` yet. **Not flown.**
+  now hatch → plate → mark → count). No catalog declares `outside_s` yet.
 - **V20 is the proc bar; the two-sided band and the corner cession rule shipped beside it**
   (2026-08-24/25, the stepper-feedback rounds). V20 = the proc's remaining lifetime as a thin
   client-drained bar directly above V18's charge bar — a `sealed-proc-bar` slot filtered to
@@ -147,15 +151,47 @@ and nothing about how it was measured.
   longer looks unremarkable. `Channel.BandPoints(beyond, within)` closes demonology
   catalog.md's Defeats item 1 — Dreadstalkers' two-sided "waiting on Tyrant's cooldown" hold
   (DEM-15) — with `Catalog.Check` demanding `beyond < within`. Part 2.5 gained the CESSION
-  RULE: corner sealed displays (V19's badge, V16's corner elements) claim stack slots 0..n−1
-  by declaration (static — whether one is showing is sealed) and cue badges start below them;
-  DEM-8's Demonbolt — two stacked bars plus the window badge — is the densest row in any
-  catalog. Demonology also grew the ramp holds (cue I, `building`, authored PAST the
+  RULE, whose *static by declaration* half still stands and whose geometry has since been
+  replaced by the z-stack below; DEM-8's Demonbolt — two stacked bars plus the window badge —
+  is the densest row in any catalog. Demonology also grew the ramp holds (cue I, `building`, authored PAST the
   unconditional APL rungs — playtest-gated), re-badged Demonbolt's core hold to `noproc`, and
   its scenarios now wear the Implosion imp band everywhere imps are out (the "no markup on
   Implosion" gap), with DEM-13's Tyrant-ready/Tyrant-far contradiction fixed in passing.
-  **All of it authored, not flown** — the dial pair, the three-point band, and the cession
-  geometry all join the flight acceptance set.
+  All of it is built: the dial pair, the three-point band, and the cession geometry.
+- **The badge corner is a Z-STACK, and V21 is the first primitive that needed it.** Every badge
+  on a row — cue badges, graded badges, corner sealed displays — draws at the SAME place and is
+  separated by frame level (`Paint.Z` / `CueLevel` / `CornerLevel`), so exactly one is visible.
+  The order is Part 0.5's reading model rather than the cue rank — **negatives occlude positives,
+  rank decides inside a polarity, sealed corner displays lose to every negative** — because the
+  two failure directions are not the same size: a skip hidden under a promotion makes a held row
+  look pressable. `Treatment.Stack` resolves it, answers for EVERY key in the vocabulary so a
+  loser is HIDDEN rather than merely covered, and `presentation_spec` asserts that. It replaced
+  the flowing stack, whose measured defect was arithmetic: at 40 % on a 56 px icon a 3-deep stack
+  overflowed the icon by 15.2 px and a 4-deep one by 40.6 px, across 13 states in two catalogs,
+  and no gate could see it — the elimination gate asks whether a row CARRIES a negative, never
+  where the badge lands. With one badge to draw, `badges.diameter_pct` went 40 → 48.
+- **V21 is the live cooldown dial, and it IS the `blocked` badge** (2026-08-28). A row held
+  because a cooldown is running draws that cooldown — a red radial on the real remaining with a
+  white countdown in it — where `timer_CW_50`, a picture of a clock frozen at 50 %, used to sit.
+  Same cue, same polarity, same rank, same red hatch beside it. Two catalog displays reach one
+  widget: `sealed-base-cooldown` (this row's own base spell, gated on the readable `baseoncd`
+  predicate — `C_Spell.GetSpellCooldown(baseID).isActive`, NeverSecret and plain in restricted
+  combat) and `sealed-cooldown-range` (another ability's, with the band's Step curve writing the
+  frame's alpha exactly as it used to write a badge's). Either way the duration object goes to
+  `SetTimerDuration` and `FormatRemainingDuration` and cap never reads it. Not an AuraContainer —
+  there is no aura behind a cooldown — so it is cap's own frame with its own teardown. A marker
+  declaring both a dial display and a `cue` draws that cue AS the dial and the sprite for it is
+  not drawn; one declaring no cue keeps its corner claim and asserts nothing.
+  **Consumers:** Demonology's Grimoire (its own 120 s, on a row wearing the dispel it becomes,
+  plus a new `(3, 10)` Tyrant band authored past the APL on 2467 logged casts) and cue J on Call
+  Dreadstalkers, which inherited the dial with no change to its marker; Havoc's Essence Break
+  reading Eye Beam is the third. Devourer's **Voidblade** can inherit it with a marker and no
+  code. ⚠ **This reopened the 2026-08-23 ruling that retired animated negatives.** What that
+  flight rejected was a five-frame flipbook of a *fake* clock; a real radial terminates and
+  carries information. `capart check` gate **0e** — a negative may declare only one frame — was
+  **deleted** rather than widened, having been measured inert first, so the rule now lives in
+  `render-shelf.md` V5.1 with nothing enforcing it: `Paint.Badge` still builds a FlipBook for any
+  multi-frame cue.
 - **Part 7's lab is populated and decides nothing.** The 2026-08-20 eight-entry intake flew on
   2026-08-21 and left on 2026-08-22 — four promoted as **V16–V19**, one (`composites`) deleted as
   the argument that those four compose — leaving `duration_band` (band tables on a DoT's clock;
@@ -207,8 +243,9 @@ and nothing about how it was measured.
     hook reads the position first and `apply` adopts it as the new origin — but only when the
     apply came from an event rather than from a judged displacement, or a competitor could drag
     the row simply by losing to cap repeatedly.
-  - **Not flown.** The classifier has unit coverage; the dialog, the rebuild, the stale detector
-    and the per-frame re-assert have only been reasoned about. Fly before believing the counts.
+  - ⚠ **The classifier has unit coverage; the dialog, the rebuild, the stale detector and the
+    per-frame re-assert do not.** They have been reasoned about, not exercised — so the counts
+    those four produce are the numbers to distrust first.
   - ⚠ **The unattributed case is unresolved but should now be attributable.** The capture showed
     displacement with neither `Layout` nor `RefreshLayout` firing. A mover that goes through
     `SetPoint` is now caught whether or not it exposes a hook; one that survives to the sampler
@@ -226,7 +263,7 @@ and nothing about how it was measured.
     rows, and a stale park would make a live ability silently invisible. `A{parked:<n>}` is how
     many are off the row now, `S{park:<n>}` how many have been across the session, and the
     `# parked` mark is emitted by the apply that MOVED them, never by the plan rebuild that
-    decided to. **Not flown.**
+    decided to.
 
 ### The specs
 
@@ -240,14 +277,14 @@ and nothing about how it was measured.
     passed repeatedly.
   - **Re-sourced from the Tier-1 simc APL on 2026-08-17**, which corrected several rules and
     reversed one. `specs/havoc/catalog.md` → `## Changelog` is the record, and its *Open facts*
-    section owns every unmeasured Havoc fact. **The row has not flown since.**
+    section owns every unmeasured Havoc fact.
   - The Havoc design lives in three files — `catalog.md` (the definition),
     `scenarios.md` (the walk), `fact-classification.md` (the safety case) — which is the
     **model every spec follows** (`authoring.md` §0, revised 2026-08-19).
 - **The Havoc row flew once, 2026-08-15** (cap v0.4.0, Fel-Scarred, on EllesmereUI), against the
   pre-APL catalog. Its structural finding — the reading model assumes the CDM's row order matches
   the authored priority — is what `Anchor.lua` was built to answer.
-- **Demonology / Diabolist is BUILT and has never flown** (2026-08-22). `Catalogs/Demonology.lua`
+- **Demonology / Diabolist is BUILT** (2026-08-22). `Catalogs/Demonology.lua`
   is the roster its three documents describe — nine entries in the authored priority order,
   fifteen scenarios, and `demonology-stepper.html` generated from them. `authoring.md` stages 6
   and 7 have run; stage 8 has not.
@@ -292,8 +329,8 @@ and nothing about how it was measured.
     hand-written.
   - **It replaced a pilot**, which was a single-mechanism proof rather than a roster
     (`spec.md` §3.5 records what carried and what was withdrawn).
-  - **It has never flown as a cap build**, in either form.
-- **Retribution / Templar is authored and has never flown.** Three files
+  - `authoring.md` stage 8 has not run on it, in either form.
+- **Retribution / Templar is authored and transcribed.** Three files
   (`catalog.md` / `scenarios.md` / `fact-classification.md`, split 2026-08-19), 13 scenarios, and a
   generated `retribution-stepper.html` preview.
   ⚠ **It HAS been transcribed.** `Catalogs/Retribution.lua` exists (216 lines) and is registered
@@ -315,7 +352,7 @@ and nothing about how it was measured.
     accidental rather than authored. **Deliberately not changed in the same pass** — it would move
     what draws on the live Havoc spec on an inference, and the recorder above is about to say
     whether it matters.
-- **Protection / Lightsmith is authored, transcribed, and has never flown.** Three files
+- **Protection / Lightsmith is authored and transcribed.** Three files
   (`catalog.md` / `scenarios.md` / `fact-classification.md`), 14 scenarios, nine entries over 28
   states, a `protection-stepper.html` preview, and `Catalogs/Protection.lua` migrated from
   `catalog.json` like the other three. `authoring.md` stage 8 has not run. **Its three honesty
@@ -605,25 +642,6 @@ was written before the aura/cooldown ambiguity was named. Amend V7 or this contr
 **Why it may be worth more than it looks.** If *buff running* and *cooldown running* become
 unmistakably different sweeps, Metamorphosis during demon form stops reading as available without
 cap drawing anything extra on it.
-
-### Draw the Grimoire's REAL remaining cooldown, which Blizzard hides behind the dispel
-
-Found while fixing DEM-S2 (2026-08-28). Whichever Grimoire is talented becomes a dispel while its
-own cooldown runs, and §3.1.1's rule — the swipe belongs to the button on the icon — means the
-120 s is drawn nowhere at all. Cue **K** rules the row out, which is the correct reading, but the
-player still cannot see *how long*. cap could say it.
-
-- [ ] Gate on `C_Spell.GetSpellCooldown(baseID).isActive`, which is a **plain, discriminating
-      boolean in restricted combat** — that struct seals per member rather than whole
-      (`security-taint-and-restricted-data.md` §4.8's table; `cooldown-manager.md` §7 Tier 3), and
-      `Sense.lua`'s own `readCapped` already exploits exactly this on `GetSpellCharges`.
-- [ ] Feed the picture from `C_Spell.GetSpellCooldownDuration(baseID, false)` into a
-      duration-object sink — the pattern `Bars.lua` and `Channel.lua` already use, so no new
-      mechanism.
-
-⚠ `Sense.lua`'s `readCooldown` cannot answer this today: it reads `startTime` / `duration`, which
-are secret in combat. Its comment — *"`C_Spell.GetSpellCooldown` is secret in combat"* — is
-imprecise in a way that closes off the route, and correcting it is part of this item.
 
 ### `devourer`'s `voidblade_on_cd` is the same defect class, unexamined
 
@@ -997,6 +1015,30 @@ spec-and-hero pair is the unit (`authoring.md` §0).
       `knowledge/classes/warlock/destruction/builds.md` carries it.
 
 ## Ideas
+
+- **Say WHY a row is hatched, on hover.** Asked for 2026-08-29, from playing Retribution: three
+  rows (Execution Sentence, Wake of Ashes, Divine Toll) read as permanently red with no way to tell
+  which of four holds is doing it. **cap already computes the answer and drops it at the screen** —
+  `Signal.markersOf` records `{id, state, terms}` per readable marker, where `terms` are already
+  formatted (`ready(execution_sentence)=T`, `talent(radiant_glory)=F`), and `Sense.lua` serialises
+  the lot into captures as `W{}`. Nothing needs computing; it needs a surface.
+  - **`/cap why` first**, and it may be enough: print the current reasons per row, or for one named
+    row. No mouse, no taint, no client unknowns, all existing machinery.
+  - **The hover tooltip is the real ask, and it has ONE thing to measure first.** The mechanism has
+    to be *hook the CDM item's `OnEnter` and append to `GameTooltip`* — **not** `EnableMouse` on
+    cap's row overlay, which takes no mouse today and would swallow the hover and kill Blizzard's
+    own spell tooltip. ⚠ **`knowledge/addon-dev/cooldown-manager.md` says nothing about whether
+    those items are mouse-enabled, fire `OnEnter`, or are safe to hook** — they are pooled, re-bound
+    on `OnCooldownIDSet`, and since 12.1 participate in secure aura plumbing. That is a ClientLab
+    question and it gates the work: `projects/addon-lab/`, one test.
+  - ⚠ **What it can and cannot say, which is a DESIGN limit and not an effort one.** A readable
+    marker can be quoted term by term. A **sealed band cannot**: cap never learns whether the client
+    painted it or what the remaining is — and on the three rows that prompted this, the Avenging
+    Wrath holds are all sealed bands. So the tooltip names the RULE (*held while Avenging Wrath is
+    within 15s — client-decided*) and never the value. That is still the fix for the complaint,
+    which was that the reason was unreadable, not that the number was missing; V21's dial supplies
+    the number on the badge face.
+  - Player-visible behaviour, so it needs a `spec.md` line before it is built, not just this entry.
 
 - **`render-shelf.md`'s V12 section still argues from Collapsing Star, and that premise was
   measured false.** Recorded 2026-08-27, from the catalog-review residue. V12's *Why it exists*

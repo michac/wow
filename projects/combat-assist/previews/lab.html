@@ -1,4 +1,4 @@
-<!-- capart built: 2026-08-28 -->
+<!-- capart built: 2026-08-29 -->
 <title>cap render lab</title>
 <style>
 /* GENERATED from specs/render-tokens.json — do not edit here, edit the tokens. */
@@ -17,14 +17,17 @@
      carry the hue: see the shelf's V13 ruling. */
   --ready-rgb: 255,219,115;
   --ready-alpha: 1.00;
-  --ready-line: 2px;
   --ready-blend: normal;
+
+  /* V13/V11 · the shared outline sheet, drawn as a nine-slice. */
+  --outline-line: 2px;
+  --outline-slice: 4;
 
   /* V5 · corner badges, flowing DOWN. The first overhangs the top-right corner by
      --badge-over; each further badge steps --badge-step down the right edge. */
-  --badge-d: 22.40px;
+  --badge-d: 26.88px;
   --badge-over: 2px;
-  --badge-step: 25.40px;
+  --badge-step: 29.88px;
   --badge-inset: 16%;
   --badge-tint: rgba(242,76,76,1.0);
   --plate: rgba(0,0,0,0.78);
@@ -47,11 +50,12 @@
   --lab-stripe-pitch: 16px;
   --hatch-rgb: rgba(0,0,0,0.5);
   --hatch-phase: 8.00px;
-  --hatch-skip-rgb: rgba(242,76,76,0.45);
+  --hatch-skip-rgb: rgba(242,76,76,0.75);
   --hatch-skip-phase: 0.00px;
   --hatch-skip-over: 2px;
-  --hatch-skip-line: 2px;
   --hatch-skip-edge: rgba(242,76,76,1.0);
+  --hatch-skip-edge-rgb: 242,76,76;
+  --hatch-skip-edge-alpha: 1.00;
 
   /* V15 · hotkey text — chrome. Names the row; asserts nothing about the press. */
   --hotkey-size: 16px;
@@ -87,10 +91,8 @@
   --count-outline: 1px;
   --count-rgb: rgba(255,199,64,1.0);
   --count-low: rgba(242,76,76,1.0);
-  --count-mark: 15px;
-  --count-mark-x: 20px;
-  --count-mark-y: -18px;
-  --count-plate: 25px;
+  --count-mark: 18px;
+  --count-plate: 30px;
   --count-hatch: 56px;
   --count-hatch-alpha: 0.55;
   --count-pulse-dur: 1.9s;
@@ -123,6 +125,13 @@
   --pd-glow-a0: 0.15;
   --pd-glow-a1: 0.55;
   --pd-glow-scale: 1.55;
+
+  /* V21 · base cooldown dial — the cooldown of the spell the row is NOT showing */
+  --basecd-size: 25px;
+  --basecd-rgb: rgba(242,76,76,1.0);
+  --basecd-track: rgba(61,23,23,0.6);
+  --basecd-text: rgba(255,255,255,1.0);
+  --basecd-text-size: 13px;
 }
 
 /* V15 · the SHIPPED font, https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf — the same subset file the addon carries, so the preview measures exactly the advance widths the game does. */
@@ -383,14 +392,14 @@ a { color: var(--accent); }
    * rather than behind the ability icon, where it would be invisible. */
   isolation: isolate;
 }
-/* V5 · the badge stack FLOWS down the right edge. Every badge shares the right offset; only
-   the vertical one moves, by its index in the stack. No fixed slots, so no ceiling. */
-.item .slot { right: calc(var(--badge-over) * -1); }
-.item .slot[data-index="0"] { top: calc(var(--badge-over) * -1); }
-.item .slot[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
-.item .slot[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
-.item .slot[data-index="3"] { top: calc(var(--badge-step) * 3 - var(--badge-over)); }
-.item .slot[data-index="4"] { top: calc(var(--badge-step) * 4 - var(--badge-over)); }
+/* V5 · the badge stack is a Z-STACK. Every badge — cue, sealed corner display, all of them —
+   hangs off the same corner and only the top of the order is visible, so there is one pixel to
+   read rather than a column that ran off the bottom of a 4-deep icon. The order is Part 2.5's;
+   here it falls out of DOM order, which is what `stepper.js` builds in reverse to arrange. */
+.item .slot {
+  right: calc(var(--badge-over) * -1);
+  top: calc(var(--badge-over) * -1);
+}
 
 /* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is the
  * cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
@@ -409,6 +418,18 @@ a { color: var(--accent); }
   -webkit-mask-size: contain; mask-size: contain;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
   -webkit-mask-position: center; mask-position: center;
+}
+
+/* V22 · a NUMBER where the glyph would be. Same slot, same plate (`.slot::before`), same corner —
+ * the numeral simply takes the sprite's place inside the disc. Its ink is `--sx-ink`, written by
+ * the builder from the cue's polarity, so this rule holds no colour opinion of its own. */
+.item .slot .cue-numeral {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 var(--count-size) / 1 var(--hotkey-font);
+  color: var(--sx-ink);
+  -webkit-text-stroke: var(--count-outline) var(--hotkey-outline);
+  paint-order: stroke fill;
 }
 
 /* The glow, drawn UNDER the plate and the glyph so it reads as light escaping from behind the
@@ -521,10 +542,23 @@ a { color: var(--accent); }
    so it cannot bleed into a neighbour at any gutter. */
 .ready-line {
   position: absolute; inset: 0;
-  border: var(--rl-line) solid rgba(var(--rl-rgb), var(--rl-rest));
+  border: var(--outline-line) solid rgba(var(--rl-rgb), var(--rl-rest));
   mix-blend-mode: var(--ready-blend);
   pointer-events: none;
 }
+/* Masked by the sliced outline sheet instead: the fill becomes the outline. The plain border above
+   is the fallback where `mask-border` is unsupported — and it only works because `outlineMask`
+   adds this class ONLY when the mask took. Applied blind, this rule paints a solid block over the
+   icon, which is the opposite of an outline. The two paths draw the same line in the same ink, so
+   which one you get is invisible; that is the point of keeping the fallback. */
+.ready-line.outlined {
+  border: 0;
+  background: rgba(var(--rl-rgb), var(--rl-rest));
+  -webkit-mask-repeat: stretch; mask-repeat: stretch;
+}
+/* cap's ruled-out outline. Same sheet, same rect, skip ink — so the red lands exactly on the
+   yellow rather than around it (render-shelf.md Part 2.5). */
+.item .skip-outline { mix-blend-mode: normal; }
 
 /* A readiness row draws its icons at the REAL pitch — icon + row gap — because the only
    honest version of the candles test is the spacing the client actually uses. */
@@ -814,12 +848,13 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   z-index: -1;
 }
 
-/* V11 · cap's half of the ruled-out hatch overhangs the icon rect and carries its own border,
-   so a ruled-out row's red replaces V13's yellow scan edge rather than sitting inside it. */
+/* V11 · cap's half of the ruled-out hatch OVERHANGS the icon rect — the stripes spill past the
+   button, which is what reads as the hatch covering it rather than sitting inside it.
+   ⚠ NO BORDER HERE. It carried one until 2026-08-29, and a mask clips an element's border along
+   with its background, so the stripe sheet was cutting that border into dashes — it was never a
+   ring. The outline is `.skip-outline`, its own element, drawn from the shared ring sheet. */
 .item .stripes.skip-hatch {
   inset: calc(var(--hatch-skip-over) * -1);
-  border: var(--hatch-skip-line) solid var(--hatch-skip-edge);
-  box-sizing: border-box;
 }
 
 /* Part 7 · a secret aura APPLICATION COUNT reaching a pixel. Two sinks, two rules.
@@ -1126,9 +1161,11 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
  *
  * Every one of these is art the CLIENT draws from a rule cap authored and never reads back, so
  * the preview draws the SHAPE and states no value: a scenario names the sink, and which band
- * fired is exactly the thing cap cannot know. They flow into the badge stack's own corner
- * because that is where they land in the client — V16's marks come out of a band's `:xoff:yoff`
- * onto the badge corner, and V18/V19 are anchored there outright.
+ * fired is exactly the thing cap cannot know. The corner-claiming ones share the badge stack's
+ * one corner because that is where they land in the client — V16's marks come out of a band's
+ * `:xoff:yoff` onto the badge corner, and V19/V21 are anchored there outright. They are the
+ * BOTTOM of the z-order: a cue badge draws over them, which is what makes it safe for cap never
+ * to learn whether the client is painting one.
  * ------------------------------------------------------------------------ */
 .item .sealed {
   position: absolute;
@@ -1138,10 +1175,6 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   pointer-events: none;
   isolation: isolate;
 }
-/* Part 2.5's cession rule: corner sealed displays stack down the same right edge the cue
-   badges use, in declared order; the cue badges start below them. */
-.item .sealed[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
-.item .sealed[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
 /* The plate is named BY THE BAND (V16), which is the whole finding: a plate cap drew as an
    ordinary texture has no sink on it and would stay on the row at every value the band blanks. */
 .item .sealed-plate {
@@ -1186,6 +1219,9 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
    its only motion, which is precisely `capped`'s look wearing the window's glyph. The isolation
    is what lets the halo's z-index:-1 sit behind the plate WITHIN the badge, as a cue's does. */
 .item .sealed-pandemic { isolation: isolate; }
+/* V21 · the base cooldown badge. Same isolation and the same reason: the plate, the arc and the
+   numeral are one badge and stack among themselves, not against the row. */
+.item .sealed-basecd { isolation: isolate; }
 /* V20 · the proc bar — the proc's remaining lifetime above the charge bar (JS lifts it by
    --bar-h + --procbar-gap when the row declares one). Edge grammar, not badge grammar: gold
    here is quantity (time), never polarity. */
@@ -1207,6 +1243,26 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   width: var(--pd-dial-size); height: var(--pd-dial-size);
   margin: auto; border-radius: 50%;
   background: var(--pd-dial-track);
+}
+/* V21 · the same dial over the row's OWN cooldown, with the numeral a bare arc cannot carry:
+   the arc says the row will be itself again, the number says when. Sized nearly to the badge,
+   because the numeral has to sit inside it and stay legible at icon scale. */
+.item .sealed-basecd-dial {
+  position: absolute; inset: 0;
+  width: var(--basecd-size); height: var(--basecd-size);
+  margin: auto; border-radius: 50%;
+  background: var(--basecd-track);
+}
+/* The countdown. In the client it is a leaf FontString fed a SECRET string the client renders
+   and cap can never read back; here it is a nominal number, drawn so the question this badge's
+   diameter exists to answer — is it legible? — can be looked at. */
+.item .sealed-basecd-count {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 var(--basecd-text-size) / 1 var(--hotkey-font);
+  color: var(--basecd-text);
+  -webkit-text-stroke: var(--count-outline) var(--hotkey-outline);
+  paint-order: stroke fill;
 }
 /* V19 · the halo under the badge — the positive cues' own glow, borrowed with its grammar:
    light escaping from behind a badge means "act now". Same gradient and falloff as `.slot .glow`;
@@ -1401,8 +1457,8 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
 
 </div>
 
-<script type="application/json" id="cap-tokens">{"version":2,"ready":{"_comment":"IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA, drawn ON the icon rect so it can never bleed into a neighbour at any row gap. `blend` is NORMAL and that is a correction: under additive the edge could not carry the hue declared right here. Adding rgb(1.00, 0.86, 0.45) to a destination saturates red unconditionally, green above 0.14 and blue above 0.55, so on any icon that is not near-black the line clipped to WHITE \u2014 measured on Demonology's purple roster [client 2026-08-23]. The declared colour was not reaching a pixel, so the blend mode gave way rather than the colour.","blend":"BLEND","rgb":[1.0,0.86,0.45],"alpha":1.0,"line_px":2},"text":{"max_hz":2.0,"duty":0.7,"alpha_floor":0.65},"badges":{"diameter_pct":40,"overhang_px":2,"padding_px":3,"sprite_inset_pct":16,"rgb":[0.95,0.3,0.3],"tint":"shelf","plate":{"rgb":[0.0,0.0,0.0],"alpha":0.78,"scale":1.12},"halo_falloff":0.7,"asset_root":"previews/assets/kenney","flow":{"anchor":"top-right-corner","direction":"down"}},"cues":{"blocked":{"means":"held for a cooldown, or a readable dependency says the press would be wasted","polarity":"negative","frames":["timer_CW_50"],"duration_s":1.2,"loop":"HOLD","rank":3,"open":false,"budgeted":true},"starved":{"means":"you cannot afford it","polarity":"negative","frames":["flask_empty"],"duration_s":1.2,"loop":"HOLD","rank":4,"open":false,"budgeted":false},"st_only":{"means":"the single-target spender, while AoE mode is on \u2014 the other one is the answer here","polarity":"negative","frames":["pawn"],"duration_s":1.2,"loop":"HOLD","rank":6,"open":false,"budgeted":false},"aoe_only":{"means":"the AoE spender, in single target \u2014 the other one is the answer here","polarity":"negative","frames":["pawns"],"duration_s":1.2,"loop":"HOLD","rank":7,"open":false,"budgeted":false},"overcap":{"means":"pressing would waste resource","polarity":"negative","frames":["flask_full"],"duration_s":1.2,"loop":"HOLD","rank":5,"open":false,"budgeted":false},"building":{"means":"hold this for the Tyrant-style ramp and build resource \u2014 pressing it now spends the window on a half-built board","polarity":"negative","frames":["card_outline_lift"],"duration_s":1.2,"loop":"HOLD","rank":8,"open":false,"budgeted":false},"noproc":{"means":"the proc that makes this button worth pressing is not up","polarity":"negative","frames":["card_outline"],"duration_s":1.2,"loop":"HOLD","rank":9,"open":false,"budgeted":false},"capped":{"means":"charges are at max and the recharge is stalled \u2014 you are losing one right now","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["cards_stack","cards_stack_high"],"duration_s":1.2,"loop":"BOUNCE","rank":2,"open":false,"budgeted":false},"priority":{"means":"press this one \u2014 the scan would reach it late, or only after stepping over more skips than a reader can hold at once","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["fire"],"duration_s":1.2,"loop":"HOLD","rank":1,"open":false,"budgeted":false}},"hatch":{"texture":"stripes","tile_px":128,"pitch_px":16,"duty":0.5,"direction":"down","rgb":[0.0,0.0,0.0],"alpha":0.5,"phase_pct":50,"tint":"shelf","skip":{"rgb":[0.95,0.3,0.3],"alpha":0.45,"phase_pct":0,"overhang_px":2,"border":{"rgb":[0.95,0.3,0.3],"alpha":1.0,"line_px":2}}},"promotion":{"texture":"procring","cols":8,"rows":4,"cell":64,"frames":32,"fps":30,"rgb":[1.0,0.82,0.27],"alpha":1.0,"spread":2.0,"tint":"shelf"},"count":{"_comment":"V16/V17. A SEALED aura application count reaching a pixel. cap hands the Cooldown Manager a FontString and a NumericRuleFormatter it AUTHORED; the client evaluates the bands against the secret and calls SetText, and cap never learns which band fired. The sink seals `Text` and `Shown` and nothing else \u2014 which is why the hue below is reachable through a static SetTextColor as well as through a band's own escape, and why the FontString's animation channel is still cap's. `threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the UPPER band. Two rules added 2026-08-24: `hatch` is legal on NEGATIVE bands only (a hatch means ruled out; a positive band hatching the face is a contradiction wearing pixels), and the numeral sits on the badge PLATE \u2014 its own element/slot with the same thresholds, because a plate escape cannot sit under text within one string.","font":"FRIZQT__.TTF","size":15,"outline":"OUTLINE","rgb":[1.0,0.78,0.25],"low_rgb":[0.95,0.3,0.3],"mark":"cards_stack_high","mark_offset_px":[20,-18],"plate_offset_px":[20,-18],"hatch_alpha":0.55,"hatch_offset_px":[2,0],"pulse":{"duration_s":1.9,"alpha":[0.72,1.0],"scale":1.1},"tint":"shelf"},"bar":{"_comment":"V18. The sealed count as a SEGMENTED left-to-right bar on the row's bottom edge. SetApplicationBar drives the fill; only BarValue is sealed, so track, ticks, size and colour are ordinary setup calls, and the segment grid (one tick per application boundary) is cap's own track art. The FULL state flips the WHOLE bar to the negative red as a warning \u2014 full stacks = waste imminent \u2014 not by recolouring the fill (the value is sealed; SetStatusBarTexture is a setup call, not a curve sink) but by a second slot's count band (V16's machinery) drawing the full-width pre-tinted red crop `bar_full` at threshold = max. The radial render mode is retired with this form. \u26a0 A bar has NO BLANK STATE: the track draws at zero, which is the straight trade against V16.","height_px":6,"rgb":[1.0,1.0,1.0],"alpha":0.85,"track_rgb":[0.0,0.0,0.0],"track_alpha":0.55,"seg_px":1,"full_rgb":[0.95,0.3,0.3],"full_alpha":0.9,"tint":"shelf"},"pandemic":{"_comment":"V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region \u2014 a Frame with children included \u2014 seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge \u2014 halo, plate and dial together \u2014 appears and vanishes on Blizzard's real window. \u26a0 It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively. The badge holds cue-badge brightness exactly \u2014 plate at badges.plate.alpha, NO region pulse and NO numeral \u2014 and its centre is the DIAL: a radial StatusBar the CLIENT drains off the aura's own duration object (SetDurationBar -> SetTimerDuration, direction = RemainingTime; \u00a73.5.2, T1), gold arc (`dial.rgb`) over a dark track (`dial.track_rgb`/`track_alpha`) on the plate. Cap reads nothing \u2014 the bar's value is sealed (`BarValue`) and the drain is the client's. \u26a0 ApplyDurationBar never calls SetMinMaxValues, so the addon calls SetMinMaxValues(0, 1) at setup or the bar draws 0 % forever (\u00a74.8.1 finding 3); Radial render mode is pcall'd with linear fallback. (Its predecessor glyphs are both retired: timer_CW_75, a static Kenney clock whose baked 75% wedge read as a live radial attached to nothing, and briefly `fire` \u2014 the dial is the wedge's claim made TRUE, an arc that actually is the DoT draining.) \u26a0 The AddPandemicRegion + SetDurationBar one-button pair is UNFLOWN \u2014 each half measured alone (Part 5). Its motion is the FULL positive-cue treatment: V14's promotion ring (armed before the handover, FlipBook) plus `glow`, the SAME halo the positive cues wear (badges.halo art, radial falloff from badges.halo_falloff), breathing behind the plate, armed before the handover since that is the only motion that survives the in-combat forbidden-object seal (\u00a73.5.3). The OUTSIDE-window state of the pair deliberately has no token group: it reuses the count vocabulary's positive hatch crop and this group's gold, and its threshold (outside_s, seconds) is the CATALOG's number, never the shelf's.","dial":{"size_px":15,"rgb":[1.0,0.78,0.25],"track_rgb":[0.22,0.17,0.08],"track_alpha":0.6},"rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"tint":"shelf"},"procbar":{"_comment":"V20. The proc's remaining lifetime as a thin client-drained bar above V18's charge bar (or on the bottom edge when no charge bar is declared). SetDurationBar -> SetTimerDuration(RemainingTime); SetMinMaxValues(0,1) FIRST (\u00a74.8.1 finding 3); linear render mode. Gold over a dark track \u2014 the edge carries quantity, not polarity, which is why this lives here and not in the badge column (the corner-dial form it replaces lasted one day; V19's badge dial stays). gap_px separates it from the charge bar below. No art, so no tint key.","height_px":3,"gap_px":1,"rgb":[1.0,0.78,0.25],"track_rgb":[0.22,0.17,0.08],"track_alpha":0.6},"hotkey":{"_comment":"V15. CHROME, not a cue (spec.md \u00a73.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion \u2014 and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.","font":"Interface\\AddOns\\CombatAssistPlus\\Media\\fonts\\CapKeyMono.ttf","size":16,"outline":"THICKOUTLINE","rgb":[0.92,0.92,0.9],"alpha":0.85,"anchor":"TOPLEFT","offset":{"x":2,"y":-2}},"preview":{"_comment":"NOT THE STYLE, and structurally incapable of becoming it: `preview` is in capart.NOT_THE_STYLE, so nothing here can reach Style.lua. It exists so the previews can draw a keybind hint before one exists in the game \u2014 the point of V15's preview is judging how the text sits in the corner, and that cannot be judged against an empty string. The strings are what `Binds.Shorten` PRODUCES, not what the client hands it: lowercase modifier letters closed up against the key (the client's own `SHIFT_KEY_TEXT_ABBR` is `s`), and `M4`/`N5` where the client would say `Mouse Button 4`/`Num Pad 5`.","hotkeys":["3","s2","M4","csF1","1","4","sE","M5","2","a3","5","s4","c1","M3","sF","6","asQ","MU"],"hotkey_outline_rgb":[0.0,0.0,0.0],"hotkey_outline_px":2,"hotkey_font":{"_comment":"The font V15 draws with, and the ONE third-party asset cap redistributes. The preview embeds this exact subset and the addon ships this exact subset, so the page and the game measure the same advance widths. `ship_as` is not a preference: the upstream family carries the Reserved Font Name 'Share', a subset is a Modified Version, and OFL 1.1 clause 3 forbids a Modified Version from using it \u2014 so the shipped file is renamed and `license_url` travels beside it.","url":"https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf","family":"ShareTechMono","ship_as":"CapKeyMono","rfn":"Share","license":"OFL 1.1","license_url":"https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/OFL.txt","shippable":true},"hotkey_font_stack":"'CapKeyMono', 'Trebuchet MS', var(--sans)","virtual_mark":{"_comment":"PREVIEW ONLY, and it exists because the preview COMPRESSES a geometry the game does not have. In the client a virtual row (V12) lives in cap's own panel, physically separate from the Cooldown Manager, and the separation is what says 'cap owns this frame'. A stepper page draws one flat left-to-right row, so that separation is gone and the icon would read as a CDM row cap has no right to. The tick restores the one bit the compression lost. It is in `preview` deliberately: nothing here can reach Style.lua, and the addon must never draw it.","rgb":[0.55,0.82,1.0],"size_px":13,"line_px":2,"overhang_px":2,"corner":"bottom-left"},"unsure":{"_comment":"PREVIEW ONLY. The loud treatment for an `\u26a0 UNSURE` annotation under a row \u2014 a claim the authoring docs themselves doubt, drawn so it cannot be read past. Amber block, not a grey footnote. It says nothing about the press and takes no part in either reading pass; it is a note to the author about the DOC, not a mark on the button.","rgb":[1.0,0.74,0.3],"bg_rgb":[0.23,0.17,0.06],"line_px":2}},"panel":{"_comment":"V12's virtual row: the geometry of cap's OWN icon strip, for presses the Cooldown Manager carries no frame for. It ships to Style.lua and Panel.lua draws from it \u2014 icon_px sizes each icon, gap_px separates them, and anchor/x/y place the strip against UIParent while grow says which way it fills. \u26a0 `anchor` positions the WHOLE strip; the edge the icons hang off is derived from `grow`, so a centred anchor stays centred as the roster grows.","icon_px":50,"gap_px":6,"anchor":"BOTTOM","x":0,"y":190,"grow":"RIGHT"},"verdicts":{"cd":{"scan":false,"swipe":true,"hatch":true,"cues":[]},"weave":{"scan":true,"swipe":false,"cues":[]},"ruled-sealed":{"_comment":"V17. The row is RULED OUT by a sealed count band \u2014 the client evaluated cap's own rule against a secret and drew the hatch and the mark itself. It carries no `cues` because there is no cue: the marks come out of one FontString the client writes, and a cue is a badge cap shows. It eliminates anyway, which is the whole novelty \u2014 this is the first eliminating signal that is neither Blizzard's swipe nor cap's own badge.","scan":true,"swipe":false,"eliminates":true,"cues":[]},"press":{"scan":true,"swipe":false,"cues":[]},"open":{"scan":true,"swipe":false,"cues":[]}},"surfaces":{"icon_px":56,"row_gap_px":6,"border_px":1,"swipe":{"color":[0.0,0.0,0.0],"alpha":0.72},"count_tile":{"font":"FRIZQT__.TTF","size":14,"outline":"OUTLINE"},"proc_glow_alpha":0.5},"assets":{"icon_size":56,"encode":"webp","quality":90},"budget":{"_comment":"TWO ceilings, because there are two quantities and one number was standing in for both. Each is a WARNING from `build` \u2014 never a blocked rebuild.","_comment_max_base64_kb":"The per-page BASE64 ASSET payload: badge sprites + spell icons + the hatch sheet, the sum `capart assets` totals. Nothing else. Until 2026-08-27 `build` measured `len(page)` against this, so it was reporting markup as asset bloat, and it had been raised 300 \u2192 350 to accommodate roughly 15 KB of per-ability state-table MARKUP. Now that it measures what it names, 350 was six times the largest real payload (Havoc, 55 KB) and could not have fired for anything \u2014 so it is set to 80, which leaves room for a spec with a much longer roster and still notices a doubling. Move it when a spec legitimately needs more ART, never to quiet a page that has grown more HTML.","max_base64_kb":80,"_comment_max_page_kb":"TOTAL page weight \u2014 the whole built HTML, markup, embedded JSON and assets together. Distinct from `max_base64_kb`: this is what a browser downloads, and it grows for reasons that are nobody's mistake (a spec with more scenarios, the per-ability state tables). It exists so page weight is watched by a ceiling of its own instead of borrowing the asset one. Largest today is Havoc at 359 KB, with Protection next at 352; 400 gives the state tables room and still says something when a page grows substantially. \u26a0 That is ~10 % of headroom, which is deliberate \u2014 a ceiling a page can never approach is the dead gate this pair was split to avoid.","max_page_kb":400},"lab":{"_comment":"NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. \u26a0 EMPTY, which is a resting state and not a fault \u2014 Part 7 says an empty lab means every idea drawn here has been adopted or answered, not that nobody is trying anything. `duration_band` (L7) was CLEARED 2026-08-27: its cells had drifted out of agreement with its own `asks`, drawing the RemainingPercent route as though the question were still open after V19 promoted the seconds form. `ring_collision` (L9) was WITHDRAWN 2026-08-28 without an answer \u2014 the ledger has both rows. The collision it drew is still the open design question Part 3 records; what left was the lab entry, not the question."}}</script>
-<script type="application/json" id="cap-data">{"built":"2026-08-28","client_paint":{"_source":"CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273","_doc":"knowledge/addon-dev/cooldown-manager.md \u00a73.4","tints":{"out-of-range":{"rgb":[0.64,0.15,0.15],"constant":"ITEM_NOT_IN_RANGE_COLOR","means":"the target is out of range \u2014 outranks every other branch"},"not-enough-power":{"rgb":[0.5,0.5,1.0],"constant":"ITEM_NOT_ENOUGH_MANA_COLOR","means":"you cannot pay for it \u2014 C_Spell.IsSpellUsable's second return"},"unusable":{"rgb":[0.4,0.4,0.4],"constant":"ITEM_NOT_USABLE_COLOR","means":"unusable for some other reason"}},"usable_constant":"ITEM_USABLE_COLOR","cooldown_desaturates":true},"abilities":{},"scenarios":[],"scan_samples":[],"notes":[],"frames":{},"lab_stripes":null,"lab_sprites":{},"lab_vfx":{},"lab_fonts":{},"promotion":null,"provenance_html":"<table><tr><th>render-lab.json</th><td>sha 7708b59905b5 \u00b7 0 entries</td></tr><tr><th>reference roster</th><td>havoc \u00b7 catalog.md</td></tr><tr><th>icons</th><td>0 \u00d7 56px webp</td></tr><tr><th>authority</th><td><b>none</b> \u2014 Part 7 rule 3. A treatment leaves by being MOVED into Parts 1\u20136, never by being cited from here.</td></tr><tr><th>built</th><td>2026-08-28</td></tr></table>"}</script>
+<script type="application/json" id="cap-tokens">{"version":2,"outline":{"_comment":"V13/V11 \u00b7 THE ONE OUTLINE SHEET, white with the outline in the alpha channel, drawn as a NINE-SLICE so one file is a crisp `line_px` outline at any icon size: corners at native size, edges stretched along one axis only. \u26a0 It is deliberately NOT called `ring`: `tokens.ring` was V2's arrival machinery, deleted 2026-08-25, and `style_spec` guards that name dead. This is a different thing. It replaced four `SetColorTexture` strips per outline on 2026-08-29 \u2014 see render-rationale.md. Two consumers tint it themselves and no hue is baked in: V13's scan edge takes `ready.rgb`, cap's ruled-out hatch takes `hatch.skip.border.rgb`. \u26a0 `line_px` LIVES HERE AND NOWHERE ELSE, which is what makes `the red outline exactly overlays the yellow one` true by construction rather than by two numbers agreeing. `slice_px` is the nine-slice margin: it must exceed `line_px` so a corner region holds the whole corner, and two of them must fit inside the tile.","texture":"outline","tile_px":32,"line_px":2,"slice_px":4,"tint":"shelf"},"ready":{"_comment":"IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA, drawn ON the icon rect so it can never bleed into a neighbour at any row gap. `blend` is NORMAL and that is a correction: under additive the edge could not carry the hue declared right here. Adding rgb(1.00, 0.86, 0.45) to a destination saturates red unconditionally, green above 0.14 and blue above 0.55, so on any icon that is not near-black the line clipped to WHITE \u2014 measured on Demonology's purple roster [client 2026-08-23]. The declared colour was not reaching a pixel, so the blend mode gave way rather than the colour.","blend":"BLEND","rgb":[1.0,0.86,0.45],"alpha":1.0},"text":{"max_hz":2.0,"duty":0.7,"alpha_floor":0.65},"badges":{"diameter_pct":48,"overhang_px":2,"padding_px":3,"sprite_inset_pct":16,"rgb":[0.95,0.3,0.3],"tint":"shelf","plate":{"rgb":[0.0,0.0,0.0],"alpha":0.78,"scale":1.12},"halo_falloff":0.7,"asset_root":"previews/assets/kenney","flow":{"anchor":"top-right-corner"}},"cues":{"blocked":{"means":"held for a cooldown, or a readable dependency says the press would be wasted","polarity":"negative","frames":["timer_CW_50"],"loop":"HOLD","rank":3,"open":false,"budgeted":true},"starved":{"means":"you cannot afford it","polarity":"negative","frames":["flask_empty"],"duration_s":1.2,"loop":"HOLD","rank":4,"open":false,"budgeted":false},"st_only":{"means":"the single-target spender, while AoE mode is on \u2014 the other one is the answer here","polarity":"negative","frames":["pawn"],"duration_s":1.2,"loop":"HOLD","rank":6,"open":false,"budgeted":false},"aoe_only":{"means":"the AoE spender, in single target \u2014 the other one is the answer here","polarity":"negative","frames":["pawns"],"duration_s":1.2,"loop":"HOLD","rank":7,"open":false,"budgeted":false},"overcap":{"means":"pressing would waste resource","polarity":"negative","frames":["flask_full"],"duration_s":1.2,"loop":"HOLD","rank":5,"open":false,"budgeted":false},"building":{"means":"hold this for the Tyrant-style ramp and build resource \u2014 pressing it now spends the window on a half-built board","polarity":"negative","frames":["card_outline_lift"],"duration_s":1.2,"loop":"HOLD","rank":8,"open":false,"budgeted":false},"noproc":{"means":"the proc that makes this button worth pressing is not up","polarity":"negative","frames":["card_outline"],"duration_s":1.2,"loop":"HOLD","rank":9,"open":false,"budgeted":false},"capped":{"means":"charges are at max and the recharge is stalled \u2014 you are losing one right now","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["cards_stack","cards_stack_high"],"duration_s":1.2,"loop":"BOUNCE","rank":2,"open":false,"budgeted":false},"priority":{"means":"press this one \u2014 the scan would reach it late, or only after stepping over more skips than a reader can hold at once","polarity":"positive","rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"frames":["fire"],"duration_s":1.2,"loop":"HOLD","rank":1,"open":false,"budgeted":false}},"hatch":{"texture":"stripes","tile_px":128,"pitch_px":16,"duty":0.5,"direction":"down","rgb":[0.0,0.0,0.0],"alpha":0.5,"phase_pct":50,"tint":"shelf","skip":{"rgb":[0.95,0.3,0.3],"alpha":0.75,"phase_pct":0,"overhang_px":2,"border":{"rgb":[0.95,0.3,0.3],"alpha":1.0}}},"promotion":{"texture":"procring","cols":8,"rows":4,"cell":64,"frames":32,"fps":30,"rgb":[1.0,0.82,0.27],"alpha":1.0,"spread":2.0,"tint":"shelf"},"count":{"_comment":"V16/V17. A SEALED aura application count reaching a pixel. cap hands the Cooldown Manager a FontString and a NumericRuleFormatter it AUTHORED; the client evaluates the bands against the secret and calls SetText, and cap never learns which band fired. The sink seals `Text` and `Shown` and nothing else \u2014 which is why the hue below is reachable through a static SetTextColor as well as through a band's own escape, and why the FontString's animation channel is still cap's. `threshold` is the MINIMUM input a band applies to, so a value ON a threshold takes the UPPER band. Two rules added 2026-08-24: `hatch` is legal on NEGATIVE bands only (a hatch means ruled out; a positive band hatching the face is a contradiction wearing pixels), and the numeral sits on the badge PLATE \u2014 its own element/slot with the same thresholds, because a plate escape cannot sit under text within one string.","font":"FRIZQT__.TTF","size":15,"outline":"OUTLINE","rgb":[1.0,0.78,0.25],"low_rgb":[0.95,0.3,0.3],"mark":"cards_stack_high","hatch_alpha":0.55,"hatch_offset_px":[2,0],"pulse":{"duration_s":1.9,"alpha":[0.72,1.0],"scale":1.1},"tint":"shelf"},"bar":{"_comment":"V18. The sealed count as a SEGMENTED left-to-right bar on the row's bottom edge. SetApplicationBar drives the fill; only BarValue is sealed, so track, ticks, size and colour are ordinary setup calls, and the segment grid (one tick per application boundary) is cap's own track art. The FULL state flips the WHOLE bar to the negative red as a warning \u2014 full stacks = waste imminent \u2014 not by recolouring the fill (the value is sealed; SetStatusBarTexture is a setup call, not a curve sink) but by a second slot's count band (V16's machinery) drawing the full-width pre-tinted red crop `bar_full` at threshold = max. The radial render mode is retired with this form. \u26a0 A bar has NO BLANK STATE: the track draws at zero, which is the straight trade against V16.","height_px":6,"rgb":[1.0,1.0,1.0],"alpha":0.85,"track_rgb":[0.0,0.0,0.0],"track_alpha":0.55,"seg_px":1,"full_rgb":[0.95,0.3,0.3],"full_alpha":0.9,"tint":"shelf"},"pandemic":{"_comment":"V19. The pandemic window, which is the ONE sealed display cap authors no threshold for: AddPandemicRegion takes any Region \u2014 a Frame with children included \u2014 seals its `Shown`, and drives it off the client's own GetRefreshExtendedDuration - GetAuraBaseDuration, per spell. So the whole badge \u2014 halo, plate and dial together \u2014 appears and vanishes on Blizzard's real window. \u26a0 It carries an OnUpdate and Blizzard secretwraps even the enablement, so budget one per armed tile and do not attach speculatively. The badge holds cue-badge brightness exactly \u2014 plate at badges.plate.alpha, NO region pulse and NO numeral \u2014 and its centre is the DIAL: a radial StatusBar the CLIENT drains off the aura's own duration object (SetDurationBar -> SetTimerDuration, direction = RemainingTime; \u00a73.5.2, T1), gold arc (`dial.rgb`) over a dark track (`dial.track_rgb`/`track_alpha`) on the plate. Cap reads nothing \u2014 the bar's value is sealed (`BarValue`) and the drain is the client's. \u26a0 ApplyDurationBar never calls SetMinMaxValues, so the addon calls SetMinMaxValues(0, 1) at setup or the bar draws 0 % forever (\u00a74.8.1 finding 3); Radial render mode is pcall'd with linear fallback. (Its predecessor glyphs are both retired: timer_CW_75, a static Kenney clock whose baked 75% wedge read as a live radial attached to nothing, and briefly `fire` \u2014 the dial is the wedge's claim made TRUE, an arc that actually is the DoT draining.) \u26a0 The AddPandemicRegion + SetDurationBar one-button pair is UNFLOWN \u2014 each half measured alone (Part 5). Its motion is the FULL positive-cue treatment: V14's promotion ring (armed before the handover, FlipBook) plus `glow`, the SAME halo the positive cues wear (badges.halo art, radial falloff from badges.halo_falloff), breathing behind the plate, armed before the handover since that is the only motion that survives the in-combat forbidden-object seal (\u00a73.5.3). The OUTSIDE-window state of the pair deliberately has no token group: it reuses the count vocabulary's positive hatch crop and this group's gold, and its threshold (outside_s, seconds) is the CATALOG's number, never the shelf's.","dial":{"size_px":15,"rgb":[1.0,0.78,0.25],"track_rgb":[0.22,0.17,0.08],"track_alpha":0.6},"rgb":[1.0,0.78,0.25],"glow":{"hz":1.2,"alpha_min":0.15,"alpha_max":0.55,"scale":1.55},"tint":"shelf"},"procbar":{"_comment":"V20. The proc's remaining lifetime as a thin client-drained bar above V18's charge bar (or on the bottom edge when no charge bar is declared). SetDurationBar -> SetTimerDuration(RemainingTime); SetMinMaxValues(0,1) FIRST (\u00a74.8.1 finding 3); linear render mode. Gold over a dark track \u2014 the edge carries quantity, not polarity, which is why this lives here and not in the badge column (the corner-dial form it replaces lasted one day; V19's badge dial stays). gap_px separates it from the charge bar below. No art, so no tint key.","height_px":3,"gap_px":1,"rgb":[1.0,0.78,0.25],"track_rgb":[0.22,0.17,0.08],"track_alpha":0.6},"basecd":{"_comment":"V21, and since 2026-08-28 it is the LIVE `blocked` BADGE rather than a corner ornament beside one. A row held because a cooldown is running draws that cooldown: a red radial on the real remaining time with a white countdown numeral inside it, where the fixed clock glyph (timer_CW_50) used to sit. Two displays reach it \u2014 `sealed-base-cooldown`, this row's own base spell hidden under a transform (while a Grimoire is talented its Cooldown Manager row spends the whole 120 s wearing the dispel it becomes, and GetSpellCooldownInfo resolves the DISPLAY identity before reading, so the swipe on that row is the dispel's 15 s and the Grimoire's is drawn nowhere \u2014 cooldown-manager.md \u00a73.1.1), and `sealed-cooldown-range`, another ability's cooldown named by catalog key. The two resolve their spell differently and deliberately stay separate; they share only this look. C_Spell.GetSpellCooldownDuration goes straight into SetTimerDuration (RemainingTime) and into FormatRemainingDuration, and cap never reads a second of it back \u2014 every getter on the duration object is secret (\u00a74.8.4), while the isActive that GATES the base-cooldown form is NeverSecret and plain in restricted combat (cooldown-manager.md \u00a77). \u26a0 SetMinMaxValues(0, 1) goes in at BUILD time, before any SetTimerDuration, or a correct duration draws at 0 % width forever (\u00a74.8.1 finding 3). RED arc over a dark red track, because this IS the negative cue and V5.1 gives hue to polarity and only polarity \u2014 it is not V19's or V20's gold, which is a quantity drawn beside a verdict rather than the verdict itself. The numeral is WHITE so the number reads against the arc it sits in, and it is a leaf FontString (\u00a74.8.1 finding 10). \u26a0 NO ART \u2014 the arc is a StatusBar fill and the numeral is text \u2014 so `tint` is a deliberate \"none\" rather than an omission: this group is named in the Part 4 tint guard and an absent key fails it.","dial":{"size_px":25,"rgb":[0.95,0.3,0.3],"track_rgb":[0.24,0.09,0.09],"track_alpha":0.6},"font":"FRIZQT__.TTF","size":13,"outline":"OUTLINE","rgb":[1.0,1.0,1.0],"tint":"none"},"hotkey":{"_comment":"V15. CHROME, not a cue (spec.md \u00a73.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion \u2014 and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.","font":"Interface\\AddOns\\CombatAssistPlus\\Media\\fonts\\CapKeyMono.ttf","size":16,"outline":"THICKOUTLINE","rgb":[0.92,0.92,0.9],"alpha":0.85,"anchor":"TOPLEFT","offset":{"x":2,"y":-2}},"preview":{"_comment":"NOT THE STYLE, and structurally incapable of becoming it: `preview` is in capart.NOT_THE_STYLE, so nothing here can reach Style.lua. It exists so the previews can draw a keybind hint before one exists in the game \u2014 the point of V15's preview is judging how the text sits in the corner, and that cannot be judged against an empty string. The strings are what `Binds.Shorten` PRODUCES, not what the client hands it: lowercase modifier letters closed up against the key (the client's own `SHIFT_KEY_TEXT_ABBR` is `s`), and `M4`/`N5` where the client would say `Mouse Button 4`/`Num Pad 5`.","hotkeys":["3","s2","M4","csF1","1","4","sE","M5","2","a3","5","s4","c1","M3","sF","6","asQ","MU"],"hotkey_outline_rgb":[0.0,0.0,0.0],"hotkey_outline_px":2,"hotkey_font":{"_comment":"The font V15 draws with, and the ONE third-party asset cap redistributes. The preview embeds this exact subset and the addon ships this exact subset, so the page and the game measure the same advance widths. `ship_as` is not a preference: the upstream family carries the Reserved Font Name 'Share', a subset is a Modified Version, and OFL 1.1 clause 3 forbids a Modified Version from using it \u2014 so the shipped file is renamed and `license_url` travels beside it.","url":"https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/ShareTechMono-Regular.ttf","family":"ShareTechMono","ship_as":"CapKeyMono","rfn":"Share","license":"OFL 1.1","license_url":"https://raw.githubusercontent.com/google/fonts/main/ofl/sharetechmono/OFL.txt","shippable":true},"hotkey_font_stack":"'CapKeyMono', 'Trebuchet MS', var(--sans)","virtual_mark":{"_comment":"PREVIEW ONLY, and it exists because the preview COMPRESSES a geometry the game does not have. In the client a virtual row (V12) lives in cap's own panel, physically separate from the Cooldown Manager, and the separation is what says 'cap owns this frame'. A stepper page draws one flat left-to-right row, so that separation is gone and the icon would read as a CDM row cap has no right to. The tick restores the one bit the compression lost. It is in `preview` deliberately: nothing here can reach Style.lua, and the addon must never draw it.","rgb":[0.55,0.82,1.0],"size_px":13,"line_px":2,"overhang_px":2,"corner":"bottom-left"},"unsure":{"_comment":"PREVIEW ONLY. The loud treatment for an `\u26a0 UNSURE` annotation under a row \u2014 a claim the authoring docs themselves doubt, drawn so it cannot be read past. Amber block, not a grey footnote. It says nothing about the press and takes no part in either reading pass; it is a note to the author about the DOC, not a mark on the button.","rgb":[1.0,0.74,0.3],"bg_rgb":[0.23,0.17,0.06],"line_px":2}},"panel":{"_comment":"V12's virtual row: the geometry of cap's OWN icon strip, for presses the Cooldown Manager carries no frame for. It ships to Style.lua and Panel.lua draws from it \u2014 icon_px sizes each icon, gap_px separates them, and anchor/x/y place the strip against UIParent while grow says which way it fills. \u26a0 `anchor` positions the WHOLE strip; the edge the icons hang off is derived from `grow`, so a centred anchor stays centred as the roster grows.","icon_px":50,"gap_px":6,"anchor":"BOTTOM","x":0,"y":190,"grow":"RIGHT"},"verdicts":{"cd":{"scan":false,"swipe":true,"hatch":true,"cues":[]},"weave":{"scan":true,"swipe":false,"cues":[]},"ruled-sealed":{"_comment":"V17. The row is RULED OUT by a sealed count band \u2014 the client evaluated cap's own rule against a secret and drew the hatch and the mark itself. It carries no `cues` because there is no cue: the marks come out of one FontString the client writes, and a cue is a badge cap shows. It eliminates anyway, which is the whole novelty \u2014 this is the first eliminating signal that is neither Blizzard's swipe nor cap's own badge.","scan":true,"swipe":false,"eliminates":true,"cues":[]},"press":{"scan":true,"swipe":false,"cues":[]},"open":{"scan":true,"swipe":false,"cues":[]}},"surfaces":{"icon_px":56,"row_gap_px":6,"border_px":1,"swipe":{"color":[0.0,0.0,0.0],"alpha":0.72},"count_tile":{"font":"FRIZQT__.TTF","size":14,"outline":"OUTLINE"},"proc_glow_alpha":0.5},"assets":{"icon_size":56,"encode":"webp","quality":90},"budget":{"_comment":"TWO ceilings, because there are two quantities and one number was standing in for both. Each is a WARNING from `build` \u2014 never a blocked rebuild.","_comment_max_base64_kb":"The per-page BASE64 ASSET payload: badge sprites + spell icons + the hatch sheet, the sum `capart assets` totals. Nothing else. Until 2026-08-27 `build` measured `len(page)` against this, so it was reporting markup as asset bloat, and it had been raised 300 \u2192 350 to accommodate roughly 15 KB of per-ability state-table MARKUP. Now that it measures what it names, 350 was six times the largest real payload (Havoc, 55 KB) and could not have fired for anything \u2014 so it is set to 80, which leaves room for a spec with a much longer roster and still notices a doubling. Move it when a spec legitimately needs more ART, never to quiet a page that has grown more HTML.","max_base64_kb":80,"_comment_max_page_kb":"TOTAL page weight \u2014 the whole built HTML, markup, embedded JSON and assets together. Distinct from `max_base64_kb`: this is what a browser downloads, and it grows for reasons that are nobody's mistake (a spec with more scenarios, the per-ability state tables). It exists so page weight is watched by a ceiling of its own instead of borrowing the asset one. Largest today is Havoc at 359 KB, with Protection next at 352; 400 gives the state tables room and still says something when a page grows substantially. \u26a0 That is ~10 % of headroom, which is deliberate \u2014 a ceiling a page can never approach is the dead gate this pair was split to avoid.","max_page_kb":400},"lab":{"_comment":"NO AUTHORITY. Part 7. Nothing in `verdicts` or `cues` may name anything in here; capart enforces it. A treatment leaves the lab by being MOVED into Parts 1-6, never by being cited from there. A new idea gets a `lab` key, an `asks`, and a section in Part 7. \u26a0 EMPTY, which is a resting state and not a fault \u2014 Part 7 says an empty lab means every idea drawn here has been adopted or answered, not that nobody is trying anything. `duration_band` (L7) was CLEARED 2026-08-27: its cells had drifted out of agreement with its own `asks`, drawing the RemainingPercent route as though the question were still open after V19 promoted the seconds form. `ring_collision` (L9) was WITHDRAWN 2026-08-28 without an answer \u2014 the ledger has both rows. The collision it drew is still the open design question Part 3 records; what left was the lab entry, not the question."}}</script>
+<script type="application/json" id="cap-data">{"built":"2026-08-29","client_paint":{"_source":"CooldownViewer.lua:1204-1233 + :14-22 @ 12.1.0.69273","_doc":"knowledge/addon-dev/cooldown-manager.md \u00a73.4","tints":{"out-of-range":{"rgb":[0.64,0.15,0.15],"constant":"ITEM_NOT_IN_RANGE_COLOR","means":"the target is out of range \u2014 outranks every other branch"},"not-enough-power":{"rgb":[0.5,0.5,1.0],"constant":"ITEM_NOT_ENOUGH_MANA_COLOR","means":"you cannot pay for it \u2014 C_Spell.IsSpellUsable's second return"},"unusable":{"rgb":[0.4,0.4,0.4],"constant":"ITEM_NOT_USABLE_COLOR","means":"unusable for some other reason"}},"usable_constant":"ITEM_USABLE_COLOR","cooldown_desaturates":true},"abilities":{},"scenarios":[],"scan_samples":[],"notes":[],"frames":{},"lab_stripes":null,"outline_sheet":null,"lab_sprites":{},"lab_vfx":{},"lab_fonts":{},"promotion":null,"provenance_html":"<table><tr><th>render-lab.json</th><td>sha 7708b59905b5 \u00b7 0 entries</td></tr><tr><th>reference roster</th><td>havoc \u00b7 catalog.md</td></tr><tr><th>icons</th><td>0 \u00d7 56px webp</td></tr><tr><th>authority</th><td><b>none</b> \u2014 Part 7 rule 3. A treatment leaves by being MOVED into Parts 1\u20136, never by being cited from here.</td></tr><tr><th>built</th><td>2026-08-29</td></tr></table>"}</script>
 <script>
 /* Combat Assist Plus — preview behavior.
  *
@@ -1494,6 +1550,26 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     return slot;
   }
 
+  /* V22 · the badge with a number in it, where cap holds the count. Same slot, same plate, same
+   * hue and same corner as the sprite badge it stands in for — the ONLY thing it replaces is the
+   * glyph. `implosion_no_imps` is the case: `!aura(wild_imp)` means zero, so the `0` is cap's own
+   * literal rather than the client's FontString, and the row reads 0 → red 1-5 → gold 6+. */
+  function numeralNode(key, value) {
+    var slot = badgeNode(key, 0);
+    var sprite = slot.querySelector(".sprite");
+    if (sprite) slot.removeChild(sprite);
+    var n = el("div", "cue-numeral");
+    n.textContent = String(value);
+    /* The NEGATIVE count ink, which is byte-identical to the shared badge red: a `0` and a `1`
+     * are the same statement about the same row and must not be two reds. A positive numeral
+     * would take `--count-rgb`; no cue asks for one. */
+    var cue = T.cues[key] || {};
+    n.style.setProperty("--sx-ink",
+      cue.polarity === "positive" ? "var(--count-rgb)" : "var(--count-low)");
+    slot.appendChild(n);
+    return slot;
+  }
+
   /* ------------------------------------------------------------------ V13 · the scan edge
    *
    * One hue, no roles, no motion. Its numbers come from `tokens.ready`, emitted as --ready-* by
@@ -1506,7 +1582,39 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     var n = el("div", "ready-line");
     n.style.setProperty("--rl-rgb", "var(--ready-rgb)");
     n.style.setProperty("--rl-rest", "var(--ready-alpha)");
-    n.style.setProperty("--rl-line", "var(--ready-line)");
+    outlineMask(n);
+    return n;
+  }
+
+  /* THE ONE OUTLINE SHEET, nine-sliced (render-shelf.md V13). The same generated file the addon
+   * ships as `Media/outline.tga`, tinted here by `background-color` under the mask exactly as
+   * `SetVertexColor` multiplies it there.
+   *
+   * ⚠ SLICED, not stretched: `mask-box-image`'s slice keeps the corners at native size and
+   * stretches each edge along one axis, so the outline is a crisp `--outline-line` at any icon size.
+   * Stretching the whole sheet would fatten and blur the line off the nominal icon — the same
+   * defect frozen escape sizes had, arriving through the art.
+   *
+   * ⚠ Resolved AT CALL TIME for the reason `maskedStripe` documents: the gallery is built before
+   * this file's Part 7 section runs, so a module-scope hoist of the sheet is still undefined.
+   * Without the mask the element is a filled block rather than an outline, so the fallback is a
+   * plain border in the same ink — visibly the old treatment, never a solid square over the icon.
+   */
+  function outlineMask(n) {
+    var sheet = D.outline_sheet;
+    if (!sheet) return n;
+    var v = "url(" + sheet.uri + ") var(--outline-slice) stretch";
+    n.style.setProperty("-webkit-mask-box-image", v);
+    n.style.setProperty("mask-border", v);
+    // ⚠ THE CLASS GOES ON ONLY IF THE MASK ACTUALLY TOOK, and that guard is load-bearing.
+    // `setProperty` is SILENT on a property the renderer does not know, while `.outlined` trades
+    // the border for a fill — so adding it unconditionally left any renderer without
+    // `mask-border` drawing a SOLID BLOCK over the icon instead of an outline. Measured
+    // 2026-08-29; the plain border below is the real fallback only because of this line.
+    if (n.style.getPropertyValue("-webkit-mask-box-image")
+        || n.style.getPropertyValue("mask-border")) {
+      n.classList.add("outlined");
+    }
     return n;
   }
 
@@ -1546,13 +1654,19 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     // FontString that draws the mark, so it reads exactly as ruled out — and it carries no cue,
     // because a cue is a badge cap shows and this is not one.
     if (rule.eliminates) ruledOut = true;
-    if (ruledOut) item.appendChild(skipLayer());
 
     // Every non-`cd` row is IN THE SCAN and wears the edge. `press` and `open` render
     // IDENTICALLY, and that is the point: the press is "the leftmost thing not
     // ruled out", not a thing cap draws (render-shelf.md Part 0.5). The edge goes OVER the art
     // — it is a rim on the button, not a layer across it.
     if (rule.scan) item.appendChild(scanMark());
+    // ⚠ AND THE ELIMINATING HATCH GOES OVER THE EDGE, which is why it is appended after it.
+    // A scan edge says *this row is in the read*; this says *this row is out*. A row wearing a
+    // negative cue wears both, so the contradiction is the normal case rather than an edge case,
+    // and the later word wins (render-shelf.md Part 2.5). It stays BELOW the chrome, the sealed
+    // displays and the badges appended after it: those are the marks that say *why*, and they
+    // have to stay legible on top of the thing they caused.
+    if (ruledOut) { item.appendChild(skipLayer()); item.appendChild(skipOutline()); }
 
     // V15 · the keybind hint. CHROME, not a cue (spec.md §3.8): it names the row and takes no
     // part in the scan, so it holds the top-left corner the badges never flow into and no
@@ -1578,6 +1692,42 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
       item.appendChild(vm);
     }
 
+    var open = false;
+    cueList.forEach(function (k) { if ((T.cues[k] || {}).open) open = true; });
+    // THE Z-STACK'S WINNER, and it is the only badge built. The corner is one pixel deep: every
+    // badge draws at the same place and the top of the order is what you see. That order is
+    // Part 0.5's reading model rather than the cue rank — negatives occlude positives, rank
+    // decides inside a polarity — because the two failure directions are not symmetric: a
+    // negative hidden behind a positive makes a HELD row look pressable, which costs the press.
+    // A loser is not drawn at all, which is this page's version of the addon hiding its frame.
+    //
+    // ⚠ RESOLVED BEFORE THE SEALED DISPLAYS ARE BUILT, because one of them may BE the winner:
+    // a cue whose block is a cooldown draws that cooldown live (`cue_dials`) instead of the
+    // frozen clock glyph, and the dial must then not also be built underneath as an ornament.
+    var winner = null;
+    cueList.forEach(function (k) {
+      var cue = T.cues[k] || {};
+      var it = { key: k, band: cue.polarity === "positive" ? 1 : 0, rank: cue.rank || 99 };
+      if (!winner || it.band < winner.band
+          || (it.band === winner.band && it.rank < winner.rank)
+          || (it.band === winner.band && it.rank === winner.rank && it.key < winner.key)) {
+        winner = it;
+      }
+    });
+    // Does the winning cue draw as a LIVE DIAL? The catalog entry says so: a marker declaring
+    // both a `cue` and a cooldown display (`sealed-base-cooldown` / `sealed-cooldown-range`)
+    // means this cue's badge IS the countdown, red arc and white numeral, not the still clock.
+    var winnerIsDial = !!(winner && (entry.cue_dials || []).indexOf(winner.key) !== -1);
+    // WHICH dial. `cue_dials` says a cue draws as one; the row's own `{sealed: …}` group says
+    // which sink is drawing it — the cooldown form with its numeral, or the aura form without.
+    var dialKind = ((entry.sealed || []).indexOf("aura-remaining") !== -1)
+      ? "aura-remaining" : "base-cooldown";
+    // ...or as a NUMERAL (V22)? Same declaration-driven question, one table over: the entry says
+    // which of its cues cap draws as a number it authored rather than as the shared glyph.
+    var nums = entry.cue_numerals || {};
+    var winnerNumeral = (winner && !winnerIsDial && nums[winner.key] != null)
+      ? nums[winner.key] : null;
+
     // The SEALED DISPLAYS (render-shelf.md V16-V19). Every one of them is art the client draws
     // from a rule cap authored and never reads back, so the preview draws the SHAPE and states
     // the value nowhere: a scenario names the sink, and what value the client found is exactly
@@ -1585,36 +1735,66 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     // Corner sealed displays (V19/V20) take stack slots 0..n-1 in declared order; the cue
     // badges below start at slot n (render-shelf.md Part 2.5's cession rule — static, because
     // whether the client is showing one is sealed).
-    var cornerAt = 0;
-    (entry.sealed || []).forEach(function (kind) {
-      var sn = sealedNode(kind, entry);
-      // The corner CLAIMERS: V19's badge, and V16's corner elements (whose own node draws at
-      // slot 0 by its inner CSS — counted so the cue badges below start one step down, which
-      // is what the addon's countSink does with the same claim). V20 claims nothing: it lives
-      // on the bottom edge.
-      if (kind === "pandemic" || kind === "count-bands") {
-        sn.setAttribute("data-index", String(cornerAt));
-        cornerAt += 1;
-      }
-      item.appendChild(sn);
+    // ⚠ THE CLAIM IS THE ENTRY'S, NOT THIS ROW'S. `corner_claims` is every corner display the
+    // catalog ENTRY declares, in marker order; the addon claims those slots off
+    // `item.entry.markers` whether or not the client is drawing into one, because whether it
+    // is drawing is sealed and the stack cannot re-flow on it. So a declared-but-undrawn claim
+    // still holds its slot here and the cue badges still start below it. Reading the row's own
+    // `{sealed: …}` group instead — what THIS state draws — is the bug this replaced: it put
+    // `imp_st_and_no_imps`'s two cue badges at slots 0 and 1 where the client puts them at 2
+    // and 3, and drew two badges for a row the client gives four.
+    var claims = entry.corner_claims;
+    // A spec still on a hand-written catalog ships no claims; fall back to the row's own
+    // corner-claiming displays, which is what every spec did before catalog.json existed.
+    if (!claims) {
+      claims = (entry.sealed || []).filter(function (k) {
+        return k === "pandemic" || k === "count-bands" || k === "base-cooldown";
+      });
+    }
+    // V20 claims nothing (it lives on the bottom edge) and V18's bar rides its own slot, so the
+    // non-claiming displays this row draws are appended without moving anything.
+    var unclaimed = (entry.sealed || []).filter(function (k) {
+      // ⚠ The dial is ONE widget. A row whose winning cue is drawn as the countdown declares
+      // `sealed: ["base-cooldown"]` as well — that declaration is what says the client is
+      // draining a duration here — so building it again below the badge would stack two
+      // identical dials, the lower one invisible and the upper one arriving from the other path.
+      return !(winnerIsDial && k === dialKind);
+    });
+    // ⚠ APPENDED IN REVERSE DECLARATION ORDER, and that IS the z-order. Absolutely-positioned
+    // siblings with no z-index paint in DOM order, so appending last-declared first leaves the
+    // first-declared claim on top of the ones after it and every one of them under the cue
+    // badges appended below — which is the addon's frame-level order (`Paint.CornerLevel`,
+    // `Paint.CueLevel`) expressed in the one mechanism CSS gives for free.
+    claims.slice().reverse().forEach(function (kind) {
+      var at = unclaimed.indexOf(kind);
+      // Declared but not drawing in this state: the claim is ceded and nothing is built for it.
+      // ⚠ An entry may declare the SAME kind twice (implosion's two count-bands markers) and the
+      // row's group names it once — the doc does not say which marker armed, so the first
+      // matching claim draws and the rest reserve. That is an approximation and the only one here.
+      if (at === -1) return;
+      unclaimed.splice(at, 1);
+      item.appendChild(sealedNode(kind, entry));
+    });
+    unclaimed.forEach(function (kind) {
+      item.appendChild(sealedNode(kind, entry));
     });
 
-    var open = false;
-    // Sorted by the cue's RANK, not by the order the catalog happened to name them, so two rows
-    // wearing the same pair always stack them the same way round. Positives rank above
-    // negatives, so a promotion lands on the corner (render-shelf.md Part 1).
-    var cues = cueList.slice().sort(function (a, b) {
-      return ((T.cues[a] || {}).rank || 99) - ((T.cues[b] || {}).rank || 99);
-    });
-    cues.forEach(function (k, i) {
-      if ((T.cues[k] || {}).open) open = true;
-      var node = badgeNode(k, i + cornerAt);
-      // V14 rides the badge it belongs to, so it moves with the stack rather than being
-      // anchored to the corner independently.
-      if ((T.cues[k] || {}).polarity === "positive") node.insertBefore(promoRing(), node.firstChild);
+    if (winner) {
+      // The badge, or the dial that has taken its place. `sealedNode("base-cooldown")` is the
+      // same widget V21 draws in the corner — plate, red radial, white countdown — and drawing
+      // it here rather than there is the whole of "not a new badge; a truthful one".
+      var node = winnerIsDial ? sealedNode(dialKind, entry)
+        : winnerNumeral !== null ? numeralNode(winner.key, winnerNumeral)
+        : badgeNode(winner.key, 0);
+      // V14 rides the WINNER: a ring around an occluded badge would put a promotion's glow on a
+      // row cap is ruling out.
+      if (!winnerIsDial && (T.cues[winner.key] || {}).polarity === "positive") {
+        node.insertBefore(promoRing(), node.firstChild);
+      }
       item.appendChild(node);
-    });
+    }
     if (open) item.setAttribute("data-open", "1");
+
 
     var col = el("div", "lane");
     col.appendChild(item);
@@ -1800,6 +1980,9 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     opts = opts || {};
     return itemNode({ name: name, verdict: verdict, cues: opts.cues,
                       sealed: opts.sealed, count: opts.count,
+                      // A gallery swatch has no catalog entry behind it, so it says for itself
+                      // which cues it wants drawn as the live dial rather than the still glyph.
+                      cue_dials: opts.cue_dials, cue_numerals: opts.cue_numerals,
                       outside: opts.outside, full: opts.full }, 0).firstChild;
   }
 
@@ -1881,21 +2064,29 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
    *   count-bar      — V18. The radial, inside the badge plate. Drawn at a nominal fraction: a
    *                    bar has no blank state, so "there is an arc here" is the whole claim.
    *   pandemic — V19. The badge the client shows and hides on Blizzard's own window.
+   *   base-cooldown  — V21, and since 2026-08-28 the LIVE `blocked` BADGE: the dial again, with
+   *                    the countdown numeral inside it, red arc and white numeral because this
+   *                    IS the negative cue rather than a quantity beside one. Two catalog
+   *                    displays reach it — `sealed-base-cooldown` (this row's own base spell,
+   *                    hidden under a transform) and `sealed-cooldown-range` (another
+   *                    ability's, named by key) — and they differ only in whose cooldown, which
+   *                    is a fact about `Channel.lua` and not about the picture.
    */
   /* The dial. In the client this is a radial StatusBar the CLIENT drains off the aura's own
    * duration (SetDurationBar, direction = RemainingTime) — cap reads nothing. Here a
    * conic-gradient counting down over a nominal looping window, driven so the swatch shows a
    * LIVE drain: a static wedge is exactly the lie timer_CW_75 was retired for. Shared by V19's
    * window badge and V20's proc dial — one dial look, wherever a dial draws. */
-  function liveDial() {
-    var dial = el("div", "sealed-pd-dial");
+  function liveDial(arc, track, cls) {
+    var dial = el("div", cls || "sealed-pd-dial");
+    var arcVar = arc || "--pd-dial-rgb", trackVar = track || "--pd-dial-track";
     var pdWin = 6, pdLive = false;
     var pdTick = setInterval(function () {
       if (dial.isConnected) pdLive = true;
       else if (pdLive) { clearInterval(pdTick); return; }
       var frac = 1 - ((Date.now() / 1000) % pdWin) / pdWin;
-      dial.style.background = "conic-gradient(var(--pd-dial-rgb) " +
-        (frac * 360).toFixed(1) + "deg, var(--pd-dial-track) 0)";
+      dial.style.background = "conic-gradient(var(" + arcVar + ") " +
+        (frac * 360).toFixed(1) + "deg, var(" + trackVar + ") 0)";
     }, 100);
     return dial;
   }
@@ -1940,6 +2131,30 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
       }, 100);
       pb.appendChild(pbFill);
       return pb;
+    }
+    if (kind === "base-cooldown") {
+      /* V21: the row's OWN cooldown, where the client is drawing another button's. A corner
+       * badge whose centre is a client-drained radial with the countdown numeral inside it.
+       * The number is nominal — cap never learns one, and the point of drawing it here is
+       * judging whether it is legible at this diameter before any of it reaches the game. */
+      var bc = el("div", "sealed sealed-basecd");
+      bc.appendChild(el("div", "sealed-plate"));
+      bc.appendChild(liveDial("--basecd-rgb", "--basecd-track", "sealed-basecd-dial"));
+      var bcn = el("div", "sealed-basecd-count");
+      bcn.textContent = "104";
+      bc.appendChild(bcn);
+      return bc;
+    }
+    if (kind === "aura-remaining") {
+      /* V21's third supplier: an AURA's remaining, in the badge's place. Same plate and same red
+       * radial as `base-cooldown` — and NO numeral, because the number is genuinely unavailable:
+       * V21's comes from `FormatRemainingDuration` on a cooldown object cap holds, and the only
+       * aura-side text sink (`SetDurationText`) emits fixed strings, never a value. The arc alone
+       * is still strictly more than a clock frozen at 50 %. */
+      var ar = el("div", "sealed sealed-basecd");
+      ar.appendChild(el("div", "sealed-plate"));
+      ar.appendChild(liveDial("--basecd-rgb", "--basecd-track", "sealed-basecd-dial"));
+      return ar;
     }
     if (kind === "pandemic") {
       /* The pair's OTHER state: aura up, OUTSIDE the window — the gold do-not-refresh hatch,
@@ -2035,6 +2250,19 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
     var n = maskedStripe("stripes skip-hatch", "var(--hatch-skip-rgb)",
                          "var(--hatch-skip-phase)");
     return n;
+  }
+
+  /* cap's own ruled-out OUTLINE, and it is a SEPARATE element on purpose. It used to be a CSS
+   * `border` on the striped layer above — and a mask clips an element's border along with
+   * everything else, so the stripe sheet was cutting the outline into dashes. It was never a
+   * ring. Here it is the same sliced ring sheet V13's scan edge uses, at the same place, in the
+   * skip ink: the red covers the yellow exactly instead of ringing it. The stripes keep the
+   * overhang; the outline sits on the icon rect. */
+  function skipOutline() {
+    var n = el("div", "ready-line skip-outline");
+    n.style.setProperty("--rl-rgb", "var(--hatch-skip-edge-rgb)");
+    n.style.setProperty("--rl-rest", "var(--hatch-skip-edge-alpha)");
+    return outlineMask(n);
   }
 
   /* V14 · the promotion ring — a glowing ring around the badge of a row wearing a positive cue.
@@ -2898,7 +3126,24 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
         // client would be showing, not the entry's base face, so the art (and the simulated
         // hotkey, which is per roster position) differ from the heading above.
         cell.appendChild(itemNode({
-          name: st.shows || grp.name, verdict: st.verdict, cues: st.cues, sealed: st.sealed
+          name: st.shows || grp.name, verdict: st.verdict, cues: st.cues, sealed: st.sealed,
+          // Every state of an entry cedes the same corner slots — the claim is the entry's.
+          corner_claims: grp.corner_claims,
+          // ...and which of its cues are drawn as a live countdown rather than a still glyph,
+          // or as a numeral cap authored. Entry-level for the same reason: the claim is the
+          // declaration's.
+          cue_dials: grp.cue_dials,
+          cue_numerals: grp.cue_numerals,
+          // The band's NUMERAL and its hue. Without these the count-bands sink falls through to
+          // the mark glyph, which is a picture neither Implosion band declares — both say
+          // `draw: "count"`. ⚠ Nominal, unlike V22's literal: the card illustrates the band, and
+          // what value the client found is exactly the thing cap cannot know.
+          count: st.count,
+          count_dir: st.count_dir,
+          // WHAT BLIZZARD PAINTS ON THIS ICON, when the state says so. `itemNode` already runs
+          // `clientPaint` off `entry.client` for a scenario row; a state card is the source of
+          // truth for what a row looks like and had no way to mention the client's own tint.
+          client: st.client
         }, 0));
         cell.id = st.code;
         var cap = el("div", "cap");
@@ -2906,6 +3151,7 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
                    '<code class="muted">' + st.id + "</code><br>" +
                    "<b>" + st.condition + "</b><br><code>" + st.verdict + "</code>";
         if (st.shows) bits += " · the icon is " + st.shows + ", not the heading's";
+        if (st.client) bits += " · the client tints it " + st.client;
         if (st.cues.length) bits += " · cues " + st.cues.join(", ");
         if (st.sealed.length) bits += " · sealed " + st.sealed.join(", ");
         if (st.slot !== null && st.slot !== undefined) bits += " · slot " + st.slot;

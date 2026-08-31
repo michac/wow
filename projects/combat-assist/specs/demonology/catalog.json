@@ -201,6 +201,50 @@
             }
           ],
           "note": "Cue K, and it reads this row's OWN identity — `ha_banks_bulwark` and `star_counter` are the shape, not cue D, which reads another row's. `overrideSpellID ~= spellID` here means the Grimoire's cooldown is running and the button on the icon is the dispel it becomes. cap's overlay reads the ROTATION; while the row is the dispel it is not the rotation entry the reader is looking for, so `blocked` says *this is not your Grimoire* — a statement about identity, never advice to avoid a castable button."
+        },
+        {
+          "id": "grimoire_base_cooldown",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "baseoncd",
+              "args": [
+                "grimoire"
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-base-cooldown",
+            "ability": "grimoire"
+          },
+          "note": "V21, and it is the fact cue K leaves out — so it says it in cue K's own badge rather than beside it. Cue K rules this row out on identity; it says nothing about WHEN the row stops being the dispel, which is what a ramp is waiting for. Since 2026-08-28 the two are one statement: this marker declares `blocked`, and a `blocked` badge whose block is a cooldown draws that cooldown live — a red radial on the real remaining with a white countdown in it — instead of `timer_CW_50`, a picture of a clock face frozen at 50 % on a row where the real remaining exists and is reachable. `baseoncd` is the readable half — `C_Spell.GetSpellCooldown(baseID).isActive`, NeverSecret and plain in restricted combat — and it gates a badge whose arc and numeral the CLIENT draws off the base spell's own duration object, which cap hands over and never reads. ⚠ The dial reads the BOUND ROW's base id, not this declaration's `spell`: the entry covers both halves of a choice node through `alt`, so on a Fel Ravager build the declared id is the wrong half. The `ability` here names the subject, not the spell that is read."
+        },
+        {
+          "id": "grimoire_awaits_tyrant",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "talent",
+              "args": [
+                "reign_of_tyranny"
+              ]
+            },
+            {
+              "pred": "baseoncd",
+              "args": [
+                "grimoire"
+              ],
+              "negate": true
+            }
+          ],
+          "display": {
+            "kind": "sealed-cooldown-range",
+            "ability": "summon_demonic_tyrant",
+            "beyond": 3,
+            "within": 10
+          },
+          "display_exception": "AUTHORED PAST THE APL, in the same style as cue I. `actions.diabolist+=/grimoire_imp_lord` (simc-apl.md rung 3) is unconditional — upstream presses the Grimoire the moment it is up and never asks about Tyrant. The evidence that players do otherwise is 200 Season-2 M+ parses (zone 55, top-25 DPS per dungeon, 82 players, 2467 Grimoire casts): within-pull Grimoire gap median 125.2 s on a 120 s cooldown, landing a median 4.4 s BEFORE Tyrant, |delta| <= 10 s in 70.7 % of pairs. A synthetic strictly-on-cooldown control run against the same logs lands at chance (31.8 % against a 33.3 % uniform baseline), so the alignment is not an artefact of two 120 s cooldowns drifting together. Banking a Grimoire a whole Tyrant cycle: 0.9 %. Players NUDGE, they do not HOLD — which is why the band is narrow and one-sided-in-effect rather than a hold until Tyrant. ⚠ Its weaknesses, recorded beside it: the control is SYNTHETIC rather than a second population; the observations are not independent (82 players, one of whom holds 5 of 8 rank-1 slots); top-parse selection; ten days of data. ⚠ `3` and `10` are NOT measured optima — `3` is 2 x gcd.max, the floor at which a press still lands before Tyrant, and `10` is rung 6's own idiom (`12 - gcd.max` = 10.5, `20 + gcd.max` = 21.5) narrowed to one cast rather than two.",
+          "note": "The band that makes the Grimoire's own hold legible, and the second display on this row to draw as a live dial. While the Grimoire is READY and Tyrant's cooldown is inside (3, 10), the client paints `blocked` and the badge is Tyrant's remaining — the thing the reader is actually waiting on. ⚠ The `!baseoncd` term is load-bearing and not decoration: this row is never swiped (the button on it is the dispel, with its own 15 s), so without it the band would arm while the Grimoire itself is on cooldown and two dials would claim the same badge. `baseoncd` is the one readable term that says which of the two is the live question."
         }
       ],
       "states": [
@@ -210,13 +254,16 @@
           "shows": "Singe Magic",
           "verdict": "cd",
           "cues": [],
-          "sealed": [],
-          "slot": null,
-          "exception": "No rung expresses it — a priority list only ever says when to press. The swipe here is Blizzard's and it rules the row out before cap has an opinion, but it belongs to the DISPEL: `RecoveryTime = 15000` on Singe Magic / Devour Magic, against the Grimoires' `CategoryRecoveryTime = 120000` [T1 db2: SpellCooldowns @ 12.1.0.69214]. A reader who sees a swipe on this row is watching a 15 s dial, not the 120 s one underneath.",
-          "drawn_by": [
-            "V11"
+          "sealed": [
+            "base-cooldown"
           ],
-          "note": "The state that keeps `cd` honest on this row. `grimoire_shows_dispel` is still true here — the identity has not changed — but the swipe eliminates first and cap draws nothing over it."
+          "slot": null,
+          "exception": "No rung expresses it — a priority list only ever says when to press. The swipe here is Blizzard's and it rules the row out before cap has an opinion, but it belongs to the DISPEL: `RecoveryTime = 15000` on Singe Magic / Devour Magic, against the Grimoires' `CategoryRecoveryTime = 120000` [T1 db2: SpellCooldowns @ 12.1.0.69214]. The swipe on this row is the 15 s one; the Grimoire's 120 s is V21's badge, on the corner, and the two clocks are both on screen and mean different things.",
+          "drawn_by": [
+            "V11",
+            "V21"
+          ],
+          "note": "The state that keeps `cd` honest on this row. `grimoire_shows_dispel` and `grimoire_base_cooldown` are both still true here — the identity has not changed and the Grimoire's own clock is running — but the swipe eliminates first and cap draws no cue over a row Blizzard has already ruled out. What remains is the dial itself, carrying no verdict: it says when the row stops being the dispel, on a row that is dark for a different reason."
         },
         {
           "id": "grimoire_shows_dispel",
@@ -226,18 +273,22 @@
           "cues": [
             "blocked"
           ],
-          "sealed": [],
-          "slot": "flow",
+          "sealed": [
+            "base-cooldown"
+          ],
+          "slot": null,
           "combines": [
-            "grimoire_shows_dispel"
+            "grimoire_shows_dispel",
+            "grimoire_base_cooldown"
           ],
           "exception": "No rung expresses it. The priority list presses the Grimoire and says nothing about the utility spell the button becomes underneath — and Blizzard does not rule the row out here either, because the button on the icon is a different spell with its own cooldown, which is not running.",
           "drawn_by": [
             "V5",
             "V11",
-            "V13"
+            "V13",
+            "V21"
           ],
-          "note": "Cue K. The 13 mid-fight scenarios that used to draw this row `cd` draw this instead."
+          "note": "Cue K, drawn AS V21. One badge, not two: the `blocked` verdict and the Grimoire's own remaining are the same statement, so the red radial with the countdown in it IS the cue and the still clock glyph is not drawn over it. `grimoire_shows_dispel` and `grimoire_base_cooldown` both declare `blocked` here and agree by construction — the row is the dispel exactly while the Grimoire's cooldown runs."
         },
         {
           "id": "grimoire_dispel_during_ramp",
@@ -248,19 +299,41 @@
             "blocked",
             "building"
           ],
-          "sealed": [],
-          "slot": "flow",
+          "sealed": [
+            "base-cooldown"
+          ],
+          "slot": null,
           "combines": [
             "grimoire_shows_dispel",
-            "grimoire_awaits_shards"
+            "grimoire_awaits_shards",
+            "grimoire_base_cooldown"
           ],
           "exception": "Neither half is a rung: cue K is an identity statement the priority list has no vocabulary for, and the ramp hold is authored past rungs 3 and 4, which are unconditional.",
           "drawn_by": [
             "V5",
             "V11",
-            "V13"
+            "V13",
+            "V21"
           ],
-          "note": "The co-occurrence, stated. `grimoire_awaits_shards` carries no identity term, so it arms on the transformed row too and the icon wears BOTH cards — same hue, both negative, so the row reads as held either way. `blocked` is the one that governs: the ramp's card is still literally true, the board IS below five shards, but it is advice about a button that is not on the icon. DEM-4, DEM-10 and DEM-12."
+          "note": "The co-occurrence, stated. `grimoire_awaits_shards` carries no identity term, so it arms on the transformed row too and the icon wears BOTH cards — same hue, both negative, so the row reads as held either way. `blocked` is the one that governs — it outranks cue I in the badge stack — and here it governs as the live dial: the ramp's card is still literally true, the board IS below five shards, but it is advice about a button that is not on the icon, and what the reader needs is when the button comes back. DEM-4, DEM-10 and DEM-12."
+        },
+        {
+          "id": "grimoire_awaits_tyrant",
+          "condition": "ready and displaying the Grimoire, Reign of Tyranny talented, Tyrant's cooldown inside (3, 10)",
+          "verdict": "open",
+          "cues": [
+            "blocked"
+          ],
+          "sealed": [],
+          "slot": null,
+          "exception": "Authored PAST the priority list, in cue I's own style: rung 3 is unconditional, so no rung expresses a hold for Tyrant. The evidence that players hold anyway is on the marker (`grimoire_awaits_tyrant`, `display_exception`) — 2467 Grimoire casts across 200 Season-2 M+ parses, landing a median 4.4 s before Tyrant against a synthetic on-cooldown control at chance.",
+          "drawn_by": [
+            "V5",
+            "V11",
+            "V13",
+            "V21"
+          ],
+          "note": "The band, and the second thing on this row to draw as a live dial — this time it is TYRANT'S clock, not the Grimoire's, because Tyrant is what the hold is waiting for. The client evaluates the two-sided band and paints the badge; cap never learns Tyrant's remaining and hands the same duration object to the arc and to the numeral. UNFLOWN."
         },
         {
           "id": "grimoire_ramp_hold",
@@ -270,7 +343,7 @@
             "building"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "exception": "Authored PAST the priority list. Rungs 3 and 4 are unconditional — upstream presses the Grimoire on cooldown — so no rung expresses this hold. It is the summon block's shared ramp opinion, uniform across four rows and playtest-gated.",
           "drawn_by": [
             "V5",
@@ -291,6 +364,29 @@
             "V13"
           ],
           "note": "Reached by elimination."
+        }
+      ],
+      "excludes": [
+        {
+          "pair": [
+            "grimoire_awaits_tyrant",
+            "grimoire_base_cooldown"
+          ],
+          "why": "The same readable term, both ways round: `grimoire_base_cooldown` arms on `baseoncd(grimoire)` and `grimoire_awaits_tyrant` on `!baseoncd(grimoire)`. Written as an explicit negation rather than left to the band, because this row is never swiped — the button on it is the dispel, with its own 15 s — so nothing else would have kept the Tyrant band off a Grimoire that is itself on cooldown, and two dials would have claimed one badge."
+        },
+        {
+          "pair": [
+            "grimoire_awaits_tyrant",
+            "grimoire_shows_dispel"
+          ],
+          "why": "Cue K arms on `identity(grimoire, \"transformed\")`, and the row is transformed exactly while the Grimoire's own cooldown runs (the entry note: override row `1276623` / `1276610`, `EffectAura` 333). `grimoire_awaits_tyrant` carries `!baseoncd(grimoire)`, which is that same fact negated, so the two cannot be true together."
+        },
+        {
+          "pair": [
+            "grimoire_awaits_tyrant",
+            "grimoire_awaits_shards"
+          ],
+          "why": "Cue I requires Tyrant READY — cooldown remaining zero — and the Tyrant band only draws while that remaining is inside (3, 10). A ready Tyrant is outside the band by construction, the same exclusion `call_dreadstalkers` states for its own band."
         }
       ]
     },
@@ -340,7 +436,7 @@
             "building"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "exception": "Authored PAST the priority list, as on the rest of the summon block: rung 5 is unconditional. ⚠ Here the uniformity is the WHOLE justification — this row is Midnight-new and the hold has no played experience behind it.",
           "drawn_by": [
             "V5",
@@ -429,7 +525,7 @@
             "building"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "exception": "Authored PAST the priority list: neither rung 6 nor rung 7 mentions Soul Shards. The block's shared readable hold, playtest-gated.",
           "drawn_by": [
             "V5",
@@ -446,14 +542,15 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 6",
           "drawn_by": [
             "V5",
             "V11",
-            "V13"
+            "V13",
+            "V21"
           ],
-          "note": "Cue J. The client evaluates the two-sided band and paints the badge; cap never learns Tyrant's remaining. Closes Defeats item 1. UNFLOWN."
+          "note": "Cue J, drawn as a live dial since 2026-08-28: the badge IS Tyrant's remaining — a red radial with a white countdown in it — rather than a still clock face beside a hold whose whole content is how long. The client evaluates the two-sided band and paints the badge, and hands the same duration object to the arc and the numeral; cap never learns Tyrant's remaining either way. Closes Defeats item 1. UNFLOWN."
         },
         {
           "id": "dogs_open",
@@ -525,7 +622,7 @@
             "building"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 8",
           "drawn_by": [
             "V5",
@@ -584,7 +681,11 @@
               "negate": true
             }
           ],
-          "note": "THE ONE STATE THE BAND CANNOT REACH, and it needs cap's own readable latch. With no Wild Imp at all there is no aura, so the client hides the whole button and every sink on it draws nothing. The `aura` predicate is readable and an unbound row reads UNKNOWN rather than false, so this stays dark rather than asserting the imps are gone."
+          "badge": {
+            "kind": "numeral",
+            "value": 0
+          },
+          "note": "THE ONE STATE THE BAND CANNOT REACH, and it needs cap's own readable latch. With no Wild Imp at all there is no aura, so the client hides the whole button and every sink on it draws nothing. The `aura` predicate is readable and an unbound row reads UNKNOWN rather than false, so this stays dark rather than asserting the imps are gone. ⚠ THE `0` IS CAP'S OWN LITERAL (V22), and this marker's own `when` is what licenses it: `!aura(wild_imp)` MEANS zero, so the numeral asserts nothing cap did not already establish readably. Everywhere else on this row the count is the client's, out of an AuraContainer FontString cap never reads back — which is exactly why the zero could not come from there, and why it was drawn as a frozen clock glyph until 2026-08-28. The row is one grammar now: 0 → red 1-5 → gold 6+."
         },
         {
           "id": "implosion_imps_aoe",
@@ -667,14 +768,15 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 9",
           "drawn_by": [
             "V5",
             "V11",
-            "V13"
+            "V13",
+            "V22"
           ],
-          "note": "Cue H. ⚠ No aura means no sealed sink draws either — the band CANNOT reach this state, which is exactly why the readable latch exists. With the AoE toggle on, or To Hell and Back talented, a band marker IS gated on here and still draws nothing: the client shows no button for an aura that is absent (`excludes`)."
+          "note": "Cue H, and it draws a red `0` (V22) rather than the shared clock glyph — cap's own literal, licensed by this state's own readable term. ⚠ No aura means no sealed sink draws either — the band CANNOT reach this state, which is exactly why the readable latch exists, and why the zero cannot come from the band the way 1-5 and 6+ do. With the AoE toggle on, or To Hell and Back talented, a band marker IS gated on here and still draws nothing: the client shows no button for an aura that is absent (`excludes`)."
         },
         {
           "id": "imp_st_skip",
@@ -684,7 +786,7 @@
             "aoe_only"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 9",
           "drawn_by": [
             "V5",
@@ -698,6 +800,7 @@
           "condition": "ready, AoE on (or To Hell and Back talented), 1-5 Wild Imps",
           "verdict": "ruled-sealed",
           "cues": [],
+          "count": 3,
           "sealed": [
             "count-bands"
           ],
@@ -715,6 +818,7 @@
           "condition": "ready, AoE on (or To Hell and Back talented), 6 or more Wild Imps",
           "verdict": "open",
           "cues": [],
+          "count": 6,
           "sealed": [
             "count-bands"
           ],
@@ -725,28 +829,16 @@
             "V17"
           ],
           "note": "The numeral recolors GOLD and the hatch clears: banked, the press is loaded. No hatch — a positive band may not wear one. The gold is only reachable through a gate that says rung 9 can actually fire, which is the point of the pair: `implosion_imps_aoe` under the toggle, `implosion_imps_thab` on a To Hell and Back build."
-        },
+        }
+      ],
+      "overlaps": [
         {
-          "id": "imp_st_and_no_imps",
-          "condition": "ready, AoE OFF, To Hell and Back not talented, AND no imps at all",
-          "verdict": "open",
-          "cues": [
-            "aoe_only",
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "implosion_st_only",
             "implosion_no_imps"
           ],
-          "apl": "diabolist 9",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "⚠ POSSIBLE AND UNWALKED — no scenario reaches it, and it is written here rather than discovered later. Both badges flow in `rank` order. No sink draws, for two independent reasons that now both hold: rung 9's readable half is false so neither band marker is gated on, and with no Wild Imp aura there would be nothing for one to paint anyway. Two independent negatives on one row is legal: elimination is not exclusive."
+          "draws": "blocked",
+          "why": "Single target without To Hell and Back, and no imps out either — both fire, and the corner shows the red `0`. `blocked` (rank 3) occludes `aoe_only` (rank 7) in the z-stack, and the reading is unharmed: both say skip, and the one that draws says the more specific thing — there is nothing to implode. ⚠ This WAS a state (`imp_st_and_no_imps`, deleted 2026-08-28), written when badges flowed down the right edge and its note claimed *\"both badges flow in `rank` order\"*. The stack collapsed to one badge deep on 2026-08-27 and that stopped being true; a state card describing a badge nobody can see is not a situation the player sees. Nothing else about it is lost: no sink draws here for two independent reasons that both still hold — rung 9's readable half is false so neither band marker is gated on, and with no Wild Imp aura there would be nothing for one to paint anyway."
         }
       ],
       "excludes": [
@@ -795,7 +887,7 @@
       "markers": [
         {
           "id": "hog_starved",
-          "cue": "starved",
+          "cue": "building",
           "when": [
             {
               "pred": "affordable",
@@ -879,17 +971,18 @@
           "condition": "the live id is unaffordable",
           "verdict": "open",
           "cues": [
-            "starved"
+            "building"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
+          "client": "not-enough-power",
           "apl": "diabolist 11",
           "drawn_by": [
             "V5",
             "V11",
             "V13"
           ],
-          "note": "Cue E. Correct in both lives: three shards as Hand of Gul'dan, none as Ruination."
+          "note": "Cue E, and it says `building` rather than `starved` since 2026-08-28. ⚠ THE CLIENT ALREADY PAINTS THIS ROW: `RefreshIconColor` tints an unaffordable icon with ITEM_NOT_ENOUGH_MANA_COLOR, which is why the state declares it. A `starved` badge spent cap's one corner restating Blizzard, where `building` says the thing the client does not — the board is still being built, keep placing — which is what the player does about it. The `when` did not move and is still correct in both lives: three shards as Hand of Gul'dan, none as Ruination."
         },
         {
           "id": "hog_banks",
@@ -899,7 +992,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 11",
           "drawn_by": [
             "V5",
@@ -916,7 +1009,7 @@
             "building"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 11",
           "drawn_by": [
             "V5",
@@ -924,28 +1017,6 @@
             "V13"
           ],
           "note": "Cue I, the readable half of the window rule. F covers `Tyrant nearly here`; this covers `Tyrant here, board not built`."
-        },
-        {
-          "id": "hog_both_holds",
-          "condition": "affordable, below five shards, Tyrant READY and the client also paints the within-5 band",
-          "verdict": "open",
-          "cues": [
-            "blocked",
-            "building"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "hog_awaits_tyrant",
-            "hog_awaits_shards"
-          ],
-          "apl": "diabolist 11",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "⚠ WHETHER THIS OCCURS IS A CLIENT QUESTION CAP CANNOT SETTLE. A ready ability has no cooldown remaining, so the within-5 band most likely paints nothing — but the band is sealed and cap never learns which way it went. Written down rather than assumed away: if both fire, both cards flow and both say hold, so the reading is unharmed either way. @verify-ingame"
         },
         {
           "id": "hog_ruination",
@@ -989,6 +1060,13 @@
             "hog_awaits_shards"
           ],
           "why": "Same gate: cue I carries `affordable(hand_of_guldan)` for exactly this reason."
+        },
+        {
+          "pair": [
+            "hog_awaits_tyrant",
+            "hog_awaits_shards"
+          ],
+          "why": "A READY Tyrant is outside the within-5 band BY CONSTRUCTION, and the construction is cap's own. `Channel.HoldPoints(within)` builds `{ {0,0}, {LIVE,1}, {within,0} }` on a **Step** curve (`Channel.ArmHold`), and Step holds the previous point's value — so at zero remaining the curve evaluates to 0 and the band cannot paint. Cue I carries `ready(summon_demonic_tyrant)`, which is exactly that zero. ⚠ Nothing here is sealed: the SECRET is the remaining time, the POINTS are cap's, and the shape of a curve cap authored is not something it is waiting to learn. This was a state (`hog_both_holds`) hedged with an in-game-verify marker until 2026-08-28, one row over from `call_dreadstalkers`, whose `excludes` had the same fact stated correctly the whole time."
         }
       ]
     },
@@ -1049,7 +1127,33 @@
               ]
             }
           ],
-          "note": "The first marker in any catalog that reads ANOTHER ROW'S identity. Rung 12 puts an armed Infernal Bolt above Demonbolt, and only below three shards."
+          "note": "The first marker in any catalog that reads ANOTHER ROW'S identity. Rung 12 puts an armed Infernal Bolt above Demonbolt, and only below three shards. ⚠ It stays READABLE-ONLY, and `db_yields_window` beside it carries the clock — the Grimoire row's shape (`grimoire_shows_dispel` + `grimoire_base_cooldown`), and the reason is that a cue is the thing that HATCHES the row. A display marker never contributes a cue (`Signal.markersOf` routes it to `verdict.gates`), so folding the display into this marker would have traded cap's readable elimination for a picture: the badge would still draw, and the red skip hatch under it would not."
+        },
+        {
+          "id": "db_yields_window",
+          "cue": "blocked",
+          "when": [
+            {
+              "pred": "identity",
+              "args": [
+                "shadow_bolt",
+                "transformed"
+              ]
+            },
+            {
+              "pred": "resource",
+              "args": [
+                "<=",
+                2
+              ]
+            }
+          ],
+          "display": {
+            "kind": "sealed-aura-remaining",
+            "ability": "art_mother_of_chaos"
+          },
+          "display_exception": "`art_mother_of_chaos` appears in no rung of the Demonology list, and this display may draw it anyway because IT IS THE DURATION OF THE HOLD ITSELF. Rung 12 outranks Demonbolt exactly while row 9 is displaying Infernal Bolt, and row 9 is displaying Infernal Bolt exactly while the Art is armed — so the aura's remaining IS how long this row stays held, which is the one quantity the badge was failing to say. It carries no polarity to argue about: the arc is `blocked`'s own red and it promotes nothing — the same ground `ib_art_clock`'s exception stands on, one row over, over the same aura. Declared rather than exempted by category.",
+          "note": "V21's THIRD SUPPLIER: cue D's badge is the armed Art's own remaining — a red radial the client drains off the aura's duration — instead of `timer_CW_50`, a picture of a clock face frozen at 50 % beside a hold whose whole content is *how long*. ⚠ ITS `when` IS CUE D's, TERM FOR TERM, and both terms are needed: the aura filter alone would paint the clock at three or more shards, where the row is not held at all. They ride `verdict.gates` and reach the container's own `Shown`; the slot's filter then scopes it to the armed Art. ⚠ NO NUMERAL, and that is a limit rather than a choice: V21's number comes from `FormatRemainingDuration` on a COOLDOWN object cap holds, while the only aura-side text sink (`SetDurationText`) emits fixed strings, never a value over remaining seconds. The arc alone is still strictly more than a still clock. ⚠ SECOND CONSUMER OF AURA ID `432794`, which is TIER-3-SOURCED and dies SILENT: a wrong id matches nothing forever and is indistinguishable from a refusal (the cast-id/aura-id trap). `ib_art_clock` already carries an `@verify-ingame` on that id; a second consumer doubles what one wrong number costs and does not clear it. @verify-ingame"
         },
         {
           "id": "db_core_charge",
@@ -1094,7 +1198,7 @@
             "noproc"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 14",
           "drawn_by": [
             "V5",
@@ -1152,7 +1256,7 @@
             "count-bar",
             "proc-bar"
           ],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 14",
           "drawn_by": [
             "V5",
@@ -1171,44 +1275,52 @@
             "blocked"
           ],
           "sealed": [
+            "aura-remaining",
             "count-bar",
             "proc-bar"
           ],
-          "slot": "flow",
+          "slot": null,
           "apl": "diabolist 12",
           "drawn_by": [
-            "V5",
             "V11",
             "V13",
             "V18",
-            "V20"
+            "V20",
+            "V21"
           ],
-          "note": "Cue D, the first marker in any catalog that reads ANOTHER ROW'S identity. The ordering correction lives here, on the row that has to move, rather than as a promotion on the filler."
-        },
-        {
-          "id": "db_no_core_and_yields",
-          "condition": "no Core AND row 9 armed below three shards",
-          "verdict": "open",
-          "cues": [
-            "noproc",
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
           "combines": [
+            "db_yields_to_infernal_bolt",
+            "db_yields_window"
+          ],
+          "note": "Cue D, the first marker in any catalog that reads ANOTHER ROW'S identity. The ordering correction lives here, on the row that has to move, rather than as a promotion on the filler. The badge IS the armed Art's remaining (V21's third supplier) — how long this hold lasts — rather than a still clock beside it; there is no numeral in it, because no sink draws one off an aura duration."
+        }
+      ],
+      "overlaps": [
+        {
+          "pair": [
             "db_awaits_core",
             "db_yields_to_infernal_bolt"
           ],
-          "apl": "diabolist 12",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
+          "draws": "blocked",
+          "why": "No Core AND row 9 armed below three shards — both fire, and `blocked` (rank 3) occludes `noproc` (rank 9). Both say skip and the reading is unharmed; the press belongs to row 9 either way. ⚠ This WAS a state (`db_no_core_and_yields`, deleted 2026-08-28) whose note argued that C and D *\"deliberately STOPPED unioning\"* so the row would show BOTH facts rather than one. That reason EXPIRED with the flowing stack on 2026-08-27: the corner is one badge deep, so the second fact was never visible and the state described a badge nobody could see. The re-badge itself stands — C says `noproc` because *no Core* is not *wait for a clock* — it simply no longer buys a second badge. Neither bar draws here: no Core, no subject."
+        },
+        {
+          "pair": [
+            "db_awaits_core",
+            "db_yields_window"
           ],
-          "note": "⚠ C and D deliberately STOPPED unioning — they shared `blocked` until C re-badged to `noproc` — so a Coreless Demonbolt yielding to an armed Infernal Bolt now shows BOTH facts rather than one. Neither bar draws: no Core, no subject."
+          "draws": "blocked",
+          "why": "The same situation as the pair above, seen from cue D's other half: `db_yields_window` carries cue D's terms verbatim, so it is true wherever cue D is. `blocked` (rank 3) occludes `noproc` (rank 9) — and here `blocked` is the client's own radial on the armed Art rather than a sprite, which is the more specific statement of the two: not merely *skip*, but *skip for this long*."
         }
       ],
       "excludes": [
+        {
+          "pair": [
+            "db_overcap",
+            "db_yields_window"
+          ],
+          "why": "The same resource bands as the pair above: cue B needs four or more shards, cue D's window needs two or fewer. `db_yields_window` carries cue D's terms verbatim, so it inherits cue D's exclusions verbatim."
+        },
         {
           "pair": [
             "db_awaits_core",

@@ -248,14 +248,14 @@ a { color: var(--accent); }
    * rather than behind the ability icon, where it would be invisible. */
   isolation: isolate;
 }
-/* V5 · the badge stack FLOWS down the right edge. Every badge shares the right offset; only
-   the vertical one moves, by its index in the stack. No fixed slots, so no ceiling. */
-.item .slot { right: calc(var(--badge-over) * -1); }
-.item .slot[data-index="0"] { top: calc(var(--badge-over) * -1); }
-.item .slot[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
-.item .slot[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
-.item .slot[data-index="3"] { top: calc(var(--badge-step) * 3 - var(--badge-over)); }
-.item .slot[data-index="4"] { top: calc(var(--badge-step) * 4 - var(--badge-over)); }
+/* V5 · the badge stack is a Z-STACK. Every badge — cue, sealed corner display, all of them —
+   hangs off the same corner and only the top of the order is visible, so there is one pixel to
+   read rather than a column that ran off the bottom of a 4-deep icon. The order is Part 2.5's;
+   here it falls out of DOM order, which is what `stepper.js` builds in reverse to arrange. */
+.item .slot {
+  right: calc(var(--badge-over) * -1);
+  top: calc(var(--badge-over) * -1);
+}
 
 /* Contrast plate: additive/light art over busy icon work washes out, and a dark disc is the
  * cheap fix — contrast, not more light (CDMProbe, learned the expensive way). */
@@ -274,6 +274,18 @@ a { color: var(--accent); }
   -webkit-mask-size: contain; mask-size: contain;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
   -webkit-mask-position: center; mask-position: center;
+}
+
+/* V22 · a NUMBER where the glyph would be. Same slot, same plate (`.slot::before`), same corner —
+ * the numeral simply takes the sprite's place inside the disc. Its ink is `--sx-ink`, written by
+ * the builder from the cue's polarity, so this rule holds no colour opinion of its own. */
+.item .slot .cue-numeral {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 var(--count-size) / 1 var(--hotkey-font);
+  color: var(--sx-ink);
+  -webkit-text-stroke: var(--count-outline) var(--hotkey-outline);
+  paint-order: stroke fill;
 }
 
 /* The glow, drawn UNDER the plate and the glyph so it reads as light escaping from behind the
@@ -386,10 +398,23 @@ a { color: var(--accent); }
    so it cannot bleed into a neighbour at any gutter. */
 .ready-line {
   position: absolute; inset: 0;
-  border: var(--rl-line) solid rgba(var(--rl-rgb), var(--rl-rest));
+  border: var(--outline-line) solid rgba(var(--rl-rgb), var(--rl-rest));
   mix-blend-mode: var(--ready-blend);
   pointer-events: none;
 }
+/* Masked by the sliced outline sheet instead: the fill becomes the outline. The plain border above
+   is the fallback where `mask-border` is unsupported — and it only works because `outlineMask`
+   adds this class ONLY when the mask took. Applied blind, this rule paints a solid block over the
+   icon, which is the opposite of an outline. The two paths draw the same line in the same ink, so
+   which one you get is invisible; that is the point of keeping the fallback. */
+.ready-line.outlined {
+  border: 0;
+  background: rgba(var(--rl-rgb), var(--rl-rest));
+  -webkit-mask-repeat: stretch; mask-repeat: stretch;
+}
+/* cap's ruled-out outline. Same sheet, same rect, skip ink — so the red lands exactly on the
+   yellow rather than around it (render-shelf.md Part 2.5). */
+.item .skip-outline { mix-blend-mode: normal; }
 
 /* A readiness row draws its icons at the REAL pitch — icon + row gap — because the only
    honest version of the candles test is the spacing the client actually uses. */
@@ -679,12 +704,13 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   z-index: -1;
 }
 
-/* V11 · cap's half of the ruled-out hatch overhangs the icon rect and carries its own border,
-   so a ruled-out row's red replaces V13's yellow scan edge rather than sitting inside it. */
+/* V11 · cap's half of the ruled-out hatch OVERHANGS the icon rect — the stripes spill past the
+   button, which is what reads as the hatch covering it rather than sitting inside it.
+   ⚠ NO BORDER HERE. It carried one until 2026-08-29, and a mask clips an element's border along
+   with its background, so the stripe sheet was cutting that border into dashes — it was never a
+   ring. The outline is `.skip-outline`, its own element, drawn from the shared ring sheet. */
 .item .stripes.skip-hatch {
   inset: calc(var(--hatch-skip-over) * -1);
-  border: var(--hatch-skip-line) solid var(--hatch-skip-edge);
-  box-sizing: border-box;
 }
 
 /* Part 7 · a secret aura APPLICATION COUNT reaching a pixel. Two sinks, two rules.
@@ -991,9 +1017,11 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
  *
  * Every one of these is art the CLIENT draws from a rule cap authored and never reads back, so
  * the preview draws the SHAPE and states no value: a scenario names the sink, and which band
- * fired is exactly the thing cap cannot know. They flow into the badge stack's own corner
- * because that is where they land in the client — V16's marks come out of a band's `:xoff:yoff`
- * onto the badge corner, and V18/V19 are anchored there outright.
+ * fired is exactly the thing cap cannot know. The corner-claiming ones share the badge stack's
+ * one corner because that is where they land in the client — V16's marks come out of a band's
+ * `:xoff:yoff` onto the badge corner, and V19/V21 are anchored there outright. They are the
+ * BOTTOM of the z-order: a cue badge draws over them, which is what makes it safe for cap never
+ * to learn whether the client is painting one.
  * ------------------------------------------------------------------------ */
 .item .sealed {
   position: absolute;
@@ -1003,10 +1031,6 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   pointer-events: none;
   isolation: isolate;
 }
-/* Part 2.5's cession rule: corner sealed displays stack down the same right edge the cue
-   badges use, in declared order; the cue badges start below them. */
-.item .sealed[data-index="1"] { top: calc(var(--badge-step) * 1 - var(--badge-over)); }
-.item .sealed[data-index="2"] { top: calc(var(--badge-step) * 2 - var(--badge-over)); }
 /* The plate is named BY THE BAND (V16), which is the whole finding: a plate cap drew as an
    ordinary texture has no sink on it and would stay on the row at every value the band blanks. */
 .item .sealed-plate {
@@ -1051,6 +1075,9 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
    its only motion, which is precisely `capped`'s look wearing the window's glyph. The isolation
    is what lets the halo's z-index:-1 sit behind the plate WITHIN the badge, as a cue's does. */
 .item .sealed-pandemic { isolation: isolate; }
+/* V21 · the base cooldown badge. Same isolation and the same reason: the plate, the arc and the
+   numeral are one badge and stack among themselves, not against the row. */
+.item .sealed-basecd { isolation: isolate; }
 /* V20 · the proc bar — the proc's remaining lifetime above the charge bar (JS lifts it by
    --bar-h + --procbar-gap when the row declares one). Edge grammar, not badge grammar: gold
    here is quantity (time), never polarity. */
@@ -1072,6 +1099,26 @@ select { font: inherit; font-size: .82rem; background: var(--paper-3); color: va
   width: var(--pd-dial-size); height: var(--pd-dial-size);
   margin: auto; border-radius: 50%;
   background: var(--pd-dial-track);
+}
+/* V21 · the same dial over the row's OWN cooldown, with the numeral a bare arc cannot carry:
+   the arc says the row will be itself again, the number says when. Sized nearly to the badge,
+   because the numeral has to sit inside it and stay legible at icon scale. */
+.item .sealed-basecd-dial {
+  position: absolute; inset: 0;
+  width: var(--basecd-size); height: var(--basecd-size);
+  margin: auto; border-radius: 50%;
+  background: var(--basecd-track);
+}
+/* The countdown. In the client it is a leaf FontString fed a SECRET string the client renders
+   and cap can never read back; here it is a nominal number, drawn so the question this badge's
+   diameter exists to answer — is it legible? — can be looked at. */
+.item .sealed-basecd-count {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font: 700 var(--basecd-text-size) / 1 var(--hotkey-font);
+  color: var(--basecd-text);
+  -webkit-text-stroke: var(--count-outline) var(--hotkey-outline);
+  paint-order: stroke fill;
 }
 /* V19 · the halo under the badge — the positive cues' own glow, borrowed with its grammar:
    light escaping from behind a badge means "act now". Same gradient and falloff as `.slot .glow`;

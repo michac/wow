@@ -359,6 +359,75 @@ unexercised for the same reason.
   the icon face is not one of them.** Revisit only if a flight shows the client's own dimming is too weak to read —
   and then as a new shelf entry, not as this one restored.
 
+## 2026-08-29 — who wins the pixels the scan edge and the skip hatch share
+
+The shelf declared that cap's half of V11 overhangs the icon rect *"so its red covers V13's yellow
+scan edge"*. It did not cover it. The overhang buys a red ring *around* the yellow one — adjacent
+bands, red at −2 and yellow at 0 — while the red **stripes** start at 0 and run inward, over the
+same pixels the yellow line occupies. Who won those was never declared, and the two renderers
+answered differently: in the client `Paint.Hatch`'s edge frame was created after `Paint.Border`'s
+so the red ring landed on top, while the stripe texture sat on the row's own frame and lost to the
+edge's child frame; in the preview DOM order put the whole yellow line over the stripes. One row,
+two answers, neither of them chosen by anybody.
+
+**Three candidates, and the ordering one was taken.**
+
+- **Declare the level** *(chosen)*. `Paint.Z.edge` = 1 < `Paint.Z.skip` = 2. It is the smallest
+  change that makes the two renderers agree, and it is not a new opinion: `Channel.Arm` already
+  lifts the client's own sealed hatch above the edge, with the note that an eliminating mark is
+  the later word. Cap's own hatch was the single layer that rule had never been applied to. What
+  was wrong was the *asymmetry*, and an undeclared order is what let it survive.
+- **Suppress the scan edge on any row wearing a negative cue** *(not taken, and still live)*. It
+  is the answer that removes the contradiction instead of ranking it, and two independent sightings
+  argue for it. Not taken because `Treatment.For` sets `scan = member` and membership is ready-self:
+  it changes what the edge MEANS on every row in every spec, which is a shelf-wide decision that an
+  ordering complaint does not authorise. If the muted yellow reads as a third thing in a pull, this
+  is what it becomes — Part 5 question 2 carries it.
+- **Move the geometry too** — put cap's outline on the icon rect so its opaque red covers the
+  yellow line's pixels outright *(taken the same day, once ordering alone was looked at)*. Order
+  by itself left the yellow *dulled* under stripes at `alpha 0.45` and muddy where a stripe crossed
+  it, which is a third thing: neither *in* nor *out*. The objection to moving the geometry had been
+  that it costs the overhang — and it does not. Only the OUTLINE moves onto the icon rect; the
+  STRIPES still overhang, and the stripes are the part that reads as the hatch spilling past the
+  button. The author asked for exactly that split.
+
+**This lands the second candidate — suppress the edge on a negative row — by COVERING rather than
+by not drawing, and the difference is what makes it safe.** `Treatment.For` still sets
+`scan = member`, membership is still ready-self, and the edge still means what it meant on every
+row in every spec. One layer draws over another; the model did not move. Suppression proper would
+have changed the edge's MEANING, which an ordering complaint does not authorise.
+
+## 2026-08-29 — the outline goes through the texture pipeline
+
+Both outlines — V13's scan edge and cap's ruled-out one — were **drawn artifacts**: four
+`SetColorTexture` strips in the client, a CSS `border` in the preview. Everything else cap draws is
+a generated sheet through one pipeline. The mismatch is not aesthetic; it is what produced the bug.
+The preview's outline lived *on* the striped element, a mask clips an element's border along with
+its background, and the stripe sheet had been cutting that outline into dashes since it was
+written. It was never an outline. Nobody could see it because the two renderers were implemented
+independently, so there was nothing to disagree with.
+
+**The author's argument, and it is the one that decided it:** we already solve the texture problem
+for every other texture, so why is this the one thing with a second mechanism — and if it goes
+through the pipeline we get a flipbook path back for free and we are layering textures over
+textures instead of textures over drawn artifacts.
+
+**What I had wrong.** I argued from precedent that the project had chosen strips. It had not.
+`tokens.ring` and `Media/ring.tga` were deleted on 2026-08-25 because **V2's animation** was
+retired, not because a ring should not be a texture — and V13 never chose strips at all, it
+inherited them. The last time anyone actually weighed the two, the texture won.
+
+**What was real, and how it was answered.** A stretched sheet fattens and blurs the line off the
+nominal icon size — the same defect frozen escape sizes had, arriving through the art. Nine-slice
+answers it: corners at native size, each edge stretched along one axis. Verified in the preview at
+56/80/120 px before any of it was written. `SetTextureSliceMargins` is Tier-1 documented and
+Blizzard's own UI is built on nine-slice borders, but cap has never watched one draw, so the Lua
+carries `--@unverified` and the client refusing leaves a stretched outline rather than none.
+
+⚠ **The sheet is `tokens.outline`, deliberately not `tokens.ring`.** Reusing the retired name
+silently defeated `style_spec`'s guard that V2's arrival machinery stays dead — which is how the
+collision was caught, and it is the argument for keeping guards on names as well as on behaviour.
+
 ## Struck visual rules — the record of their removal
 
 These were normative in `spec.md` §3.1 and were struck in the **2026-08-10 cull**, whose test was

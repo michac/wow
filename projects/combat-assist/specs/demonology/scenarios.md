@@ -50,7 +50,8 @@ the client draws and the swipe follows.
 A verdict says what cap concluded, never what the button looks like: **the pixels belong to
 `../render-shelf.md`**. `cd` = swiped by Blizzard, no cap opinion. `open` = shown, in the
 scan, with every badge it wears named explicitly in `{cues: …}` — `blocked` from a readable
-Lua term or from a sealed band the client paints, `starved` the red affordability badge,
+Lua term or from a sealed band the client paints, `starved` the red affordability badge (which
+this catalog declines — see `catalog.md`),
 `overcap` the red waste badge, `aoe_only` the mode pawn, `building`/`noproc` the two cards.
 `press` = the button an unobstructed scan reaches. ⚠ `press` and `open` render identically, by
 design — the press is not something cap draws.
@@ -195,9 +196,11 @@ is built on.
   3. **Implosion** — available, and the `aoe_only` pawn lights from `implosion_st_only`: the AoE
      toggle is off and To Hell and Back is not talented → skip. ⚠ **Not `blocked`** — nothing is
      held and nothing would be wasted; the imps are simply worth more attacking.
-  4. **Hand of Gul'dan** — `starved`. It costs three shards and there are two, which Blizzard has
-     already tinted the icon for → skip. (Its `building` card needs affordability and stays
-     dark — a starved row does not also wear the ramp's card.)
+  4. **Hand of Gul'dan** — the `building` card from `hog_starved`. It costs three shards and
+     there are two, and **Blizzard has already tinted the icon** for that — so cap's corner says
+     the thing the client does not: the board is still being built, keep placing → skip. (The
+     ramp's own `building` from `hog_awaits_shards` needs affordability and stays dark; the two
+     markers name one cue, which is a union and one badge.)
   5. **Demonbolt** — the `noproc` empty card from `db_awaits_core`: no Demonic Core, and
      Demonbolt appears in the APL only gated on one → skip.
   6. **Shadow Bolt** — **press.** Rung 15, the filler, reached entirely by subtraction.
@@ -211,11 +214,12 @@ is built on.
   client. Havoc's equivalent decision rests on a sealed Fury readout and can only be *shown*;
   this one can be *reasoned about*.
 - **Density.** One budgeted hold before the press — row 2's cue K. Row 5 wears unbudgeted
-  `building`, row 8 unbudgeted `noproc`, and `starved` and `aoe_only` were never budgeted. The
+  `building`, row 8 unbudgeted `noproc`, and row 7's `building` and `aoe_only` were never
+  budgeted. The
   walk still steps over five marks to reach the press, which is the reading Part 0.5's budget
   deliberately does not count — each restates a fact the player already has.
 - **Cue set.** Five-shard hold (A) → **have**, as the `building` card. Single-target skip (G) →
-  **have**. Starved (E) → **have**. Core hold (C) → **have**, as the `noproc` card. The imp
+  **have**. Unaffordable (E) → **have**, as the `building` card. Core hold (C) → **have**, as the `noproc` card. The imp
   band (V16) → **drawing** its numeral on Implosion. Dispel stand-in (K) → **have**, on row 2,
   beside the ramp hold (I) — Tyrant is ready at two shards, so both cards arm on that icon.
 
@@ -293,7 +297,8 @@ is built on.
   1. **Power Siphon … Summon Demonic Tyrant** — on cooldown, except row 2, which shows **Singe
      Magic** and is ruled out by cue K's `blocked` instead (DEM-2) → skip.
   2. **Implosion** — the `aoe_only` pawn → skip.
-  3. **Hand of Gul'dan** — `starved` at one shard against a cost of three → skip.
+  3. **Hand of Gul'dan** — the `building` card at one shard against a cost of three, over
+     Blizzard's own not-enough-power tint → skip.
   4. **Demonbolt** — **press.** Rung 14. All three of its markers are dark: a Core is up
      (cue C), shards are below four (cue B), and row 9 is not transformed (cue D).
 - **Eye-direction.** The plainest state in the catalog, and it is worth having in the walk
@@ -354,10 +359,14 @@ is built on.
      Magic** and wears cue K's `blocked` beside the ramp's card (DEM-2) → skip.
   2. **Summon Demonic Tyrant** — the `building` card at two shards, cue A → skip.
   3. **Implosion** — the `aoe_only` pawn → skip.
-  4. **Hand of Gul'dan** — `starved` at two shards → skip.
+  4. **Hand of Gul'dan** — the `building` card at two shards, over Blizzard's own
+     not-enough-power tint → skip.
   5. **Demonbolt** — `blocked` from `db_yields_to_infernal_bolt`: row 9 reads
      `identity == transformed` **and** shards are below three, which is rung 12 outranking rung
-     14 exactly → skip.
+     14 exactly → skip. **The badge is the armed Art's own remaining** — a red radial the client
+     drains (V21's third supplier, `sealed-aura-remaining`), which is exactly how long this hold
+     lasts, rather than a still clock beside a hold whose whole content is *how long*. ⚠ No
+     numeral in it: no sink draws one off an aura duration.
   6. **Infernal Bolt** — row 9 reads `identity == transformed`, so band 1 gives it **ROTATION**
      instead of FALLBACK → **press.** Rung 12, and it generates three shards, which is the whole
      reason it outranks a Demonbolt here.

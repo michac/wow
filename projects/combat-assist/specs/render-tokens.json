@@ -1,5 +1,13 @@
 {
   "version": 2,
+  "outline": {
+    "_comment": "V13/V11 · THE ONE OUTLINE SHEET, white with the outline in the alpha channel, drawn as a NINE-SLICE so one file is a crisp `line_px` outline at any icon size: corners at native size, edges stretched along one axis only. ⚠ It is deliberately NOT called `ring`: `tokens.ring` was V2's arrival machinery, deleted 2026-08-25, and `style_spec` guards that name dead. This is a different thing. It replaced four `SetColorTexture` strips per outline on 2026-08-29 — see render-rationale.md. Two consumers tint it themselves and no hue is baked in: V13's scan edge takes `ready.rgb`, cap's ruled-out hatch takes `hatch.skip.border.rgb`. ⚠ `line_px` LIVES HERE AND NOWHERE ELSE, which is what makes `the red outline exactly overlays the yellow one` true by construction rather than by two numbers agreeing. `slice_px` is the nine-slice margin: it must exceed `line_px` so a corner region holds the whole corner, and two of them must fit inside the tile.",
+    "texture": "outline",
+    "tile_px": 32,
+    "line_px": 2,
+    "slice_px": 4,
+    "tint": "shelf"
+  },
   "ready": {
     "_comment": "IN THE SCAN. One treatment, no roles, no motion. An icon either participates in the read or it does not; rank comes from row order and elimination, not from a hue ladder. Full brightness on a restrained AREA, drawn ON the icon rect so it can never bleed into a neighbour at any row gap. `blend` is NORMAL and that is a correction: under additive the edge could not carry the hue declared right here. Adding rgb(1.00, 0.86, 0.45) to a destination saturates red unconditionally, green above 0.14 and blue above 0.55, so on any icon that is not near-black the line clipped to WHITE — measured on Demonology's purple roster [client 2026-08-23]. The declared colour was not reaching a pixel, so the blend mode gave way rather than the colour.",
     "blend": "BLEND",
@@ -8,8 +16,7 @@
       0.86,
       0.45
     ],
-    "alpha": 1.0,
-    "line_px": 2
+    "alpha": 1.0
   },
   "text": {
     "max_hz": 2.0,
@@ -17,7 +24,7 @@
     "alpha_floor": 0.65
   },
   "badges": {
-    "diameter_pct": 40,
+    "diameter_pct": 48,
     "overhang_px": 2,
     "padding_px": 3,
     "sprite_inset_pct": 16,
@@ -39,8 +46,7 @@
     "halo_falloff": 0.7,
     "asset_root": "previews/assets/kenney",
     "flow": {
-      "anchor": "top-right-corner",
-      "direction": "down"
+      "anchor": "top-right-corner"
     }
   },
   "cues": {
@@ -50,7 +56,6 @@
       "frames": [
         "timer_CW_50"
       ],
-      "duration_s": 1.2,
       "loop": "HOLD",
       "rank": 3,
       "open": false,
@@ -196,7 +201,7 @@
         0.3,
         0.3
       ],
-      "alpha": 0.45,
+      "alpha": 0.75,
       "phase_pct": 0,
       "overhang_px": 2,
       "border": {
@@ -205,8 +210,7 @@
           0.3,
           0.3
         ],
-        "alpha": 1.0,
-        "line_px": 2
+        "alpha": 1.0
       }
     }
   },
@@ -242,14 +246,6 @@
       0.3
     ],
     "mark": "cards_stack_high",
-    "mark_offset_px": [
-      20,
-      -18
-    ],
-    "plate_offset_px": [
-      20,
-      -18
-    ],
     "hatch_alpha": 0.55,
     "hatch_offset_px": [
       2,
@@ -333,6 +329,32 @@
       0.08
     ],
     "track_alpha": 0.6
+  },
+  "basecd": {
+    "_comment": "V21, and since 2026-08-28 it is the LIVE `blocked` BADGE rather than a corner ornament beside one. A row held because a cooldown is running draws that cooldown: a red radial on the real remaining time with a white countdown numeral inside it, where the fixed clock glyph (timer_CW_50) used to sit. Two displays reach it — `sealed-base-cooldown`, this row's own base spell hidden under a transform (while a Grimoire is talented its Cooldown Manager row spends the whole 120 s wearing the dispel it becomes, and GetSpellCooldownInfo resolves the DISPLAY identity before reading, so the swipe on that row is the dispel's 15 s and the Grimoire's is drawn nowhere — cooldown-manager.md §3.1.1), and `sealed-cooldown-range`, another ability's cooldown named by catalog key. The two resolve their spell differently and deliberately stay separate; they share only this look. C_Spell.GetSpellCooldownDuration goes straight into SetTimerDuration (RemainingTime) and into FormatRemainingDuration, and cap never reads a second of it back — every getter on the duration object is secret (§4.8.4), while the isActive that GATES the base-cooldown form is NeverSecret and plain in restricted combat (cooldown-manager.md §7). ⚠ SetMinMaxValues(0, 1) goes in at BUILD time, before any SetTimerDuration, or a correct duration draws at 0 % width forever (§4.8.1 finding 3). RED arc over a dark red track, because this IS the negative cue and V5.1 gives hue to polarity and only polarity — it is not V19's or V20's gold, which is a quantity drawn beside a verdict rather than the verdict itself. The numeral is WHITE so the number reads against the arc it sits in, and it is a leaf FontString (§4.8.1 finding 10). ⚠ NO ART — the arc is a StatusBar fill and the numeral is text — so `tint` is a deliberate \"none\" rather than an omission: this group is named in the Part 4 tint guard and an absent key fails it.",
+    "dial": {
+      "size_px": 25,
+      "rgb": [
+        0.95,
+        0.3,
+        0.3
+      ],
+      "track_rgb": [
+        0.24,
+        0.09,
+        0.09
+      ],
+      "track_alpha": 0.6
+    },
+    "font": "FRIZQT__.TTF",
+    "size": 13,
+    "outline": "OUTLINE",
+    "rgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "tint": "none"
   },
   "hotkey": {
     "_comment": "V15. CHROME, not a cue (spec.md §3.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion — and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",
@@ -418,7 +440,7 @@
     }
   },
   "panel": {
-    "_comment": "V12's virtual row: the geometry of cap's OWN icon strip, for presses the Cooldown Manager carries no frame for. It ships to Style.lua and Panel.lua draws from it \u2014 icon_px sizes each icon, gap_px separates them, and anchor/x/y place the strip against UIParent while grow says which way it fills. \u26a0 `anchor` positions the WHOLE strip; the edge the icons hang off is derived from `grow`, so a centred anchor stays centred as the roster grows.",
+    "_comment": "V12's virtual row: the geometry of cap's OWN icon strip, for presses the Cooldown Manager carries no frame for. It ships to Style.lua and Panel.lua draws from it — icon_px sizes each icon, gap_px separates them, and anchor/x/y place the strip against UIParent while grow says which way it fills. ⚠ `anchor` positions the WHOLE strip; the edge the icons hang off is derived from `grow`, so a centred anchor stays centred as the roster grows.",
     "icon_px": 50,
     "gap_px": 6,
     "anchor": "BOTTOM",

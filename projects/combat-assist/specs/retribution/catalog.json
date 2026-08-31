@@ -207,185 +207,63 @@
           "note": "Radiant Glory deletes the Avenging Wrath alignment entirely — it removes Wings as a pressed button — so both Wrath holds are gated `!talent.radiant_glory` and this row is quiet on that build."
         },
         {
-          "id": "es_awaits_wrath_ready",
-          "condition": "ready, Radiant Glory UNtalented, Avenging Wrath READY",
+          "id": "es_held",
+          "condition": "ready, and at least one of rung 10's four clauses is false",
           "verdict": "open",
           "cues": [
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "es_awaits_wrath_ready"
-          ],
+          "slot": null,
           "apl": "cooldowns 10",
           "drawn_by": [
             "V5",
             "V11",
             "V13"
           ],
-          "note": "Readable, and NOT redundant with the band: this row sits LEFT of Avenging Wrath, so a quiet row 1 is pressed before the eye ever arrives there. The band reads nothing at zero remaining and structurally cannot cover this point."
-        },
+          "note": "ONE CARD, FOUR MARKERS, ONE RUNG. It was four states until 2026-08-29 and they were pixel-identical: same verdict, same single `blocked` badge, and all four citing `cooldowns 10` — so what differed was never a situation the player sees, it was WHICH CLAUSE of one rung is false, and that lives on the markers where the `when` is. The four: `es_awaits_wrath_ready` and `es_awaits_wrath` split `cooldown.avenging_wrath.remains>15` at the readable/sealed line (ready is outside the band by construction — see `excludes`); `es_awaits_wake` is `cooldown.wake_of_ashes.remains<gcd` negated, authored at the unhasted 1.5 because `UnitSpellHaste` is sealed; `es_awaits_expurgation` is `(!talent.holy_flames|dot.expurgation.ticking)` negated. ⚠ THE WAKE CLAUSE IS WHY THIS ROW READS AS PERMANENTLY HELD: it is true for all but the last GCD of every Wake cooldown. That is the rung's own opinion faithfully drawn, not a defect — and the reason the row cannot say WHICH clause holds it is the tooltip idea in `../backlog.md`."
+        }
+      ],
+      "overlaps": [
         {
-          "id": "es_awaits_wrath",
-          "condition": "ready, Radiant Glory UNtalented, Avenging Wrath within 15s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "es_awaits_wrath"
-          ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ]
-        },
-        {
-          "id": "es_awaits_wake",
-          "condition": "ready, Wake of Ashes' cooldown BEYOND 1.5s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "es_awaits_wake"
-          ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "The `beyond` sense: it is nowhere near, so this is not its moment. Authored at the UNHASTED 1.5 because `UnitSpellHaste` is sealed in instanced combat."
-        },
-        {
-          "id": "es_wrath_ready_and_wake_far",
-          "condition": "ready, Avenging Wrath READY and Wake of Ashes beyond 1.5s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "es_awaits_wrath_ready",
             "es_awaits_wake"
           ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "One cue key across three markers, so the AND-only band grammar unions them into a single badge — and that union IS the OR."
+          "draws": "blocked",
+          "why": "Avenging Wrath is READY and Wake of Ashes is nowhere near — rung 10 refuses on two of its clauses at once. Both markers name `blocked`, so the union IS the OR and there is one badge; a second card could show nothing a reader can see."
         },
         {
-          "id": "es_wrath_near_and_wake_far",
-          "condition": "ready, Avenging Wrath within 15s and Wake beyond 1.5s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "es_awaits_wrath",
             "es_awaits_wake"
           ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ]
+          "draws": "blocked",
+          "why": "Wrath's cooldown is inside 15s and Wake is beyond a GCD. Two sealed bands armed at once on one cue key: whichever the client paints, the row wears the same single badge."
         },
         {
-          "id": "es_awaits_expurgation",
-          "condition": "ready, Holy Flames talented, Expurgation NOT on the target",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "es_awaits_expurgation"
-          ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "The clause is a forbidden press, not a low-ranked one, and it is INDEPENDENT of the two Wrath holds: on a Radiant Glory build cue F withholds both of those, so without this marker Execution Sentence drew clear at row 1, leftmost, for a press cooldowns 10 refuses. ⚠ If the player has not added Expurgation to Tracked Buffs the latch reads UNKNOWN and this stays DARK rather than reading as \"the DoT is down\"."
-        },
-        {
-          "id": "es_expurgation_and_wrath_ready",
-          "condition": "ready, Expurgation absent AND Avenging Wrath READY",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "es_awaits_expurgation",
             "es_awaits_wrath_ready"
           ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "The opener state — RET-1 draws this one, not `es_awaits_wrath_ready` alone. Two markers, one cue key, one badge."
+          "draws": "blocked",
+          "why": "⚠ THIS IS THE OPENER, and RET-1 walks it: Expurgation is not up yet and Avenging Wrath is still ready. Two markers, one cue key, one badge — which is why the walk's row cannot say which of these states it is an instance of, and why the walk's prose is what names it."
         },
         {
-          "id": "es_expurgation_and_wrath",
-          "condition": "ready, Expurgation absent AND Avenging Wrath within 15s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "es_awaits_expurgation",
             "es_awaits_wrath"
           ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ]
+          "draws": "blocked",
+          "why": "Expurgation down while Wrath's cooldown is inside 15s. One readable marker and one sealed band, same cue key, one badge."
         },
         {
-          "id": "es_expurgation_and_wake",
-          "condition": "ready, Expurgation absent AND Wake of Ashes' cooldown beyond 1.5s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "es_awaits_expurgation",
             "es_awaits_wake"
           ],
-          "apl": "cooldowns 10",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ]
+          "draws": "blocked",
+          "why": "Expurgation down while Wake is beyond a GCD — the commonest pair on this row, because the Wake clause holds for all but the last sliver of every Wake cooldown."
         }
       ],
       "excludes": [
@@ -494,7 +372,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "aw_awaits_expurgation"
           ],
@@ -532,7 +410,7 @@
           "sealed": [
             "proc-bar"
           ],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "aw_awaits_expurgation"
           ],
@@ -719,7 +597,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "woa_starved"
           ],
@@ -732,104 +610,39 @@
           "note": "Affordability of the LIVE id: Hammer of Light's 5 Holy Power on the transformed row, Wake of Ashes' nothing on the base one. ONE marker covers both lives correctly, and because the base life costs nothing it can only ever draw on the transformed one."
         },
         {
-          "id": "woa_awaits_wrath",
-          "condition": "BASE life, ready, Radiant Glory UNtalented, Avenging Wrath within 6s",
+          "id": "woa_held",
+          "condition": "BASE life, ready, and at least one of rung 3's alignment clauses is false",
           "verdict": "open",
           "cues": [
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "woa_awaits_wrath"
-          ],
+          "slot": null,
           "apl": "generators 3",
           "drawn_by": [
             "V5",
             "V11",
             "V13"
-          ]
-        },
+          ],
+          "note": "ONE CARD, THREE MARKERS, ONE RUNG — merged 2026-08-29 from three pixel-identical states all citing `generators 3`. `woa_awaits_wrath` is `cooldown.avenging_wrath.remains>6` negated; `woa_awaits_sentence` and `woa_awaits_sentence_ready` split `cooldown.execution_sentence.remains>4` at the readable/sealed line, the same split Execution Sentence makes on Wrath and for the same reason — a band reads nothing at zero remaining, so READY needs its own readable marker. ⚠ All three are scoped to the row's BASE life by `identity(wake_of_ashes, \"base\")`."
+        }
+      ],
+      "overlaps": [
         {
-          "id": "woa_awaits_sentence",
-          "condition": "BASE life, ready, Execution Sentence TALENTED and within 4s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "woa_awaits_sentence"
-          ],
-          "apl": "generators 3",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ]
-        },
-        {
-          "id": "woa_both_holds",
-          "condition": "BASE life, ready, Avenging Wrath within 6s AND Execution Sentence talented and within 4s",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "woa_awaits_wrath",
             "woa_awaits_sentence"
           ],
-          "apl": "generators 3",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "Two bands armed at once, unioned onto one badge."
+          "draws": "blocked",
+          "why": "Both of rung 3's alignment clauses failing at once: Wrath inside 6s and Execution Sentence inside 4s. Two bands armed on one cue key, unioned onto one badge."
         },
         {
-          "id": "woa_awaits_sentence_ready",
-          "condition": "ready in its BASE life, Execution Sentence talented and READY",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "woa_awaits_sentence_ready"
-          ],
-          "apl": "generators 3",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "The state RET-14 walks, and the reason this marker exists: a HELD row does not eliminate the row beneath it. Once `es_awaits_expurgation` holds Execution Sentence, the walk no longer stops at row 1, and the sealed band here reads nothing at zero remaining — so without this term Wake of Ashes drew clear and leftmost for a press `generators` 3 forbids. That is the SAME defect `es_awaits_expurgation` closed, relocated one row."
-        },
-        {
-          "id": "woa_wrath_and_sentence_ready",
-          "condition": "ready in its BASE life, Avenging Wrath within 6s AND Execution Sentence talented and READY",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "woa_awaits_wrath",
             "woa_awaits_sentence_ready"
           ],
-          "apl": "generators 3",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "Both halves of the rung's condition failing at once. One cue key, one badge."
+          "draws": "blocked",
+          "why": "Wrath inside 6s while Execution Sentence is READY — the readable half of the Sentence hold rather than its band. One cue key, one badge."
         }
       ],
       "excludes": [
@@ -945,7 +758,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "dt_awaits_wrath"
           ],
@@ -964,7 +777,7 @@
             "overcap"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "dt_overcap"
           ],
@@ -975,28 +788,16 @@
             "V13"
           ],
           "note": "READABLE, not a curve on a secret: Holy Power is never-secret, and that is the whole difference from Havoc's authored Fury break point. The one builder that genuinely must not be pressed at cap."
-        },
+        }
+      ],
+      "overlaps": [
         {
-          "id": "dt_overcap_and_wrath",
-          "condition": "ready, at cap AND Avenging Wrath within 15s",
-          "verdict": "open",
-          "cues": [
-            "blocked",
-            "overcap"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "dt_awaits_wrath",
             "dt_overcap"
           ],
-          "apl": "generators 1",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "Two DIFFERENT cue keys, so this row wears two badges — the flowing stack, in rank order."
+          "draws": "blocked",
+          "why": "At five Holy Power AND inside Wrath's 15s window. `blocked` (rank 3) occludes `overcap` (rank 5); both say skip, and the one that draws names the alignment rather than the waste. ⚠ The deleted state claimed this row *\"wears two badges — the flowing stack, in rank order\"*. That stopped being true on 2026-08-27 when the corner collapsed to one badge deep, and the card had been describing a layout that no longer existed."
         }
       ]
     },
@@ -1129,7 +930,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "tv_starved"
           ],
@@ -1148,7 +949,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "tv_awaits_blade"
           ],
@@ -1168,7 +969,7 @@
             "st_only"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "tv_divine_storm_aoe"
           ],
@@ -1188,7 +989,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "tv_empyrean_power"
           ],
@@ -1199,71 +1000,32 @@
             "V13"
           ],
           "note": "Fires in SINGLE TARGET, where the mode is right and the reason is a free Divine Storm waiting — exactly `blocked`'s declared meaning. Calling it `st_only` would tell the player their mode was wrong when it was not."
-        },
+        }
+      ],
+      "overlaps": [
         {
-          "id": "tv_blade_and_aoe",
-          "condition": "affordable, AoE on, free Blade of Justice ready at or below 4 Holy Power",
-          "verdict": "open",
-          "cues": [
-            "blocked",
-            "st_only"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "tv_awaits_blade",
             "tv_divine_storm_aoe"
           ],
-          "apl": "generators 5",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "Two different cue keys, so two badges: the generator outranks the finisher AND the other spender has the turn."
+          "draws": "blocked",
+          "why": "A free Blade of Justice outranks the finisher AND the AoE toggle says Divine Storm is the spender. `blocked` (rank 3) occludes `st_only` (rank 6). ⚠ The deleted state claimed *\"two different cue keys, so two badges\"* — untrue since the z-stack landed 2026-08-27."
         },
         {
-          "id": "tv_blade_and_empyrean",
-          "condition": "affordable, single target, free Blade of Justice ready at or below 4 Holy Power, Divine Storm proc up",
-          "verdict": "open",
-          "cues": [
-            "blocked"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "tv_awaits_blade",
             "tv_empyrean_power"
           ],
-          "apl": "generators 5",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "Same cue key twice: one badge, and the union is the OR."
+          "draws": "blocked",
+          "why": "A free Blade of Justice to spend first, and a Divine Storm proc up. Same cue key twice: one badge, and the union is the OR."
         },
         {
-          "id": "tv_aoe_and_empyrean",
-          "condition": "affordable, AoE on, Divine Storm proc up, no Empyrean Legacy proc",
-          "verdict": "open",
-          "cues": [
-            "blocked",
-            "st_only"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "tv_divine_storm_aoe",
             "tv_empyrean_power"
           ],
-          "apl": "finishers 1",
-          "drawn_by": [
-            "V5",
-            "V11",
-            "V13"
-          ],
-          "note": "Both true: the mode says it is the other spender's turn AND that spender's press is free. Two keys, two badges."
+          "draws": "blocked",
+          "why": "The mode says it is the other spender's turn and that spender's press is free. `blocked` (rank 3) occludes `st_only` (rank 6). ⚠ The deleted state claimed *\"two keys, two badges\"*, which the z-stack ended on 2026-08-27."
         }
       ],
       "excludes": [
@@ -1394,7 +1156,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "ds_starved"
           ],
@@ -1412,7 +1174,7 @@
             "aoe_only"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "ds_aoe_only"
           ],
@@ -1432,7 +1194,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "ds_awaits_blade"
           ],
@@ -1453,7 +1215,7 @@
             "aoe_only"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "ds_aoe_only",
             "ds_awaits_blade"
@@ -1583,64 +1345,30 @@
         },
         {
           "id": "boj_opener",
-          "condition": "ready, Holy Flames talented, Expurgation NOT on the target, below five Holy Power",
+          "condition": "ready, Holy Flames talented, Expurgation absent, and either half of rung 2's opener window holds",
           "verdict": "open",
           "cues": [
             "priority"
           ],
           "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "boj_opener"
-          ],
+          "slot": null,
           "apl": "generators 2",
           "drawn_by": [
             "V5",
             "V13",
             "V14"
           ],
-          "note": "The vocabulary's second POSITIVE cue, and the reason is DENSITY rather than rank: `generators` 2 puts Blade of Justice first on a Holy Flames build, and saying that by elimination would mean holding FOUR rows above it. Two of those holds existed for no other reason and were deleted when this marker was authored. The condition IS the APL rung minus `time<5` — the aura latch GENERALISES that term rather than subsuming it, and the difference is a target swap: Expurgation is a TARGET debuff, so `!aura(expurgation)` is true at the opener AND again on any swap to an un-DoTted mob, where `time<5` is false. The badge re-fires mid-fight, which is probably the right press but is cap's own claim rather than the rung's, and rests on unmeasured retarget behaviour (`catalog.md`, cue H) — PLUS `resource <= 4`, which is the rung's REACHABILITY: `generators` 1 diverts to `finishers` at five Holy Power with Wake of Ashes on cooldown, and rung 2 is never reached there."
-        },
+          "note": "ONE CARD, TWO MARKERS, ONE RUNG — merged 2026-08-29. The two halves (below five Holy Power, and Wake of Ashes still unspent) wear the SAME cue, so the row looked identical either way and the second card showed nothing new. The split lives on the markers, which is where the disjunction it expresses belongs."
+        }
+      ],
+      "overlaps": [
         {
-          "id": "boj_opener_woa",
-          "condition": "ready, Holy Flames talented, Expurgation NOT on the target, at five Holy Power but Wake of Ashes READY",
-          "verdict": "open",
-          "cues": [
-            "priority"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
-            "boj_opener_woa"
-          ],
-          "apl": "generators 2",
-          "drawn_by": [
-            "V5",
-            "V13",
-            "V14"
-          ],
-          "note": "The same promotion reached down the other branch of `generators` 1. At five Holy Power the rung only diverts while Wake of Ashes is on cooldown; with it ready the rung is false and rung 2 is reached, so the opener is still the press. One badge — the cue is the same `priority`."
-        },
-        {
-          "id": "boj_opener_both",
-          "condition": "ready, Holy Flames talented, Expurgation NOT on the target, below five Holy Power AND Wake of Ashes READY",
-          "verdict": "open",
-          "cues": [
-            "priority"
-          ],
-          "sealed": [],
-          "slot": "flow",
-          "combines": [
+          "pair": [
             "boj_opener",
             "boj_opener_woa"
           ],
-          "apl": "generators 2",
-          "drawn_by": [
-            "V5",
-            "V13",
-            "V14"
-          ],
-          "note": "Both halves of the disjunction true at once — the ordinary opener, where Holy Power is low and Wake of Ashes has not been spent yet. The two markers wear the SAME cue, so the badge stack holds one card and the row looks identical to either half alone. Written down because the co-occurrence gate asks, and because 'two markers, one badge' is the whole point of the split."
+          "draws": "priority",
+          "why": "Both halves of the disjunction true at once — the ordinary opener, Holy Power low and Wake of Ashes unspent. The two markers wear the SAME cue, so the row is identical to either half alone; that identity is the whole point of the split, and it is a sentence rather than a card."
         }
       ]
     },
@@ -1711,5 +1439,5 @@
       ]
     }
   ],
-  "entries_note": "Entry order IS the authored priority; `Catalog.OrderCheck` reports when the player's Cooldown Manager disagrees with it.\n\n⚠ THE RUNG-CITATION CONVENTION, stated so nobody \"fixes\" it back. A state's `apl` names the rung that carries the FACT the state is about, not the rung that presses this row. So `dt_overcap` cites `generators 1` (where `holy_power=5` lives), not `generators 4` (Divine Toll's own rung), and `tv_awaits_blade` cites `generators 5` (the Blade of Justice proc rung that outranks it). A `_clear` state has no such fact and therefore cites the row's own rung. `finishers 1` is the `ds_castable` VARIABLE rung and citing it is deliberate, not sloppy: a `variable` line is where the fact is defined and the rungs below merely test it.\nFor a COMBINED state the tie is broken by the list itself: it cites the EARLIEST of its markers' rungs — the one the priority list reaches first, and so the one that actually eliminates this row. That is always the citation of one of its single-marker siblings, never a third number. Worked: `dt_overcap_and_wrath` cites `generators 1` over `generators 4`; `ds_aoe_only_and_blade` and the two `tv_blade_*` states cite `generators 5` over `finishers 1`/`4`, because their `resource <= 4` term means `generators` 1's conditional call into `finishers` cannot have fired; `tv_aoe_and_empyrean` cites `finishers 1` because both its markers do.\nThis is DISPLAY-ONLY and deliberately UNGATED — `catalog_gate_holds` and `catalog_gate_display_provenance` read these citations for their own purposes, and a gate on the convention itself would freeze an editorial choice."
+  "entries_note": "Entry order IS the authored priority; `Catalog.OrderCheck` reports when the player's Cooldown Manager disagrees with it.\n\n⚠ THE RUNG-CITATION CONVENTION, stated so nobody \"fixes\" it back. A state's `apl` names the rung that carries the FACT the state is about, not the rung that presses this row. So `dt_overcap` cites `generators 1` (where `holy_power=5` lives), not `generators 4` (Divine Toll's own rung), and `tv_awaits_blade` cites `generators 5` (the Blade of Justice proc rung that outranks it). A `_clear` state has no such fact and therefore cites the row's own rung. `finishers 1` is the `ds_castable` VARIABLE rung and citing it is deliberate, not sloppy: a `variable` line is where the fact is defined and the rungs below merely test it.\nFor a COMBINED state the tie is broken by the list itself: it cites the EARLIEST of its markers' rungs — the one the priority list reaches first, and so the one that actually eliminates this row. That is always the citation of one of its single-marker siblings, never a third number. Worked: `dt_overcap` cites `generators 1` over `generators 4`; `ds_aoe_only_and_blade` and `tv_awaits_blade` cite `generators 5` over `finishers 1`/`4`, because their `resource <= 4` term means `generators` 1's conditional call into `finishers` cannot have fired; `tv_empyrean_power` and `tv_divine_storm_aoe` cite `finishers 1`, which is where both their markers live. ⚠ The four states this example used to name were marker-PAIR states, deleted 2026-08-29 into `overlaps`; the citation convention is unchanged and is shown here on the single-marker states that survived.\nThis is DISPLAY-ONLY and deliberately UNGATED — `catalog_gate_holds` and `catalog_gate_display_provenance` read these citations for their own purposes, and a gate on the convention itself would freeze an editorial choice."
 }

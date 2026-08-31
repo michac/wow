@@ -71,13 +71,15 @@ which stopped being true when cue H was authored.)*
   1. **Blade of Justice** wears `priority` (cue **H**) → **press.** `generators` 2, the rung that
      puts Expurgation up. The condition is that rung: Holy Flames talented, the DoT absent, the
      button ready — and the rung is REACHED, which at Holy Power 0 with Wake of Ashes up is true
-     down both branches, so **both** markers fire (state `boj_opener_both`) onto the one badge.
+     down both branches, so **both** markers fire onto the one badge (the pair is `blade_of_justice`'s
+     `overlaps`, not a state — it renders identically to either half alone).
      ⚠ At **five** Holy Power with Wake of Ashes on cooldown neither fires and the row is clean,
      because `generators` 1 diverts to `finishers` and rung 2 is never reached — which is what the
      two reachability terms are for.
   2. Everything else is read only if the eye goes looking. Execution Sentence and Avenging Wrath
      are genuinely held — Execution Sentence by **two** markers at once (`es_awaits_wrath_ready`
-     and `es_awaits_expurgation`, state `es_expurgation_and_wrath_ready`), Avenging Wrath by
+     and `es_awaits_expurgation` — the pair is an `overlaps`, since one cue key means one badge),
+     Avenging Wrath by
      `aw_awaits_expurgation` — and the two spenders are unaffordable at 0 Holy Power. None of that
      has to be interpreted to find the press. ⚠ Row 1 and row 2 are held by the **same clause**
      here, `(!talent.holy_flames|dot.expurgation.ticking)`, on two different rungs; the badge does

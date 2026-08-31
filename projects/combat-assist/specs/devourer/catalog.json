@@ -273,7 +273,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "meta_eradicate_hold"
           ],
@@ -295,7 +295,7 @@
           "sealed": [
             "count-bands"
           ],
-          "slot": "flow",
+          "slot": null,
           "exception": "The same absence of a rung as `meta_bank_short`, wearing cue D's badge as well. Cue D carries no bank term because there is none to carry, so nothing stops the two from being true together.",
           "drawn_by": [
             "V5",
@@ -358,7 +358,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "star_yields_to_void_ray"
           ],
@@ -380,7 +380,7 @@
           "sealed": [
             "count-bands"
           ],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "star_counter",
             "star_yields_to_void_ray"
@@ -505,7 +505,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "void_ray_starved"
           ],
@@ -578,7 +578,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "soul_immolation_drain_save"
           ],

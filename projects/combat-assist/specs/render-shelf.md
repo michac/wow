@@ -250,19 +250,35 @@ them.** A scan edge says *this row is in the read*; cap's half of V11 says *this
 row wearing a negative cue wears **both** — the verdicts carrying `blocked` are `scan: true`, and
 V11 generalises over polarity — so the contradiction is the normal case, not an edge case.
 
-**What resolves it today is GEOMETRY, not order.** `Paint.Hatch` draws cap's half `overhang_px`
-OUTSIDE the icon rect, so its red ring sits *around* the yellow scan edge rather than over it.
-The two rings are adjacent, not overlapping: red at −2, yellow at 0. Neither `Paint.Border` nor
-`Paint.Hatch`'s edge frame calls `SetFrameLevel`, so between them there is no declared order at
-all — they are sibling frames of the row at the same level.
+**GEOMETRY separates them and ORDER arbitrates them, and until 2026-08-29 only the first was
+declared.** `Paint.Hatch` draws cap's half `overhang_px` OUTSIDE the icon rect, so its red *ring*
+sits around the yellow scan edge rather than on it — the two rings are adjacent, red at −2 and
+yellow at 0. But the red *stripes* start at 0 and run inward, so the pixels the yellow line
+occupies are shared, and nothing said who won them: neither `Paint.Border` nor `Paint.Hatch`
+called `SetFrameLevel`, and the stripe texture sat on the row's own frame while the scan edge was
+a child frame of it — which a child frame beats regardless of draw layer.
 
-⚠ **This is an OPEN DESIGN QUESTION, not a settled ruling** `@verify-ingame`. Reviewed on screen
-2026-08-24, a blocked row reads as a red ring *and* a yellow ring, which is two statements where
-the reader needs one. Three candidate answers, none of them chosen: give the eliminating frame an
-explicit level above the row's (**draw order across frames is decided by frame level, not by draw
-layer**, so a layer choice buys nothing); or suppress the scan edge outright on any row wearing a
-negative cue; or keep both and accept the double ring as the price of the overhang. Part 5 carries
-this as an open question.
+**The ruling: cap's half draws OVER the scan edge** (`Paint.Z.edge` = 1 < `Paint.Z.skip` = 2, both
+declared). An eliminating mark is the later word than *this row is in the read*, and this is the
+rule the shelf already held everywhere else — `Channel.Arm` lifts the client's own sealed hatch
+above the edge for exactly this reason, and cap's own hatch was the one layer left behind. The
+asymmetry, not the ordering, was the defect: the same row read one way in the client (creation
+order happened to put the red ring on top) and the other way in the preview (DOM order put the
+yellow line on top of the stripes). Two answers to a question nobody had asked is what an
+undeclared order buys.
+
+**And the yellow is then GONE, not muted** (2026-08-29). Ordering alone left it dulled under the
+stripes and muddy where a stripe crossed it — which is a third thing, neither *in* nor *out*. So
+cap's outline moved from the overhung rect onto the **icon rect**: the same sheet at the same place
+as V13's edge, in the skip ink, opaque. A ruled-out row wears one outline and it is red. What still
+overhangs is the STRIPES, which is the part that reads as the hatch spilling past the button.
+
+This is the second candidate — *suppress the scan edge on a row wearing a negative cue* — reached
+by COVERING rather than by not drawing, and that difference is the whole reason it is safe.
+`Treatment.For` still sets `scan = member`, membership is still ready-self, and the edge still
+means exactly what it meant on every row in every spec. Nothing about the model moved; one layer
+draws over another. Suppression proper would have changed what the edge *means*, which an ordering
+complaint does not authorise.
 
 **What Blizzard already occupies on a CDM item** — read off `Blizzard_CooldownViewer` at
 **12.0.7**, under a standing ⚠ *12.1 rewrote this system and this has not been re-flown*:
@@ -307,6 +323,19 @@ sealed colour curve, which is a mechanism and draws no pixel of its own.
 
 ⚠ **V5.1 is not in the registry.** It is the cue *vocabulary* — what may be said — and V5 is the
 one primitive that draws every member of it. A vocabulary is not a thing that draws.
+
+**Authority markers.** A recipe below mixes three kinds of sentence, and a reader deciding whether
+they may change something needs to know which one they are looking at:
+
+| Marker | Means |
+| --- | --- |
+| `[platform]` | A measured client fact, carrying its `[client …]` / `[T1 …]` citation. Argue with the client, not with the shelf. |
+| `[gated]` | An invariant a gate in `wowkb.capart` fails on, and the marker **names the gate**. |
+| *unmarked* | The current choice, with its reason. **This is the default and it means "not a wall."** |
+
+⚠ Nothing is `[gated]` unless you can name the gate. The convention is applied in **V21's section
+only** so far — retro-marking the rest is its own job, and half-marked prose that looks complete
+would be worse than none.
 
 ### V1 · Emphasis ring *(retired)*
 
@@ -376,11 +405,15 @@ Windows/mobile notification-badge convention: a filled circular disc hung off th
 **top-right** corner, overhanging by `tokens.badges.overhang_px` past the top and right edges so it
 reads as *on top of* the icon rather than *inside* it.
 
-- **Geometry:** `tokens.badges.diameter_pct` of icon width. Badges **flow**: the first sits on the
-  top-right corner, and each further badge steps one `diameter + tokens.badges.padding_px` **down**
-  the right edge (`tokens.badges.flow`). Order is fixed by each cue's `rank`, never by arrival, so
-  two rows wearing the same pair of cues always stack them the same way round. **There is no
-  ceiling** — the vocabulary grows by declaring a cue, not by winning a slot.
+- **Geometry:** `tokens.badges.diameter_pct` of icon width, on the **top-right** corner
+  (`tokens.badges.flow.anchor`) — and every badge a row wears draws at that one place. They are
+  separated by frame LEVEL rather than by position (Part 2.5's z-stack), so exactly one is
+  visible and order is fixed by polarity and then by each cue's `rank`, never by arrival: two
+  rows wearing the same pair of cues always resolve the same way round. **There is no ceiling** —
+  the vocabulary grows by declaring a cue, not by winning a slot. ⚠ Badges stepped **down** the
+  right edge until 2026-08-27, and `tokens.badges.flow.direction` said so; the corner is one badge
+  deep now and the key is gone. `Paint.StackOffset` survives for the `/cap style` gallery, which
+  draws a vocabulary rather than a row.
 
   ⚠ **This replaced three fixed slots on 2026-08-19, and the thing that changed is what position
   MEANS.** The old layout ran negatives leftward along the top edge and put the one positive cue
@@ -442,7 +475,7 @@ loads successfully and then renders nothing is a defect"*, and that test only ke
 | --- | --- | --- | --- | --- | --- |
 | **`priority`** | **positive** | `fire` (still — V14's ring is what moves) | `HOLD` | 1 | press this one — the scan would reach it late, or only after stepping over more skips than a reader can hold at once |
 | **`capped`** | **positive** | `cards_stack → cards_stack_high` | `BOUNCE` | 2 | charges are at max and the recharge is stalled — you are losing one right now |
-| **`blocked`** | negative | `timer_CW_50` (still) | `HOLD` | 3 | held for a cooldown, or a readable dependency says the press would be wasted |
+| **`blocked`** | negative | `timer_CW_50` (still), **or the live cooldown dial** (V21) where the block is a cooldown | `HOLD` | 3 | held for a cooldown, or a readable dependency says the press would be wasted |
 | **`starved`** | negative | `flask_empty` (still) | `HOLD` | 4 | you cannot afford it |
 | **`overcap`** | negative | `flask_full` (still) | `HOLD` | 5 | pressing would waste resource |
 | **`st_only`** | negative | `pawn` (still) | `HOLD` | 6 | the single-target spender while AoE mode is on |
@@ -472,23 +505,45 @@ claim they have to take on trust.
 eye lands. `check` asserts the ordering rather than the absolute positions, which is what lets the
 vocabulary grow without renegotiating geometry.
 
-⚠ **Every negative is a STILL IMAGE, and motion is the third polarity carrier.** Until 2026-08-23
+⚠ **No negative DECORATES ON A LOOP, and motion is the third polarity carrier.** Until 2026-08-23
 the negatives animated — `blocked` swept a clock through five frames, `starved` and `overcap`
 bounced a flask — and frame cadence was declared the *shared* idiom of the vocabulary, carrying no
 polarity. That was wrong, and the thing that proved it is **dwell time**. A positive cue is up for
 the moment you are meant to act on; a negative is up for as long as the skip is true, which in a
 real pull is most of the fight. Motion the eye cannot finish reading is motion it keeps returning
-to, so a vocabulary whose *skips* move spends the player's attention on exactly the rows that
+to, so a vocabulary whose *skips* loop spends the player's attention on exactly the rows that
 wanted none of it. Stillness is not a downgrade here — it is the correct rendering of "nothing is
 happening on this row."
 
 So the carriers run **hue, glow, motion**, and all three agree: gold + halo + animation says act,
 red + still says skip. `priority` was already still by this logic before there was a rule for it
 (V14's promotion ring is what moves), and `st_only` / `aoe_only` were still from the day they were
-authored. This ruling generalises what those three were already doing rather than inventing
-anything, and `capart check` gate **0e** enforces it — a negative cue declaring more than one frame
-is a hard failure, because this is exactly the rule that decays back into prose the moment someone
-adds a cue and copies the two-frame `BOUNCE` off a neighbour.
+authored.
+
+⚠ **What that ruling forbids is a LOOP, not motion.** It was written from a flight whose finding
+was *"the blinking negatives were too much"*, and what the player was shown was a **five-frame
+flipbook of a clock that was not telling the time** — decoration, cycling forever, conveying
+nothing whichever frame you caught it on. That is the thing that does not come back. A negative
+may carry a **real, terminating countdown**: a radial that drains once on a real remaining time,
+ends, and is gone. It is the swipe mechanic the player already reads on every button in the game,
+it answers *how long* rather than restating *held*, and it stops. `blocked` draws exactly that
+whenever its block is a cooldown (**V21**, 2026-08-28) — a red radial with a white numeral in it,
+in place of `timer_CW_50`, a picture of a clock face frozen at 50 % on a row where the real time
+is right there and reachable. Same cue, same polarity, same rank, same red hatch beside it.
+
+⚠ **This is a rule with no gate behind it, deliberately.** `capart check` gate **0e** used to fail
+any negative cue declaring more than one frame; it was **deleted** on 2026-08-28 rather than
+widened. A gate earns its place when it compares two things that can drift apart on their own, and
+that one restated a literal in its own body against `tokens.cues[k].frames` — one source, checked
+against itself. It could not have caught the case it was written for either: the dial is a
+StatusBar and declares no frames at all. Measured before deleting it: every negative cue had
+exactly one frame and the only multi-frame cue was `capped`, which is positive — so the deletion
+removed nothing that was firing.
+⚠ **The consequence to know about:** `Paint.Badge` branches on `#cue.frames` and builds a FlipBook
+for any cue declaring more than one, so a future multi-frame negative would silently animate again
+with nothing to stop it. That is now a thing an author has to not do, held by this paragraph
+rather than by code. If it ever happens twice, the gate to write is one that reads the ART, not
+one that re-reads the token.
 
 **It also removed a real collision.** `starved` bounced `flask_empty → flask_half` and `overcap`
 bounced `flask_half → flask_full`, so the two cues **shared a frame**: at any instant either could
@@ -517,9 +572,10 @@ it, and `export badges` prunes what the shelf no longer names — which is what 
 glyph became the dial: `fire` stays on the sheet as the `priority` cue's frame, and
 `tokens.pandemic` names no sprite at all.
 
-**`capped` keeps its `BOUNCE`** and is now the only cue in the vocabulary whose glyph moves at all:
-a thin stack growing to a full one, which is the loss it is warning about, drawn. It is positive,
-it is up for as long as you are wasting a charge, and it is meant to be chased.
+**`capped` keeps its `BOUNCE`** and is the only cue in the vocabulary whose *glyph* moves: a thin
+stack growing to a full one, which is the loss it is warning about, drawn. It is positive, it is
+up for as long as you are wasting a charge, and it is meant to be chased. `blocked`'s dial is not
+a counter-example — it is a countdown, not a glyph on a loop, and it ends.
 
 ⚠ **The positive cues glow; no negative does.** This is the second polarity carrier, and with
 position no longer carrying it (V5) the two that remain are load-bearing: a negative cue that
@@ -830,26 +886,43 @@ survives a player not having memorised a legend.
 - **Nothing moves.** No arrival, no pulse, no flipbook. The shared ticker still exists for the badge
   sprites and the scan edge does not register with it, so a screen full of in-scan rows contributes
   no motion at all.
+- **ONE SHEET, NINE-SLICED — and it is shared with cap's ruled-out outline** (2026-08-29). It was
+  four `SetColorTexture` strips until then. The strips cost no art, but they are a **drawn artifact
+  in a stack of texture layers**, and that mismatch is what broke the preview's other outline: it
+  was a CSS `border` on the striped element, and a mask clips an element's border, so the stripe
+  sheet had been cutting it into dashes. It was never an outline. One sheet through the one
+  pipeline gets the tint guard, the byte gate, and a flipbook path back if V13 ever wants motion
+  again — at one texture per outline instead of four.
+  ⚠ **The slice is what keeps it a hairline.** Stretched whole, a sheet authored against a 56 px
+  icon draws a fatter, filtered line on a larger one — the defect frozen escape sizes had, arriving
+  through the art. Sliced, the corners draw at native size and each edge stretches along one axis.
+  `tokens.outline.line_px` is the width, declared **once**, which is what makes *cap's ruled-out
+  outline exactly overlays the scan edge* true by construction rather than by two numbers agreeing.
+  ⚠ It is **not** `tokens.ring` — that was V2's arrival machinery, deleted 2026-08-25, and
+  `style_spec` guards the name dead.
 - **Lua:**
   ```lua
   local edge = CreateFrame("Frame", nil, cap.overlay)   -- NOT the CDM item frame
   edge:SetPoint("CENTER", icon, "CENTER", 0, 0)         -- sized and centred, NOT SetAllPoints
   edge:SetSize(icon:GetWidth(), icon:GetHeight())
 
-  -- Four colour strips, built once, out of combat. No texture file, no tex-coords, no group.
-  for _, t in ipairs(Paint.buildRing(edge, T.ready.line_px)) do
-    t:SetColorTexture(T.ready.rgb[1], T.ready.rgb[2], T.ready.rgb[3], T.ready.alpha)
+  -- ONE nine-sliced texture, built once, out of combat. White with the outline in its alpha,
+  -- so the hue is a multiply at draw time and none is baked in.
+  for _, t in ipairs(Paint.buildOutline(edge)) do
+    t:SetVertexColor(T.ready.rgb[1], T.ready.rgb[2], T.ready.rgb[3])
+    t:SetAlpha(T.ready.alpha)
     t:SetBlendMode(T.ready.blend)
   end
 
   edge:SetShown(inScan)          -- the only in-combat write this primitive makes
   ```
   The in-combat surface is one `Show`/`Hide`. Everything else happens when the roster is bound.
-- **Preview reproduction.** A 1-element `box-shadow: inset 0 0 0 var(--ready-line)` in
-  `--ready-rgb` at `--ready-alpha`, composited `mix-blend-mode: var(--ready-blend)` — `capart` maps
-  the client's mode to the CSS one (`BLEND` → `normal`, `ADD` → `plus-lighter`), so the preview
-  cannot show a hue the client would clip. Same rect, same width, same colour, and nothing animates
-  it there either.
+- **Preview reproduction.** The same generated sheet as a data: URI, nine-sliced through
+  `mask-box-image` over a `--ready-rgb` fill at `--ready-alpha`, composited
+  `mix-blend-mode: var(--ready-blend)` — `capart` maps the client's mode to the CSS one
+  (`BLEND` → `normal`, `ADD` → `plus-lighter`), so the preview cannot show a hue the client would
+  clip. A plain CSS border in the same ink is the fallback where `mask-border` is unsupported; the
+  two draw the same line, so which one you get is invisible.
 
 ### V15 · Hotkey text
 
@@ -986,8 +1059,11 @@ the three of them — hatch, plate, mark — are computed from what the row actu
 (`Channel.CountGeometry`, off `tokens.badges.diameter_pct`, `plate.scale` and `sprite_inset_pct`,
 the same arithmetic `Paint.Ratios` does for every other badge). Frozen numbers here were right at
 one icon size and wrong at every other, on every row at once. The OFFSETS stay tokens
-(`count.hatch_offset_px`, `mark_offset_px`, `plate_offset_px`) — where an escape sits on the text
-baseline is a judgment nobody can derive — and `/cap band` nudges those and only those. Its
+(`count.hatch_offset_px`) — where an escape sits on the text
+baseline is a judgment nobody can derive — and `/cap band` nudges those and only those. ⚠ Only
+`hatch_offset_px` remains: the mark and the plate became their own AuraContainer slots, each with
+its own button, so neither shares an advance width with the numeral any more and neither had an
+offset anything read. `count.mark_offset_px` and `count.plate_offset_px` were deleted 2026-08-28. Its
 no-argument readout prints the measured width beside the drawn diameter, which is the assertion:
 the diameter must be `badges.diameter_pct` of the width.
 
@@ -1294,6 +1370,157 @@ stacked on one row's bottom edge.
 
 - **Preview reproduction.** `--procbar-*` vars; a thin bar above the charge bar whose fill
   drains in real time over a nominal looping window, gold over a dark track.
+
+### V21 · Live cooldown dial
+
+**The `blocked` badge, when the block is a cooldown: a client-drained radial on the real
+remaining time with a legible countdown numeral inside it.**
+
+⚠ **This is not a fourth badge — it is what `blocked` draws.** A held row whose hold is a clock
+used to wear `timer_CW_50`, a picture of a clock face frozen at 50 %, while the number the reader
+actually wanted existed and was reachable. Now the badge tells the time. Same cue, same polarity,
+same rank, same red hatch beside it; V5.1 carries the rule and the reasoning.
+
+**Three catalog displays reach this picture, and they stay separate.** They differ in *whose*
+clock, which is a fact about `Channel.lua` and not about the pixels:
+
+| Display | Whose clock | How it resolves |
+| --- | --- | --- |
+| `sealed-base-cooldown` | **this row's own base spell**, hidden under a transform | the BOUND ROW's `base` |
+| `sealed-cooldown-range` | **another ability's cooldown**, named by catalog key | `abilities[plan.ability].spell`, with a Step curve deciding visibility |
+| `sealed-aura-remaining` | **an aura's remaining**, named by catalog key | an AuraContainer slot filtered to that aura; the client drains the arc off the aura's own duration object |
+
+The second was already resolving a duration object — its band spends it on the badge's alpha — and
+it now hands that same object to the arc and the numeral instead of drawing a still glyph.
+Demonology's cue J (Dreadstalkers' Tyrant dead zone) and Havoc's Essence Break reading Eye Beam
+inherited the dial the day it existed, with no change to either marker.
+
+The row the base-cooldown form exists for is the transformed one. While a Grimoire is talented its Cooldown Manager
+row spends its whole 120 s wearing the dispel it becomes — and the swipe on it is that dispel's
+15 s, because `GetSpellCooldownInfo` reads `C_Spell.GetSpellCooldown(self:GetSpellID())` and
+`GetSpellID()` is the display-identity ladder `[platform]` *(`cooldown-manager.md` §3.1.1)*. So the
+two-minute cooldown a reader is waiting on is drawn **nowhere**. Cue K already rules the row out on
+identity; it says nothing about when the row comes back, and that is the fact a ramp needs.
+
+**Two calls, and the split between them is the whole design.**
+
+| Question | Call | |
+| --- | --- | --- |
+| May the badge be shown at all? | `C_Spell.GetSpellCooldown(baseID).isActive` | **plain in restricted combat** — NeverSecret, 90/90 in-combat samples, false ×71 / true ×19 `[platform]` *(`cooldown-manager.md` §7 `[client 2026-08-09]`)* |
+| What does it draw? | `C_Spell.GetSpellCooldownDuration(baseID, ignoreGCD)` | a duration object whose **every getter is secret** `[platform]` *(`security-taint-and-restricted-data.md` §4.8.4)* |
+
+The first is a readable gate and reaches the catalog as the `baseoncd` predicate. The second is
+never read: the object goes straight into `SetTimerDuration(d, Immediate, RemainingTime)` for the
+arc and into `FormatRemainingDuration` for the numeral, which is a **secret string that renders** —
+`SetText` puts it on screen, ticking, in combat `[platform]` *(§4.8.1 finding 2)*. The FontString
+is therefore a **leaf**: it is anchored TO the badge and nothing is ever anchored to it, because
+`SetText` with a secret marks the string and its dependent anchoring `[platform]` *(§4.8.1
+finding 10)*.
+
+⚠ **`SetMinMaxValues(0, 1)` goes in BEFORE the timer, or a correct duration draws at 0 % width**
+with no error and nothing downstream to say so `[platform]` *(§4.8.1 finding 3)*. On this dial it
+happens at build time, in `Channel.buildDial`, which is strictly before any draw pass — there is
+exactly one such call on the bar and adding a second would make it unclear which one the guarantee
+rests on.
+
+⚠ **The predicate reads only on a TRANSFORMED row.** Untransformed, the base *is* the display and
+the row's own dial already answers; a second supplier for one fact is a second thing to disagree.
+`baseoncd` is UNKNOWN there, which closes the badge rather than opening it.
+
+⚠ **`ignoreGCD` is true.** With false, every global cooldown reads as a live cooldown and the badge
+appears for 1.5 s after every cast.
+
+**Red, and it IS the verdict.** The arc is `blocked`'s own red, not V19's and V20's gold — under
+V5.1 hue carries polarity and only polarity, and gold here would be cap promoting a row it is
+ruling out. This is the one dial in the shelf that is not a quantity drawn beside a verdict: it is
+the verdict, saying *held* and *for this long* in one mark. The **numeral is white**, so the number
+reads against the arc it sits inside rather than competing with it.
+
+⚠ **A marker that declares both a `cue` and one of these displays draws that cue AS the dial**, and
+the sprite for it is not drawn at all — the two would be the same statement made twice, once
+falsely: a frozen clock face on top of a running one. `catalog_cue_dials` is where the preview
+reads that and `f.dialCues` where the overlay does, and both take it from the DECLARATION rather
+than from what the client is currently showing, for Part 2.5's reason — that fact is sealed.
+
+**The third one resolves no cooldown at all, and it is the only one that is a CONTAINER.** The
+slot filters to an aura, so the badge exists exactly while that aura does and its visibility *is*
+the gate — the same property `ib_art_clock` already relies on one row over. Because a container's
+aura is the one the **marker** names rather than the bound row's, it reaches **across rows** with
+no new mechanism: Demonbolt held because row 9 is showing Infernal Bolt draws the armed Art's
+clock, which is precisely how long that hold lasts. It must declare a cue — it stands in for that
+cue's badge — and `Catalog.Check` refuses one without.
+
+⚠ **It has NO NUMERAL, and that is a limit rather than a choice.** The number above comes from
+`FormatRemainingDuration` on a **cooldown** duration object cap holds and hands over. The aura's
+duration object is the client's; the only aura-side text sink is `SetDurationText`, whose
+breakpoints emit **fixed strings** — `""` or a texture escape, never a value over the remaining
+seconds (`outsideSink` is its one use anywhere). The arc alone is still strictly more than a clock
+face frozen at 50 %, and the numeral arrives the day a breakpoint is measured to interpolate one.
+⚠ Which means the argument below — *"the numeral is the point, and it needs room"* — is an
+argument the two cooldown forms make and this one does not. It keeps the diameter because it keeps
+the corner, not because it earned it the same way.
+
+⚠ **A dial whose marker declares no cue is still legal and still draws.** `grimoire_dispel_on_cd`
+is the case: the row is swiped by the dispel's own 15 s, Blizzard has already ruled it out, cap
+adds no cue of its own, and the dial underneath says when the row stops being the dispel. There
+the countdown is a quantity again, because nothing is claiming a verdict over it.
+
+**Why the badge grew.** A dial alone says the row will come back and not when, which is the half
+cue K already covers. The numeral is the point, and it needs room: `badges.diameter_pct` is what
+makes it legible at icon scale, and it costs nothing now that the corner is one badge deep.
+
+**Not implemented, and named so the next reader does not re-derive them:** Devourer's **Voidblade**
+is the second known instance and this is built so it can inherit — it needs a catalog marker and
+nothing else. **Hand of Gul'dan / Shadow Bolt transform but have no base cooldown**, so there is
+nothing underneath to draw. And `protection/holy_armaments` *looks* like a third instance —
+it carries both `identity(…, "transformed")` and a `cd` state — but its two forms alternate on
+**one shared cooldown**, so nothing is hidden and the swipe on that row is already the right one.
+
+`[gated]` `capart check` gate 0 (the tint guard) names `tokens.basecd`, which declares
+`tint: "none"`: the arc is a StatusBar fill and the numeral is text, so there is no art for the
+guard to measure and the group says so explicitly rather than by omission.
+
+- **Tokens.** `tokens.basecd` — `dial.size_px` / `dial.rgb` / `dial.track_rgb` / `dial.track_alpha`
+  for the arc, `font` / `size` / `outline` / `rgb` for the numeral.
+- **Preview reproduction.** `--basecd-*` vars; the arc drains over a nominal looping window and
+  the numeral is a nominal number — cap never learns a real one, and what the swatch is for is
+  judging whether the number is legible at this diameter. Where the row's winning cue is one the
+  entry declares as a dial, the dial is drawn IN THE BADGE'S PLACE and the sprite is not built.
+
+### V22 · Count badge
+
+**The badge, with a number cap authored where the glyph would be.** One kind so far, and one
+value: the `0` Implosion wears when no Wild Imp is out.
+
+⚠ **This is not a fourth badge either — it is what a cue draws when cap holds the count.** Its
+plate, diameter, corner, hue and frame level are the cue's own (V5/V5.1); the only thing it
+replaces is the sprite. `implosion_no_imps` used to wear `timer_CW_50`, a picture of a clock face
+frozen at 50 %, on a row where nothing is on cooldown and nothing is being waited out — while the
+three states beside it on the same row drew a **number**: red at 1–5 imps, gold at 6 or more. The
+zero was the one value in that sequence drawn as a symbol, and it is the one value cap holds
+outright. The row now reads **0 → 1–5 red → 6+ gold**, one grammar.
+
+**The licence, and it is the whole of what makes this legal.** Everywhere else in this project a
+count is the CLIENT's — a FontString in an AuraContainer slot whose text Blizzard writes from a
+rule cap handed over (V16/V17), never read back. This number is a **constant a readable term has
+already established**: `!aura(wild_imp)` *means* zero. ⚠ **A numeral whose value its own marker's
+`when` does not fix would be cap asserting a count it does not hold**, which is the one thing this
+must never become; `Catalog.Check` refuses a `badge` on a marker with no `cue`, and refuses one on
+a marker carrying a `display` — a display marker never contributes a cue (`Signal.markersOf`), so
+such a numeral would build, arm nothing and be invisible forever.
+
+**Red, and it is the SAME red the numeral beside it uses.** `tokens.count.low_rgb` — byte-identical
+to `badges.rgb` — because a `0` and a `1` are the same statement about the same row and must not be
+two reds. ⚠ A positive numeral would take `tokens.count.rgb`, the gold V16 recolours to at six; no
+cue asks for one, and until one does the code path exists and is unexercised.
+
+- **Tokens.** No group of its own. `tokens.count.font` / `size` / `outline` for the text,
+  `count.low_rgb` for the ink, `badges.plate` for the disc under it — the cue's own diameter and
+  corner offsets from `tokens.badges`.
+- **Preview reproduction.** The `.slot` badge shape with a `.cue-numeral` text child in place of
+  the sprite, drawn wherever the winning cue is one the entry declares a numeral for
+  (`catalog_cue_numerals`).
+
 ## Part 2.5 — Composing a row
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
@@ -1302,28 +1529,58 @@ hatch, a scan edge, badges, and whatever sealed display it declares** — the ic
 corner no cue may claim, carries no condition, and so has nothing to stack with or against. The
 rule below is about conditions competing for a surface, and a label is not a condition.
 
-1. **The cooldown hatch** (V11), or none. It sits under everything else, directly over the icon
-   face, because it is a statement about the button rather than a mark placed on it.
-2. **The scan edge** (V13), or none. It is one bit and has nothing to stack with.
-3. **A badge per cue** (V5/V5.1), each in the slot its cue owns. A cue named twice is one badge —
-   that is how a catalog authors an OR without an OR.
-4. **A sealed display** (V16–V20), or none per marker. Its widgets are the client's to show, so
+1. **Blizzard's half of the cooldown hatch** (V11), or none. It sits under everything else,
+   directly over the icon face, because it is a statement about the button rather than a mark
+   placed on it. It never meets the scan edge: `cd` is the only verdict carrying it and `cd` is
+   `scan: false`.
+2. **The scan edge** (V13), or none. It is one bit, and the only thing it stacks against is the
+   layer above it.
+3. **cap's half of the hatch** (V11's second cause), or none — **over the scan edge**, which is
+   the one place in this list where two treatments make opposite statements about the same row.
+   An edge says *this row is in the read*; this says *this row is out*. A row wearing a negative
+   cue wears both, so the contradiction is the normal case rather than an edge case, and **the
+   later word wins**. Declared as a frame level (`Paint.Z.edge` < `Paint.Z.skip`), never left to
+   the order two frames were built in — draw order across frames is decided by level and not by
+   draw layer, so a texture on the row's own frame can never beat a child frame however high its
+   layer.
+4. **A badge per cue** (V5/V5.1), all on the one corner, of which exactly one is visible — see
+   the z-stack below. A cue named twice is one badge — that is how a catalog authors an OR
+   without an OR.
+5. **A sealed display** (V16–V21), or none per marker. Its widgets are the client's to show, so
    cap places them and stops: a banded count takes the badge corner and the icon face, the
-   segmented bar takes the bottom edge, the refresh badge and the proc dial take the corner.
-   **At most one per marker** — every sink needs an AuraContainer slot and a marker is at most
-   one of them (`Channel.ContainerPlan`); a row may carry several markers (DEM-8, DEM-10).
+   segmented bar takes the bottom edge, the refresh badge takes the corner, and the cooldown dial
+   takes the badge's own place when its marker declares a cue and the corner when it does not. **At most one per marker** — the four container kinds each need an AuraContainer slot
+   and a marker is at most one of them (`Channel.ContainerPlan`), and V21 is not a container at
+   all; a row may carry several markers (DEM-8, DEM-10).
 
-   ⚠ **Corner sealed displays claim stack slots 0..n−1 BY DECLARATION, in the catalog's
-   declared order, and the row's cue badges start at slot n.** The rule must be static: whether
-   the client is currently showing a sealed badge is exactly the fact cap may not read, so the
-   stack cannot re-flow around it — a row that DECLARES corner displays (V19, V20) cedes those
-   steps for the session, gated or not, and its cue badges flow from below them even while the
-   corners are empty. The cost is blank steps on such a row's quiet states; the alternative was
-   two things drawn on one pixel the first time a cue and the client fire together (DEM-10 is
-   that state). The claimers are V19's window badge and V16's corner elements (plate, mark,
-   numeral — one slot per marker); Implosion is the worked example — its band claims slot 0
-   and the `aoe_only` pawn sits at slot 1. V20 claims nothing here: it re-formed onto the
-   bottom edge (2026-08-25) and the edge has its own static rule, in its own section.
+   ⚠ **THE CORNER IS A Z-STACK, ONE BADGE DEEP.** Every badge on a row — cue badges, graded
+   badges, corner sealed displays — draws at the **same** place, and what separates them is
+   frame level. The order is Part 0.5's reading model:
+
+   > **Negatives occlude positives. Within a polarity, rank decides. Sealed corner displays lose
+   > to every negative and win against nothing else.**
+
+   **It is not the cue rank**, and the reason is that the two failure directions are not the same
+   size: hiding a **negative** behind a positive makes a held row look pressable, so you press it;
+   hiding a **positive** behind a negative makes a pressable row look held, so you miss a beat.
+   Only the second is survivable. Ranking by rank alone would draw gold over red on
+   `havoc/ia_pre_meta_and_skip`, the one state that declares both — a state whose own note says
+   the pair *"is declared rather than denied,"* because *"a sealed fact cannot be negated into a
+   readable `when`."*
+
+   ⚠ **This is what lets cap never learn whether a sealed display is drawing.** That fact is
+   sealed, which is why the corner claim is unconditional — and under this order the question
+   never arises: a row wearing a negative is out, so whatever is painting underneath is
+   information about a row nobody is pressing; a row wearing none has nothing over the display at
+   all. **Do not add a read to decide it.**
+
+   Among the corner displays themselves, **declaration order is the tiebreak** — first declared
+   draws over the ones after it — and the last of them sits on the level the eliminating hatch has
+   always needed, one above the scan edge. Cap hides its OWN losers rather than covering them: a
+   badge is a pooled frame, and one nobody took down is invisible until the thing above it stops
+   drawing and it shows the state before last. The claimers are V19's window badge, V21's dial,
+   and V16's corner elements (plate, mark, numeral). V20 claims nothing here: it lives on the
+   bottom edge, which has its own static rule in its own section.
 
 ⚠ **An ELIMINATING mark draws over an INCLUDING one, and the frame level says so** (Part 1). The
 sealed hatch and the scan edge occupy the same pixels and make opposite statements; the skip wins,
@@ -1493,11 +1750,19 @@ Look-at-it questions, not measurements. None of them is a reason to hold two sty
    and an unlit row are hard to tell apart in a pull, the fix is **area, not a second colour** — a
    ladder is what V2 was retired for, and the blend is now spent (V13, 2026-08-23: `ADD` clipped
    the authored hue to white, so there is no headroom left on that axis).
-3. **Do the badges read without a legend at 56 px?** Every negative is a still image since
-   2026-08-23, which removed the version of this question that used to matter most — whether a
-   sweeping clock read as *waiting* or as a countdown. What is left is the harder half: does a
+   ⚠ **On a RULED-OUT row there is no yellow to judge, since 2026-08-29**: cap's own outline draws
+   over it in red, from the same sheet at the same place (Part 3). What to watch there is whether
+   one red outline plus a striped overhang reads as *out* at a glance — and, separately, whether
+   the nine-slice holds the line at whatever icon size Edit Mode is set to, which is a source read
+   and has never been seen in a client.
+3. **Do the badges read without a legend at 56 px?** The negatives stopped looping on 2026-08-23,
+   which removed the version of this question that used to matter most — whether a sweeping *fake*
+   clock read as *waiting* or as a countdown. What is left is the harder half: does a
    **motionless** red glyph in a corner get noticed at all in a pull, or does stillness cost the
-   thing it was meant to buy?
+   thing it was meant to buy? ⚠ **`blocked` is the first partial answer and it is UNFLOWN.** Where
+   its block is a cooldown it draws a real one (V21, 2026-08-28) — motion that terminates and says
+   *how long* — so the flight has two things to report separately: whether the dial reads better
+   than the frozen glyph did, and whether the remaining stills are noticed at all.
 4. **Does one shared red across seven negative badges under-differentiate?** The shapes are meant
    to carry the distinction — and the two card stills added 2026-08-24 (`building`, `noproc`)
    push this question harder than the original five did. If they do not, the fix is different

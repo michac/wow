@@ -331,6 +331,39 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
   knowingly does *not* draw, so there is nothing in the client for it to be data for; it goes as
   far as `states` do, which is the preview and the gates.
 
+- **A STATE IS A SITUATION THE PLAYER SEES, NOT A MARKER PAIR.** Every state in the table has to
+  be a thing you could point at on screen and say *that one*. ⚠ **The pressure that breaks this
+  comes from `catalog_gate_cooccurrence`**, which demands every simultaneously-true marker pair be
+  written down — and the easiest way to satisfy it is to invent a state for the pair. Under the
+  z-stack the corner is **one badge deep**, so the second cue in such a pair is invisible, and the
+  state is a card describing a badge nobody can see. Measured 2026-08-28: three of them in
+  Demonology, two still carrying notes about badges *"flowing in `rank` order"* — a layout retired
+  the day before. **Write the pair as an `overlaps` instead**: `{"pair": [a, b], "draws": "<cue>",
+  "why": …}` on the entry, beside `excludes`. The gate checks that the named cue is one of the two
+  markers' own and that it actually **wins** the z-stack (negatives occlude positives, then lower
+  `rank`), so the branch records a fact rather than waving the pair through. The three ways to
+  settle a pair, in full: a **state** when the combination is genuinely its own situation, an
+  **`excludes`** when it cannot happen, an **`overlaps`** when it happens and one badge draws.
+
+- **A state may declare what the CLIENT paints.** `"client": "<branch>"` — one of Blizzard's
+  `RefreshIconColor` tints, the same closed vocabulary a scenario row's `{client: …}` group uses —
+  and the state card then draws the icon the way the player will actually see it. ⚠ Not on a `cd`
+  state: a swiped row is already ruled out natively, and claiming both asserts a composite the
+  source does not describe. Declare it wherever cap's own cue is *reacting* to the client's paint;
+  Demonology's `hog_starved` is the case, and the field exists because that decision could not
+  otherwise be read off the state table at all.
+
+- **A state drawing a count band says WHICH VALUE the numeral is illustrating.** `"count": N` on
+  the state, the same field a scenario row has always carried, plus `"count_dir": "neg"|"pos"`
+  where the verdict does not settle the hue. Without it the card falls back to the **mark glyph**,
+  which is a picture the band may not declare at all — measured 2026-08-28: Implosion's two count
+  states both drew the mark while both bands say `draw: "count"`.
+  ⚠ **This number is NOMINAL and the state table is the one place that could be read otherwise.**
+  cap never learns a count; the card is illustrating a band. (V22's numeral is the opposite case —
+  a literal cap holds, fixed by its marker's own `when` — and the two must not be confused.) Gated:
+  the value has to land in a band that actually draws a numeral, and in a band whose polarity
+  matches the hue the card will use, because hue carries polarity and only polarity.
+
 - **A state whose row is TRANSFORMED says which face it draws.** `"shows": "<roster name>"` on
   the state; the preview's state card then draws that button instead of the entry's base one,
   the way a scenario row already writes whichever name the client would show. Gated: the name

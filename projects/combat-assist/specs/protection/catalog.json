@@ -158,7 +158,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "aw_awaits_toll"
           ],
@@ -237,7 +237,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "dt_awaits_wrath"
           ],
@@ -313,7 +313,7 @@
             "starved"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "sotr_starved"
           ],
@@ -402,7 +402,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "ha_banks_bulwark"
           ],
@@ -487,7 +487,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "ha_banks_bulwark"
           ],
@@ -620,7 +620,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "as_awaits_hammer"
           ],
@@ -662,7 +662,7 @@
           "sealed": [
             "count-bands"
           ],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "as_awaits_hammer",
             "as_guidance_capped"
@@ -914,7 +914,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "judgment_awaits_assurance"
           ],
@@ -989,7 +989,7 @@
             "blocked"
           ],
           "sealed": [],
-          "slot": "flow",
+          "slot": null,
           "combines": [
             "wog_awaits_shining_light"
           ],

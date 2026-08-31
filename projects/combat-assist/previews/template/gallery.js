@@ -57,18 +57,20 @@
     ));
   });
 
-  // The stack FLOWS, so there are no slots to show one-per. What this has to answer instead is
-  // "how far down the icon does a full stack reach, and does it still read?" — so it draws every
-  // cue in the vocabulary at once, which is the worst case by construction rather than by a
-  // number someone has to keep up to date.
+  // The stack is a Z-STACK, so "how far down the icon does it reach?" has stopped being a
+  // question and this swatch answers the one that replaced it: WHICH badge survives. It hands
+  // the row every cue in the vocabulary at once — the worst case by construction rather than by
+  // a number someone has to keep up to date — and one disc comes back.
   var stack = cueKeys.slice().sort(function (a, b) {
     return (T.cues[a].rank || 99) - (T.cues[b].rank || 99);
   });
-  gallery.appendChild(swatch("badges · the full stack",
-    "Every cue at once, in rank order — the deepest stack the vocabulary can produce, which is " +
-    "the crowding question worth answering now that there is no ceiling. Positives rank first " +
-    "and sit on the corner, so a promotion is the badge the eye reaches before any skip. " +
-    "Shown: " + stack.join(" · ") + ".",
+  gallery.appendChild(swatch("badges · the whole vocabulary at once",
+    "Every cue in the vocabulary on one row, and <b>one badge draws</b>: they share a corner " +
+    "and only the top of the order is visible. The order is <em>negatives occlude positives, " +
+    "rank decides inside a polarity</em> — not rank alone — because the two mistakes are not " +
+    "the same size: a skip hidden under a promotion makes a held row look pressable and costs " +
+    "the press, where a promotion hidden under a skip costs a beat. Worn: " + stack.join(" · ") +
+    ".",
     function () { return bareItem(D.scan_sample, "below", { cues: stack }); }));
 
   // A badge overhanging the corner can collide with the next icon. That is arithmetic, and
@@ -180,6 +182,78 @@
       var strip = el("div", "swatch-stage");
       strip.appendChild(bareItem(D.scan_sample, "press", { sealed: ["proc-bar"] }));
       strip.appendChild(bareItem(D.scan_sample, "hold-readable", { sealed: ["count-bar", "proc-bar"] }));
+      return strip;
+    }));
+
+  gallery.appendChild(swatch("sealed · base cooldown · V21 — the held row's cooldown, live",
+    "<b>The <code>blocked</code> badge, drawing the cooldown it is blocked on.</b> A row held " +
+    "because something is on cooldown used to wear <code>timer_CW_50</code> — a picture of a " +
+    "clock face frozen at 50&nbsp;%, on a row where the real remaining time exists and is " +
+    "reachable. It draws the real one instead: a red radial on the remaining, with a white " +
+    "countdown in it. Same cue, same polarity, same rank, same red hatch beside it. Two catalog " +
+    "displays reach this picture. <b>Its own base spell</b> " +
+    "(<code>sealed-base-cooldown</code>): while a Grimoire is talented its row spends the whole " +
+    "120&nbsp;s wearing the dispel it becomes, and <code>GetSpellCooldownInfo</code> resolves " +
+    "the <em>display</em> identity before reading — so the swipe on that row is the dispel's " +
+    "15&nbsp;s and the two-minute one runs invisibly underneath. <b>Another ability's</b> " +
+    "(<code>sealed-cooldown-range</code>): the dependency a band is waiting on, named by " +
+    "catalog key. Either way the arc drains a real remaining " +
+    "(<code>GetSpellCooldownDuration</code> → <code>SetTimerDuration</code>, RemainingTime) and " +
+    "the numeral is the same object's <code>FormatRemainingDuration</code> — a secret string " +
+    "the client renders and cap never reads back. Left: the dial with no cue on the row, which " +
+    "is what a swiped row draws — the countdown is a quantity there and nothing is being ruled " +
+    "out that Blizzard has not already ruled out. Right: the same widget carrying the " +
+    "<code>blocked</code> verdict, which is the whole change — one statement, not a still " +
+    "clock drawn over a running one.",
+    function () {
+      var strip = el("div", "swatch-stage");
+      strip.appendChild(bareItem(D.scan_sample, "cd", { sealed: ["base-cooldown"] }));
+      strip.appendChild(bareItem(D.scan_sample, "open",
+        { sealed: ["base-cooldown"], cues: ["blocked"], cue_dials: ["blocked"] }));
+      return strip;
+    }));
+
+  gallery.appendChild(swatch("sealed · aura remaining · V21 — an aura's clock, in the badge's place",
+    "<b>The third supplier of V21's picture, and the only one that resolves no cooldown at " +
+    "all.</b> (<code>sealed-aura-remaining</code>): the slot filters to an <em>aura</em>, and the " +
+    "client drains the arc off that aura's own duration object — so the badge exists exactly " +
+    "while the aura does and its visibility <em>is</em> the gate. The subject is the ability the " +
+    "MARKER names rather than the bound row's, which is what lets it reach across rows: " +
+    "Demonbolt held because row&nbsp;9 is showing Infernal Bolt draws the armed Art's clock, " +
+    "which is how long that hold lasts. <b>No numeral, and that is a limit rather than a " +
+    "choice:</b> V21's number comes from <code>FormatRemainingDuration</code> on a cooldown " +
+    "object cap holds, while the only aura-side text sink " +
+    "(<code>SetDurationText</code>) emits fixed strings — <code>\"\"</code> or a texture " +
+    "escape — never a value over the remaining seconds. The arc alone is still strictly more " +
+    "than a clock face frozen at 50&nbsp;%.",
+    function () {
+      var strip = el("div", "swatch-stage");
+      strip.appendChild(bareItem(D.scan_sample, "open",
+        { sealed: ["aura-remaining"], cues: ["blocked"], cue_dials: ["blocked"] }));
+      return strip;
+    }));
+
+  gallery.appendChild(swatch("badge · numeral · V22 — the count cap holds",
+    "<b>The badge, with a number cap authored where the glyph would be.</b> The same defect as " +
+    "V21's, one row over: <code>implosion_no_imps</code> wore <code>timer_CW_50</code> — a clock " +
+    "frozen at 50&nbsp;% — on a row where nothing is on cooldown and nothing is being waited " +
+    "out, while the three states beside it on that row drew a <em>number</em>: red at 1–5 imps, " +
+    "gold at 6 or more. The zero was the one value in the sequence drawn as a symbol, and the " +
+    "one value cap holds outright. <b>The licence is the marker's own <code>when</code>:</b> " +
+    "everywhere else a count is the client's, out of an AuraContainer FontString cap never " +
+    "reads back — this one is a constant a readable term already established, because " +
+    "<code>!aura(wild_imp)</code> <em>means</em> zero. A numeral whose value its own marker does " +
+    "not fix would be cap asserting a count it does not hold, and <code>Catalog.Check</code> " +
+    "refuses it. Left: the numeral, in <code>count.low_rgb</code> — byte-identical to the shared " +
+    "badge red, because a <code>0</code> and a <code>1</code> are the same statement about the " +
+    "same row. Right: the client's own numeral at three, for comparison — the sequence the zero " +
+    "now joins.",
+    function () {
+      var strip = el("div", "swatch-stage");
+      strip.appendChild(bareItem(D.scan_sample, "open",
+        { cues: ["blocked"], cue_numerals: { blocked: 0 } }));
+      strip.appendChild(bareItem(D.scan_sample, "ruled-sealed",
+        { sealed: ["count-bands"], count: 3 }));
       return strip;
     }));
 
