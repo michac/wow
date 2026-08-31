@@ -454,10 +454,13 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       entry, a non-string, and a **virtual** entry — the last because a virtual entry never
       reaches `byEntry`, so the key would be a permanent no-op with no error behind it.
     - **The break is a MINIMUM wrap point, not the only one.** A row also ends when it runs out
-      of columns. ⚠ **That is a visible change for Havoc and the only spec long enough to show
-      it:** twelve entries into a six-wide panel now draw 6 + 6 instead of one line running off
-      the side. No catalog authors a break yet — where Havoc's should go is an authoring call,
-      and it is entangled with the open reading-model question below.
+      of columns. ⚠ **That is a visible change for FOUR of the six specs**, measured rather than
+      assumed: Havoc 12 placed entries → 6 + 6, and Demonology, Protection and Retribution 9
+      each → 6 + 3. Devourer is 6 placed plus 1 virtual and Destruction 1, so both still fit one
+      row. (An earlier note here said Havoc was the only spec long enough; it counted authored
+      entries against two rows instead of against one row's six columns.) No catalog authors a
+      break yet — where each split should go is an authoring call, entangled with the open
+      reading-model question below.
     - ⚠ **The row split is part of the VERDICT, and that was nearly missed.** `Anchor.Drawn`
       returned an id sequence and `match` compared it elementwise, so a pass that collapsed all
       twelve icons onto one row would produce the *identical* sequence to the correct two-row

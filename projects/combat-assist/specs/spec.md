@@ -674,7 +674,7 @@ Eight properties are the whole of the promise, and each is a boundary rather tha
   panel's edge regardless; it no longer runs off the side. ⚠ **What that costs is stated in
   §3.1 and is not yet settled**: a wrapped row is two lines, and *"left to right, press the
   first thing not ruled out"* does not say by itself whether the second line continues the scan
-  or sits beneath it. Only Havoc is long enough to ask, and the question is open. ⚠ **A
+  or sits beneath it. Four of the six specs are long enough to ask it, and the question is open. ⚠ **A
   consequence, stated because it is a change and not an oversight:** the row no longer follows
   the Cooldown Manager's own placement. Moving the Essential viewer in Edit Mode moves
   Blizzard's row and leaves cap's where the player put it. The first time cap orders, the
