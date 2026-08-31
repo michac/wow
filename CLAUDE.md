@@ -29,8 +29,9 @@ GitHub, assume I also want the latest addon code on GitHub for all four sub-repo
 run `wowkb.addon check` and, for any addon it flags with **unpushed** commits,
 `git -C <path> push` it as well; if it flags **uncommitted** changes, surface
 that to me first. (`check` is read-only and exits non-zero when anything is
-local-only — a clean pre-push gate.) Cutting a release is a separate, ask-first
-step — this is just "don't leave addon commits stranded on one machine."
+local-only — a clean pre-push gate.) Cutting a release is a separate step — ask-first for
+`bb` and `ps`, pre-authorized for `cap` (`projects/combat-assist/CLAUDE.md` § Releasing) —
+this is just "don't leave addon commits stranded on one machine."
 
 ## Current game state
 
@@ -189,8 +190,9 @@ touching the code**. Status as of 2026-07-09:
   **Start at its `CLAUDE.md`** (project root), which owns the doc map; `specs/spec.md` is
   the definition and §1's two principles are what everything else is downstream of.
   ⚠ **What is built and what has flown lives in `specs/backlog.md` → `## Status`** and is
-  deliberately not restated here or anywhere else. ⚠ **No standing auto-deploy exception**
-  (the HUD's was scoped to CDMProbe alone) — releasing is ask-first. The addon
+  deliberately not restated here or anywhere else. ⚠ **cap's releases do NOT need asking**
+  (2026-08-31) — its `CLAUDE.md` § Releasing carries the standing authorization and the three
+  gates that make it cheap; the old blanket ask-first rule here is retired. The addon
   (`michac/cap`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the
   release workflow. (Current addon version: `wowkb.addon list`.)
 - `projects/addon-lab/` — **ClientLab**: the scratch lab addon that answers

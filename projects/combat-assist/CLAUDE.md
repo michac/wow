@@ -114,8 +114,27 @@ code. Fly the player judgment before reading captures.
 
 ## Releasing
 
-Releasing is always ask-first. A push alone does not reach the game; deployment installs the
-latest GitHub release.
+**Standing authorization (2026-08-31): cut a release when the work is ready and a release is
+what would move it forward.** Do not ask. There is one consumer, a release is a version bump
+the same command undoes with another, and a defect is fixed forward with a patch bump — so the
+cost of an unnecessary release is a tag nobody reads, while the cost of waiting is a phase that
+stalls overnight on a question with one obvious answer.
+
+The gates that still apply are the ones that make the grant cheap:
+
+- `busted` and `luacheck CombatAssistPlus` green from the addon root. (`wowkb.addon release`
+  refuses a dirty tree on its own, and luacheck-checks the Lua as part of the flow.)
+- **Say what shipped, and say what the release has NOT exercised.** A release cut in order to
+  fly something is a request for a flight, and the acceptance set is the message — a list of
+  what to look at, not "released, let me know".
+- **A plan's PAUSE still pauses.** The grant retires the question *may I release?*; it does not
+  touch *did the last flight actually pass?* Cutting a release begins a flight, it does not end
+  one, and the next phase still waits on the answer.
+
+Ask anyway when the release is not simply this addon's next version: a `--major`, a first
+release under a new repo or name, or anything that reaches somebody other than the author.
+
+A push alone does not reach the game; deployment installs the latest GitHub release.
 
 ```bash
 cd ~/code/fun/wow/tools

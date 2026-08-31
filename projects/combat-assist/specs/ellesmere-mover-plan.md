@@ -67,9 +67,16 @@ ask-first, always.
 6. Expose `_G._CAP_IsOrderingEnabled` so EllesmereUI's conflict table can gate its own popup on
    cap actually ordering, following the `_ERF_IsHoverCastEnabled` precedent their Clique entry
    uses.
-7. Ask Ellesmere on Discord for a conflict entry targeting `EllesmereUICooldownManager`, with a
-   coexistence `message` and that `moduleCheck` — their skinning doc invites exactly this.
-   **Still to do; it is a message to a person, not a code change.**
+7. ~~Ask Ellesmere on Discord for a conflict entry targeting `EllesmereUICooldownManager`.~~
+   **DROPPED 2026-08-31, and it should never have been a plan step.** Stated plainly, it was:
+   ask the busy maintainer of one of the most popular WoW addons to add support for an
+   unreleased personal-use addon with one user, to slightly improve that user's experience.
+   The plan's stated premise was also wrong — `SKINNING_API.md` documents `RegisterSkin` and
+   never mentions conflicts or movers; the nearest thing to an invitation is the
+   `EUI_UnlockMode.lua:5-6` header, which is about mover registration.
+   `_G._CAP_IsOrderingEnabled` (step 6) is still worth publishing — it costs one line and is
+   the hook a conflict entry would need — but nothing waits on anyone accepting it. Revisit
+   only if cap ever has a public release, and then as a request with something behind it.
 
 ⚠ **One thing was added that the phase did not list, and it is load-bearing.** The arm-time
 positional test cannot see a rider that claims the row *after* cap has armed, and that race ends
