@@ -379,6 +379,15 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       table and that two characters do not see each other's). **What has not:** that a second
       character actually seeds its own row — which needs two characters with the Cooldown
       Manager in different places, and is the acceptance set for the flight.
+    - ⚠ **One bug found by writing the test procedure down** (2026-08-31): `resizeAnchor` set
+      the panel's scale without re-applying its position. The saved offset is stored in UIParent
+      units at scale 1.0 and written back DIVIDED by the panel's own scale, so the number
+      already in the panel's `SetPoint` was computed against the OLD scale and means a
+      different screen position under the new one. The armed path re-applies a line later and
+      hid it entirely; the Edit Mode settings callback fires whether or not cap is ordering, and
+      **there the panel jumped**. It re-applies on rescale now. Found by asking what an icon-size
+      change is supposed to LOOK like, not by a test — which is the argument for writing a
+      flight procedure as steps and expectations rather than as a phrase.
 
 ### The specs
 
