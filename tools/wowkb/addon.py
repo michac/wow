@@ -1,4 +1,10 @@
-"""Manage the gitignored sub-repo addons (BucketBinds, CDMProbe, PlannerState, CombatAssistPlus).
+"""Manage the gitignored sub-repo addons (BucketBinds, PlannerState, CombatAssistPlus).
+
+⚠ CDMProbe (`cdmp`) was RETIRED from this registry on 2026-08-30. The Cooldown HUD was
+superseded by Combat Assist Plus on 2026-08-05 and its repo is archived read-only on GitHub, so
+it has no release path left to manage — and a registry entry for it made `check` and `list`
+report on an addon nobody can cut. Its checkout stays on disk and its captures stay readable
+through `wowkb.capture cdmp`, which is a READER and independent of this file.
 
 These live at fixed paths inside the workspace but are **separate git repos**,
 gitignored here so the wow repo never sees them as embedded repos. That decoupling
@@ -9,11 +15,11 @@ This tool is the single door that closes that gap and owns the mechanical releas
 recipe the per-addon CLAUDE.md files used to spell out by hand.
 
     uv run python -m wowkb.addon list                 # presence + versions + drift
-    uv run python -m wowkb.addon pull [--all|bb cdmp] # clone-if-missing + pull (machine-B fix)
+    uv run python -m wowkb.addon pull [--all|bb ps]   # clone-if-missing + pull (machine-B fix)
     uv run python -m wowkb.addon release bb --minor    # bump→lint→commit→push→gh release→deploy
-    uv run python -m wowkb.addon deploy cdmp           # redeploy latest release, no new cut
+    uv run python -m wowkb.addon deploy cap            # redeploy latest release, no new cut
 
-Short names are the in-game slash prefixes (`bb`, `cdmp`, `ps`, `cap`); a repo-relative
+Short names are the in-game slash prefixes (`bb`, `ps`, `cap`); a repo-relative
 path also resolves. The registry (repo↔path↔toc) is the source of truth for the
 addon set — `list` is the LIVE version signal, so never hardcode addon versions
 in prose, run it. `pull` is why root CLAUDE.md tells the agent to sync on session
@@ -59,9 +65,6 @@ class Addon:
 REGISTRY = {
     "bb": Addon("bb", "michac/BucketBinds", "projects/keybinder/addon",
                 "BucketBinds/BucketBinds.toc", "BucketBinds/*.lua", "/bb status"),
-    "cdmp": Addon("cdmp", "michac/CDMProbe", "projects/cooldown-hud/addon",
-                  "CDMProbe/CDMProbe.toc", "CDMProbe/*.lua", "/cdmp help",
-                  test_dir="CDMProbe/tests/spec"),
     "ps": Addon("ps", "michac/wow-planner-state", "planner-state",
                 "PlannerState/PlannerState.toc", "PlannerState/*.lua", "/ps",
                 schema_note=True),
@@ -343,7 +346,7 @@ def cmd_release(args) -> int:
 
     # 4a. luacheck static gate (M4.5 T1) — the rung above luaparser: undefined
     #    globals, dead locals, shadowing.  SOFT + OPT-IN, two ways:
-    #      * opt-in per addon by shipping a `.luacheckrc` (only CDMProbe does today).
+    #      * opt-in per addon by shipping a `.luacheckrc` (only cap does today).
     #        Without one, luacheck would drown a release in false positives on the
     #        WoW API, so an addon that hasn't curated a config is simply skipped.
     #      * soft on the toolchain: if `luacheck` isn't installed we warn and carry on,
@@ -456,7 +459,7 @@ def main(argv=None) -> int:
     pp.add_argument("--all", action="store_true", help="pull every registered addon")
 
     rp = sub.add_parser("release", help="bump→lint→commit→push→gh release→ghaddons deploy")
-    rp.add_argument("name", help="short name (bb|cdmp|ps|cap) or a checkout path")
+    rp.add_argument("name", help="short name (bb|ps|cap) or a checkout path")
     g = rp.add_mutually_exclusive_group()
     g.add_argument("--major", action="store_true", help="X+1.0.0")
     g.add_argument("--minor", action="store_true", help="x.Y+1.0")

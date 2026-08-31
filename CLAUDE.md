@@ -18,7 +18,7 @@ Commit and push **only when asked** — do not offer to commit, do not append
 "(not pushed)" / "changes are uncommitted" / "want me to commit?" to answers,
 and do not treat a dirty tree as a finding. If a `git status` detail actually
 matters to the question, state it once, plainly, and move on. (Exception: the
-gitignored sub-repos — `planner-state/`, `projects/cooldown-hud/addon/`,
+gitignored sub-repos — `planner-state/`,
 `projects/keybinder/addon/`, `projects/combat-assist/addon/` — where
 "a push does not reach the game, you must cut a release" is a real deploy fact
 worth saying when a deploy is in play.)
@@ -170,21 +170,18 @@ touching the code**. Status as of 2026-07-09:
   §10. In-game verification: Demonology pilot verified; the other 32
   DPS/tank specs' float placement is the outstanding in-game pass. Read off disk
   by `wowkb.diagnostics`. (Current addon version: `wowkb.addon list`.)
-- `projects/cooldown-hud/` — **Cooldown HUD** (CDMProbe): ⛔ **SUPERSEDED 2026-08-05 by
-  Combat Assist Plus** (below). A spec-specific overlay skinning Blizzard's Cooldown
-  Manager, retired in favour of `cap`; the reasoning is in its own `CLAUDE.md` and is
-  history rather than a rule to apply. **There is one addon riding the CDM going forward
-  and it is `cap`, not this.** No new work; the multi-class rollout is stopped and
-  **the owed Havoc flight is moot** — it gated rollout phases that will not be built.
-  **Do NOT route "plan the next cooldown-HUD thing" here** — its `docs/status.md` was the
-  live worklist and is now explicitly closed; read that file and its `CLAUDE.md` for the
-  SUPERSEDED banners before believing anything present-tense in either.
-  **Two things stay authoritative and are actively read:** its **measured client facts**
-  (already written into `knowledge/addon-dev/` — that KB is the authority, not these
-  docs) and its **per-spec rotation research** (`specs/demonology/` especially), which
-  cap harvests into its catalogs. Its *code* is not ported. The addon
-  (`michac/CDMProbe`) is still at `addon/` (own git repo, gitignored). Build history:
-  `docs/archive/`.
+- `projects/cooldown-hud/` — **Cooldown HUD** (CDMProbe): 🗄 **ARCHIVED 2026-08-30.** Superseded
+  by Combat Assist Plus on 2026-08-05 and closed out on 2026-08-30: the GitHub repo
+  (`michac/CDMProbe`) is **archived read-only**, `cdmp` is **out of `wowkb.addon`'s registry**, and
+  the `wowkb.cdmp` graders are **deleted** (recoverable from git). Nothing here is worked on,
+  released or deployed. **There is one addon riding the CDM and it is `cap`.**
+  ⚠ **The directory is KEPT, and two things in it are still worth reading** — its **measured
+  client facts**, which already live in `knowledge/addon-dev/` where the KB's gates apply (that
+  is the authority, never these docs), and its **per-spec rotation research** (`specs/demonology/`
+  especially), which cap drew on by hand. Its *code* is not ported and its `docs/status.md` is a
+  closed worklist. **Do NOT route new work here**, and read anything present-tense in it as
+  history. The checkout stays at `addon/` (own git repo, gitignored); build history in
+  `docs/archive/`; captures still readable via `wowkb.capture cdmp`.
 - `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): **the live CDM addon**, a
   combat-assistance overlay that makes the Cooldown Manager tell you more **without
   telling you what to press**. It is the reason the Cooldown HUD above is superseded.
@@ -263,13 +260,11 @@ uv run python -m wowkb.uiart find|atlas|icon|manifest   # Blizzard UI art as ima
 uv run python -m wowkb.capart tokens|assets|import|build|export|check  # assemble combat-assist's per-spec HTML previews from the docs that own them. It holds NO color, rate or size: every number comes from `specs/render-tokens.json` (Part 7's from `specs/render-lab.json`; render-shelf.md Part 6 still documents what each group MEANS), every ability/lane/verdict from havoc/catalog.md + scenarios.md. `build` is deliberately ungated except for the TINT GUARD (`assert_tintable` — art declared `tint: "lane"` must MEASURE neutral, the check that stops the preview showing a recolor SetVertexColor cannot do; it is art-agnostic and moved from the retired flipbook rings onto the badge sprites) and the closed verdict/cue/roster vocabulary; `check` is the CI-shaped gate (doc↔sidecar, HTML staleness, no literal hex in the template, the tint guard still has a subject, and the ELIMINATION GATE — for every scenario the leftmost entry that is neither swiped nor wearing a NEGATIVE badge must be the one the doc calls the press, which is what makes the mostly-negative cue vocabulary safe; the veil was retired 2026-08-16 and the gate is now two-term, which is also the proof the veil carried no information). The cue vocabulary is negative BY DEFAULT and the positive cues are few and scoped (`capped` = impending loss, `priority` = press this one); **there is no positive-cue budget** — the one-positive rule was the retired three-slot badge geometry read backwards, and what `check` asserts instead is the real invariant: no single ENTRY wears more than one positive cue. It also fails any declared cue that no scenario wears. `export [lua|badges|hatch|promotion|count|lab|catalog|all]` writes the SAME tokens into the addon — `CombatAssistPlus/Style.lua` (render-tokens.json as a Lua table, data only; `Treatment.lua`/`Paint.lua` are the logic that reads it), the badge art as 32-bit TGA under `Media/badges/`, V11's cooldown-hatch sheet as `Media/stripes.tga` (byte-gated; the `/cap style` gallery borrows this one file rather than keeping a copy), and `Lab.lua` (`ns.LabStyle`) plus `Media/lab/` for Part 7, which only the `/cap style` gallery may read and `check`'s REACH GATE keeps out of the live overlay — and `check` gates the committed Lua against the tokens exactly as it gates the HTML, so the preview and the addon cannot drift. Change the look by editing `render-tokens.json`, not this
 uv run python -m wowkb.serve <dir> [--watch PATH] [--on-change CMD] [--port N] [--no-reload]  # stdlib static server + mtime watcher + live reload. Generic, not cap-specific. The `edit → rebuild → look → tweak` loop: it injects an SSE reload script into SERVED html only, never into the file, so the committed preview stays clean. Pair with capart:
 #   uv run python -m wowkb.serve ../projects/combat-assist/previews --watch ../projects/combat-assist/specs --on-change "python -m wowkb.capart build --all"
-uv run python -m wowkb.addon list                       # the 4 sub-repo addons: presence + local HEAD + .toc version + latest release + drift
-uv run python -m wowkb.addon pull [--all|bb cdmp ps cap] # clone-if-missing + git pull each sub-repo (the machine-B sync)
+uv run python -m wowkb.addon list                       # the 3 sub-repo addons: presence + local HEAD + .toc version + latest release + drift
+uv run python -m wowkb.addon pull [--all|bb ps cap]      # clone-if-missing + git pull each sub-repo (the machine-B sync)
 uv run python -m wowkb.addon check                       # report addons with local-only (uncommitted/unpushed) work; exit 1 if any (pre-push gate)
-uv run python -m wowkb.addon release <bb|cdmp|ps|cap> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
-uv run python -m wowkb.addon deploy <bb|cdmp|ps|cap>     # redeploy the latest existing release via ghaddons (no new cut)
-uv run python -m wowkb.cdmp flight                      # the PASS/FAIL ACCEPTANCE REPORT for an in-game pass recorded by `/cdmp flight` (run this after a test build)
-uv run python -m wowkb.cdmp decisionlog                 # extract the CDMProbe pipeline DECISION LOG off SavedVariables → flat .log (see below)
+uv run python -m wowkb.addon release <bb|ps|cap> [--patch|--minor|--major] [--notes …]  # bump .toc → luaparser check → commit → push → gh release (tag=version) → ghaddons deploy
+uv run python -m wowkb.addon deploy <bb|ps|cap>          # redeploy the latest existing release via ghaddons (no new cut)
 uv run python -m wowkb.capture <bb|cap|cdmp|clab|ps> [stream]  # THE ONE READER for addon captures — `<DB>.captures.<stream>` → greppable .log (`--list` for streams + bounds)
 uv run python -m wowkb.lab [deploy|show|drain|blocked]  # the ClientLab addon-dev lab: deploy the scratch addon (a directory copy + the id ⇄ ns.Test{} cross-check), read a run (`show` = result BESIDE expect, never a verdict), drain an answer into the KB. `blocked` = the untested rows, grouped by the capability each waits on. ⚠ An UNKNOWN is not filed here — it is a marker on the claim in knowledge/addon-dev/ (projects/addon-lab/docs/lab-process.md)
 uv run python -m wowkb.obs [list|check|drain OBS-nnn]   # the addon-dev observations queue + its drain; `check` gates a --minor/--major release
@@ -281,7 +276,7 @@ uv run python -m wowkb.citecheck                        # **do the Tier-1 source
 every addon writes to a single SavedVariables key with one shape
 (`<AddonDB>.captures.<stream>`), and this is the only thing that reads it — which is the
 enforcement: an addon that writes the wrong shape fails here, loudly, the first time
-anyone reads a capture. Graders stay per-addon (`wowkb.cdmp flight`) and consume
+anyone reads a capture. Graders stay per-addon (cap's live in `wowkb.capture` consumers) and consume
 `capture.load()` rather than globbing a path. The contract, the Lua-side `Capture.lua` /
 `DumpPanel.lua` interfaces and the dump-panel design live in
 `.claude/skills/wow-developer/references/capture-and-dump-standard.md`.
@@ -289,8 +284,8 @@ anyone reads a capture. Graders stay per-addon (`wowkb.cdmp flight`) and consume
 
 Blizzard + WCL commands require credentials in `.env` (user-registered).
 
-**`wowkb.addon`** is the one door for the four gitignored **sub-repo addons**
-(`bb` = BucketBinds · `cdmp` = CDMProbe · `ps` = PlannerState · `cap` = Combat
+**`wowkb.addon`** is the one door for the three gitignored **sub-repo addons**
+(`bb` = BucketBinds · `ps` = PlannerState · `cap` = Combat
 Assist Plus — short name =
 in-game slash prefix; a checkout path also resolves). The registry inside the
 module (repo ↔ path ↔ `.toc`) is the source of truth for the addon set, and it
@@ -308,7 +303,7 @@ out by hand (they keep the *why*; this owns the *how*).
     to frame this as a cross-*machine* problem only, which is half the story.
     `wow`, `hud-classes` and `wwt-keyboard` are git **worktrees of the same repo**,
     but because the addons are gitignored **each worktree carries its own
-    independent full clone** of `michac/CDMProbe` (and of BucketBinds/PlannerState).
+    independent full clone** of `michac/cap` (and of BucketBinds/PlannerState).
     Three clones, one GitHub remote, no shared refs — so a release cut in one
     worktree leaves the others silently behind, on the same machine, with no `git`
     signal anywhere in the parent repo.
@@ -339,30 +334,12 @@ out by hand (they keep the *why*; this owns the *how*).
   warns to bump the Lua `schema` field by hand if the `/ps` dump format changed
   (it does **not** touch schema). `--dry-run` stops before the commit.
 
-**`wowkb.cdmp flight`** is the door for **verifying a Cooldown-HUD test build in game**, and
-it exists because that used to be a checklist of ~10 slash commands, several of them typed
-mid-pull, whose answers a human eyeballed. Now: `/cdmp flight` in game arms a recorder (it
-samples coverage / assist / capability / layout on every *change of answer*, through combat
-entry and spec + hero swaps, with **no further typing**), you play, you `/reload`, and this
-prints a **PASS / FAIL / MEASURED** report judged against criteria that live in code. Exit
-**2** = no failures but part of it was never flown — a criterion nobody exercised must never
-read as a pass. ⚠ SavedVariables only flush on **`/reload`**.
-
-**`wowkb.cdmp decisionlog`** also prints a **COMBAT SPLIT** (v0.32.75+): `w:-` (the Coach
-found no winner) is only meaningful **in a pull** — out of combat "no winner" is the correct
-answer, so idle time inflates the raw ratio. The addon stamps `# combat start`/`# combat end`
-on the edge and this reports the in-combat ratio off it. ⚠ A capture recorded **before** that
-marker shipped is reported **UNREADABLE, never 0 %**: entries are stored pre-rendered, so
-combat cannot be recovered retroactively — you have to re-fly.
-
-**`wowkb.cdmp decisionlog`** extracts the Cooldown HUD's **pipeline decision log**
-off SavedVariables (newest `WTF/Account/*/SavedVariables/CDMProbe.lua`,
-`CDMProbeDB.decisionlog`) and flattens it to a grep-friendly `.log` — a ring of the
-last 3 sessions, one `S{…} G{…} B{…}` line per pipeline decision change, the
-instrument for "why does `/cdmp hud` show nothing here?". ⚠ SavedVariables only flush on **`/reload`**. *(The old `/cdmp probe` +
-`probe-baseline.json` assertion suite was retired 2026-07-29 — the readability rules it
-discovered are settled game-wide, and a spec's tracked set comes from wago DB2 via
-`wowkb.spec_inventory`, so per-spec re-measurement bought nothing.)*
+⚠ **`wowkb.cdmp` is GONE (2026-08-30).** Its two graders — `flight`, the PASS/FAIL acceptance
+report for a Cooldown-HUD test build, and `decisionlog`, the pipeline decision log off
+SavedVariables — went with the archived project: CDMProbe has no release path left, so there is
+no build for them to judge. Both are recoverable from git (`tools/wowkb/cdmp.py`, 803 lines).
+**The captures themselves stay readable** through `wowkb.capture cdmp <stream>`, which is a
+reader and was never part of that module.
 
 **`wowkb.character`** is the one-shot snapshot for `knowledge/characters/`:
 it pulls every Blizzard profile endpoint (summary/equipment/specs/professions/

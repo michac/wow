@@ -1,9 +1,19 @@
 # Cooldown HUD — project root
 
-> ## ⛔ SUPERSEDED — 2026-08-05
+> ## 🗄 ARCHIVED — 2026-08-30 (superseded 2026-08-05)
 >
 > **This project is replaced by Combat Assist Plus (`projects/combat-assist/`, `/cap`).**
 > There is one addon riding the Cooldown Manager going forward and it is not this one.
+>
+> **Archived on 2026-08-30**, which made the supersession structural rather than a banner:
+> `michac/CDMProbe` is **archived read-only on GitHub**, `cdmp` is **out of `wowkb.addon`'s
+> registry** (so it cannot be listed, pulled, released or deployed), and the `wowkb.cdmp`
+> graders — `flight` and `decisionlog` — are **deleted**, recoverable from git. Captures already
+> on disk stay readable through `wowkb.capture cdmp <stream>`.
+>
+> **The directory is kept on purpose.** Its measured client facts live in `knowledge/addon-dev/`
+> where the KB's gates apply — that is the authority, not these docs — and its per-spec rotation
+> research (`specs/demonology/` especially) is what cap drew on. Read; do not extend.
 >
 > **Why:** `docs/archive/why-superseded.md`. It is history, it is not a test to apply to
 > work in front of you, and it is filed out of this instruction file for that reason. What
