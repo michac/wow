@@ -2,7 +2,7 @@
 title: Frames, widgets and rendering
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-16
+reviewed: 2026-08-31   # 2026-08-31: §2.6 gained the StaticPopup dialog-shape facts — GENERIC_CONFIRMATION is two-button by construction, a one-button notice needs its own StaticPopupDialogs entry, and which fields are read generically. Nothing else re-checked
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `[T1 docs @12.1.0]` / `[T1 src @12.1.0]` / `[T1 xsd @12.1.0]` locators resolve here (612 doc files, 79 ScriptObject tables)
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -458,6 +458,33 @@ suitable."* `[T1 src @12.1.0: Blizzard_SharedXML/SecureScrollTemplates.xml:3-6]`
   alternative: you register elements per tab, and its `SetTab` calls `SetShown` on **every**
   registered element `[T1 src @12.1.0: :36-58]`. It owns pane visibility, so it suits
   panes that are whole frames it may drive.
+
+**Modal dialogs — a one-button notice needs its own entry.**
+`StaticPopup_ShowCustomGenericConfirmation(customData)` is the no-registration route: it
+shows the shared `GENERIC_CONFIRMATION` dialog and takes the whole prompt as data
+`[T1 src @12.1.0: Blizzard_StaticPopup/StaticPopup.lua — StaticPopup_ShowCustomGenericConfirmation]`.
+It is a **two-button** dialog and cannot be reduced to one: its definition declares both
+`button1` and `button2`, and its `OnShow` sets their labels from `acceptText or YES` and
+`cancelText or NO`
+`[T1 src @12.1.0: Blizzard_StaticPopup/SharedDialogDefs.lua — StaticPopupDialogs["GENERIC_CONFIRMATION"]]`.
+
+- **A button is drawn if and only if its `button<N>` field is non-nil**, so an addon's own
+  `StaticPopupDialogs[key]` entry declaring `button1` alone draws exactly one button — an
+  empty string is truthy in Lua and still draws
+  `[T1 src @12.1.0: Blizzard_StaticPopup_Game/GameDialog.lua — ShouldHideButton,
+  ShouldHideButtonFromDialogData, GameDialogMixin:SetupButtons]`.
+- **The runtime message rides `text_arg1` through the entry's `text` as a format string:**
+  the default text setup calls `Text:SetFormattedText(dialogInfo.text, text_arg1, text_arg2)`,
+  or `SetText(text_arg1)` when `text` is the empty string
+  `[T1 src @12.1.0: Blizzard_StaticPopup_Game/GameDialog.lua — GameDialogMixin:SetupText]`.
+  So `text = "%s"` plus `StaticPopup_Show(key, message)` puts an addon-composed string in a
+  dialog registered once at load.
+- **`showAlert`, `showAlertGear`, `customAlertIcon`, `closeButton` and `wide` are read
+  generically off the entry**, not by a per-dialog `OnShow`: they widen the frame to 420 and
+  select the alert texture
+  `[T1 src @12.1.0: Blizzard_StaticPopup_Game/Mainline/GameDialog.lua — GameDialogMixin:GetInitialWidth]`
+  `[T1 src @12.1.0: Blizzard_StaticPopup_Game/GameDialog.lua — GameDialogMixin:SetupAlertIcon]`.
+  `showAlert` is *additionally* read off the popup DATA, but only for `GENERIC_CONFIRMATION`.
 
 **Dragging and resizing.** `SetMovable` and `SetResizable` are unprotected;
 `StartMoving`, `StartSizing` and `StopMovingOrSizing` are all `IsProtectedFunction = true`

@@ -619,7 +619,7 @@ It is on by default. There is no opinion here to configure — the order is the 
 catalog is cap's — but the *placement* is the player's screen, so two controls exist:
 `/cap anchor [on|off|retry|rows]` and the position of cap's own panel (`/cap move`).
 
-Five properties are the whole of the promise, and each is a boundary rather than a feature:
+Six properties are the whole of the promise, and each is a boundary rather than a feature:
 
 - **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
   written. No row is added or removed, and none is hidden except under the parking rule below.
@@ -648,6 +648,19 @@ Five properties are the whole of the promise, and each is a boundary rather than
   like the rest — the saved layout is untouched, the row is moved and not disabled, and turning
   ordering off restores every parked row with the next layout pass. cap parks a frame **it has
   claimed**; a row it never touched is never parked.
+
+- **It stands down beside another addon that manages the same row.** Yielding above is about
+  *losing* an argument; this is about not starting one. Several shipping addons re-anchor the
+  Essential viewer's item frames by the same technique cap uses, and two of them holding one
+  frame is not a flicker — it is a client crash, so a rider cannot politely out-argue another
+  rider. cap therefore checks, **before** it places anything, whether a known manager is both
+  installed and actually holding the row, and if so orders nothing and says why: once in chat,
+  and once in a dialog with a single button, because there is nothing here for the player to
+  decide beyond a toggle on their addon list. **The notice is not remembered** — it returns on
+  every login while both are enabled, since a row that reads as a priority scan and is not one
+  is exactly what §3.1 forbids. It is raised only where cap would otherwise have ordered, so a
+  player who turned ordering off is never told about it, and it waits for the pull to end like
+  the contention dialog does.
 
 ⚠ **This is the one place cap touches Blizzard's own frames rather than drawing beside them**,
 which is why the yield rule is a product promise and not an implementation detail.

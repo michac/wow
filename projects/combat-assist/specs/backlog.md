@@ -264,6 +264,34 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
     many are off the row now, `S{park:<n>}` how many have been across the session, and the
     `# parked` mark is emitted by the apply that MOVED them, never by the plan rebuild that
     decided to.
+  - **cap stands down beside another CDM rider** (2026-08-31), which is `spec.md` §3.9's sixth
+    property. Two addons that each hook an item frame's own `SetPoint` and force it back to
+    their own anchor recurse without bound inside one call stack — a client crash, not a
+    flicker (`knowledge/addon-dev/cdm-rider-patterns.md` §4.6.1, which also records the
+    shipping rider that carries a hardcoded early-bail for the same reason). `Riders.lua` holds
+    the known-rider table (`EllesmereUICooldownManager` plus the five named in EllesmereUI's own
+    conflict list) and every word the player reads; `Anchor.lua` decides in two stages **before**
+    `adopt` installs the first hook. `C_AddOns.IsAddOnLoaded` on the folder name says WHO to
+    name; an Essential item frame whose points name neither the viewer's subtree nor cap's own
+    anchor says whether that addon is actually holding the row. Both must agree, so a module that
+    is installed but switched off never nags. On a hit cap refuses to arm, says it once in chat,
+    and raises a **single-OK** modal — its own `StaticPopupDialogs` entry, because
+    `GENERIC_CONFIRMATION` is two-button by construction
+    (`knowledge/addon-dev/frames-textures-animation.md` §2.6). The acknowledgement is
+    deliberately **not** persisted: it returns on every login and `/reload` while both are
+    enabled. It fires only where cap would otherwise have ordered — `/cap anchor off` is never
+    nagged — and defers out of combat exactly as the contention question does. The decision is
+    re-taken on every arm attempt, so disabling the rider releases cap on the next event.
+    - `_G._CAP_IsOrderingEnabled` is published so another addon's conflict table can gate its own
+      popup on cap actually ordering, following the `_ERF_IsHoverCastEnabled` precedent
+      EllesmereUI's Clique entry already uses. It reads the setting AND the stand-down.
+    - **`onFramePoint` carries a re-entry depth guard** for the rider that claims the row *after*
+      cap has armed, which the arm-time test cannot see. Exceeding it stands cap down instead of
+      recursing; the teardown is deferred because the guard fires inside somebody else's
+      `SetPoint`. It latches for the session, and `/cap anchor retry` releases it.
+    - **What has been exercised:** the two-stage decision and the wording, by `riders_spec` (12
+      assertions). **What has not:** the modal, the positional test against a live rider, and the
+      depth guard — all three are client behaviour and are the acceptance set for the next flight.
 
 ### The specs
 

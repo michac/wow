@@ -2,7 +2,7 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-27   # 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
+reviewed: 2026-08-31   # 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
@@ -10,6 +10,9 @@ sources:
   - "EllesmereUI 9.0.5 (live install, EllesmereUICooldownManager) — mined 2026-08-27 for the
     CDM item-frame reposition question. License CUSTOM, ALL RIGHTS RESERVED; read for API
     discovery only, no code copied"
+  - "EllesmereUI 9.0.8 (live install, EllesmereUI + EllesmereUICooldownManager) — read
+    2026-08-31 for the two-riders-on-one-frame hazard and the conflict-table surface.
+    License CUSTOM, ALL RIGHTS RESERVED; read for API discovery only, no code copied"
   - "Blizzard UI source 12.1.0 — Blizzard_ActionBar, Blizzard_SharedXML/BindingUtil.lua, Blizzard_APIDocumentationGenerated/ActionBarFrameDocumentation.lua"
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Blizzard_APIDocumentationGenerated/LuaDurationObjectAPIDocumentation.lua, UnitDocumentation.lua. `[T1 docs @12.1.0]` locators resolve here
 confidence: medium
@@ -501,6 +504,45 @@ re-raises an item frame's alpha through paths a `SetAlpha` hook cannot observe
 off-screen by POSITION rather than hidden by alpha. The code shows only the choice, not
 the reason. `[T3 comment: EllesmereUICdmHooks.lua:2634-2638]` `confidence: low`
 `@verify-ingame`
+
+⚠ **TWO riders on one item frame is unbounded mutual recursion, and it is a CLIENT CRASH
+rather than a flicker.** The seam above is not exclusive — more than one shipping addon
+applies it to the same Essential item frames. Each one's `relativeTo` discriminator
+recognises only its **own** container, so a foreign write is a move to answer: rider A
+`SetPoint`s to A's container, which fires B's hook, which `SetPoint`s to B's container,
+which fires A's hook, and the whole exchange happens inside one call stack with nothing
+bounding it. A rider adopting this seam therefore owes a stand-down: detect another
+manager and place nothing, rather than winning the argument.
+
+This is not a prediction. One shipping rider carries a hardcoded early-bail for exactly
+this class of addon, checked before any frame is touched, which no-ops its entire Cooldown
+Manager module and raises a modal so the player can log in at all; its own comment says
+that running both *"crashes the client on the loading screen"*.
+`[T3 obs: EllesmereUICooldownManager 9.0.8 (live install) — EllesmereUICooldownManager.lua:34-40,
+the guard and its comment; :41-42 sets a global so the generic conflict checker defers to it.
+Read for API discovery only, no code copied]`
+
+**Detecting the other manager takes two stages, because "installed" and "managing" are
+different questions.** The loaded-addon list (`C_AddOns.IsAddOnLoaded` on the folder name)
+says *who* to name, but a module can be present and switched off. The positional test says
+whether it is actually holding the row: enumerate an Essential item frame's points and
+resolve each `relativeTo` — a point naming neither the viewer's own subtree nor your frame
+is somebody else's placement. A rider using the seam above is visible to it both ways, since
+it anchors a claimed frame to its own bar container and parks an unclaimed one at
+`UIParent` `TOPLEFT`, far off-screen.
+`[T3 obs: EllesmereUICdmHooks.lua:2626-2657 — the claim branch and the park branch]`
+
+**The published conflict surface is a table, and a boolean global is how another addon
+opts out of it.** Entries carry the other addon's folder name, a display label, the list of
+its own modules the conflict targets (or `"all"`), an optional `message`, and an optional
+`moduleCheck` predicate. One entry's `moduleCheck` calls a **global function another addon
+publishes** — `_G._ERF_IsHoverCastEnabled` — so the popup fires only while that addon's
+conflicting feature is actually on. A rider that can stand itself down should publish the
+same shape.
+`[T3 obs: EllesmereUI 9.0.8 — EllesmereUI.lua:11395-11463, the conflict table;
+:11405-11408, the predicate-gated entry; :11435-11440, five entries targeting the Cooldown
+Manager module — BetterCooldownManager, CooldownManagerCentered, SkironCooldownManager,
+ArcUI, Ayije_CDM]`
 
 ### 4.6.2 The deferred shape, for riders that only move whole viewers
 
