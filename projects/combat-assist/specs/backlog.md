@@ -116,12 +116,16 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
   `/cap band` has lost its size argument for the same reason — the offset is still nudgeable,
   the size is now read-only, and the no-argument readout prints measured width beside drawn
   diameter as the assertion.
-- ⚠ **A band is still sized ONCE, at arm time.** An Edit Mode icon-size change leaves the bands
-  sized for the old rect until `/reload`. Re-applying needs `SetApplicationCount` to be callable
-  a second time on a live button, which is an open client question
+- ⚠ **A band is still sized ONCE, at arm time** — and since 2026-08-31 that is **no longer a
+  live defect**, because its cause is gone rather than fixed. The stale case was an Edit Mode
+  icon-size change under a live row; cap now owns the icon size (`spec.md` §3.9), so that
+  setting cannot resize the rect a band was sized against, and cap's own `icon_px` is a token
+  baked into `Style.lua` at load, which cannot change without a `/reload` re-arming everything
+  anyway. **What remains open is the client question, not the defect**: whether
+  `SetApplicationCount` can be called a second time on a live button
   (`@pending-test: aura-sink-recall`, `security-taint-and-restricted-data.md` §3.5.3) — the
-  source reads as a plain setter but nothing in the 12.1 UI calls one twice. **Not built, and
-  gated on that test.**
+  source reads as a plain setter but nothing in the 12.1 UI calls one twice. Still **not built**;
+  it is now a resize path with no known caller rather than a gap with a symptom.
 - **V19 is a two-state DoT pair; V16/V17 changed shape** (2026-08-24). Aura up but OUTSIDE its
   refresh window: a gold do-not-refresh hatch, drawn by `SetDurationText` band tables on
   remaining seconds off an optional catalog `outside_s` (the threshold is the catalog's; the
@@ -388,6 +392,46 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       **there the panel jumped**. It re-applies on rescale now. Found by asking what an icon-size
       change is supposed to LOOK like, not by a test — which is the argument for writing a
       flight procedure as steps and expectations rather than as a phrase.
+    - ⚠ **And that bug was a symptom — the premise under it was never decided** (2026-08-31).
+      Following Edit Mode's icon-size setting was an implementation default that arrived inside
+      the Phase 1 commit and hardened into a requirement; `spec.md` never stated it. **Authority
+      is now inverted: cap owns the icon size** (`spec.md` §3.9, eighth property). `row.icon_px`
+      in `render-tokens.json` is the one authored knob, the panel wears `icon_px / 50`, and cap
+      re-asserts that same effective scale onto every frame it claims — from inside `place`,
+      the single door every write goes through, because Blizzard re-applies `iconScale` at
+      **pool acquire** and a one-shot would silently revert on the first spec swap. `disarm`
+      gives the slider's value back. `icon_px` defaults to 50, the template's own size, so the
+      landing is pixel-identical for anyone who has not authored a size.
+      - The rescale re-apply above is **kept as a guard and is no longer load-bearing**: the
+        panel's scale is now a constant read from a token, so nothing at runtime can change it.
+      - ⚠ `Anchor.Scale` / `Anchor.ItemScale` are exported for the same reason `Grid` is —
+        the correction for a claimed frame's parent is arithmetic that is checkable without a
+        client, and getting it wrong reintroduces the v0.18.1 bug one level down, invisibly,
+        because it is the identity whenever the viewer sits at UIParent's scale.
+      - **Not yet flown.** What the tests cannot reach: that a real CDM item frame accepts the
+        `SetScale`, that a re-pool is actually caught by the re-assert, and that `disarm`
+        restores a size the player can see. `scalefail=<n>` reaches the anchor capture and
+        should never appear.
+    - **Two knock-on geometry decisions, both raised by the post-release review and both taken
+      the same day.** Neither was a regression; the inversion is what made them indefensible.
+      - **The client's fallback icon size split from the preview's.** `Paint.Extent` and
+        `Channel.CountGeometry` fell back to `surfaces.icon_px` = **56** — the PREVIEW's
+        authoring nominal — while the frame they stand in for is **50** in its own space at
+        every setting. Every escape sized on that degraded path was 12% over, which `Paint.lua`
+        already recorded measured in flight: *"a 56px escape on a 42px icon is where the
+        overhang came from"*. `surfaces.host_nominal_px` = 50 is now the client's, `icon_px`
+        stays the preview's, and `/cap band` prints `host nominal` instead of a 56 that read as
+        a discrepancy. ⚠ `/cap style`'s gallery still reads `icon_px` **deliberately** — it
+        shows the shelf as authored rather than decorating a real frame.
+      - **The virtual row lost its own icon size.** `panel.icon_px` was authored beside
+        `row.icon_px`; both read 50, so nothing showed. But a V12 row is a PEER in the same
+        scan (Devourer's Consume), and `row.icon_px` is now the one knob a player turns — so
+        the first authored size would have left Consume the only entry in its scan at the old
+        one. The token is **deleted**, not synchronised: `Panel.lua` derives from
+        `ns.Style.row.icon_px`. `render-shelf.md` V12 says so.
+      - ⚠ Both were invisible because the numbers agreed by coincidence. That is the shape to
+        watch for elsewhere: a duplicated constant is not caught by a test that only ever runs
+        at the value where the duplicates match.
 
 ### The specs
 

@@ -636,7 +636,7 @@ catalog is cap's — but the *placement* is the player's screen, so two controls
 One gesture for all of cap's furniture: the question a player has is where they want it, not
 which piece to unlock first.
 
-Seven properties are the whole of the promise, and each is a boundary rather than a feature:
+Eight properties are the whole of the promise, and each is a boundary rather than a feature:
 
 - **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
   written. No row is added or removed, and none is hidden except under the parking rule below.
@@ -676,6 +676,17 @@ Seven properties are the whole of the promise, and each is a boundary rather tha
   position is seeded from wherever the viewer had drawn, so the login that hands the row a
   position of its own does not appear to move it; `/cap move reset` clears the seed and takes
   it from the viewer again.
+
+- **cap sets the icon size, and hands it back.** The panel's cells are cap's own geometry, so
+  the icons in them are drawn at cap's size rather than the one Edit Mode's Cooldown Manager
+  slider sets. This is stated as a promise because it is visible: while ordering is on, that
+  slider does not change cap's row. The default is Blizzard's own 50px, so nothing moves for a
+  player who has not asked for a different size, and turning ordering off restores the slider's
+  value along with the order. ⚠ **The alternative was tried first and is what this replaces.**
+  Following the slider made icon size an input cap had to chase across every re-pool, and a
+  size cap does not control is one its badges and bands cannot be sized against — the reason a
+  count band sized at arm time went stale. Ownership is what makes the row's geometry answerable
+  at login, which is the same property the bullet above depends on.
 
 - **It stands down beside another addon that manages the same row.** Yielding above is about
   *losing* an argument; this is about not starting one. Several shipping addons re-anchor the

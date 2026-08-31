@@ -778,8 +778,15 @@ one way the replica beats the thing it replicates, and it is why generating beat
 ### V12 · Virtual row
 
 A press the Cooldown Manager does not carry draws as a **cap-owned icon** in its own panel:
-the spell's icon at `tokens.panel.icon_px`, laid out at `tokens.panel.gap_px`, anchored per
-`tokens.panel.anchor` / `x` / `y` and filling along `tokens.panel.grow`.
+the spell's icon at **`tokens.row.icon_px`** — the CDM row's own size, not a token of this
+panel's — laid out at `tokens.panel.gap_px`, anchored per `tokens.panel.anchor` / `x` / `y` and
+filling along `tokens.panel.grow`.
+
+⚠ **The size is DERIVED, and that is the point of the bullet below.** A virtual row is a peer in
+the scan, so it draws at the size its peers draw at. `tokens.panel.icon_px` was authored beside
+`tokens.row.icon_px` and both read 50, which hid the mismatch entirely; it was removed on
+2026-08-31 when `row.icon_px` became the one authored icon-size knob, rather than left to be kept
+in sync by hand.
 
 **It takes part in the scan, and it draws like a row.** V11's hatch from the same sheet, V13's
 scan edge, the skip layer, and any cue badges its readable markers earn — the same treatment a
