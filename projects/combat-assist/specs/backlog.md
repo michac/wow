@@ -294,8 +294,9 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       recursing; the teardown is deferred because the guard fires inside somebody else's
       `SetPoint`. It latches for the session, and `/cap anchor retry` releases it.
     - **What has been exercised:** the two-stage decision and the wording, by `riders_spec` (12
-      assertions). **What has not:** the modal, the positional test against a live rider, and the
-      depth guard — all three are client behaviour and are the acceptance set for the next flight.
+      assertions), and — **in the 2026-08-31 flight** — the modal, the positional test against a
+      live rider and the depth guard, the three client behaviours the suite cannot reach. All
+      held.
   - **The row is a named 6x2 panel the player places** (2026-08-31), which is `spec.md` §3.9's
     seventh property and the first half of making the row anchorable by other UI. `P.anchor` was
     a nameless 1x1 `UIParent` child whose position was re-derived from Blizzard's measured
@@ -328,9 +329,10 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       setting twice; the floor is 50 flat, and `anchor_spec` asserts the grid does not vary with
       `iconScale` so the mistake cannot come back quietly.
     - **What has been exercised:** the store and its migration (`place_spec`, 7 assertions) and
-      the grid arithmetic (`anchor_spec`, 6). **What has not:** the drag itself, the seed from a
-      live viewer, and whether the panel holds across a spec swap and an Edit Mode icon-size
-      change — the acceptance set for the flight.
+      the grid arithmetic (`anchor_spec`, 6), and — **in the 2026-08-31 flight** — the drag, the
+      seed from a live viewer, and the panel holding across a spec swap. All held. ⚠ The Edit Mode
+      icon-size half of that last step no longer asks anything: cap owns the icon size, so the
+      slider cannot reach the panel. The flight turned `row.icon_px` instead.
   - **cap draws nothing when it cannot order the row** (2026-08-31) — `spec.md` §1's new
     **principle (c)**, which is a line in the sand rather than a feature. Ordering and the
     augments were separable and should not have been: §3.1's reading is a claim about POSITION,
@@ -360,8 +362,8 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       until that question is answered, since unbinding would make the suppression moot.
     - **What has been exercised:** the ordering term's place in the status order and its two
       reasons (`status_spec`, 5 assertions) and the rewritten stand-down message (`riders_spec`).
-      **What has not:** that the overlay actually goes dark in the client on `/cap anchor off`
-      and comes back on `/cap anchor on` — the acceptance set for the flight.
+      and — **in the 2026-08-31 flight** — that the overlay does go dark in the client on
+      `/cap anchor off` and comes back on `/cap anchor on`.
   - **Placement is per character; opinions stay per account** (2026-08-31). `CombatAssistPlusDB`
     keeps `enabled` and `anchor`; a new `CombatAssistPlusCharDB` keeps `places`. ⚠ **This closes
     a regression the panel work introduced hours earlier and did not survive one question.**
@@ -380,9 +382,9 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       earlier today) are read and **left in place**, so a rollback still finds them.
     - **What has been exercised:** the split, the two migrations and the seed rule
       (`place_spec`, 12 assertions, including that nothing writes placement into the account
-      table and that two characters do not see each other's). **What has not:** that a second
-      character actually seeds its own row — which needs two characters with the Cooldown
-      Manager in different places, and is the acceptance set for the flight.
+      table and that two characters do not see each other's), and — **in the 2026-08-31 flight**
+      — that a second character seeds its own row, flown on two characters with the Cooldown
+      Manager in different places.
     - ⚠ **One bug found by writing the test procedure down** (2026-08-31): `resizeAnchor` set
       the panel's scale without re-applying its position. The saved offset is stored in UIParent
       units at scale 1.0 and written back DIVIDED by the panel's own scale, so the number
@@ -408,10 +410,11 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
         the correction for a claimed frame's parent is arithmetic that is checkable without a
         client, and getting it wrong reintroduces the v0.18.1 bug one level down, invisibly,
         because it is the identity whenever the viewer sits at UIParent's scale.
-      - **Not yet flown.** What the tests cannot reach: that a real CDM item frame accepts the
-        `SetScale`, that a re-pool is actually caught by the re-assert, and that `disarm`
-        restores a size the player can see. `scalefail=<n>` reaches the anchor capture and
-        should never appear.
+      - **Flown 2026-08-31**, on v0.19.0 and again on v0.19.1, `/cap band`'s readout included.
+        The three things the tests could not reach all held: a real CDM item frame takes the
+        `SetScale`, the re-pool is caught by the re-assert on the next `place`, and `disarm`
+        gives back a size the player can see. `scalefail=<n>` did not appear in the capture —
+        it is the standing signal, so its absence is the result, not the lack of a look.
     - **Two knock-on geometry decisions, both raised by the post-release review and both taken
       the same day.** Neither was a regression; the inversion is what made them indefensible.
       - **The client's fallback icon size split from the preview's.** `Paint.Extent` and
