@@ -60,7 +60,12 @@ trigger editor, no condition builder, no library of user-made packs. If cap's
 opinion about your spec is wrong, the fix is to change cap's opinion, not to
 expose a slider. The few controls that exist are **inputs and placement**, never
 opinions: single-target/AoE mode (§2), where cap's frames sit (`/cap move`), and whether it
-re-anchors the Cooldown Manager's rows (§3.9). ⚠ That last one is **not** a switch between
+re-anchors the Cooldown Manager's rows (§3.9). **Placement is remembered per character;
+everything else is remembered per account** — an opinion about the addon is the same wherever
+you log in, and a position is about one character's screen. That split is not a preference:
+cap's row seeds its position from where *that character's* Cooldown Manager draws, so one
+shared position would be seeded once, by whichever character logged in first, and be silently
+wrong on every other. ⚠ That last one is **not** a switch between
 two working configurations — by principle (c) it is effectively cap's off switch, since
 without the order there is nothing true to draw.
 

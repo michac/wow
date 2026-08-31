@@ -358,6 +358,27 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       reasons (`status_spec`, 5 assertions) and the rewritten stand-down message (`riders_spec`).
       **What has not:** that the overlay actually goes dark in the client on `/cap anchor off`
       and comes back on `/cap anchor on` — the acceptance set for the flight.
+  - **Placement is per character; opinions stay per account** (2026-08-31). `CombatAssistPlusDB`
+    keeps `enabled` and `anchor`; a new `CombatAssistPlusCharDB` keeps `places`. ⚠ **This closes
+    a regression the panel work introduced hours earlier and did not survive one question.**
+    `placed` is a single boolean, so an account-wide store is seeded **once**, by whichever
+    character logs in first — every character after that inherits a position measured from
+    somebody else's Cooldown Manager and never seeds its own, with nothing on screen to say why.
+    Before the panel existed the row was re-derived from measured geometry every pass and could
+    not be wrong this way; the movable panel traded that away without noticing.
+    - **A seeded position does not cross characters and a dragged one does.** `Place` records
+      `by = "seed" | "move"`, and the migration reads it: position carries over as a starting
+      point either way, but `placed` is dropped when the only reason it sat there was a seed
+      taken elsewhere. Copying the flag unconditionally would reinstate the bug in the very
+      migration written to fix it. The pre-keyed `db.frame` era is read as `"move"`, correctly
+      — the row did not exist then, so nothing in it was ever seeded.
+    - Both account-wide shapes (`db.frame`, and `db.places` from the two builds released
+      earlier today) are read and **left in place**, so a rollback still finds them.
+    - **What has been exercised:** the split, the two migrations and the seed rule
+      (`place_spec`, 12 assertions, including that nothing writes placement into the account
+      table and that two characters do not see each other's). **What has not:** that a second
+      character actually seeds its own row — which needs two characters with the Cooldown
+      Manager in different places, and is the acceptance set for the flight.
 
 ### The specs
 
