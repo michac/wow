@@ -2,7 +2,7 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-31   # 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
+reviewed: 2026-08-31   # 2026-08-31: §4.7 added — the viewer's layout fields and their Tier-1 defaults, the real column gap (iconPadding + GetAdditionalPaddingOffset() = 5 + (-4) = 1, not 5), the 50px item template, and the iconScale DOUBLE-COUNT trap (SetScale leaves GetWidth at 50, so a rider matching effective scale must not multiply it in again). 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
@@ -667,6 +667,66 @@ end)
 ```
 
 ---
+
+### 4.7 The viewer's own geometry — what a rider must not measure twice
+
+A rider that lays the item frames out itself needs the viewer's numbers, and every one of
+them is a plain field with a Tier-1 default. **None of them has to be measured**, which is
+what lets a rider size its own container before the viewer has drawn anything.
+
+**The layout fields and their defaults**, all set in one place
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewer.lua — CooldownViewerMixin:OnLoad]`:
+
+| Field | Default | Edit Mode setting that writes it |
+| --- | --- | --- |
+| `iconLimit` | `1` | `Enum.EditModeCooldownViewerSetting.IconLimit` |
+| `iconDirection` | `Enum.CooldownViewerIconDirection.Right` | `IconDirection` |
+| `iconPadding` | `5` | `IconPadding` |
+| `iconScale` | `1` | `IconSize`, as `IconSize / 100` |
+| `isHorizontal` | `true` | — |
+
+The four setters are one-liners on the Edit Mode mixin
+`[T1 src @12.1.0: Blizzard_EditMode/Shared/EditModeSystemTemplates.lua —
+EditModeCooldownViewerSystemMixin:UpdateSystemSettingIconSize,
+UpdateSystemSettingIconPadding, UpdateSystemSettingIconLimit,
+UpdateSystemSettingIconDirection]`, so reading `viewer.iconScale` directly is reading the
+setting.
+
+**The real column spacing is 1, not 5.** The padding handed to the container is
+`iconPadding + GetAdditionalPaddingOffset()`, and that offset is a hard `-4`
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewer.lua —
+CooldownViewerMixin:GetAdditionalPaddingOffset]`. At the default `iconPadding` of 5 that is
+**1**, applied as **both** `childXPadding` and `childYPadding` on the item container
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewer.lua — the childXPadding /
+childYPadding assignment in CooldownViewerMixin:RefreshLayout]`. Blizzard's own comment
+says the offset exists so the icons can touch. A rider that reads `iconPadding` alone and
+uses it as the gap will lay its row out 4 units per column too wide.
+
+**The cell is 50.** `CooldownViewerEssentialItemTemplate` declares `<Size x="50" y="50"/>`
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewer.xml —
+CooldownViewerEssentialItemTemplate]`.
+
+⚠ **`iconScale` is a SCALE, and double-counting it is the trap.** It reaches the item frame
+as `itemFrame:SetScale(self.iconScale)` at pool acquire
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewer.lua — the SetScale call in
+CooldownViewerMixin:OnAcquireItemFrame]`. `SetScale` does not change what `GetWidth` returns,
+so **an item frame reads 50 wide at every icon-size setting**; the setting shows up only in
+`GetEffectiveScale`. A rider whose own container matches the item frames' effective scale
+must therefore use **50**, not `50 x iconScale`, for its cell — multiplying it in as well
+puts the container the square of the setting away from the row it is holding.
+
+Two consequences for a rider that wants a container with an honest rect:
+
+- It can compute its whole size from constants plus `iconScale`, with **no measurement and no
+  wait** for the viewer to draw. That is what makes such a container registerable with a mover
+  at login.
+- Because `iconScale` is applied at **pool acquire** and not on a settings change, a frame
+  already out of the pool keeps its old scale until it is re-acquired. A rider tracking the
+  setting should read `viewer.iconScale` rather than infer it from a live frame's scale.
+
+@verify-ingame Confirm that changing Edit Mode's Cooldown Manager icon-size slider updates
+`EssentialCooldownViewer.iconScale` immediately (before any frame is re-pooled), which is
+what the `CooldownViewerSettings.OnDataChanged` callback is being relied on to signal.
 
 ## 5. Resolving an icon's spell ID — the clean-cache pattern
 

@@ -617,9 +617,12 @@ in the player's own saved order, which has no relationship to a spec's priority.
 
 It is on by default. There is no opinion here to configure — the order is the catalog's, and the
 catalog is cap's — but the *placement* is the player's screen, so two controls exist:
-`/cap anchor [on|off|retry|rows]` and the position of cap's own panel (`/cap move`).
+`/cap anchor [on|off|retry|rows]`, and `/cap move`, which unlocks **every frame cap can place**
+— its own panel and the re-anchored row — to be dragged, and `/cap move reset` puts them back.
+One gesture for all of cap's furniture: the question a player has is where they want it, not
+which piece to unlock first.
 
-Six properties are the whole of the promise, and each is a boundary rather than a feature:
+Seven properties are the whole of the promise, and each is a boundary rather than a feature:
 
 - **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
   written. No row is added or removed, and none is hidden except under the parking rule below.
@@ -648,6 +651,17 @@ Six properties are the whole of the promise, and each is a boundary rather than 
   like the rest — the saved layout is untouched, the row is moved and not disabled, and turning
   ordering off restores every parked row with the next layout pass. cap parks a frame **it has
   claimed**; a row it never touched is never parked.
+
+- **The row has a position of its own, and it is the player's.** cap's row is a named panel of
+  a fixed size — six cells across and two deep, whatever the roster's length — so it can be
+  dragged, remembered across sessions, and used as an anchor by other UI. Its size is known at
+  login rather than measured, so nothing about it waits for the Cooldown Manager to draw. ⚠ **A
+  consequence, stated because it is a change and not an oversight:** the row no longer follows
+  the Cooldown Manager's own placement. Moving the Essential viewer in Edit Mode moves
+  Blizzard's row and leaves cap's where the player put it. The first time cap orders, the
+  position is seeded from wherever the viewer had drawn, so the login that hands the row a
+  position of its own does not appear to move it; `/cap move reset` clears the seed and takes
+  it from the viewer again.
 
 - **It stands down beside another addon that manages the same row.** Yielding above is about
   *losing* an argument; this is about not starting one. Several shipping addons re-anchor the
@@ -693,8 +707,12 @@ distinguish "nothing to say" from "broken".
 - It does not replace the Cooldown Manager, and it does not write the player's saved Cooldown
   Manager configuration. It does **re-anchor** the Essential viewer's rows into the catalog's
   order while it is running, and **park** — move out of the row — one it has claimed but can no
-  longer place (§3.9). Both are placement, neither touches the player's configuration, and both
-  are reversible by turning ordering off.
+  longer place (§3.9). Both are placement, and both are reversible by turning ordering off.
+  ⚠ Neither touches the player's **Cooldown Manager** configuration, which is the promise; but
+  cap's row does now carry a saved position **of its own**, in cap's own SavedVariables, put
+  there by `/cap move`. That is the player's placement of a cap frame, not a write to a
+  Blizzard one — the distinction this bullet used to blur by saying cap's placement touched no
+  configuration at all.
 - It does nothing on specs and builds without an authored experience.
 - It does not own keybinds or action-bar layout; that is BucketBinds. It may *show* you the
   binding you already have (§3.8), which is a read and changes nothing.

@@ -292,6 +292,41 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
     - **What has been exercised:** the two-stage decision and the wording, by `riders_spec` (12
       assertions). **What has not:** the modal, the positional test against a live rider, and the
       depth guard — all three are client behaviour and are the acceptance set for the next flight.
+  - **The row is a named 6x2 panel the player places** (2026-08-31), which is `spec.md` §3.9's
+    seventh property and the first half of making the row anchorable by other UI. `P.anchor` was
+    a nameless 1x1 `UIParent` child whose position was re-derived from Blizzard's measured
+    geometry on every pass, so the row had no position of its own and nothing could be anchored
+    to it. It is now `CombatAssistPlusRow`, sized `tokens.row` (6 across, 2 down, 50 cell,
+    1 gap) and placed from a saved position.
+    - **`Place.lua` is Frame.lua's placement machinery, parameterised rather than copied.**
+      `Frame.lua` was single-panel throughout — one hardcoded store key and ten functions over
+      one file-local `panel` — so it was lifted into a keyed module that both frames register
+      with, taking `Window.lua`'s keying and `Frame.lua`'s scale arithmetic. (`Window.lua`'s own
+      maths is not reusable here: it may skip normalisation because a window is never scaled,
+      and the row panel is scaled on every apply.) `db.frame` migrates once into
+      `db.places.frame`, and the old key is left rather than moved so a rollback still finds the
+      panel where the player left it.
+    - **`/cap move` now unlocks both frames at once.** `/cap <verb> [<arg>]` is the whole command
+      budget and `reset` already holds the argument slot, so a per-frame verb has nowhere to go;
+      one gesture for all of cap's furniture also reads better than two. Every chat line grew a
+      subject, since "frame locked at …" no longer identifies anything.
+    - **Two things were deleted rather than repaired.** `metrics()`'s gap derivation is gone —
+      the grid is cap's now, and for the record its `DEFAULT_GAP = 4` fallback was wrong:
+      Blizzard's layout padding is `iconPadding + GetAdditionalPaddingOffset()` = 5 + (-4) = 1.
+      And the whole `P.foreign` origin-adoption path is gone, because following the Cooldown
+      Manager's placement is precisely what a row with a saved position must not do. That is a
+      **behaviour change**, recorded in `spec.md` §3.9: an Edit Mode move of the viewer no longer
+      drags cap's row with it.
+    - ⚠ **The one trap, and it is a double-count.** Every length in `tokens.row` is in the
+      panel's OWN coordinate space. The panel wears a scale matching the item frames, so Edit
+      Mode's icon-size setting arrives as that scale — `GetWidth` on an item frame reads 50
+      whatever `SetScale` did to it. The plan's `50 x iconScale` cell would have counted the
+      setting twice; the floor is 50 flat, and `anchor_spec` asserts the grid does not vary with
+      `iconScale` so the mistake cannot come back quietly.
+    - **What has been exercised:** the store and its migration (`place_spec`, 7 assertions) and
+      the grid arithmetic (`anchor_spec`, 6). **What has not:** the drag itself, the seed from a
+      live viewer, and whether the panel holds across a spec swap and an Edit Mode icon-size
+      change — the acceptance set for the flight.
 
 ### The specs
 
