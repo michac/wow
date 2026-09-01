@@ -506,3 +506,41 @@ refusal leaves a stretched outline rather than none. Verified at 56/80/120 px in
 never a value over remaining seconds, so no sink anywhere draws a number off an aura duration. It
 is also the second consumer of aura id `432794`, which is Tier-3-sourced and dies silent; the
 `@verify-ingame` on that id is unchanged and this doubles what one wrong number costs.
+
+## 2026-08-31 — the flight ran, and the two specs it did not reach are the news
+
+**What changed.** The author reported a week of in-game play on **Havoc and Retribution** and
+called the flights run and successful, which retired most of the flight debt `backlog.md` was
+carrying. Removed from `## Now`: the keybind-hint flight (V15, `Binds.lua` — the six states and
+the 14/THICKOUTLINE readability call), the Anchor flight's five checkboxes, the Havoc re-fly
+against the 12.1-sourced catalog, and the Retribution half of the owed flight. `Anchor`'s entry
+survives as the **un-hide author call** alone, which was never a flight. Status gained two
+flown lines (the second row and the parked-frame sort). `Paint.lua` lost its nine-slice and V11
+hatch `--@unverified` markers and `Channel.lua`'s V20 marker was narrowed to the stacked-bars
+half. Files: `specs/backlog.md`, `specs/render-shelf.md`, `addon/CombatAssistPlus/Paint.lua`,
+`addon/CombatAssistPlus/Channel.lua`.
+
+**Why it still binds.** The report's exact words on the one spec that failed: *"I think it didn't
+show up at all for that spec"* — Devourer — and *"you can leave that thread."* The thread is
+**parked, not closed**, and the distinction is the whole entry: nobody established whether the
+catalog failed to bind, the panel drew empty, or no row was ever drawable. Status had claimed
+Devourer's catalog *loads, so everything on the page draws in the client*; loading is not drawing
+and that sentence is rewritten, not annotated. Two consequences follow and both were deliberate:
+`render-shelf.md`'s **"Not flown." under V12 stays**, because the only live virtual row is
+Devourer's Consume and the old entry promised its deletion only after that row was seen; and
+**Protection's V19 pandemic surfaces are still owed**, because `sealed-pandemic` belongs to
+Demonology and Protection and a Retribution week says nothing about either.
+
+**Caveat.** Part 5's questions were **survived, not answered**. A week without complaint says a
+treatment does not fail; it does not say how well it reads, and no per-question verdict was
+recorded because none was given. The scope was set deliberately narrow at the author's direction
+— only what was actually flown — so Demonology, Destruction and Protection keep every flight
+claim they had.
+
+**Caveat.** The 2026-08-28 entry above says nine-slice *"has never been watched"* and carries an
+`--@unverified`. Superseded here: it was watched, it held, and the marker is gone. The guard
+below it is kept as a fallback rather than as a doubt.
+
+**Caveat.** The Immolation Aura charge contradiction is untouched and still open. It is a
+diagnostic that needs a specific capture read on a named loadout, not an acceptance flight, so
+"the flights passed" does not reach it.

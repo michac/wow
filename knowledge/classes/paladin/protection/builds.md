@@ -2,7 +2,7 @@
 title: Protection Paladin — Talents & Builds (Midnight)
 patch: 12.1
 fetched: 2026-08-23
-reviewed: 2026-08-23
+reviewed: 2026-08-31
 sources:
   - knowledge/_meta/patch-notes/12.1.md  # tier 1, verbatim 12.1 notes, Paladin ▶ Protection block
   - knowledge/classes/paladin/protection/talents.md  # tier 1 tree structure (Blizzard API + wago @ 12.1.0.68914)
@@ -128,8 +128,16 @@ The two trees, for context:
 - **Blessing of Spellwarding / Uther's Counsel** (class 5,17, **choice**) — the
   magic-immunity wall now sits here.
 - **Avenging Wrath** (spec 6,18) and **Sentinel** (spec 10,18) are **separate
-  nodes, not a choice pair** — a 12.0.7 claim that they are is wrong. 12.1
-  deliberately "reduce[s] the opportunity cost associated with taking Sentinel".
+  nodes** — not a choice pair, so both can be talented and each costs its own
+  point. ⚠ **But taking Sentinel REPLACES the Avenging Wrath button**: the live
+  12.1 client prints *"Replaced by Sentinel"* on the Avenging Wrath talent
+  tooltip *[T1: in-client tooltip, 2026-08-31]*. Two nodes, one button. The
+  developers' note that 12.1 "reduce[s] the opportunity cost associated with
+  taking Sentinel" is about the **point cost**, not about keeping both buttons —
+  reading it as the latter is the error this line replaces.
+  **So a Protection paladin with Sentinel talented has no Avenging Wrath button**,
+  and anything keyed to Avenging Wrath — including the simc APL's top rung, which
+  never mentions Sentinel — describes a build they are not playing.
 - **Sanctified Plates** (class 6,6) / **Holy Aegis** (class 8,2) / **Faith's
   Armor** (class 10,1) — passive mitigation floor.
 - **Consecration in Flame** (spec 7,21) / **Sanctuary** (spec 8,20) /
@@ -226,6 +234,15 @@ CIEAAAAAAAAAAAAAAAAAAAAAAsMzAzyMLmZMDLLDzYmFbzYAAAAAAAAg0MziZMmxYmt2AgBADsNAAwMT
 - [ ] Resolve what **Reflection of Radiance**'s "Awakening" grants Protection.
 
 ## Changelog
+
+- **2026-08-31** — **corrected the Avenging Wrath / Sentinel claim, which was
+  wrong in a way that produced wrong advice.** The 2026-08-23 pass fixed a real
+  12.0.7 error (they are not a choice *node*) and overshot into implying you keep
+  both buttons. The client says **"Replaced by Sentinel"**. Rewritten above.
+  ⚠ Consequence worth carrying: **Sentinel has no `CooldownSetSpell` row of its
+  own** in this spec's inventory, so it can only reach the Cooldown Manager as an
+  **override on Avenging Wrath's row** — the same shape as Sacred Weapon riding
+  Holy Bulwark. Not yet confirmed against an exhaustive every-set DB2 sweep.
 
 - **2026-08-23** — brought to 12.1. Corrected four claims that were wrong even
   before 12.1 or were invalidated by it: Divine Guidance / Blessed Assurance are

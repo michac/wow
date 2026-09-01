@@ -494,10 +494,16 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       layout, clamped at runtime and reported as `over:<n>`. One more authored entry needs a wider
       panel (`cols` is a catalog key or a token, so 7x2 is a data edit and shrinking `icon_px`
       holds the screen width), not a code change.
-    - **Not yet flown.** What the tests cannot reach: that the second row draws where the
-      arithmetic says, and that parked frames stay out of the reading sort — they are absent
-      from `P.tracked` and would sort ahead of the first row if a future edit walked `P.claimed`
-      instead. `X{MISMATCH}` with matching ids either side of a differing `|` is the signal.
+    - **FLOWN — both halves, twice.** What the tests could not reach was that the second row
+      draws where the arithmetic says, and that parked frames stay out of the reading sort.
+      A reported week of play on Havoc (2026-08-31) covered the first: at twelve entries against
+      six columns the column clamp wrapped the row, so the second line was on screen throughout.
+      The v0.23.1 flights (2026-09-01) then measured both — `X{ok}` with `P{}` and `D{}` agreeing
+      **including the `|` in the same place** on three specs, and `parked:3` with `D{}` carrying
+      exactly the eight planned ids. Parked frames sit `+10000` ABOVE the panel and the sort is
+      top-descending, so a leak would have put them **first**; they are absent instead.
+      `X{MISMATCH}` with matching ids either side of a differing `|` remains the standing signal,
+      so the check keeps its subject. Details in *What the second flight settled* below.
   - **The panel's grid resolves in three tiers — player, catalog, token** (2026-08-31), which is
     `spec.md` §3.9's ninth property. `cols`, `rows` and `icon_px` are ONE setting with three
     fields; `/cap grid` reads it back, says which tier each number came from, and sets the
@@ -884,9 +890,11 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
   - **Two rungs are undrawn because a Category-3 TrackedBar row's alert edges are unmeasured**
     (`protection/catalog.md` Defeats 1 and 2). It is the same unmeasured fact as Demonology's
     Dominion of Argus, and one measurement closes it for both.
-- **Devourer is transcribed and has never been flown.** `Catalogs/Devourer.lua` is generated from
-  `catalog.json` and loads, so everything on the page draws in the client — but nothing on it has
-  been SEEN. It is the first spec whose definition needed **V12's virtual row**, and after
+- **Devourer is transcribed, and the one attempt to fly it saw nothing.** `Catalogs/Devourer.lua`
+  is generated from `catalog.json` and loads. ⚠ **That is NOT the same as drawing**, and the
+  2026-08-31 report is the correction: the author was on the spec and *"it didn't show up at all."*
+  Whether the catalog failed to bind, the panel drew empty, or no row was ever in a drawable state
+  is unestablished, and the thread is parked at the author's direction (`## Now`). It is the first spec whose definition needed **V12's virtual row**, and after
   2026-08-27 it needs exactly **one**: Consume, `standing`. Collapsing Star was measured in game to
   be a spell **override** on the Void Metamorphosis row, so R7 draws it and it is not cap-owned at
   all — which means V12's **`gated` kind has no consumer anywhere**, built and tested and
@@ -1056,99 +1064,22 @@ the catalog becomes anticipatory with no catalog edit. Nothing is sealed — Sou
 never-secret — and the plan file holds the five steps, the CDMProbe traps and the
 `cdm-rider-patterns.md` §9.2 correction it rests on.
 
-### Keybind hint on the CDM row — built, not flown
+### Anchor's un-hide half needs an author call
 
-The key you have bound, drawn in each row's top-left corner, because Blizzard's Cooldown Manager
-draws none: `grep HotKey` over `Blizzard_CooldownViewer` returns zero. The API chain is
-`knowledge/addon-dev/cdm-rider-patterns.md` §11, Tier-1 against shipped 12.1 source.
+`/cap anchor rows` reports which catalog entries have no pooled frame. Making one appear means
+`SetCooldownToCategory`, a write to the player's saved CDM layout, which sits against `spec.md`
+§4's "does not replace or configure the Cooldown Manager" and carries an open `[gap]
+@verify-ingame` for whether an un-hidden row lands in a viewer end to end. Nothing is built and
+nothing should be until the boundary question is answered.
 
-✅ **The three decisions are settled (2026-08-19)** — chrome not a cue, macros blank in v1, always
-on with no toggle. They live in `spec.md` §3.8 and `render-shelf.md` V15 now, and
-`keybind-hint-plan.md` was deleted on landing, as it said it would be.
-
-✅ **Built 2026-08-19.** `Binds.lua` (the two-stage lookup, cached, debounced, no combat fence),
-`tokens.hotkey` + V15 in the shelf, `Paint.Hotkey`/`Paint.Label`, the draw in `Overlay.paint()`
-with the widget added to `quiet()`, 21 pure specs in `binds_spec.lua`, and a `capart check` gate
-(0e) asserting chrome names no cue, declares no polarity or rank, and does not anchor to the
-corner the badge stack flows from.
-
-⚠ **The slot arithmetic the plan file specified was not built, deliberately.** It hardcoded
-`page = floor((slot-1)/12)+1` plus a page→binding table, which §11 explicitly rejects: the real
-button frames already carry `frame.action`, and reading it handles paged, bonus and override
-numbering with no ranges. The KB won.
-
-- [ ] **The flight.** Six states, all six or the phase has not passed: spec swap · bar page flip ·
-      shapeshift · combat entry · combat exit · CDM re-layout. Plus Part 5 question 9 — does the
-      hint read as a label or as another signal, and does the blank read as "unbound" or "broken".
-      ⚠ Havoc has not flown since it was re-sourced from the Tier-1 APL on 2026-08-17 and carries
-      an unflown V11 hatch and V13 scan edge, so judge those together rather than the hint alone.
-✅ **The font is settled and cap ships it** (2026-08-19). Ten lab candidates — five faces, then a
-plate, then a title bar — judged on real rows in the preview. **Share Tech Mono won**, promoted to
-`tokens.hotkey` and shipped as `Media/fonts/CapKeyMono.ttf`: monospaced, because a keybind is not
-prose and `csF1` in a proportional face reads as one smudge; condensed, which buys back most of
-what a fixed advance costs. ⚠ **Renamed on the way out** — the upstream family carries the Reserved
-Font Name `'Share'`, a subset is a Modified Version, and OFL 1.1 clause 3 forbids one from using
-it. `OFL.txt` and a `NOTICE.txt` ship beside it and `capart check` gate 0f byte-compares all three.
-This is the first third-party asset the addon redistributes.
-
-✅ **A preview-fidelity bug found by looking, which is what the preview is for** (2026-08-19). The
-dark edge was eight stacked `text-shadow` copies; every copy is antialiased, the overlaps
-accumulate alpha into a halo, and the diagonals sit at 2.83 px where the axials sit at 2 — so it
-rendered as a smudge with lumpy corners and made every font candidate look worse than it is. The
-client computes its outline from the glyph (from its SDF); the faithful analogue is a real stroke.
-
-✅ **The lab is empty** (2026-08-19). Nothing left in it was still being evaluated. Part 7 keeps the
-ledger of what left and where; `git log` keeps the entries.
-
-✅ **The preview draws the client's own font** (2026-08-19). `capart` pulls `fonts/frizqt__.ttf`
-out of CASC by FileDataID and embeds it as an `@font-face` data URI, the way it already embeds
-spell icons — so advance width in the preview is the game's, which is what "does `C-S-F1` fit the
-corner" actually asks. Part 3 permitted this all along: its rule bans extracted art in the addon's
-`Media/`, not in the preview, and nothing on this path reaches `Style.lua`. The page grew ~50 KB
-and `tokens.budget.max_base64_kb` went 512 → 600 to match, rather than leaving a standing warning
-that would blunt the signal.
-
-- [ ] **Readability was bought with the only two dials the client has** — `size` 12 → 14 and
-      `outline` `OUTLINE` → `THICKOUTLINE`. `SetFont` offers nothing between them and nothing
-      wider, so if 14/THICK still does not read over bright icon art, the next move is a dark
-      backdrop texture behind the FontString (the badge plate is the precedent), not a bigger
-      number. Judge it in the flight.
-
-### Anchor — what the one flight did not exercise
-
-The feature ships and holds; these are the things to notice in play, not a gate in front of it.
-
-- [ ] **The re-apply edges.** Spec / talent / hero swap, `PLAYER_ENTERING_WORLD`,
-      `CooldownViewerSettings.OnDataChanged`. `Anchor.lua` hooks all of them and marks
-      `# reapply why=<reason>`; confirm the order is restored after each.
-- [ ] **The mid-combat teardown, watched rather than gated.** `UNIT_AURA` is the only layout
-      teardown that reaches combat and it is unfiltered by unit, so a full aura update on your
-      *target* rebuilds the whole layout (`knowledge/addon-dev/cooldown-manager.md` §4.1). If the
-      order reverts mid-pull the capture says so: grep
-      `# stomp RefreshLayout destructive=1 combat=1`.
-- [ ] ⚠ **Watch for `# contended`.** A displacement with no hooked layout call behind it is another
-      addon winning the frame. cap now re-asserts and counts strikes rather than stopping, and the
-      third inside the window opens the dialog — so a contended row still keeps the *other* addon's
-      order and must not be read as a priority, but you are told. (It can also mean a layout path
-      `Anchor.lua` does not hook, e.g. the `BottomManagedFrame` container — **which is the standing
-      unattributed case**, see Status.)
-      ⚠ **A frozen sample is not evidence of a failed apply.** A competitor that wins
-      deterministically every round produces a byte-identical `D{}` across every sample, because
-      each sample catches the frames in *its* layout. `stomp:0` is what separates the two.
-- [ ] **Fly the park.** Get a row to drop out of the plan without a pool release (a
-      `GetCooldownID()` identity change is the reachable one) and confirm `# parked n=1`, the icon
-      leaving the row, `A{parked:1}` standing in the readout, and `/cap anchor off` bringing it
-      back with `# restored n=<all>` and `orphans=0`. ⚠ **The failure to watch for is the
-      opposite one:** a park that survives a destructive stomp would hide a live ability, so
-      confirm `A{parked:0}` after every `# stomp … destructive=1`.
-- [ ] **Fly the recovery.** Force a re-pool (spec swap, or a settings change that alters the row
-      count) and confirm `# stale` → `# rearmed` → `X{ok}`, rather than a silently scrambled row.
-      Then answer the dialog both ways and confirm `# restored` / `# armed` follow.
-- [ ] **The un-hide half needs an author call** before anything is built. `/cap anchor rows` reports
-      which catalog entries have no pooled frame; making one appear means `SetCooldownToCategory`,
-      a write to the player's saved CDM layout, which sits against `spec.md` §4's "does not replace
-      or configure the Cooldown Manager" and carries an open `[gap] @verify-ingame` for whether an
-      un-hidden row lands in a viewer end to end.
+⚠ **The read-only half is flown and holds** (2026-08-31, a week of play on Havoc and
+Retribution): the re-apply edges, the park, the recovery and the `# contended` counter all
+behaved. What that week did NOT reach is the mid-combat destructive teardown — `UNIT_AURA` is
+unfiltered by unit, so a full aura update on your target can rebuild the whole layout
+(`knowledge/addon-dev/cooldown-manager.md` §4.1). It did not visibly happen; the capture is the
+only thing that would say it did not happen *quietly*. Grep `# stomp RefreshLayout destructive=1
+combat=1` when a capture is next read, and confirm `A{parked:0}` follows any hit — a park that
+survived a destructive stomp would hide a live ability.
 
 ### The swipe says two different things and cap could make it say which
 
@@ -1295,54 +1226,159 @@ stripe sheet with it. The other two remain lab entries — Part 7, deciding noth
       observation that may earn a shared recipe later**, not a rule to author up front.
 - [ ] **No dim comes back with them.** Stripes state a condition without subtracting light.
 
-### THE OWED FLIGHT — v0.13.2 is deployed and nothing in it has been SEEN
+### Devourer drew nothing
 
-Cut and deployed 2026-08-27, 21 commits, the largest catalog change the project has had. Every
-gate is green and no gate can see a pixel. cap reports `offered` / `armed` / `refused` and never
-learns whether a sealed band actually painted, so all of the below needs an eye.
+**The flight ran** — a week of play on **Havoc and Retribution**, reported 2026-08-31, and the
+shipped style held: the scan edge, the cooldown hatch, the keybind hint, V20's edge bar on
+`sealed-proc-bar`, and the nine-slice ruled-out outline.
+⚠ **V21's dial on `sealed-cooldown-range` is NO LONGER covered by that week.** Protection reported
+it drawing as a **square** on 2026-08-31 (*THE FIRST PROTECTION FLIGHT*, finding 1) and both Havoc
+and Retribution carry the same display — so either it was square there too and went unremarked, or
+the failure is supplier-specific. **A week of no complaint is not a positive report**, and this is
+the one place that distinction has now cost something. Treat the dial as unverified on all three. Retribution's Expurgation proc bar has a subject and draws. What that week could not
+reach are the two specs below, because the author was not on them.
 
-⚠ **v0.13.1 shipped a cue that eliminated a correct press and was replaced within the hour.** The
-post-release conscience review found cue H holding Collapsing Star on `ready(void_ray)` alone,
-where rung 8 fires on `!eradicate|!moment_of_craving|4pc` — so with both procs banked the APL skips
-Void Ray, rung 9 is the press, and cap badged it `blocked`. v0.13.2 gates the hold on `!proc(reap)`
-as well. **Fly v0.13.2, not v0.13.1**, and add one thing to the list below:
+**Devourer showed nothing at all.** The author's report: *"I think it didn't show up at all for
+that spec."* ⚠ **The thread is PARKED at the author's direction, not closed** — nobody has
+established whether the catalog failed to bind, the panel drew empty, or the spec was simply
+never in a state that produced a row. Do not read the parking as a verdict, and do not read a
+later green gate as having answered it: no gate can see a pixel. The four things a Devourer
+flight was going to settle are still unsettled, and the third is the load-bearing one:
 
+- [ ] The **standing virtual row** (Consume) draws at all, on cap's own strip, at the right end.
+      This is the only live consumer of V12, so V12 is unflown until it does.
+- [ ] It shows **Devour** inside Void Metamorphosis — `Panel.Face` resolving
+      `C_Spell.GetOverrideSpell` on the draw, the one thing in V12 no test covers end to end.
+- [ ] Inside the form, the **Void Metamorphosis row draws Collapsing Star** with its count band —
+      an override borrowing the row of the spell it replaces. If it does NOT, the override premise
+      is wrong and Devourer's catalog needs re-authoring, not patching.
+- [ ] Out of form, the bank band draws the **right threshold for the build** — 35 with *Soul
+      Glutton*, else 50 — and the three ceded corner steps, two permanently blank, do not read as
+      a fault.
 - [ ] In AoE, in the form, with Void Ray **ready** and a Star granted: does Collapsing Star wear
       `blocked`? It should ONLY when neither Reap-family proc is banked. ⚠ **No scenario in the
       walk exercises cue H at all** — every scenario reaching Collapsing Star has Void Ray on
       cooldown — so this state has never been reasoned about by a gate, only by hand.
 
-**On a Devourer Demon Hunter** — the spec that has never been flown at all:
+⚠ **SENTINEL IS AN UNMODELLED THIRD TRANSFORM ON POSITION 1, and the existing cue MISLEADS on
+that build.** Found 2026-08-31 from an in-client tooltip the author screenshotted, before anything
+flew. The Avenging Wrath talent tooltip reads **"Replaced by Sentinel"** *[T1: live 12.1 client]*,
+and **Sentinel carries no `CooldownSetSpell` row** in the spec inventory — so, exactly like Sacred
+Weapon riding Holy Bulwark and Hammer of Wrath riding Judgment, **Sentinel can only reach the
+Cooldown Manager as an override on Avenging Wrath's row**. Protection therefore has *three*
+transforms and the catalog models two.
 
-- [ ] The **standing virtual row** (Consume) draws at all, on cap's own strip, at the right end.
-- [ ] It shows **Devour** inside Void Metamorphosis. This is `Panel.Face` resolving
-      `C_Spell.GetOverrideSpell` on the draw, and it is the one thing in V12 that no test covers
-      end-to-end — the catalog is silent about the transform by construction, because
-      `Catalog.Check` refuses a subject predicate naming a virtual ability.
-- [ ] Inside the form, the **Void Metamorphosis row draws Collapsing Star** with its count band.
-      This is the 2026-08-27 measurement's whole consequence: an override borrowing the row of the
-      spell it replaces. If it does NOT, the override premise is wrong and Devourer's catalog needs
-      re-authoring, not patching.
-- [ ] Out of form, the bank band draws the **right threshold for the build** — 35 with *Soul
-      Glutton*, else 50. Two markers, mutually exclusive on `talent(soul_glutton)`.
-- [ ] The **three ceded corner steps** on that row, two of them permanently blank. Expected and
-      recorded; the question is only whether it reads as a fault.
+- **The catalog authors no `identity` on entry 1** and binds `avenging_wrath` `31884` flat.
+- **Cue A is not merely absent on a Sentinel build — it is WRONG.** It says *hold Avenging Wrath
+  for Divine Toll*, an offensive-window argument, while the row is displaying **Sentinel**, a
+  defensive cooldown with entirely different usage. A missing cue fails dark; this one fails lit.
+- **Upstream cannot help.** The simc APL never mentions Sentinel, so the Tier-1 priority list
+  models only the non-Sentinel build and there is no rung to transcribe.
+- ⚠ **The absence is one tier weaker than Sacred Weapon's.** That claim rested on an exhaustive
+  DB2 sweep of every set in the file; this rests on Protection's own `ability-inventory.tsv`.
+  **Do the exhaustive check before authoring `identity` on it.**
+- ⚠ **`knowledge/classes/paladin/protection/builds.md` asserted the opposite until today** — that
+  the two are "separate nodes, not a choice pair", which is topologically true and was read as
+  *you keep both buttons*. It has been rewritten and its changelog carries the correction. This is
+  the second time a catalog premise came from that file's talent prose rather than from the
+  client, and it is the same shape as the Light's Deliverance reversal: **a settled-looking claim,
+  settled by prose.**
+
+**Protection HAS now been seen** (2026-08-31) — see *THE FIRST PROTECTION FLIGHT* below, which
+owns what it found. One thing that flight did **not** reach stays here, because the build carried
+Divine Guidance and the band is the other half of the choice node:
+
+- [ ] Protection's **Consecration presence band** (`cons_field_up`, Blessed Assurance builds only)
+      has a subject and actually draws — it is the failure mode this file records for
+      Destruction, a display with no subject, which draws nothing and says nothing about why.
+      ⚠ **Not covered by the 2026-08-31 flight**, which ran Divine Guidance, and not by the
+      Havoc/Retribution week: `sealed-pandemic` and the presence band are Demonology's and
+      Protection's, and V19 has still never been confirmed drawing.
 
 ⚠ **V12's `gated` kind CANNOT be flown — it has no consumer anywhere.** It was built for Collapsing
 Star, which turned out not to need it. Record it as unexercised, never as passed.
 
-**On Protection and Retribution** — the failure mode `backlog.md` already records for Destruction
-is a display with no subject, which draws nothing and says nothing about why:
+**`render-shelf.md`'s "Not flown." under V12 STAYS.** It was the one line the old entry promised to
+delete once the flight landed, and the flight landed on the two specs that have no virtual row.
+Consume is Devourer's and Devourer drew nothing, so the marker is still the honest one.
 
-- [ ] Protection's **Sacred Weapon (V19)** and the **Consecration presence band** have a subject
-      and actually draw.
-- [ ] Retribution's **Expurgation (V20)** proc bar has a subject and actually draws. ⚠ It binds
-      only if the player has added Expurgation to Tracked Buffs; if not, `aura:expurgation` reads
-      UNKNOWN and the marker stays DARK, which is correct behaviour and looks identical to a
-      broken one.
+### THE FIRST PROTECTION FLIGHT — eight observations, six findings, 2026-08-31 → `backlog/protection-next.md`
 
-**Then, and only then:** delete `render-shelf.md`'s **"Not flown."** under V12 (currently `:787`).
-It is the honest marker until an eye has been on it.
+**The ordered work list is `backlog/protection-next.md`** — what to add, then what to test, plus
+what was deliberately left out of that round. This entry owns the findings and the evidence; that
+file owns the response.
+
+The spec's first time on a screen, on a **Lightsmith / Divine Guidance / Sentinel** build. The
+author's verdict was *"it's kind of a mess as is"*, and the eight findings below are in their
+words with the diagnosis under each. **Nothing here was found by a gate**, which is the point.
+
+**1 — The `sealed-cooldown-range` dial DRAWS AS A SQUARE.** *"Sentinel has its badge drawn wrong,
+as a square… Same with Holy Bulwark."* Both rows carry that display and nothing else does, so the
+subject is V21's dial. `buildDial` (`Channel.lua`) asks for a radial bar through
+`pcall(bar.SetRenderMode, bar, Enum.StatusBarRenderMode and …Radial or 1)`, and a **linear
+StatusBar is a rectangle** — so a refusal degrades to exactly the reported shape.
+⚠ **Exactly ONE of the two pcalls on this bar is silent, and it is the SHAPE one.**
+`baseCooldownSink`'s `SetTimerDuration` refusal **is** logged, so the drive is instrumented; the
+`SetRenderMode` call inside `buildDial` is not, and that is the one that decides square-vs-arc.
+**Fix that instrumentation first**, and check the `Enum.StatusBarRenderMode and … or 1` fallback on
+the same pass — a nil enum silently posts a literal `1`.
+
+⚠ **The gallery cannot clear this and that is the finding under the finding.** `/cap style` builds
+its dial with the **same** `SetRenderMode` pcall (`StylePanel.lua`), so the known
+`buildSealed` duplication is NOT the blind spot here. The difference is one line later: the gallery
+drives its bar with a static `SetValue(0.75)`, while the live row hands the bar to the client via
+`SetTimerDuration`. **So the gallery proves the render mode was accepted at BUILD time and never
+that it survives the client taking the bar over** — which is the only state the live row is ever
+in. If the client resets render mode when it attaches a timer, every existing instrument shows a
+perfect arc and the row shows a rectangle. **Read `GetRenderMode` back AFTER `SetTimerDuration`,
+not at build.**
+
+⚠ The comment in `buildDial` cites *"Radial is measured on a SetTimerDuration-driven bar
+[client 2026-08-21]"*. If that measurement was taken on `windowSink` (V19's pandemic dial) it does
+**not** transfer to `baseCooldownSink` — different supplier, different spell resolution — and a
+one-sink measurement generalised to all four is its own defect. Establish which sink was measured
+before trusting the line.
+⚠ Not yet explained: Havoc and Retribution both carry `sealed-cooldown-range` and flew a week
+without this being reported. Either it was there and unnoticed, or something differs per supplier.
+Do not close it on the Protection evidence alone.
+
+**2 — Blizzard's own text collides with cap's chrome, and the row cannot hold both.**
+*"the count is overlapping the keybind"*, plus *"the last item in the CDM that has `1:36` in giant
+text overlaying it"*, plus rows reading `57 S…nds` and `40 S…onds` — the client's countdown
+spelled out and overflowing the icon. cap's hotkey is a `TOPLEFT` FontString at `+2,-2`
+(`tokens.hotkey`) drawn **five frame levels above everything**, so it wins the collision it should
+never have entered. **This is the entry below — *Add a shelf section for what Blizzard already
+draws on a CDM icon* — being cashed in.** That item was speculative; it is now load-bearing, and
+`ChargeCount`'s anchor is not recorded anywhere in `knowledge/addon-dev/`.
+
+**3 — Two bound abilities wear no hint.** *"two of the abilities are definitely keybound without
+any fancy macro shenanigans, but aren't being marked with their keybinding."* V15's two-stage
+lookup reads `frame.action` off the real button frames; a bare miss on a plainly-bound key is a
+`Binds.lua` defect, not the documented macro blank. Needs the two ability names to diagnose.
+
+**4 — The hatch loses to bright icon art.** *"Sentinel is such a bright icon that even dimmed a
+bit with a hatch it's still sort of asking to be clicked."* This is **Part 5 question 7 answering
+in the direction the shelf feared**: black at `0.50` reads as *dimmed*, not as *ruled out*, on
+high-value art. ⚠ It is NOT a licence to add a hue — the retired veil died of exactly that. The
+shelf's own guidance is area or a different treatment.
+
+**5 — A duration-shaped swipe is read as a cooldown.** *"it has no cooldown red icon, which it
+should since it's one of those annoying abilities that shows me the duration instead of the
+cooldown, like tyrant."* **This is the standing entry *The swipe says two different things* getting
+its second independent witness, on a different class.** It was recorded from Demonology; it
+reproduces on Protection's Sentinel. That raises it from a nice-to-have to the highest-value
+unbuilt item in this file, and the `SetReverse` option — a dial that FILLS versus one that
+EMPTIES — is the one the report is asking for.
+
+**6 — Charges should be a bar, not a small number.** *"For Demonic Core we have the marked
+progress bar on the bottom to indicate how many stacks. I wonder if we could do that for abilities
+with charges instead of the small number."* An author request to point **V18's segmented bar**
+(`sealed-count-bar`, today an aura's application count) at a **charge** count. ⚠ Charges are
+**readable** — `Sense.readCapped` already calls `C_Spell.GetSpellCharges` every tick — so unlike
+Fury this needs no sealed sink and no lab question. It is a shelf primitive plus a catalog key.
+It also **subsumes finding 2's count half** by moving the number off the icon face entirely.
+
+---
 
 ### The client's unusable tint is a FOURTH eliminating signal and the model does not admit it
 
@@ -1483,18 +1519,6 @@ Since then the gold badge has gained an explicit `talent` gate on A Fire Inside 
 which makes the behaviour deliberate rather than a side effect of a guard in another module — but it
 does not explain the capture.
 
-### Re-fly Havoc against the 12.1-sourced catalog
-
-The row last flew on 2026-08-15 against a catalog that has since been re-sourced from the Tier-1
-simc APL, gaining two predicates, four corrected holds, a row swap and a skip badge. Nothing about
-the current row has been judged in play.
-
-- [ ] One flight for the whole row, per `flight-reading.md` → *The Havoc row*: one player-experience
-      question stated before playing, the player's judgment recorded in their own terms, captures
-      read only afterwards to explain which route armed.
-- [ ] It also carries the shipped-but-unflown style: the scan edge (Part 5 q2) and the cooldown
-      hatch (q7), plus q1 and q5.
-
 ### ~~Consolidate the three Havoc docs into one `catalog.md`~~ — RETIRED 2026-08-19
 
 **Do not re-raise this.** The one-`catalog.md`-per-spec rule it enforced has been reversed:
@@ -1533,8 +1557,9 @@ answer and the one that was available.
   the sealed **count** is right for the AoE rung that asks for two stacks, and that rung is not
   authored. OBS-065 already carries the human verdict on the display itself.
 
-⚠ **What is genuinely still unflown is everything**, and it is bigger than these two questions —
-see the Status block. Neither Warlock spec has a catalog Lua of the current design.
+⚠ **Neither Warlock spec has a catalog Lua of the current design**, so neither has flown and
+neither can — see the Status block. The 2026-08-31 week of play was Havoc and Retribution; it says
+nothing about Demonology or Destruction.
 
 ### Two future Warlock catalogs, each with its reopening condition
 
