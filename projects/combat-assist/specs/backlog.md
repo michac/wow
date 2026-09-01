@@ -540,6 +540,22 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
     - **@pending Phase 3** — a grid change resizes the panel without a `SetSize` any mover has
       hooked, which is exactly the case `EllesmereUI.NotifyElementResized` exists for (step 25).
       `regrid` is where that call goes.
+    - ⚠ **Which VIEWER an entry lands in is a comment, not a field** — found 2026-08-31 by the
+      break-bucketing pass, which needed the distinction and could not read it. `Anchor.lua`
+      re-anchors the Essential viewer only, so an entry bound to a Utility row is skinned and
+      hatched but never placed: Devourer's `vengeful_retreat` is the shipped case, and
+      `Catalog.Check`'s capacity count reads that catalog as 6 against 5 actually placed. The
+      error is in the safe direction — stricter than reality, never looser — and nothing is near
+      capacity because of it, so this is a **latent** wrongness rather than a live one. An
+      optional `viewer` on the ability would make the count exact and turn a fact that currently
+      lives in prose into one a checker can read. Worth doing before any catalog approaches its
+      grid's capacity, not urgent before that.
+    - ⚠ **Havoc's break is FORCED, and that is a new constraint on authoring it.** With 12
+      entries and 6 columns the partition rule admits exactly one break index — 7 — so
+      `break_before = "immolation_aura"` is not a preference, it is the only value that
+      validates. The 13th entry therefore now costs more than a cell: it makes Havoc
+      unauthorable with a break at all unless the grid's default widens. That constraint did not
+      exist before this mechanism shipped and is not written down in `Havoc.lua`.
 
 ### The specs
 
