@@ -455,12 +455,12 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       reaches `byEntry`, so the key would be a permanent no-op with no error behind it.
     - **The break is a MINIMUM wrap point, not the only one.** A row also ends when it runs out
       of columns. ⚠ **That is a visible change for FOUR of the six specs**, measured rather than
-      assumed: Havoc 12 placed entries → 6 + 6, and Demonology, Protection and Retribution 9
-      each → 6 + 3. Devourer is 6 placed plus 1 virtual and Destruction 1, so both still fit one
+      assumed, at the token's six columns: Havoc 12 placed entries → 6 + 6, and Demonology,
+      Protection and Retribution 9 each → 6 + 3. (Havoc has declared `cols = 7` since
+      2026-09-01, so its own clamp is 7 + 5.) Devourer is 6 placed plus 1 virtual and Destruction 1, so both still fit one
       row. (An earlier note here said Havoc was the only spec long enough; it counted authored
-      entries against two rows instead of against one row's six columns.) No catalog authors a
-      break yet — where each split should go is an authoring call, entangled with the open
-      reading-model question below.
+      entries against two rows instead of against one row's six columns.) **All four now author
+      one** (2026-09-01) — see *The four breaks are authored* below.
     - ⚠ **The row split is part of the VERDICT, and that was nearly missed.** `Anchor.Drawn`
       returned an id sequence and `match` compared it elementwise, so a pass that collapsed all
       twelve icons onto one row would produce the *identical* sequence to the correct two-row
@@ -489,9 +489,11 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       the catalog does not name, so a player enabling one extra ability in the Essential viewer
       can overflow a catalog that passes — from outside the catalog's control. The column clamp
       is what holds at runtime.
-    - **Havoc is at twelve of twelve cells.** One more authored entry needs a wider panel
-      (`cols` is a token, so 7x2 is a token edit and shrinking `icon_px` holds the screen width),
-      not a code change.
+    - **Havoc DECLARES twelve entries against twelve cells.** That is the authoring bound, not a
+      statement about what a given player's row draws — what they draw is their Essential-viewer
+      layout, clamped at runtime and reported as `over:<n>`. One more authored entry needs a wider
+      panel (`cols` is a catalog key or a token, so 7x2 is a data edit and shrinking `icon_px`
+      holds the screen width), not a code change.
     - **Not yet flown.** What the tests cannot reach: that the second row draws where the
       arithmetic says, and that parked frames stay out of the reading sort — they are absent
       from `P.tracked` and would sort ahead of the first row if a future edit walked `P.claimed`
@@ -559,22 +561,224 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
     - **@pending Phase 3** — a grid change resizes the panel without a `SetSize` any mover has
       hooked, which is exactly the case `EllesmereUI.NotifyElementResized` exists for (step 25).
       `regrid` is where that call goes.
-    - ⚠ **Which VIEWER an entry lands in is a comment, not a field** — found 2026-08-31 by the
-      break-bucketing pass, which needed the distinction and could not read it. `Anchor.lua`
-      re-anchors the Essential viewer only, so an entry bound to a Utility row is skinned and
-      hatched but never placed: Devourer's `vengeful_retreat` is the shipped case, and
-      `Catalog.Check`'s capacity count reads that catalog as 6 against 5 actually placed. The
-      error is in the safe direction — stricter than reality, never looser — and nothing is near
-      capacity because of it, so this is a **latent** wrongness rather than a live one. An
-      optional `viewer` on the ability would make the count exact and turn a fact that currently
-      lives in prose into one a checker can read. Worth doing before any catalog approaches its
-      grid's capacity, not urgent before that.
+    - ⚠ **A `viewer` FIELD MUST NOT BE BUILT, and the capacity count is not an over-count**
+      (settled 2026-09-01, reversing what this entry said on 2026-08-31). Essential vs Utility is
+      **the player's layout, not a property of the spell**: the two viewer mixins are the same
+      code twice, the two item mixins are bare aliases, the two item templates differ in four
+      cosmetic values, and the drag table permits Essential ⇄ Utility ⇄ HiddenActive freely while
+      `GetCooldownCategoryChangeStatus` declines to police it at all — four Tier-1 12.1.0 facts
+      now written up under `knowledge/addon-dev/cooldown-manager.md` §1.1, which already said
+      *classify on family, not on category*. A `viewer` field would encode a user setting as
+      authored data and be wrong the moment the player dragged the row. So `Catalog.Check`
+      counting every declared non-virtual entry is **correct**: it is an authoring-time upper
+      bound against the panel the catalog ships, and what holds for a real player is
+      `Anchor.Cells`' clamp and `over:<n>`. Devourer's `vengeful_retreat` in the Utility viewer is
+      a **setup instruction** — the drag into Essential is legal and is the player's to make — so
+      it is a line in the docs, not a field. `Catalog.lua`'s comment has been rewritten to say so.
+      ⚠ Do not re-derive placement from `wowkb.spec_inventory`'s `Blizz cat` column either: it is
+      the DB2 default and reads convincingly like an answer.
     - **Havoc's break is a choice again, because the grid is authorable.** At 6 columns the
       partition rule admits exactly one index for a 12-entry roster — 7, `immolation_aura` — so
       the break was arithmetic rather than a decision. A catalog declaring `cols = 7` makes
       `blade_dance` (5 + 7) legal too, and a 13th entry costs a cell rather than costing Havoc
       the ability to carry a break at all. Which of the two reads better is a question for the
       panel on screen, not for the partition rule.
+
+  - **The four breaks are authored** (2026-09-01) — the mechanism has existed since v0.20.0 and
+    no catalog used it, which meant the one thing three releases have been waiting to fly, *does
+    the break hold across a talent change that removes the break entry*, could not be exercised
+    by any build. One key per catalog closed it. All four are **clean cuts** — no
+    reordering, no cue changes, no scenario churn, and reverting one is the same edit backwards:
+
+    | Spec | Placed | `break_before` | Split |
+    | --- | --- | --- | --- |
+    | Retribution | 9 | `templars_verdict` | 4 + 5 |
+    | Demonology | 9 | `implosion` | 5 + 4 |
+    | Protection | 9 | `avengers_shield` | 4 + 5 |
+    | Havoc | 12 | `blade_dance` | 5 + 7, on an authored `grid = { cols = 7 }` |
+
+    A cut is legal by construction — it preserves whatever order the catalog already authored, so
+    it cannot introduce a contradiction with the APL that was not already there. ⚠ **That is
+    weaker than "the entry order IS the flattened `actions.default`", which is what this entry
+    claimed on the day and is FALSE for at least two specs**: Havoc's `vengeful_retreat` is entry 1
+    at rung 5 and Retribution puts `templars_verdict` (rung 54) above `divine_storm` (rung 53).
+    The flatten is the starting point a catalog is authored from, not an invariant it holds.
+    Devourer (6 placed + 1 virtual) and Destruction (1 shipped entry) still fit one row and get no
+    break.
+    - ⚠ **HAVOC IS THE SPEC THAT NEEDED A WIDER PANEL, and shipping it at six cost a day.**
+      `cap-conscience` over v0.22.0 caught it and it verifies against the APL: at six columns a
+      12-entry roster admits **exactly one** break index, and that index put **`blade_dance` —
+      `actions.default` rung 19, a 9-second rotational press — on the TOP row**, while
+      **`immolation_aura`, whose highest rung is 2, above Metamorphosis**
+      (`knowledge/classes/demon-hunter/havoc/simc-apl.md:40-41`), headed the bottom one. Backwards
+      on both sides. The cut was **forced by arithmetic and then described as though it had been
+      chosen**, and the description is what was wrong — the mechanism did what it was asked.
+      Corrected 2026-09-01 to `grid = { cols = 7 }` + `break_before = blade_dance` (5 + 7), which
+      is clean: five cooldowns over seven rotation presses.
+      ⚠ **The general lesson is that a forced choice is not a validated one.** Havoc was the only
+      spec where the partition rule left no freedom, and that is precisely why it was the one
+      nobody checked — there was nothing to deliberate, so the result went unexamined. When an
+      authoring decision has exactly one legal answer, that is the moment to ask whether the
+      CONSTRAINT is right, not to record the answer as a choice.
+    - ⚠ **Protection's `shield_of_the_righteous` rides the TOP row and that is correct.** It sits
+      at index 3, between two cooldowns, and an earlier pass called that a wart to fix by
+      reordering. SotR is **rung 9** of the Tier-1 APL, above `avengers_shield` (13/18),
+      `consecration` (15/19/24/29) and `judgment` (16/17/22) — the catalog's order matches
+      `actions.default` exactly, and moving it down would put a rung-9 action beneath rung-13
+      ones. **So the top row means "outranks the rotation", not "on a timer"**, and Protection is
+      the spec that makes the distinction visible: SotR is a charged, held, active-mitigation
+      press that genuinely outranks the filler. The three further costs of a reorder are in
+      `specs/archive/ellesmere-mover-plan-2026-09-01.md` §2.5c.
+    - **Havoc's index was forced, not chosen.** At 6 columns a 12-entry roster admits exactly one
+      break index. `grid = { cols = 7 }` + `blade_dance` (5 + 7) is now legal and may read better;
+      that is a question for the panel on screen, per the bullet above.
+    - **Authored through the JSON, never the Lua.** `specs/<spec>/catalog.json` →
+      `capart export catalog <spec>` → `capart build --all` → `capart check --all`; the
+      `catalog_gate_lua` byte-compare is what makes hand-editing `Catalogs/<Spec>.lua` fail.
+    - **Released as v0.22.0** (2026-09-01) to be flown. Its notes carry the CONSOLIDATED
+      acceptance set — three releases' worth of unread questions in one list, item 3 of which
+      is the break fallthrough. **Not yet flown:** no client has drawn any of them.
+
+  - **The row is registered with EllesmereUI's mover** (2026-09-01) — the thing eight phases of
+    panel work existed to make possible, and the first time anything outside cap can anchor to
+    `CombatAssistPlusRow`. `Ellesmere.lua` registers one element, `CAP_ROW`, entirely behind
+    `_G.EllesmereUI` plus `## OptionalDeps: EllesmereUI`; with the host absent the file loads and
+    does nothing. It declares `noResize` and **nothing else** — `noAnchorTarget` and
+    `noAnchorTo` are what would remove the point, so `ellesmere_spec` asserts their absence.
+    The foreign surface it speaks to is `knowledge/addon-dev/cdm-rider-patterns.md` §4.8, read
+    off a 9.1.3 live install.
+    - **One store, two doors.** `savePos`/`loadPos`/`clearPos`/`applyPos` delegate to the same
+      `Place` handle `/cap move` drags, so a mover drop and a cap drag write the same number and
+      neither can be stale against the other. The host normalises to CENTER/CENTER before it
+      delegates, which is already `Place`'s persisted shape, so nothing converts anything.
+      ⚠ Omitting the delegates was the silent failure available here: the host's fallback is the
+      EllesmereUIActionBars profile table, so every drag would have been written somewhere cap
+      never reads.
+    - ⚠ **`getSize` is read in UIParent's units and `Anchor.GridSize` is in the panel's.** The
+      panel wears `icon_px / 50` as its scale, so the unscaled number would size the mover — and
+      every geometry the host derives from it — wrongly at every icon size but one. Asserted.
+    - ⚠ **`SetScale` is why `Anchor` notifies at all.** The registration installs its own
+      `OnSizeChanged` and `SetPoint` hooks, so an ordinary resize or move already cascades to
+      anchored children with no help; what it cannot see is a panel that kept its width in its
+      own units and now covers more screen. `resizeAnchor` and `regrid` call
+      `EllesmereUI.NotifyElementResized`, and `regrid` calls it **unarmed too** — `/cap grid` is
+      legal with cap drawing nothing, and a mover anchored to an unarmed panel is anchored to a
+      rect that just moved.
+    - ⚠ **Registration is at `PLAYER_LOGIN` with a deferred re-drive, because the host's login
+      timing is CONDITIONAL.** Its `PLAYER_ENTERING_WORLD + 1 s` listener exists only when
+      EllesmereUIActionBars is *absent*; with it installed the apply runs from that addon's own
+      hooks instead. Rather than pick a branch, the bridge re-drives `ReapplyOwnAnchor` and
+      `ReapplyAllUnlockAnchors` a second after registering, which makes the branch moot — a
+      child whose target could not be resolved when the pass ran was skipped and nothing
+      re-drives it on its own.
+    - **FLOWN TWICE 2026-09-01. The first flight found a defect the registration created; the
+      second reached the goal.** ⚠ **The bars hold against the row across a reload, a spec swap
+      and a `/cap grid` change** — which is the thing eight phases of panel work existed to
+      make possible, and it is now done. The defect is the entry below; what the second flight
+      settled is the entry after it.
+
+  - **The auditor measures the icons against the panel, not against the screen** (2026-09-01,
+    v0.23.1) — the fix for what the first flight of the mover element found. **v0.23.0 opened
+    the contention dialog against nobody and re-applied the row twice a second for as long as
+    it was armed.**
+    - **What the capture said**, and it is the whole diagnosis: `stomp:0` (Blizzard's layout
+      never ran), `reassert:0` (nothing called `SetPoint` on an icon — not Blizzard, not the
+      host), `contended:9` with `# displaced n=11` at every 0.5 s sample, and **`X{ok}`
+      throughout**. Right order, wrong frame of reference: the icons were correct *relative to
+      the panel* and wrong *relative to the screen*, and the only thing those two share is the
+      panel.
+    - **The mechanism.** `want` carried an ABSOLUTE coordinate, `anchor:GetLeft() + c.x`, read
+      one line after `Place:Apply()` may have moved the panel — and a `SetPoint` does not
+      update the rect, so the read could answer with where the panel *was*. Idempotent while
+      cap was the only writer, which is why it survived to here; **registering with a mover is
+      what gave the frame a second writer**, and the stale read then locked the delta in
+      permanently, because every "re-apply" recomputed the same wrong number.
+    - ⚠ **The fix does not depend on which sub-cause it was.** Whether the panel disagreed
+      because of the stale rect or because the host was re-placing it, the answer is the same
+      and it removes the class: `want` carries the panel-relative offset only, and the sampler
+      reads the panel's origin **at the moment it looks**. A panel that moves is no longer
+      displacement, which is correct — the icons are anchored to it and are supposed to travel
+      with it. The row's `onPlaced` reschedule went with it: a drag now invalidates nothing.
+    - ⚠ **The client fact underneath is NOT measured.** `knowledge/addon-dev/`
+      `frames-textures-animation.md` §3.7 carries it hedged and `@verify-ingame`, corroborated
+      by a shipping addon's own source comment rather than by us. Nothing in cap depends on it
+      any more — the read was deleted, not worked around.
+    - ⚠ **The instrument could not have told you.** The auditor records every icon's absolute
+      position and never the panel's, so a panel move and eleven icon moves are the same line.
+      That is why `# contended` named a stranger that did not exist.
+
+  - **Protection ships `grid = { cols = 7, rows = 2 }`** (2026-09-01) — because **its own fold
+    cost it an icon on a real character.** Folding before the fifth entry ends the first row
+    *there*, so the two cells past it cannot be reached: at six columns the panel held **ten**,
+    and a measured roster of **eleven** — nine authored plus two the player had enabled in the
+    Essential viewer — dropped one off the row. On v0.21.0, before any break existed, the same
+    eleven fit as 6&nbsp;+&nbsp;5 with `over:0`.
+    - ⚠ **A FOLD AND A PANEL WIDTH ARE ONE DECISION, and `Catalog.Check` cannot see the whole
+      of it.** It measures the catalog's own roster against the catalog's own grid, which is an
+      authoring-time upper bound and correct as far as it goes — but a player's roster is the
+      authored entries **plus every extra they enabled**, extras land in the tail, and the
+      authoring gate has no way to know. Havoc bought seven columns for a twelve-entry roster;
+      Protection needed them for a nine-entry one, and the difference is entirely the fold.
+    - **`/cap grid` was reporting `cols × rows` as capacity, which a fold makes false.** It told
+      the player the row holds twelve while cap held an icon off it for want of a cell. It now
+      names the fold and reports what can be reached, asked of `Anchor.Cells` — the same
+      function that lays the row out, so the two cannot drift. Four tests pin the arithmetic.
+
+  - **What the second flight settled** (2026-09-01, v0.23.1, four sessions across Retribution,
+    Protection and Havoc). Read `raw/cap-anchor.log`; every header says `contended:0`.
+    - **The loop is gone and the healthy signature is there instead.** `disp:0 cont:0` in every
+      session, while `reassert` climbs to 11 and 12 — Blizzard's layout moved the frames and cap
+      answered inside the same call, which is what a working rider looks like. Not the absence
+      of a symptom: the presence of the right one.
+    - **The reading sort is proven** — every `# reapply` reads `X{ok}` with `P{}` and `D{}`
+      agreeing **including the `|` in the same place**, on three different specs. (`# armed`
+      reads `X{MISMATCH}` before placing, which is Blizzard's own order and expected.)
+    - **`/cap grid` re-draws without a re-arm** — three consecutive `# reapply why=grid` with no
+      `# armed` between them.
+    - **A spec swap picks up that spec's own grid AND its own break**, live and mid-session:
+      Retribution folded 4+4, Protection 4+7, Havoc 5+4, each through
+      `# stale` → `# rearmed why=RefreshLayout` → `X{ok}`.
+    - **The catalog tier reached a real client for the first time.** Protection drew **4+7**,
+      which is only possible on the seven columns its catalog declares. **That closes the tier
+      question**: Havoc's own `7 (catalog)` readback is another instance of a shape already
+      proven, and a manual flight tests the shape, not every instance of it.
+    - **Protection's `over:` is 0** where the same character read `over:1` an hour earlier. The
+      wider panel did what it was widened for.
+    - **Parked frames stay out of the reading sort** — `parked:3` with `D{}` carrying exactly
+      the eight planned ids. They sit `+10000` ABOVE the panel, so under a top-descending sort
+      a leak would have put them **first**; they are absent instead.
+    - ➖ Not exercised: the forced overflow case (`/cap grid 3 1` → `over:6`). The ordinary-play
+      half of it is answered.
+
+  - ⚠ **"Does the break hold across a talent change that removes the break entry" WAS NEVER A
+    FLIGHT ITEM, and calling it *the oldest debt in the project* was wrong** (retired
+    2026-09-01). `Anchor.Plan` is pure and `anchor_spec` has covered the fallthrough since
+    Phase 2 — *"the nominal talent change: the break entry is not talented this build"*, plus
+    the case where nothing from the break onward survives. The item was carried across three
+    releases because a plan document kept restating it, and nobody re-read the tests.
+    - **What the client half would have added is already proven.** A talent change and a spec
+      swap reach the same handler by different events, and flight 2 exercised the
+      roster-changed path three times: `# stale` → `# rearmed why=RefreshLayout` → `X{ok}`.
+    - ⚠ **AND THE PREDICTION IN THE FLIGHT NOTES WAS WRONG, which is the actual lesson.** It
+      said a removed break entry drops the fold back to the column clamp — Demonology folding
+      6&nbsp;+&nbsp;2. It does not: `Anchor.lua`'s resolution walks the plan for the first entry
+      whose AUTHORED position is at or after the break, so **the break slides to the next
+      surviving entry** and Demonology folds 5&nbsp;+&nbsp;3. Reading the code answered in a
+      minute what the flight was being held open for, and answered it correctly.
+    - **A test now pins the case the other two missed**: the break entry absent on a roster long
+      enough that the column clamp is a plausible outcome, which is the shape that made the
+      wrong prediction sound reasonable.
+    - **The rule this leaves:** an item belongs on a flight card when the CLIENT is the only
+      thing that can answer it. A pure function's behaviour under a roster change is not that,
+      whoever wrote it down.
+
+  - ⚠ **`wowkb.capture` was reading the wrong file, and had been since cap gained a
+    per-character store** (fixed 2026-09-01). cap declares both `## SavedVariables` and
+    `## SavedVariablesPerCharacter`, so `CombatAssistPlus.lua` exists in two layouts and only
+    the account-wide one holds `CombatAssistPlusDB`. The reader took the newest by mtime, both
+    flush on the same `/reload`, and the tie went to the file with no captures in it — **a
+    92-line session read as "no captures on disk."** It now takes the newest file that actually
+    carries the global. The same trap is live for any addon that declares both.
 
 ### The specs
 
@@ -823,6 +1027,26 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
   so it likely does not cover them. Budget a mapping table, not a predicate.
 
 ## Now
+
+### The folded row's reading model → `backlog/fold-reading-model.md`
+
+Part 0.5 says *scan left to right*; since 2026-09-01 the row folds, and the procedure does not say
+what a second line means. **The fold's MEANING is settled** (top row cooldowns, bottom row
+rotation) — what is open is whether the eye **wraps** across the fold or reads the **bottom row as
+the scan** with the top as a shelf.
+
+⚠ **Two shipped catalogs already bet on the answer without knowing it.** Retribution buys its
+whole interleave with *"elimination walks past Divine Toll and lands on the spender"* — Divine Toll
+is now the last icon of the top row. Protection justifies an **absent** `overcap` cue with *"every
+generator sits below Shield of the Righteous"* — all four generators are now on the other row, and
+a missing cue is invisible when its argument stops holding.
+
+⚠ **No gate models the fold**, so `capart check --all` green says nothing about it: `break_before`
+appears in `capart.py` exactly once (line 1330, emission) and no gate reads it.
+
+**Blocked on one author decision**, which needs three presses in a client and cannot be made from
+the code. The gate work encodes the answer, so it waits rather than the other way round. The
+question is live in `discussion.md` → *A folded row*.
 
 ### Shard projection — anticipate the post-cast count → `backlog/shard-projection.md`
 
@@ -1334,6 +1558,18 @@ spec-and-hero pair is the unit (`authoring.md` §0).
       `knowledge/classes/warlock/destruction/builds.md` carries it.
 
 ## Ideas
+
+- **Five parked items, none blocking anything → `backlog/parked-work.md`.** Written down so they
+  stop being rediscovered and re-argued. **Destruction** — the shipped 47-line pilot and its
+  10-entry document disagree; blocked behind `authoring.md` stage 6, a first catalog review, and
+  the absence of a `catalog.json`, and its press-on-sight abilities are scattered so no cut
+  separates cooldowns from rotation. **Devourer's Vengeful Retreat** — a line in the setup docs,
+  ⚠ never a `viewer` field. **Mover-driven resize** — ⚠ explicitly not the fix for overflow, since
+  a roster-derived grid destroys *"the rect is known at login"*, which the EllesmereUI anchoring
+  depends on. **`RegisterSkin`** for cap's own windows — cosmetics, touches no CDM frame.
+  **`norow` conflates three causes** in `Bind.lua:242` — a diagnostic sharpening, not a fix.
+  ⚠ The Destruction entry carries one correction to make while passing: **`backlog.md:619`'s
+  *"two-entry proof"* is wrong** — the pilot has one entry and two abilities.
 
 - **Say WHY a row is hatched, on hover.** Asked for 2026-08-29, from playing Retribution: three
   rows (Execution Sentence, Wake of Ashes, Divine Toll) read as permanently red with no way to tell

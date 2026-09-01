@@ -2,7 +2,7 @@
 title: Frames, widgets and rendering
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-31   # 2026-08-31: §2.6 gained the StaticPopup dialog-shape facts — GENERIC_CONFIRMATION is two-button by construction, a one-button notice needs its own StaticPopupDialogs entry, and which fields are read generically. Nothing else re-checked
+reviewed: 2026-09-01   # 2026-09-01: §3.7 added — a rect read on the line after the SetPoint that moved it may still be the OLD rect. HEDGED and @verify-ingame: it is inferred from a defect it explains and corroborated by a shipping addon's own source comment, not measured by us. Carries the remedy (express the expectation relative to the anchor frame and read the reference when you compare). 2026-08-31: §2.6 gained the StaticPopup dialog-shape facts — GENERIC_CONFIRMATION is two-button by construction, a one-button notice needs its own StaticPopupDialogs entry, and which fields are read generically. Nothing else re-checked
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `[T1 docs @12.1.0]` / `[T1 src @12.1.0]` / `[T1 xsd @12.1.0]` locators resolve here (612 doc files, 79 ScriptObject tables)
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -10,6 +10,9 @@ sources:
   - Interface/AddOns/Blizzard_SharedXML/UI.xsd (the Tier-1 XML schema)
   - Interface/AddOns/Blizzard_APIDocumentationGenerated/ (592 .lua doc files, 77 ScriptObject tables at 12.0.7.68887)
   - https://github.com/Ketho/BlizzardInterfaceResources (branch live, commit 774b2c550366, "12.0.7 (68256)") — Resources/WidgetAPI.lua for the inheritance graph
+  - "EllesmereUI 9.1.3 (live install, EUI_UnlockMode.lua) — read 2026-09-01 for §3.7's
+    corroboration only. License CUSTOM, ALL RIGHTS RESERVED; read for API discovery only,
+    no code copied"
   - https://warcraft.wiki.gg/wiki/XML/Texture (revid 6776374, 2026-07-19)
   - https://warcraft.wiki.gg/wiki/API_Region_SetVertexColor (revid 6654858, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_TextureBase_SetGradient (revid 6654937, 2026-02-19)
@@ -670,6 +673,28 @@ screen position reads as a different number — every value above is
 `GetLeft() * GetEffectiveScale()`, compared against UIParent's equivalent. And a frame
 that is shown and sized but carries **no anchor** has no resolved rect at all:
 `GetLeft()` returns `nil`, which is not an off-screen position.
+
+### 3.7 A rect read straight after the `SetPoint` that moved it may be the OLD rect
+
+⚠ **`GetLeft()`/`GetTop()` appear to answer from the last resolved rect, not from the anchor
+you just wrote** — a `SetPoint` marks the frame for layout and the rect is recomputed on the
+engine's next pass, so a read on the following line can return where the frame *was*. The
+trap is that it is invisible whenever the write is idempotent, which is the common case: it
+only surfaces the pass on which the position actually changed.
+
+`@verify-ingame` **This is not measured and the claim is deliberately hedged.** A shipping
+addon's own source says the same thing about the same call — its mover computes a corner from
+`GetCenter()` rather than `GetLeft()`/`GetTop()` expressly "to avoid layout-flush timing issues
+where `GetLeft()`/`GetTop()` still reflect the old 1x1 size"
+`[T3 obs: EllesmereUI 9.1.3 (live install) — EUI_UnlockMode.lua, the mover's Sync path, the
+`isTinyAnchor` branch. License CUSTOM, ALL RIGHTS RESERVED; read for API discovery only, no
+code copied]` — which is corroboration from a second party, not a measurement of our own.
+
+**What to do instead:** do not derive a screen-space expectation from a frame you have just
+moved. Either express the expectation **relative to the frame everything is anchored to** and
+read that reference at the moment you compare, or defer the read a frame. The relative form is
+strictly better where it applies: it cannot go stale, and a reference frame that moves stops
+being indistinguishable from every child moving at once.
 
 ---
 

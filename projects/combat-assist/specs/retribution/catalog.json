@@ -4,6 +4,7 @@
   "name": "Retribution / Templar",
   "power": "HolyPower",
   "note": "CANONICAL, hand-edited. Generates CombatAssistPlus/Catalogs/Retribution.lua via `wowkb.capart export catalog retribution`, and the per-ability state table the preview draws. The Templar roster. `power = \"HolyPower\"`: Holy Power is NEVER-SECRET, so unlike Havoc's Fury the `resource` predicate is usable and this is the first catalog where a resource does ordering work. ⚠ `hero` is deliberately unset: the Templar sub-tree id has not been read from a live client, and inventing one would silently bind nothing. Unset means \"any hero tree\", which on Herald of the Sun offers a Templar-authored priority — acceptable while this addon has one Templar user, and the one line to tighten once the id is known. ⚠ The Expurgation row is `383346`, the debuff that LANDS, not `383344`, the passive talent node — confirmed in client 2026-08-19 by icon. It binds only if the player has added Expurgation to Tracked Buffs; if not, `aura:expurgation` reads UNKNOWN and its marker stays DARK rather than reading as \"the DoT is down\".",
+  "break_before": "templars_verdict",
   "abilities": [
     {
       "id": "execution_sentence",

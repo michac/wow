@@ -7,6 +7,7 @@ reviewed: 2026-08-29
 sources:
   - https://us.api.blizzard.com/data/wow/profession/333/skill-tier/2909?namespace=static   # full Midnight Enchanting recipe catalog (Tier 1, game data)
   - https://us.api.blizzard.com/data/wow/recipe/52940?namespace=static                     # per-recipe reagents (Tier 1, game data)
+  - https://wago.tools/db2/SkillLineAbility?build=12.1.0.69214                            # shatter unlock ranks + AcquireMethod (Tier 1, game data)
   - https://www.wow-professions.com/guides/wow-enchanting-leveling-guide                   # the 1-100 route (Tier 3)
   - https://www.wow-professions.com/midnight/enchanting-specialization-guide-and-builds    # spec trees (Tier 3)
   - https://www.method.gg/guides/midnight-enchanting-profession-guide                      # spec trees + KP sources (Tier 3)
@@ -34,7 +35,8 @@ their own gear done can stop caring at 50 and drift the rest.
 
 Midnight Enchanting is skill **1–100** and holds enchants for exactly seven
 equipment slots: **chest · helm · boots · rings · shoulders · weapon · profession
-tool**. Plus rods, wands, oils, illusions, 25 Gleeful Glamours, shatter recipes
+tool**. Plus rods, wands, oils, illusions, 25 Gleeful Glamours, the three
+Shattering recipes (see below)
 and house decor.
 
 ⚠ **There is no back (cloak) or bracer enchant in the Midnight tier.** Anyone
@@ -82,6 +84,76 @@ Wild Magic · 8 Mote of Primal Energy · 4 Mote of Light · 2 Mote of Pure Void*
 This is the single cheapest block of knowledge in the profession and it is
 available immediately. @verify-ingame: count Jennara's stock (24 vs 25) and
 whether the Earthen glamour is sold alongside the rest.
+
+## The Shattering line — mats convert DOWNWARD, one way
+
+Three recipes under **Shattering** (Tier 1, Blizzard recipe endpoint, 12.1):
+
+| Recipe | ID | Unlocked at | Effect |
+|---|---|---|---|
+| **Shatter Essence** | 53915 | skill 1 | Consumes a magical essence for a temporary Resourcefulness / Ingenuity / Multicraft buff — not a mat conversion |
+| **Dawn Shatter** | 57152 | **skill 25** | Disenchant a **Dawn Crystal** → **3 Radiant Shards** |
+| **Radiant Shatter** | 57153 | **skill 50** | Disenchant a **Radiant Shard** → **3 Eversinging Dust** |
+
+**Both shatters are auto-granted — there is nothing to train, buy, drop or spend
+knowledge on.** `SkillLineAbility` (12.1.0.69214) gives them `AcquireMethod: 1`
+(automatically learned) with `MinSkillLineRank` **25** and **50** respectively;
+the same flag carries the starter Runed Refulgent Copper Rod and Recraft
+Equipment. So having Dawn Shatter and not Radiant Shatter just means Enchanting
+skill is between 25 and 49 — **push to 50 and it appears**, which is the same
+milestone the endgame enchants sit behind. Note the inversion: the crystal→shard
+step unlocks *earlier* than the shard→dust step.
+
+So **yes, Radiant Shards convert to Eversinging Dust**, at 1 shard → 3 dust, and
+crystals step down to shards the same way. Output *quality* is capped by the
+input's quality and otherwise scales with Enchanting skill plus the
+**Shard Supplier** (Dawn Shatter) / **Dust Deliverer** (Radiant Shatter)
+specializations. There is **no upward conversion** — dust does not become shards.
+The specializations affect output *quality*, not access: neither shatter is
+gated behind a spec node.
+
+### ⚠ The shatter line is NOT the pre-50 dust faucet
+
+Radiant Shatter unlocking at 50 looks like a chicken-and-egg — 1–50 costs dust,
+and the shard→dust conversion is behind 50 — but it isn't one, because
+**disenchanting is tiered by item quality and the dust tier is baseline**
+(Tier 1, `TraitDefinition` 12.1.0.69214, the three Disenchanting Delegate
+sub-specs):
+
+| Disenchant | Yields | Sub-spec that improves it |
+|---|---|---|
+| **Uncommon** Midnight equipment | **Eversinging Dust** | Dust Deliverer |
+| **Rare** Midnight equipment | Radiant Shards | Shard Supplier |
+| **Epic** Midnight equipment | Dawn Crystals | Crystal Collector |
+
+So the pre-50 supply is **disenchant every green (uncommon) you pick up** —
+quest greens, dungeon greens, cheap AH greens — plus the leveling route's own
+rods, which refund roughly half their dust when you DE them back. The shatters
+are a **surplus tool for the endgame**: they exist because a max-level enchanter
+DEing rare/epic drops drowns in shards and crystals while the dust runs dry.
+Reading them as a leveling faucet is the trap; nothing in the 1–50 route needs
+them.
+
+⚠ The three sub-specs are a **choice**, taken one at a time
+("learning a sub-specialization of your choice" → "another" → "the final one"),
+so Dust Deliverer is not free either — but it only improves yield, it does not
+grant access.
+
+### Feeding it from Tailoring
+
+A Midnight tailor's crafted armor is **rare or epic**, so it disenchants into
+shards/crystals rather than dust; the shattering line is what turns that into
+dust — which means **this loop only works at skill 50+**, and below that a
+tailor cannot self-supply dust at all (see the trap note above: buy or farm
+greens instead). The cheap loop is **Courtly Wrists** (recipe 52185, item 239671, RARE
+ilvl 197, trainer-taught at skill 5): **2 Silverleaf Thread (vendor) + Bright
+Linen Bolts**, no dust in the recipe. Craft → disenchant → Radiant Shatter.
+
+⚠ Don't route this through the **Thalassian Competitor's cloth** set (items
+239677-239685) even though it is the only **UNCOMMON** armor a tailor makes and
+so would disenchant straight to dust: it needs 4 Mote of Primal Energy +
+4 Carving Canine each *and* **Imbued** Bright Linen Bolts, which themselves cost
+Eversinging Dust — the loop spends dust to make dust.
 
 ## Knowledge points
 

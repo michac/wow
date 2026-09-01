@@ -112,14 +112,18 @@ def render_value(v) -> str:
     return _scalar(v)
 
 
-def find_savedvar(name: str, wow_path: str = DEFAULT_WOW) -> str | None:
-    """Newest <name>.lua under any account's SavedVariables, by mtime.
+def find_savedvars(name: str, wow_path: str = DEFAULT_WOW) -> list[str]:
+    """Every <name>.lua under any account's SavedVariables, newest first.
 
     Checks BOTH layouts, because they are not interchangeable and an addon may switch:
       account-wide   WTF/Account/<acct>/SavedVariables/<name>.lua
       per-character  WTF/Account/<acct>/<realm>/<char>/SavedVariables/<name>.lua
     PlannerState uses `## SavedVariablesPerCharacter`, so searching only the first
     layout finds nothing and reports an empty capture rather than a missing one.
+
+    ⚠ An addon declaring BOTH writes the SAME FILENAME in both layouts, and the two
+    hold DIFFERENT globals. Returning a list is what lets the caller pick by content
+    instead of by mtime, which is a coin toss: the two files flush in the same moment.
     """
     patterns = (
         f"{wow_path}/WTF/Account/*/SavedVariables/{name}.lua",
@@ -129,6 +133,12 @@ def find_savedvar(name: str, wow_path: str = DEFAULT_WOW) -> str | None:
     for p in patterns:
         hits.extend(glob.glob(p))
     hits.sort(key=os.path.getmtime, reverse=True)
+    return hits
+
+
+def find_savedvar(name: str, wow_path: str = DEFAULT_WOW) -> str | None:
+    """The newest <name>.lua, by mtime. Prefer `find_savedvars` where the global matters."""
+    hits = find_savedvars(name, wow_path)
     return hits[0] if hits else None
 
 
@@ -211,14 +221,17 @@ def load(addon: str, wow_path: str = DEFAULT_WOW) -> Capture | None:
     name = ADDONS.get(addon)
     if not name:
         return None
-    pth = find_savedvar(name, wow_path)
-    if not pth:
-        return None
-    text = Path(pth).read_text(encoding="utf-8", errors="replace")
-    db = parse_savedvar(text, f"{name}DB")
-    if not isinstance(db, dict):
-        return None
-    return Capture(addon=addon, path=pth, _streams=_asdict(db.get("captures")))
+    # ⚠ NEWEST IS NOT THE SAME AS THE RIGHT ONE. An addon declaring both `## SavedVariables`
+    # and `## SavedVariablesPerCharacter` writes `<name>.lua` in two places, and only the
+    # account-wide one holds `<name>DB`. Both flush on the same `/reload`, so an mtime tie is
+    # decided by the filesystem — cap read as "no captures on disk" for a session that had
+    # written 92 lines. Take the newest file that actually carries the global.
+    for pth in find_savedvars(name, wow_path):
+        text = Path(pth).read_text(encoding="utf-8", errors="replace")
+        db = parse_savedvar(text, f"{name}DB")
+        if isinstance(db, dict):
+            return Capture(addon=addon, path=pth, _streams=_asdict(db.get("captures")))
+    return None
 
 
 # ----------------------------------------------------------------------------- CLI

@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-08-28   # 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
+reviewed: 2026-09-01   # 2026-09-01: §1.1's Essential-vs-Utility consequence strengthened from one sentence to four symbol-anchored 12.1.0 source facts (the two viewer mixins, the two item mixins, the four template differences, the drag table + GetCooldownCategoryChangeStatus); no other claim re-verified this pass. 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
 sources:
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -178,8 +178,39 @@ separately.
 
 > **Consequence for consumers.** Category *within* a family is user-editable placement
 > and tells you nothing (Essential ↔ Utility are interchangeable; so are
-> TrackedBuff ↔ TrackedBar). Family tells you a great deal. Classify on family, not
-> on category.
+> TrackedBuff ↔ TrackedBar). Family tells you a great deal. **Classify on family, not
+> on category** — and never treat Essential-vs-Utility as a property of the spell. It is
+> the player's layout, and four independent facts in the client say so:
+>
+> 1. **The two viewer mixins are the same code twice.** `EssentialCooldownViewerMixin` and
+>    `UtilityCooldownViewerMixin` are both `CreateFromMixins(CooldownViewerCooldownMixin,
+>    EditModeCooldownViewerSystemMixin, ManagedFrameMixin, GridLayoutFrameMixin)` and define
+>    the same four methods — `OnLoad`, `OnShow`, `OnHide`, `OnEvent` — with identical bodies.
+>    Neither adds anything the other lacks.
+>    `[T1 src @12.1.0: CooldownViewer.lua — EssentialCooldownViewerMixin, UtilityCooldownViewerMixin]`
+> 2. **The two item mixins are bare aliases.** `CooldownViewerEssentialItemMixin` and
+>    `CooldownViewerUtilityItemMixin` are each nothing but
+>    `CreateFromMixins(CooldownViewerCooldownItemMixin)`, with no method of their own.
+>    `[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerEssentialItemMixin, CooldownViewerUtilityItemMixin]`
+> 3. **The two item templates differ in four cosmetic values.** `CooldownViewerEssentialItemTemplate`
+>    and `CooldownViewerUtilityItemTemplate` inherit the same two templates and differ only in
+>    `Size` (`50x50` vs `30x30`), `cooldownFont` (`GameFontHighlightHugeOutline` vs
+>    `GameFontHighlightOutline`), the icon-overlay anchor inset (`±9/±8` vs `±6/±5`), and the
+>    `ChargeCount.Current` font (`NumberFontNormal` vs `NumberFontNormalSmall`) — three of the
+>    four following from the first.
+>    `[T1 src @12.1.0: CooldownViewer.xml — CooldownViewerEssentialItemTemplate, CooldownViewerUtilityItemTemplate]`
+> 4. **The drag table permits the move, and the layout manager declines to police it.**
+>    `legalOriginalSourceCategoryToTargetCategory` lets Essential ⇄ Utility ⇄ HiddenActive all
+>    reach each other, and lets no edge cross into the aura family
+>    `[T1 src @12.1.0: CooldownViewerSettings.lua — legalOriginalSourceCategoryToTargetCategory]`;
+>    `GetCooldownCategoryChangeStatus` does not check the category at all, saying so in
+>    Blizzard's own comment — *"for now it doesn't check that the category on this cooldown can
+>    be reassigned; only that we're allowed to make layout changes."*
+>    `[T1 src @12.1.0: CooldownViewerSettingsLayoutManager.lua — GetCooldownCategoryChangeStatus]`
+>
+> The one difference that is real is the **size**: a Utility item frame is `30px` where an
+> Essential one is `50px`. An addon hardcoding the Essential template's `50` is describing one
+> viewer, not the family.
 
 ### 1.2 `HideByDefault` — a row that exists in the data and never gets a frame
 

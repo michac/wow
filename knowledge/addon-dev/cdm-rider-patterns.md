@@ -2,7 +2,7 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-08-31   # 2026-08-31: §4.7 added — the viewer's layout fields and their Tier-1 defaults, the real column gap (iconPadding + GetAdditionalPaddingOffset() = 5 + (-4) = 1, not 5), the 50px item template, and the iconScale DOUBLE-COUNT trap (SetScale leaves GetWidth at 50, so a rider matching effective scale must not multiply it in again). 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
+reviewed: 2026-09-01   # 2026-09-01: §4.8 added — EllesmereUI's unlock-mode element registration read from a 9.1.3 live install: the array/colon vs table/dot call shapes, the one flat key namespace, getSize being read in UIParent units (so a self-scaled element must multiply its own-unit size in), savePosition's SEVEN arguments and loadPosition's single-table return, the asymmetric noResize prune that touches MATCHES and never ANCHORS, and the login-timing trap — the PLAYER_ENTERING_WORLD+1s listener exists only when EllesmereUIActionBars is ABSENT. 2026-08-31: §4.7 added — the viewer's layout fields and their Tier-1 defaults, the real column gap (iconPadding + GetAdditionalPaddingOffset() = 5 + (-4) = 1, not 5), the 50px item template, and the iconScale DOUBLE-COUNT trap (SetScale leaves GetWidth at 50, so a rider matching effective scale must not multiply it in again). 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
@@ -13,6 +13,9 @@ sources:
   - "EllesmereUI 9.0.8 (live install, EllesmereUI + EllesmereUICooldownManager) — read
     2026-08-31 for the two-riders-on-one-frame hazard and the conflict-table surface.
     License CUSTOM, ALL RIGHTS RESERVED; read for API discovery only, no code copied"
+  - "EllesmereUI 9.1.3 (live install, EllesmereUI/EllesmereUI.lua + EllesmereUI/EUI_UnlockMode.lua)
+    — read 2026-09-01 for §4.8, the unlock-mode element-registration surface. License CUSTOM,
+    ALL RIGHTS RESERVED; read for API discovery only, no code copied"
   - "Blizzard UI source 12.1.0 — Blizzard_ActionBar, Blizzard_SharedXML/BindingUtil.lua, Blizzard_APIDocumentationGenerated/ActionBarFrameDocumentation.lua"
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Blizzard_APIDocumentationGenerated/LuaDurationObjectAPIDocumentation.lua, UnitDocumentation.lua. `[T1 docs @12.1.0]` locators resolve here
 confidence: medium
@@ -727,6 +730,111 @@ Two consequences for a rider that wants a container with an honest rect:
 @verify-ingame Confirm that changing Edit Mode's Cooldown Manager icon-size slider updates
 `EssentialCooldownViewer.iconScale` immediately (before any frame is re-pooled), which is
 what the `CooldownViewerSettings.OnDataChanged` callback is being relied on to signal.
+
+### 4.8 Offering your own frame to EllesmereUI's mover, so other UI can anchor to it
+
+The sections above are about riding Blizzard's viewer. This one is the other direction: you
+have drawn a panel of your own and you want the player to be able to hang somebody else's
+bars off it. EllesmereUI's unlock mode (`/eui`) is a general mover with an anchor graph, and
+it takes registrations from foreign addons — so the cheapest route to "my panel is a thing
+other UI can attach to" is to register the panel as one of its elements.
+
+⚠ **The whole surface below is `[T3 obs: EllesmereUI 9.1.3 (live install) — EllesmereUI.lua,
+EUI_UnlockMode.lua]`.** License CUSTOM, ALL RIGHTS RESERVED; read for API discovery only, no
+code copied. ⚠ **A live install updates itself.** Every locator here is a **symbol**; re-resolve
+it by name before relying on anything, and expect the line numbers around it to have moved.
+
+#### The two entry points
+
+`EllesmereUI.RegisterUnlockElements` is the registration and lives in `EUI_UnlockMode.lua`,
+together with `NotifyElementResized`, `ReapplyOwnAnchor`, `ReapplyAllUnlockAnchors`,
+`ValidateStoredLinks` and the `SaveBarPosition` / `LoadBarPosition` / `ClearBarPosition`
+trio. `MakeUnlockElement` lives in the base file, `EllesmereUI.lua`.
+
+- **`RegisterUnlockElements` is a COLON call taking an ARRAY** plus an owning-folder string:
+  `Host:RegisterUnlockElements({ elem }, "<folder>")`. It reads its own registry off `self`.
+- **`MakeUnlockElement` is a DOT call taking one options table**, and it is **optional**. All
+  it does is copy the options through and rename four short field names (`savePos`,
+  `loadPos`, `clearPos`, `applyPos`) to the long ones the rest of unlock mode uses
+  (`savePosition` …). `RegisterUnlockElements` performs the same aliasing itself, from its own
+  `FIELD_ALIASES` table, so the short names work either way.
+- Registration is wrapped: a later definition of `RegisterUnlockElements` calls the original
+  and then, after a short deferral, installs `OnSizeChanged` and `SetPoint` hooks on the
+  element's frame (`HookFrameSizeChanged`). ⚠ **This is why an ordinary move or `SetSize` of
+  your own frame needs no notification from you** — the `SetPoint` hook fires
+  `NotifyElementMoved`, which drives `PropagateAnchorChain`, and children follow.
+- To load first, declare the host in your `.toc`: `## OptionalDeps: EllesmereUI`.
+
+#### The element table
+
+- **`key` is ONE FLAT GLOBAL NAMESPACE** across every addon that registers — the registry is
+  a plain `[key] = elem` map. Two addons choosing the same key silently clobber each other, so
+  prefix it.
+- **`getFrame(key)`** resolves the frame; it is called from hot paths and every call site
+  guards on its result, so it must be side-effect-free.
+- **`getSize(key)`** is *effectively* required. It feeds the mover's own geometry and the cog's
+  Width/Height boxes, and a returned `w < 10` is forced to **100**, `h < 10` to **30**. It may
+  return a third value, a centre-Y offset. ⚠ **IT IS READ IN UIParent's COORDINATE SPACE.**
+  When a live frame exists the mover computes the same quantity as
+  `frame:GetWidth() * frame:GetEffectiveScale() / UIParent:GetEffectiveScale()`, and `getSize`
+  fills the same slot — so an element that scales ITSELF must multiply its own-unit size by its
+  scale before returning it. `ConvertToCenterPos`'s arithmetic fallback reads it the same way.
+- **`isHidden` takes NO arguments.** Returning true removes the mover.
+- **`isAnchored` is called BOTH with and without a key** in the shipped code. Tolerate both.
+- **`noResize = true`** hides the drag-resize handles. What it costs is *matching*, not
+  anchoring: `ValidateStoredLinks` prunes stored width/height **matches** asymmetrically — a
+  *child* with `noResize` is pruned unless it also declares `allowMatchSource`, and a *target*
+  with `noResize` is pruned unconditionally. **Stored ANCHORS are pruned only for a missing
+  endpoint and never consult `noResize` at all.** It runs on unlock-mode open, not at login.
+- **`noAnchorTarget` and `noAnchorTo` are what you must NOT declare** if the point of
+  registering is to be anchored to.
+
+#### Delegating the saved position
+
+`SaveBarPosition` / `LoadBarPosition` / `ClearBarPosition` each call the element's own function
+when one is registered, and otherwise fall through to `GetPositionDB()` — which is the
+**EllesmereUIActionBars profile table** and returns nil when that addon is absent. ⚠ **Omit the
+delegates and a drag is silently lost.**
+
+Two shape traps, both worth stating because they are not what the field names suggest:
+
+- **`savePosition` receives SEVEN arguments**, not four: `(key, point, relPoint, x, y,
+  prePoint, preRelPoint)`. `ConvertToCenterPos` runs **before** the delegation, so args 2–5
+  arrive already normalised to `CENTER`/`CENTER` with `x`/`y` as the frame's centre offset from
+  UIParent's centre in UIParent units; args 6–7 are the pre-conversion point and relPoint, for
+  elements whose stored footprint convention differs.
+- **`loadPosition` returns a SINGLE TABLE**, not four values: `{ point, relPoint, x, y }`. The
+  centralized apply path honours it only when both points are `CENTER`.
+
+`applyPosition(key)` is called first in the login pass — its documented purpose is to let an
+addon *build* its frames — and the centralized grow-direction apply then overrides it, unless
+`isAnchored(key)` is true, an unlock-mode anchor owns the element, or `noInitHook` is set.
+
+#### Login timing — do not rely on a fixed event
+
+⚠ **"PLAYER_ENTERING_WORLD plus one second" is CONDITIONAL.** That listener is registered
+**only `if not EAB`** — only when EllesmereUIActionBars is *absent*. With it installed
+(the common case in the suite), `ApplySavedPositions` is driven from the action-bar addon's
+own hooks instead: synchronously from `EAB:OnInitialize`, and 0.6 s after `EAB:ApplyAll`.
+
+The robust shape is therefore to **register as early as you can and re-drive the anchors
+yourself afterwards**, which makes the branch moot: register at `PLAYER_LOGIN`, then on a
+deferral call `EllesmereUI.ReapplyOwnAnchor(key)` and `EllesmereUI.ReapplyAllUnlockAnchors()`.
+The second matters more than the first for a frame registered as a **target**: a child whose
+target could not be resolved when the pass ran was skipped, and nothing re-drives it on its
+own.
+
+#### Telling the host your frame changed size
+
+**`EllesmereUI.NotifyElementResized(key)` is a DOT call.** It re-applies the element's own
+stored position, propagates width/height matches, and schedules the anchor cascade to children
+on the axis that actually changed.
+
+⚠ **The case it exists for is a footprint change with no `SetSize`** — most sharply, a
+`SetScale`. The registration's automatic `OnSizeChanged` hook covers a real resize; it cannot
+see a frame that kept its width in its own units and now covers more of the screen. It
+early-returns while unlock mode is open (the mover owns positioning then) and while a match
+propagation is in flight.
 
 ## 5. Resolving an icon's spell ID — the clean-cache pattern
 

@@ -1057,3 +1057,18 @@ whether the triggered spell is the one carrying `CumulativeAura` / `DurationInde
 whether the generator should surface it as its own row or as a `triggers:` column.
 
 Not fixed, not scoped — parked here deliberately rather than half-implemented.
+
+## Two addon-dev gaps from the cap anchoring work (2026-09-01)
+
+Both are **unverified** and neither is written anywhere in `knowledge/addon-dev/`. ⚠ **Write them
+only when measured** — they are the kind of claim that reads plausible and would be built on.
+
+- **`ResizeLayoutMixin` self-sizing** — whether a frame using it resizes itself from its children,
+  and when. Came up while deciding whether cap's row panel could take its size from its roster;
+  cap deliberately does not (the rect must be known at login), so nothing depends on the answer
+  today.
+- **Managed-frame ownership of a viewer in its default position** — whether Blizzard's Edit Mode
+  manager still owns a Cooldown Manager viewer that has never been moved, and what that costs a
+  rider. Adjacent to `cdm-rider-patterns.md` §4.6/§4.7 but not answered by either.
+
+Both are ClientLab-shaped: one test each, `projects/addon-lab/`.

@@ -636,7 +636,7 @@ catalog is cap's — but the *placement* is the player's screen, so two controls
 One gesture for all of cap's furniture: the question a player has is where they want it, not
 which piece to unlock first.
 
-Nine properties are the whole of the promise, and each is a boundary rather than a feature:
+Eleven properties are the whole of the promise, and each is a boundary rather than a feature:
 
 - **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
   written. No row is added or removed, and none is hidden except under the parking rule below.
@@ -672,16 +672,35 @@ Nine properties are the whole of the promise, and each is a boundary rather than
   across sessions, and used as an anchor by other UI. Its size is known at
   login rather than measured, so nothing about it waits for the Cooldown Manager to draw. **A
   roster longer than one row wraps onto the second**, at a break the catalog may name and at the
-  panel's edge regardless; it no longer runs off the side. ⚠ **What that costs is stated in
-  §3.1 and is not yet settled**: a wrapped row is two lines, and *"left to right, press the
-  first thing not ruled out"* does not say by itself whether the second line continues the scan
-  or sits beneath it. Four of the six specs are long enough to ask it, and the question is open. ⚠ **A
+  panel's edge regardless; it no longer runs off the side. Four catalogs name one
+  — Retribution before `templars_verdict`, Demonology before `implosion`, Protection before
+  `avengers_shield`, Havoc before `blade_dance` — **so the top row is the cooldowns and the bottom
+  the rotation presses.** Havoc also declares `grid = { cols = 7 }`, which is what makes that true
+  of it: at six columns a twelve-entry roster admits exactly one fold point, and that one put a
+  rotational press on the cooldown row and Havoc's second-highest-priority button at the head of
+  the rotation row. ⚠ **What that costs is not yet settled, and the file that owns
+  it is `render-shelf.md` Part 0.5**, which owns the scan procedure §3.1 delegates to: a
+  wrapped row is two lines, and *"left to right, press the first thing not ruled out"* does not
+  say by itself whether the second line continues the scan or sits beneath it. Four of the six
+  specs are long enough to ask it, and the question is open. ⚠ **A
   consequence, stated because it is a change and not an oversight:** the row no longer follows
   the Cooldown Manager's own placement. Moving the Essential viewer in Edit Mode moves
   Blizzard's row and leaves cap's where the player put it. The first time cap orders, the
   position is seeded from wherever the viewer had drawn, so the login that hands the row a
   position of its own does not appear to move it; `/cap move reset` clears the seed and takes
   it from the viewer again.
+
+- **Where a mover exists, cap offers the row to it.** Being anchorable is only half a promise if
+  every other addon has to be told the frame's name by hand, so cap registers the row with
+  EllesmereUI's mover as an element other UI may anchor to. What the player gets is the row in
+  `/eui`'s unlock list, draggable there and available as an anchor target for anything else that
+  addon places — power bars, a cast bar. It is **entirely optional**: with EllesmereUI absent
+  nothing about cap changes, and cap asks nothing of it in return.
+  ⚠ **There is still only ONE saved position.** A drag in the mover and a drag under `/cap move`
+  write the same stored place, so the two cannot disagree and neither is a second copy to keep in
+  sync. And cap declines *resize* there and only resize: the grid is `/cap grid`'s, per the bullet
+  below, and a mover-driven resize would make the row's rect depend on what is riding it — which
+  is the property everything anchored to it depends on not being true.
 
 - **The catalog proposes the shape, the player disposes, the token is the floor — and the icon
   size is the player's alone.** How many cells the row has is `cols` x `rows`, resolved in three

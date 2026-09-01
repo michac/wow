@@ -5,6 +5,7 @@
   "name": "Demonology / Diabolist",
   "power": "SoulShards",
   "note": "Soul Shards are one of the seven NEVER-SECRET power types, so the largest decision in the spec — do I have five shards for Tyrant — is an exact Lua comparison rather than a curve. Base spell ids only: Bind unions base/override/tooltip/live into the row, so neither transform needs a hardcoded override id.",
+  "break_before": "implosion",
   "abilities": [
     {
       "id": "power_siphon",

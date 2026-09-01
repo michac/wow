@@ -4,6 +4,8 @@
   "hero": 34,
   "name": "Havoc / Fel-Scarred",
   "note": "CANONICAL, hand-edited. Generates CombatAssistPlus/Catalogs/Havoc.lua via `wowkb.capart export catalog havoc`, and the per-ability state table the preview draws. The Fel-Scarred roster; Aldrachi Reaver (hero 35) is a separate catalog and correctly gets nothing. Gameplay choices are provisional characterizations to fly. No `power` field: Fury is a secret primary, so the `resource` predicate can never be used on this spec. Base spell ids only — Bind unions base/override/tooltip/live into the row, so the demon-form flip needs no hardcoded override ids.",
+  "break_before": "blade_dance",
+  "grid": { "cols": 7 },
   "abilities": [
     {
       "id": "vengeful_retreat",

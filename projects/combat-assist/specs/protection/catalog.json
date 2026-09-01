@@ -3,6 +3,11 @@
   "spec": 66,
   "name": "Protection / Lightsmith",
   "note": "CANONICAL, hand-edited. Generates CombatAssistPlus/Catalogs/Protection.lua via `wowkb.capart export catalog protection`, and the per-ability state table the preview draws. The Lightsmith roster; Templar is a separate catalog authored later, not a second overlay bolted on here. ⚠ `hero` is deliberately unset: the Paladin hero sub-tree ids have not been read from a live client, and inventing one would silently bind nothing. Unset means \"any hero tree\" — and unlike Retribution, whose roster was spec-wide, THIS roster is Lightsmith-specific, so a Templar Protection Paladin gets a catalog built around an armament row their build does not have. That is real exposure, not a formality. ⚠ NO `power` field, measured rather than omitted: the 12.1 Protection priority list carries no `holy_power` term of any kind. \"Paladin ⇒ declare HolyPower\" is exactly the inference the second Paladin catalog invites, and it is wrong. ⚠ NO row declares `charged`, and four of them would want to — this repo carries no Tier-1 charge count for Holy Armaments, Shield of the Righteous or Crusader Strike, and Judgment's second charge is talent-conditional. The consequence is that `capped` has no subject anywhere in this catalog. Base spell ids only: Bind unions base/override/tooltip/live into the row, so neither the Sacred Weapon nor the Hammer of Wrath transform needs a hardcoded override id.",
+  "grid": {
+    "cols": 7,
+    "rows": 2
+  },
+  "break_before": "avengers_shield",
   "abilities": [
     {
       "id": "avenging_wrath",
@@ -175,7 +180,9 @@
     {
       "id": "divine_toll",
       "ability": "divine_toll",
-      "defeat": [1],
+      "defeat": [
+        1
+      ],
       "note": "Rung 7, the spec's largest Holy Power injection, and it belongs inside Wings. ⚠ The rung has two disjuncts and only the second is authorable: the first is `buff.avenging_wrath.up`, and whether a Category-3 (TrackedBar) row raises the `aura` latch's alert edges is UNMEASURED. A latch on an unmeasured edge is a hold that may never release, so it is not authored.",
       "markers": [
         {
@@ -329,7 +336,10 @@
     {
       "id": "holy_armaments",
       "ability": "holy_armaments",
-      "defeat": [3, 4],
+      "defeat": [
+        3,
+        4
+      ],
       "note": "Rungs 10 / 14, 23. One button, two jobs. ⚠ Rung 23's charge dump is not authored and the reason is the ROW ORDER, not missing data (Defeats, item 4).",
       "markers": [
         {
@@ -504,7 +514,9 @@
     {
       "id": "avengers_shield",
       "ability": "avengers_shield",
-      "defeat": [6],
+      "defeat": [
+        6
+      ],
       "note": "Rungs 13 and 18. It FEELS like the top of the rotation and rung 18 is the low unconditional one, with three rungs between it and rung 13. Only Glory of the Vanguard genuinely puts it first — which is why the Vanguard term is a READABLE GATE on a sealed display, the `when`-beside-`display` shape. Without it the hatch would rule out the row in the one state rung 13 puts it first.",
       "markers": [
         {
@@ -681,7 +693,9 @@
     {
       "id": "consecration",
       "ability": "consecration",
-      "defeat": [2],
+      "defeat": [
+        2
+      ],
       "note": "Rungs 15, 19, 24 and 29. ⚠ Rungs 19 and 24 are now expressed on a BLESSED ASSURANCE build, as a V16 presence band on the player aura 188370 -- not as an `aura` latch, so the unmeasured Category-3 alert-edge question is bypassed rather than answered. On a Divine Guidance build they remain unmodelled, because rung 15 presses Consecration with the field up on a count cap may not read (Defeats, item 2).",
       "markers": [
         {
@@ -839,7 +853,9 @@
     {
       "id": "judgment",
       "ability": "judgment",
-      "defeat": [5],
+      "defeat": [
+        5
+      ],
       "note": "Rungs 17, 22 / 16. ⚠ Rung 17 is not authored — the second-charge dump, and `charged` is undeclarable on this spec.",
       "markers": [
         {
