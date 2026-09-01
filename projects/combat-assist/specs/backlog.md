@@ -496,6 +496,50 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       arithmetic says, and that parked frames stay out of the reading sort — they are absent
       from `P.tracked` and would sort ahead of the first row if a future edit walked `P.claimed`
       instead. `X{MISMATCH}` with matching ids either side of a differing `|` is the signal.
+  - **The panel's grid is the player's, per spec and hero tree** (2026-08-31), which is
+    `spec.md` §3.9's ninth property. `cols`, `rows` and `icon_px` are ONE setting with three
+    fields; `/cap grid` reads it back and sets it, `/cap grid reset` returns to the token.
+    - ⚠ **This closed a defect Phase 2 shipped with, found by asking what happens when a break
+      puts more than six on a row.** The answer was: cap drew a **third row, outside the
+      panel** — `Anchor.Cells` wrapped at `cols` but never saw `rows`, so it structurally could
+      not clamp, and a test written the same day asserted the third row as expected behaviour.
+      It was not a regression: before Phase 2 an over-long roster ran off the RIGHT edge, so
+      overflow-outside-the-rect is as old as the panel. Phase 2 rotated it and made it rarer.
+      **The reason it matters more now is Phase 3:** the panel's rect is what other UI anchors
+      to, and icons outside it make that rect a lie.
+    - **An icon with no cell is held off the row**, counted as `over:<n>` in the anchor capture,
+      beside `parked:<n>` and deliberately not merged with it. The two have different causes and
+      different fixes: a parked icon is one cap can no longer place in the order, an overflowed
+      one is still in the order and merely has nowhere to go — and the fix for it belongs to the
+      player. Merging them would repeat what `norow` does wrong (`Bind.lua:242`).
+    - ⚠ **Overflowed frames stay in `P.tracked` and had to be kept out of the reading sort.**
+      They sit at the park offset, `+10000` above the panel, and `ReadOrder` sorts on top
+      descending — so ONE overflowed frame would have sorted ahead of everything and been read
+      as the entire first row. `Drawn` judges position over the placed frames only and identity
+      over all of them. This is the same trap the parked frames are exposed to, arrived at from
+      the other direction.
+    - **Keyed on spec AND hero tree, not on the character**, because what the grid has to fit is
+      a roster and a roster is chosen by the catalog — Fel-Scarred and Aldrachi Reaver are two
+      different lengths on one character. Per-character would size every spec for the longest
+      one; per-account would do it across every character. It lives in `ns.cdb` beside
+      placement, on Place.lua's reasoning.
+    - **Validated on READ, not only on write.** Saved variables are a file a player can edit and
+      a build can roll back into, so a stored string or an out-of-range number falls back to the
+      token rather than propagating into geometry. `cell_px` and `gap_px` are deliberately NOT
+      settable: `cell_px` is floored at the item template's own 50 and a narrower cell overlaps
+      its neighbour in panel units — shrinking icons is `icon_px`'s job, and exposing both would
+      be two knobs for one outcome, one of which silently draws icons on top of each other.
+    - ⚠ **`Catalog.Check` is demoted, honestly.** It reads `cols`/`rows` from the tokens, so it
+      now answers "does this catalog fit a DEFAULT panel" — an authoring question, and the right
+      one at author time, but not a guarantee for any given player. Its messages say `DEFAULT`
+      in those words. The runtime clamp is what holds.
+    - **Not yet flown.** What the tests cannot reach: that `/cap grid` re-draws without a
+      re-arm, that a spec swap picks up that spec's own grid, and that overflowed icons actually
+      leave the row rather than stacking at its corner. `over:<n>` in the capture should be 0
+      unless the grid is genuinely too small.
+    - **@pending Phase 3** — a grid change resizes the panel without a `SetSize` any mover has
+      hooked, which is exactly the case `EllesmereUI.NotifyElementResized` exists for (step 25).
+      `regrid` is where that call goes.
 
 ### The specs
 

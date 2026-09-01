@@ -636,7 +636,7 @@ catalog is cap's — but the *placement* is the player's screen, so two controls
 One gesture for all of cap's furniture: the question a player has is where they want it, not
 which piece to unlock first.
 
-Eight properties are the whole of the promise, and each is a boundary rather than a feature:
+Nine properties are the whole of the promise, and each is a boundary rather than a feature:
 
 - **It re-anchors, and only re-anchors.** The player's saved Cooldown Manager layout is never
   written. No row is added or removed, and none is hidden except under the parking rule below.
@@ -682,12 +682,34 @@ Eight properties are the whole of the promise, and each is a boundary rather tha
   position of its own does not appear to move it; `/cap move reset` clears the seed and takes
   it from the viewer again.
 
+- **The panel's size is the player's, per spec.** How many cells the row has — `cols` x `rows`
+  — and how big an icon is are one setting, stored per specialisation and hero tree, because
+  what the grid has to fit is a *roster* and a roster is a property of the spec. `/cap grid`
+  reads it back and sets it; the authored token is the default it falls back to, and
+  `/cap grid reset` returns to it. It is stored beside placement, per character, for the same
+  reason placement is: it is about this character's screen rather than an opinion about the
+  addon. ⚠ **The consequence is that a catalog's authoring gate can only speak for the default
+  panel.** `Catalog.Check` refuses a roster that does not fit a *default* row and says so in
+  those words; what protects a real player is the runtime clamp in the next bullet.
+
+- **An icon with no cell comes off the row, and cap says how many.** A roster longer than the
+  grid does not spill: it stops at the last cell, and the remainder is held off the row the way
+  a parked icon is. The argument is §3.1's, the same one parking rests on — a row that reads as
+  a priority scan while part of it is drawn outside that row is worse than a row that is short —
+  and it is now also what keeps the panel's rect honest, since other UI anchors to that rect and
+  icons drawn below it make it a lie. ⚠ **It is counted separately from parking and deliberately
+  not merged with it.** A parked icon is one cap can no longer *place in the order*; an
+  overflowed icon is still in the order and merely has nowhere to go, and the fix for it is the
+  player's (`/cap grid`) rather than cap's. The capture reports `over:<n>` beside `parked:<n>`
+  for exactly that reason.
+
 - **cap sets the icon size, and hands it back.** The panel's cells are cap's own geometry, so
   the icons in them are drawn at cap's size rather than the one Edit Mode's Cooldown Manager
   slider sets. This is stated as a promise because it is visible: while ordering is on, that
   slider does not change cap's row. The default is Blizzard's own 50px, so nothing moves for a
   player who has not asked for a different size, and turning ordering off restores the slider's
-  value along with the order. ⚠ **The alternative was tried first and is what this replaces.**
+  value along with the order. The size a player *does* ask for is set with `/cap grid`, per the
+  bullet above — cap owning the size is what makes it settable at all. ⚠ **The alternative was tried first and is what this replaces.**
   Following the slider made icon size an input cap had to chase across every re-pool, and a
   size cap does not control is one its badges and bands cannot be sized against — the reason a
   count band sized at arm time went stale. Ownership is what makes the row's geometry answerable

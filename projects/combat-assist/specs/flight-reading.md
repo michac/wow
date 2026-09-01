@@ -202,8 +202,15 @@ t131.7 # stomp RefreshLayout destructive=1 combat=1
 
 - `A{}` is the plan: `n` frames placed, `named` of them in the catalog's authored order,
   `extra` rows the catalog does not name (they keep client order behind the named ones),
-  `miss` authored entries with no live row on this build, and `parked` icons cap has moved OFF
-  the row and is holding offscreen.
+  `miss` authored entries with no live row on this build, `parked` icons cap has moved OFF
+  the row and is holding offscreen, and `over` icons that are still in the order but had no cell
+  in the panel to go in.
+- ⚠ **`over` is the player's to fix, not cap's.** It means the roster is longer than the grid
+  they have set for this spec. The icons are held offscreen rather than drawn below the panel,
+  because the panel's rect is what other UI anchors to. `/cap grid <cols> <rows>` is the answer,
+  and `/cap grid` on its own reads back what is set and what is being drawn. A steady non-zero
+  `over` with no complaint from the player usually means extras — abilities enabled in the
+  Essential viewer that the catalog does not name — rather than an authoring mistake.
 - ⚠ **`miss` and `parked` are different failures and only one is a fault.** A `miss` is an
   authored entry the Cooldown Manager never made a row for — normal, and usually an ability
   with no cooldown. A `parked` icon is one cap moved and then lost its place for: it exists,
