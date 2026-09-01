@@ -1,5 +1,11 @@
 # Plan — breakpoints, a per-spec grid authors can ship, and then EllesmereUI
 
+> Archived after its first phase executed. The three-tier grid it calls "Phase 2.5a" shipped;
+> what remained was carried into a replacement plan at `../ellesmere-mover-plan.md`, which
+> renumbers the phases and drops the `2.5x` decimals this file accumulated. **Read this one for
+> the ARGUMENTS** — the Protection reorder refusal, the Destruction pilot correction, the
+> generated-catalog discovery — which the replacement cites rather than restates.
+
 **Status: an approved plan, not an authority.** A temporary migration artifact in the sense
 `CLAUDE.md` gives that phrase, alongside `simplification-plan.md`. As each phase lands its
 outcome goes to `backlog.md` → `## Status` and its promises to `spec.md`; this file is deleted
