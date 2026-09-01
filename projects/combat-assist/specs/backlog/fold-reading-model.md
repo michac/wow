@@ -4,92 +4,50 @@
 carries the one-line entry that points here; this file holds the question, the steps and the
 traps. It is deleted when the work lands and `notes.md` records the round.
 
-**It is blocked on ONE author decision** that cannot be made from the code, and everything
-after that decision is mechanical. Do not start the mechanical half first — the gate work
-*encodes* the answer.
+**The author decision is MADE (2026-09-01) and only the mechanical half is left** — the gates,
+step 3. This file is deleted when they land and `notes.md` records the round.
 
-## The question
+## The decision — MADE 2026-09-01
 
-`render-shelf.md` Part 0.5 defines the whole interaction as a two-pass walk:
+**A folded row reads like a book: the whole top line, then the whole bottom line.** One walk,
+priority order continuing across the break. The author's call, from play, and it is recorded in
+`render-shelf.md` Part 0.5 → *The fold*. The rejected alternative (bottom row is the scan, top row
+a shelf you check) would have made Part 0.5 two procedures and re-opened every treatment under it.
 
-```
-pass 1 — scan left to right for a POSITIVE cue. If one is present, press it.
-pass 2 — scan left to right, skipping swiped / red-cued / hatched items.
-         press the first item that survives.
-```
+**Both shipped catalogs that bet on this survive unedited** — Retribution's interleave badge still
+walks past Divine Toll; Protection's absent `overcap` cue is still justified because the walk
+still reaches the four generators after Shield of the Righteous. That second one was the reason to
+decide rather than default: a missing cue is invisible, so nothing would have said it broke.
 
-It says **left to right**. Since 2026-09-01 the row folds — four catalogs author a break, and
-Retribution, Protection, Havoc and Demonology all draw two lines in a real client. The procedure
-does not say what a second line means.
+**The origin, now recorded in the shelf:** the break is a **width** fix. Several specs' CDM rows
+were getting awkwardly wide, raised during the EllesmereUI anchoring work. The
+top-cooldowns/bottom-rotation meaning came after and is binding on future breaks.
 
-**What is already settled and is not up for discussion:** the fold's *meaning*. The top row is
-the cooldowns, the bottom row is the rotation presses. That is a constraint on future breaks,
-not a description — `backlog.md` → `## Status` carries how it was arrived at.
+⚠ **What the decision does NOT dissolve.** The top line is walked first on every scan and its
+icons are eliminated most of the time — the author's *"I'm always paying the scan tax when I
+don't [need them]"*. That is not a reading-model defect; it lands on V11's hatch, and it is
+`backlog.md` → *The hatch is paid on every scan*. Demoting the cooldowns was considered by the
+author and rejected: it strands the rotational buttons instead.
 
-**What is open is what the eye does:**
+⚠ **One residual, answerable only in play, not blocking:** the break sits directly in front of a
+gold positive cue in two specs (Demonology's `implosion`, Havoc's `immolation_aura`). Pass 1 is
+meant to make position irrelevant — does heading its own row help or hurt? Fold it into the next
+session on either spec.
 
-- **WRAP** — the fold is a line break. One walk, top-left to bottom-right, priority continuing
-  across it. Part 0.5 gains a sentence; the gates learn a seam.
-- **SHELF** — the bottom row *is* the scan; the top row is a thing you check rather than walk.
-  Two reads, not one wrap, which makes Part 0.5 two procedures and re-opens every treatment
-  underneath it.
+**Steps 2 and 3 below are now unblocked, and step 2 is DONE:** Part 0.5 carries the fold, Part 2.5
+was checked and does not move (composition is per row), and `havoc/catalog.md:10` no longer says
+"single-row". **What remains is step 3, the gates.**
 
-## Why this is not cosmetic — two shipped catalogs already bet on the answer
+## Step 2 — the shelf — DONE 2026-09-01
 
-⚠ **Both bets were made while the row was one line, and neither author knew they were betting.**
-
-**Retribution buys its whole interleave with one badge.** `retribution/catalog.md:194-196`:
-*"elimination walks past Divine Toll and lands on the spender."* Divine Toll is now the **last
-icon of the top row** and Templar's Verdict the **first of the bottom**. Under WRAP the argument
-stands exactly as written. Under SHELF you never walk past Divine Toll — you start at the
-spender — so the badge buys nothing and the interleave is correct *by accident*, which stops
-being correct the next time the order moves.
-
-⚠ **Protection justifies an ABSENT cue, and that is the dangerous one.**
-`protection/catalog.md:526-528`: *"every generator in this catalog … sits below Shield of the
-Righteous at position 3, so at cap the walk stops on the spender and never reaches them."* All
-four generators are on the bottom row; SotR is on the top. Under SHELF the walk **starts** among
-those generators and reaches them *before* SotR — the ordering that made the cue unnecessary is
-inverted. **A missing cue is invisible.** Nothing on screen will say the argument stopped
-holding, and no gate will either.
-
-**And one more the same session answers.** The break sits directly in front of a gold positive
-cue in two specs — Demonology's `implosion`, Havoc's `immolation_aura`. Pass 1 exists to make
-position irrelevant when a positive cue is up. Does putting that cue at the head of its own row
-help it or hurt it?
-
-## Step 1 — the decision (the author's, in a client)
-
-Three falsifiable observations, one session. What is wanted back is **which way the eye actually
-went**, not a verdict on the design.
-
-| Spec | State | The question |
-| --- | --- | --- |
-| Protection | 5 Holy Power, in a pull | SotR is lit on the top row; four unbadged generators sit on the bottom. **Which do you reach for?** A hand that goes to a generator says the absent `overcap` cue is a real defect, and says SHELF |
-| Retribution | 5 Holy Power | Divine Toll wears `overcap` as the last icon of the top row; the spender is first on the bottom. **Do you experience skipping past it, or do the rows read as unrelated lists?** |
-| Demonology *or* Havoc | the gold cue up | The positive cue is the first icon of the bottom row. **Does the fold make it easier or harder to see before you start eliminating?** |
-
-⚠ **WRAP-and-change-nothing is a legitimate outcome and probably the likeliest.** If the eye
-wraps, both catalog arguments survive untouched and this item collapses to a Part 0.5 sentence
-plus the gate work below. The three presses are worth running anyway, because the two arguments
-above are the ones that would break *quietly* if the guess went the other way.
-
-## Step 2 — the shelf (only after step 1)
-
-`render-shelf.md` Part 0.5 owns the procedure and names itself as the thing to edit when a
-flight says the scan is wrong. It is the one file that may hold a visual opinion.
-
-- **Part 0.5 gains the fold.** It is single-line about direction today and does not admit a
-  second row exists.
-- **Re-judge the treatments below it against the new version**, which is what Part 0.5 says to
-  do rather than tweaking each treatment on its own.
-- **Part 2.5's z-stack cites the reading model by name** and is composed per row; check whether
-  a fold changes anything about composition (it probably does not — this is a check, not a
-  predicted edit).
-- ⚠ **`render-shelf.md` has no entry for the row break AT ALL.** The file that owns every visual
-  opinion is silent about a visual change that shipped in four specs.
-- ⚠ **`havoc/catalog.md:10` still calls its scenarios a *"single-row … elimination walk"***.
-  Havoc draws two rows. Fix as this passes.
+- **Part 0.5 gained the fold** — a *The fold* subsection carrying the decision, the width origin,
+  and the two catalog bets it preserves; the two-pass block now says both passes read a folded row
+  like a book.
+- **The treatments below were re-judged** against it. None moves: the fold decides where a row
+  sits and every treatment is per row.
+- **Part 2.5 was checked and does not move**, and says so in one line so the check is not
+  repeated.
+- **`havoc/catalog.md:10`** no longer calls its walk "single-row".
 
 ## Step 3 — the gates (the expensive half)
 
@@ -122,12 +80,12 @@ reading model it is enforcing, which is why it waits on step 1.
 
 ## Done when
 
-- The decision is recorded in `render-shelf.md` Part 0.5 and the question is **deleted** from
-  `discussion.md` (its charter: a decided question leaves, it does not get a resolved section).
-- The treatments under Part 0.5 have been re-judged against it, and the shelf has an entry for
-  the break.
-- Under SHELF only: Retribution's interleave badge and Protection's absent `overcap` are
-  re-argued or re-authored, because both currently rest on WRAP.
-- A gate reads `break_before` and fails a scenario whose press is not what the declared reading
-  model reaches first.
-- `havoc/catalog.md:10` no longer says "single-row".
+- ~~The decision is recorded in `render-shelf.md` Part 0.5 and the question is deleted from
+  `discussion.md`.~~ **DONE 2026-09-01.**
+- ~~The treatments under Part 0.5 have been re-judged, and the shelf has an entry for the break.~~
+  **DONE 2026-09-01.**
+- ~~Under SHELF only: Retribution's interleave badge and Protection's absent `overcap` re-argued.~~
+  **MOOT** — the answer was the book read and both survive unedited.
+- [ ] A gate reads `break_before` and fails a scenario whose press is not what the book read
+      reaches first.
+- ~~`havoc/catalog.md:10` no longer says "single-row".~~ **DONE 2026-09-01.**

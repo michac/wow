@@ -2,8 +2,9 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-09-01   # 2026-09-01: §1.1's Essential-vs-Utility consequence strengthened from one sentence to four symbol-anchored 12.1.0 source facts (the two viewer mixins, the two item mixins, the four template differences, the drag table + GetCooldownCategoryChangeStatus); no other claim re-verified this pass. 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
+reviewed: 2026-09-01   # 2026-09-01: §1.5 added — the item frame's region stack, anchors and draw order off the 12.1.0 templates (ChargeCount is a Frame; its number sits BOTTOMRIGHT -2,+2; the countdown has no FontString; the pandemic frame is viewer-parented at MEDIUM strata); source-read only, one @verify-ingame left on the strata question. 2026-09-01: §1.1's Essential-vs-Utility consequence strengthened from one sentence to four symbol-anchored 12.1.0 source facts (the two viewer mixins, the two item mixins, the four template differences, the drag table + GetCooldownCategoryChangeStatus); no other claim re-verified this pass. 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
 sources:
+  - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_ActionBar/Shared/ActionButtonSpellAlerts.{lua,xml}  # §1.5 the proc glow's geometry: 1.4x, CENTER on the item
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
   - raw/addon-research/wow-ui-source @ 12.0.7.68887 — Interface/AddOns/Blizzard_CooldownViewer/*
@@ -424,6 +425,121 @@ spells, and hide chosen buffs from raid frames
 ever produces an item frame in a viewer (as opposed to living only in the settings
 filter) is **unestablished**; the empty category list for its display mode suggests
 not, but that is an inference from one snippet.
+
+---
+
+### 1.5 What an item frame DRAWS on the icon — the region stack and where each thing sits
+
+**Why this section exists.** Everything above answers *what a row resolves to*. This answers *what
+is already painted on it*, which is the question anyone riding a CDM item has to answer before
+adding a mark of their own — a rider that anchors into an occupied corner loses a collision it
+should never have entered. All of it is `Blizzard_CooldownViewer` at 12.1.0 and all of it is
+structural, not per-spell.
+
+**Subject: the two tab-1 item templates**, `CooldownViewerEssentialItemTemplate` (50×50) and
+`CooldownViewerUtilityItemTemplate` (30×30). They are the same structure at two sizes (§1.1), so
+each entry gives the Essential literal and notes the Utility delta.
+
+| Region | Kind | Anchor | Layer / level |
+| --- | --- | --- | --- |
+| `Icon` | Texture | `setAllPoints` | ARTWORK, first |
+| *(unnamed)* icon-overlay ring | Texture, atlas `UI-HUD-CoolDownManager-IconOverlay` | `TOPLEFT x="-9" y="8"` / `BOTTOMRIGHT x="9" y="-8"` (Utility `∓6/±5`) | OVERLAY, first |
+| `OutOfRange` | Texture, atlas `UI-CooldownManager-OORshadow`, alpha `0.5` | `setAllPoints` | OVERLAY, **declared after** the ring → above it |
+| `Cooldown` | Cooldown frame | `setAllPoints` | child frame, no explicit level |
+| `ChargeCount` | **Frame** | `setAllPoints` | child frame, no explicit level |
+| `ChargeCount.Current` | FontString, `NumberFontNormal` (Utility `NumberFontNormalSmall`) | `BOTTOMRIGHT x="-2" y="2"` | OVERLAY **of `ChargeCount`** |
+| `CooldownFlash` | Frame, `hidden="true"` | `TOPLEFT x="0" y="1"` / `BOTTOMRIGHT x="0" y="1"` | child frame, no explicit level |
+| `CooldownFlash.Flipbook` | Texture, atlas `UI-HUD-ActionBar-GCD-Flipbook`, `alpha="0"` | — | ARTWORK of `CooldownFlash` |
+
+`[T1 src @12.1.0: CooldownViewer.xml — CooldownViewerEssentialItemTemplate, CooldownViewerUtilityItemTemplate]`
+
+**Four things in that table are the load-bearing ones.**
+
+1. **`ChargeCount` is a Frame, not a FontString.** It covers the whole icon (`setAllPoints`) and
+   the text is nested inside it as `ChargeCount.Current`. The consequence is that
+   `RefreshSpellChargeInfo` hides the **container** — `chargeCountFrame:SetShown(self.cooldownChargesShown)`
+   — so a consumer testing visibility must test the frame, and a consumer measuring the text's
+   rect must go through `.Current`.
+   `[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerCooldownItemMixin:GetChargeCountFrame, CooldownViewerCooldownItemMixin:RefreshSpellChargeInfo]`
+2. **The charge number sits at the BOTTOM-RIGHT corner, inset 2 px** — `<Anchor point="BOTTOMRIGHT" x="-2" y="2"/>`,
+   with no `relativePoint`, so it defaults to the same point. §1.1 already recorded its **font**;
+   this is its **place**.
+3. **The countdown number has no FontString of its own.** It is the `Cooldown` widget's built-in
+   C-side text, centred in that frame; only the font object and the visibility are set from Lua —
+   `cooldownFrame:SetCountdownFont(self.cooldownFont)` at load, and
+   `cooldownFrame:SetHideCountdownNumbers(not shownSetting)` from the setting. So there is no
+   region to query for its rect, and nothing to reparent.
+   `[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerItemMixin:OnLoad, CooldownViewerItemMixin:SetTimerShown]`
+4. **`Cooldown`, `ChargeCount` and `CooldownFlash` all declare no `frameLevel`**, so all three sit
+   at parent + 1 and their order among themselves is XML declaration order. Because they are child
+   *frames*, every region inside them draws **above** all of the parent's own layers, including the
+   parent's OVERLAY ring. A rider parented to the item and given a higher level clears all of them;
+   a rider drawn as a *layer* on the item does not.
+
+**The tab-2 aura templates place their number identically.** `CooldownViewerBuffIconItemTemplate`'s
+`Applications.Applications` is also a FontString inheriting `NumberFontNormal` at
+`BOTTOMRIGHT x="-2" y="2"` in an OVERLAY layer of an all-points `Applications` frame — the same
+corner, the same inset, the same font. So the bottom-right corner is Blizzard's number corner on
+**both** families, not a tab-1 habit.
+`[T1 src @12.1.0: CooldownViewer.xml — CooldownViewerBuffIconItemTemplate]`
+
+**Where Blizzard's corner anchors actually are, enumerated.** Across the four item templates and
+the two Lua anchor sites in the icon path, every `TOPLEFT` anchor is an **outward overhang** — a
+box drawn larger than the icon — rather than content placed inside a corner:
+
+| Site | `TOPLEFT` literal |
+| --- | --- |
+| icon-overlay ring, Essential | `x="-9" y="8"` |
+| icon-overlay ring, Utility | `x="-6" y="5"` |
+| icon-overlay ring, BuffIcon | `x="-8" y="7"` |
+| `DebuffBorder` (BuffIcon / BuffBar) | `relativeKey="$parent.Icon" x="-3" y="3"` |
+| `CooldownFlash` | `x="0" y="1"` — both corners `y="1"`, so the frame is shifted up 1 px rather than stretched |
+| pandemic frame | `frame:SetPoint("TOPLEFT", cooldownItem, "TOPLEFT", -6, 6)` |
+
+`[T1 src @12.1.0: CooldownViewer.xml — CooldownViewerEssentialItemTemplate, CooldownViewerUtilityItemTemplate, CooldownViewerBuffIconItemTemplate, CooldownViewerBuffBarItemTemplate]`
+`[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerMixin:AnchorPandemicStateFrame]`
+`[searched 2026-09-01: every Anchor/SetPoint in Blizzard_CooldownViewer's four item templates and its item-path Lua, excluding the settings/edit-mode UI (CooldownViewerEditAlertBase.xml, GroupBuffFilter.xml, CooldownViewerDraggedItemBase.lua, CooldownViewerSettingsLayoutManager.lua), which do not draw on a live row]`
+
+⚠ **So the top-left quadrant carries no Blizzard text or number, and the bottom-right carries all
+of it.** What a top-left rider does overlap is **art**, in three places, and only the third is a
+real conflict:
+
+- the **icon-overlay ring**, whose inner edge crosses the corner — a plain OVERLAY texture on the
+  parent, so any child frame draws above it. It also has **no `parentKey`**, so it is unreachable
+  from Lua except through `{item:GetRegions()}`.
+- the **proc glow**, which is not a CDM region at all (§6): `ActionButtonSpellAlertManager` creates
+  a `ActionButtonSpellAlertTemplate` frame on the item at **1.4× its size**, `SetPoint("CENTER",
+  actionButton, "CENTER", 0, 0)`, so it overhangs every side by 20 %.
+  `[T1 src @12.1.0: Blizzard_ActionBar/Shared/ActionButtonSpellAlerts.lua — ActionButtonSpellAlertManager:ShowAlert]`
+- the **pandemic frame**, and this is the one to plan for. It overhangs by 6 px on all sides, and
+  it is **parented to the viewer rather than to the item**, from
+  `self.pandemicIconPool = CreateFramePool("FRAME", self, self:GetPandemicStateFrameTemplate())`,
+  with `frameStrata="MEDIUM"` on the template and **no `SetFrameLevel`** — only the *bar* variant
+  sets one (`BuffBarCooldownViewerMixin:AnchorPandemicStateFrame`). A rider parented to the item
+  therefore has no level relationship with it, and which draws on top is decided by strata
+  resolution rather than by anything either frame declares.
+  `[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerMixin:OnLoad, CooldownViewerMixin:GetPandemicStateFrameTemplate, CooldownViewerItemMixin:ShowPandemicStateFrame, BuffBarCooldownViewerMixin:AnchorPandemicStateFrame]`
+  `[T1 src @12.1.0: PandemicAlertAnimation.xml — CooldownPandemicFXTemplate]`
+
+**Two more regions, recorded because they are the ones a consumer mistakes for its own mark.**
+`OutOfRange` is a half-alpha shadow over the whole icon, shown from
+`outOfRangeTexture:SetShown(not not self.spellOutOfRange)` inside the same function that runs the
+vertex-colour ladder (§3.4) — so range and usability are two channels painted from one place.
+`CooldownFlash` is the cooldown-ready flipbook, hidden by default and played with a start delay
+computed in `RefreshSpellCooldownInfo`; it is a *completion* signal and says nothing about
+readiness at any other moment.
+`[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerCooldownItemMixin:RefreshIconColor, CooldownViewerCooldownItemMixin:GetOutOfRangeTexture, CooldownViewerCooldownItemMixin:GetCooldownFlashFrame, CooldownViewerCooldownItemMixin:RefreshSpellCooldownInfo]`
+
+⚠ **`Icon` is masked**, by an unnamed `MaskTexture atlas="UI-HUD-CoolDownManager-Mask"
+setAllPoints="true"` with `<MaskedTexture childKey="Icon"/>` — which is where the rounded corners
+come from. A rider that assumes a square icon rect is assuming something the art contradicts at
+exactly the corners it is most likely to anchor into.
+`[T1 src @12.1.0: CooldownViewer.xml — CooldownViewerEssentialItemTemplate]`
+
+⚠ **Read off source, not seen in a client.** Every claim in this section is a template or a Lua
+site; none of it is `[client]`, and the strata question in the pandemic bullet is exactly the kind
+that source cannot settle. `@verify-ingame` — which of a viewer-parented `MEDIUM` pandemic frame
+and an item-parented rider actually draws on top.
 
 ---
 
@@ -2337,6 +2453,20 @@ source flags; tab 2 carries little but computes on demand, and is the only side 
 ---
 
 ## Changelog
+
+- 2026-09-01 — **§1.5 is new: what an item frame draws on the icon.** The region stack, every
+  anchor literal, and the draw order — read off the 12.1.0 templates because nothing here had
+  recorded *placement*, only fonts and behaviour. Four facts it adds that a rider needs:
+  `ChargeCount` is a **Frame** covering the whole icon with the text nested as `.Current`; that
+  number sits **BOTTOMRIGHT, inset 2 px**, and the aura family puts `Applications.Applications` in
+  the same corner with the same font; the **countdown number has no FontString** and can only be
+  reached through `SetCountdownFont` / `SetHideCountdownNumbers`; and `Cooldown` / `ChargeCount` /
+  `CooldownFlash` all declare **no `frameLevel`**, so they sit at parent + 1 and every region in
+  them draws above all of the parent's own layers. The **top-left quadrant carries no Blizzard text
+  or number** — all six `TOPLEFT` anchors in the icon path are outward overhangs, enumerated in the
+  section. The one thing source cannot settle is left as `@verify-ingame`: the pandemic frame is
+  parented to the **viewer**, at `frameStrata="MEDIUM"` with no `SetFrameLevel`, so whether it
+  draws above an item-parented rider is a strata question rather than a declared one.
 
 - 2026-08-28 — **§2.9 is new: the spell-transform taxonomy.** Six drivers of a button
   swapping to another spell, discriminated by what arms them, plus the one DB2 rule that

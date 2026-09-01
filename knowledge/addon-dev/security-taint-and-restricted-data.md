@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-08-27   # 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
+reviewed: 2026-09-01   # 2026-09-01 source read of the SecondsFormatter surface only — §4.8.1 finding 2 gained the unabbreviated-default fact, and the same section's Radial bullets were narrowed to the button-claimed bar they were actually measured on; nothing else in this file was re-read. 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1159,6 +1159,12 @@ statusBar:SetValue(applications, interpolation);
 - **`StatusBarRenderMode.Radial` also works on the DURATION bar** `[client 2026-08-21]` — the fill
   swept as an arc off `SetTimerDuration`, with `GetRenderMode` reading back `1`. So a circular
   countdown and a circular stack readout are the same setup call on two different sinks.
+  ⚠ **Both measurements are on a bar the BUTTON claimed** — installed inside `initializeFrame`
+  and handed over through `SetApplicationBar` / `SetDurationBar`. Neither covers a StatusBar an
+  addon owns outright and drives by calling `SetTimerDuration` on itself, which is a different
+  path with a different owner, and **the render mode has never been read back after that call**.
+  Do not generalise the arc to it. `@verify-ingame` — `GetRenderMode` on a self-driven timer bar
+  after `SetTimerDuration`, against the same call's readback at build time.
 - **A button takes BOTH count sinks at once** `[client 2026-08-21]`: `SetApplicationBar` and
   `SetApplicationCount` were accepted on one button in one `initializeFrame`, which is what lets
   an arc and a banded mark share a row without a second aura slot.
@@ -2465,6 +2471,20 @@ fontString:SetText(s)                                          -- renders. In co
 object — and it comes back **SECRET in combat**, which `SetText` then renders per
 finding 10. **No curve, no StatusBar, no `DurationTextBinding`, no clock.** Both
 halves were already in this file and were simply never used together.
+
+⚠ **`CreateSecondsFormatter()` takes no arguments and its default is UNABBREVIATED**, so the
+string above is a sentence: the default is `SecondsFormatterAbbreviation.None`, which spells
+each interval out in full — 57 s formats as `"57 Seconds"` and 96 s as `"1 Minute 36 Seconds"`
+`[T1 docs @12.1.0: SecondsFormatterSharedDocumentation.lua — SecondsFormatterAbbreviation ·
+StringUtilDocumentation.lua — CreateSecondsFormatter]`. A caller that wants a countdown
+configures it, and the four setters that decide the shape are `SetDefaultAbbreviation`
+(`None 0, Truncate 1, OneLetter 2`), `SetDesiredUnitCount`, `SetMaxInterval`
+(`Seconds 0, Minutes 1, Hours 2, Days 3`) and `SetCanRoundUpLastUnit` — one letter, one unit,
+minutes at the top and rounding up gives `2m` / `57s`
+`[T1 docs @12.1.0: SecondsFormatterAPIDocumentation.lua]`. It matters more than a formatting
+preference because the output is **secret**: nothing downstream can measure the string, so an
+oversized one is invisible to every instrument and shows up only as a FontString overrunning
+whatever it was centred in.
 ⚠ **The constraint is finding 10's other half**: `SetText` with a secret also marks
 **anchoring** secret, so the FontString must be a **leaf** — its own holder, and
 nothing ever anchored to it. ⚠ `modifier` is `Nilable = false` *with* a `Default`
@@ -3594,6 +3614,7 @@ brackets is the evidence the rule rests on.
 
 ## Changelog
 
+- 2026-09-01 — **§4.8.1's `StatusBarRenderMode.Radial` findings were over-broad.** Both measurements were taken on a bar the AuraContainer button had claimed, and the text let them read as covering any StatusBar; a self-driven `SetTimerDuration` bar is now excluded by name and carries its own `@verify-ingame`.
 - 2026-08-20 — **framing fix, no claim changed.** The file stated the seal accurately and
   framed it as loss, which is a different error from being wrong: §4.7's roster of 18
   `SecretReturns` functions read as eighteen closed doors, while §4.8 two hundred lines later

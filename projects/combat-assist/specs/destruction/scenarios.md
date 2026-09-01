@@ -384,9 +384,11 @@ reading the player cannot perform. They are argued in full at `catalog.md` → *
    which is unmeasured — and it is the **same** open fact Devourer's Collapsing Star row waits on.
    ⚠ **The player is not stranded here; the reading model is.** In execute range Blizzard
    *un-greys* the icon, and that transition is the strongest signal on the row — which is why
-   `{client: unusable}` is drawn on Shadowburn throughout this walk. Part 0.5 counts two
-   eliminating signals, the swipe and cap's badge; the client's unusable tint is a third, and
-   admitting it is a shelf decision this pass does not take.
+   `{client: unusable}` is drawn on Shadowburn throughout this walk. Part 0.5 counts **three**
+   eliminating signals — the swipe, cap's badge, and V17's client-drawn `ruled-sealed` since
+   2026-08-22 — so the client's unusable tint would be a **fourth**, and admitting it is a shelf
+   decision this pass does not take. (Corrected 2026-09-01; `catalog.md` had the count right and
+   this file did not.)
 2. **The DoT pandemic window.** Immolate has 4 s left on an 18 s DoT; rung 9 wants it refreshed and
    cue E is still holding row 4, so the walk points at Chaos Bolt and the refresh is late. **The
    fact is readable and never secret** — R8's `item.PandemicIcon ~= nil` mirrors

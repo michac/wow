@@ -4602,6 +4602,32 @@ def catalog_gate_display_provenance(spec: str, cat: dict,
     marker's version of a state's `apl` / `exception` pair, exactly one of them at a time, and
     neither travels into the Lua — `catalog_lua` emits a marker field by field, and an argument
     about provenance is authoring metadata rather than data for the client.
+
+    ⚠ **THE SHAPE OF THE LOOSENESS, so a green tally is not read as a stronger claim than it is.**
+    The match is `subject_token in rung_text` — a **SUBSTRING** of the rung's whole line, condition
+    included, and never a match against the rung's *condition* as a structure. So a display
+    resolves against a rung that merely MENTIONS its subject, even where that rung says nothing
+    about the fact being drawn.
+
+    The live instance, and the one to keep in front of you when judging this: Protection's
+    `cons_field_up` resolves through rung 29's bare `consecration` — the rung that CASTS it —
+    while the fact the display draws, the ground effect being up, lives in rungs 19 and 24's
+    `!consecration.up`. The gate is satisfied by a weaker thing than the one that would justify
+    the display. It is not wrong; it is checking that the list *reads this subject somewhere on
+    this row*, which is authoring discipline, not APL correctness.
+
+    **DECIDED 2026-09-01: document the looseness, require nothing.** The one available tightening
+    is to require `display_apl` — the precise form, which already exists — wherever the bare-mention
+    path is what resolved, making the loose case visible instead of silent. It is not taken, for
+    two reasons that outweigh the gain. It re-opens every currently-resolving display at once, on a
+    gate that has not yet been argued with by anyone but its author; and the tighter thing it
+    gestures at — per-STATE condition matching — is not available at all, because a hold state
+    cites the rung it yields TO, so every honest hold-with-a-display would fail (see the paragraph
+    above). Requiring the precise citation is therefore a cost with no correctness argument behind
+    it yet. **Reopening condition:** a display that draws a fact its row's rungs do not read, found
+    by hand, the way Retribution's deleted Light's Deliverance band was. That is one instance of
+    the failure this gate exists for slipping through, and it is what would make the extra
+    ceremony worth its price.
     """
     fails = []
     names = AURA_APL_TOKENS.get(spec, {})

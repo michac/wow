@@ -92,6 +92,9 @@ pass 2 — scan left to right, skipping:
            · anything the CLIENT has hatched, having evaluated a band this
              catalog authored against a value cap never saw
          press the first item that survives.
+
+both passes read a FOLDED row like a book: the whole top line, then the
+whole bottom line. The fold is a line break, not a second list.
 ```
 
 **The procedure is the authority.** Where a treatment below and the two passes disagree, the passes
@@ -120,6 +123,69 @@ Two consequences the style is built on:
    dependency is silence. A red badge is the whole statement — it says *that* something is skipped
    and *why*, in one mark, and nothing else on the row says either.
    Every cue declares its `polarity`, and a cue that declares none is read as negative.
+
+### Rank first — a cue is for what varies
+
+**When a fact is stable enough to express as rank, express it as rank and spend no cue on it;
+reserve a cue for what genuinely varies within a state.**
+
+Two encodings can produce **identical presses** and still not cost the reader the same thing.
+Ranking A above B with a condition that skips A, versus ranking B above A outright, are
+behaviourally the same and cognitively are not. **A badge must be seen, identified and interpreted
+before the eye moves on. A position costs nothing** — it is paid once, when the row is learned,
+and never again.
+
+The tax is worst on a **leftmost** entry, where the eye arrives first and pays it on **every**
+scan — including the majority of scans where the condition is false. So the shape to watch for is
+a marker that is lit in most states: that is not a row wearing a cue, it is a **mis-ranked row**,
+and the fix is the rank rather than the badge.
+
+⚠ **It cuts both ways, and the second direction is the one that gets missed.** The rule does not
+say "prefer ordering"; it says *stable* facts are ordering and *varying* facts are cues. A fact
+that genuinely changes within a state cannot be encoded as rank at all — a fixed position cannot
+say "right now" — and trying to rank it produces a row that is wrong half the time silently, which
+is worse than a badge that is right. **Two failures, one rule:** a cue doing a rank's job costs
+attention on every scan; a rank doing a cue's job costs correctness.
+
+Its plainest instance is the **floor** of a priority list — the button you press when everything
+above it is gone. That is the most stable fact in the list, its position already encodes it
+completely, and it should carry no cue at all. `devourer/catalog.md`'s standing Consume is the
+worked example, and V12's *standing* kind is this rule as a primitive.
+
+**This is a rule about what a catalog AUTHOR encodes**, not about how a row is read — the two
+passes above are unchanged by it, and a row authored either way is scanned the same. It belongs
+here rather than in `spec.md` §3.1 because it is a reading-model consequence; §3.1 cites it.
+
+### The fold — a folded row reads like a book
+
+**Decided 2026-09-01 by the author, in a client. The fold is a LINE BREAK: one walk, top-left to
+bottom-right, priority order continuing across it.** Both passes above cross it without changing
+what they mean. The alternative — the bottom row being *the* scan and the top row a shelf you
+check rather than walk — was considered and rejected; it would have made this section two
+procedures and re-opened every treatment below.
+
+**Why the row folds at all, which nothing here recorded until now: space.** Several specs' Cooldown
+Manager rows were getting awkwardly wide, and that was raised during the EllesmereUI anchoring
+work. The break is a width fix first. Its *meaning* — top row the cooldowns, bottom row the
+rotation presses — is a constraint that came after, and is now binding on any future break.
+
+**Two shipped catalogs rest on this answer and both survive it unedited**, which is the reason the
+decision was worth taking deliberately rather than by default:
+
+- `retribution/catalog.md:194-196` buys its interleave with *"elimination walks past Divine Toll
+  and lands on the spender."* Divine Toll is the last icon of the top row and the spender the
+  first of the bottom — under a book read, you do walk past it.
+- ⚠ `protection/catalog.md:526-528` justifies an **absent** `overcap` cue with *"every generator
+  sits below Shield of the Righteous."* All four generators are on the bottom row and SotR is on
+  the top; the walk still reaches them after it, so the argument holds. **A missing cue is
+  invisible** — had the answer gone the other way nothing on screen, and no gate, would have said
+  this stopped being true.
+
+⚠ **What the decision does NOT dissolve: the top line is walked first on every scan, and its
+icons are eliminated most of the time.** That is the fold working as specified and still costing
+something, and it lands on V11's hatch rather than on this procedure — see *The hatch is paid on
+every scan* in `backlog.md`. Demoting the cooldowns is not the fix: it strands the rotational
+buttons the same way.
 
 ### When elimination is the wrong tool — the density rule
 
@@ -186,8 +252,9 @@ it negatively costs more than the reader will pay. Both are scoped: `capped` to 
 shelf allowed exactly one positive cue and `check` enforced it. That was never a design finding —
 it was the three-slot badge geometry (V5) read backwards, plus the fact that Havoc happened never
 to need a second. What pass 1 actually requires is that *"scan for a positive cue"* have one
-answer, and that is a constraint on a single **row**, not on the vocabulary: `check` now asserts
-that no entry wears more than one positive cue, which is the real invariant.
+answer, and that is a constraint on a single **entry**, not on the vocabulary — and not on the
+row either, which is a distinction with teeth: `check` asserts that no **entry** wears more than
+one positive cue (`one_positive_per_entry`), which is the real invariant.
 
 **Pass 1 makes it pre-emptive, and that is the point.** A cue that reports impending loss and then
 waits its turn in the scan has reported it too late — by the time the eye arrives the charge is
@@ -198,12 +265,47 @@ Its scope is narrow: **impending loss, nothing wider.** A positive cue for "you 
 "this is favoured now" is a statement about **rank**, which elimination already carries, and would
 be a second voice in pass 1 competing with the first.
 
-The other positive signals (a "banked" light, a green dependency dot, a weave chevron, a promoted
-press) remain **parked, not refuted**. `spec.md` §3.6 and `havoc/catalog.md` both record that a
-sealed threshold is expressible in **either** polarity, and that stays true.
+**The four other positive signals were re-examined on 2026-09-01, against *Rank first* rather than
+against the budget that used to park them — and the finding is that NONE OF THEM IS STILL PARKED.**
+Two were refuted long ago and this list had not said so; the other two were **deleted and retired in
+the Havoc catalog on their own content**, while both this paragraph and `spec.md` §3.6 went on
+calling them parked. A parked item is a decision waiting to be taken. There is nothing waiting here,
+and the list was the last thing claiming otherwise:
 
-**Five gates in `wowkb.capart check` hold this line: one per pass, two on the vocabulary, and one
-keeping chrome out of both.**
+- **A green dependency dot — REFUTED, and by this rule exactly.** "This dependency is satisfied" is
+  a statement about **rank**, which elimination already carries in full; the satisfied case is
+  silence. That is why V6 was retired on 2026-08-13, and *Rank first* is the general form of that
+  retirement rather than a new argument about it.
+- **A weave chevron — REFUTED.** "This is pressed off the GCD, in parallel" is a **constant
+  property of the ability**, not something that varies within a state, so it is the most rank-like
+  fact on the row. It is already encoded structurally: `weave` is a verdict, and the elimination
+  gate steps over it because it never competes for the GCD press. A chevron would spend a cue
+  restating a fact the vocabulary already carries without pixels.
+- **A "banked" light (a sealed Fury threshold) — DELETED, and for the strongest possible reason:
+  the priority list does not read the fact.** `havoc/catalog.md`'s cue B is *"one polarity only:
+  the parked positive 'banked' half is deleted, since the APL puts no Fury term on Essence Break."*
+  So it was never a polarity choice — there was no rung to cite, and a cue drawing a fact no rung
+  reads is exactly what the display-provenance gate exists to catch. ⚠ **Note what did NOT decide
+  it.** *Rank first* does not touch this one: banked Fury genuinely varies within a state, so it
+  could not have been expressed as rank even if the APL had wanted it. The rule is silent here and
+  the APL is not.
+- **A demon-form promotion — already RETIRED, and this list had not caught up.** It is Havoc's
+  cue D, and `havoc/catalog.md` retired it *on its content* rather than un-parking it: its whole
+  claim is that Annihilation outranks Felblade, and the anchored row order already puts them at
+  positions 8 and 9 in both forms, so the promotion would move no button. That is *Rank first*
+  applied and found sufficient — the fact was stable, so it went into the rank, and a cue on top of
+  it would be a second statement of a thing position already says. ⚠ **A different fact would earn
+  one** — the Essence-Break / Demonsurge window, a six-rung jump — and it is an open measurement,
+  not a parked cue.
+
+⚠ **What survives all four, and it is the constitutional claim rather than a rendering one:** a
+sealed threshold is expressible in **either** polarity (`spec.md` §3.6). That stays true and is
+untouched — none of the four fell because its polarity was unavailable. **Expressible is still not
+drawn**, and the four ways it can fail to be drawn are now on the record: no rung reads the fact,
+the rank already says it, the vocabulary already carries it, or elimination carries it.
+
+**Five gates in `wowkb.capart check` hold this line: one per pass, one on the entry, one on the
+vocabulary, and one keeping chrome out of both.**
 
 - **Pass 1.** If a scenario wears a positive cue at all, the leftmost entry wearing one must be the
   press. A positive cue is pre-emptive, so a scenario where it points somewhere other than the
@@ -211,10 +313,15 @@ keeping chrome out of both.**
 - **Pass 2** — the elimination gate (Part 5). The leftmost entry that is neither swiped nor wearing
   a negative badge must be the press, **counting negative cues only**, so the positive cue can ride
   the press without eliminating it.
-- **A second positive cue fails `check`.** This is no longer only a vocabulary question: a second
-  positive cue is a second pass-1 candidate, so two of them in one row makes pass 1 ambiguous about
-  which to press. Adding one is a decision about the *ordering model*, and it means rewriting the
-  procedure above to say how the two rank.
+- **Two positive cues on one ENTRY fail `check`; two on one row do not.** Pass 1 says *scan left
+  to right for a positive cue and press it*, and that sentence has exactly one answer as long as
+  each button carries at most one — two different buttons each wearing one is resolved by the scan
+  itself, and `positive_gate` resolves it the same way: **leftmost wins**, and it fails only if the
+  leftmost positive is not the press. What is undefined is one button wearing two, because there
+  the scan has arrived and the row still has not said which. `one_positive_per_entry` is that gate,
+  and it is the whole of the constraint. ⚠ **Adding a positive cue to the vocabulary is an
+  editorial argument, not a mechanical one** — it must earn its scope the way `capped` and
+  `priority` did. No gate rations them.
 - **A declared cue worn by no scenario fails `check`**, since a cue that renders nowhere is
   `spec.md` §3.2's defect at shelf level.
 - **Chrome takes part in neither pass, and `check` holds it there.** `tokens.hotkey` fails if it
@@ -280,14 +387,32 @@ means exactly what it meant on every row in every spec. Nothing about the model 
 draws over another. Suppression proper would have changed what the edge *means*, which an ordering
 complaint does not authorise.
 
-**What Blizzard already occupies on a CDM item** — read off `Blizzard_CooldownViewer` at
-**12.0.7**, under a standing ⚠ *12.1 rewrote this system and this has not been re-flown*:
+**What Blizzard already occupies on a CDM item** — re-read off `Blizzard_CooldownViewer` at
+**12.1.0** on 2026-09-01, replacing a 12.0.7 read that carried a standing *not re-flown* warning.
+The facts and their symbol-anchored citations live in `knowledge/addon-dev/cooldown-manager.md`
+§1.5, where the KB's gates apply; this is the rendering view of them and cites that file rather
+than the source.
 
-- **BOTTOMRIGHT** — `ChargeCount.Current` on the cooldown tab and `Applications` on the aura tab,
-  both anchored at −2 / +2.
-- **Centre** — the countdown numbers the swipe draws.
-- **Free:** bottom-centre. Both top corners were free until 2026-08-19; the badge stack flows
-  from the **top-right** and the hotkey text (V15, chrome) now holds the **top-left**.
+- **BOTTOMRIGHT — Blizzard's number corner, on BOTH families.** `ChargeCount.Current` on the
+  cooldown tab and `Applications.Applications` on the aura tab, each anchored `−2 / +2` in the same
+  font. It is a convention, not a tab-1 habit, so it stays occupied whichever family a row is in.
+- **Centre** — the countdown numbers, which have no region of their own: they are the `Cooldown`
+  widget's built-in text, so there is nothing to measure and nothing to move.
+- **Whole icon, transiently** — the proc glow (1.4× the item, centred), the pandemic frame (6 px
+  overhang), `OutOfRange`'s half-alpha shadow and `CooldownFlash`'s ready flipbook. None of them is
+  a corner, and all of them can cover one.
+- **Free:** bottom-centre, and **both top corners** — no Blizzard text or number is placed there,
+  and every `TOPLEFT` anchor in the icon path is an outward overhang rather than content. The badge
+  stack flows from the **top-right** and the hotkey text (V15, chrome) holds the **top-left**.
+
+⚠ **"Free of text" is not "free of art", and one of the three overlaps is a real conflict.** The
+icon-overlay ring and the proc glow are parent-layer or item-parented, so cap's own frame draws
+above them by construction. **The pandemic frame is not:** it is parented to the *viewer*, at
+`frameStrata="MEDIUM"` with no frame level of its own, so which of it and a cap mark draws on top
+is settled by strata rather than by anything either declares. That is the one thing source could
+not answer and it is an `@verify-ingame` in the KB, not a fact here. ⚠ And `Icon` is **masked** to
+rounded corners — a mark anchored tight into a corner is anchored into art that curves away from
+it.
 
 ⚠ A previous revision of this table claimed Blizzard draws **keybind text** along the bottom of a
 CDM item. It does not: `grep HotKey` over the whole `Blizzard_CooldownViewer` folder returns
@@ -416,7 +541,7 @@ reads as *on top of* the icon rather than *inside* it.
   draws a vocabulary rather than a row.
 
   ⚠ **This replaced three fixed slots on 2026-08-19, and the thing that changed is what position
-  MEANS.** The old layout ran negatives leftward along the top edge and put the one positive cue
+  MEANS.** The old layout ran negatives leftward along the top edge and put the positive cue
   below the corner, so position carried polarity redundantly with hue — at the price of a hard
   ceiling of three cues, which is why a fourth could not be added without an argument about which
   of the three had stopped earning its place. That ceiling was geometry being read as design.
@@ -438,7 +563,9 @@ reads as *on top of* the icon rather than *inside* it.
 - **Colour:** one shared red, `tokens.badges.rgb`, for **every negative cue**. A second *red* would
   be a second visual language for the same job; the badge shape and its animation carry the
   distinction between one "skip this" and another. **Colour carries polarity, and only polarity** —
-  so the single positive cue overrides it (`tokens.cues.capped.rgb`, gold) and nothing else may.
+  so a positive cue overrides it (`tokens.cues.capped.rgb` / `tokens.cues.priority.rgb`, gold) and
+  nothing else may. ⚠ **The override is per polarity, not per cue**: a future negative cue drawn
+  gold would break this and nothing catches it (see the flow note above).
 - **Art:** Kenney's CC0 **Board Game Icons**, vendored at `tokens.badges.asset_root` with its
   licence beside it. Measured **saturation 0.000** — white with the shape in the alpha channel — so
   `SetVertexColor` multiplies it to the authored hue at full strength. This is the same reason
@@ -610,8 +737,9 @@ difference between them is a *provenance* fact (`spec.md` §3.2's two hold lanes
 The 7 px corner dot with a green `go` / red `wait` pair. Retired 2026-08-13: green `go` said a
 dependency was *satisfied*, which is a statement about **rank** — exactly what elimination already
 carries — so under the vocabulary that replaced it a satisfied dependency draws nothing at all.
-(The one positive cue added since, `capped`, is not a counter-example: it carries impending loss,
-which elimination cannot express. See Part 0.5.) The `wait` half is now the `blocked` badge (V5.1), which is roughly three times the
+(The positive cues added since are not counter-examples: `capped` carries impending loss, which
+elimination cannot express, and `priority` carries a rank elimination *can* express but not
+cheaply enough — the density rule. See Part 0.5.) The `wait` half is now the `blocked` badge (V5.1), which is roughly three times the
 size and actually catches the eye at 56 px.
 
 ### V7 · Swipe restyle
@@ -1529,6 +1657,10 @@ cue asks for one, and until one does the code path exists and is unexercised.
   (`catalog_cue_numerals`).
 
 ## Part 2.5 — Composing a row
+
+**The fold does not reach this part.** Composition is per row and a break decides only where a row
+sits, so a folded strip composes exactly as a straight one does — checked against Part 0.5's fold
+decision on 2026-09-01, and recorded because the check is worth not repeating.
 
 The primitives above are drawn together, and the order they compose in is fixed. **A row is a
 hatch, a scan edge, badges, and whatever sealed display it declares** — the icon face is not cap's

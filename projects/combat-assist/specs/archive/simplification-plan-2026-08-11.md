@@ -2,7 +2,7 @@
 
 > Archived after execution: the decision packet incorrectly coupled removal of the tier
 > engine's complexity with removal of discrete priority tiers. The replacement plan lives at
-> `../simplification-plan.md`.
+> `simplification-plan-2026-09-01.md`, archived beside this file on 2026-09-01.
 
 **Purpose:** bring the project back under `spec.md` §1 after the rest of the design
 grew into a formal system whose internal rules began directing the product. This is a

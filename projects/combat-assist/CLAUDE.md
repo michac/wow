@@ -74,8 +74,11 @@ this file goes stale the first time anyone tries an idea, and a stale inventory 
 explicitly-provisional thing is worse than none. A new idea gets a `lab` key, an `asks`, and a
 section in Part 7.
 
-`specs/simplification-plan.md`, `specs/simplification-audit.md` and `specs/rule-split-audit.md`
-are temporary migration artifacts. They are not additional product authorities.
+**Temporary migration artifacts live in `specs/archive/`, under a `-YYYY-MM-DD` suffix, and are
+not product authorities.** A plan or audit is archived rather than deleted — its arguments are the
+record of why the current design is shaped as it is — but nothing in `archive/` may be cited as a
+reason to do anything, and nothing there should be read in the present tense. The three
+simplification/rule-split artifacts and the Devourer preview plan were archived on 2026-09-01.
 
 The live addon version comes from `wowkb.addon list`. What is built or flown comes only from
 `specs/backlog.md` → `## Status`.

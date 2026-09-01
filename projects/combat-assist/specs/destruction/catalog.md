@@ -470,9 +470,15 @@ exactly the reasons it applies to Holy Power.
 
 ## New mechanism this catalog implies
 
-Measured against the current source vocabulary (`Catalog.PREDICATES` = `ready`, `proc`,
-`identity`, `capped`, `affordable`, `resource`, `talent`, `aura`, `aoe`; `Catalog.DISPLAYS` =
-`player-aura-stacks`, `sealed-power-percent`, `sealed-cooldown-range`):
+Measured against the source vocabulary as it stood when this was written (`Catalog.PREDICATES` =
+`ready`, `proc`, `identity`, `capped`, `affordable`, `resource`, `talent`, `aura`, `aoe`;
+`Catalog.DISPLAYS` = `player-aura-stacks`, `sealed-power-percent`, `sealed-cooldown-range`).
+⚠ **THAT DISPLAY LIST IS STALE AND THE ARGUMENTS BELOW REST ON IT** (2026-09-01).
+`player-aura-stacks` and its `min = 2` guard were **retired** on 2026-08-22, and the live set has
+grown `sealed-count-bands`, `sealed-count-bar`, `sealed-pandemic` and `sealed-proc-bar` since. Run
+`uv run python -m wowkb.capart export catalog` for the current list rather than trusting this one.
+Two of the Defeats below argue from *"no display kind exists"* and are re-opened by that growth —
+see the ⚠ notes on Defeats 1 and 2:
 
 1. **One new predicate is wanted, and it is not built here.** `pandemic(<row>)` — the readable
    boolean R8 already measures: `item.PandemicIcon ~= nil` on a Cooldown-Manager tab-1
@@ -518,6 +524,18 @@ would reopen it**. None of these is a bare "cannot".
    and rung 9 is expressed. ⚠ This is the single highest-value unbuilt thing for this spec, and
    it is a **boolean on a shipped, measured, never-secret field** — the cheapest reopening in any
    catalog.
+   ⚠ **REOPENED 2026-09-01 — AND IT NO LONGER NEEDS THE PREDICATE.** V19 *Pandemic window*
+   (`../render-shelf.md`) was promoted **2026-08-22** and does not go through `Catalog.PREDICATES`
+   at all: `AddPandemicRegion` drives a client-owned region off `GetRefreshExtendedDuration −
+   GetAuraBaseDuration`, per spell, and it is the one sealed display cap authors **no threshold**
+   for. Its two-sided pair is exactly cue E's job — a gold hatch across the face while the aura is
+   up but **outside** its refresh window (*do not refresh yet*), the badge once inside it — and it
+   is recipe `S9` in `../authoring.md` with two shipped consumers (`demonology/catalog.md`'s
+   `db_doom_window`, `protection/catalog.md`'s `ha_weapon_healthy`). Immolate's DoT `157736` is
+   already established here as a Category-2 row in set 884, which is the subject V19 needs.
+   ⚠ **This is the one thing in this file a stage-6 transcription would bake in.** Authoring
+   `immolate_up` as a whole-DoT `blocked` from today's text ships a defeat that is expressible.
+   Resolve this before writing `catalog.json`.
 2. **The ritual clock.**
    *Scenario:* Diabolic Ritual's current stage has 3 s left. Rung 3 says spend a shard **now**, to
    consume the stage before it expires into an Art; rung 13's `ritual_length>4` says the ordinary
@@ -537,6 +555,16 @@ would reopen it**. None of these is a bare "cannot".
    (`knowledge/classes/warlock/demonology/diabolist-sequences.md`, Tier 2), so a band on
    *whichever* stage is live is the same number. **That equivalence is an assumption and would
    need checking.** @verify-ingame
+   ⚠ **The "no aura-remaining band" half is FALSE as of 2026-09-01 and the defeat must be
+   re-scoped to the SUM.** Two later primitives take an aura's remaining time: V19's outside hatch
+   *"rides `SetDurationText` band tables on the aura's remaining SECONDS"* and ships on Protection
+   at `outside_s: 6`; V20's proc bar drains an aura's own remaining duration into a client-owned
+   bar, and one of its declared consumers is *the armed Demonic Art on the Shadow Bolt row* — the
+   same Diabolic Ritual mechanism this defeat calls inexpressible. So the missing sink is not
+   missing. **What survives intact is the sum**, and the Tier-2 "exactly one stage is live"
+   equivalence that would let a single-subject band stand in for it — which is what the
+   `@verify-ingame` above is actually about. Re-scope this defeat to that assumption; do not carry
+   "no display kind exists" into `catalog.json`.
 3. **Shadowburn in execute range.**
    *Scenario:* the target is below 20 % health, no Fiendish Cruelty proc is up, and Conflagration
    of Chaos **is** talented. Rung 7 fires — its second conjunct is satisfied by the talent, its
@@ -570,8 +598,11 @@ would reopen it**. None of these is a bare "cannot".
    *Rung it died on:* **the product**, not the shelf and not the client. cap draws on Cooldown
    Manager rows; a row is a *button*, and "press this button at that enemy" is not a statement a
    row can make. Eight of `aoe_dia`'s fourteen rungs carry one.
-   *What would reopen it:* a surface that is not a CDM row. That is a product decision and belongs
-   in `../discussion.md` if anyone wants it; nothing here is waiting on a measurement. Every
+   *What would reopen it:* a surface that can address a **unit**. That is a product decision and
+   belongs in `../discussion.md` if anyone wants it; nothing here is waiting on a measurement.
+   ⚠ **Phrased as "a surface that is not a CDM row" until 2026-09-01, which V12's virtual row now
+   satisfies as written without reopening anything** — a virtual row is still a button, and the
+   unsaid thing is *which enemy*. Every
    `target_if` rung has a plain sibling that is the same press without the directive, so the rows
    are right and only the target choice is unsaid.
 5. **Which Demonic Art is armed, when it is Overlord.** Shared verbatim with the Demonology

@@ -40,49 +40,6 @@ about *which of the two wins*. The answer was a fifth: **neither — they are on
 An empty file is this file's correct resting state, not a defect — but it is not empty now:
 the question below is open.
 
-## A folded row — does the scan wrap, or does the bottom row own it?
-
-*Raised 2026-09-01, by four catalogs authoring a break and the row flying two-high.*
-
-Part 0.5's procedure says **scan left to right**. A folded row is two lines, and the procedure
-does not say what that means. Correction 10 settled what the fold *means* — top row the
-cooldowns, bottom row the rotation presses — and that is a constraint now. It does not answer
-what the eye *does*.
-
-**The two answers, and they are not cosmetic:**
-
-- **WRAP.** The fold is a line break. One walk, top-left to bottom-right, priority order
-  continuing across it. Part 0.5 barely changes; the gates learn a seam.
-- **SHELF.** The bottom row is the scan; the top row is a thing you check, not walk. Two reads,
-  not one wrap — which makes Part 0.5 two procedures and re-opens every treatment under it.
-
-**What decides it is not taste — two shipped catalogs already bet on the answer:**
-
-- **`retribution/catalog.md:194-196` buys its whole interleave with one badge**: *"elimination
-  walks past Divine Toll and lands on the spender."* Divine Toll is now the **last icon of the
-  top row** and Templar's Verdict the **first of the bottom**. Under WRAP the argument stands.
-  Under SHELF you never walk past Divine Toll — you start at the spender — so the badge buys
-  nothing and the interleave is right by accident, which is the kind of right that stops being
-  right the next time the order moves.
-- ⚠ **`protection/catalog.md:526-528` justifies an ABSENT cue** with *"every generator sits below
-  Shield of the Righteous… at cap the walk stops on the spender and never reaches them."* All
-  four generators are on the bottom row; SotR is at position 3 on the top. Under SHELF the walk
-  **starts** among those generators and reaches them *before* SotR — the ordering is inverted and
-  the reason the cue was never authored is gone. **A missing cue is invisible**: nothing on screen
-  will say the argument stopped holding.
-
-**And one more the same session answers.** The break sits directly in front of a gold positive cue
-in two specs — Demonology's `implosion`, Havoc's `immolation_aura`. Pass 1 is meant to make
-position irrelevant when a positive cue is up. Does putting it at the head of its own row help
-that, or hurt it?
-
-⚠ **No gate models the fold, so `capart check --all` says nothing about any of this.**
-`break_before` appears in `capart.py` exactly once — line 1330, emission — and no gate reads it;
-`parse_row` returns a flat list and discards its seams, and every preview renders one strip. The
-gate work is real (~5–6 call sites, plus `scenarios.json` as a second producer, plus making the
-break travel from `catalog.json` into the scenario grammar) and it **encodes the answer**, so it
-waits on the decision rather than the other way round.
-
 ## Devourer — is Vengeful Retreat worth binding at all?
 
 *Raised 2026-08-19, by the shelf's V13 collapse.*

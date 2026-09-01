@@ -1,7 +1,12 @@
 # Combat Assist Plus — tier-preserving simplification plan
 
 **Purpose:** correct the first simplification pass without rebuilding the ontology it removed.
-The failed plan is archived at `archive/simplification-plan-2026-08-11.md`.
+⚠ **ARCHIVED 2026-09-01, and superseded by `spec.md` before it was.** Its corrected target is the
+three discrete tiers `ASAP` / `SOON` / `FALLBACK`, and `spec.md` §3.1 retired those on 2026-08-25:
+the shipped renderer had already collapsed every tier onto the one scan treatment, so the model was
+changed to say what the product does. Read this for the arguments, never in the present tense.
+
+The *first*, failed plan is archived beside it at `simplification-plan-2026-08-11.md`.
 
 ## What the first pass got wrong
 

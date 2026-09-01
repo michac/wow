@@ -102,9 +102,15 @@
       "node": 95235,
       "entry": 117883,
       "spell": 433015
+    },
+    {
+      "id": "sentinel",
+      "node": 81497,
+      "entry": 102466,
+      "spell": 389539
     }
   ],
-  "talents_note": "Node + entry from `knowledge/classes/paladin/protection/ability-inventory.tsv` @ 12.1. ⚠ `divine_guidance` and `blessed_assurance` SHARE node 95235, and that is the fact rather than a typo: they are the Lightsmith choice node at 8,11, so exactly one of them exists on any build and the other is dead. Two markers are gated on it in opposite directions. ⚠ The key `divine_guidance` appears in BOTH families and that is legal — `Catalog.Check` keys `abilities` and `talents` in separate tables and the `talent` predicate resolves only the second. The aura is the stacking buff; the talent is whether the buff can exist at all.",
+  "talents_note": "Node + entry from `knowledge/classes/paladin/protection/ability-inventory.tsv` @ 12.1. ⚠ `divine_guidance` and `blessed_assurance` SHARE node 95235, and that is the fact rather than a typo: they are the Lightsmith choice node at 8,11, so exactly one of them exists on any build and the other is dead. Two markers are gated on it in opposite directions. ⚠ The key `divine_guidance` appears in BOTH families and that is legal — `Catalog.Check` keys `abilities` and `talents` in separate tables and the `talent` predicate resolves only the second. The aura is the stacking buff; the talent is whether the buff can exist at all. `sentinel` is declared only to be negated (catalog.md → cue A).",
   "entries": [
     {
       "id": "avenging_wrath",
@@ -120,6 +126,13 @@
               "args": [
                 "avenging_wrath"
               ]
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "sentinel"
+              ],
+              "negate": true
             }
           ],
           "display": {
@@ -157,7 +170,7 @@
         },
         {
           "id": "aw_awaits_toll",
-          "condition": "ready, Divine Toll's cooldown BEYOND 10s",
+          "condition": "ready, Divine Toll's cooldown BEYOND 10s, no Sentinel",
           "verdict": "open",
           "cues": [
             "blocked"

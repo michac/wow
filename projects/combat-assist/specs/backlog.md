@@ -826,7 +826,10 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
   generated `destruction-stepper.html` registered in `capart.SPECS_BUILT`. There is no
   `Catalogs/Destruction.lua` **of the current design**: the file in the addon is the *pilot*
   catalog and predates those documents, so what the addon draws on Destruction is the old
-  two-entry proof and **not** what `specs/**` now says.
+  **one-entry** proof and **not** what `specs/**` now says. ⚠ It was called a *"two-entry proof"*
+  here until 2026-09-01 and it never was one: the pilot declares **two abilities** (`conflagrate`,
+  `backdraft`) and **one entry** (`conflagrate`, carrying the Backdraft count band). Backdraft is an
+  aura dependency that never enters `Signal`, which is exactly why it is not an entry.
   ⚠ **That is the one place left in the project where a shipped catalog and its document
   disagree**, and it is deliberate — `authoring.md` stage 6 has not run for it. Do not read the
   `.lua` as the design. It wants the same count primitive for Backdraft that Demonology now uses,
@@ -1034,27 +1037,106 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
   abilities* table — but that table maps ACTIONS, and these subjects are AURAS (`buff.X` / `dot.X`),
   so it likely does not cover them. Budget a mapping table, not a predicate.
 
+## Batches
+
+**The scarce resource in this project is trips into the game client, not gates.** `capart check
+--all` runs over every spec in seconds, a `cap` release is pre-authorized (`CLAUDE.md` §
+Releasing), and a doc edit costs nothing but the writing. **A flight costs a week of play.** So the
+work below carves into six batches by *what each item needs*, and an item's batch is decided by
+its most expensive requirement — not by its subject. Two items about the same cue can land in
+different batches; two items about nothing in common can share one.
+
+- **Batch A — paper.** No catalog data, no addon Lua, no release, no flight, no lab deploy. Doc
+  edits, sweeps, archive moves and recorded decisions. Costs one `capart check --all` and one
+  commit, so the items are batched purely to save the *ceremony*, not any real resource.
+- **Batch B — gates and tooling.** Changes to `wowkb.capart` itself: new or loosened `check`
+  assertions, the doc↔sidecar comparison, the preview builder. Needs a green `check --all` over
+  every spec and nothing else. ⚠ **This is also where tooling-only work goes that the other five
+  constraints have no name for** — the carve-up is by data / Lua / release / flight / lab, and a
+  `capart.py` change is none of those. It is B by default.
+- **Batch C — catalog data.** `catalog.md` + `scenarios.md` + `catalog.json` + `Catalogs/<Spec>.lua`
+  moving together, because a re-rank or a new marker is not a document edit — the row order is the
+  APL's rung order and `Anchor.lua` draws it. Ends in a build and a `check`.
+- **Batch D — addon Lua.** Engine-side changes: predicates, `Sense`/`Signal`/`Treatment`/`Paint`,
+  capture strings, module removals. C and D share **one release cut** because a release is per
+  addon, not per change.
+- **Batch E — ClientLab.** Anything that needs an unknown measured in a live client through the
+  scratch lab: one `projects/addon-lab/` deploy carries every open test at once, so an item that
+  needs a measurement waits for the next deploy rather than earning its own.
+- **Batch F — flights.** Per spec, and **not** batchable across specs the way the others are: a
+  flight is a week of playing *one* spec, and questions about a spec you are not playing get no
+  answer from it.
+
+⚠ **The attribution rule for a batched flight, which is the one thing batching can genuinely get
+wrong.** When a release carries several changes into one week of play, **a week of no complaint is
+not a positive report on any of them.** It is one report on the whole build, and it says only that
+nothing was bad enough to mention. The square-dial defect flew for a week under exactly that
+reading. So a flight settles a question only where the report *names* the thing — a question no
+observation names comes back **unexercised**, not passed, and stays in its batch.
+
 ## Now
 
-### The folded row's reading model → `backlog/fold-reading-model.md`
+### The folded row's fold gates → `backlog/fold-reading-model.md`
 
-Part 0.5 says *scan left to right*; since 2026-09-01 the row folds, and the procedure does not say
-what a second line means. **The fold's MEANING is settled** (top row cooldowns, bottom row
-rotation) — what is open is whether the eye **wraps** across the fold or reads the **bottom row as
-the scan** with the top as a shelf.
+**The reading model is DECIDED and the decision is in `render-shelf.md` Part 0.5: a folded row
+reads like a book** — the whole top line, then the whole bottom line, one walk, priority order
+continuing across the break. Author's call, 2026-09-01, from play. The rejected alternative was
+the bottom row being *the* scan with the top as a shelf, which would have made Part 0.5 two
+procedures. `discussion.md`'s question is deleted per its charter.
 
-⚠ **Two shipped catalogs already bet on the answer without knowing it.** Retribution buys its
-whole interleave with *"elimination walks past Divine Toll and lands on the spender"* — Divine Toll
-is now the last icon of the top row. Protection justifies an **absent** `overcap` cue with *"every
-generator sits below Shield of the Righteous"* — all four generators are now on the other row, and
-a missing cue is invisible when its argument stops holding.
+**Both shipped bets survive unedited**, which is why the call was worth taking deliberately:
+Retribution's interleave badge still walks past Divine Toll, and Protection's **absent** `overcap`
+cue is still justified because the walk still reaches the four generators after Shield of the
+Righteous. A missing cue is invisible, so the other answer would have broken that one quietly.
 
-⚠ **No gate models the fold**, so `capart check --all` green says nothing about it: `break_before`
-appears in `capart.py` exactly once (line 1330, emission) and no gate reads it.
+⚠ **The origin of the break is now recorded, and it was nowhere before**: several specs' CDM rows
+were getting awkwardly wide, raised during the EllesmereUI anchoring work. It is a width fix
+first; the top-cooldowns/bottom-rotation meaning came after and is binding on future breaks.
 
-**Blocked on one author decision**, which needs three presses in a client and cannot be made from
-the code. The gate work encodes the answer, so it waits rather than the other way round. The
-question is live in `discussion.md` → *A folded row*.
+**What is left is the expensive half — no gate models the fold.** `break_before` appears in
+`capart.py` exactly once (line 1330, emission) and nothing reads it, so `capart check --all` green
+says nothing about the fold. The plan file holds the call sites; the trap worth repeating here is
+`density_gate`'s literal prefix slice `sc["row"][:press]`, which counts skips across a row
+boundary that the eye now crosses in a defined way. `scenarios.json` is a second producer, and the
+break has to travel from `catalog.json` into the scenario grammar or be re-authored there.
+
+⚠ **One residual the decision did not answer**, and it only shows up in play: the break sits
+directly in front of a gold positive cue in two specs (Demonology's `implosion`, Havoc's
+`immolation_aura`). Pass 1 is meant to make position irrelevant — does heading its own row help
+that cue or hurt it? Not blocking; fold it into the next Demonology or Havoc session.
+
+### The hatch is paid on every scan — promoted out of the Protection flight
+
+**This is Protection flight finding 4 raised to its real scope, not a new item.** It was recorded
+as one bright icon — *"Sentinel is such a bright icon that even dimmed a bit with a hatch it's
+still sort of asking to be clicked"* — which reads as a treatment tweak for a rare case. It is
+not.
+
+**The author's second report, 2026-09-01, is structural.** *"the cap spec implementations I use so
+far seem to have the property of having some long running cooldowns at the start, because they're
+high priority, that sit at the far left on cooldown or red much of the time. They're easy to see
+when I need them, but I'm always paying the scan tax when I don't."* Under the fold decision above
+the top line is walked **first, on every scan**, and by the fold's own meaning it is the cooldowns
+— the icons that are eliminated most of the time. So V11's hatch is no longer occasionally tested
+by a bright icon; it is the thing standing between the reader and the press on every single read,
+on all four specs that fold.
+
+**Demoting the cooldowns is not the fix and the author already ruled it out**: *"Trying to put
+them on the first row means suddenly rotational, lower priority items outside of cooldown windows
+don't exist way off in no man's land."* Both orders strand something; the hatch has to carry it.
+
+- [ ] **Part 5 question 7 has now answered in the direction the shelf feared** and the shelf owns
+      the fix. Black at `0.50` reads as *dimmed*, not as *ruled out*, on high-value art.
+- [ ] ⚠ **Not a hue.** The retired veil died of exactly that, and the blend has no headroom left.
+      The shelf's own guidance is **area or a different treatment** — L4's black stripes were
+      promoted to V11 for this reason and are the nearest existing move.
+- [ ] Judge it against the fold: the question is no longer *"is this icon legible when hatched"*
+      but *"can a reader cross a fully-hatched top line without stopping"*. Those are different
+      thresholds and the second is the one that matters now.
+
+⚠ **`backlog/protection-next.md` → *Deliberately NOT in this round* still defers it and now
+points here.** Keeping the argument in two places is the drift this file complains about
+elsewhere; this entry is the one home.
 
 ### Shard projection — anticipate the post-cast count → `backlog/shard-projection.md`
 
@@ -1092,6 +1174,13 @@ Blizzard already distinguishes them, too weakly: `ITEM_AURA_COLOR = (1, 0.95, 0.
 cream — versus `ITEM_COOLDOWN_COLOR = (0, 0, 0, 0.7)` — black
 `[T1 src @12.1.0: CooldownViewer.lua:20-21]`. Same shape, same direction, same alpha, and the pale
 one sits over bright icon art that fights it. Hue alone is losing in combat.
+
+⚠ **The shelf amendment this needs was deliberately NOT taken in the 2026-09-01 paper round, and
+that is the right call rather than an oversight.** It is a paper edit and would have batched
+cleanly, but it is the **precondition of a build** — describing a reversed swipe in `render-shelf.md`
+while nothing draws one puts a treatment on the shelf that no preview can render, which is exactly
+what the shelf's "one treatment per primitive, no debates" rule exists to prevent. It travels with
+the build, in batch C/D.
 
 `render-shelf.md` V7 lists the swipe setters that carry no timing and are therefore safe, so all
 three of these are available:
@@ -1151,52 +1240,80 @@ catalogs still draw the base face on every state, which is the same defect DEM-S
 `judgment_clear` each describe a row that may be wearing either face. Leave them alone; forcing
 one is the same class of error as drawing the base face on a transformed state.
 
-### There is no positive-cue budget — say so in the docs
+### ~~There is no positive-cue budget — say so in the docs~~ — DONE 2026-09-01
 
-Author's correction, 2026-08-16: **the single-positive-cue rule is being read as a budget, and it is
-not one.** The docs present it as a scarce resource — the Status bullet above says the vocabulary is
-negative by default *with exactly one positive cue*, and `capart check` gate 0b hard-fails a second
-`polarity: "positive"`. The intent was a guardrail against adding positives casually; the effect is
-that a reader reasons about *spending* the positive and declines to propose one that is justified.
-Measured: it happened twice in one session, in prose written to the author.
+Author's correction, 2026-08-16: **the single-positive-cue rule was being read as a budget, and it
+was not one.** The docs presented it as a scarce resource, so a reader reasoned about *spending* the
+positive and declined to propose one that was justified — measured twice in one session.
 
-Half of the original contradiction is already fixed. `reading_gate` became an ordered chain on
-2026-08-17 — a row wearing a positive cue is judged by pass 1 alone — which is what made a
-legitimate pass-1 override representable at all. What is left is the wording and gate 0b.
+**The gate was the half that got fixed first** (2026-08-17/19) and the prose lagged it by two weeks.
+`reading_gate` became an ordered chain, and the shipped assertion is `one_positive_per_entry` —
+**per ENTRY**, not per vocabulary and not per row. `positive_gate` resolves two positives on two
+different buttons the way the scan does: **leftmost wins**, failing only when the leftmost positive
+is not the press.
 
-- [ ] Decide whether pass 1's left-to-right language is real. If it is, multiple positives are fine
-      and leftmost wins; if positives really are capped at one, pass 1 is *"is `capped` present"* and
-      the scan language should go. Gate 0b's fate is downstream of this.
-- [ ] Rewrite the Status bullet and `render-shelf.md` Part 0.5 so the rule reads as **"a positive cue
-      is an override of left-to-right ordering, so it carries a burden of proof"** — not as a count.
-      The cost of a positive is that it breaks the reading model, and that is a per-cue argument.
-- [ ] Decide what happens to **gate 0b**. Options: delete it (the burden of proof is editorial, not
-      mechanical); downgrade it to a warning that names the argument a second positive must make; or
-      keep it hard and rename it so it stops reading as a cap — its current message is what teaches
-      the budget. ⚠ Gates 0d (slot 3) and 1c (every declared cue is worn) are unaffected.
-- [ ] Re-examine what the rule caused. `spec.md` §3.6 records a threshold as expressible in
-      **either** polarity, and the positive halves — cue B's "banked", cue D's promotion, the green
-      dependency dot, the weave chevron — are all parked as "pixels, not authority". Check whether
-      any of them was parked for the budget rather than on its merits.
+**Five passages were rewritten on 2026-09-01, and one of them was load-bearing.**
+`render-shelf.md:248` still said a second positive cue fails `check` because *"two of them in one
+row makes pass 1 ambiguous"* — **false as written**, and it is the passage a reader reaches from the
+gate list, so it taught the budget the paragraph six lines above it had already retired. Also fixed:
+`:222`'s *row* where the gate says *entry* (row ≠ entry), `:453`, `:475`, `:647`, and `spec.md`'s
+*"the one positive cue"*.
 
-### Ordering versus conditionals — ordering is cheaper to read
+**Then the fourth checkbox — re-examine what the rule CAUSED — and it did not end in no change.**
+The four positive halves parked as "pixels, not authority" were re-read against Part 0.5's new
+*Rank first* rule instead of against the budget. **None of the four is still parked**, and two of
+them had been decided in the catalog while `spec.md` §3.6 and the shelf went on calling them parked:
+
+- **The "banked" Fury light — DELETED**, and for the strongest reason available: `havoc/catalog.md`
+  cue B records that *"the APL puts no Fury term on Essence Break"*, so there is no rung to cite and
+  nothing for a cue of **either** polarity to draw. ⚠ Not a *Rank first* outcome — banked Fury
+  varies within a state and could never have been rank. The rule is silent here; the APL is not.
+- **The demon-form promotion — RETIRED on content.** Its whole claim is that Annihilation outranks
+  Felblade, and the anchored row order already puts them at positions 8 and 9 in both forms, so it
+  would move no button. That IS *Rank first*, applied and found sufficient.
+- **The green dependency dot — refuted**, and by *Rank first* exactly: a satisfied dependency is a
+  statement about rank, which is why V6 was retired on 2026-08-13.
+- **The weave chevron — refuted.** Off-the-GCD is a constant property of the ability, already
+  carried by the `weave` verdict that the elimination gate steps over.
+
+⚠ **The lesson is not about positives.** A parked item is a decision waiting to be taken, and two of
+these had been taken elsewhere with nothing propagating the answer back. **The catalog decided and
+the constitution kept describing the old state** — which is the same failure mode as a stale claim
+with a correction appended under it, one file removed.
+
+### ~~Ordering versus conditionals — ordering is cheaper to read~~ — LANDED 2026-09-01, and the Havoc audit found nothing
 
 Author's position, 2026-08-16, correcting an equivalence stated in review: *"conditionals require
 more mental energy than ordering, especially for items already mostly on the far left."*
 
-Two encodings can produce **identical presses** and still not be equivalent to a player. Ranking A
-above B with a condition that skips A, versus ranking B above A outright, are behaviourally the same
-and cognitively are not: a badge must be seen, identified and interpreted before the eye moves on,
-while a position costs nothing. The tax is worst on a **leftmost** entry, where the eye arrives first
-and pays it on every scan — including the majority of scans where the condition is false.
+**The rule is now `render-shelf.md` Part 0.5 → *Rank first***: *when a fact is stable enough to
+express as rank, express it as rank and spend no cue on it; reserve a cue for what genuinely varies
+within a state.* ⚠ **It went to Part 0.5 rather than to `spec.md` §3.1, which is where this entry
+originally sent it, and that turned out to matter for a reason nobody had noticed: TWO LIVE
+CITATIONS ALREADY POINTED AT PART 0.5 FOR IT.** `render-shelf.md`'s own V12 section
+(*"which is Part 0.5's rule in its plainest form"*) and `devourer/catalog.md` (*"which is what
+`../render-shelf.md` Part 0.5 asks for"*) both cited a rule Part 0.5 did not contain. Writing it
+into `spec.md` would have left both broken and added a third home for the same idea. §3.1 now
+carries **one clause citing it**, per its own *"a procedure written down twice is a procedure that
+will disagree with itself."*
 
-- [ ] State it in `spec.md` §3.1 beside eye-direction-by-elimination: **when a fact is stable enough
-      to express as rank, express it as rank; reserve a cue for what genuinely varies within a
-      state.** A cue that is nearly always lit is a mis-ranked row wearing a badge.
-- [ ] Audit the Havoc row for that shape — any marker lit in most states is a candidate for becoming
-      rank instead. ⚠ **Decide it from the APL, not from the page.** The row order is now the
-      APL's rung order and `Anchor.lua` draws it; a re-rank means `catalog.md` + `scenarios.md` +
-      `Catalogs/Havoc.lua` moving together.
+⚠ **The rule was written to cut both ways, which the one-line version does not.** A fact that
+genuinely changes within a state *cannot* be rank — a fixed position cannot say "right now" — so
+ranking it produces a row that is silently wrong half the time. Two failures, one rule: a cue doing
+a rank's job costs attention on every scan; a rank doing a cue's job costs correctness. The
+re-examination of the parked positives (above) turned on exactly that distinction.
+
+**The Havoc audit ran, and it is a clean negative — no re-rank, nothing for batch C.** Counted over
+the 16 authored scenarios in `havoc/scenarios.json`, the most-lit marker in the spec is Chaos
+Strike's `starved` at **3 of 15 appearances (20 %)**; every other marker is at or below 18 %, and
+five are single-digit. Nothing is anywhere near "lit in most states". ⚠ **State the limit with the
+result:** the 16 scenarios are *authored* states chosen to exercise the catalog, not a sample of
+play, so this is evidence about what the catalog claims and not about frequency in a real fight.
+What it does establish is that no marker is lit in most of the states the catalog itself thinks are
+worth writing down — which is the shape the rule looks for. **Reopening condition:** a flight
+report naming a row that reads as permanently badged. Retribution already produced one of those
+(*Say WHY a row is hatched* in `## Ideas`), and it was three rows reading permanently red — the
+same complaint from the other end.
 
 ### Diagonal stripes — cap hinting *against* an ability
 
@@ -1361,6 +1478,9 @@ bit with a hatch it's still sort of asking to be clicked."* This is **Part 5 que
 in the direction the shelf feared**: black at `0.50` reads as *dimmed*, not as *ruled out*, on
 high-value art. ⚠ It is NOT a licence to add a hue — the retired veil died of exactly that. The
 shelf's own guidance is area or a different treatment.
+⚠ **PROMOTED 2026-09-01** — this finding now has its own entry, *The hatch is paid on every scan*,
+because the fold decision makes it a cost on every read of four specs rather than one bright icon
+on one. The finding and its evidence stay here; the response lives there.
 
 **5 — A duration-shaped swipe is read as a cooldown.** *"it has no cooldown red icon, which it
 should since it's one of those annoying abilities that shows me the duration instead of the
@@ -1379,6 +1499,46 @@ Fury this needs no sealed sink and no lab question. It is a shelf primitive plus
 It also **subsumes finding 2's count half** by moving the number off the icon face entirely.
 
 ---
+
+### `1:36` is Blizzard's number, and on a held row cap draws the same number twice
+
+Raised 2026-09-01, out of the first Protection flight's finding 2. The author saw *"the last item
+in the CDM that has `1:36` in giant text overlaying it"*. That text is the `Cooldown` widget's own
+C-side countdown, centred on the whole icon at `GameFontHighlightHugeOutline` — huge on a 50 px
+Essential item by Blizzard's choice, with **no region to reparent, no anchor to move and no
+parentKey to reach** (`knowledge/addon-dev/cooldown-manager.md` §1.5, point 3).
+
+⚠ **It was first written up here as "cap cannot touch it", and that was wrong.** There is no
+region, but there is a **setter**: `SetHideCountdownNumbers(not shown)`, reached through
+`CooldownViewerItemMixin:SetTimerShown`, and it is applied from `OnAcquireItemFrame` and from the
+viewer's own Edit Mode toggle — **not** from any per-refresh path
+`[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerItemMixin:SetTimerShown,
+CooldownViewerMixin:OnAcquireItemFrame, CooldownViewerMixin:SetTimerShown]`. So it is the same
+shape `Glow.lua` already uses on the proc glow: hook per instance, write when cap is live, restore
+when cap goes dark. **`spec.md` §4 does not forbid it** — the promise is that cap never writes the
+player's *saved* Cooldown Manager configuration, and this is a runtime display write on a frame,
+strictly smaller than the row re-anchoring §4 already permits.
+
+**What makes it worth raising is not the size of the font. It is the duplication.** On a row
+wearing a `sealed-cooldown-range` hold, cap's V21 badge already draws a countdown — and the
+client draws a *different* countdown, of a *different* clock, in the middle of the same icon.
+Protection's row 1 is the case: Blizzard's centred number is that row's own cooldown, cap's badge
+numeral is Divine Toll's. Two numbers, one icon, neither labelled.
+
+**Three answers and they are not the same decision:**
+
+- **Leave it.** Blizzard's number is information the player uses on every row, and cap's badge is
+  present on a minority of them. The noise is the price of not deciding for the player.
+- **Suppress it only where cap draws a dial.** The narrow one: the duplication is the defect, so
+  remove it exactly where it occurs and nowhere else. ⚠ It makes the row's OWN remaining time
+  disappear on precisely the rows that are held — which may be the moment it is most wanted.
+- **Suppress it on every row cap has claimed**, and let cap's chrome be the only numbers on the
+  strip. The strongest and the most presumptuous.
+
+⚠ **The player's own *Show Timer* toggle already does the third**, per viewer, without cap. That
+is the argument for doing nothing: an option that exists and is one click away is not a gap.
+⚠ **This is a `spec.md` §3 change before it is a shelf change** — it is player-visible behaviour
+on Blizzard's own surface, not a treatment of cap's, so it needs a spec line and not just a token.
 
 ### The client's unusable tint is a FOURTH eliminating signal and the model does not admit it
 
@@ -1431,10 +1591,18 @@ something:
   display.
 
 Tightening it means per-state condition matching, which fails the holds. `display_apl` already
-exists as the precise form when an author wants to name the exact rung — the residual question is
-whether it should be *required* wherever the bare-mention path is what resolved, which would make
-the loose case visible instead of silent. Not done: it would re-open every resolving display at
-once, and the gate has not yet been argued with by anyone but its author.
+exists as the precise form when an author wants to name the exact rung.
+
+**DECIDED 2026-09-01 — document the looseness, require nothing. No change to the gate.** The
+residual question was whether `display_apl` should be *required* wherever the bare-mention path is
+what resolved, making the loose case visible instead of silent. It is not, for two reasons: it
+re-opens every currently-resolving display at once on a gate nobody but its author has argued with,
+and the tighter check it gestures at — per-state condition matching — is not available at all, so
+requiring the precise citation is ceremony with no correctness argument behind it yet. **The shape
+now lives in the gate's own docstring** (`_display_provenance_gate`), which is where a reader meets
+it, rather than only here. **Reopening condition:** one display found by hand to be drawing a fact
+its row's rungs do not read — the Light's Deliverance failure slipping through — which is what
+would make the extra ceremony worth its price.
 
 ### Add a shelf section for what Blizzard already draws on a CDM icon
 
@@ -1470,13 +1638,39 @@ does not — which is the wrong way round, since a sidecar-led spec is precisely
 half is Destruction's until it migrates, and the durable fix is for `check` to scrape the doc
 independently rather than re-using the loader's chosen subject.
 
-### Teach `Catalog.OrderCheck` what it is actually checking
+### Teach `Catalog.OrderCheck` what it is actually checking — WORDING SETTLED 2026-09-01, the edit is batch D
 
 It compares the catalog against Blizzard's `layoutIndex` and reports as though that were the drawn
 order. Since `Anchor.lua` shipped that is no longer true even on a stock setup — `GetItemFrames()`
-sorts by `layoutIndex`, so every instrument cap owns is blind to a `SetPoint` re-anchor by
-construction, and under a competing CDM skin the check is neither right nor wrong but blind, which
-is the worse failure. At minimum its capture note should say which order it read.
+sorts by `layoutIndex`, so every instrument cap owns is blind to a `SetPoint` re-anchor **by
+construction**, and under a competing CDM skin the check is neither right nor wrong but **blind**,
+which is the worse failure. `Anchor.lua:9` already records the invariant from the other side:
+*"position is read with GetLeft/GetTop, never through Bind or Catalog.OrderCheck, which sort by
+layoutIndex and cannot see a SetPoint."*
+
+⚠ **The fix is two strings in `Sense.lua`, so it is addon Lua and rides the next cut, not this
+round.** The check itself is correct at what it does and must not be changed — `OrderCheck`
+(`Catalog.lua:793`) takes the row list it is given and reports the first pair out of order, which
+is exactly right. What is wrong is that its two outputs claim more than it read. Both are in the
+`told ~= state.orderTold` block:
+
+- **`Log.Note`, today:** *"row-order %s is laid out after %s; this catalog reads left-to-right in
+  priority order"*.
+  **Replace with:** `"row-order %s is laid out after %s in the Cooldown Manager's own layoutIndex, "
+  .. "which is what this check reads — not the drawn position, which another addon may have
+  re-anchored; this catalog reads left-to-right in priority order"`.
+- **`Emit`, today:** *"your Cooldown Manager orders X before Y, which is not this catalog's
+  priority order — read the row with that in mind."*
+  **Replace with:** `"your Cooldown Manager's saved layout orders X before Y, which is not this
+  catalog's priority order — read the row with that in mind. (This reads the saved layout, not
+  where the icons are actually drawn.)"`
+
+**Why the wording and not a real fix.** Reading drawn position means `GetLeft`/`GetTop`, which is
+what `Anchor.lua` already does and which needs a frame that has been laid out — a different
+lifecycle from the one `Sense.lua` runs this in. Making the check *see* a re-anchor is a genuine
+piece of work; making it stop **claiming** to see one is two strings. ⚠ **Do not let a later pass
+record this entry as fixed when only the wording has landed** — the blindness is unchanged and this
+is a truthfulness fix, nothing more.
 
 ### Target-aura latch — retarget is the only part that needs a flight
 
@@ -1528,17 +1722,63 @@ safety case, and Havoc's three files are now the **model** rather than a debt
 
 The item's *other* half survives on its own, below.
 
-### `rotation.md` is the sole home of the priority order
+### ~~`rotation.md` is the sole home of the priority order~~ — SWEPT 2026-09-01; no second copy found, two files gained the missing sentence
 
 The gameplay KB carries the priority list with front matter and provenance; a catalog cites it and
-must not restate it. Audit the per-spec catalogs for a second copy of the order — two copies drift,
-which is the whole reason `simc-apl.md` exists as a generated artifact.
+must not restate it. All six `*/catalog.md` were read end to end for a **reader-facing restated
+ordered list** — a numbered list, table or prose run reproducing the priority as something to read
+*instead of* the APL. Per-entry rung citations are required by the state-provenance gate and were
+not the target.
 
-### Close out the migration artifacts
+**Nothing found, and the near-misses are the useful part.** Three constructs came close and all
+three survive on examination:
 
-`simplification-plan.md`, `simplification-audit.md` and `rule-split-audit.md` are temporary and are
-not product authorities. Delete or archive them, and remove the obsolete modules, fields and
-vocabulary that were kept as compatibility scaffolding for an unreleased design.
+- **`## The authored row order`** (five files, a `# | Entry | rung` table). Its subject is
+  `Catalogs/<Spec>.lua`'s `entries` array — an addon artifact that has to be documented — and each
+  instance is followed by prose explaining exactly where row order and rung order **diverge**
+  (Havoc's Vengeful Retreat 5→1, Retribution's `finishers` interleave, Demonology's Demonbolt swap).
+  A document of the divergences is not a copy of the order.
+- **Havoc's four-rung Immolation Aura table.** Rung-ordered with verbatim conditions, but it is one
+  **entry's** placement being argued across the four rungs that set it — provenance of unusual
+  breadth, not a mini-priority-list.
+- **Devourer's *"13 distinct presses in first-occurrence order"***. A census sizing the roster; raw
+  simc tokens, no conditions.
+
+**What the sweep actually found: `havoc` and `devourer` were the two files WITHOUT the *"Neither is
+restated here"* header sentence the other four carry — and they are the two that produced the near
+misses.** Both now carry it, each naming its own near-miss so the next reader does not re-raise it.
+That is the durable half: the rule was already being followed and was the only one of the header's
+promises left unwritten in two files.
+
+⚠ **Rung-mention counts are not a defect signal and should not be read as one** — protection 130,
+havoc 98, demonology 54, destruction 38, devourer 36, retribution 7 bare (plus 34 list-qualified).
+A high count is what per-entry provenance looks like.
+
+### ~~Close out the migration artifacts~~ — the `specs/` half is DONE 2026-09-01; the Lua half is batch D
+
+**Four artifacts went to `specs/archive/` under the existing `-YYYY-MM-DD` convention** — the
+simplification plan and audit, the rule-split audit, and the Devourer preview plan, which named
+*this entry* as its own release condition. Archived rather than deleted: their arguments are the
+record of why the current design is shaped as it is, and `archive/` exists for that. ⚠ **Nothing in
+`archive/` may be cited as a reason to do anything, and nothing there is to be read in the present
+tense** — `projects/combat-assist/CLAUDE.md` now says so once, for the folder, instead of naming
+three files by hand.
+
+⚠ **The simplification plan was already contradicted by the constitution when it was archived**, so
+it was a live document telling a reader the wrong thing: its corrected target is the three discrete
+tiers `ASAP` / `SOON` / `FALLBACK`, and `spec.md` §3.1 retired those on 2026-08-25. The archived
+copy's header now says so.
+
+**`ellesmere-mover-plan.md` was deleted**, not archived — its history is already at
+`archive/ellesmere-mover-plan-2026-09-01.md`, its goal was reached (Phase 3 flew, v0.23.1), and its
+outcomes are in `## Status`. Its own header said it was kept only because deleting an *untracked*
+file is not undoable by git; it was in fact tracked, so that reason was false and the deletion is a
+`git revert` away. The archived copy is now flagged as the whole record.
+
+- [ ] **What is left is the addon-side half, and it is batch D.** The audits name **only Lua and
+      tests** for *"remove the obsolete modules, fields and vocabulary kept as compatibility
+      scaffolding for an unreleased design"* — there was never a `specs/` half of that checkbox, and
+      reading one into it is what kept this entry looking half-done. It rides the next C/D release.
 
 ### ~~Judge the two unflown Warlock surfaces~~ — ANSWERED ON PAPER 2026-08-19
 
@@ -1593,8 +1833,10 @@ spec-and-hero pair is the unit (`authoring.md` §0).
   a roster-derived grid destroys *"the rect is known at login"*, which the EllesmereUI anchoring
   depends on. **`RegisterSkin`** for cap's own windows — cosmetics, touches no CDM frame.
   **`norow` conflates three causes** in `Bind.lua:242` — a diagnostic sharpening, not a fix.
-  ⚠ The Destruction entry carries one correction to make while passing: **`backlog.md:619`'s
-  *"two-entry proof"* is wrong** — the pilot has one entry and two abilities.
+  ⚠ ~~The Destruction entry carries one correction to make while passing.~~ **Made 2026-09-01** —
+  the `## Status` Destruction bullet now reads *one-entry proof* and says why. ⚠ The line number
+  this pointed at (`backlog.md:619`) had already drifted onto a different paragraph, which is the
+  second thing it got wrong: **cite a heading, not a line number, in a file edited every session.**
 
 - **Say WHY a row is hatched, on hover.** Asked for 2026-08-29, from playing Retribution: three
   rows (Execution Sentence, Wake of Ashes, Divine Toll) read as permanently red with no way to tell
@@ -1620,42 +1862,100 @@ spec-and-hero pair is the unit (`authoring.md` §0).
     the number on the badge face.
   - Player-visible behaviour, so it needs a `spec.md` line before it is built, not just this entry.
 
-- **`render-shelf.md`'s V12 section still argues from Collapsing Star, and that premise was
-  measured false.** Recorded 2026-08-27, from the catalog-review residue. V12's *Why it exists*
-  paragraph says Collapsing Star *"is a real press … and has no frame anywhere in the CDM pool"*,
-  and its `gated` kind is defined with Collapsing Star as the worked example. Collapsing Star was
-  then measured in game to be a spell **override on the Void Metamorphosis row**, so R7 draws it,
-  it is not cap-owned, and it is not a virtual row at all — which is also why **V12's `gated` kind
-  has no consumer anywhere** (the Devourer status entry above already says so). The one live
-  virtual row is Consume, `standing`. So the shelf's justification for the primitive rests on a
-  case that no longer holds, while the primitive itself is still right — Consume has no frame
-  either. **This is the shelf's call and was deliberately not edited here**: rewriting V12's
-  motivating example is a visual-opinion edit, and `render-shelf.md` is the one document that owns
-  those. What it needs is the standing example swapped in and `gated` re-justified or retired.
-  ⚠ The *other* half of the same finding is already fixed: the shelf's claim that a virtual row
-  wears the hatch *"and nothing else — no scan edge, no badge"* is gone, and V12 now says plainly
-  that a virtual row takes V13's scan edge, which is what the code always did.
+- **V12's `gated` kind is built, unexercised, and its retirement is a Lua change — batch C/D.**
+  The *documentation* half of this finding is closed: `render-shelf.md` V12 argues from **Consume**
+  (`standing`) and carries the dated correction that Collapsing Star is a spell **override** on the
+  Void Metamorphosis row, so R7 draws it and it was never a virtual row. Verified 2026-09-01 —
+  nothing in `specs/**` still argues V12 from Collapsing Star.
+  **What is left is the kind itself.** `gated` has **no consumer anywhere**, has never had one, and
+  must be recorded as *unexercised* rather than as passed. Retiring it is a live option and the
+  cheaper one — but it is `Catalog.lua`'s `VIRTUAL` kinds, `Catalog.Check`'s refusal of a subject
+  predicate naming a virtual ability, and `Overlay.lua`, so it is **addon Lua and not available on
+  paper**. ⚠ **Keeping it is the current decision and it has a reason**: the inverted-unknown rule
+  it carries is the thing that makes a gated row hard, and the shelf says the next spec that wants
+  one meets that rule before authoring rather than after. Deleting the kind deletes the place that
+  argument is attached to.
 
-- **Destruction has never been catalog-reviewed.** The 2026-08-25 pass reviewed five specs —
-  Demonology, Havoc, Protection, Retribution, Devourer — and skipped Destruction because this file
-  records it shelved. Every other spec's review found something no gate looks at, including two
-  cross-cutting patterns (a hold naming a row it never checks is available; a recorded defeat that
-  went stale under a later primitive) that are now a **gate** and a **habit** respectively. Neither
-  has ever been run against Destruction's documents. It is cheap and it is read-only. ⚠ Do it
-  **before** stage 6 authors `specs/destruction/catalog.json`, not after: the patterns are about
-  the documents, and transcribing a document that carries them transcribes them too.
+- **~~Destruction has never been catalog-reviewed.~~ — REVIEWED 2026-09-01. Six findings, four of
+  them stale defeats, and one of them is a transcription trap for stage 6.** The 2026-08-25 pass
+  reviewed five specs and skipped Destruction because this file recorded it shelved. ⚠ **Both
+  cross-cutting patterns had to be run by hand** — the hold-availability gate iterates
+  `catalog.json` states and Destruction has none — which is exactly why doing it before stage 6
+  authors that file was the right order.
 
-- **Check a SETTLED claim as hard as a hedged one — the lesson of the Light's Deliverance
-  reversal, kept because it is about process rather than about Retribution.** Recorded 2026-08-27.
-  A review recommended a `sealed-count-bands` on Light's Deliverance; it was authored, and then
-  deleted, and both the band and the mechanic it rested on were wrong (`retribution/catalog.md`
-  holds the full account). The part worth generalising is the **provenance of the mistake**: an
-  agent had put an `@verify-ingame` on the threshold, and a later "settled" decision removed it,
-  having closed the question by reading spell text — a source that could not answer it. The hedge
-  was warranted and the settlement was not. **So a claim marked settled deserves the same scrutiny
-  as one marked open, and more when what settled it was prose rather than measurement.** The
-  practical form: when a marker or a defeat is removed *because a question was closed*, record what
-  closed it, and treat "the tooltip says so" as evidence about wording rather than about mechanics.
+  **Pattern 1 — a hold naming a row it never checks is available: CHECKED, NOTHING FOUND**, and it
+  is a clean negative rather than a "could not tell". All ten markers were read against the
+  ten-entry roster: **there is not one cross-row term in this catalog**, which the file states
+  itself (*"not one rung in `actions.default` reads another ability's `cooldown.X.remains`"*) and
+  which it acts on, explicitly declining the one companion marker it could have written. Every
+  hold's stated reason is its own rung's own conjunct. Protection's Defeat 4 has no instance here
+  and nothing would transcribe one.
+
+  **Pattern 2 — a recorded defeat gone stale under a later primitive: FOUR of five are stale.**
+  Fixed in place on 2026-09-01, since a defeat resting on a false premise is a stale claim:
+  - **Defeat 1 (the DoT pandemic window) — reopened, and the reopening is CHEAPER than the file
+    thinks.** It says the fix is a `pandemic` predicate in `Catalog.PREDICATES` plus a
+    `readPandemic`. **V19 needs neither** — promoted 2026-08-22, it drives a client-owned region
+    off the client's own refresh arithmetic and authors no threshold, it is recipe `S9`, and it has
+    two shipped consumers. Its two-sided pair *is* cue E's job. Immolate's DoT is already
+    established here as the Category-2 row V19 needs. ⚠ **This is the transcription trap:**
+    authoring `immolate_up` as a whole-DoT `blocked` from today's text ships a defeat that is
+    expressible. **Resolve before `catalog.json` — batch C.**
+  - **Defeat 2 (the ritual clock) — its central claim is false and it is re-scoped.** *"There is no
+    aura-remaining band"* was true when written; V19's outside hatch is literally a band on an
+    aura's remaining seconds (Protection ships one), and V20 drains an aura's remaining into a
+    client-owned bar with the *armed Demonic Art* as a declared consumer — the same mechanism.
+    What survives is the **sum** of three stage remainings and the Tier-2 "exactly one stage is
+    live" equivalence, which is what its `@verify-ingame` is really about.
+  - **Defeat 5 / §5.3 (which Diabolic Ritual row is the armed Art) — partly stale.** Demonology has
+    since named the aura and armed a display over it (`art_mother_of_chaos`, aura `432794`,
+    flagged there as Tier-3-sourced and dying silent). *"One measurement serves both Warlock
+    catalogs"* still holds; Destruction is now the one that has not taken the available hedged
+    route, and its docs do not know the id exists.
+  - **Defeat 4 (`target_if`) — WORDING ONLY, and worth fixing precisely because it is not a real
+    reopening.** *"What would reopen it: a surface that is not a CDM row"* is now satisfied as
+    written by V12's virtual row, which reopens nothing — a virtual row is still a button and the
+    unsaid thing is *which enemy*. Re-phrased to *"a surface that can address a unit"*. ⚠ A
+    reopening condition that a later build satisfies by accident is worse than none: the next pass
+    trips on it.
+  - **Defeat 3 (Shadowburn in execute range) — NOT stale**, checked against all eleven primitives.
+    Every one needs an aura or cooldown subject that does not exist here, and `spec.md`'s
+    presence-not-absence limit is not even engaged because there is no display at all. It stands
+    exactly as written.
+
+  **Two vocabulary claims were stale and would have been transcribed verbatim** — both fixed:
+  `catalog.md` measured its design against a `Catalog.DISPLAYS` list that still named the retired
+  `player-aura-stacks`, and `fact-classification.md` cited its `min = 2` guard as live. ⚠ **That is
+  what made Defeats 1 and 2 look closed** — both argue from *"no display kind exists"*, against a
+  list two primitives out of date. And `scenarios.md` called the client's unusable tint *"a third"*
+  eliminating signal where `catalog.md` correctly says three exist already, making it a fourth: the
+  two documents disagreed with each other.
+
+  ⚠ **The "empty sealed lane" claim is a CONSEQUENCE of two stale defeats, not a finding about the
+  spec.** *"The first catalog with an empty sealed lane"*, *"this catalog authors zero sealed
+  cues"* and the whole of `fact-classification.md` §4 are currently written as an observation about
+  Destruction. Acting on Defeat 1 puts a `sealed-pandemic` in the lane and falsifies all of them.
+  **Left standing deliberately** — rewriting them before the catalog edit lands would be asserting
+  a design decision nobody has taken; they move together, in batch C.
+
+  **The known live Shadowburn finding is cross-referenced, not re-derived, and the docs already
+  carry it fully** in four places, independently of this file, including the two-consumer count and
+  the 2026-08-27 narrowing that the `IsSpellUsable` measurement is now Destruction's alone since
+  Collapsing Star turned out to be an R7 override. The only gap was the signal count above.
+
+  **Low confidence, recorded not acted on:** if the author's request to point V18's segmented bar at
+  a **charge** count ships, Conflagrate is its first candidate — Destruction is the only catalog
+  where the charge state does ordering work. It reopens nothing today; V18 is a shape, not a
+  numeral, and the argument that no rung wants the number survives.
+
+- **~~Check a SETTLED claim as hard as a hedged one~~ — LANDED in `authoring.md` 2026-09-01.** It
+  was a process lesson with no home; the process file is `authoring.md`, and it is now a standing
+  rule beside *How to write a defeat*, keeping the Light's Deliverance provenance — the hedge was
+  warranted, the settlement was not, and what closed the question was **spell text**, which could
+  not answer it. A second standing rule went in beside it out of the Destruction review: **a defeat
+  goes stale and nothing notices**, so a promoted primitive means grepping the corpus for the
+  defeats that named its absence, and a reopening condition must name the thing you need rather
+  than the negation of what you have.
 
 - **An OR in the marker `when` grammar — wanted by a defeat that has no other exit.**
   Recorded 2026-08-26 out of Protection's Defeat 4. `when` is AND-only (`Signal.lua`), and the
@@ -1684,11 +1984,27 @@ spec-and-hero pair is the unit (`authoring.md` §0).
   deliberately bypasses the charge ledger, and `Catalog.lua:17` gives `capped` `arity = 1,
   subject = true` with no `charged` requirement. So the self-withholding at one charge **is** the
   talent-conditional behaviour that two separate defeats asked someone to build.
-  ⚠ **Protection's Defeats 4 and 5 both rested on this false premise and are rewritten.** The
-  sweep this implies has not been done: **any catalog that declines `capped` should have its
-  stated reason re-read against `Sense.readCapped`**, Retribution's first — its reason may be
-  sound on other grounds, but if it cites a missing charge count it is citing something that was
-  never required.
+  ⚠ **Protection's Defeats 4 and 5 both rested on this false premise and are rewritten.**
+  ⚠ **THE SWEEP RAN 2026-09-01 AND FOUND NOTHING — no catalog declines `capped` for the wrong
+  reason.** Every catalog that does not spend it was re-read against `Sense.readCapped`:
+  - **Retribution** argues it at length under *Why this catalog does not spend `capped`*, in three
+    independent parts — five Holy Power is loss *conditional on a press* rather than loss in
+    progress; the negative phrasing exists and is already authored as `overcap` on Divine Toll;
+    and "spend now" is a rank claim the scan already carries. **Not one of the three touches a
+    charge declaration.** Sound on merits, unchanged.
+  - **Demonology** declines it because **nothing in its Essential set is a charge spell at all** at
+    12.1, measured off `ability-inventory.tsv`. There is no subject, so the question does not
+    arise.
+  - **Protection** already carries the correction in full.
+  - **Havoc** and **Destruction** spend it (Immolation Aura, Conflagrate), so neither declines it.
+  - ⚠ **Devourer neither spends nor declines it** — `capped` appears nowhere in its catalog. That is
+    a silence rather than a wrong reason, so it is not what this sweep was looking for, but a
+    catalog that never considered a cue is not the same as one that considered and refused it. Left
+    as a note; it wants a sentence the next time that file is opened.
+
+  **So the false premise cost two of Protection's defeats and nothing else.** Recorded because the
+  sweep ending in nothing is the outcome worth writing down — an unrecorded no-change gets
+  re-swept.
 
 - **~~The Protection preview is 1 KB over budget.~~ — RESOLVED 2026-08-27, and the budget was
   the thing that was wrong.** The warning was real but it was not about Protection: `build`

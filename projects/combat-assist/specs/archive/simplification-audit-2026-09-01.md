@@ -2,9 +2,10 @@
 
 > Historical execution record. Its recorded A1 decision was superseded after review found
 > that the packet falsely coupled tier removal with removal of unrelated engine complexity.
-> The corrected contract and execution plan live in `spec.md` and `simplification-plan.md`.
+> The corrected contract lives in `spec.md`. The execution plan it was written against is
+> archived beside it at `simplification-plan-2026-09-01.md`.
 
-Temporary execution artifact for `simplification-plan.md`. This records migration evidence,
+Temporary execution artifact for `simplification-plan-2026-09-01.md`, archived beside it. This records migration evidence,
 decisions, and phase progress; it is not a product specification.
 
 ## Section 1 commitments

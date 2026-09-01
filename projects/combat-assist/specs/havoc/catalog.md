@@ -7,7 +7,8 @@ provisional product characterization for play, not a claim the rules are univers
 `../authoring.md`'s recipe index owns every recipe cited here (`R1`…`R10`, `S1`…`S9`) and maps each to its `knowledge/addon-dev/` evidence;
 `fact-classification.md` beside this file tags each fact readable / sealed-display / open with
 its addon-dev evidence; `scenarios.md` beside this file walks the Fel-Scarred priority as a
-single-row Cooldown-Manager elimination walk and proves membership + cues reproduce the order (state →
+Cooldown-Manager elimination walk (Havoc's strip **folds**, and Part 0.5's fold decision makes the
+two lines one walk read like a book, so the walk below is unchanged by the break) and proves membership + cues reproduce the order (state →
 why each off-cooldown button is skipped → the press → cue status).
 
 > **The priority source is `knowledge/classes/demon-hunter/havoc/simc-apl.md`** — the Tier-1
@@ -16,6 +17,13 @@ why each off-cooldown button is skipped → the press → cue status).
 > `actions.default` lines in that file, starting at `auto_attack` = 1. **Icy Veins is
 > corroboration, not authority**: it agrees through the whole middle of the list and on Essence
 > Break's `>4`, and where it and the APL disagree the APL wins.
+>
+> ⚠ **Neither is restated here; this file cites them.** `simc-apl.md` is the generated artifact and
+> `knowledge/classes/demon-hunter/havoc/rotation.md` the prose that augments it — a second copy of
+> the order in this file would drift from both, which is the whole reason the generated artifact
+> exists. Where a table below is ordered by rung it is arguing about **one entry's placement** and
+> cites the rungs that decide it; it is not a reader-facing priority list to be used instead of the
+> APL. (Added 2026-09-01 — the other catalogs carried this sentence and this one did not.)
 >
 > ⚠ **The sim has perfect information and no legs.** It models neither movement nor mechanics
 > and its dummy never leaves melee range, so **absent from the APL ≠ irrelevant in play**. Read

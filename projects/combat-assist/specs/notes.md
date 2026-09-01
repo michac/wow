@@ -46,6 +46,47 @@ nothing survives, "nothing; superseded by <X>" and stop.
 
 ---
 
+## 2026-09-01 — batch A, the paper round: eleven backlog items, no client, one commit
+
+**What changed.** The backlog was carved into six batches by *what an item needs* — the scarce
+resource here is trips into the client, not gates — and the batch that needs none of them was
+cleared in one pass. `backlog.md` gained a `## Batches` section (the carve-up had existed only in
+chat); Part 0.5 of the shelf gained the *Rank first* rule; five stale positive-cue passages were
+rewritten; four migration artifacts went to `specs/archive/` and the spent EllesmereUI plan was
+deleted; `cooldown-manager.md` gained §1.5, the CDM item's region stack; Destruction had its first
+catalog review; two gates got a documented decision rather than a change. Files: `backlog.md`,
+`render-shelf.md`, `spec.md`, `authoring.md`, `havoc/catalog.md`, `devourer/catalog.md`,
+`destruction/{catalog,scenarios,fact-classification}.md`, `../CLAUDE.md`,
+`knowledge/addon-dev/cooldown-manager.md`, `tools/wowkb/capart.py` (docstring only), four
+`specs/archive/` moves.
+
+**Why it still binds.** Three arguments a future reader should not re-derive.
+
+The *Rank first* rule went into **Part 0.5 and not `spec.md` §3.1**, where the backlog entry sent
+it, because two live citations already pointed at Part 0.5 for a rule Part 0.5 did not contain.
+Writing it into `spec.md` would have left both broken and added a third home for one idea.
+
+**Two of the four "parked" positive cue halves had already been decided in the catalog** — one
+deleted because no APL rung reads the fact, one retired because the row order already carries it —
+while `spec.md` and the shelf went on calling them parked. A parked item is a decision waiting to be
+taken; nothing was waiting. The failure is a decision taken in one file and never propagated back,
+which is the same shape as a stale claim with a correction appended under it, one file removed.
+
+**Four of Destruction's five defeats were stale**, two of them argued from a `Catalog.DISPLAYS`
+list quoted into the document two primitives before. A defeat is a *stop sign*: the next author
+reads it and does not check. That produced two new standing rules in `authoring.md` — re-read
+defeats when a primitive is promoted, and write a reopening condition as the thing you need rather
+than as the negation of what you have (Destruction's was satisfied by accident by V12).
+
+**Caveat.** Three items ended in a recorded no-change and are meant to: the Havoc rank audit (no
+marker exceeds 20% of 16 authored scenarios — which is evidence about the catalog's claims, not
+about frequency in play), the `rotation.md` restatement sweep, and the `capped`/`charged` sweep. The
+provenance gate's substring looseness was **documented and deliberately not tightened**. Nothing
+here reached the addon: A5's `OrderCheck` wording, A6's `gated` retirement, A4's module removals and
+Destruction's Defeat-1 fix are all staged into batch C/D and named there.
+
+---
+
 ## 2026-08-19 — both Warlock pilots replaced by comprehensive catalogs
 
 **What changed.** Demonology / Diabolist and Destruction / Diabolist were re-authored from the

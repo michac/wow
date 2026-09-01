@@ -1,7 +1,7 @@
 # Combat Assist Plus — the rule ledger for the process/philosophy split
 
-**Temporary migration artifact**, in the same class as `simplification-plan.md` and
-`simplification-audit.md`, and covered by the same sentence in the project `CLAUDE.md`: *these are
+**Temporary migration artifact**, in the same class as `simplification-plan-2026-09-01.md` and
+`simplification-audit-2026-09-01.md` beside it, and covered by the same sentence in the project `CLAUDE.md`: *these are
 not additional product authorities.* Delete it or move it to `specs/archive/` once the surgery has
 settled.
 

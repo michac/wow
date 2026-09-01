@@ -170,9 +170,15 @@ name.
 
 What this section fixes is that principle. **The procedure a player actually runs is
 `render-shelf.md` Part 0.5's**, and that file owns it: it states how the row is scanned, in what
-order, and how the one positive cue interacts with the scan. That is a reading-model question, not
-a constitutional one, and changing it is a shelf edit. This section does not restate it — a
-procedure written down twice is a procedure that will disagree with itself.
+order, and how the vocabulary's two positive cues interact with the scan. That is a reading-model
+question, not a constitutional one, and changing it is a shelf edit. This section does not restate
+it — a procedure written down twice is a procedure that will disagree with itself.
+
+⚠ **One consequence of that procedure reaches back into what a catalog author encodes, and it is
+also the shelf's**: *when a fact is stable enough to express as rank, express it as rank and spend
+no cue on it; reserve a cue for what genuinely varies within a state* (Part 0.5, *Rank first*).
+A marker lit in most states is a mis-ranked row, and a fact that changes within a state cannot be
+ranked at all. It is cited here rather than copied for the reason in the paragraph above.
 
 **A priority list is a dependency graph, and emphasis may follow a readable *relationship*, not
 only a button's own state.** An ability's place in the order is usually set by *why* it ranks
@@ -558,8 +564,14 @@ Fury ≥ 35, a positive S1 cue) or "about to cap" (the generator overcap readout
 never reading the value. ⚠ **Expressible is not the same as
 drawn:** `render-shelf.md` declares a cue vocabulary that is **negative by default**, and its two
 positive cues — charges-capped (impending loss) and `priority` — are both driven by readable facts,
-neither by a sealed threshold. So the positive half of *this* finding —
-the "banked" light, and the demon-form promotion below — is authored and **parked**, not refuted. Which polarities get pixels is a shelf question and moves without touching
+neither by a sealed threshold. ⚠ **The positive half of *this* finding — the "banked" light — is
+DELETED rather than parked, and this section said "parked" for two weeks after it was gone**
+(corrected 2026-09-01). `havoc/catalog.md`'s cue B: *"one polarity only: the parked positive
+'banked' half is deleted, since the APL puts no Fury term on Essence Break."* It was never a
+polarity question — there is no rung to cite, so there is nothing for a cue of either sign to draw.
+**What stands, and it is the constitutional claim rather than the rendering one, is that a threshold
+is expressible in either polarity.** That is untouched: the banked light did not fall because its
+polarity was unavailable. Which polarities get pixels is a shelf question and moves without touching
 this section; that a threshold is expressible in either is the constitutional claim, and it
 stands. The AoE
 list adds no new cues — it re-weights via the player's AoE-mode input (§2), not a readable target
@@ -571,7 +583,7 @@ buff-maintenance marker) produce no hint until measured.
 | **Metamorphosis** | ~2 min burst whose payoff is its reset of Eye Beam + Death Sweep; pressing it while either is *ready* wastes that reset. | scan + a readable reset mark off Eye Beam's & Death Sweep's cooldowns (C1), drawn only when a reset would be wasted. |
 | **Eye Beam** | Keep the demon-form window rolling — it enables everything downstream. | scan. |
 | **The Hunt** | On cooldown, but hold if Metamorphosis is available (to buff Abyssal Gaze in the coming Meta window). | scan + a readable sync-hold mark off Meta's cooldown state (C1), drawn only while Meta is up. |
-| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | scan + positive banked-Fury cue (B, expressible — currently **parked**, see above); sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). |
+| **Essence Break** | Mandatory in S2; opens the amp window you flood with spenders. | scan + a sealed hold while Eye Beam's cooldown has ≤4s remaining (C2). ⚠ The positive banked-Fury cue (B) is **deleted, not parked** — the APL puts no Fury term on this rung, so there is nothing to cite (see above). |
 | **Vengeful Retreat** | S2 maintain-on-cooldown press (Exergy / Initiative), woven before Eye Beam. | scan. |
 | **Chaos Strike / Annihilation** | Shown castable even when Fury-starved, and it is the *low-priority* dump — except inside a window. | scan; dimmed when unaffordable (A); **promoted as Annihilation in demon form** (D). Re-skins across the flip. |
 | **Blade Dance / Death Sweep** | The empowered Death Sweep is what you flood windows with; costs Fury. | scan; **promoted as Death Sweep in demon form** (D); demon-form identity. |

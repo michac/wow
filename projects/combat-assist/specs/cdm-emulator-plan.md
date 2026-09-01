@@ -2,8 +2,9 @@
 
 ⚠ **Status: a plan, not a specification.** Nothing here is agreed. It is written to be argued
 with, and §8 lists the decisions it is waiting on. It is a temporary planning artifact in the
-sense `CLAUDE.md` uses — like `simplification-plan.md` — not a ninth permanent document, and it
-should be deleted once its stages land or are abandoned.
+sense `CLAUDE.md` uses — not a ninth permanent document, and it should go to `specs/archive/`
+once its stages land or are abandoned, the way the simplification and rule-split artifacts did on
+2026-09-01.
 
 ## 1. The problem this solves
 

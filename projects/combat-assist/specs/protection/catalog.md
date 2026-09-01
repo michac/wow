@@ -156,6 +156,7 @@ entry read directly]*:
 | `righteous_protector` | Righteous Protector | `81477` | `102440` | spec 11,21 |
 | `divine_guidance` | Divine Guidance | `95235` | `117884` | Lightsmith hero 8,11 |
 | `blessed_assurance` | Blessed Assurance | `95235` | `117883` | Lightsmith hero 8,11 |
+| `sentinel` | Sentinel | `81497` | `102466` | spec 10,18 |
 
 ⚠ **`divine_guidance` and `blessed_assurance` share node `95235`, and that is the fact, not a typo
 — they are a Lightsmith *choice node*, so exactly one of them exists on any build and the other is
@@ -409,7 +410,20 @@ membership condition would be a claim with no consumer.
   about Divine Toll's clock. *Facts:* `ready` (R2) for membership; **Divine Toll's cooldown
   remaining**, which is sealed. *Treatment:* scan +
   - `aw_awaits_toll` — **sealed** `blocked`, cue **A**: S4 `sealed-cooldown-range`,
-    **`beyond = 10`** on Divine Toll, gated on the readable `ready(avenging_wrath)`.
+    **`beyond = 10`** on Divine Toll, gated on the readable `ready(avenging_wrath)` **and**
+    `!talent(sentinel)`.
+  ⚠ **The Sentinel gate is what stops this cue failing LIT.** Avenging Wrath's talent tooltip
+  reads *"Replaced by Sentinel"* *[T1: live 12.1 client]*, and Sentinel holds no
+  `CooldownSetSpell` row, so on a Sentinel build this row keeps its frame and **displays
+  Sentinel** — a defensive cooldown whose value is the damage you are about to take, not the
+  Holy Power Divine Toll is about to inject. Cue A's whole argument is the offensive window, so
+  over Sentinel it is not a missing cue but a **wrong** one, and a wrong cue on the leftmost
+  entry is paid on every scan. Withheld rather than restated: what Sentinel should be held for
+  is a question the APL cannot answer, because it never mentions Sentinel at all.
+  ⚠ **The declaration is NEGATED-ONLY and does not model the transform.** Row 1 still binds
+  `avenging_wrath` flat with no `identity`; authoring that needs the exhaustive every-set DB2
+  absence check Sacred Weapon's claim rests on, and this catalog has only Protection's own
+  inventory file. So a Sentinel build gets a correct *silence* here, not a Sentinel treatment.
   ⚠ **The sense is `beyond`, and getting it backwards would invert the button.** Rung 5 *fires* at
   `cooldown.divine_toll.remains<=10`, so the **hold** is the complement — Divine Toll has at least
   ten seconds left, which is `beyond`'s meaning exactly: *"it is nowhere near, so this is not its

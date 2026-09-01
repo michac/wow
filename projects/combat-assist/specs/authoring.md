@@ -289,7 +289,9 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
   or to `discussion.md`, not into the source.
 - **Do not prebuild vocabulary.** No aura/totem duration, target-aura, APL-DSL or
   capability-registry work until a spec that needs it is being authored.
-- **Releasing is ask-first**, every time.
+- **Releasing `cap` does NOT need asking** (2026-08-31). The standing authorization and the three
+  gates that make it cheap are in `projects/combat-assist/CLAUDE.md` § Releasing; the blanket
+  ask-first rule that used to sit here was retired with it. The other addons are still ask-first.
 - **How to write a defeat.** These docs have a history of cataloguing impossibilities, and an
   impossibility written flat is a stop sign the next agent obeys without checking — measured three
   times: "cap cannot deliver the AoE re-weight" (wrong twice), the single-positive-cue rule read as
@@ -310,6 +312,32 @@ to the author; it holds no write tools, blocks nothing, and its output is questi
   `specs/protection/catalog.md:870`). ⚠ The heading is matched on its `## Defeats` prefix, so
   the sentence after the em-dash is yours to reword; the numbering is not — it is the address a
   `defeat` reference resolves against and has to run 1..N.
+
+- **A defeat goes STALE, and re-reading them is a stage nobody runs.** A defeat names the rung it
+  died on, and the whole point of naming it is that the rung can move. It moves silently: a shelf
+  primitive ships, and the defeat that said *"no display kind turns an aura's remaining into a
+  badge"* is now false with nothing anywhere to notice. **Measured 2026-09-01 on Destruction —
+  four of five defeats stale, and two of them argued from a `Catalog.DISPLAYS` list quoted into the
+  document two primitives ago.** So: **when a new primitive is promoted, grep the corpus for the
+  defeats that named its absence**, and re-read a spec's defeats before stage 6 transcribes it. ⚠
+  A stale defeat is worse than a stale claim, because a defeat is a *stop sign* — the next author
+  reads it and does not check.
+  ⚠ **And a reopening condition can be met by accident.** Destruction's Defeat 4 said *"what would
+  reopen it: a surface that is not a CDM row"*, which V12's virtual row satisfies as written while
+  reopening nothing — the unsaid thing is *which enemy*, and a virtual row is still a button.
+  Write the condition as the thing you actually need (*"a surface that can address a unit"*), not
+  as the negation of what you have.
+
+- **Check a SETTLED claim as hard as a hedged one, and hardest when what settled it was prose.**
+  Recorded 2026-08-27 from the Light's Deliverance reversal (`retribution/catalog.md` holds the
+  account): a review recommended a `sealed-count-bands`, it was authored, then deleted, and both
+  the band and the mechanic under it were wrong. **The provenance of the mistake is the part worth
+  keeping.** An agent had put an `@verify-ingame` on the threshold; a later "settled" decision
+  removed it, having closed the question by **reading spell text** — a source that could not answer
+  it. The hedge was warranted and the settlement was not, and nothing in the pipeline distinguishes
+  the two: a marker is a visible invitation to check, and its removal is invisible. **The practical
+  form: when a marker or a defeat is removed *because a question was closed*, record what closed
+  it** — and treat *"the tooltip says so"* as evidence about **wording**, never about mechanics.
 
 - **And a defeat must reach the page, on the row it happened on.** Numbered items in that section
   are parsed and rendered on the spec's preview, and a spec with a `catalog.json` also says

@@ -16,8 +16,9 @@
 >
 > The preview is registered, carries **11** scenarios, and Devourer is migrated to `catalog.json`.
 
-**Temporary migration artifact**, like `simplification-plan.md` beside it. Not a product
-authority. Delete it when Devourer's preview is registered and reviewed.
+**Temporary migration artifact**, like the simplification and rule-split artifacts beside it. Not
+a product authority. **Archived 2026-09-01**, which is the condition the banner above names — the
+preview is registered, Devourer is migrated to `catalog.json`, and every blocker here is closed.
 
 **Goal.** `http://127.0.0.1:8765/devourer-stepper.html` renders Devourer's ten scenarios so the
 author can review the rotation **visually** and give feedback. Correctness of the walk is *not*

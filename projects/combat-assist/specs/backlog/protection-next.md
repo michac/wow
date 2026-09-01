@@ -18,21 +18,33 @@ tests below are things to add to its section 5, not a second flight.
 **The dial — instrumentation before any fix.** The shape is the largest open question and three
 causes are still live; every step here is a read-back, not a redesign.
 
-- [ ] Log `SetRenderMode`'s result in `buildDial` (`Channel.lua`) — it is the only pcall on that
-      bar with no `ns.Log.Mark`, and it is the one deciding arc-versus-rectangle.
-- [ ] Read `GetRenderMode` back **after** `SetTimerDuration` in `baseCooldownSink` and mark a
+- [x] Log `SetRenderMode`'s result in `buildDial` (`Channel.lua`).
+- [x] Read `GetRenderMode` back **after** `SetTimerDuration` in `baseCooldownSink` and mark a
       mismatch, since that moment is the one `/cap style` never reaches.
-- [ ] Replace `Enum.StatusBarRenderMode and …Radial or 1` with an explicit refusal, because a nil
-      enum currently posts a guessed literal instead of failing.
-- [ ] Establish which sink the *"Radial is measured on a SetTimerDuration-driven bar
-      [client 2026-08-21]"* line was measured on, as it may never have covered `baseCooldownSink`.
+- [x] Replace `Enum.StatusBarRenderMode and …Radial or 1` with an explicit refusal.
+- [x] **Established, and the line did NOT cover it.** Both `[client 2026-08-21]` Radial
+      measurements were taken on a bar the AuraContainer BUTTON claimed, through
+      `SetApplicationBar` / `SetDurationBar`. `baseCooldownSink` is cap's own StatusBar, driven
+      by cap calling `SetTimerDuration` on it directly — a different path with a different owner,
+      never read back. `security-taint-and-restricted-data.md` §4.8.1 now excludes it by name and
+      carries the `@verify-ingame`.
 
 **The collision — a source read before any re-anchor.** cap's hotkey wins a fight it should not
 have entered; the fix needs to know what the client owns first.
 
-- [ ] Read Blizzard's own `ChargeCount` and cooldown-text anchors off the 12.1 source into
-      `knowledge/addon-dev/cooldown-manager.md`, which records neither today.
-- [ ] Re-anchor cap's hotkey off whichever corners that read says the client already owns.
+- [x] Read Blizzard's own `ChargeCount` and cooldown-text anchors off the 12.1 source — done, and
+      it is `cooldown-manager.md` §1.5.
+- [x] **Re-anchor cap's hotkey — NOT DONE, and the read is why.** §1.5's answer is that the
+      **top-left quadrant carries no Blizzard text or number and the bottom-right carries all of
+      it**, so cap's hotkey is already in the free corner and moving it would walk it into
+      `ChargeCount`. The collision had a different author: cap's own V21 numeral, formatted as a
+      sentence and centred in a 24 px badge, reached across the icon into the hotkey. Fixed at
+      the formatter (`security-taint-and-restricted-data.md` §4.8.1 finding 2) and by bounding
+      the FontString to its badge. ⚠ **The giant centred `1:36` is Blizzard's** — the `Cooldown`
+      widget's own C-side text at `GameFontHighlightHugeOutline` on a 50 px icon, with no region
+      to reparent (§1.5, point 3). **cap CAN suppress it**, per row, by the same route
+      `Glow.lua` dims the proc glow; that is a product decision and it is the entry
+      *`1:36` is Blizzard's number, and cap draws the same number* in `backlog.md`.
 
 **The feature.**
 
@@ -44,12 +56,19 @@ have entered; the fix needs to know what the client owns first.
 ## Then test
 
 - [ ] Whether the hold dial draws as an arc or a rectangle, with the log now naming which of the
-      three causes it was.
-- [ ] Whether the keybind hint still collides with the client's count or its countdown text.
+      three causes it was. Read it with `wowkb.capture cap bind` and grep `baseCooldownSink`.
+      ⚠ A **silent** log is itself an answer: it means the mode was accepted AND survived the
+      client's takeover, and the rectangle is coming from somewhere else — the likeliest
+      remaining candidate being `Paint.BarFill`'s `SetColorTexture` fill, since Radial drives
+      *"the managed texture's radial progress fill percent"* and an untextured swatch may have no
+      such percent to drive.
+- [ ] Whether the keybind hint still collides with anything, and whether the shortened numeral
+      (`2m`, `57s`) is legible at 13 px inside the badge.
 - [ ] Whether a charge bar reads better than the small number it replaces.
 - [ ] Which two bound abilities wear no hint — `Binds.lua` cannot be diagnosed without their names.
-- [ ] Whether position 1 draws Sentinel, and whether cue A wears its *hold for Divine Toll* badge
-      over it.
+- [ ] Whether position 1 draws Sentinel, and that cue A is now **silent** over it. ⚠ Silence is
+      the whole of the fix: the row is not given a Sentinel treatment, because authoring
+      `identity` on it still waits on the exhaustive every-set DB2 absence check below.
 
 ---
 
@@ -59,7 +78,10 @@ Each is real, each is owned elsewhere, and each is bigger than one sitting.
 
 - **The hatch losing to bright icon art** — a shelf change (Part 5 question 7, now answered in the
   direction the shelf feared). The fix is area or a different treatment and explicitly **not** a
-  hue; the blend has no headroom left.
+  hue; the blend has no headroom left. ⚠ **It has since been PROMOTED out of this flight** —
+  `backlog.md` → *The hatch is paid on every scan* is its one home, because the 2026-09-01 fold
+  decision makes the hatched top line the first thing walked on every scan, on all four folding
+  specs. It is no longer Protection's bright icon; do not re-argue it here.
 - **Reversing one swipe so a running buff and a running cooldown differ in SHAPE** — the
   highest-value unbuilt item in `backlog.md`, and it needs a `render-shelf.md` V7 amendment first
   because V7 currently declares the opposite.
