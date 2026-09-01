@@ -1747,6 +1747,22 @@ The asset list and the budget are `tokens.assets` / `tokens.budget`.
 
 Look-at-it questions, not measurements. None of them is a reason to hold two styles in this file.
 
+⚠ **A flight has run and it did not answer these — it survived them.** A week of play on Havoc and
+Retribution (2026-08-31) put questions 1–5, 7 and 9 in front of an eye, and the report was that the
+style held: nothing went back to the lab, no treatment was called noise, and V11's and V13's
+`--@unverified` markers were cleared on the strength of it. **That is a floor, not a verdict.**
+
+⚠ **And question 7 has since been answered in the direction this file feared.** The first
+Protection flight (2026-08-31) reported that on a bright icon the hatch *"still sort of asks to be
+clicked"* — so black at `0.50` is reading as **dimmed** rather than as **ruled out**, which is the
+failure the retired veil died of. The fix is area or a different treatment; it is **not** a hue,
+and the blend has no headroom left. `backlog.md` → *THE FIRST PROTECTION FLIGHT* owns it.
+Every question below asks *how well* something reads, and "the author played a week and did not
+complain" answers only *whether it fails*. Leave them standing, and treat a specific answer as
+still owed. Questions **6, 8, 10 and 11** were not reached at all: 6 needs a declaration nothing
+makes, 8 needs a virtual row and the only one is Devourer's (which drew nothing), and 10 and 11
+ride `sealed-count-bar` and `sealed-pandemic`, which live on Demonology and Protection.
+
 1. **Does a row at rest read as quiet?** Static scan edges and nothing moving — does that read
    as informative, or as furniture the eye stops seeing after ten minutes?
 2. **Does the scan edge separate in-scan from out-of-scan at a glance?** V13 spends the whole
