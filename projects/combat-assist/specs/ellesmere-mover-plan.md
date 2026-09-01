@@ -1,32 +1,38 @@
-# Plan — cap's CDM row becomes a 6×2 panel EllesmereUI can move
+# Plan — breakpoints, a per-spec grid authors can ship, and then EllesmereUI
 
 **Status: an approved plan, not an authority.** A temporary migration artifact in the sense
 `CLAUDE.md` gives that phrase, alongside `simplification-plan.md`. As each phase lands its
 outcome goes to `backlog.md` → `## Status` and its promises to `spec.md`; this file is deleted
 when the last one does.
 
-Client facts cited below belong in `knowledge/addon-dev/`, where the KB's gates apply — this
-plan is not their home, and step 34 is what moves them.
-
 ---
 
 ## Context
 
-**The goal is to anchor EllesmereUI's power bars and cast bar to cap's CDM row.** That needs the
-row to be a frame with a stable, honest rect a mover can address. Everything before Phase 3 is
-groundwork for that; Phase 3 *is* the goal.
+**The goal is still to anchor EllesmereUI's power bars and cast bar to cap's CDM row** (Phase 3).
+Everything else is groundwork. The row is `CombatAssistPlusRow`, a named panel with a saved
+per-character position, drawn at an icon size cap owns.
 
-`/cap` (Combat Assist Plus) re-anchors the Essential Cooldown Manager viewer's item frames into
-its catalog's authored priority order. It used to do that onto a nameless 1×1 `UIParent` child
-whose position was re-derived from Blizzard's measured geometry every pass — so the row had no
-position of its own and nothing could be anchored to it.
+**Phase 2 shipped on 2026-08-31 (v0.20.0, v0.21.0) and is unflown.** The panel's second row is
+real: placement is two-dimensional, a catalog may name one `break_before`, the row split is part
+of the capture's verdict, and a roster longer than the grid is held off the row rather than drawn
+outside it. The grid — `cols` × `rows` × `icon_px` — became a player setting keyed on spec and
+hero tree.
 
-**That is fixed, shipped, and — as of 2026-08-31 — flown.** The row is `CombatAssistPlusRow`, a
-named 6×2 panel with a saved per-character position, drawn at an icon size cap owns.
+**What this plan adds** is the layer that turned out to be missing underneath all of it: **an
+author cannot ship a grid.** The only per-spec knob is a player setting in SavedVariables, so a
+catalog that needs seven columns has no way to say so, and a fresh install gets six and refuses
+the break. Fixing that is what makes breakpoint authoring a free choice rather than an arithmetic
+puzzle — the difference between Havoc's break being *right* and merely being *legal*.
+
+⚠ **And one thing the earlier plan simply did not know: the catalogs are GENERATED.** Five of the
+six come out of `specs/<spec>/catalog.json` via `wowkb.capart export catalog`, byte-gated. So
+"author a `break_before`" is not a Lua edit — it is a JSON key plus exporter work in `capart.py`.
+That is the single biggest correction here, and it gates every breakpoint below.
 
 ⚠ **What is BUILT is recorded in `projects/combat-assist/specs/backlog.md` → `## Status`**, in
 detail, and is deliberately not restated here. This file is the forward plan; that one is the
-record. `spec.md` §3.9 carries the promises (now **eight** properties — keep the count sentence
+record. `spec.md` §3.9 carries the promises (now **nine** properties — keep the count sentence
 true).
 
 ---
@@ -36,23 +42,24 @@ true).
 | | | Ships as | State |
 | --- | --- | --- | --- |
 | **Phase 0** | Stand down beside another CDM rider | v0.15.0 | ✅ flown |
-| **Phase 1** | The named 6×2 panel, `/cap move`, `Place.lua` | v0.16.0 | ✅ flown |
+| **Phase 1** | The named panel, `/cap move`, `Place.lua` | v0.16.0 | ✅ flown |
 | — | **Principle (c)**: no order ⇒ cap draws nothing | v0.17.0 | ✅ flown |
 | — | Placement per-character; opinions per-account | v0.18.0 | ✅ flown |
 | — | Rescale no longer moves the panel | v0.18.1 | ✅ flown |
 | — | **cap owns the icon size**, not Edit Mode | v0.19.0 | ✅ flown |
-| — | One icon-size knob: client nominal split, virtual row derived | v0.19.1 | ✅ flown |
-| **Phase 2** | Two rows | — | **START HERE** |
+| — | One icon-size knob | v0.19.1 | ✅ flown |
+| **Phase 2** | Two rows; `break_before`; the split enters the verdict | v0.20.0 | **built, UNFLOWN** |
+| — | Grid settable per spec; overflow held off the row | v0.21.0 | **built, UNFLOWN** |
+| **Phase 2.5** | **Authored grid + breakpoints** | — | **START HERE** |
 | **Phase 3** | EllesmereUI mover registration | — | **the actual goal** |
 | **Phase 4** | Reading model, only if two rows carry a scan claim | — | needs a product decision |
-| **Phase 5** | Scale-to-fit resize; `RegisterSkin` | — | half shipped, rest parked |
+| **Phase 5** | Mover-driven resize; `RegisterSkin` | — | half shipped, rest parked |
 
-**The flight is CLOSED** (2026-08-31): acceptance steps 1–8 ran on v0.19.0 and again on v0.19.1,
-`/cap band`'s readout included. Nothing is pending a client. Phase 2 starts clean.
-
-⚠ **The five middle rows were not in the original plan.** Three are corrections to Phases 0–1 and
-two are a premise that turned out never to have been decided. They are why the phases below differ
-from the first draft — see *Corrections*.
+⚠ **Two releases are deployed and unflown.** That is not a blocker for Phase 2.5 — it is code
+that compiles and is gated — but the acceptance sets in the v0.20.0 and v0.21.0 release notes are
+the flight request, and **Phase 2's PAUSE is still not met**: it asks for the authored two-row
+order across a talent change that removes the break entry, and no catalog authors a break to
+remove. Phase 2.5 is what makes that flight possible.
 
 ---
 
@@ -63,10 +70,9 @@ true before the next starts. Do not begin a phase because the previous one compi
 because the pause condition was checked.
 
 ⚠ **Releasing is not ask-first.** The standing authorization and its three gates are in
-`projects/combat-assist/CLAUDE.md` § Releasing. The gate that matters here: **the grant retires
+`projects/combat-assist/CLAUDE.md` § Releasing. The gate that matters: **the grant retires
 *may I release?*, never *did the last flight pass?*** Cutting a release begins a flight; it does
-not end one. Every release note must say **what it has not exercised** — that is the flight
-request.
+not end one. Every release note must say **what it has not exercised**.
 
 Before touching the addon checkout: `uv run python -m wowkb.addon pull --all` from `tools/`.
 ⚠ The addon is a separate gitignored repo, and each worktree carries its own clone.
@@ -75,198 +81,214 @@ Before touching the addon checkout: `uv run python -m wowkb.addon pull --all` fr
 
 ## Corrections carried forward
 
-Why the phases below differ from the first draft. Do not re-litigate these.
+Do not re-litigate these.
 
-1. **`50 × iconScale` double-counts.** `SetScale` does not change what `GetWidth` returns, so an
-   item frame reads **50** wide at every setting. Every length in `tokens.row` is in the panel's
-   own coordinate space. `anchor_spec` asserts this, so it cannot come back quietly.
-2. **`metrics()`'s gap derivation is gone** (landed in Phase 1, not 2). `metrics()` is now
-   `origin()` and returns only the seed corner. Blizzard's real padding is
-   `iconPadding + GetAdditionalPaddingOffset()` = 5 + (−4) = **1**.
-3. **The `P.foreign` origin-adoption path was deleted.** Following the CDM's placement is exactly
-   what a row with a saved position must not do. Behaviour change, recorded in `spec.md` §3.9: an
-   Edit Mode move of the viewer no longer drags cap's row.
-4. **Asking EllesmereUI's maintainer to support cap is dropped.** Read back plainly it was: ask
-   the busy maintainer of a top-tier addon to support an unreleased one-user addon. Its premise
-   was also wrong — `SKINNING_API.md` documents `RegisterSkin` and never mentions conflicts.
-   `_G._CAP_IsOrderingEnabled` is published anyway and is **already shipped**
-   (`Anchor.lua:1035`, aliasing `Anchor.Ordering` at `:1032`) — nothing to do.
-5. **`Place.lua` over parameterising `Frame.lua`**, because `Anchor.lua` loads before `Frame.lua`.
-   Both frames register with it.
-6. ⚠ **cap owns the icon size; Blizzard's Edit Mode slider does not reach it.** This was never a
-   decision — it arrived inside the Phase 1 commit as an implementation default and `spec.md`
-   never stated it. It cost the v0.18.1 rescale jump and it stalled a backlog item. `row.icon_px`
-   (default 50) is the one authored knob; the panel wears `icon_px / 50` and cap re-asserts that
-   effective scale onto every claimed frame from inside `place()` — the single door every write
-   goes through, because Blizzard applies `iconScale` at **pool acquire** and a one-shot would
-   revert on the first spec swap. `disarm()` hands the slider's value back.
-7. ⚠ **One icon-size knob, not three.** Two duplicated constants agreed at 50 by coincidence and
-   so were invisible: the client's paint fallback was the *preview's* nominal 56 (12% over — the
-   measured cause of an overhang defect already recorded in `Paint.lua`), and the virtual row had
-   its own `panel.icon_px`. Now `surfaces.host_nominal_px` = 50 is the client's, `surfaces.icon_px`
-   = 56 stays the preview's, and `panel.icon_px` is **deleted** — `Panel.lua` derives from
-   `row.icon_px`. **The lesson generalises: a duplicated constant is not caught by a test that
-   only ever runs at the value where the duplicates match.** Both now assert *distinct or absent*.
+1. **`50 × iconScale` double-counts.** `SetScale` does not change `GetWidth`, so an item frame
+   reads **50** wide at every setting. Every length in `tokens.row` is in the panel's own
+   coordinate space. `anchor_spec` asserts it.
+2. **cap owns the icon size**; Blizzard's Edit Mode slider does not reach it. `disarm()` hands the
+   slider's value back.
+3. **The `P.foreign` origin-adoption path was deleted.** An Edit Mode move of the viewer no longer
+   drags cap's row.
+4. **Asking EllesmereUI's maintainer to support cap is dropped.** `_G._CAP_IsOrderingEnabled` is
+   published anyway and is already shipped (`Anchor.lua`, aliasing `Anchor.Ordering`).
+5. **A duplicated constant is not caught by a test that only ever runs at the value where the
+   duplicates match.** This cost two invisible defects; both now assert *distinct or absent*.
+6. ⚠ **REORDERING A CATALOG IS NOT FORBIDDEN.** An earlier pass treated entry order as immutable
+   and bucketed the specs on that assumption. That was wrong: a reorder is *allowed*, merely
+   **bigger** than a cut, because moving an entry may require adding cues to keep the elimination
+   model reaching the right press. Treat "no reorder" as a cheapness preference, never a rule.
+   ⚠ **But the priority source still binds.** `authoring.md` makes `simc-apl.md` Tier 1 and a
+   catalog's entry order *is* the flattened `actions.default`. A reorder that moves a high rung
+   below a low one is not a layout choice, it is a contradiction of the source — which is exactly
+   what killed the Protection reorder (2.5c). Reorder freely *within* what the APL leaves open;
+   never across it.
+7. ⚠ **The overflow clamp is `cols` AND `rows`.** Clamping on columns alone rotates the bug rather
+   than fixing it — the row stops running off the right edge and starts running off the bottom,
+   still outside the rect other UI anchors to. Both halves, always.
 
 ---
 
-## Phase 2 — Two rows
+## Phase 2.5 — an authored grid, then the breakpoints
 
-The panel is **already** 6×2 (`row.cols` = 6, `row.rows` = 2). Phase 2 does not resize anything —
-it *uses* the second row of cells, which placement currently ignores. All citations re-resolved
-2026-08-31 against the current file (**`Anchor.lua` is now 1329 lines**; `apply()` is at `:674`).
+### 2.5a — A catalog can declare its own grid
 
-⚠ **A design pressure-test on 2026-08-31 found five holes in the steps below, one of which would
-have shipped a phase with no instrument for its own novelty.** Its findings are folded in as
-**15a–15e** and the steps are amended in place. Do not read a step without its amendment.
+⚠ **This is the prerequisite and it is not optional.** Today `Anchor.Grid()` resolves from exactly
+two places (`Anchor.lua`, `grid()` ≈`:428`): the **global token** `ns.Style.row` and the
+**player's** per-spec override in `ns.cdb.grid`. A catalog declares `abilities`, `entries`,
+`hero`, `name`, `power`, `spec`, `talents`, `bar`, `break_before` — and no geometry. So a spec
+whose roster wants seven columns cannot ship that way; only a player can set it, per character,
+and a fresh install refuses the break that depends on it.
 
-15. Add an authored **`break_before = "<entry id>"` per catalog** — one break point, named once,
-    which is what makes step 16's fallthrough rule read naturally. Validate in `Catalog.Check`
-    (`Catalog.lua:183`, body to `:588`) at **top level**, beside the existing
-    `bar must name one enhanced entry` check at **`Catalog.lua:586`**, since it is a catalog-level
-    key naming an entry rather than an entry-shape rule. Refuse an id that is not declared, and
-    refuse the first entry.
-    *(A per-entry `break_before = true` boolean is the alternative and would validate in the
-    entry-shape loop opening at `Catalog.lua:232`. The catalog-level form was the original
-    decision; do not change it without a reason.)*
+1. **Add an optional `grid = { cols = <n>, rows = <n> }` to the catalog schema.** Validate it in
+   `Catalog.Check` beside `break_before` (`Catalog.lua`, the top-level block after the `bar`
+   check): both fields optional, whole numbers, within `Anchor.Limits`.
+   ⚠ **`icon_px` is deliberately NOT declarable, and `Catalog.Check` must reject it by name.** A
+   catalog declaring geometry is fitting its *roster* — twelve entries need twelve cells — which
+   is the author's business. Icon size is taste, and taste is the player's; a catalog shipping
+   40px icons is imposing a preference rather than fitting anything. Letting an author set it
+   would also re-open the authority inversion v0.19.0 spent a release closing, one level up.
+   Reject it with a message that says which knob to use instead (`/cap grid`).
+2. **Make resolution three-tier, in this order:** the **player's** override (`ns.cdb.grid`, set by
+   `/cap grid`) → the **catalog's** declaration → the **token** `ns.Style.row`. The player must
+   still win: they set it deliberately and per spec, and a catalog update must not silently move
+   a row they placed. ⚠ `Anchor.Grid()` is a file-local `grid()` read by `gridSize()`,
+   `rowScale()` and `apply()`; add the tier there so every consumer gets it, and do **not**
+   re-derive geometry at any call site (`Anchor.lua` already forbids this in a comment).
+   ⚠ `rowScale()` reads `icon_px` and must keep resolving it from **player → token only**, with
+   no catalog tier, per the refusal above.
+3. **`Catalog.Check` must validate the partition against the CATALOG's own grid**, not the token —
+   otherwise a catalog that ships `cols = 7` is still refused a 7-wide row. It reads `ns.Style.row`
+   today and must prefer `cat.grid`. It cannot call `Anchor.Grid()`: `tests/check_catalog.lua`
+   loads `Catalog.lua` without `Anchor.lua`, which builds a frame at file scope.
+4. **`/cap grid` reads back which tier each number came from.** It already prints `(yours)` vs
+   `(default)`; add `(catalog)` so a player can tell a spec that ships a wide row from one they
+   widened. `/cap grid reset` clears the player tier and falls back to the catalog's.
+5. ⚠ **Say the tier out loud in `spec.md` §3.9's ninth property**, which currently says the grid
+   is the player's with the token as default. It becomes: **the catalog proposes the shape, the
+   player disposes, the token is the floor — and the icon size is the player's alone.**
+6. **Teach `capart.py`'s catalog exporter to emit `grid`** into the generated Lua, alongside
+   `break_before` (2.5c-bis). Both are new top-level keys and both must survive the
+   `catalog_gate_lua` byte-compare.
 
-    **15a — refuse a break on a VIRTUAL entry.** A virtual entry (`Devourer.lua:321`, `consume`)
-    never reaches `byEntry` by construction (`Catalog.lua:632-637`), so the break would fall
-    through on every build and the key would silently do nothing. A permanent no-op is worse than
-    an error. Refuse it alongside *not declared* and *first entry*.
+**PAUSE.** `busted` green, `capart check --all` green, and `/cap grid` on a spec whose catalog
+declares a grid shows `(catalog)` for `cols`/`rows` and `(yours)`/`(default)` for `icon_px`.
 
-16. A break entry that is not talented falls through to the next present entry in authored order.
-    ⚠ **Resolve it in PLAN space, not in `Catalog.Resolve`.** `Resolve` knows `byEntry`
-    (`Catalog.lua:640`) — "this entry bound to a row" — but it does not know `Anchor.Plan`'s dedup
-    (`Anchor.lua:93`; `anchor_spec.lua:77` covers it: two entries naming one row means the second
-    is *missing* even though `byEntry` holds it), and it does not know about `extra` rows. So pass
-    `breakBefore` into **`Anchor.Plan`** and have it return `plan.breakAt` — the 1-based index in
-    `order` of the first item at-or-after the authored break. `Catalog.Resolve` stays untouched.
-    ⚠ **Name the degenerate cases explicitly and test them** — every one is reachable by a talent
-    change, which is exactly when nobody is looking:
+### 2.5b — Author the breakpoints
 
-    | Case | Behaviour |
-    | --- | --- |
-    | No `break_before` authored (Destruction, any opt-out) | `breakAt = nil` → single row, byte-identical to today. **The default, not an error.** |
-    | Break entry untalented, later entries present | `breakAt` = first present later entry. The nominal case. |
-    | Every entry from the break onward absent | `breakAt = #order + 1` → row 1 empty, all on row 0. **Must not error.** |
-    | Break is the last authored entry, present | 1 icon on row 1. Legal but poor authoring — do **not** refuse it; talent variance means "last" is not stable. |
-    | Break entry present, but its row already claimed by an earlier entry (Plan dedup) | Not in `order`; falls through to the next present item. Free, in plan space. |
-    | Break names a virtual entry | Refused in `Check` — see 15a. |
-    | Break names entry 1 | Refused in `Check`. |
-    | Extras (`Anchor.lua:101-107`) | Index > `breakAt`, so they land on row 1's tail; they join row 0 when the break fell off the end. Say so in the docs. |
-    | Zero tracked frames | Already handled — `apply()` bails at `Anchor.lua:678`. |
+The bucketing pass (2026-08-31) classified all six catalogs. **Its arithmetic was done against a
+fixed 6-wide row, so every "forced" or "refused" verdict in it is provisional on 2.5a** — with an
+authored grid the constraint mostly dissolves. Re-derive rather than trusting the split.
 
-17. Teach `apply()` the second axis. The placement loop is **`Anchor.lua:714-719`**, single-axis in
-    exactly two places — `local x = (i - 1) * pitch` at **`:715`** and the hardcoded `y = 0` in the
-    `want` table at **`:716`**. Pitch is already token-derived at **`:706-707`** and is correct for
-    **both** axes (`cell_px` is one square number; `gridSize()` already multiplies `rows` at
-    `:305`). Entries before the break to row 0, the rest to row 1, **left-aligned in both**, so the
-    scan's starting x never moves with roster length.
+| Spec | Placed | Recommended `break_before` | Split | Note |
+| --- | --- | --- | --- | --- |
+| **Retribution** | 9 | `templars_verdict` | 4 + 5 | Clean. 4/4 cooldowns over 5/5 rotation. **Do this one first** — it is the control. |
+| **Demonology** | 9 | `implosion` | 5 + 4 | Clean. Implosion is on no timer; it is an imp-count spender. |
+| **Havoc** | 12 | `immolation_aura` | 6 + 6 | Categorically right. Was *forced* by 6-wide arithmetic; after 2.5a re-check whether `blade_dance` (5 + 7, needs `cols = 7`) reads better. |
+| **Protection** | 9 | `avengers_shield` | 4 + 5 | ⚠ `shield_of_the_righteous` rides the top row and **that is correct** — it is APL rung 9, above every rotation button. Do **not** reorder. See 2.5c. |
+| **Devourer** | 5 placed | — | one row | ⚠ Blocked on a client action — see below. |
+| **Destruction** | 10 *authored*, 1 *shipped* | — | — | ⚠ The shipped Lua is a **retired pilot**. Real design interleaves cooldowns; no clean cut, and blocked behind stage-6 transcription. See below. |
 
-    **17a — `apply()` cannot see entry ids.** `P.tracked`'s elements are `{ cooldownID, frame }`
-    only; `adopt` (`Anchor.lua:945`) drops the `item.entry` that `Anchor.Plan` carried
-    (`Anchor.lua:95`). The break must arrive as an **index**: `adopt` copies `plan.breakAt` to
-    `P.breakAt`.
+**All four of the specs with breaks are clean cuts** — no reordering, no cue changes, no scenario
+churn. Ship Retribution first as the control (it is the one with no argument attached), then
+Demonology, Havoc and Protection. Every one is a two-line change to a `catalog.json` plus a
+regenerate, and reverting is the same change backwards.
 
-    **17b — the sign, and the exact `want`.** `SetPoint("TOPLEFT", P.anchor, "TOPLEFT", x, y)` with
-    WoW's y axis pointing **up**, so descending a row is **negative**:
+### 2.5c — Protection: **do not reorder.** The "impurity" is the APL being right
 
-    ```
-    local row  = (breakAt and i >= breakAt) and 1 or 0
-    local col  = (row == 1) and (i - breakAt) or (i - 1)
-    local x, y = col * pitch, -(row * pitch)
-    local want = { x = x, y = y, left = left + x, top = top + y }
-    ```
+⚠ **This reverses the earlier recommendation, on evidence.** `shield_of_the_righteous` sits at
+index 3 between two cooldowns, and an earlier pass called that a compromise worth fixing by
+reordering. It is not a compromise. **SotR is rung 9 of the Tier-1 APL**
+(`knowledge/classes/paladin/protection/simc-apl.md`, `actions.default`), which is **above**
+`avengers_shield` (13/18), `consecration` (15/19/24/29) and `judgment` (16/17/22). The catalog's
+order matches the APL exactly, and `catalog.md`'s own table maps position 3 → rung 9.
 
-    `want.top` is `top + y` — an absolute the drift auditor compares against `frame:GetTop()` at
-    **`:812`** — **not** `top - y` and not `top`. ⚠ A positive `y` would draw row 1 *above* row 0
-    and `want.top` would be wrong in the same direction, so **the auditor would report zero drift
-    for a sign error**. Assert the sign in a test.
+**Moving SotR below those rows would place a rung-9 action beneath rung-13 actions** — i.e. the
+reorder does not fix a layout wart, it contradicts the priority source. `authoring.md` makes
+`simc-apl.md` the Tier-1 priority source and a live-patch copy of it a Stage-0 exit criterion.
 
-    **17c — clamp, do not just split.** Treat `break_before` as a *minimum* wrap point: row 0 ends
-    at the break **or** at `cols`, whichever comes first, same for row 1's tail. Without this the
-    extras of 17a/step 18 spill off the panel with no diagnostic, and a break authored at entry 9
-    of 12 runs row 0 two cells past the right edge.
+Three further costs, each independently sufficient:
 
-18. `Catalog.Check` fails a catalog whose authored roster cannot fit the panel.
-    ⚠ **Immediately load-bearing, not theoretical: Havoc authors exactly 12 entries** (verified
-    2026-08-31 — `Catalogs/Havoc.lua`, `entries` opens at `:60`). Zero headroom. Demonology,
-    Protection and Retribution are at 9; Devourer 7; Destruction 1.
+1. **It would force a dishonest badge.** `catalog.md` argues that SotR's current position is what
+   makes the *absence* of an overcap cue on the generators correct — *"every generator sits below
+   Shield of the Righteous at position 3, so at cap the walk stops on the spender and never
+   reaches them."* Move it down and that mechanism is gone; `catalog.md` explicitly argues the
+   replacement badge would be dishonest.
+2. **The partition pins it to the top row anyway.** With 9 placed entries and 6 columns the legal
+   break indices are 4–7, so `break_before` ∈ {`holy_armaments`, `avengers_shield`, `consecration`,
+   `judgment`} and SotR is on the top row under **every** legal break.
+3. **The evidence cost is large and entirely outside the Lua.** A reorder touches
+   `specs/protection/catalog.json`'s `entries` order, **all 20** scenario row arrays in
+   `scenarios.json` (each a positional 9-element array the elimination gate reads as authored),
+   ~58 positional references in `scenarios.md`'s walk prose, 16 in `catalog.md` including four
+   load-bearing arguments, and 4 in `fact-classification.md`.
 
-    **18a — the predicate, stated correctly.** Three corrections:
-    - Count **non-virtual** entries only. A virtual entry has no CDM row by construction, so
-      Devourer is 7 authored / 6 cells and would fail a naive count.
-    - Validate the **partition**, not the total: `breakIndex - 1 <= cols` **and**
-      `n - breakIndex + 1 <= cols`. "Fits 12" is not sufficient — the break decides the split.
-    - Read `cols`/`rows` from `ns.Style.row`, **never a hardcoded 12** (see *Open questions*).
-      `Catalog.Check` **cannot** call `Anchor.Grid()` — `tests/check_catalog.lua` loads only
-      `Catalog.lua`, `Style.lua` and the catalog, and `Anchor.lua` builds a frame at file scope
-      (`Anchor.lua:1234`). Read the two token values and **do not** re-derive cell pitch there
-      (`Anchor.lua:310` forbids exactly that).
+**Therefore: author `break_before = "avengers_shield"` (4 + 5) and accept SotR on the top row.**
+It is a charged, held, active-mitigation press that genuinely outranks the filler — the top row is
+"what outranks the rotation", not literally "things on a timer", and Protection is the spec that
+makes that distinction visible.
 
-    **18b — it is a tripwire, not a safety net.** `Anchor.Plan` appends every viewer row the
-    catalog does *not* name after the named ones (`Anchor.lua:101-107`; `A{extra}` counts them),
-    so a player enabling one extra ability in the Essential viewer overflows Havoc from outside
-    the catalog's control, invisibly to any static check. 17c's clamp is what actually holds.
+⚠ **Do not spend a `fable` agent on a reorder changeset.** If a later pass still wants one, the
+prerequisite is a decision that the panel's rows may contradict the APL — a `spec.md` §3.1
+question, not an authoring one.
 
-19. **Fix `Anchor.Drawn()`** (**`Anchor.lua:505-523`**) to sort by `(top, left)` rather than `left`
-    alone. The comparator is **`:513-516`** and is purely one-dimensional — two rows would
-    column-interleave and every capture would read `X{MISMATCH}` forever.
-    ⚠ **Two traps.** `geometry()` returns `left, top` but `:511` captures only `left` — the top is
-    available and thrown away. And the sort is **`top` DESCENDING, `left` ascending**: a higher
-    `GetTop()` is higher on screen, so reading order is the *larger* top first. Sorting both
-    ascending silently reverses the rows.
+### 2.5c-bis — Two facts that change how every break gets authored
 
-    **19a — do NOT write a tolerance comparator.** `math.abs(a.top - b.top) > TOL` is not
-    transitive and Lua's `table.sort` raises `invalid order function for sorting` on a large
-    enough shuffled input. Use an integer bucket, which stays transitive:
+⚠ **THE CATALOGS ARE GENERATED. Do not hand-edit `Catalogs/<Spec>.lua`.** Five of the six
+(Demonology, Havoc, Protection, Retribution, Devourer) are produced from
+`specs/<spec>/catalog.json` by `wowkb.capart export catalog <spec>`, and `Protection.lua:1-2` says
+"Do not edit this file". A `catalog_gate_lua` byte-compares the generated Lua against the JSON. So
+authoring a break means:
 
-    ```
-    local ta, tb = math.floor(a.top + 0.5), math.floor(b.top + 0.5)
-    if ta ~= tb then return ta > tb end          -- higher top first
-    if a.left ~= b.left then return a.left < b.left end
-    return a.cooldownID < b.cooldownID
-    ```
+1. Add `break_before` to `specs/<spec>/catalog.json`.
+2. Teach `capart.py`'s catalog exporter to emit it into the Lua.
+3. Regenerate (`capart export catalog <spec>`), rebuild (`capart build --all`), re-check
+   (`capart check --all`).
 
-    Row pitch is ≥ 51 panel units at any sane `icon_px`, so 1-unit buckets can never merge rows.
+**This is a real chunk of work in `capart.py` that the earlier plan did not account for**, and it
+must land before any break is authored for the five generated specs. Destruction is the exception
+and is hand-written — and is parked anyway (2.5e).
 
-    **19b — parked frames must stay out of the sort.** `parkWant` (`Anchor.lua:598-600`) is
-    anchor-relative and unaffected, and parked frames live in `P.wantOf`/`P.parked` but **not** in
-    `P.tracked`, so `Drawn()` never sees them — which is load-bearing, because at `top + 10000`
-    they would sort ahead of row 0 and corrupt every capture. Add an explicit test so a future
-    edit that walks `claimed` instead of `tracked` fails loudly.
+⚠ **The addon computes no press at all**, which is why a reorder is cheap in Lua and expensive in
+evidence. `Sense`/`Signal`/`Track` evaluate each entry's markers independently; `Anchor.Plan` walks
+`entries` in array order and nothing keys off a specific index; `Catalog.OrderCheck` is a pure
+diagnostic that *"never says what to press"*. The press is what the player's eye does, and it is
+mechanised only in `capart.py`'s `reading_gate` → `elimination_gate` / `density_gate`. **The
+authored scenarios are the only place the reading order is asserted**, so they are what any order
+change has to pay for.
 
-    **19c — ⚠ THE CORRECTNESS HOLE: the verdict is still single-axis.** `Drawn()` returns an id
-    sequence and `match` compares it elementwise to `P.planned` (**`Anchor.lua:517-521`**). Once
-    the sort is two-dimensional, a run that put **all 12 icons on row 0** yields the *identical*
-    id sequence and reads `X{ok}` forever — the row assignment is not in the comparison at all.
-    **`Drawn()` must also return a measured `breakAt`** (the count of items in the highest-top
-    bucket) and **`match` must require `drawnBreak == plannedBreak`.** Without this the phase
-    ships with no instrument for the only thing it added.
+### 2.5d — Devourer is blocked on a client action, not on code
 
-    *(Everything else is already two-axis and needs no change: `sample()` compares `top` against
-    `want.top` at `:812`, `gridSize()` multiplies `rows` at `:305`, `origin()` takes max-top at
-    `:666`, `resizeAnchor()` re-sizes on height, and `onFramePoint` at `:609` only replays
-    `P.wantOf[frame]` through `place()`, so it is axis-agnostic.)*
+Devourer places **5** icons, not 6: `vengeful_retreat` lives in the **Utility** viewer, and
+`Anchor.lua` re-anchors Essential only, so cap skins and hatches it but never gives it a cell
+(`Catalogs/Devourer.lua`, the entry-6 comment). Five fit one row, and the catalog has exactly one
+cooldown, so there is nothing to build a cooldown row out of.
 
-20. ~~Delete `metrics()`'s gap derivation~~ — **done in Phase 1**, see correction 2.
-21. Add a row-break token to the **anchor** stream's wire. `Anchor.Render` is
-    **`Anchor.lua:126-149`** and emits `A{} P{} D{} X{} S{}` at **`:144-148`**; `P{}`/`D{}` are
-    cooldownID orders built by the `list()` helper at **`:118-123`**.
-    ⚠ **Put the break in BOTH `P{}` and `D{}` as a `|` separator at the boundary**, and fold the
-    measured-vs-planned break into `match` per 19c. A `brk:<n>` field in `A{}` alone is the plan's
-    own number restated and **cannot fail** — it would be decoration, not an instrument.
-    Document it in `specs/flight-reading.md` — ⚠ that file describes **two** different `P{}`/`D{}`
-    groups and only the second is this one:
-    - `## Draw surface`, **lines 135–183** — `P{}` there is `id:scan[+cue,…]`, a per-entry
-      treatment, and its `D{}` is a counts group. **Not this.**
-    - `## Anchor order`, **lines 185–266** — the orders. The defining bullet is **213–215**;
-      `X{STALE:<n>}` precedence at **216–219**. ⚠ **`:214` states the `GetLeft()` assumption that
-      step 19 is changing** — amend it in the same edit, or the doc certifies the old model.
+**The fix is in Blizzard's UI, not here:** move Vengeful Retreat into the Essential viewer via
+Edit Mode. Then Devourer is 6 placed with 2 cooldowns and a break becomes meaningful.
+
+1. Write that down as a **setup instruction** wherever cap tells a player how to configure the
+   Cooldown Manager, and in `Catalogs/Devourer.lua`'s header.
+2. ⚠ **`Catalog.Check` over-counts by one per Utility-viewer entry** and cannot currently know —
+   which viewer an entry lands in is a *comment*, not a field. Add an optional `viewer` to the
+   ability declaration so the count is exact and the fact becomes machine-readable. The error is
+   in the safe direction today (stricter, never looser), so this is latent, not urgent — but it
+   is the same class of defect as the duplicated constants in correction 5.
+3. Only author Devourer's break **after** the viewer move is confirmed in a client.
+
+### 2.5e — Destruction: decidable on paper, not authorable in Lua. Mark it and move on
+
+⚠ **The "one entry" reading was wrong and the correction matters.** `Catalogs/Destruction.lua` is
+a **superseded 47-line pilot** — its own header says *"the minimal Destruction / Diabolist
+authoring proof"* — and `specs/destruction/catalog.md` carries a **fully authored 10-entry
+design** that explicitly retires it (*"It is gone, not deprecated"*). `backlog.md` names this as
+*"the one place left in the project where a shipped catalog and its document disagree"* and says
+**do not read the `.lua` as the design.**
+
+The authored row order is: Soul Fire · Conflagrate · Summon Infernal · Immolate · Cataclysm ·
+Chaos Bolt/Ruination · Shadowburn · Incinerate/Infernal Bolt · Rain of Fire · Havoc.
+
+**On that real design Destruction is still a genuine (b).** Its press-on-sight abilities are Soul
+Fire (1), Summon Infernal (3), Cataclysm (5) and Havoc (10) — scattered through the order, not
+grouped — so no cut separates cooldowns from rotation, and the obstruction is real interleaving
+rather than a short roster.
+
+**Do not author Destruction's break as part of this plan.** Getting a break into the addon needs
+stage-6 transcription first, and that is blocked on two things that are nothing to do with
+breakpoints: the **scenario↔state gate refused** the transcription (three scenarios draw cues —
+`capped`, `blocked`, `overcap` — that the pilot does not declare, and declaring them *is*
+authoring), and Destruction is **the only spec never catalog-reviewed** (the 2026-08-25 pass
+skipped it), which `backlog.md` says must happen **before** stage 6 runs. There is also an open
+sidecar defect: `capart check destruction` compares the sidecar against itself and never reads
+`scenarios.md`.
+
+Mark it in `backlog.md` as **"break undecided — the shipped Lua is the retired pilot; the authored
+10-entry order interleaves cooldowns, so no clean cut exists; blocked behind stage-6 transcription
+anyway"** and move on.
 
 **PAUSE.** A capture (`wowkb.capture cap anchor`) shows the authored two-row order drawn correctly
-with `X{}` reporting a match, across a talent change that removes the break entry.
+with `X{}` reporting a match, on at least one spec, **across a talent change that removes the
+break entry** — which is Phase 2's outstanding PAUSE and the thing that closes it.
 
 ---
 
@@ -274,82 +296,71 @@ with `X{}` reporting a match, across a talent change that removes the break entr
 
 ⚠ **The mined clone is GONE and that is correct.** `raw/addon-research/ELLESMEREUI-REMOVED.md`
 records it: deleted per the `mine-addon` skill because EllesmereUI is All Rights Reserved and the
-KB carries the facts. Re-clone recipe is in that note (tag v8.7.5, commit `c4eba58`) **but you
-should not need it** — the facts below came from the **live install**, still present and confirmed
-**9.0.8** on 2026-08-31. ⚠ A live install updates itself, so its line numbers are volatile in a way
-a pinned clone's are not: **re-resolve by symbol before relying on any number.**
+KB carries the facts. The facts below came from the **live install**, confirmed **9.0.8** on
+2026-08-31. ⚠ A live install updates itself, so **re-resolve by symbol before relying on any line
+number.**
 
-⚠ **The API spans TWO files, not one.** Verified 2026-08-31 by symbol presence:
+⚠ **The API spans TWO files.** Verified by symbol presence:
 - `…/AddOns/EllesmereUI/EUI_UnlockMode.lua` — `RegisterUnlockElements`, `NotifyElementResized`,
   `ReapplyOwnAnchor`, `ValidateStoredLinks`, `SaveBarPosition`, `LoadBarPosition`,
   `ClearBarPosition`.
 - `…/AddOns/EllesmereUI/EllesmereUI.lua` — **`MakeUnlockElement`**, which is *not* in
-  `EUI_UnlockMode.lua` at 9.0.8 despite being the constructor step 23 starts from.
+  `EUI_UnlockMode.lua` despite being the constructor step 2 starts from.
 
 ⚠ EllesmereUI is **All Rights Reserved**. Per the `mine-addon` doctrine: record facts and our own
 illustrations with provenance, **never copied code**.
 
-22. Add `Ellesmere.lua`, loaded after `Anchor.lua`, entirely behind
-    `if EllesmereUI and EllesmereUI.RegisterUnlockElements`. Add `## OptionalDeps: EllesmereUI`
-    to the `.toc` so the base addon loads first.
-23. Register one element via `EllesmereUI.MakeUnlockElement`:
-    - Registration is a **colon** call taking an **array** —
-      `EllesmereUI:RegisterUnlockElements({elem}, "cap")`; it uses `self`.
-    - `getSize` is **effectively required**: it feeds mover geometry and the cog's Width/Height
-      boxes. Without it plus `noResize = true` the cog shows size inputs that silently do nothing.
-    - `key` is a single global namespace across every addon — prefix it (`CAP_ROW`).
-    - `getFrame` side-effect-free. `isHidden` takes **no arguments**; return true whenever
-      `Anchor.Ordering()` is false — which after principle (c) is exactly when cap draws nothing.
-    - `noResize = true`; `noAnchorTarget` and `noAnchorTo` both omitted — that is what lets the
-      power bars anchor to us.
-24. Point `savePos` / `loadPos` / `clearPos` / `applyPos` at **Phase 1's `Place` store**, which is
-    why Phase 1 was a prerequisite. Mandatory, and proven: `SaveBarPosition` / `LoadBarPosition` /
-    `ClearBarPosition` delegate to the element's own functions and fall through to
-    `GetPositionDB()` only when no element is registered — and that fallback is the
-    EllesmereUIActionBars profile table, `nil` in the base addon. Omit them and drags are silently
-    lost. `loadPos` returns `{point, relPoint, x, y}`, canonically `CENTER`/`CENTER` with offsets
-    from UIParent's centre — **already `Place`'s convention**, so it fits without translation.
-25. Call `EllesmereUI.NotifyElementResized(key)` (**dot** call) when the panel's size changes
-    *without* a real `SetSize` on the registered frame. EUI installs its own `OnSizeChanged` hook,
-    so a genuine resize notifies itself. In practice this is `resizeAnchor` (`Anchor.lua`).
-26. Register at `PLAYER_LOGIN` + `C_Timer.After(0.5, …)`, then call
-    `EllesmereUI.ReapplyOwnAnchor(key)` deferred. EUI's login pass runs ~1 s after
-    `PLAYER_ENTERING_WORLD` and re-applies everything registered by then; registering later is
-    supported but nothing re-applies for you.
+1. Add `Ellesmere.lua`, loaded after `Anchor.lua`, entirely behind
+   `if EllesmereUI and EllesmereUI.RegisterUnlockElements`. Add `## OptionalDeps: EllesmereUI`
+   to the `.toc` so the base addon loads first.
+2. Register one element via `EllesmereUI.MakeUnlockElement`:
+   - Registration is a **colon** call taking an **array** —
+     `EllesmereUI:RegisterUnlockElements({elem}, "cap")`; it uses `self`.
+   - `getSize` is **effectively required**: it feeds mover geometry and the cog's Width/Height
+     boxes. Without it plus `noResize = true` the cog shows size inputs that silently do nothing.
+   - `key` is a single global namespace across every addon — prefix it (`CAP_ROW`).
+   - `getFrame` side-effect-free. `isHidden` takes **no arguments**; return true whenever
+     `Anchor.Ordering()` is false — which after principle (c) is exactly when cap draws nothing.
+   - `noResize = true`; `noAnchorTarget` and `noAnchorTo` both omitted — that is what lets the
+     power bars anchor to us.
+3. Point `savePos` / `loadPos` / `clearPos` / `applyPos` at **Phase 1's `Place` store**. Mandatory,
+   and proven: `SaveBarPosition` / `LoadBarPosition` / `ClearBarPosition` delegate to the element's
+   own functions and fall through to `GetPositionDB()` only when no element is registered — and
+   that fallback is the EllesmereUIActionBars profile table, `nil` in the base addon. Omit them and
+   drags are silently lost. `loadPos` returns `{point, relPoint, x, y}`, canonically
+   `CENTER`/`CENTER` from UIParent's centre — **already `Place`'s convention**.
+4. Call `EllesmereUI.NotifyElementResized(key)` (**dot** call) when the panel's size changes
+   *without* a real `SetSize` on the registered frame. ⚠ **`regrid()` in `Anchor.lua` is where this
+   goes** — it is already marked `@pending Phase 3` — and `resizeAnchor` is the other site.
+5. Register at `PLAYER_LOGIN` + `C_Timer.After(0.5, …)`, then call
+   `EllesmereUI.ReapplyOwnAnchor(key)` deferred. EUI's login pass runs ~1 s after
+   `PLAYER_ENTERING_WORLD` and re-applies everything registered by then; registering later is
+   supported but nothing re-applies for you.
 
 ⚠ `noResize = true` costs one thing and it is **not** anchoring. `ValidateStoredLinks` prunes a
-stored width/height **match** when either endpoint declares `noResize`, so nobody can size-match
-to us. **Anchors are pruned only for a missing endpoint and never consult `noResize`** — confirmed,
-so the goal is unaffected.
+stored width/height **match** when either endpoint declares `noResize`. **Anchors are pruned only
+for a missing endpoint and never consult `noResize`** — confirmed, so the goal is unaffected.
 
 **PAUSE.** The power bars and cast bar are anchored to the row in `/eui` unlock mode and hold
-across a reload, a spec swap, and a change to `row.icon_px`. **This is the goal of the whole
-plan**, and the point at which it is worth asking whether anything below is wanted at all.
+across a reload, a spec swap, and a `/cap grid` change. **This is the goal of the whole plan**,
+and the point at which it is worth asking whether anything below is wanted at all.
 
 ---
 
 ## Phase 4 — The reading model, only if two rows carry a scan claim
 
-27. **Decide the product question first:** is the bottom row **the** scan with the top row a shelf
-    you glance at, or is the scan row-major, top then bottom? Deliberately left to the pause after
-    Phase 3 — easier to answer with a two-row panel on screen.
-28. ⚠ **Bigger than the earlier draft said.** It is not only the gate: `capart.py`'s row grammar
-    is one-dimensional at its root.
-    - `parse_row` (`capart.py:600`) returns a flat `list[dict]`, and the comment at **594-596**
-      states the model outright — *"The composed reading order is the authored left-to-right
-      order… the seam changes how the entry is DRAWN, never its rank."* Seams are constrained to
-      exactly 0 or 2 (test at **:614**). **There is no notion of a row break or wrap.**
-    - `elimination_gate` (`capart.py:4783`, body to 4849) walks that flat list — `for e in
-      sc["row"]` at **:4817**, `first = e` / `break` at **:4831-4832**.
-    - `density_gate` slices a flat prefix at **:4919**.
-    - All are driven by `reading_gate` (`capart.py:4931`, calling them at **:4963-4965**), whose
-      only caller is **`_check_one` at `capart.py:5138`** (the call itself is at `:5323` — the old
-      plan cited the call site as the definition).
-    Until this is taught the traversal it will keep certifying a one-dimensional reading order the
-    screen has stopped drawing.
-29. Amend `render-shelf.md` **Part 0.5** and re-judge the treatments below it. Part 0.5 already
-    names itself as the thing to edit: *"If a flight says scanning left-to-right is too hard,
-    **this is the thing that gets edited** — and every treatment below is then re-judged."*
+1. **Decide the product question first:** is the bottom row **the** scan with the top row a shelf
+   you glance at, or is the scan row-major, top then bottom? Left to the pause after Phase 3 —
+   easier to answer with a two-row panel on screen. ⚠ `spec.md` §3.9 already states this is open.
+2. ⚠ **Bigger than it looks: `capart.py`'s row grammar is one-dimensional at its root.**
+   - `parse_row` returns a flat `list[dict]`, and its comment states the model outright — *"the
+     seam changes how the entry is DRAWN, never its rank."* **There is no notion of a row break.**
+   - `elimination_gate` walks that flat list; `density_gate` slices a flat prefix; both are driven
+     by `reading_gate`, whose only caller is `_check_one`.
+   Until this is taught the traversal it will keep certifying a one-dimensional reading order the
+   screen has stopped drawing.
+3. Amend `render-shelf.md` **Part 0.5** and re-judge the treatments below it. Part 0.5 already
+   names itself as the thing to edit.
 
 **PAUSE.** This changes the product's reading model, not its plumbing. It needs a decision and a
 flight, not a merge.
@@ -358,97 +369,68 @@ flight, not a merge.
 
 ## Phase 5 — Half shipped, rest parked
 
-30. **Scale-to-fit resize** — drop `noResize` and snap `setWidth` to whole cells, so dragging the
-    panel's edge in a mover picks the icon size. ⚠ **Half of this shipped early on 2026-08-31** as
-    the icon-size inversion: cap already `SetScale`s each item frame on the re-apply path, and the
-    re-pool hazard is handled. What is left is only the *mover-driven* half — letting a drag write
-    `row.icon_px` instead of it being authored in `render-tokens.json`.
-    - ✅ **Blizzard applies `iconScale` only at pool acquire** (`CooldownViewer.lua:1996`,
-      `OnAcquireItemFrame`), so a rider's `SetScale` is undefended and a re-pool reverts it.
-      **Handled:** the `SetScale` rides `place()`, the single door, so it re-asserts every pass.
-    - Phase 4's "grow about centre or top-left" question has **already dissolved** — the panel is
-      no longer a function of Blizzard's icon-size setting.
-    ⚠ **The pressure-test recommends against reaching for this to solve overflow** — deriving
-    `icon_px` from the live roster re-makes icon size an *input* cap has to chase (the exact
-    authority inversion undone on 2026-08-31, `Anchor.lua:317-324`) and makes the panel's rect
-    roster-dependent, destroying "the rect is known at login, so a mover can address it"
-    (`Anchor.lua:292-293`). See *Open questions*.
-31. `RegisterSkin` for cap's own windows (`Window.lua`, `StylePanel.lua`) — a genuinely separate,
-    documented API, touches no CDM frame, ships any time or never.
+1. **Mover-driven resize** — drop `noResize` and snap `setWidth` to whole cells so a drag picks the
+   grid. The addon half is done: `/cap grid` writes the numbers and `regrid` re-applies. What is
+   left is only letting a mover drag write them. ⚠ **Do not reach for this to solve overflow** —
+   deriving the grid from the live roster re-makes it an *input* cap has to chase and makes the
+   panel's rect roster-dependent, destroying "the rect is known at login", which is what Phase 3
+   depends on.
+2. `RegisterSkin` for cap's own windows (`Window.lua`, `StylePanel.lua`) — a separate documented
+   API, touches no CDM frame, ships any time or never.
 
 ---
 
 ## Docs, as each phase lands
 
-32. `spec.md` §3.9 is at **eight** properties. Keep the count sentence true.
-33. `specs/backlog.md` → `## Status` — the only implementation-status block.
-34. Client facts to `knowledge/addon-dev/`, where the KB's gates apply — this plan is not their
-    home. Already landed: §4.6.1 (two-riders hazard), §2.6 (StaticPopup shapes), §4.7 (viewer
-    layout fields, the real gap of 1, the 50px template, the `iconScale` double-count). Still
-    unwritten: `ResizeLayoutMixin` self-sizing, and managed-frame ownership of a viewer in its
-    default position — **neither has been verified**, so write them only when measured.
-35. EllesmereUI's mover surface as `[T3 obs]` facts with provenance per the `mine-addon` doctrine
-    — facts and our own illustrations, **never copied code**. All rights reserved. Cite the live
-    install with its version (9.0.8), since the pinned clone is gone.
+- `spec.md` §3.9 is at **nine** properties. Keep the count sentence true.
+- `specs/backlog.md` → `## Status` — the only implementation-status block.
+- Client facts to `knowledge/addon-dev/`, where the KB's gates apply. Still unwritten:
+  `ResizeLayoutMixin` self-sizing, and managed-frame ownership of a viewer in its default
+  position — **neither has been verified**, so write them only when measured.
+- EllesmereUI's mover surface as `[T3 obs]` facts with provenance per the `mine-addon` doctrine —
+  facts and our own illustrations, **never copied code**. Cite the live install with its version
+  (9.0.8), since the pinned clone is gone.
 
 ---
 
 ## Verification
 
-- `busted` and `luacheck CombatAssistPlus` from the addon root. **Current baseline: 329 passing**,
+- `busted` and `luacheck CombatAssistPlus` from the addon root. **Current baseline: 377 passing**,
   0 failures, 2 pending (both "the lab is empty, by design").
-- `uv run python -m wowkb.capart check --all` for any `render-tokens.json` change, and
-  `capart export lua` to regenerate `Style.lua` — `check` gates the committed Lua against the
-  tokens exactly as it gates the HTML. ⚠ A token edit also makes every preview stale; run
-  `capart build --all` before `check`.
+- `uv run python -m wowkb.capart check --all` for any `render-tokens.json` **or scenario** change,
+  and `capart export lua` to regenerate `Style.lua`. ⚠ A token edit also makes every preview stale;
+  run `capart build --all` before `check`.
 - `uv run python -m wowkb.kblint` and `wowkb.citecheck` for any `knowledge/addon-dev/` edit.
-  Write new citations **symbol-anchored**; `citecheck` fails a symbol that no longer resolves.
+  Write new citations **symbol-anchored**.
 - `uv run python -m wowkb.obs check` gates a `--minor` / `--major` release.
 - Read a flight result with `uv run python -m wowkb.capture cap anchor`.
-- **Phase 2 specifically** — three pure functions must be **extracted first**, because none of
-  step 17/19 is reachable from `busted` today (`anchor_spec.lua:1-2` — pure functions only, house
-  rule 6), and without the extraction the y sign of 17b is untestable:
-  1. `Anchor.Plan(rows, entries, breakBefore)` → adds `plan.breakAt`.
-  2. `Anchor.Cells(n, breakAt, cols, pitch)` → array of `{x, y}`; `apply()` consumes it at `:714`.
-  3. `Anchor.ReadOrder(seen)` → the pure `(top desc, left asc, cooldownID)` sort; `Anchor.Drawn()`
-     calls it and derives the measured break from the first bucket.
-
-  Then extend `tests/spec/engine/anchor_spec.lua` with: every degenerate row of step 16's table;
-  **the y sign asserted by sign, not magnitude**; x resetting to 0 at `breakAt`; `breakAt = nil`
-  reproducing `(i-1)*pitch, 0` exactly; the 17c clamp; a **±0.4-jitter** input that must **not**
-  raise `invalid order function for sorting` (the 19a guard); a shuffled two-row input that would
-  pass under an all-ascending sort, so the sign is pinned; parked frames absent from the sort
-  (19b); and **the measured break differing from the planned one on a flattened 12/0 layout with
-  identical id sequences** — the test that proves 19c is closed. For `Catalog.Check`: undeclared
-  id, entry 1, a virtual entry, a non-string value, absent key, and a partition exceeding `cols`;
-  plus all six shipped catalogs still returning `{}` (`catalog_spec.lua:9` and
-  `tests/check_catalog.lua`'s gate).
-  ⚠ The suite has no `UIParent` — stub it, as the icon-size tests do.
+- **Phase 2.5 specifically:**
+  - `tests/spec/engine/catalog_spec.lua` — the `grid` schema (both fields optional, bounds
+    enforced, **`icon_px` rejected by name**), and the partition validated against the catalog's
+    own grid rather than the token, so a catalog shipping `cols = 7` gets a 7-wide row.
+  - `tests/spec/engine/anchor_spec.lua` — the three tiers: catalog-only, player-over-catalog,
+    token fallback, and **`icon_px` ignoring the catalog tier entirely**. ⚠ The engine suite has
+    no `UIParent` — stub it, as the existing grid tests do.
+  - `catalog_spec`'s "validates every catalog the addon actually registers" must still return
+    `{}` for all six after the breaks are authored.
+  - `capart` — the exporter round-trip for `break_before` and `grid`, and `catalog_gate_lua` still
+    byte-matching. ⚠ **Run `capart check --all`, never a single spec name.**
 
 ---
 
 ## Open questions
 
-- **Step 27** (which row is the scan) — a product call, left to the pause after Phase 3.
-- **Overflow, and the thread that got dropped.** The original discussion was *how to handle icons
-  not fitting if the panel could resize*; when anchoring turned out not to need resize, the thread
-  was abandoned rather than answered. Step 18 makes it an authoring error — but **Havoc is at
-  exactly 12 of 12**, so it is one entry from being real, and a 13th authored entry needs a third
-  row, a smaller cell, or Phase 5.
-  ⚠ **Owning the icon size opened a fourth option the old plan could not have.** `cols` and `rows`
-  are themselves tokens, so 7×2 = 14 cells is a `render-tokens.json` edit — and shrinking
-  `row.icon_px` keeps the panel the same *screen* width while doing it, which was impossible while
-  Blizzard owned the size. The pressure-test scored the four and **recommends this one**: a third
-  row costs a second wrap and stops the row reading as a scan; a smaller `cell_px` is structurally
-  impossible (`cell_floor_px` = 50 is the item template's own size, floored at `Anchor.lua:299` —
-  shrinking icons is `icon_px`'s job); Phase 5 destroys the static rect. Its honest cost: the
-  shelf is global, so every catalog's icons shrink for Havoc's 13th entry — acceptable, because a
-  scan of peers at one size is what the tokens already insist on.
-  **Therefore: write step 18's check against `cols × rows` read from the tokens, never a hardcoded
-  12.** That is the whole decision — it turns overflow from a code change into a token change, and
-  it is free to do now versus expensive to retrofit. Decide the *layout* question only when a 13th
-  entry actually exists.
-- **`norow` conflates three causes** in `Bind.lua:242` — API absent, info missing-or-secret, and
-  no readable spell ID. Unrelated to this plan; worth splitting so the status line says which.
-  A CDM entry can be item-backed (`equipSlot` is a nilable field on `CooldownViewerCooldown`),
-  which is the benign explanation for Utility rows that will never bind.
+- **Which row is the scan** (Phase 4) — a product call, left to the pause after Phase 3.
+- **Havoc's break after an authored grid.** At 6 wide the partition rule admits exactly one index
+  (7, `immolation_aura`) so the break is forced. With `cols = 7` authorable, `blade_dance` (5 + 7)
+  becomes legal and may read better — five cooldowns over seven rotation presses. Decide it with
+  the panel on screen, not on paper.
+- **Devourer's `viewer` field.** The optional `viewer` on an ability (2.5d) would make
+  `Catalog.Check`'s count exact. Worth doing before any catalog approaches its grid's capacity;
+  latent until then.
+- **Does the top row mean "on a timer" or "outranks the filler"?** Protection forced this question
+  (2.5c) and the plan answers *outranks the filler*, because that is what preserves the APL. If
+  Phase 4 decides the two rows are a shelf plus a scan rather than one continuous scan, revisit —
+  a shelf of "big cooldowns" is a different claim from a top half of "higher priority".
+- **`norow` conflates three causes** in `Bind.lua` — API absent, info missing-or-secret, and no
+  readable spell ID. Unrelated to this plan; worth splitting so the status line says which.
