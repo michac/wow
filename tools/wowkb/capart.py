@@ -1327,9 +1327,14 @@ def catalog_lua(spec: str) -> str:
     out += _lua_comment(cat["note"], 0) if cat.get("note") else []
     out += ["local ADDON, ns = ...", "", "ns.Catalog.Register{"]
 
-    for key in ("spec", "hero", "name", "power", "bar"):
+    for key in ("spec", "hero", "name", "power", "bar", "break_before"):
         if key in cat:
             out.append(f"  {key} = {_lua_value(cat[key], 1)},")
+    # The panel the catalog PROPOSES, as one line rather than `_lua_value`'s multi-line record:
+    # `cols` and `rows` are two numbers and reading them stacked is worse than reading them side
+    # by side. The player's `/cap grid` still overrides it; the token is still the floor.
+    if "grid" in cat:
+        out.append(f"  grid = {_lua_record(cat['grid'], ('cols', 'rows'), 1)},")
 
     out += ["", "  abilities = {"]
     for a in cat.get("abilities", []):

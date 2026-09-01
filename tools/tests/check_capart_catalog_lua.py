@@ -96,6 +96,24 @@ check("defeat" not in lua, "an entry's `defeat` does NOT reach the Lua (authorin
 check("catalog-wide" not in lua and "defeats_unreferenced" not in lua,
       "the catalog's `defeats_unreferenced` escape does NOT reach the Lua either")
 
+# The two CATALOG-LEVEL keys, which the emitter carries in its top-level loop rather than per
+# entry — and which no shipped catalog declares yet, so the byte-for-byte gate cannot see them.
+lua = emit({**FIXTURE, "break_before": "star"})
+check('break_before = "star"' in lua, "`break_before` reaches the Lua")
+
+lua = emit({**FIXTURE, "grid": {"cols": 7, "rows": 2}})
+check("grid = { cols = 7, rows = 2 }" in lua,
+      "`grid` reaches the Lua as one line, cols before rows")
+
+# Absent, never `nil`: `Anchor.Grid` reads the catalog tier by asking whether the field is there.
+lua = emit(FIXTURE)
+check("break_before" not in lua and "grid =" not in lua,
+      "a catalog declaring neither emits neither key")
+
+# One dimension alone is a legitimate proposal — `rows` from the token, `cols` from the catalog.
+lua = emit({**FIXTURE, "grid": {"cols": 7}})
+check("grid = { cols = 7 }" in lua, "a one-dimension grid emits just that dimension")
+
 print()
 print(f"{_total - len(_fails)}/{_total} passed")
 if _fails:

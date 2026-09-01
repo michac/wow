@@ -496,9 +496,10 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       arithmetic says, and that parked frames stay out of the reading sort — they are absent
       from `P.tracked` and would sort ahead of the first row if a future edit walked `P.claimed`
       instead. `X{MISMATCH}` with matching ids either side of a differing `|` is the signal.
-  - **The panel's grid is the player's, per spec and hero tree** (2026-08-31), which is
+  - **The panel's grid resolves in three tiers — player, catalog, token** (2026-08-31), which is
     `spec.md` §3.9's ninth property. `cols`, `rows` and `icon_px` are ONE setting with three
-    fields; `/cap grid` reads it back and sets it, `/cap grid reset` returns to the token.
+    fields; `/cap grid` reads it back, says which tier each number came from, and sets the
+    player's; `/cap grid reset` drops that tier back to whatever the catalog proposes.
     - ⚠ **This closed a defect Phase 2 shipped with, found by asking what happens when a break
       puts more than six on a row.** The answer was: cap drew a **third row, outside the
       panel** — `Anchor.Cells` wrapped at `cols` but never saw `rows`, so it structurally could
@@ -529,10 +530,28 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       settable: `cell_px` is floored at the item template's own 50 and a narrower cell overlaps
       its neighbour in panel units — shrinking icons is `icon_px`'s job, and exposing both would
       be two knobs for one outcome, one of which silently draws icons on top of each other.
-    - ⚠ **`Catalog.Check` is demoted, honestly.** It reads `cols`/`rows` from the tokens, so it
-      now answers "does this catalog fit a DEFAULT panel" — an authoring question, and the right
-      one at author time, but not a guarantee for any given player. Its messages say `DEFAULT`
-      in those words. The runtime clamp is what holds.
+    - **A CATALOG MAY DECLARE ITS OWN GRID**, `grid = { cols = <n>, rows = <n> }`, validated in
+      `Catalog.Check` and emitted by `capart export catalog`. It sits between the player and the
+      token: the catalog knows how long its roster is, so a spec needing seven columns ships that
+      way and a fresh install draws it; the player still wins, because they set theirs
+      deliberately and a catalog update must not silently move a row they placed.
+      - ⚠ **`icon_px` is refused BY NAME, with a message pointing at `/cap grid`.** The line is
+        *fit* against *taste*: cell counts fit a roster and are the author's; icon size is a
+        preference and is the player's. An author-settable icon size would re-open one level up
+        the authority inversion the icon-size bullet below closes.
+      - ⚠ **The bounds are ONE list.** `Catalog.GridLimits` is the only copy and `Anchor.Limits`
+        aliases it, so the author's numbers and the player's are judged the same. It lives in
+        `Catalog.lua` because `tests/check_catalog.lua` loads that file without `Anchor.lua`,
+        which builds a frame at file scope. Two lists that agreed today would drift the first
+        time a ceiling moved.
+      - **Validated on read in `Anchor.lua` too**, on the same reasoning the player's store is:
+        `Catalog.Register` asserts only the spec id, so a shape the validator would have refused
+        must fall back to the token rather than reach the geometry.
+    - **`Catalog.Check` measures against the panel the catalog SHIPS.** Its capacity and split
+      checks read `cat.grid` where the catalog declares one and the token where it does not —
+      the same order `Anchor.Grid` resolves in, minus the player tier a static check cannot see.
+      So it answers "does this catalog fit the panel it ships with", which is the authoring
+      question and the right one at author time. The runtime clamp is what holds for a player.
     - **Not yet flown.** What the tests cannot reach: that `/cap grid` re-draws without a
       re-arm, that a spec swap picks up that spec's own grid, and that overflowed icons actually
       leave the row rather than stacking at its corner. `over:<n>` in the capture should be 0
@@ -550,12 +569,12 @@ criterion and no reader, and went stale the moment anyone logged in; it was reti
       optional `viewer` on the ability would make the count exact and turn a fact that currently
       lives in prose into one a checker can read. Worth doing before any catalog approaches its
       grid's capacity, not urgent before that.
-    - ⚠ **Havoc's break is FORCED, and that is a new constraint on authoring it.** With 12
-      entries and 6 columns the partition rule admits exactly one break index — 7 — so
-      `break_before = "immolation_aura"` is not a preference, it is the only value that
-      validates. The 13th entry therefore now costs more than a cell: it makes Havoc
-      unauthorable with a break at all unless the grid's default widens. That constraint did not
-      exist before this mechanism shipped and is not written down in `Havoc.lua`.
+    - **Havoc's break is a choice again, because the grid is authorable.** At 6 columns the
+      partition rule admits exactly one index for a 12-entry roster — 7, `immolation_aura` — so
+      the break was arithmetic rather than a decision. A catalog declaring `cols = 7` makes
+      `blade_dance` (5 + 7) legal too, and a 13th entry costs a cell rather than costing Havoc
+      the ability to carry a break at all. Which of the two reads better is a question for the
+      panel on screen, not for the partition rule.
 
 ### The specs
 

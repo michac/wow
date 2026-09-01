@@ -667,8 +667,9 @@ Nine properties are the whole of the promise, and each is a boundary rather than
   claimed**; a row it never touched is never parked.
 
 - **The row has a position of its own, and it is the player's.** cap's row is a named panel of
-  a fixed size — six cells across and two deep, whatever the roster's length — so it can be
-  dragged, remembered across sessions, and used as an anchor by other UI. Its size is known at
+  a fixed size — a grid of cells, six across and two deep unless the catalog or the player says
+  otherwise, and the same size whatever the roster's length — so it can be dragged, remembered
+  across sessions, and used as an anchor by other UI. Its size is known at
   login rather than measured, so nothing about it waits for the Cooldown Manager to draw. **A
   roster longer than one row wraps onto the second**, at a break the catalog may name and at the
   panel's edge regardless; it no longer runs off the side. ⚠ **What that costs is stated in
@@ -682,15 +683,26 @@ Nine properties are the whole of the promise, and each is a boundary rather than
   position of its own does not appear to move it; `/cap move reset` clears the seed and takes
   it from the viewer again.
 
-- **The panel's size is the player's, per spec.** How many cells the row has — `cols` x `rows`
-  — and how big an icon is are one setting, stored per specialisation and hero tree, because
-  what the grid has to fit is a *roster* and a roster is a property of the spec. `/cap grid`
-  reads it back and sets it; the authored token is the default it falls back to, and
-  `/cap grid reset` returns to it. It is stored beside placement, per character, for the same
-  reason placement is: it is about this character's screen rather than an opinion about the
-  addon. ⚠ **The consequence is that a catalog's authoring gate can only speak for the default
-  panel.** `Catalog.Check` refuses a roster that does not fit a *default* row and says so in
-  those words; what protects a real player is the runtime clamp in the next bullet.
+- **The catalog proposes the shape, the player disposes, the token is the floor — and the icon
+  size is the player's alone.** How many cells the row has is `cols` x `rows`, resolved in three
+  tiers in that order. The **catalog** may declare a grid because what it has to fit is a
+  *roster*, and only the catalog knows how long its roster is — a spec needing seven columns can
+  ship that way, and a fresh install draws it without the player configuring anything. The
+  **player** still wins over it: they set it deliberately, per specialisation and hero tree, so a
+  catalog update never silently moves a row they placed. `/cap grid` reads back which tier each
+  number came from — `(yours)`, `(catalog)` or `(default)` — and `/cap grid reset` drops the
+  player's tier back to whatever the catalog proposes.
+  ⚠ **Icon size is NOT one of the three.** It has two tiers, the player's and the token's, and a
+  catalog declaring one is refused by name with a message pointing at `/cap grid`. The line is
+  *fit* against *taste*: cell counts fit a roster and are the author's business; a catalog
+  shipping 40px icons is imposing a preference rather than fitting anything, and would re-open
+  one level up the same authority inversion the bullet below closes.
+  The player's tier is stored beside placement, per character, for the same reason placement is:
+  it is about this character's screen rather than an opinion about the addon.
+  ⚠ **A catalog's authoring gate speaks for the panel the catalog SHIPS, not the player's.**
+  `Catalog.Check` measures the roster and the break against the catalog's own grid where it
+  declares one, and against the token where it does not; it cannot see what any given player set,
+  and what protects a real player is the runtime clamp in the next bullet.
 
 - **An icon with no cell comes off the row, and cap says how many.** A roster longer than the
   grid does not spill: it stops at the last cell, and the remainder is held off the row the way
