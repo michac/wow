@@ -214,6 +214,13 @@
                 "righteous_protector"
               ],
               "negate": true
+            },
+            {
+              "pred": "talent",
+              "args": [
+                "sentinel"
+              ],
+              "negate": true
             }
           ],
           "display": {
@@ -251,7 +258,7 @@
         },
         {
           "id": "dt_awaits_wrath",
-          "condition": "ready, Righteous Protector UNtalented, Avenging Wrath within 30s",
+          "condition": "ready, Righteous Protector UNtalented, Avenging Wrath within 30s, no Sentinel",
           "verdict": "open",
           "cues": [
             "blocked"

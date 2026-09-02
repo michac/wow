@@ -616,8 +616,14 @@ reach it:
   Part 0.5) does not see it — a bound button is not thereby ruled in, and an unbound one is not
   ruled out. Were it otherwise, the reading gates would begin ranking rows on the basis of a
   keyboard layout.
-- **It is not catalog-authored.** A marker is authored per ability by a spec's catalog; chrome
-  applies to every row cap draws on every spec, and no catalog can add one or take one away.
+- **It is not catalog-authored, and its reach is the VIEWER rather than the roster.** A marker is
+  authored per ability by a spec's catalog; chrome applies to every row cap draws on every spec,
+  and no catalog can add one or take one away. ⚠ **Which means it draws on rows the catalog does
+  not claim at all** — a Cooldown Manager holding a defensive the priority list never mentions
+  still gets its key named. That is not cap acquiring an opinion about an unauthored ability
+  (§4): a hint that ranks nothing and gates nothing is the one mark that can sit on a row cap has
+  nothing to say about, and withholding it made the strip inconsistent for a reason no reader
+  could see.
 - **Drawing nothing is legal for it.** §3.2's "a form that loads and then renders nothing is a
   defect" is a test on a marker's one declared state, and chrome has no state to be single. An
   ability you have not bound has no key to show, and blank is the complete answer. ⚠ **Never a

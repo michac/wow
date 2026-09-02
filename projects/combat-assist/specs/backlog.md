@@ -1540,6 +1540,42 @@ is the argument for doing nothing: an option that exists and is one click away i
 ⚠ **This is a `spec.md` §3 change before it is a shelf change** — it is player-visible behaviour
 on Blizzard's own surface, not a treatment of cap's, so it needs a spec line and not just a token.
 
+### An OFF-GCD press is not a rung, and the scan has no word for it
+
+Found 2026-09-01 in play, from the author asking why cap says nothing at Holy Power cap. The
+answer turned out not to be a missing badge.
+
+**Shield of the Righteous is off the global cooldown and has no cooldown of its own**
+*[`knowledge/classes/paladin/protection/abilities.md` — Shield of the Righteous]*. Two things
+follow that the catalog reasoned around without naming:
+
+- **It is why Protection's APL carries no `holy_power` term anywhere.** With a free spender there
+  is no spend-or-generate decision to arbitrate: you dump and continue in the same window. The
+  `## Why no row wears overcap` section reaches the right conclusion from a weaker premise —
+  *"there is no number to author it from"* — when the stronger one is that there is no **tension**
+  to author about.
+- **It breaks the walk's central assumption.** Part 0.5 says *scan left to right, press the first
+  thing not ruled out*, which silently assumes every entry costs the same thing: a global. In
+  simc, reaching rung 9 does not end the turn — the action fires off-GCD and evaluation continues
+  down the list in the same instant. In cap, reaching an un-eliminated icon **does** end the walk.
+
+**So SotR is not really in the queue.** At cap the player should press it wherever the scan lands,
+and then carry on from where they were. The row's `scan_when = affordable` makes it a *conditional
+member* of the scan, which is not wrong and is not enough: a walk that stops there reads as *press
+this INSTEAD of what is below*, when the truth is *press this AS WELL*.
+
+⚠ **This is a Part 0.5 question before it is a treatment, and it is not Protection's alone.**
+Every spec with an off-GCD press has it. What is missing is a way for an entry to say *I cost no
+global* — plausibly a `free` flag on the entry, which the walk steps **over** rather than stopping
+on, with a treatment that reads as "take this in passing" rather than as a verdict. Do not author
+it as a cue: a cue is a statement about whether to press, and this is a statement about what
+pressing COSTS.
+
+⚠ **Do not reach for `overcap` as the substitute.** It was considered and it is the wrong shape:
+it would fire on the generators, which are not the thing to change, and Protection has no Tier-1
+threshold to author it from. The complaint was never "tell me I am at cap" — it was "the row does
+not lead me to the spender", and the spender's problem is its COST, not its rank.
+
 ### The client's unusable tint is a FOURTH eliminating signal and the model does not admit it
 
 Part 0.5 counts three: Blizzard's swipe, cap's own negative badge, and — since 2026-08-22 — a

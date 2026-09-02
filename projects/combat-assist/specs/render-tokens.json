@@ -331,7 +331,7 @@
     "track_alpha": 0.6
   },
   "basecd": {
-    "_comment": "V21, and since 2026-08-28 it is the LIVE `blocked` BADGE rather than a corner ornament beside one. A row held because a cooldown is running draws that cooldown: a red radial on the real remaining time with a white countdown numeral inside it, where the fixed clock glyph (timer_CW_50) used to sit. Two displays reach it — `sealed-base-cooldown`, this row's own base spell hidden under a transform (while a Grimoire is talented its Cooldown Manager row spends the whole 120 s wearing the dispel it becomes, and GetSpellCooldownInfo resolves the DISPLAY identity before reading, so the swipe on that row is the dispel's 15 s and the Grimoire's is drawn nowhere — cooldown-manager.md §3.1.1), and `sealed-cooldown-range`, another ability's cooldown named by catalog key. The two resolve their spell differently and deliberately stay separate; they share only this look. C_Spell.GetSpellCooldownDuration goes straight into SetTimerDuration (RemainingTime) and into FormatRemainingDuration, and cap never reads a second of it back — every getter on the duration object is secret (§4.8.4), while the isActive that GATES the base-cooldown form is NeverSecret and plain in restricted combat (cooldown-manager.md §7). ⚠ SetMinMaxValues(0, 1) goes in at BUILD time, before any SetTimerDuration, or a correct duration draws at 0 % width forever (§4.8.1 finding 3). RED arc over a dark red track, because this IS the negative cue and V5.1 gives hue to polarity and only polarity — it is not V19's or V20's gold, which is a quantity drawn beside a verdict rather than the verdict itself. The numeral is WHITE so the number reads against the arc it sits in, and it is a leaf FontString (§4.8.1 finding 10). ⚠ NO ART — the arc is a StatusBar fill and the numeral is text — so `tint` is a deliberate \"none\" rather than an omission: this group is named in the Part 4 tint guard and an absent key fails it.",
+    "_comment": "V21, and since 2026-08-28 it is the LIVE `blocked` BADGE rather than a corner ornament beside one. A row held because a cooldown is running draws that cooldown: a red radial on the real remaining time with a white countdown numeral inside it, where the fixed clock glyph (timer_CW_50) used to sit. Two displays reach it — `sealed-base-cooldown`, this row's own base spell hidden under a transform (while a Grimoire is talented its Cooldown Manager row spends the whole 120 s wearing the dispel it becomes, and GetSpellCooldownInfo resolves the DISPLAY identity before reading, so the swipe on that row is the dispel's 15 s and the Grimoire's is drawn nowhere — cooldown-manager.md §3.1.1), and `sealed-cooldown-range`, another ability's cooldown named by catalog key. The two resolve their spell differently and deliberately stay separate; they share only this look. C_Spell.GetSpellCooldownDuration goes straight into SetTimerDuration (RemainingTime) and into FormatRemainingDuration, and cap never reads a second of it back — every getter on the duration object is secret (§4.8.4), while the isActive that GATES the base-cooldown form is NeverSecret and plain in restricted combat (cooldown-manager.md §7). ⚠ SetMinMaxValues(0, 1) goes in at BUILD time, before any SetTimerDuration, or a correct duration draws at 0 % width forever (§4.8.1 finding 3). RED arc over a dark red track, because this IS the negative cue and V5.1 gives hue to polarity and only polarity — it is not V19's or V20's gold, which is a quantity drawn beside a verdict rather than the verdict itself. The numeral is WHITE so the number reads against the arc it sits in, and it is a leaf FontString (§4.8.1 finding 10). ⚠ THE ARC NEEDS A ROUND TEXTURE AND THIS IS WHERE IT COMES FROM. `StatusBarRenderMode.Radial` drives the fill texture's radial progress percent; it does not change the texture's SHAPE. A `SetColorTexture` fill is a square, so a correctly-radial bar sweeps a SQUARE — which is what a live row drew while this group declared no art. `texture` is the neutral badge disc, tinted here by `rgb` and `track_rgb`, so the sweep crops a circle. `tint` is \"shelf\" for that reason: cap tints it and no hue is baked in.",
     "dial": {
       "size_px": 25,
       "rgb": [
@@ -344,7 +344,9 @@
         0.09,
         0.09
       ],
-      "track_alpha": 0.6
+      "track_alpha": 0.6,
+      "texture": "plate",
+      "texture_root": "Interface\\AddOns\\CombatAssistPlus\\Media\\badges\\"
     },
     "font": "FRIZQT__.TTF",
     "size": 13,
@@ -354,7 +356,7 @@
       1.0,
       1.0
     ],
-    "tint": "none"
+    "tint": "shelf"
   },
   "hotkey": {
     "_comment": "V15. CHROME, not a cue (spec.md §3.8): it names the row and asserts nothing about the press. No polarity, no rank, no badge slot, no motion — and deliberately NO `tint` key, because Part 4's tint guard scans art and this has none. `font` is a FULL CLIENT PATH, not a filename: this is cap's OWN shipped file, exported from tokens.preview.hotkey_font, which is the only third-party asset the addon redistributes. `outline` is a client FONT FLAG and the only dark edge cap can ask for: OUTLINE or THICKOUTLINE, nothing between them and nothing wider. Blank when the ability is unbound or reached only through a macro; never a placeholder.",

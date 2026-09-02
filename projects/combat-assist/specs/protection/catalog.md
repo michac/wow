@@ -424,6 +424,20 @@ membership condition would be a claim with no consumer.
   `avenging_wrath` flat with no `identity`; authoring that needs the exhaustive every-set DB2
   absence check Sacred Weapon's claim rests on, and this catalog has only Protection's own
   inventory file. So a Sentinel build gets a correct *silence* here, not a Sentinel treatment.
+  ⚠ **The gate is on THIS hold and on `dt_awaits_wrath`, and deliberately NOT on
+  `ha_banks_bulwark` — the three are not one case.** All three name `avenging_wrath` as a display
+  subject, which is what made them look alike. What separates them is *what they hold*. Cue A
+  holds **the defensive itself**, waiting on a damage cooldown, which is wrong on its face.
+  `ha_banks_bulwark` holds nothing defensive at all: it shapes the **armament** rotation so the
+  next one is a Bulwark when the burst window lands, and Sentinel still *is* that window — it
+  carries +10 % damage and +10 % crit while active. The row's clock resolves correctly there too,
+  because Sentinel rides Avenging Wrath's row and its cooldown.
+  ⚠ **And that hold is LOAD-BEARING FOR THE WALK, which is the argument that settles it.** Holy
+  Armaments sits at position 4, above Avengers Shield at 5, and that rank is bought by rung 10 —
+  the **Sacred Weapon** life. The **Bulwark** life is rungs 14 and 23, both *below* Avengers
+  Shield. So the only thing standing between a left-to-right reader and pressing Bulwark at a
+  rank the priority gives to Avengers Shield is this hold. Withholding it does not make the row
+  quieter; it makes the walk wrong.
   ⚠ **The sense is `beyond`, and getting it backwards would invert the button.** Rung 5 *fires* at
   `cooldown.divine_toll.remains<=10`, so the **hold** is the complement — Divine Toll has at least
   ten seconds left, which is `beyond`'s meaning exactly: *"it is nowhere near, so this is not its
@@ -536,6 +550,14 @@ kind**: not on Divine Toll, not on Avenger's Shield, not on Judgment, not on Cru
 Retribution's `dt_overcap` was authored *from the APL's own `holy_power=5`*, and the provenance
 was the whole argument for the number; here there is no such term to lift. Authoring `>= 5` anyway
 would be deriving the threshold from a maximum, which is precisely what Retribution's note refuses.
+
+⚠ **The stronger reason, found in play and not when this section was written: there is no
+TENSION to author about.** Shield of the Righteous is **off the global cooldown and has no
+cooldown of its own**, so it never competes with a generator for a press — you dump and continue
+in the same window. That is why the APL carries no `holy_power` term anywhere rather than merely
+none to lift: with a free spender there is no spend-or-generate decision for a priority list to
+arbitrate. ⚠ And it has a consequence past this section, because the scan assumes every entry
+costs a global and this one does not — `../backlog.md` → *An OFF-GCD press is not a rung* owns it.
 
 **And position already does the work the badge would do.** Every generator in this catalog —
 Avenger's Shield (5), Consecration (6), Judgment (7), Crusader Strike (8) — sits **below** Shield

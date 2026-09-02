@@ -38,7 +38,27 @@ about *which of the two wins*. The answer was a fifth: **neither — they are on
 `render-shelf.md` V5.1 and V21, and `demonology/catalog.md`'s changelog for the same date.
 
 An empty file is this file's correct resting state, not a defect — but it is not empty now:
-the question below is open.
+the questions below are open.
+
+## Protection — the catalog's source of truth is a DPS list, and a tank has a second job
+
+*Raised 2026-09-01, from the first sustained play on the spec.*
+
+The 12.1 Protection APL has **29 rungs and zero defensive abilities**, so a catalog transcribed
+from it is complete with respect to half the spec: mitigation uptime (SotR's 4.5 s armour buff)
+and defensive cooldowns are invisible to the source. Threat is served — damage is threat.
+
+- **Declare the boundary.** cap covers the damage rotation; the defensive kit is the player's.
+  Nearly the shipped behaviour; needs one `spec.md` §4 line so the silence is stated.
+- **A maintenance vocabulary.** A treatment for *this buff is lapsing* — not a cue, which answers
+  *should I press this*. No APL will ever carry it, so threshold and treatment are author opinion.
+- **Surface defensives off HEALTH.** `UnitHealthPercent(unit, usePredicted, curve)` returns the
+  curve's output, evaluated in C, so health is paintable without being readable
+  (`security-taint-and-restricted-data.md` §4.7 finding 1). Lagging signal: says *you are low*,
+  never *press this*.
+- **Stop scanning, for this spec only** — independently-marked icons instead of a walk. ⚠ The cost
+  is `capart check`'s elimination gate losing its subject; every cue would need to be
+  independently true instead, which is an unwritten contract.
 
 ## Devourer — is Vengeful Retreat worth binding at all?
 
