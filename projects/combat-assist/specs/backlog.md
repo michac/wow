@@ -1076,6 +1076,41 @@ observation names comes back **unexercised**, not passed, and stays in its batch
 
 ## Now
 
+### The one-positive-cue model — prototype it in game → `glow-model-plan.md`
+
+**Batches B → C → D → F, in that order, and it is the only item here that spends all four.**
+
+After Demonology was played the author's read was that the row is **too busy**, specifically in the
+number of negative cues. The prototype replaces the whole output vocabulary with four primitives —
+keybind, one positive proc glow (Blizzard's own square `ui-hud-actionbar-proc-loop-flipbook`), and
+two hairline bars for cooldown and aura duration — and inverts the reading rule to **press the
+leftmost lit button**. The detection machinery is untouched: aura containers, sealed values on
+curves, identity bands and the readable compares all stay, and two of Demonology's recorded
+**defeats** may become sayable, because a glow needs no branch to choose a glyph the way a badge
+does.
+
+Three decisions are settled and are not to be reopened while executing: the glow catalog is
+authored **from the APL**, not by inverting the seventeen shipped markers; Blizzard's own proc glow
+is **suppressed** on rows cap has an opinion about; and there is **no variant toggle** — a
+throwaway release from a branch of the addon repo is how it flies, and reverting is one
+`git revert` here plus a release from addon `main`.
+
+The plan owns the context, the settled decisions, the verified seams with `file:line`, four open
+questions and the phase order. **Do not restate any of it here.** A worked prototype of all twelve
+authored Demonology states in the new vocabulary, drawn with the real icon art and the real
+flipbook: <https://claude.ai/code/artifact/05cdd4c8-c7d8-4ba7-a298-1edbfbea2c69>
+
+- [ ] **Settle Q1 (where the glow art comes from) and Q2 (cue key, or its own token group).** They
+      decide the shape of everything after, and Q2 has a strong in-tree precedent: V19 and V20 both
+      declined to be cue keys and took their own group. Paper only — **batch A/B**.
+- [ ] **`/cap style` errors on the Style tab today, and it is the surface that would show you the
+      treatment.** `StylePanel.lua:152` and `:174` read `ns.Style.cues[key].slot`; no `slot` field
+      has existed since the badge stack began to flow (`88bff54`), and `render-tokens.json` does not
+      emit one either — so the first is a nil concatenation and the second a nil table index,
+      neither behind a `pcall`. Nothing caught it because no test in this repo has ever called
+      `CreateFrame`. Fix the three sites and the two section captions that still name slots.
+      **Batch D**, and it is worth doing on its own regardless of whether this prototype proceeds.
+
 ### The folded row's fold gates → `backlog/fold-reading-model.md`
 
 **The reading model is DECIDED and the decision is in `render-shelf.md` Part 0.5: a folded row
