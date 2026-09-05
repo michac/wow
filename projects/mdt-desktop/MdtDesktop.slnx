@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MdtDesktop.App/MdtDesktop.App.csproj" />
+    <Project Path="src/MdtDesktop.Cli/MdtDesktop.Cli.csproj" />
+    <Project Path="src/MdtDesktop.Core/MdtDesktop.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MdtDesktop.Core.Tests/MdtDesktop.Core.Tests.csproj" />
+  </Folder>
+</Solution>

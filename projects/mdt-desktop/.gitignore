@@ -1,0 +1,8 @@
+# .NET build output. The root .gitignore carries no .NET patterns, so this
+# project owns them (the house pattern — see projects/talent-calculator/.gitignore).
+bin/
+obj/
+*.user
+
+# The bundled Lua interpreter under lua/ is DELIBERATELY tracked — see README.md
+# § The Lua sidecar. Nothing here should ignore it.

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- CBOR is the payload format of MDT's modern route strings. Base64 and raw Deflate,
+       the other two stages, ARE in the shared framework; System.Formats.Cbor is not — it is
+       a first-party Microsoft package that ships out of band. It is the one NuGet dependency. -->
+  <ItemGroup>
+    <PackageReference Include="System.Formats.Cbor" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- The sidecar interpreter and its scripts travel with anything that
+       references Core, so LuaInterpreter can resolve them from the output
+       directory rather than by guessing at the repo layout. -->
+  <ItemGroup>
+    <Content Include="..\..\lua\**\*"
+             Link="lua\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MdtDesktop.Core\MdtDesktop.Core.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <!-- So the project restores and compiles from a Linux dev box; running it still needs Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <!-- Stamped into the .exe, so a desktop shortcut picks it up with no extra wiring. -->
+    <ApplicationIcon>../../assets/icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!-- The same file again as a resource, for the window and taskbar while it runs. -->
+  <ItemGroup>
+    <Resource Include="../../assets/icon.ico" Link="icon.ico" />
+  </ItemGroup>
+
+</Project>

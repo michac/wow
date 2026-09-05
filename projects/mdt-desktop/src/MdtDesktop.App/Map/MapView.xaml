@@ -1,0 +1,49 @@
+<UserControl x:Class="MdtDesktop.App.Map.MapView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="560" d:DesignWidth="840">
+
+    <!-- The viewport clips; everything inside it moves under one transform pair, so pan and
+         zoom never touch a single blip's own coordinates. -->
+    <Border x:Name="Viewport"
+            Background="#0D0F11"
+            ClipToBounds="True"
+            Focusable="True"
+            SizeChanged="OnViewportSizeChanged"
+            MouseWheel="OnMouseWheel"
+            MouseLeftButtonDown="OnMouseLeftButtonDown"
+            MouseLeftButtonUp="OnMouseLeftButtonUp"
+            MouseMove="OnMouseMove">
+
+        <!-- Laid out at MDT's own canvas units, so clone coordinates go straight in. -->
+        <Grid x:Name="MapRoot"
+              Width="840" Height="560"
+              HorizontalAlignment="Left" VerticalAlignment="Top"
+              RenderTransformOrigin="0,0">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="Zoom" ScaleX="1" ScaleY="1" />
+                    <TranslateTransform x:Name="Pan" X="0" Y="0" />
+                </TransformGroup>
+            </Grid.RenderTransform>
+
+            <!-- One composed 1920x1280 bitmap rather than 150 Images: adjacent Image elements
+                 leave hairline seams at fractional zoom, and a flattened bitmap cannot. -->
+            <Image x:Name="Tiles" Stretch="Fill"
+                   RenderOptions.BitmapScalingMode="HighQuality" />
+
+            <!-- Pull outlines sit UNDER the blips: MDT draws the hull as an enclosure, and a
+                 line over a 7.8-unit blip would cover the thing it is enclosing. -->
+            <Canvas x:Name="Hulls" IsHitTestVisible="False" />
+
+            <Canvas x:Name="Blips" />
+
+            <!-- Pull numbers on top of everything, because a number behind a boss blip is not
+                 a label. -->
+            <Canvas x:Name="PullLabels" IsHitTestVisible="False" />
+        </Grid>
+    </Border>
+</UserControl>
