@@ -3,7 +3,7 @@ title: Lairs — Instanced World Bosses (Midnight Season 2)
 patch: 12.1
 build: 12.1.0.69214
 fetched: 2026-08-11
-reviewed: 2026-08-11
+reviewed: 2026-09-08
 sources:
   - https://worldofwarcraft.com/en-us/news/24295085            # "Step Into Lairs and Face the Foes Inside" — the reward table (tier 1; archived raw/pages/worldofwarcraft-com-en-us-news-24295085.md)
   - https://us.forums.blizzard.com/en/wow/posts/29833350       # S1 ending / S2 information — lockout, BoP, Voidcore, pre-season split (tier 1)
@@ -114,6 +114,39 @@ the row is present in the archived page
 `raw/pages/worldofwarcraft-com-en-us-news-24295085.md`, and
 `_meta/changelog-12.1.md` and `_meta/moving-values.md` were both corrected to
 match on 2026-08-11. No lower-tier source was used to establish this row.)*
+
+### Nymrissa Wavecaller — loot table (Tier 1, Blizzard journal API)
+
+Journal instance **1317**, encounter **2849**, read 2026-09-08. Thirteen items,
+one of which is housing decor:
+
+| Item | id | Type | Slot |
+|---|---|---|---|
+| Tidepiercer's Bubble Popper | 268199 | Staff | two-hand |
+| Tidebound Sorceress's Robes | 268221 | Cloth | chest |
+| Cincture of the Abyssal Grotto | 268232 | Cloth | waist |
+| Rising Tide Wristguards | 268217 | Mail | wrist |
+| Grips of Swirling Fury | 268238 | Mail | hands |
+| Swelling Sea Spaulders | 268226 | Plate | shoulder |
+| Forgotten Grotto Girdle | 268244 | Plate | waist |
+| Breakwater Boots | 268247 | Leather | feet |
+| Bubblefin Splash Guard | 268262 | Shield | off-hand |
+| Frostscale's Mystic Frond | 268263 | — | held off-hand |
+| Alluring Bubbleband | 268266 | — | finger |
+| Wavecaller's Seastone | 270167 | — | trinket |
+| Clumped Asteroidea | 279112 | Housing decor | — |
+
+⚠ **The table is narrow and armour-type-diluted** — a single boss covering nine
+equipment slots across four armour types. For any one character only three or
+four entries are live. Weigh that against a Mythic+ dungeon table before
+spending a Voidcore here on item level alone: the Lair's **318** beats a +10
+end-of-run **311**, but not a +10 **vault-equivalent** roll, and the dungeon
+covers far more slots. (See `great-vault.md` — the ilvl a roll pays outside the
+vault is still unresolved.)
+
+Boss abilities, from the same journal entry: Alluring Bubble · Swirling
+Whirlpools · Chilling Frost · Iceblade Flurry · Water Jet · Abyssal Rain ·
+Unending Tides.
 
 Season 2's crest currency is the **Mistcrest** line (Season 1's was the
 Dawncrest — see `dawncrests.md`). The five crest **names** are Tier-1 **game

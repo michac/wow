@@ -99,6 +99,29 @@ _EYEBALL = re.compile(
     r"only an eyeball|an eyeball closes|no programmatic oracle"
     r"|\bVISUAL\b|a visual read|and LOOK\b", re.I)
 
+
+def is_visual(q: dict) -> bool:
+    """Does this question need a HUMAN to close it?
+
+    ⚠ THE DECLARED FIELD WINS, and it exists because phrase-matching let one through.
+    Measured 2026-09-08: `aura-sink-recall`'s own `expect` says "distinguishing 'takes
+    effect' in PIXELS needs the eyeball the run prints" — which matches none of the six
+    phrases above, so `drain` would have closed it GREEN off its programmatic run while
+    the question it was written to ask stayed unanswered. That is the exact failure the
+    regex exists to prevent, and the regex was the thing that failed.
+
+    The phrase list was chosen so a NEWLY WRITTEN visual question would be caught without
+    anyone maintaining an id list. That only holds if the author reaches for one of six
+    blessed wordings — inference standing where a declaration belongs. So: `"visual": true`
+    on the row is authoritative, `"visual": false` is an explicit opt-out that the regex
+    may not override, and a row with no field at all falls back to the phrases (there are
+    older rows, and silently reclassifying them would be a second guess on top of a first).
+    """
+    declared = q.get("visual")
+    if isinstance(declared, bool):
+        return declared
+    return bool(_EYEBALL.search(f"{q.get('expect', '')}\n{q.get('question', '')}"))
+
 # A verdict option that declines to answer. Author-chosen wording, so matched by phrase.
 _UNDECIDED = re.compile(r"can'?t tell|cannot tell|unsure|don'?t know|unclear", re.I)
 
@@ -202,6 +225,45 @@ def cross_check() -> tuple[bool, list[str]]:
                     f"({len(orphan_tests)}): {', '.join(orphan_tests)}. If one was just "
                     "drained, delete its test — the claim is in the KB and nothing "
                     "re-checks it here (see HAS_TEST).")
+
+    # ⚠ A VISUAL QUESTION NEEDS A STIMULUS, NOT JUST A TEST. Measured 2026-09-08:
+    # `aura-sink-recall` carried a ns.Test{} whose returned value said, in prose, that the
+    # deciding half was an eyeball nobody had built — and nothing anywhere objected. The
+    # prose was honest and inert. A question a human must close has to have something for
+    # that human to LOOK at, and that is checkable.
+    visual_built = sorted(q["id"] for q in data["questions"]
+                          if q.get("status") in HAS_TEST and is_visual(q))
+    ask_set = set(asks)
+    stimulus_missing = [i for i in visual_built if i not in ask_set]
+    if stimulus_missing:
+        ok = False
+        msgs.append("visual question(s) with no ns.Ask.Register{} stimulus "
+                    f"({len(stimulus_missing)}): {', '.join(stimulus_missing)}. A human "
+                    "cannot answer a question that draws nothing — build the stimulus, or "
+                    'set "visual": false if an instrument really can close it.')
+
+    # ⚠ A TEST FILE THE .toc DOES NOT LOAD IS NOT IN THE GAME. Measured 2026-09-08: a
+    # T_*.lua was recreated after a drain had removed its .toc line, and every gate here
+    # went green while the addon shipped without it — `/clab` reported "none registered"
+    # because the file genuinely never loaded. `lua_ids()` globs the DIRECTORY, so the
+    # registry check cannot see this by construction. Both directions, because a .toc line
+    # naming a deleted file is a load error in the client.
+    toc = SRC / "ClientLab.toc"
+    if toc.is_file():
+        listed = {ln.strip() for ln in toc.read_text(encoding="utf-8").splitlines()
+                  if ln.strip().endswith(".lua") and not ln.strip().startswith("#")}
+        on_disk = {f.name for f in SRC.glob("T_*.lua")}
+        unlisted = sorted(on_disk - listed)
+        if unlisted:
+            ok = False
+            msgs.append(f"T_*.lua on disk but NOT in ClientLab.toc ({len(unlisted)}): "
+                        f"{', '.join(unlisted)}. The game will not load it and its tests "
+                        "will silently not exist.")
+        ghosts = sorted(n for n in listed - on_disk if n.startswith("T_"))
+        if ghosts:
+            ok = False
+            msgs.append(f"ClientLab.toc names T_*.lua that do not exist ({len(ghosts)}): "
+                        f"{', '.join(ghosts)}. That is a load error in the client.")
 
     if ok:
         msgs.append(f"registry cross-check OK — {len(lua_set)} ids match "
@@ -570,7 +632,7 @@ def cmd_drain(args) -> int:
               "record).", file=sys.stderr)
         return 1
 
-    visual = bool(_EYEBALL.search(f"{q.get('expect', '')}\n{q.get('question', '')}"))
+    visual = is_visual(q)
     runs = load_runs(args.wow_path)
     hits = [(run, r) for run in runs for r in run.results
             if r.id == args.id and (not args.slot or args.slot in run.label.lower())]

@@ -18,6 +18,10 @@ raw/*
 /projects/cooldown-hud/addon/
 # michac/cap (Combat Assist Plus addon source):
 /projects/combat-assist/addon/
+# michac/InterruptHUD (Interrupt HUD addon source):
+/projects/interrupt-hud/addon/
+# michac/SmartGlo (Smart Glo addon source):
+/projects/smart-glo/addon/
 
 # MCP tool scratch (Playwright browser session artifacts)
 .playwright-mcp/
@@ -47,3 +51,6 @@ trainer/sim/pubspec.lock
 
 # Claude Code runtime state (not config)
 .claude/scheduled_tasks.lock
+
+# Machine-specific Claude Code settings (absolute Windows paths for mdt-desktop)
+.claude/settings.local.json

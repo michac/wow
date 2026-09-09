@@ -132,80 +132,75 @@ game.** Defenses, in order:
 - `tools/` — uv project, `wowkb` package. **`tools/README.md` is the full command
   reference** (flags, subcommands, rationale); `tools/docs/` holds deeper per-tool docs
   (e.g. `wowkb-sim.md`, the sim harness design doc + field log)
+
+⚠ **`grep` in this shell is `ugrep --ignore-files`, so it OBEYS `.gitignore` — and every addon
+sub-repo is gitignored.** A repo-wide `grep -rn` therefore skips `planner-state/` and all four
+`projects/*/addon/` checkouts silently, which is exactly where the shipping Lua lives: "no hits
+in the repo" has been quietly meaning "no hits outside the addons". Use `command grep -rn …`
+(bypasses the wrapper) or `find . -name '*.lua' -print0 | xargs -0 command grep -n …` whenever
+the answer could live in addon code.
 - `raw/` — gitignored fetch cache; distill into `knowledge/`, don't cite raw/
 
 ### Side projects / prototypes (standalone apps — NOT the KB)
 
-These are self-contained companion apps living beside the KB. They have their
-own build stacks and don't follow the `knowledge/**.md` front-matter convention.
-Each has a design doc with a progress/milestone log — **read the doc before
-touching the code**. Status as of 2026-07-09:
+These are self-contained companion apps living beside the KB. They have their own build
+stacks and don't follow the `knowledge/**.md` front-matter convention.
 
-- `projects/trainer/` — **rotation trainer** (Flutter/Dart). A target-dummy rotation-
-  practice game; one spec so far (simplified Affliction Warlock). Two packages:
-  `sim/` (headless pure-Dart engine — GCD, DoTs/pandemic, shards, RNG,
-  `advisePriority()`, `SessionStats` + a fixed-length pull lifecycle; 71 tests)
-  and `app/` (Flutter UI, `path:`-depends on `sim/`; hint glow + end-of-pull
-  summary). Spec + milestone log: `todo/rotation-trainer.md`. **M1–M4 done;
-  M5 (Affliction fidelity: real icons, tuned numbers/weights, Nightfall
-  proc-glow, Drain Soul + Darkglare) is next.**
-- `projects/talent-calculator/` — **talent calculator** (`wow-talent-calculator`; Svelte + Vite, `bun`).
-  Data-driven from a `build-data` script. Spec: `todo/talent-calculator-prototype.md`.
-- `projects/mplus_memory/` — **M+ Memory Trainer**: a spaced-repetition trainer
-  for Midnight S1 Mythic+ dungeon mechanics. Has its own `project-spec.md` +
-  `backlog.md` and its own inner `app/` (`mplus-memory-trainer`, Svelte/Vite/bun).
-  Note: its data pipeline writes into the KB proper
+⚠ **These entries are ROUTING ONLY — what each project is, and where its own docs are.**
+Design rationale, principles, taglines and current status deliberately live **inside** each
+project, so they are read by someone working there and not by every session. **Read the
+project's own docs before touching its code**, and do not carry a decision, a stance or a
+prohibition from one project into another — several of these are the same shape (addons
+riding the Cooldown Manager) and are *not* precedent for each other. What legitimately
+crosses between them is **measured client facts**, and those travel through
+`knowledge/addon-dev/`, where the KB's evidence gates apply — never project-to-project.
+
+- `projects/trainer/` — **rotation trainer** (Flutter/Dart): a target-dummy rotation-practice
+  game. Two packages, `sim/` (headless pure-Dart engine) and `app/` (Flutter UI, `path:`-depends
+  on `sim/`). Spec + milestone log: `todo/rotation-trainer.md`.
+- `projects/talent-calculator/` — **talent calculator** (`wow-talent-calculator`; Svelte + Vite,
+  `bun`). Data-driven from a `build-data` script. Spec: `todo/talent-calculator-prototype.md`.
+- `projects/mplus_memory/` — **M+ Memory Trainer**: spaced-repetition trainer for Midnight S1
+  Mythic+ dungeon mechanics. Own `project-spec.md` + `backlog.md`, own inner `app/`
+  (Svelte/Vite/bun). ⚠ Its data pipeline **writes into the KB proper**
   (`knowledge/systems/mechanic-archetypes.md` + per-dungeon files).
-- `projects/keybinder/` — **BucketBinds**: a one-shot keybind/action-bar dumper
-  addon. Sorts every ability of your class+spec into fixed **bucket → action-slot**
-  categories and sets the keybinds in one go, so the same category sits on the same
-  key across all 40 specs; plus transactional snapshot/restore of your whole
-  keybind+bar+macro state. Concept from Bellular's Midnight keybind sheet, extracted
-  into `data/bellular-keybinds.seed.json` (**CANONICAL, hand-edited**) →
-  `tool/gen_data_lua.py` → `addon/BucketBinds/Data.lua` (**generated — never
-  hand-edit**). Docs: `project-spec.md` (design + milestones + the
-  layout-of-record), `data/layout-v2-proposal.md` (banding contract; §6 per-spec
-  re-filing SHIPPED via the floats rollout), `data/seed-review.md` +
-  `seed-edits-proposed.md` + `unmapped-abilities.md` (per-spec audits). The addon
-  (`michac/BucketBinds`) is at `addon/` — own git repo, **gitignored**, own
-  `CLAUDE.md` for the release workflow. **Floating buckets shipped across all 33
-  DPS/tank specs (2026-07-21)** — the 7 healers stay held per layout-v2
-  §10. In-game verification: Demonology pilot verified; the other 32
-  DPS/tank specs' float placement is the outstanding in-game pass. Read off disk
-  by `wowkb.diagnostics`. (Current addon version: `wowkb.addon list`.)
-- `projects/cooldown-hud/` — **Cooldown HUD** (CDMProbe): 🗄 **ARCHIVED 2026-08-30.** Superseded
-  by Combat Assist Plus on 2026-08-05 and closed out on 2026-08-30: the GitHub repo
-  (`michac/CDMProbe`) is **archived read-only**, `cdmp` is **out of `wowkb.addon`'s registry**, and
-  the `wowkb.cdmp` graders are **deleted** (recoverable from git). Nothing here is worked on,
-  released or deployed. **There is one addon riding the CDM and it is `cap`.**
-  ⚠ **The directory is KEPT, and two things in it are still worth reading** — its **measured
-  client facts**, which already live in `knowledge/addon-dev/` where the KB's gates apply (that
-  is the authority, never these docs), and its **per-spec rotation research** (`specs/demonology/`
-  especially), which cap drew on by hand. Its *code* is not ported and its `docs/status.md` is a
-  closed worklist. **Do NOT route new work here**, and read anything present-tense in it as
-  history. The checkout stays at `addon/` (own git repo, gitignored); build history in
-  `docs/archive/`; captures still readable via `wowkb.capture cdmp`.
-- `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): **the live CDM addon**, a
-  combat-assistance overlay that makes the Cooldown Manager tell you more **without
-  telling you what to press**. It is the reason the Cooldown HUD above is superseded.
-  v1 spec: **Demonology Warlock**; a spec without a catalog gets nothing, by design.
-  **Start at its `CLAUDE.md`** (project root), which owns the doc map; `specs/spec.md` is
-  the definition and §1's two principles are what everything else is downstream of.
-  ⚠ **What is built and what has flown lives in `specs/backlog.md` → `## Status`** and is
-  deliberately not restated here or anywhere else. ⚠ **cap's releases do NOT need asking**
-  (2026-08-31) — its `CLAUDE.md` § Releasing carries the standing authorization and the three
-  gates that make it cheap; the old blanket ask-first rule here is retired. The addon
-  (`michac/cap`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the
-  release workflow. (Current addon version: `wowkb.addon list`.)
-- `projects/addon-lab/` — **ClientLab**: the scratch lab addon that answers
-  `knowledge/addon-dev/` questions by running Lua in the live client, plus
-  **`questions.json`, the test registry** (four statuses:
-  `answered`/`built`/`parked`/`not-answerable`). Deliberately **not** a product: no repo,
-  no releases, not in `wowkb.addon`; deploy is a directory copy. **An unknown is recorded
-  as a marker on the claim, not in a tool** — `[gap]`/`@verify-ingame` → `@pending-test:
-  <id>` once a test exists → `[client YYYY-MM-DD]` once drained. A marked claim you are
-  about to build on is a **STOP: ask**. Nothing ages an open marker. The process is
-  `docs/lab-process.md`; the addon rules are its `CLAUDE.md`.
+- `projects/keybinder/` — **BucketBinds** (`/bb`): one-shot keybind/action-bar dumper addon;
+  sorts a spec's abilities into fixed bucket → action-slot categories, plus snapshot/restore of
+  the whole keybind+bar+macro state. ⚠ `data/bellular-keybinds.seed.json` is **CANONICAL,
+  hand-edited**; `tool/gen_data_lua.py` → `addon/BucketBinds/Data.lua` is **generated — never
+  hand-edit**. `project-spec.md` owns the design + the layout-of-record. The addon
+  (`michac/BucketBinds`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the
+  release workflow.
+- `projects/cooldown-hud/` — **Cooldown HUD** (CDMProbe): 🗄 **ARCHIVED 2026-08-30**, superseded
+  by Combat Assist Plus. The GitHub repo (`michac/CDMProbe`) is **archived read-only**, `cdmp` is
+  out of `wowkb.addon`'s registry, and the `wowkb.cdmp` graders are deleted (recoverable from
+  git). **Do NOT route new work here**, and read anything present-tense in it as history. Its
+  measured client facts already live in `knowledge/addon-dev/` — **that is the authority, never
+  these docs**. Its per-spec rotation research (`specs/demonology/`) is still readable. Checkout
+  at `addon/` (own git repo, gitignored); captures via `wowkb.capture cdmp`.
+- `projects/combat-assist/` — **Combat Assist Plus** (`/cap`): the live Cooldown-Manager overlay
+  addon. **Start at its `CLAUDE.md`** (project root), which owns the doc map; `specs/backlog.md`
+  → `## Status` owns what is built and what has flown. ⚠ **cap's releases do NOT need asking**
+  (2026-08-31) — its `CLAUDE.md` § Releasing carries the standing authorization. The addon
+  (`michac/cap`) is at `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the release
+  workflow.
+- `projects/addon-lab/` — **ClientLab** (`/clab`): the scratch lab addon that answers
+  `knowledge/addon-dev/` questions by running Lua in the live client, plus `questions.json`, the
+  test registry. Deliberately **not** a product: no repo, no releases, not in `wowkb.addon`;
+  deploy is a directory copy. ⚠ **An unknown is recorded as a marker on the claim, not in a
+  tool**, and a marked claim you are about to build on is a **STOP: ask**. Process:
+  `docs/lab-process.md`; addon rules: its `CLAUDE.md`.
+- `projects/mdt-desktop/` — **MDT Desktop**: standalone second-monitor Mythic+ route viewer (WPF,
+  .NET 10 — the **first .NET code in this repo**; its toolchain stays in-tree, nothing hoisted to
+  the repo root). ⚠ **It never reads the WoW install** — no `AddOns/`, no `SavedVariables/`; all
+  dungeon data is fetched at runtime from MDT's GitHub release zip. Lua data is read by **real Lua
+  in a child process** (`lua/`) — nothing here parses Lua. `README.md` owns the design;
+  `backlog.md` → `## Status` owns what is built. ⚠ MDT is **GPLv2** — the bundling decision is
+  deferred and recorded in `README.md`.
+- `projects/smart-glo/` — **Smart Glo** (`/sg`): rule-driven glows on Cooldown Manager icons.
+  **Start at its `CLAUDE.md`** (project root); `README.md` owns the design and the rule
+  vocabulary, `backlog.md` → `## Status` owns what is built. The addon (`michac/SmartGlo`) is at
+  `addon/` — own git repo, **gitignored**, own `CLAUDE.md` for the release workflow.
 - `todo/` — design docs / specs with milestone logs for the above
   (`rotation-trainer.md`, `talent-calculator-prototype.md`). The informal
   "what's unfinished" inventory, but not exhaustive (mplus_memory's spec lives

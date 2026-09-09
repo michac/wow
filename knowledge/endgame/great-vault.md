@@ -2,7 +2,7 @@
 title: Great Vault — Midnight Season 2 (12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-20
+reviewed: 2026-09-08
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Curse of Ula'tek content update notes (Tier 1)
   - https://us.forums.blizzard.com/en/wow/posts/29833350  # S1 ending / S2 pre-season details (Tier 1)
@@ -10,6 +10,7 @@ sources:
   - https://conquestcapped.com/guides/wow/midnight-mythic-plus-season-2/  # S2 M+ vault table (Tier 3, upd. 2026-08-02)
   - https://www.icy-veins.com/wow/great-vault-guide   # slot unlock thresholds (Tier 3)
   - https://www.icy-veins.com/wow/midnight-mythic-season-1-guide  # S1 table (historical)
+  - IN-GAME 2026-09-08 (Encomplete) — Voidcore rolls work in Mythic+ and Delves; the 12.1 notes name neither
 confidence: medium
 ---
 
@@ -111,7 +112,31 @@ naming the S2 currency when they may only have been describing S1 wind-down.)*
   Voidcore remain **item-level-equivalent to a vault reward**.
 - **Orin Straylight** has relocated **near the Catalyst in Silvermoon** and
   hands out **one extra Voidcore per week starting week 8 of Season 2**.
-- A Voidcore can also be spent **once per week per Lair** (see `lairs.md`).
+
+### Where a Voidcore can be spent
+
+⚠ **This list is NOT exhaustive and must not be read as one.** The 12.1 notes
+enumerate the spends they changed, not every spend that exists; treating the
+published list as complete produced a wrong answer on 2026-09-08 (a session told
+the user Voidcore rolls were raid-and-Lair-only and that M+ was not a target).
+
+Confirmed spends:
+
+- **Raid** — 1 Voidcore per re-roll.
+- **Lair** — once per week, per Lair (see `lairs.md`).
+- **Mythic+ and Delves** — **confirmed in game 2026-09-08 by the user.** Neither
+  is named in the 12.1 notes; both work.
+- **Prey** — the user reports this as likely but not certain. Unconfirmed.
+  @verify-ingame
+
+⚠ **The item level a Voidcore roll pays outside the vault is UNRESOLVED, and it
+is the number that decides where to spend one.** The "item-level-equivalent to a
+vault reward" line above is stated about items *bought* with a Voidcore, and it
+is not established that it governs a roll on a boss or a dungeon. The two
+readings differ materially: at +10 and up, an M+ **vault** reward is Myth 1/6
+(318) while the **end-of-dungeon** drop is Hero 3/6 (311). Read the actual ilvl
+off a roll before ranking targets by anything but their loot table.
+@verify-ingame
 - The **Tier 6 Advanced Ritual Studies** quests no longer offer a Voidcore bonus
   roll (still completable for the achievement) — see `../systems/ritual-sites.md`.
 
@@ -153,6 +178,14 @@ first S2 reset.
 
 → **+10 is still the vault target** — it is the first key level whose vault
 reward is Myth-track. Run 8× +10 for max M+ row choices.
+
+⚠ **Two Myth thresholds sit one key level apart — do not conflate them.**
+**Crests** go Myth at **+9** (Tier-1 DB2 source map, `dawncrests.md:132`).
+**Gear** goes Myth at **+10** (the table above — Tier-3, never seen in a live
+vault). "+9 and up is Myth" is *correct for crests* and is the likely source of
+any recollection that +9 pays Myth gear. If a +9 vault or Voidcore roll is
+observed paying Myth-track **gear**, this table is wrong and the +9 row should be
+rewritten — that is the specific thing to watch for. @verify-ingame
 ⚠ Season 2 crests are **Mistcrests**, not Dawncrests (`dawncrests.md`).
 
 ## Mythic+ slot ilvls — Season 1 (HISTORICAL, ended 2026-08-11)

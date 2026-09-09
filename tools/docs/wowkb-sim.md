@@ -993,3 +993,231 @@ unmodelled-AoE inversion: Sacred Text is single-target by construction.
 **Two things this run did not price**, both stated in the answer rather than guessed:
 the baseline is two days old (the 08-25 vault pick may since be worn), and the Hero 2/6
 target of **308** is `~interp` ±1 on the same interpolation `crests` brands.
+
+### 2026-09-06 — "can I drop the Stormbound Emblem?" — the track lookup answered it before the sim did
+
+Question: sim Encomplete's trinkets to see whether **Stormbound Emblem of Dazar** can be
+swapped out, assuming the Hero-track trinkets go to **6/6 (321)**. The stated reason was
+ergonomic: the Emblem's **2-second channel** is awkward to fit into the rotation.
+
+**The premise did not survive the first lookup, and nothing simmed was needed to break it.**
+`charstate.load('Encomplete')` reports `trinket2 Stormbound Emblem of Dazar 308 — Champion
+6/6`. The Emblem is **not Hero track**; it is already at its ceiling and **cannot** be taken
+to 321. The trinket the assumption *does* apply to is the other one, Void-Reaper's Libram,
+at Hero 2/6. Worth recording as a habit: **read the track before designing the comparison.**
+It cost one `charstate` call and it changed what the baseline meant — a frozen 308 that
+every challenger gets to out-scale, rather than a peer that upgrades alongside them.
+
+**Results.** `gear --slot trinket2` screened all 17 bag candidates; none beat the Emblem at
+current ilvl, best being Freightrunner's Flask 305 at -2.72% / -4.28%. `compare` then took
+the plausible Hero-track contenders to 321 in one frame:
+
+| variant | 1T/300s | 5T/120s |
+|---|---|---|
+| **libram321** (Hero 6/6, trinket2 untouched) | **+0.84%** | **+0.64%** |
+| *(baseline — Libram 308 + Emblem 308)* | — | — |
+| flask321 + libram321 | -0.94% | -2.73% |
+| flask321 (Freightrunner, Hero 6/6) | -1.81% | -3.52% |
+| drum321 (Drum of Renewed Bonds) — **FLOOR** | -1.93% | -3.84% |
+| flask305 (as looted) | -2.65% | -4.35% |
+| idol321 (Lost Idol of the Hash'ey) | -3.73% | -6.03% |
+
++16 ilvl on the Flask closes only ~0.85 points of a 2.72-point gap, so the swap loses at
+every ilvl the character can reach. **The crests go on the Libram, not on a replacement.**
+
+**⚠ The APPEND OVERRIDE CONTRADICTS UPSTREAM, and upstream is wrong here — measured, not
+assumed.** Upstream's own items list gates every trinket rung on `trinket.N.cast_time>0`
+and prefers a cast-time trinket **outside** Tyrant (`!pet.demonic_tyrant.active&
+trinket.N.cast_time>0`, MID2 profile lines 67-72). Our `apl_append` says the opposite.
+CRN triple (1500 iterations, `deterministic=1`, `threads=1`, seed 20260906, 1T/300s; arms
+differ only in that one APL line, so separate invocations are structurally required and CRN
+is the mitigation — same method as the 2026-08-21 entry):
+
+| arm | dps | Δ | presses | channel time | buff uptime |
+|---|---|---|---|---|---|
+| pressed **inside** Tyrant (current override) | 131,650 | — | 2.89 | 5.75s | 18.4% |
+| pressed **outside** Tyrant (upstream's preference) | 126,728 | **-3.74%** | 2.73 | 5.43s | 17.2% |
+| never pressed | 125,460 | **-4.70%** | 1.00 | 2.00s | 1.4% |
+
+The Tyrant pet-damage multiplier outweighs the 2s of casting the channel costs. Upstream's
+rule is not a bug — it is right for a spec without a burst window that multiplies everything
+— it is simply the wrong call for Demonology. **These are same-seed means used ONLY to price
+the press timing**; the publishable medians are the profileset table above. Recorded in
+`sim_overrides.json`'s note.
+
+**The 2s channel IS modelled, which is what makes the ergonomic answer honest.** simc
+implements the Emblem as `channeled = true`, 2s ticking every 0.5s, cancelling the ready
+event and blocking autos (`unique_gear_midnight.cpp:3747`); it burned 5.75s of the 300s
+fight. So "the Emblem wins" is a claim net of the cast, not one that ignores it — and the
+`never pressed` arm prices the fumble at **-4.70%**, which is the number that actually
+answers "is it worth the hassle".
+
+**Firing-gate status: the 2026-08-27 false negative is now firing on FOUR items and cost
+real time to clear by hand.** Void-Reaper's Libram, Lost Idol of the Hash'ey, Sylvan
+Wakrapuku and Effigy of Ula'tek's Faithful all printed *"registered in simc's item table but
+produced no buff and no action — possibly unimplemented"* and **all four are implemented and
+firing** — they register under their spell names (Sylvan's `divebomb` ran 40.8×; the Idol's
+`lynx_Haste` / `pangolin_Crit` / `focused_hunt` buffs are all in the output; the Libram's
+`sacred_text` 7.4× with `sacred_duty` at 41.7% uptime). Distinguishing them from the three
+genuinely-unmodelled ones (**Drum of Renewed Bonds** = `DISABLED_EFFECT` at
+`unique_gear_midnight.cpp:5567`, **Ruby Whelp Shell** = on-use dead under a forced probe,
+**Pulse Seeker's Oculus** = spell 1294326 not registered anywhere) took a manual grep of the
+simc source per item. That is the gate the 08-27 entry already specified and it is now the
+single highest-value unbuilt thing in this file: **resolve the driver's triggered spell ids
+and look for actions/buffs under THOSE names.** Until it exists, every trinket screen needs
+this manual pass, and a session that skips it will either throw away a working upgrade or
+quote a floor as a result.
+
+**One thing this run could not answer.** `drum321` is a floor: Drum of Renewed Bonds' on-use
+is disabled in simc and its tooltip ("Echo the sound of your drum through a sacred loa
+temple, aligning its beat with the will of the loa") is a mode-select with no numbers, so
+its stats-only -1.93% / -3.84% would need the loa effect to be worth ~2% / ~3.8% to catch
+the Emblem. Unknowable here; it is the one candidate where an in-game test would beat a sim.
+
+### 2026-09-06 (cont.) — "do I want anything from Altar of Fangs 11+?" — the answer was in the enchant slot
+
+Question: does **Altar of Fangs** at **+11** drop anything Encomplete wants. Answering it
+properly needed three things the sim alone does not give: the **item API** (half the table
+is unwearable), the **loot ilvl rule** (`mythic-plus/loot.md`: end-of-dungeon ilvl caps at
+**+10**, so a +11 drops **Hero 3/6 ≈ 311** and the +11 only improves the *vault* row), and
+**`charstate`** (which said the character has no tier set at all).
+
+**Two lookups killed most of the table before any sim ran.**
+
+- The item API resolves **Hydra Scale Wristguards as Mail** and **Poison-Proof Stompers as
+  Plate** — and wrist (295) is this character's *weakest* slot, so the dungeon cannot fix
+  the one slot that most needs fixing. **Pillar of the Fanged Altar** and **The Writhing
+  Brood**, the two ids the KB file flagged as "outside the contiguous 2737xx block, must be
+  read off the item API before being called trinkets", resolve as **Decor** and a **Mount**.
+  That flag was right to be there and this closes it.
+- `charstate` reports `tier=False` on all 15 equipped items and the generated profile carries
+  no `set_bonus` line: **0pc**. The Pyrewalker pieces are the Prey set, not Damned Necrolyte.
+  Altar of Fangs drops no tier, so the biggest available lever is not in this dungeon at all.
+
+**Everything ranked in ONE frame, which is what made it answerable** (the 321 rows had been
+measured in an earlier invocation against a *308* Libram, so part of each gain was just +13
+ilvl — exactly the confound invariant 2 exists to stop):
+
+| variant | 1T/300s | 5T/120s |
+|---|---|---|
+| Band of the Amani Warlord 308, enchanted + gemmed | +1.33% | +1.51% |
+| **worn Signet 308, enchanted + gemmed** | **+1.25%** | **+1.62%** |
+| **libram321** — spend the Hero crests on what is already worn | **+0.87%** | **+0.71%** |
+| Knot of Writhing Serpents **321** → trinket1 | +0.67% | +0.65% |
+| Preyhunter's Ring 295 (carries enchant + gem) | +0.63% | +0.98% |
+| Vile Vial of Volatile Venom **321** → trinket1 | +0.27% | +1.01% |
+| Strand of Warding Fangs **311** + gem | NOISE | -0.35% |
+| *(baseline)* | — | — |
+| Knot of Writhing Serpents **311** (as a +11 drops it) | NOISE | NOISE |
+| Vile Vial **311** (as a +11 drops it) | -0.28% | +0.37% |
+
+**At the ilvl a +11 actually drops, nothing from this dungeon is an upgrade.** The two
+trinkets only pass the current 308 Libram after Hero crests go into them — and those same
+crests spent on the Libram beat both. maxroll's nominal BiS trinket 2 (**Vile Vial**) is a
+**loss** in the slot it would take (-0.83% / -2.01% evicting the Emblem, measured in the
+prior frame).
+
+**⚠ THE REAL FINDING WAS NOT A DROP — IT WAS AN EMPTY ENCHANT SLOT, and it beat every item
+in the dungeon.** `gear --slot finger1` ranked a **295** Preyhunter's Ring *above* the worn
+**308** Signet of Snarling Servitude (+0.66% / +1.12%). A 13-ilvl deficit winning is not a
+gear result, it is a diagnostic: the bag ring carries `enchant_id=7967,gem_id=240890` and
+the worn one carries **neither**. Split three ways to find out which half mattered:
+
+| | 1T/300s | 5T/120s |
+|---|---|---|
+| Signet + **enchant only** | **+1.10%** | **+1.25%** |
+| Signet + gem only | +0.11% | +0.37% |
+| Signet + both | +1.15% | +1.52% |
+
+**It is almost entirely the missing enchant**, which matters because the enchant is
+unconditional while the gem needed an unverified socket (bonus id `13668`, present on every
+socketed neck/ring in the export). The recommendation therefore does not rest on the socket
+question at all. It also re-reads the Band of the Amani Warlord: its earlier +0.30% was the
+gem it happens to carry, and once both rings are enchanted the two are a **tie** (+1.33% vs
++1.25%, bands overlapping in both frames) — so the dungeon ring is not an upgrade either.
+
+**Gate to build (this is the second session in a row to want it).** `gear` and `compare`
+should assert that **every enchantable worn slot carries an `enchant_id`** and say so. Nothing
+in the tool mentioned the bare ring; it surfaced only because a 13-ilvl-lower item beat it and
+I asked why. The 2026-08-25 entry already built half the case — there the artifact was an `@`
+reference *silently carrying* an enchant, here it is a worn slot silently *missing* one. Both
+are the same missing invariant: **the tool never says anything about enchants.** A character
+walking around with an unenchanted ring is a ~1.2% standing loss that no gear question will
+ever surface on its own.
+
+**Firing-gate false negative, tally now SEVEN items.** Knot of Writhing Serpents, Vile Vial,
+Coiled Fangstone and Tattered Amani War Banner all WARNed as "possibly unimplemented" and all
+four fired (`writhing_venom_missile` 13.59× with its `writhing_venom` child at 776,610
+compound; `empowering_venom` 2.90×; `coiled_fangstone` 5.51×; `tattered_amani_war_banner`
+3.09×). Verifying them cost another manual pass through `unique_gear_midnight.cpp` plus a dig
+into the gate JSON's `children` array — the Knot's damage is invisible at top level because
+`missile->add_child(damage)` folds it in. Combined with the four from earlier today, the gate's
+name-matching heuristic is now wrong far more often than it is right on Midnight trinkets.
+
+### 2026-09-06 (cont.) — "what about Temple?" — and the enchant gate finally earns its keep
+
+Same character, same day, third dungeon question: **Temple of Sethraliss** at +11. Unlike
+Altar of Fangs this one has cloth in the two slots that actually need it — but the answer is
+still "enchant your gear first", and this time the margin is not close.
+
+**The KB had no loot table for this dungeon** (`temple-of-sethraliss.md` is a patch-day STUB,
+`confidence: low`, explicitly "no route, no trash table, no affix guidance and no loot table
+yet"). Pulled it from the **journal-encounter API** (2142/2143/2144/2145) and resolved every
+id through the item endpoint, which is the same two-step the Altar of Fangs question needed.
+Worth noting the shape: Avatar of Sethraliss lists each cloth piece **twice**, once as the
+BfA id and once as a `239xxx` Midnight-refresh id — that is where this character's 295 Brood
+Cleanser's Amice came from, and reading only the low ids would have missed the modern versions.
+
+**Results, one frame:**
+
+| variant | 1T/300s | 5T/120s |
+|---|---|---|
+| **enchAndSockets** — 4 missing enchants + 3 missing sockets | **+2.30%** | **+2.29%** |
+| Charged Sandstone Band **321** (+ ring enchant) | +1.64% | +1.67% |
+| Charged Sandstone Band **311** (+ ring enchant) | +1.24% | +1.16% |
+| **enchOnly** — the 4 missing enchants alone | +1.18% | +1.25% |
+| Bindings of the Slithering Current (wrist) **321** | +0.95% | +0.68% |
+| Ouroborial Sash (waist) **321** | +0.80% | +0.65% |
+| Jade Ophidian Band **321** | +0.73% | +1.19% |
+| Bindings of the Slithering Current **311** | +0.59% | +0.28% |
+| Ouroborial Sash **311** | +0.32% | NOISE |
+| *(baseline)* | — | — |
+| Staff of the Lightning Serpent **321** | NOISE | +0.37% |
+| Sethraliss' Defiled Relic **321** — **FLOOR** | -1.23% | -0.34% |
+| Tiny Electromental in a Jar **321** — **FLOOR** | -6.44% | -5.64% |
+
+**The reading that matters is the pair `sandstone311` (+1.24%) vs `enchOnly` (+1.18%).** The
+Sandstone Band variants *carry the ring enchant*, so at the ilvl a +11 actually drops, the
+BiS-track ring is worth **+0.06% over simply enchanting the ring already worn** — inside the
+error band. Its real contribution only appears at 321 (+0.46% over `enchOnly`). Putting the
+enchant into both arms is what makes that legible, and it is the direct application of the
+2026-08-25 `@`-reference artifact: **an item comparison where one arm silently carries an
+enchant the other lacks is measuring the enchant, not the item.**
+
+**The enchant audit, which is the actual finding of all three of today's sessions.** Parsing
+`enchant_id`/`gem_id` out of every equipped line in the export against
+`classes/warlock/demonology/gearing.md`'s enchant table: **head** (enchant + socket),
+**shoulder** (enchant), **wrist** (socket), **waist** (socket), **feet** (enchant) and
+**finger1** (enchant) are all bare; only chest/legs/finger2/weapon are done. That is
+**+2.30%** sitting on a crafting table, more than any single item in either dungeon, and
+nothing in `wowkb.sim` says a word about it. Enchant ids were resolved from
+`spell_item_enchantment.inc` (Tier-2 quality, matching what the character already runs):
+head 8017, shoulder 8001, feet 7963, ring 7967; sockets gemmed with 240898 (Flawless Deadly
+Amethyst, the Mastery+Crit stone this spec's gearing.md names).
+
+**⚠ THE GATE TO BUILD, now demanded by three consecutive sessions.** `gear`/`compare`/`check`
+must audit **enchantable and socketable worn slots** and report bare ones. The slot list is
+spec-dependent (Midnight puts sockets on head/wrist/waist via Miasmic Jewelbinder and no
+enchant on the back at all), so it cannot be hardcoded blind — but even a dumb version that
+printed "4 worn slots carry no enchant_id" would have opened today's first question with the
+right answer instead of the third. This is now the single highest-value unbuilt gate in this
+file, ahead of the triggered-spell-id resolver.
+
+**Firing gate, running tally: eleven false-negative WARNs today, and two TRUE ones.** Tiny
+Electromental in a Jar and Sethraliss' Defiled Relic WARNed and, unlike the other nine,
+**genuinely produced nothing** — their gate runs contain no trinket action at all. simc
+registers the BfA implementations against the **BfA** effect spell ids (267177 / 267402 at
+`unique_gear_bfa.cpp:6196-6199`), which the Midnight-refreshed items do not carry. So both
+rows are stats-only floors. That both classes of WARN appeared in the *same run* is the
+argument for the resolver: the text is identical and only a source dig separates "working
+fine" from "genuinely dead".

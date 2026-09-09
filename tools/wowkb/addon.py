@@ -71,6 +71,10 @@ REGISTRY = {
     "cap": Addon("cap", "michac/cap", "projects/combat-assist/addon",
                  "CombatAssistPlus/CombatAssistPlus.toc", "CombatAssistPlus/*.lua",
                  "/cap", test_dir="CombatAssistPlus/tests/spec"),
+    "ihud": Addon("ihud", "michac/InterruptHUD", "projects/interrupt-hud/addon",
+                  "InterruptHUD/InterruptHUD.toc", "InterruptHUD/*.lua", "/ihud status"),
+    "sg": Addon("sg", "michac/SmartGlo", "projects/smart-glo/addon",
+                "SmartGlo/SmartGlo.toc", "SmartGlo/*.lua", "/sg status"),
 }
 
 

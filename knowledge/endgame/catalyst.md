@@ -2,7 +2,7 @@
 title: The Catalyst (Midnight Season 2)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-25
+reviewed: 2026-09-08
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281   # 12.1 Content Update Notes, ITEMS/THE CATALYST (Tier 1)
   - https://wago.tools/db2/CurrencyTypes?build=12.1.0.69214   # currency 3465 Venomblight Manaflux (Tier 1)
@@ -12,6 +12,7 @@ sources:
   - https://www.icy-veins.com/wow/catalyst-guide
   - https://www.icy-veins.com/wow/news/your-catalyst-gear-keeps-its-stats-and-cantrips-in-wow-midnight-season-2/
   - https://www.wowhead.com/guide/midnight/matrix-catalyst-crafting-tier-set
+  - IN-GAME 2026-09-08 (Pollynomial) — Catalyst Unbound fired on equipping the 4th set piece, not before
 confidence: high
 ---
 
@@ -56,20 +57,19 @@ Season 1's was Dawnlight Manaflux (3378).
   *"Unlocked your class set bonuses during Midnight Season 2"*; the reward line
   reads *"Venomblight Manaflux can drop from additional sources"*), charges also
   drop from **Mythic Keystone dungeons, Season 2 raid bosses, Bountiful Delves,
-  and rated Arenas/BGs**. ⚠ The achievement text says "class set bonuses"
-  without naming a threshold. **The user reports (2026-08-25) being "virtually
-  certain" it is the 4-piece**, which corroborates the reading this file already
-  carried — but that reading began as an inference from the wording, so a
-  matching recollection is agreement, not independent confirmation. Treat 4pc as
-  the working assumption and plan against it; read the achievement's own criteria
-  in game to close this. @verify-ingame
+  and rated Arenas/BGs**. **The gate is the 4-piece.** The achievement text says
+  "class set bonuses" without naming a threshold, but it was observed firing
+  **in-game 2026-09-08 (Pollynomial, Paladin) at the exact moment the 4th set
+  piece was equipped, and not before** — so the threshold is the 4pc, not the 2pc.
+  This is a direct observation of the trigger, not a reading of the wording.
 - ⚠ **The rated-PvP mention above is a *drop source*, not a second bonus charge**,
   and it is easy to conflate with the *1600 rated PvP* entry under Serpent Scion.
   They are different things: 1600 rating is one of three **alternative gates into
   the single Serpent Scion charge**, while rated Arenas/BGs dropping Manaflux is
-  an ongoing source that only opens **after Catalyst Unbound**. If Unbound is
-  indeed 4pc-gated, every drop source in that list — PvP included — is unavailable
-  until the set is already complete.
+  an ongoing source that only opens **after Catalyst Unbound**. Since Unbound is
+  4pc-gated (above), every drop source in that list — PvP included — is unavailable
+  until the set is already complete. **The charge economy loosens only after the
+  set is finished, never while you are assembling it.**
 - **Cap: 8 charges** per character (game data `MaxQty` = 8). **No catch-up**
   mechanic.
 - ⚠ Leftover **Season 1** Dawnlight Manaflux: the notes do not say whether it
