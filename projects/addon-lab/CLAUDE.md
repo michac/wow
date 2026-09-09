@@ -82,7 +82,12 @@ PASS/FAIL would be the instrument grading its own subject.
 
 **Registry cross-check (both directions).** `deploy` refuses to copy unless every
 `status: "built"` question has a matching `ns.Test{}` and every `ns.Test{}` id is a
-built question. An unmatched id is a loud error, never a silent skip. A **drained** id
+built question. It also refuses when a **`visual` question registers no `ns.Ask.Register{}`**
+(a human cannot answer a question that draws nothing) or when a **`T_*.lua` is on disk but
+absent from `ClientLab.toc`** — the game does not load it, so its tests silently do not exist,
+and `lua_ids()` globs the directory rather than the manifest so nothing else can see it.
+
+An unmatched id is a loud error, never a silent skip. A **drained** id
 whose test is still in the Lua now shows up as an **orphan** (a Lua id with no `built`
 row) and fails **by name** — that is the direction the suite grows back in.
 

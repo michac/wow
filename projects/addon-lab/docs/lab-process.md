@@ -215,6 +215,24 @@ Adopting the rule swept **32 answered questions** out at once — 57 registered 
 **25**, with `T_Module.lua` and `T_CooldownManager.lua` deleted entirely because every
 question they held was settled.
 
+### 3.4 `visual` — say it in a field, not in your prose
+
+A question only a human can close carries **`"visual": true`** on its row, and `wowkb.lab drain`
+then refuses to close it off a programmatic run. The declared field wins; `"visual": false` is
+an explicit opt-out; a row with **no** field falls back to phrase-matching the `expect` text.
+
+⚠ **That fallback used to be the whole mechanism, and it leaked.** Measured 2026-09-08:
+`aura-sink-recall`'s `expect` said *"distinguishing 'takes effect' in PIXELS needs the eyeball
+the run prints"* — which matches none of the six phrases the matcher knows, so `drain` would
+have closed it **green** off its programmatic run while the question it was written to ask
+stayed unanswered. That is precisely the failure the phrase list exists to prevent, and the
+phrase list was the thing that failed.
+
+The phrasing rule was chosen so a newly written visual question would be caught without anyone
+maintaining an id list — but that only holds if the author reaches for one of six blessed
+wordings. **Inference standing where a declaration belongs.** The fallback is kept for older
+rows, because silently reclassifying them would be a second guess on top of a first.
+
 ## 5. The three statuses
 
 | status | means | test required | gated |
@@ -249,7 +267,16 @@ missing — it simply has not come up.
 **Enforced**
 
 - `wowkb.obs check` — a measured answer must reach the KB.
-- `wowkb.lab deploy --check` — registry ⇄ Lua, both directions, plus the status vocabulary.
+- `wowkb.lab deploy --check` — registry ⇄ Lua, both directions, plus the status vocabulary,
+  **plus two gates added 2026-09-08, both after the failure they catch had already happened**:
+  - a **`visual` question with no `ns.Ask.Register{}`** fails. `aura-sink-recall` had carried a
+    `ns.Test{}` whose returned value said in prose that the deciding half was an eyeball nobody
+    had built — honest, and inert, because nothing read it. A question a human must close has
+    to draw something for them to look at.
+  - a **`T_*.lua` on disk but not in `ClientLab.toc`** fails, and so does a `.toc` line naming
+    a file that does not exist. A test file the game never loads is not a test: `/clab` reported
+    "none registered" while every other gate was green, because `lua_ids()` globs the directory
+    and cannot see the manifest by construction.
 - `wowkb.kblint` · `luacheck` with **zero inline suppressions**.
 
 **Deliberately not**

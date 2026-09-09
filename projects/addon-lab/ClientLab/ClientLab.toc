@@ -13,8 +13,11 @@ Report.lua
 Dumps.lua
 Autorun.lua
 Ask.lua
-T_AuraSink.lua
 
+#   T_AuraSink.lua         (aura-sink-recall) — NOT drained: PARKED 2026-09-08 with the
+#                           question open. Recover the ns.Test AND its ns.Ask stimulus from
+#                           git if it is ever re-opened; both are complete.
+#
 # DRAINED 2026-08-21 — questions answered, claims written, rows removed from questions.json.
 # The suite is empty, which is its correct resting state (a T_ file holds only what is OPEN).
 # Recover any of these from git if a patch reopens the question:
@@ -29,6 +32,12 @@ T_AuraSink.lua
 #   T_AuraComposite.lua    (aura-container-composite-layers)
 #   T_Security.lua         (duration-object-swipe-ordering + the pandemic-region pair,
 #                           tests AND their visual checks; drained 2026-08-24, OBS-077..081)
+#   T_Security.lua         (duration-shift-and-getters; drained 2026-09-08, OBS-085 — the
+#                           LuaDurationObject getter/mutator surface. The file is BACK above
+#                           holding two more, both since drained: 2026-09-08,
+#                           nested-alpha-and-over-secrets -> OBS-087 (nesting is an AND over
+#                           two sealed values) and sealed-display-animation-channels ->
+#                           OBS-086 (all four animation channels move on a sealed FontString).)
 #
 # DELETED ON 12.1, recover from git — do not re-create:
 #   git show 671fb68^:projects/addon-lab/ClientLab/<name>.lua
