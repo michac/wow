@@ -244,9 +244,18 @@ local function DurationObjectShowsCooldown(durObj)
 end
 ```
 
-Note the standing hazard one addon documents: after `SetCooldownFromDurationObject`, the
-widget's `GetCooldownTimes()` returns **secret** values — so cache the duration object you
-rendered and re-read *it*, never scrape the times back off the widget.
+⚠ **The widget's read-backs are SECRET, and the times must never be scraped back off it.**
+After `SetCooldownFromDurationObject`, `GetCooldownTimes()` and `GetCooldownDuration()` read
+`<secret>` in combat whenever the source object's `HasSecretValues()` is true — measured on a
+real cooldown and replicated on a second `[client 2026-09-08]`. So cache the duration object
+you rendered and re-read *it*. `IsShown()` is the one plain thing an armed widget will tell
+you, which is what makes the trick above work at all.
+
+⚠ **A contrary reading exists and is superseded.** `security-taint-and-restricted-data.md`
+§4.8.1 finding 6 measured those same getters returning ordinary numbers `[client 2026-08-24]`
+— but off widgets armed from Hearthstone's and Unending Resolve's objects, whose own secrecy
+was never recorded and which were evidently plain. A plain object read back plainly is not a
+hole in the seal. Cite the `[client 2026-09-08]` measurement, not that one.
 
 **Measured here, and it holds.** `[client 2026-08-16]` Havoc, 9 Essential rows, in a pull:
 feeding each row's `C_Spell.GetSpellCooldownDuration(spellID, true)` into the scratch widget
@@ -618,6 +627,28 @@ local info = C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)
 --   cooldownID,
 -- }
 ```
+
+### 4.4.1 Blizzard's own count regions are reachable, and restylable
+
+Both families park their number in a `parentKey` frame on the item, so an addon reaches it by
+name — no scraping `{item:GetRegions()}`:
+
+```lua
+item.ChargeCount.Current          -- charges (Essential / Utility)
+item.Applications.Applications    -- aura stacks (BuffIcon)
+```
+
+`[T1 src @12.1.0: Blizzard_CooldownViewer/CooldownViewer.xml — the ChargeCount and Applications
+frames on the item templates]`. Both are plain `FontString`s on a frame measured **not
+protected** (§4.1), so `SetFont`, `SetTextColor`, `SetPoint`, `SetScale` and `Hide` are ordinary
+calls — which is how shipping addons reskin these icons. Apply them under §4.5's discipline
+(once-guard, coalesce, re-apply after `RefreshLayout`, since the pool re-homes frames).
+
+⚠ **What stays impossible is styling that depends on the VALUE.** The number is secret, so
+there is no branch to hang a size or a colour on, and no formatter can be installed onto
+Blizzard's FontString — `SetApplicationCount` is a `CustomAuraButton` mixin method and an item
+frame is not one. Varying appearance by value means drawing your own, in a container you built
+(`security-taint-and-restricted-data.md` §3.5).
 
 ### 4.5 Per-icon skinning via post-hooks, once-guarded and coalesced
 
@@ -1139,10 +1170,20 @@ The one thing this channel still gives you is the **fact and timing** of a cast,
 the event fired, and `castBarID` is readable. Anything more specific than "a cast completed" has
 to come from somewhere else.
 
-⚠ **The restricted case is Tier-1 annotation, not measurement.** The one in-client reading on
-record was taken **unrestricted** and found a plain `spellID` (`cooldown-manager.md` Tier 3), which
-does not bear on the sealed-in-instance case either way. `@verify-ingame` — read
-`issecretvalue` on `UNIT_SPELLCAST_SUCCEEDED`'s `spellID` inside an instance, in combat.
+⚠ **The restricted case is Tier-1 annotation for `spellID`, and measured for one sibling
+field.** The one in-client reading of `spellID` on record was taken **unrestricted** and found it
+plain (`cooldown-manager.md` Tier 3), which does not bear on the sealed-in-instance case either
+way. `@verify-ingame` — read `issecretvalue` on `UNIT_SPELLCAST_SUCCEEDED`'s `spellID` inside an
+instance, in combat.
+
+What **is** measured is `UnitCastingInfo`'s **`notInterruptible`** for a non-player unit: read off
+`target` / `focus` inside an instance, in combat, it is `type() == "boolean"` with
+`issecretvalue() == true` `[client 2026-09-03]`. So the annotation is doing what it says on this
+field — the member seals rather than vanishing, and a secret boolean is still **drawable**: handed
+to `Region:SetVertexColorFromBoolean` on a status bar's fill texture it renders a correct
+interruptible/not split, verified against the client's own kick outcome. It may not gate a branch.
+⚠ **This does not settle `spellID`**, which is a different field on a different call; the marker
+above stays open.
 
 **So the readable route is the press, and the two are NOT interchangeable.**
 

@@ -1,0 +1,235 @@
+# Smart Glo — backlog
+
+**What this file is for:** the current implementation status and the ordered work list.
+`README.md` owns the design and why it is shaped the way it is.
+
+The live addon version comes from `wowkb.addon list`, never from prose here.
+
+**Measurements do not live here.** A fact this addon establishes about the client belongs in
+`knowledge/addon-dev/`, where the KB's gates apply and the next reader will actually find it. A
+status line may say a thing works; the evidence that it works is a claim in a topic file.
+
+**An item here has to keep earning its place.** If its premise stopped being true, rewrite it or
+delete it — never leave it standing with a note underneath.
+
+## Status
+
+**It records what is BUILT.**
+
+- **The attach path.** A subject's glow is our own frame, `UIParent`-parented and two-point
+  **anchored** to its Cooldown Manager item frame, at `MEDIUM` and `item:GetFrameLevel() + 5`,
+  scaled by the item's effective scale. Blizzard's `Layout` moves the icon and the overlay
+  follows; nothing of ours reasserts a position and nothing of ours is parented to a CDM frame.
+- **Rebuild, never re-apply.** `Layout` / `RefreshLayout` on all four viewers, `OnCooldownIDSet`
+  on all four item mixins and `CooldownViewerSettings.OnDataChanged` all mark dirty; one
+  `C_Timer.After(0, …)` flush detaches every overlay, re-sweeps the pools and re-reads
+  `GetCooldownID()` fresh. No id-to-frame table survives a flush. Overlays hide on Edit-Mode
+  enter, and every show is gated on `IsVisible()` through a secret guard that fails closed.
+- **The v1 rule vocabulary**, three-valued, no short-circuit: secondary-resource thresholds,
+  `ready()`, `aura()`, and `and` / `or` / `not`. The checker refuses a primary as a gate, a
+  charge count, and a count inside an expression. `/sg why` prints per-term `T | F | ?`.
+- **The count element, as an OCCLUDER.** An `AuraContainer` slot pinned by `includeSpellIDs`,
+  hosted as a child of the overlay, carrying an authored `NumericRuleFormatter` whose band
+  **below** the threshold is an inline escape of the subject's **own icon, centre-cropped**, and
+  whose band at the threshold is empty. The polarity is inverted on purpose: the client conceals
+  our mark rather than revealing one of its own. Armed once in `initializeFrame`, in combat or
+  out. Its readable gate closes the container's alpha before the client draws, which is how a
+  gate composes with a binding.
+- **One look, one mark, on both sinks** — a spinning hexagon outline centred in the icon.
+  It is **always our own Texture on our own frame**, so it takes a rotation and a vertex colour;
+  what differs is who reveals it. A gate draws it; a count has the client take its occluder away.
+  `Media/` is **generated** by `tool/gen_media.py` from a CC0 Kenney icon; do not hand-edit it.
+  `/sg color <name>` recolours everything, both kinds, on the next evaluation.
+- **The config dialog** — a subject dropdown built by enumerating live item frames, a detail
+  pane, and a text box that is also the import/export surface.
+- **Serialization and profiles.** `SG1:` + base64(deflate(JSON envelope)) with an adler32, every
+  `C_EncodingUtil` call in its own `pcall`; `Profiles.lua` carries the Demonology set;
+  `uv run python -m wowkb.smartglo encode|decode|check` is the Python side, stdlib only.
+- **Flown, and both mechanisms draw.** Demonology at a dummy: the hexagon lit on Hand of Gul'dan
+  across the shard threshold, and the count sink drew on Implosion at six Wild Imps — a count the
+  addon never read, drawn by the client from a band table it was handed. Both confirmed by eye,
+  which is the only oracle a sealed output has. That flight was the revealing polarity; what the
+  occluder changes is which band draws, not whether the sink works.
+- ⚠ **The crop is MEASURED BY EYE and must stay that way.** Both ends of an occluder quantise
+  — the crop to whole texels of a 64px file, the draw to whole units of the host frame, because
+  `CreateTextureMarkup` emits every field with `%d` — so a drawn size almost never lands exactly
+  on its crop. A search that minimised that residual picked `0.78125` over the measured `0.82`,
+  on arithmetic saying it was six times more accurate, and it **visibly resized the icon** where
+  0.82 does not. The residual is therefore a diagnostic the probe prints, **not** an objective to
+  optimise: nothing here models what actually governs an inline escape's apparent scale.
+  `/sg tune crop <n>` picks a replacement on the real row, by looking. `Look.OCCLUDE_X` / `_Y`
+  are a sub-unit trim on the FontString's own anchor, because an escape's offsets are integers.
+- ⚠ **The occluder DRAWS on a live row and is not yet aligned to the pixel.** Below six imps
+  the icon reads as itself at ~99%; what remains is a ~1px horizontal shift as the occluder
+  comes and goes, which the `ready()` gate makes visible once per GCD — the gate closes on the
+  global, dropping occluder and mark together, so the icon snaps to its true self and back.
+  `/sg tune crop|x|y` changes the live occluder and re-arms; `/sg probe occluder` lays the crop
+  in force beside its neighbours and an x-trim sweep beside that. ⚠ **The probe takes the
+  overlay's scale** — a replica at a different scale rounds differently from the row it stands
+  in for, and then disagrees with it, which is how a probe reading and a live reading came
+  apart once already.
+- ⚠ **Still unflown: whether the Cooldown Manager's Wild Imp buff is genuinely continuously
+  present.** It is load-bearing — band 0 draws, so an absent aura means no button, no occluder,
+  and a mark that reads as six (`rule-language.md` §6.4).
+- ⚠ **Two mismatches the occluder cannot hide, both accepted.** The overlay sits at item level
+  +5 and the swipe, `ChargeCount` and `CooldownFlash` all sit at +1, so a static copy of the icon
+  draws over them. `ready(implosion)` removes the cooldown case outright and is the right
+  rule anyway. Out-of-range and not-usable remain: `RefreshIconColor` tints the real icon and our
+  copy is untinted, so a patch would show. Both are readable (`C_Spell.IsSpellInRange`,
+  `C_Spell.IsSpellUsable`) if they turn out to matter in play.
+- **What the flight did NOT cover**, and it is the question the attach path was built to answer:
+  **whether a glow survives its icon being rebound to a different spell.** Nothing has forced a
+  rebind or a re-layout under a live overlay, Edit Mode has not been opened with one attached,
+  and the icon-size slider has not been moved. Until then the rebuild-on-flush design is
+  reasoning, not measurement.
+
+## Now
+
+### Subject → frame resolution
+
+A glow attaches to its subject's **cooldown row, and to zero or one of them**. Essential and
+Utility are mutually exclusive placements of the same row rather than two frames — the drag
+table moves rather than copies, and `GetValidAssignmentCategories` only offers categories from
+the tab currently open `[T1 src @12.1.0: CooldownViewerSettings.lua]`. The aura-family row a
+spell may separately carry answers a different question and is out of scope for v1
+(`cooldown-manager.md` §1.1).
+
+**A subject with no frame must read UNKNOWN in `/sg why`, never silently nothing.**
+`GetCooldownViewerCategorySet` is a *superset* of the rows the viewers lay out, so resolution
+has to distinguish a subject that has a frame from one that does not, and say which. Glowing
+nothing while reporting success is the single most likely way this addon lies to its user.
+
+⚠ The **picker cannot offer a frameless subject**, because it is built by *enumerating live
+item frames* rather than by walking the category set — so "a subject with no frame" is
+unrepresentable there rather than a state the dropdown has to detect. The UNKNOWN path above is
+still needed, for a rule that arrives by paste or from a profile.
+
+### One rule, end to end
+
+**Soul Shards `>=` N on one hand-picked subject, glowing a real CDM icon** (Demonology is the
+target spec). The point is the attach path, not the vocabulary: a secondary resource is a plain
+`UnitPower` read, so the rule carries **no sealed binding, no band table and no refresh tick**,
+and what the flight actually tests is the attachment. `cdm-rider-patterns.md` §4.2's rebind hook
+is the seam, and **whether a glow survives an icon being rebound to a different spell** is the
+question the first flight answers.
+
+The overlay is **our own texture on our own frame** — parented to `UIParent`, two-point
+**anchored** (`TOPLEFT`/`BOTTOMRIGHT`) to the item frame, never *parented* to it, which would
+break Blizzard's pandemic-frame anchor chain (`cooldown-manager.md` §4.1). Being an
+anchor-*follower* rather than an anchor-*setter* is what makes it cheap: Blizzard's `Layout`
+moves the icon and the overlay follows in the same frame, with no hook and no reassert — so
+§4.6.1's reassert seam and its two-riders hazard, which are about addons that *move* item
+frames, do not apply.
+
+### The surface becomes two bowls
+
+`rule-language.md` §5/§8 now specify `when` (unlimited readable terms) and `bind` (at most one
+sealed leaf), reversing the single-expression decision — §10 carries the APL exercise that
+decided it. **The addon's runtime already has this shape**; what changes is the surface and the
+checker: the Python tool grows `when`/`bind` keywords, refuses a term in the wrong bowl by
+name, and `count` stops being a keyword and becomes an ordinary bowl-A leaf beside
+`X.cooldown` and `resource%`. No mechanism changes — the container, the formatter and the
+alpha gate stay exactly as built.
+
+### The config: one dialog — subject dropdown, detail pane, text box
+
+**Decided 2026-09-08** (`rule-language.md` §8). One frame carrying three things:
+
+- **A subject dropdown built by iterating the live CDM item frames** — each viewer's active
+  item frames, each resolved `GetCooldownID()` → `C_CooldownViewer.GetCooldownViewerCooldownInfo`
+  → the **currently-bound** spell (`overrideSpellID` when present). Because the list is built
+  from frames, every entry has one.
+- **A detail pane** driven by the selection: that subject's rules, and per-term `T | F | ?` for
+  `/sg why`.
+- **A text box that is ALSO the import/export surface** — the selected subject's rules as
+  editable text, with copy / paste / apply / cancel. There is no second export UI.
+
+Rebuild the dropdown on `CooldownViewerSettings.OnDataChanged`, deferred one frame
+(`cdm-rider-patterns.md` §4.5).
+
+⚠ **Clicking the icon itself was the earlier plan and is DROPPED.** Blizzard makes item frames
+non-clickable on purpose — `CooldownViewerItemMixin:SetTooltipsShown` calls
+`self:SetMouseClickEnabled(false)`, reached from `OnAcquireItemFrame` (every pool acquire, so
+every `RefreshLayout`) and from the viewer's own `SetTooltipsShown`. Re-enabling it from tainted
+code is a standing re-assert war against a user setting, restarted on every layout.
+
+### Rule serialization: JSON through `C_EncodingUtil`
+
+`SG1:` + `EncodeBase64(CompressString(SerializeJSON(ast), Deflate))` — all three calls ship in
+the client (Tier 1, `state-persistence-and-communication.md` §6.1), so the Lua side is three
+built-ins and the Python side is stdlib. ⚠ `pcall` every call and checksum the payload: these
+raise rather than return nothing, and `DecodeBase64` accepts invalid input and returns a short
+string. Wants a `wowkb` subcommand on the Python side (`rule-language.md` §7 constraint 3).
+
+### Built-in profiles in `Profiles.lua`
+
+Named rule sets carried in the addon source, so a profile can be authored outside the game,
+deployed, and picked up on `/reload`. Hand-editing SavedVariables was **rejected** as the
+supported path — `/reload` commits SavedVariables from memory *before* reloading
+(`anatomy-and-runtime.md:955`), so an edit made while the client is running is overwritten.
+The paste box covers anything not pre-baked.
+
+### The evaluation loop
+
+Each term declares the events that change its answer; a glow's trigger set is the union over
+its leaves — no blanket `OnUpdate`. Sealed **duration** leaves are the exception: a curve
+evaluation is a snapshot, not a live binding, so they re-arm on a **10 Hz** ticker, and only a
+glow that uses one pays for it.
+
+### The eight baked hue files are now dead weight
+
+Every mark is our own texture tinted from the white master, so `Media/hex-{blue,cyan,green,
+orange,purple,red,yellow}.tga` are unreferenced and `tool/gen_media.py` still generates them.
+Small, mechanical, and worth doing before someone reads the palette as load-bearing.
+
+### The rule language exists as a design
+
+`rule-language.md` was written on 2026-09-08 and none of it has been built. It is the thing to
+read before writing any rule-evaluation code, and the thing to correct if the first flight
+disagrees with it. Its own `## 9. Open` carries what it does not settle.
+
+What it decided, so it is not re-litigated: **subject-first** (rule-first deferred until
+repetition is felt) · **configuration, not code** (re-examined against a direct request for a
+Lua predicate surface, and kept) · **import/export in scope**, wire format free to be an
+opaque base64 blob but decodable in Python with no Lua interpreter · **multiple glows on one icon are independent
+layers**, and draw order is the entire arbitration vocabulary.
+
+A second decision session on 2026-09-08 closed six more, all in §8: **the config is one
+dialog — subject dropdown, detail pane, text box** · **profiles live in source** · **terms
+resolve against the icon's currently-bound spell**, `base(...)` to force · **v1 has one fixed look and no `look`
+keyword** · **triggers come from a term catalogue** plus a 10 Hz tick for sealed duration
+leaves · **one cooldown row per subject**, no frame → UNKNOWN. Its §9 now carries **client
+facts only**: selectors, the customizable `look` vocabulary and temporal terms were deleted
+rather than deferred, and nothing downstream refers to them.
+
+## Parked
+
+### The vocabulary the APLs want and we do not have
+
+From §10's exercise, in priority order: **enemy count** (by far the most wanted — it is the
+difference between "Implosion at 6 imps" and the APL's real condition), GCD remaining, time in
+combat, and guardian-active. `fight_remains` / `target.time_to_die` and `raid_event.*` are
+unreachable rather than missing.
+
+### Rule classes beyond resource thresholds
+
+Aura present/absent, stacks, charges, target count. All plausible, none scoped. The v1
+vocabulary is deliberately one class wide so the attach path is what gets proven.
+
+⚠ `rule-language.md` §1 now says which of these are **gates** and which are **bindings**, and
+they are not the same kind of work. Aura presence and "on cooldown at all" are ordinary
+readable gates. Stacks are a binding whose only sink is a leaf FontString — so what the client
+draws for a stack count is an inline texture laid out as text rather than a ring around the
+icon, which is a product decision hiding inside what looks like a rule class. An escape takes
+alpha and no geometric transform, so the way to a mark that moves is the **occluder**: band 0
+hides our own spinning Texture and the threshold reveals it. The motion still cannot vary per
+band. Charge COUNT is neither gate nor binding and must be refused outright.
+
+### Blizzard's own next-cast suggestion as a rule input
+
+`C_AssistedCombat.GetNextCastSpell` is readable and `cdm-rider-patterns.md` §8 documents the
+rider, so "glow the icon the client would suggest next" is available as a rule predicate
+whenever we want it. Parked for the same reason every other rule class is: v1 proves the
+attach path with one predicate. Recorded so the capability is not rediscovered as a novelty.
+No position taken here on how far toward rotation advice the addon should go — that is a
+call to make against a concrete request, not one to pre-decide in the backlog.

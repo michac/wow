@@ -27,8 +27,14 @@ clone provenance. So the fact ends up in a source comment, where it dies with th
 1. **No entry without a `Drains to:`.** Naming the destination is what forces the entry to
    be a claim. If you cannot name a file and section, say so in the body and cap it at
    `confidence: low`.
-2. **Drain when you are already in the file.** If your session edits an entry's target,
-   drain it. You are one keystroke away.
+2. **Drain in the session that discovers the fact.** Writing the entry and writing the claim
+   are one job, not two. Across the drained record every single entry closed on the day it
+   was opened — the queue has never actually functioned as a queue, and an entry left `open`
+   is the exception that needs a reason, not the default. **Defer only when the target
+   SECTION does not exist yet** and draining means writing new prose rather than editing a
+   claim: say which section is missing, in the entry. That is the one case measurably prone
+   to sticking. A session that edits an entry's target for any other reason drains it on the
+   way past.
 3. **A capture discharges its observations.** A session that reads a flight or decisionlog
    capture closes every `open` entry that capture settles, before the session ends. The
    capture is the evidence; there will not be a better moment.
@@ -1514,3 +1520,112 @@ different aura than the one being watched, or UA exposes no refresh window clien
 **Drains to:** `security-taint-and-restricted-data.md:2535`
 
 **Status:** drained 2026-08-24
+
+---
+
+## OBS-082 · 2026-09-03 · Is `notInterruptible` a SECRET boolean for a non-player unit in an instance, and does it drive `SetVertexColorFromBoolean`
+
+**Observed:** on a target/focus cast bar reading `select(8, UnitCastingInfo(unit))`, the flag came back `type=boolean`, `issecretvalue=true`. Handed straight to `Region:SetVertexColorFromBoolean(flag, sealedColour, kickableColour)` on the StatusBar's fill texture it rendered a correct, legible split — red on casts the player could interrupt, grey on ones they could not, matching the client's own kick outcome.
+
+**How:** the Interrupt HUD prototype, in an instance, in combat, on a Protection Paladin. The flag's TYPE and SECRECY were read and printed; the value itself was never tested, indexed or compared. An eyeball confirmed the colours matched interruptibility.
+
+**Why it matters:** `cdm-rider-patterns.md` §9.2 records the restricted case for this annotation family as **Tier-1 annotation, not measurement** — the one in-client reading on record was taken unrestricted and found a plain value. This is a restricted-case reading, and it lands where the annotation predicted: `SecretWhenUnitSpellCastRestricted` seals the member, and the member is still usable through a `*FromBoolean` sink. It does **not** speak to `UNIT_SPELLCAST_SUCCEEDED`'s `spellID`, which is a different field and still unmeasured.
+
+**Also observed, on the same path:** a `SetAlphaFromBoolean(flag, 1.0, 0.45)` treatment of the same secret was reported illegible mid-pull. The subsequent change moved to colour AND inverted the polarity in one edit, so *alpha vs colour* is confounded and no claim is made about the channel. What is claimed is only that the colour sink renders a legible split.
+
+**Confidence:** high for the type/secrecy reading — it is a direct instrument print. Medium for the rendering, which is an eyeball verdict.
+
+**Drains to:** `cdm-rider-patterns.md:1146`
+
+**Status:** drained 2026-09-03
+
+---
+
+## OBS-083 · 2026-09-03 · Does `UnitCastingDuration` / `UnitChannelDuration` return a usable object for a unit whose cast info is sealed
+
+**Observed:** both return a `LuaDurationObject` for `target` and `focus` in an instance, and `StatusBar:SetTimerDuration(d, Immediate, direction)` drives a bar from it. The bar sweeps for the real duration of the enemy cast. `Enum.StatusBarTimerDirection.RemainingTime` drains for channels where `.ElapsedTime` fills for casts, and passing `ElapsedTime` for both makes a channel indistinguishable from a cast.
+
+**How:** the Interrupt HUD prototype, in an instance, in combat. `SetMinMaxValues(0, 1)` was called at build time per §4.8.1 finding 3; the bar was never observed in the 0%-forever failure state.
+
+**Why it matters:** the sink was already proven from an aura duration source. This is the same sink driven from the **unit cast** source, for a unit the addon may not read — so an enemy cast bar is buildable by a tainted addon with nothing read.
+
+**Confidence:** high — the bar either draws for the cast's real length or it does not, and it did.
+
+**Drains to:** `security-taint-and-restricted-data.md:1544`
+
+**Status:** drained 2026-09-03
+
+---
+
+## OBS-084 · 2026-09-03 · Does the client's mouseover casting fire on an ADDON-created `SecureUnitButtonTemplate` carrying a `unit` attribute
+
+**Observed:** yes. With `enableMouseoverCast` on, hovering an addon-created `CreateFrame("Button", nil, parent, "SecureUnitButtonTemplate")` whose `unit` attribute is `"focus"` and pressing a normal action-bar ability cast it **on the focus**, with nothing targeted. Hovering a sibling frame whose attribute is `"target"`, with no target, produced the client's **"nothing targeted"** error rather than falling through to any other unit.
+
+**How:** the Interrupt HUD prototype, in an instance, on a Protection Paladin, pressing Judgement from the action bar. The negative control is the load-bearing half: had the attribute been ignored, both hovers would have behaved identically.
+
+**Why it matters:** it means an addon can build its own mouseover-castable surface for a unit — no macros, no rebinding, the ability stays on the action bar — and the unit attribute is honoured on a frame the addon created rather than only on Blizzard's unit frames. Standard action buttons set `checkmouseovercast` themselves, so this is a client feature the addon rides, not something it enables.
+
+**Confidence:** high — a positive and a discriminating negative, both from the client.
+
+**Drains to:** `security-taint-and-restricted-data.md:721`
+
+**Status:** drained 2026-09-03
+
+---
+
+## OBS-085 · 2026-09-08 · LuaDurationObject — the eight unmeasured getters are ALL secret, every mutator is an absolute overwrite, and the widget read-back seal HOLDS
+
+**Observed:** `duration-shift-and-getters` recorded **ok**. Four findings, all on an object whose `HasSecretValues()` is true:
+
+1. **All eight previously-UNMEASURED getters read `<secret>`** — `GetStartTime`, `GetEndTime`, `GetTotalDuration`, `GetElapsedDuration`, `GetRemainingPercent`, `GetElapsedPercent`, `GetClockTime`, `GetModRate`. The presumption was right; it is now measured. `GetClock` (a handle, not a number) returned **`nil`**, not a secret.
+2. **The widget read-back seal HOLDS.** A `Cooldown` armed from this object read `GetCooldownTimes` and `GetCooldownDuration` as `<secret>`, while `IsShown()` stayed a plain `true`. This settles a standing disagreement in favour of `cdm-rider-patterns.md` §2.3 — §4.8.1 finding 6 had measured those getters PLAIN, but on Hearthstone and Unending Resolve, whose objects were evidently not secret.
+3. **Every mutator is an ABSOLUTE OVERWRITE — none takes a delta.** Signatures, read off the client's own arity refusals: `SetTimeFromStart(startTime, duration [, modRate])`, `SetTimeFromEnd(endTime, duration [, modRate])`, `SetTimeSpan(startTime, endTime)`, `Assign(other)`, `SetClock([clock])`, and `Reset()` / `SetToDefaults()` (both accepted with no args). They DO take plain numbers on a secret receiver and take effect — `SetTimeFromStart(0, 3600)` left the widget showing, `Reset` and `SetToDefaults` cleared it.
+4. **So `remains > N` cannot be reified, and stays a sealed binding.** Shifting a secret end time would need `SetTimeSpan(start, end - N)`, which needs `end` as a plain number — and finding 1 says it is secret. The run recorded the attempt as `NOT ATTEMPTED` for exactly that reason rather than guessing.
+
+Incidental: `Copy()` returns userdata whose `HasSecretValues()` is **also true** (a copy of a secret is still secret), the original was undisturbed, and 21 mutations left the live cooldown running (`liveAfterAll=true`). The object is `userdata`, and plain `obj[name]` indexing resolves every method — so §4.8.1's caution that a capability probe reports them method-less applies only to the `type(o) == "table"` half of that probe.
+
+Verbatim: `{combat=true, controlShowsCooldown=true, copyCall=<userdata>, copyHasSecretValues=true, copyShowsCooldown=true, copyType=userdata, getters={GetClock=nil, GetClockTime=<secret>, GetElapsedDuration=<secret>, GetElapsedPercent=<secret>, GetEndTime=<secret>, GetModRate=<secret>, GetRemainingPercent=<secret>, GetStartTime=<secret>, GetTotalDuration=<secret>}, hasSecretValues=true, isTable=false, liveAfterAll=true, luaType=userdata, measured=true, notMeasured=Whether a shift moves the clock by the RIGHT amount. Remaining is secret before and after, so no arithmetic can verify it; the 0-vs-3600 pair only shows whether the call is observable at all. A calibrated shift needs a separate flight against a cooldown of known length., originalShowsAfterCopy=true, readBackArm=armed from a HasSecretValues()==true object, readBackGetCooldownDuration=<secret>, readBackGetCooldownTimes=<secret>, readBackIsShown=true, reify=NOT ATTEMPTED — GetEndTime did not yield a plain number, so there is no value to subtract from. With every mutator an absolute overwrite, that closes the route: `remains > N` cannot be reified and stays a sealed binding., reifyShiftBy=5, shift={Assign(0)=REFUSED: bad argument #2 to '?' (Usage: self:Assign(other)), Assign(0,3600)=REFUSED: bad argument #2 to '?' (Usage: self:Assign(other)), Assign(3600)=REFUSED: bad argument #2 to '?' (Usage: self:Assign(other)), Reset(0)=accepted -> shows=false, Reset(0,3600)=accepted -> shows=false, Reset(3600)=accepted -> shows=false, SetClock(0)=REFUSED: bad argument #2 to '?' (Usage: self:SetClock([clock])), SetClock(0,3600)=REFUSED: bad argument #2 to '?' (Usage: self:SetClock([clock])), SetClock(3600)=REFUSED: bad argument #2 to '?' (Usage: self:SetClock([clock])), SetTimeFromEnd(0)=REFUSED: bad argument #3 to '?' (Usage: self:SetTimeFromEnd(endTime, duration [, modRate])), SetTimeFromEnd(0,3600)=accepted -> shows=true, SetTimeFromEnd(3600)=REFUSED: bad argument #3 to '?' (Usage: self:SetTimeFromEnd(endTime, duration [, modRate])), SetTimeFromStart(0)=REFUSED: bad argument #3 to '?' (Usage: self:SetTimeFromStart(startTime, duration [, modRate])), SetTimeFromStart(0,3600)=accepted -> shows=true, SetTimeFromStart(3600)=REFUSED: bad argument #3 to '?' (Usage: self:SetTimeFromStart(startTime, duration [, modRate])), SetTimeSpan(0)=REFUSED: bad argument #3 to '?' (Usage: self:SetTimeSpan(startTime, endTime)), SetTimeSpan(0,3600)=accepted -> shows=true, SetTimeSpan(3600)=REFUSED: bad argument #3 to '?' (Usage: self:SetTimeSpan(startTime, endTime)), SetToDefaults(0)=accepted -> shows=false, SetToDefaults(0,3600)=accepted -> shows=false, SetToDefaults(3600)=accepted -> shows=false}, shiftSeconds=3600, subjectKind=real cooldown, subjectName=Call Dreadstalkers, subjectSpellID=104316, surface={Assign=function, Copy=function, EvaluateRemainingDuration=function, GetClock=function, GetClockTime=function, GetElapsedDuration=function, GetElapsedPercent=function, GetEndTime=function, GetModRate=function, GetRemainingDuration=function, GetRemainingPercent=function, GetStartTime=function, GetTotalDuration=function, HasExpired=function, HasSecretValues=function, HasStarted=function, IsActive=function, IsZero=function, Reset=function, SetClock=function, SetTimeFromEnd=function, SetTimeFromStart=function, SetTimeSpan=function, SetToDefaults=function}, trackedScanned=29, usageNoArgs={Assign=bad argument #2 to '?' (Usage: self:Assign(other)), Reset=ACCEPTED WITH NO ARGS, SetClock=ACCEPTED WITH NO ARGS, SetTimeFromEnd=bad argument #2 to '?' (Usage: self:SetTimeFromEnd(endTime, duration [, modRate])), SetTimeFromStart=bad argument #2 to '?' (Usage: self:SetTimeFromStart(startTime, duration [, modRate])), SetTimeSpan=bad argument #2 to '?' (Usage: self:SetTimeSpan(startTime, endTime)), SetToDefaults=ACCEPTED WITH NO ARGS}, why=Read `shift` first: any row where the (0) and (3600) entries carry DIFFERENT shows= values is a mutator that took a plain number and moved a secret clock, which reifies `remains > N`. All rows identical means the route is dead and an arbitrary cooldown threshold stays a secret binding. `usageNoArgs` carries the signatures for the follow-up either way; `getters` closes :2858 independently. Then read `readBackGetCooldownTimes`: PLAIN numbers there, on an object whose HasSecretValues() is true, means cooldown remaining is branchable in Lua outright and the shift question stops mattering.}`
+
+**How:** ClientLab run **2026-09-08 10:13:32** (v0.2.7, interface 120100), in combat, instance `none`, Demonology Warlock, subject **Call Dreadstalkers (104316)**, `subjectKind = real cooldown`. **Independently replicated at 10:14:37** on a different real cooldown (**Grimoire: Fel Ravager**), identical on every field above.
+
+⚠ **Two earlier runs the same day are SUPERSEDED and must not be cited** — 10:07:22 and 10:08:27 carried a defect in the instrument (`type(surface[name]) == "function"` compared against an already-stringified type, so all nine getters and all seven usage probes reported `absent (function)`) and selected **Shadow Bolt**, whose running duration was the 1.5 s GLOBAL rather than a cooldown — a window too short for the shift probe to discriminate. Both were fixed before the runs above. `wowkb.lab drain` minted this observation from the 10:07:22 run; the content here was replaced by hand with the good one.
+
+**Expected (questions.json):** (a) All eight presumed secret, by analogy with GetRemainingDuration — but presumed is not measured and an error or a plain value are equally possible answers. (b) Genuinely unknown, and the KB takes no position: :2860 records only 'setters/handles, no readback', which is a statement about reading them back, not about whether they have an effect. A refusal is as likely as acceptance; C_CurveUtil's negative controls show the client rejects secret ARGUMENTS, but here the argument is plain and the receiver is the secret, which is a shape §4.5's SecretArguments three-way does not obviously cover. The instrument is a bracket, not a measurement: shift by 0 and by 3600 and compare the two IsShown() booleans. Identical = no observable effect. Differing = a plain number moved a secret clock. A CALIBRATED shift is explicitly out of scope and the run says so.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:2858`
+
+**Status:** drained 2026-09-08
+
+---
+
+## OBS-086 · 2026-09-08 · §3.5.3 says an always-running animation on a sealed display is invisible while nothing i
+
+**Observed:** `sealed-display-animation-channels` — a **HUMAN VERDICT**: `{asked=Tiles 2-5 all show a SEALED ticking countdown, each with a different animation looping. Tile 1 is the same animation on plain text. Which sealed tiles MOVE?, verdict=all four sealed tiles move}`
+
+**How:** ClientLab showed a stimulus and a person answered, **2026-09-08 11:22:52** (v0.2.7, interface 120100), in combat, instance `none`. ⚠ **This is an eyeball verdict, not an instrument reading** — it is the only evidence class that can close this question, and it must never be cited as a measurement.
+
+**Expected (questions.json):** §3.5.3 names ALPHA and SCALE and is a SOURCE READ plus reasoning, not a measurement — so even those two are expectation, not knowledge. Colour, translation and rotation are nobody's claim. TRANSLATION is the one to doubt: feeding SetText a secret marks the whole object secret and with it all anchoring and positioning data (§3.4(b) / §4.8.1 finding 10), which is the exact dimension a Translation animation writes. Rotation may simply not apply to a FontString at all. ⚠ The nearest prior evidence stops one step short of the pixel: `pandemic-region-animated-background` recorded play=accepted and IsPlaying=true, then recorded the visual half as NOT MEASURED. VISUAL — no API reports a rendered frame, so only an eyeball closes this. ⚠ SCOPE: the subject is a SetText-sealed FontString, not a SetApplicationCount one. Both add the `Text` aspect, which is what should govern animation; the container route also adds `Shown`, which is the client's. Generalising to the count-binding sink is an INFERENCE this run does not close, and the product-relevant sink is the container one. The secret-text route was chosen because it needs no aura and no slot binding — a tile blank because nothing bound is indistinguishable from one blank because the animation is invisible.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:1245`
+
+**Status:** drained 2026-09-08
+
+---
+
+## OBS-087 · 2026-09-08 · Does a SECRET alpha on a PARENT frame still multiply into its children
+
+**Observed:** `nested-alpha-and-over-secrets` — a **HUMAN VERDICT**: `{asked=Tile C is a texture inside a frame — the FRAME's alpha is A's secret, the TEXTURE's is B's. Does C appear only when A and B are BOTH lit?, verdict=yes — C is lit only when A and B are both lit (AND composes)}`
+
+**How:** ClientLab showed a stimulus and a person answered, **2026-09-08 11:56:25** (v0.2.7, interface 120100), in combat, instance `none`. ⚠ **This is an eyeball verdict, not an instrument reading** — it is the only evidence class that can close this question, and it must never be cited as a measurement.
+
+**Expected (questions.json):** Genuinely open, and the KB leans neither way. §4.8.1's transparency row records that SetAlpha CARRIES a secret and that GetEffectiveAlpha then THROWS — which is at least consistent with the engine having computed a composited product it declines to hand back, but it is equally consistent with the throw being a blanket refusal that says nothing about children. Two failure shapes are as likely as success: Frame:SetAlpha may refuse a secret outright (the whole channel table was measured on TEXTURES, not frames), or a secret parent alpha may simply not propagate. VISUAL — there is no programmatic oracle, because GetEffectiveAlpha throws once a secret is in the chain and no other API reports a composited result. The rendered pixel is the only witness, so only an eyeball closes this. ⚠ The stimulus needs A and B lit DIFFERENTLY at some point: if they never diverge, AND, OR and either-operand-alone all draw the same tile, and the honest answer is 'can't tell'.
+
+**Confidence:** high — the client answered directly. Low only if the result contradicts `expect` in a way that suggests the test asked the wrong thing.
+
+**Drains to:** `security-taint-and-restricted-data.md:2429`
+
+**Status:** drained 2026-09-08

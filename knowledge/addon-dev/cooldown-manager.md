@@ -2,7 +2,7 @@
 title: The Cooldown Manager — how a CDM row resolves
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-09-01   # 2026-09-01: §1.5 added — the item frame's region stack, anchors and draw order off the 12.1.0 templates (ChargeCount is a Frame; its number sits BOTTOMRIGHT -2,+2; the countdown has no FontString; the pandemic frame is viewer-parented at MEDIUM strata); source-read only, one @verify-ingame left on the strata question. 2026-09-01: §1.1's Essential-vs-Utility consequence strengthened from one sentence to four symbol-anchored 12.1.0 source facts (the two viewer mixins, the two item mixins, the four template differences, the drag table + GetCooldownCategoryChangeStatus); no other claim re-verified this pass. 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
+reviewed: 2026-09-08   # 2026-09-08 source read of the icon-draw path only — §1.5 gained the untrimmed-icon/coincident-mask fact (no `texcoord` anywhere in Blizzard_CooldownViewer, so the file's 0..1 rect maps to the item rect exactly) and the seven-rung `GetSpellTexture` ladder; nothing else in this file was re-read. 2026-09-01: §1.5 added — the item frame's region stack, anchors and draw order off the 12.1.0 templates (ChargeCount is a Frame; its number sits BOTTOMRIGHT -2,+2; the countdown has no FontString; the pandemic frame is viewer-parented at MEDIUM strata); source-read only, one @verify-ingame left on the strata question. 2026-09-01: §1.1's Essential-vs-Utility consequence strengthened from one sentence to four symbol-anchored 12.1.0 source facts (the two viewer mixins, the two item mixins, the four template differences, the drag table + GetCooldownCategoryChangeStatus); no other claim re-verified this pass. 2026-08-28: §2.9 added — the spell-transform taxonomy, read off SpellEffect/SpellName/SpellClassOptions/SpecializationSpells @ 12.1.0.69214; no other claim re-verified this pass. 2026-08-21: §7's Tier-3 UnitPower row rewritten per power type and its UNIT_SPELLCAST row qualified as unrestricted-only, both against the 12.1.0 generated docs; §5.2's duration-object route re-framed as resting on the unconfirmed 12.1 auraInstanceID row. 2026-08-21: the conflagrate charge-context compositions retired as validated-in-cap (confirmed-by-use, not freshly measured). 2026-08-19: 12.1.0 source reads (§3.1.1, §3.4) + a 12.1.0 client capture (§4.2), the Templar transform eyeball [client 2026-08-18], the sealed-aura-predicate nil [client 2026-08-19]. Every OTHER [client] tag is 12.0.7 and was not restamped — read each tag, never this line
 sources:
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_ActionBar/Shared/ActionButtonSpellAlerts.{lua,xml}  # §1.5 the proc glow's geometry: 1.4x, CENTER on the item
   - raw/addon-research/wow-ui-source-12.1.0 @ 12.1.0.69273 — Interface/AddOns/Blizzard_CooldownViewer/*, Blizzard_SharedXML/LayoutFrame.lua, Blizzard_SharedXMLBase/Pools.lua and Blizzard_APIDocumentationGenerated/CooldownViewer{,Constants}Documentation.lua. `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
@@ -535,6 +535,30 @@ setAllPoints="true"` with `<MaskedTexture childKey="Icon"/>` — which is where 
 come from. A rider that assumes a square icon rect is assuming something the art contradicts at
 exactly the corners it is most likely to anchor into.
 `[T1 src @12.1.0: CooldownViewer.xml — CooldownViewerEssentialItemTemplate]`
+
+**But the icon is drawn UNTRIMMED, and the mask is coincident with it — so the CENTRE is
+untouched.** `Icon` is `setAllPoints` and nothing ever calls `SetTexCoord` on it: there is not one
+occurrence of `texcoord` in the whole `Blizzard_CooldownViewer` directory, in Lua or XML
+`[searched 2026-09-08: every file in Interface/AddOns/Blizzard_CooldownViewer @12.1.0, case-insensitive]`.
+The mask is `setAllPoints` too, so it removes corner alpha and changes no geometry.
+
+Consequence, and it is the one a consumer actually needs: **the file's 0..1 rect maps to the item
+rect exactly**, so a crop of the icon file expressed as a centred fraction *f* draws over the same
+pixels when it is drawn at *f* × the item's own width, and never reaches the rounded corners. Any
+arithmetic against a trimmed baseline (the `0.07..0.93` inset action bars use) is wrong here.
+
+**The icon fileID is a LADDER, and `C_Spell.GetSpellTexture(spellID)` is its last rung.**
+`CooldownViewerItemDataMixin:GetSpellTexture` tries, in order: a spell-category icon; a live
+aura's own `auraData.icon` when the row prefers aura data; an equip-slot texture (trinkets);
+a linked spell; `cooldownInfo.overrideTooltipSpellID`; the **base** spell id; then a fallback.
+It also returns `conditionalIconID or iconID` for a dynamic-appearance row where a plain call
+returns `originalIconID` — a *different* one of `C_Spell.GetSpellTexture`'s three returns.
+`[T1 src @12.1.0: CooldownViewerItemData.lua — CooldownViewerItemDataMixin:GetSpellTexture, GetSpellTextureForSpellID]`
+So a consumer that wants the icon the player is looking at calls `item:GetSpellTexture()`, or
+reads it back off the region with `item:GetIconTexture():GetTextureFileID()`; resolving it from
+the row's spell id reproduces one rung of seven. `CooldownViewerItemMixin` is
+`CreateFromMixins(CooldownViewerItemDataMixin, VisualAlertTargetMixin)`, so both methods are on
+the live item frame `[T1 src @12.1.0: CooldownViewer.lua — CooldownViewerItemMixin]`.
 
 ⚠ **Read off source, not seen in a client.** Every claim in this section is a template or a Lua
 site; none of it is `[client]`, and the strata question in the pandemic bullet is exactly the kind

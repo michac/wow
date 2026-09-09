@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-09-01   # 2026-09-01 source read of the SecondsFormatter surface only — §4.8.1 finding 2 gained the unabbreviated-default fact, and the same section's Radial bullets were narrowed to the button-claimed bar they were actually measured on; nothing else in this file was re-read. 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
+reviewed: 2026-09-08   # 2026-09-08 source read of TextureUtil.lua only — §3.5's tint claim was narrowed to the `|T` file form and the `|A` atlas form's vertex-colour triple recorded beside it, @pending-test; nothing else in this file was re-read. 2026-09-01 source read of the SecondsFormatter surface only — §4.8.1 finding 2 gained the unabbreviated-default fact, and the same section's Radial bullets were narrowed to the button-claimed bar they were actually measured on; nothing else in this file was re-read. 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -720,6 +720,18 @@ looking for one mechanism:
 | `InsecureActionButtonTemplate` | :13-18 | **not protected**; its OnClick body is literally `if not InCombatLockdown() then SecureActionButton_OnClick(self, button, down); end` |
 | `SecureUnitButtonTemplate` | :21-25 | `OnClick="SecureUnitButton_OnClick"` |
 
+**An addon's OWN `SecureUnitButtonTemplate` frame is a mouseover-casting surface.** Create a
+`Button` from the template, `SetAttribute("unit", "focus")`, and with the client's
+`enableMouseoverCast` on, a normal action-bar keypress while the cursor is over it casts on the
+**focus** with nothing targeted `[client 2026-09-03]`. The discriminating half: a sibling frame
+attributed `"target"`, with no target, raises the client's *"nothing targeted"* error rather than
+falling through to another unit — so the attribute is genuinely resolved on an addon-created frame,
+not ignored in favour of the player's actual target. No macro and no rebinding is involved; standard
+action buttons set `checkmouseovercast` themselves
+`[T1 src: Blizzard_ActionBar/Shared/ActionButton.lua:452-454]`, so this is a client feature an
+addon's frame can host. `IsMouseoverCastSupported()` and `GetCVarBool("enableMouseoverCast")`
+report whether it is available and on; an addon cannot turn it on.
+
 Two Tier-1 comments in that file bound what an addon gets: *"Our usage of this
 template will always override this and supply the extra arguments, and for now
 AddOns won't be able to have `isKeyPress` or `isSecureAction` set"* (:6-7, and
@@ -1047,13 +1059,35 @@ string draws is the addon's choice of art.
   badge does not raise the question. `@verify-ingame`
 - The art is **static**. An escape names a texture; nothing about it advances or loops. Motion, if
   wanted, belongs on the FontString rather than in the string (§3.5.3).
+- ⚠⚠ **AND ONLY ALPHA REACHES IT. An inline escape does NOT take the FontString's GEOMETRIC
+  transforms** `[client 2026-09-08]`. Five tiles, **no secret values anywhere**, plain `SetText`,
+  animations looping on the region itself: a plain **Texture** rotated; a FontString of ordinary
+  **text** rotated; the same FontString carrying only a `|T…|t` **escape** did **not** rotate and
+  did **not** scale, while an **Alpha** animation on it faded the mark in and out normally. So a
+  Rotation or Scale animation transforms the glyph run and leaves the inline texture untouched,
+  whereas alpha composites over everything the region draws.
+  **Consequence for any count cue: it may blink or fade, and it may not spin, pulse or grow.**
+  ⚠ This is a property of ESCAPES, not of secrecy — it reproduces with nothing sealed — so
+  §3.5.3's four-channel result stands for a FontString's own text and does not carry to art
+  drawn inside one.
 - ⚠ **A `|cAARRGGBB…|r` colour escape tints the TEXT and NOT an inline texture**
   `[client 2026-08-22]`. Measured as an A/B on one row: the same stripe sheet drawn by
   `SetVertexColor` on an addon texture came out red, and drawn as `|T…|t` inside a colour-wrapped
   band came out **full white**, with the numeral in the same band correctly red. So the hue
   channel that reaches a band's text does **not** reach a band's art, and neutral white-in-alpha
-  art — the kind `SetVertexColor` exists for — is the wrong art to name from a format string. A
-  coloured mark has to be a **pre-tinted file**, one per hue.
+  art — the kind `SetVertexColor` exists for — is the wrong art to name from a format string.
+  ⚠ **That is a fact about the `|T` FILE form, and the `|A` ATLAS form carries its own vertex
+  colour.** `CreateAtlasMarkup(atlas, w, h, offsetX, offsetY, r, g, b)` emits a second grammar,
+  `|A:<atlas>:<h>:<w>:<xoff>:<yoff>:<r>:<g>:<b>|a`, over the comment *"Setting any vertex color
+  will override existing colors"*; the file form beside it, `CreateTextureMarkup`, has no colour
+  field at all `[T1 src @12.1.0: Blizzard_SharedXMLBase/TextureUtil.lua — CreateAtlasMarkup,
+  CreateTextureMarkup]`. So **inline art can be tinted at runtime when, and only when, it is an
+  atlas member** — which is a route out of one-file-per-hue for anything drawable from the atlas,
+  and no help at all for a fileID (a spell icon is not an atlas member). ⚠ Source read only: the
+  three-argument atlas form has **not** been run through a band's `format`, and the measurement
+  above says nothing about it. `@pending-test` — a `|A` band with an r,g,b triple, against the
+  same atlas member with none.
+  Until then a coloured `|T` mark has to be a **pre-tinted file**, one per hue.
 - ⚠ **An offset escape is DISPLACED but still consumes its ADVANCE WIDTH** `[client 2026-08-22]`,
   and this is the constraint that actually bounds the design. `:xoff:yoff` moves a mark from where
   it would have sat; it does not remove it from the line's layout. So a band carrying a 56x56
@@ -1085,6 +1119,13 @@ string draws is the addon's choice of art.
   corner badge AND a numeral takes **three slots**, each with its own string, its own placement
   and its own breakpoint table — and `AddAuraSlot` returns the frame, which the addon may anchor.
   The sum-of-parts width is then never reached.
+  ⚠ **This is also how APPEARANCE varies by value, which one formatter cannot do.** A band
+  chooses what is drawn, never how: the FontString has one font, set once, and the markup
+  carries no size escape. So *"the numeral is bigger at 2 than at 1"* is **two slots** on the
+  same aura with complementary band tables — a small FontString running `{{0,"%d"},{2,""}}` and
+  a large one running `{{0,""},{2,"%d"}}`, anchored to the same rect. Exactly one draws, the
+  client picks which, and the size that varies is a per-FontString `SetFont` rather than a
+  per-band anything. ⚠ `SetFont` must run **before** the sink call.
   ⚠ What that does **not** change: the hue is still baked (a colour escape still does not reach
   art) and a crop's internal pattern still scales with its draw size (an escape still cannot
   tile). Those are properties of an escape; the width was a property of crowding one string.
@@ -1094,6 +1135,16 @@ string draws is the addon's choice of art.
   things" is true about *drawing* and false about *space*: the string costs the sum of its parts,
   so a full-icon mark and a corner mark cannot share one FontString without the line overflowing
   the button. Anchor by a fixed edge rather than the centre, and budget the width.
+
+⚠ **The aura container is NOT the only consumer of a `NumericRuleFormatter`.**
+`Cooldown:SetCountdownFormatter(formatter)` installs one on an ordinary Cooldown widget's
+countdown text, with `GetCountdownFormatter` beside it `[T1 docs @12.1.0:
+FrameAPICooldownDocumentation.lua — SetCountdownFormatter, GetCountdownFormatter]`. The number
+it formats is the cooldown's own remaining time, supplied by the client, so the same band
+vocabulary — a blank band, a complement, a fixed glyph, an inline texture escape — reaches a
+plain Cooldown with no container, no slot and no aura anywhere in the path. `LuaDurationObject`
+likewise takes one through `FormatRemainingDuration`. Reading this section as "formatters are an
+aura-container feature" understates where the seam reaches.
 
 **An empty `format` string is how a band expresses absence** — the only way to say "draw nothing
 here" through this object, and the shape both known consumers want. `format` also need not carry
@@ -1249,12 +1300,55 @@ group may be created on it at setup and set to loop forever. While the count sit
 fires, the mark arrives already in motion.
 
 So the throb is **gated by the client's evaluation of a rule the addon authored**, and the addon
-branches on nothing at any point. The same holds for a Region handed to `AddPandemicRegion`, where
+branches on nothing at any point.
+
+✅ **CONFIRMED ON SCREEN, and on more channels than this
+section claimed** `[client 2026-09-08]`. Four animation types were looped on four separate sealed FontStrings beside a
+plain-text control, and a person reported **all four moving**: **alpha, scale, translation and
+rotation**. Translation was the one expected to fail — (b) below marks all anchoring and
+positioning data secret, which is exactly what a Translation animation writes — and it moved
+anyway, so the engine applies a translation as a render offset rather than as an anchor write.
+Colour was not among the four and remains unmeasured; a static `SetTextColor` is separately
+known to work.
+
+⚠ **Before reaching for any of this on a count MARK, note that an inline escape takes only
+ALPHA from its FontString (§3.5) — a rotation or a scale armed here transforms the glyph run and
+leaves the art still.** That is measured with no secrets involved and explains a motionless mark
+before any of the seals below need to be considered.
+
+⚠⚠ **A second, INDEPENDENT hazard on the count sink: the CLIENT hides the BUTTON whenever the
+aura is absent.** `CustomAuraButtonPrivateMixin:ApplyVisibility` is
+`self:SetShown(secretwrap(auraData ~= nil))` `[T1 src @12.1.0:
+Blizzard_AuraContainer/Blizzard_CustomAuraButton.lua — CustomAuraButtonPrivateMixin:ApplyVisibility]`,
+and the count FontString is that button's child. `ApplyApplicationCount` itself never hides
+anything — it only ever calls `SetText`, so the "draws an empty string" reasoning is right about
+the FontString and wrong about its parent. An animation does not advance while an ancestor is
+hidden, and this group cannot be restarted afterwards because it is forbidden to its creator
+(above). **So motion on a count sink survives only until the aura is first ABSENT, and is then
+gone for the rest of the session.**
+
+⚠ **This hazard is REASONED FROM SOURCE AND NOT OBSERVED.** It was proposed to explain a count
+mark that never turned, and that turned out to have an unrelated cause (§3.5: an escape does not
+take a rotation). The `SetShown` line is Tier 1 and real, but nothing has measured an animation
+dying because of it, and the obvious subject does not test it — the Cooldown Manager's Wild Imp
+buff is present continuously, so `auraData` never goes nil for it. Treat it as a thing to design
+around, not as a thing that has happened: **an aura that genuinely drops has not been flown.**
+
+Practical consequence, if it holds: a count cue that must move would need an aura that never
+drops. It does not touch `AddPandemicRegion`'s motion, which is a region the addon still owns.
+
+⚠ **The subject of the four-channel result was a `SetText`-sealed FontString, not a
+`SetApplicationCount` one.** Both
+routes add the `Text` aspect, which is what should govern animation; the container route also
+adds `Shown`, which is the client's, and aspects are documented not to share state. Extending
+this result to the count-binding sink is therefore an **inference, not a measurement** — the
+secret-text route was chosen because a tile blank for want of a bound aura is indistinguishable
+from one blank because the animation is invisible. The same holds for a Region handed to `AddPandemicRegion`, where
 the client owns `Shown` outright — there the gating is even cleaner, since the region is genuinely
 hidden rather than merely empty.
 
 ⚠ **Whether a sink may be RE-CALLED on a button that already has one is open**
-`@pending-test: aura-sink-recall`. It matters because everything a sink is given is fixed at the
+`[unverified]`. It matters because everything a sink is given is fixed at the
 moment it is given: a formatter's bands, and with them every size literal inside a format string,
 are set once and never revisited, so a display that must follow a changing icon rect has no other
 route. The source reads as a plain setter — it overwrites `self.applicationCount` and calls
@@ -1271,6 +1365,15 @@ CustomAuraContainerSharedMixin:AddAuraSlot]`, so a caller can hold one. Against 
 ValidateInboundScriptObject, InitializeInboundScriptObject]`. How an already-sealed FontString
 answers its own `IsForbidden()` is C-side and not readable from the shipped Lua. **Do not build a
 re-arming display on the assumption that it works.**
+
+⚠ **Flown five times and PARKED, still unverified** `[client 2026-09-08]`. What IS established:
+every call is **accepted** — a first arm, a second on the *same* FontString, a third on a fresh
+one, `ClearApplicationCount`, and a fourth after it — and `GetApplicationCount` reports the
+second string. What is NOT: whether the second formatter's output is what **draws**, which is
+the whole question, because the sink seals `Text` and no getter reports the rendered string. The
+last flight showed the *shape* of a yes — a single-arm control drawing its own tag beside a
+re-armed tile drawing the **second** tag — but the aura behind those numbers was never
+identified, so it is not banked. **Acceptance is not pixels.**
 
 Three limits, all real:
 
@@ -1350,6 +1453,18 @@ assistable units, and harmful buffs on non-assistable units"*
 is the non-assistable case — confirmed in play: a group narrowed to a spell-ID set displayed
 **only** the matching aura while a broadly-filtered group beside it showed everything the
 player had applied. So a display scoped to one spec's own DoTs is buildable today.
+
+**And it is honoured on a PLAYER HELPFUL slot too, which is the other half of the filter's
+own stated scope.** `ValidateCandidateFilters`' comment permits spell-ID matching *"for helpful
+buffs on assistable units, and harmful buffs on non-assistable units"* — the player is the
+assistable/helpful case, named as explicitly as the enemy one. Two flights carry it: a
+spell-ID-filtered **player-buff** slot displayed Backdraft with its icon, swipe and
+client-produced count `[client 2026-08-11]`, and a five-tile panel pinned to Wild Imp `296553`
+beside a control pinned to Demonic Core `264173` — same player, same frame, different pins —
+drew keyed to the imp count `[client 2026-08-21]`. That is the same discriminating
+shape as the hostile pair above: two pins side by side, each tracking its own aura. **A pinned
+player-buff slot binds the aura it names**, and a design resting on one does not need to
+re-establish it.
 
 **The `SetIcon` and `SetDurationBar` sinks fill.** The engine writes the icon texture and
 drains the bar; nothing in the addon reads an `AuraData`, computes a remaining time, or
@@ -1440,6 +1555,35 @@ CustomAuraButtonSharedMixin:SetApplicationCount]`, **not `VertexColor`** — com
 `SetDurationText`, which adds `Text`, `Alpha` *and* `VertexColor` because its colour curve drives
 them. So on the count FontString a static hue via `SetTextColor` at setup remains the addon's to
 call, regardless of the formatter; per-*band* hue is what needs the escapes.
+
+⚠ **`IsPlaying()` RAISES on an addon-created `AnimationGroup` once the sink has its FontString**
+`[client 2026-09-08]`. On a group the addon itself built on a FontString it then handed to
+`SetApplicationCount`, the call errors with *"Attempt to access forbidden object from code
+tainted by an AddOn"*. One reading, from a consumer's `status` command; the combat state at the
+time was **not recorded**, so this does not say whether the seal is combat-gated the way the
+`AddPandemicRegion` one below is.
+
+⚠ **What that does NOT establish, listed because the obvious inferences are all untested and a
+negative nobody re-checks is how this file goes wrong.** A raising `IsPlaying` is a *read*
+refusal and says nothing on its own about any of:
+
+- whether `group:Play()` — a **write** — is refused. The pandemic handover measured `:Play()`
+  **accepted** after the fact `[client 2026-08-24]`, which points the other way.
+- whether arming the group *before* the handover behaves differently from arming it after.
+- whether hiding an ancestor stops the motion on this sink, and whether it can then be restarted.
+- whether the mark visibly moves at all. **No flight has yet reported a spinning count mark**,
+  and a still one has at least four candidate causes above.
+
+⚠ **Contrary evidence worth weighing before anyone builds on the read refusal.** A shipping
+consumer creates its animation group on the count FontString *after* `SetApplicationCount` has
+taken it, plays it there, and its own notes describe the mark as arriving already in motion
+`[T3 obs: CombatAssistPlus Channel.lua — the pulse branch after the SetApplicationCount call]`.
+That is a different addon's account rather than a measurement taken here, but it points against
+handover-ordering being what stops a spin, and toward an ancestor being hidden instead.
+
+`@pending-test` — the discriminating run is: arm before the handover, never hide an ancestor,
+and report whether the mark turns; then a second pass that hides an ancestor and says whether it
+stops. Until then, treat a motionless count mark as unexplained rather than as a platform limit.
 
 ⚠ **The escape route worked here and is not guaranteed to keep working.** `C_StringUtil` also
 ships `EscapeQuotedCodes` and `StripHyperlinks`, so the client sanitises markup out of untrusted
@@ -1548,6 +1692,20 @@ SimpleStatusBarConstantsDocumentation.lua — StatusBarTimerDirection]`. Compose
 `SetRenderMode(Enum.StatusBarRenderMode.Radial)` — measured working on both a
 button-claimed bar and a `SetTimerDuration`-driven bar `[client 2026-08-21]` — and the
 sink is a client-drained radial countdown of the aura's own lifetime, cap reading nothing.
+
+**The same sink also takes a UNIT CAST duration, which is how an enemy cast bar gets drawn.**
+`UnitCastingDuration(unit)` / `UnitChannelDuration(unit)` return a `LuaDurationObject` for `target`
+and `focus` — units whose cast *info* is sealed — and `StatusBar:SetTimerDuration(d, interpolation,
+direction)` sweeps a bar for the cast's real length `[client 2026-09-03]`, with finding 3's
+`SetMinMaxValues(0, 1)` called at build. The object's **presence** is plain, so nil-testing it to
+decide whether to show the bar is legal where reading its contents is not. Direction is the
+difference between a cast and a channel: `.ElapsedTime` fills as a cast runs, `.RemainingTime`
+drains as a channel empties, and using `ElapsedTime` for both makes a channel render
+indistinguishably from a cast.
+
+⚠ **Feed the fill a FLAT texture if you tint it.** `SetVertexColor*` multiplies, so status-bar art
+carrying its own shading or hue (`Interface\TargetingFrame\UI-StatusBar`) returns a soft, uneven
+wash instead of the colour asked for; `Interface\Buttons\WHITE8X8` takes it cleanly.
 
 Both routes are **display-only** — the button stays forbidden and `IsShown` stays secret, so there
 is still no path to *branch* on a stack value or a pandemic state (§3.5.1's standing limit). The
@@ -1993,6 +2151,29 @@ separately said to reset the anchoring-secret state (Tier 2).
 prose explains what sets it. There is no documented `PreventSecretValues`
 setter in the generated docs.
 
+#### 4.6.1 `SecretArguments` and `SecretWhen…` are ORTHOGONAL, and conflating them is easy
+
+They read like one system and are two. **`SecretArguments` governs what you may pass IN**;
+**`SecretWhen…` governs what comes back.** `UnitPower` is `SecretArguments =
+"AllowedWhenUntainted"` *and* `SecretWhenUnitPowerRestricted` — you may not hand it a secret
+unit token, and what it returns is secret in combat. Those facts are independent, and a reader
+who merges them concludes either "I can't call it" or "the answer is always plain", both wrong.
+
+The in-bound axis is small enough to be a list rather than a philosophy
+`[T1 docs @12.1.0, counted]`:
+
+```
+SecretArguments = "AllowedWhenTainted"     123     ← an addon may pass a secret to these
+SecretArguments = "AllowedWhenUntainted"  3565     ← it may not
+SecretArguments = "NotAllowed"              92
+```
+
+So *"what can I do with this secret value"* is answered by looking up the sink's annotation, not
+by reasoning about the kind of secret it is. Widget setters that take one — `SetAlpha`,
+`SetVertexColor`, `StatusBar:SetValue`, `SetMinMaxValues`, `SetText` — are how a secret reaches
+a pixel; everything else evaluates it on your behalf through a parameter it chose to offer
+(a curve or a formatter), and those parameters exist only where Blizzard put them.
+
 ### 4.7 Predicates: *when* a return is secret
 
 **57** predicates are declared across the corpus, split `Type = "Precondition"` (35)
@@ -2003,6 +2184,25 @@ that uses them (e.g. `MouseFocusValidForLimitedInput` at
 `InputDocumentation.lua`, `RequiresClubsInitialized` at
 `ClubDocumentation.lua`, `RestrictedForMacroChatMessages` at
 `ChatConstantsDocumentation.lua`). Full dump:
+`uv run python -m wowkb.uiapi predicates`.
+
+⚠ **"Restricted" is NOT one condition, and the difference decides whether a target dummy
+reproduces a raid.** The predicates' own documentation strings sort into four trigger classes
+`[T1 docs @12.1.0]`:
+
+| class | trigger text | reproduced at an open-world dummy? |
+|---|---|---|
+| **combat** | *"when combat, encounter, challenge mode, or PvP match addon restrictions are in effect"* | **yes** — plain combat is combat |
+| **map** | *"when the player is on an addon-restricted map such as a dungeon or raid"* | **no** |
+| **encounter + map** | *"when encounter, challenge mode or PvP match… and on a communication-restricted map"* | **no** |
+| **unit** | *"when the unit isn't player-controlled"* | n/a — location-independent |
+
+`SecretWhenCooldownsRestricted` and `SecretWhenUnitAuraRestricted` are **combat**-class, so
+cooldowns and auras behave identically at a dummy and in a raid. `SecretOnRestrictedMaps` and
+`SecretWhenUnitComparisonRestricted` are **map**-class — the latter says outright *"only applies
+when the player is on an addon-restricted map"* — and no amount of dummy testing reproduces
+them. ⚠ **There is no general "combat at a dummy is less restricted" rule**; assert the class of
+the specific predicate on the specific function, and enumerate with
 `uv run python -m wowkb.uiapi predicates`.
 
 The two kinds behave differently, and the `FailureMode` field proves it
@@ -2375,6 +2575,38 @@ can't do the arithmetic":
   enters Lua, not because these functions are on the 120-member
   `AllowedWhenTainted` list. They are not.
 
+#### 4.8.0 The minimal worked example: a custom mana bar
+
+Mana is a primary, so `UnitPower` returns a secret in every context — and a bar drawn from it is
+six lines, because every call it needs is on the 123-member `AllowedWhenTainted` list:
+
+```lua
+local bar = CreateFrame("StatusBar", nil, UIParent)
+bar:SetStatusBarTexture("Interface\\Buttons\\WHITE8X8")   -- flat art; tints cleanly
+local mana = Enum.PowerType.Mana
+bar:SetMinMaxValues(0, UnitPowerMax("player", mana))       -- secret max, accepted
+bar:SetValue(UnitPower("player", mana))                    -- secret value, accepted
+```
+
+`SetMinMaxValues` and `SetValue` are both `SecretArguments = "AllowedWhenTainted"` and both add
+`Enum.SecretAspect.BarValue` `[T1 docs @12.1.0: SimpleStatusBarAPIDocumentation.lua —
+SetValue, SetMinMaxValues]`. **The one rule is directional: never read `GetValue` back.**
+
+Colour-by-threshold needs no comparison — author a colour curve and hand it to the API that owns
+the secret, which evaluates it in C and returns a secret colour that `SetVertexColor` accepts
+(`AllowedWhenTainted`, adding `VertexColor` and `Alpha`):
+
+```lua
+local c = C_CurveUtil.CreateColorCurve()
+c:AddPoint(0.20, CreateColor(1, 0.2, 0.2, 1))
+c:AddPoint(0.21, CreateColor(0.3, 0.6, 1, 1))
+bar:GetStatusBarTexture():SetVertexColor(UnitPowerPercent("player", mana, false, c))
+```
+
+The threshold exists — it is the `0.20`/`0.21` pair — and it lives in authored data rather than
+in a Lua branch. This is the whole display channel in miniature: **paint a secret, never
+compare one.**
+
 #### 4.8.1 Which channels actually carry a secret `[client 2026-08-04]`
 
 ⚠ **Measured, not read.** Everything in this subsection was run in the client. Unmarked
@@ -2400,7 +2632,7 @@ reports them **method-less**; probe with a pcall'd call instead.
 
 | channel | setter | result |
 |---|---|---|
-| transparency | `SetAlpha` | ✅ **carries** — aspect `{Alpha}`; `GetEffectiveAlpha` then **throws** |
+| transparency | `SetAlpha` | ✅ **carries** — aspect `{Alpha}`; `GetEffectiveAlpha` then **throws**. ✅ **`Frame:SetAlpha` takes a secret too, and it MULTIPLIES INTO CHILDREN** `[client 2026-09-08]`: a texture whose own alpha came from one secret, inside a frame whose alpha came from a second, was seen lit only when both were opaque. **So nesting is an AND over two sealed values** — the one boolean operation the sealed vocabulary was missing. See §4.8.5 |
 | colour | `SetVertexColor` | ✅ **carries** — aspect `{VertexColor, Alpha}` |
 | brightness | `SetDesaturation` | ✅ **carries** — aspect `{Desaturation}`; `IsDesaturated` then **throws** |
 | bar fill | `SetValue` / `SetMinMaxValues` | ✅ **carries** — aspect `{BarValue}` |
@@ -2605,12 +2837,48 @@ needs `SetUseAuraDisplayTime(false)` first (`:545-554`) or it keeps drawing the 
 timer — order made no difference in refusals **or in pixels** on fresh widgets, so
 that rider now stands only for a widget that has actually shown aura display time,
 which no flight has exercised (*confidence:* medium, held as prose — not worth a test
-until a real widget hits it). One measured surprise rides along: the widget's own
-getters stayed **plain** — `GetCooldownDuration` / `GetCooldownTimes` read ordinary
-numbers even in combat, on widgets armed from Hearthstone's and Unending Resolve's
-objects `[client 2026-08-24]` — so arming from a duration object does not by itself
-seal the widget's read-backs (the panel leaned on this: it ranks candidates by the
-armed widget's read-back, the one cooldown read that works mid-pull).
+until a real widget hits it). ⚠ **The widget's read-backs follow the SOURCE
+OBJECT, and the seal holds.** `GetCooldownDuration` / `GetCooldownTimes` read
+`<secret>` in combat off a widget armed from an object whose `HasSecretValues()` is
+true `[client 2026-09-08]`. An earlier sample read them **plain** — but on widgets
+armed from Hearthstone's and Unending Resolve's objects, whose secrecy was never
+recorded and which were evidently not secret `[client 2026-08-24]`. So "arming does
+not seal the widget's read-backs" was the wrong generalisation from a non-secret
+subject: arming seals nothing, and it launders nothing either. `IsShown()` stays a
+plain boolean either way, which is exactly why §2.3's reify trick works while a
+read-back of the times does not. ⚠ Anything that ranks candidates by an armed
+widget's read-back gets a secret back the moment the source is secret.
+
+#### 4.8.5 The sealed values form a BOOLEAN ALGEBRA, with the widget tree as the circuit
+
+Two secrets may never meet in Lua: neither can be compared nor maxed, so a second write to one
+channel silently wins. The composition therefore happens in the **compositor**, not in script,
+and all three operations are now available `[client 2026-09-08]`:
+
+| operation | mechanism |
+| --- | --- |
+| **NOT** | invert the curve or the band table. Free — the threshold moves, not the value |
+| **OR** | two **sibling** widgets at the same spot. Either one opaque makes the pair visible |
+| **AND** | **NESTING.** A child renders at parent alpha × its own, and this still holds when *both* alphas came from secrets |
+
+The AND was the open one and it is measured: a texture driven by one secret, inside a frame
+driven by a second, drew only while both were opaque. It follows that **`Frame:SetAlpha`
+accepts a secret** — previously only `Texture:SetAlpha` had been exercised — and that the
+engine composites the product internally. `GetEffectiveAlpha` throwing (the table above) is
+consistent with that: the product exists and is simply not handed back.
+
+⚠ **The affine resource is the CHANNEL, not the secret.** One duration object may drive any
+number of sinks; what may not happen is two secrets writing the *same widget channel*. So "one
+secret per widget" is an allocation rule derived from that, and a second secret is bought with
+a second widget — a sibling for OR, a parent or child for AND.
+
+⚠ **The evaluation is a SNAPSHOT, not a binding.** `EvaluateRemainingDuration(curve, mod)`
+returns a value at the instant it is called, so a `SetAlpha` fed from it is a one-shot write.
+It must be re-applied on a refresh tick — `cdm-rider-patterns.md` §2.1 says as much in its own
+comment ("apply per frame every refresh"), and a flight built without one produced tiles that
+changed only when the panel was rebuilt. The sinks that genuinely need no polling are the ones
+taking the duration **object**: `SetCooldownFromDurationObject`, `StatusBar:SetTimerDuration`,
+`DurationTextBinding`, and the authored aura formatter.
 
 **7. A second text route: `GetRemainingDuration()` → `SetFormattedText`.**
 `GetRemainingDuration(modifier)` returns a `DurationSeconds`
@@ -2829,9 +3097,9 @@ whole object is plain and no row here applies.
 | `EvaluateRemainingDuration(curve, mod)` | `LuaCurveEvaluatedResult` | **SECRET** | `[client 2026-08-07]` — secret **even with a non-secret curve** (`curve:HasSecretValues()` false), control `GetRemainingDuration` secret in the same sample. `SecretWhenCurveSecret` is a sufficient condition, not a necessary one |
 | `EvaluateRemainingPercent` · `EvaluateElapsedDuration` · `EvaluateElapsedPercent` · `EvaluateTotalDuration` | same | **SECRET** | all four measured in the same sample `[client 2026-08-07]`. **The curve route leaks nothing — hand the result to a sink and stop guarding it** |
 | `HasExpired(mod)` · `IsActive(mod)` · `HasStarted(mod)` · `IsZero()` | bool | **SECRET booleans** | All four read `<secret boolean>` in combat, on 5 in-combat runs, on a duration whose `HasSecretValues()` is true, with `GetRemainingDuration` secret in the same sample as the control `[client 2026-08-06]` ⚠ *evidence gone — that lab run is off the ring; the values survive only as a queue transcription*. **They are the object's whole predicate surface — `LuaDurationObjectAPIDocumentation.lua` lists no other bool return but `HasSecretValues()` — so the object exposes no readable in-combat readiness of its own**, and the absent annotation was again not a guarantee. A secret bool may not gate a branch, but it still drives `SetAlphaFromBoolean` / `SetVertexColorFromBoolean` leak-free — so readiness is **drawable and not branchable *on this object***. An addon that must *branch* on readiness gets it off a different surface: `C_Spell.GetSpellCooldown(id).isActive` is a **plain, discriminating boolean in restricted combat** (`cooldown-manager.md` §7 Tier 3), because that struct seals per member rather than whole. Failing that, the `Available` / `OnCooldown` alert edges of `cooldown-manager.md` §5.1, with that section's warning about the rows those edges never fire for. These are also the workspace's **first boolean-typed secrets**, which is what supplies the operation table's row 8 with a source it never had |
-| `GetElapsedDuration` · `GetTotalDuration` · `GetStartTime` · `GetEndTime` · `GetRemainingPercent` · `GetElapsedPercent` · `GetClockTime` · `GetModRate` | numbers | **UNMEASURED**, presumed secret | Same shape as `GetRemainingDuration`. Nobody has needed one; **presumed is not measured** and this row says so rather than implying coverage |
-| `Copy()` | `LuaDurationObject` | **PLAIN handle** | `ReturnsNeverSecret = true` |
-| `SetTimeFromStart` · `SetTimeFromEnd` · `SetTimeSpan` · `SetClock` · `Assign` · `Reset` · `SetToDefaults` · `GetClock` | — | setters/handles, no readback | — |
+| `GetElapsedDuration` · `GetTotalDuration` · `GetStartTime` · `GetEndTime` · `GetRemainingPercent` · `GetElapsedPercent` · `GetClockTime` · `GetModRate` | numbers | **SECRET — all eight** | Measured, not presumed: every one read `<secret>` on an object whose `HasSecretValues()` is true, in combat, on a real cooldown (Call Dreadstalkers), and replicated on a second (Grimoire: Fel Ravager) `[client 2026-09-08]`. **The object exposes no readable number at all** — `GetRemainingDuration`'s seal is the whole family's, not a special case. ⚠ `GetClock` is the exception and is not a number: it returned **`nil`**, not a secret |
+| `Copy()` | `LuaDurationObject` | **PLAIN handle, SECRET contents** | `ReturnsNeverSecret = true`, and measured: the copy's own `HasSecretValues()` reads **true** `[client 2026-09-08]`. So `Copy` hands back a handle you may hold, never a way to launder the values inside it. The copy is genuinely independent — mutating it left both the original and the client's live cooldown untouched across 21 mutations in one sample |
+| `SetTimeFromStart(startTime, duration [, modRate])` · `SetTimeFromEnd(endTime, duration [, modRate])` · `SetTimeSpan(startTime, endTime)` · `SetClock([clock])` · `Assign(other)` · `Reset()` · `SetToDefaults()` | — | **accept plain numbers on a secret receiver, and take effect** | Signatures read off the client's own arity refusals; `Reset`, `SetClock` and `SetToDefaults` accept no args `[client 2026-09-08]`. They are not inert — `SetTimeFromStart(0, 3600)` left an armed widget showing, `Reset` and `SetToDefaults` cleared it. ⚠ **But every one measured here is an ABSOLUTE OVERWRITE — none takes a delta**, so no shift of a secret clock was reachable: `SetTimeSpan(start, end - N)` would need `end` as a plain number, and the row above measured it secret. `[searched 2026-09-08: all seven mutators the API documentation lists, each called at three arities on an object whose HasSecretValues() is true, plus all eight getters as the source of a plain operand; the arity refusals returned the full signatures, and none carries a delta-shaped parameter]` **This closes the reify route** — §2.3's scratch-frame `IsShown()` reifies `remains > 0` and nothing else, and an arbitrary threshold `remains > N` stays a sealed binding you hand to a curve |
 
 **Consumption — settled, and not in question.** All three sinks accept the object and
 draw it in combat: `Cooldown:SetCooldownFromDurationObject` (finding 6),
