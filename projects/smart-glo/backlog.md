@@ -59,10 +59,13 @@ delete it — never leave it standing with a note underneath.
   optimise: nothing here models what actually governs an inline escape's apparent scale.
   `/sg tune crop <n>` picks a replacement on the real row, by looking. `Look.OCCLUDE_X` / `_Y`
   are a sub-unit trim on the FontString's own anchor, because an escape's offsets are integers.
-- ⚠ **The occluder DRAWS on a live row and is not yet aligned to the pixel.** Below six imps
-  the icon reads as itself at ~99%; what remains is a ~1px horizontal shift as the occluder
-  comes and goes, which the `ready()` gate makes visible once per GCD — the gate closes on the
-  global, dropping occluder and mark together, so the icon snaps to its true self and back.
+- **The occluder DRAWS on a live row and is aligned**, at crop `0.82` with an x trim of
+  `+1.2` units, both measured by eye. The trim is there because a centred escape does not draw
+  centred — it claims more advance width than its ink fills, so a `CENTER` anchor centres the
+  claim (`security-taint-and-restricted-data.md` §3.5). ⚠ **OPEN: whether `+1.2` is a constant
+  in units or a fraction of the draw.** One icon size cannot tell them apart, and it is the
+  whole durability question — move the Edit Mode icon-size slider and look again. If it still
+  lands the constant is right; if it drifts it belongs in the source as a ratio.
   `/sg tune crop|x|y` changes the live occluder and re-arms; `/sg probe occluder` lays the crop
   in force beside its neighbours and an x-trim sweep beside that. ⚠ **The probe takes the
   overlay's scale** — a replica at a different scale rounds differently from the row it stands

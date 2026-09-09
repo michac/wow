@@ -2,7 +2,7 @@
 title: Security — protected actions, taint, and restricted data (secret values)
 patch: 12.1.0
 fetched: 2026-08-11
-reviewed: 2026-09-08   # 2026-09-08 source read of TextureUtil.lua only — §3.5's tint claim was narrowed to the `|T` file form and the `|A` atlas form's vertex-colour triple recorded beside it, @pending-test; nothing else in this file was re-read. 2026-09-01 source read of the SecondsFormatter surface only — §4.8.1 finding 2 gained the unabbreviated-default fact, and the same section's Radial bullets were narrowed to the button-claimed bar they were actually measured on; nothing else in this file was re-read. 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
+reviewed: 2026-09-09   # 2026-09-09 client measurement, §3.5 only — a CENTRED texture escape draws its ink ~1.2 units left of the region's centre (advance width, not size rounding: it survived a crop of 1.0); nothing else in this file was re-read. 2026-09-08 source read of TextureUtil.lua only — §3.5's tint claim was narrowed to the `|T` file form and the `|A` atlas form's vertex-colour triple recorded beside it, @pending-test; nothing else in this file was re-read. 2026-09-01 source read of the SecondsFormatter surface only — §4.8.1 finding 2 gained the unabbreviated-default fact, and the same section's Radial bullets were narrowed to the button-claimed bar they were actually measured on; nothing else in this file was re-read. 2026-08-27 source read of the CustomAuraButton sink SETTERS only — §3.5.3 gained the open re-call question and its two-sided source case; nothing else in this file was re-read, and the 2026-08-21 drain below still describes the rest. 2026-08-21 source-read drain, no new flight: §3.5 gained the NumericRuleFormatter surface, §4.3 Trap 1 was re-anchored on Dump.lua symbols, §4.8.1 finding 7's type()-guard mechanism was corrected, §4.12 gained the SpellPowerCostInfo tuple, §6 gained the generation gap. §3.5.2 is a 12.1 client measurement taken 2026-08-21 (two authored sealed-displays flown); §3.5.1/§4.7.1 were taken 2026-08-19; every other [client] tag below is older and was NOT restamped — read each tag, not this line
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, 12.1.0.69273, commit eb941aad028d) — raw/addon-research/wow-ui-source-12.1.0. Every corpus COUNT in this file was re-derived here on 2026-08-11; `[T1 src @12.1.0]` / `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1088,6 +1088,21 @@ string draws is the addon's choice of art.
   above says nothing about it. `@pending-test` — a `|A` band with an r,g,b triple, against the
   same atlas member with none.
   Until then a coloured `|T` mark has to be a **pre-tinted file**, one per hue.
+- ⚠ **A CENTRED escape does not draw centred** `[client 2026-09-09]`. Measured by eye against
+  the art it was copied from: a single texture escape, alone in a FontString anchored `CENTER`
+  on its host, drew its ink about **1.2 units LEFT** of the region's centre at a 41-unit draw
+  in a 50-unit frame. That is consistent with the advance-width bullet below — the escape
+  claims more width than its ink fills, with the excess trailing — so anchoring `CENTER`
+  centres the **claim** and leaves the picture off by half the excess.
+  ⚠ **It is not the drawn size rounding to a whole unit**, which is the obvious first theory
+  and is wrong: the offset survived a crop of `1.0`, where the file's whole 0..64 rect is drawn
+  at exactly the frame's width and the rounding residual is exactly zero.
+  **Consequence for any escape that must REGISTER with something underneath it** — a mark laid
+  over the art it was cropped from, a plate meant to align with a border — a centre anchor is
+  not enough; it needs an explicit offset, or an anchor on a fixed edge with the position
+  computed. ⚠ Whether the offset is a constant in units or a fraction of the draw size is
+  **unmeasured**: one draw size cannot tell them apart. `@verify-ingame` — re-check the same
+  offset at a second icon size.
 - ⚠ **An offset escape is DISPLACED but still consumes its ADVANCE WIDTH** `[client 2026-08-22]`,
   and this is the constraint that actually bounds the design. `:xoff:yoff` moves a mark from where
   it would have sat; it does not remove it from the line's layout. So a band carrying a 56x56
