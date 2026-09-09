@@ -1,5 +1,6 @@
 using MdtDesktop.Core.Data;
 using MdtDesktop.Core.Library;
+using MdtDesktop.Core.Model;
 using MdtDesktop.Core.Routes;
 
 namespace MdtDesktop.Cli;
@@ -36,7 +37,7 @@ internal static class RouteCommands
 
     private static int Decode(string[] args)
     {
-        if (ReadRouteArg(args, "decode <string>|- [--json]") is not { } routeString) return 2;
+        if (ReadRouteArg(args, "decode <string>|- [--json] [--notes]") is not { } routeString) return 2;
 
         if (args.Contains("--json"))
         {
@@ -48,11 +49,11 @@ internal static class RouteCommands
             return 0;
         }
 
-        return Report(routeString, saved: null);
+        return Report(routeString, saved: null, notes: args.Contains("--notes"));
     }
 
     /// <summary>Prints a route: header, per-pull forces, then any staleness warnings.</summary>
-    private static int Report(string routeString, SavedRoute? saved)
+    private static int Report(string routeString, SavedRoute? saved, bool notes = false)
     {
         var route = RouteDecoder.Decode(routeString);
 
@@ -77,6 +78,7 @@ internal static class RouteCommands
         Console.WriteLine($"format    : {RouteDecoder.Classify(routeString)}");
         Console.WriteLine($"dungeon   : [{route.DungeonIndex}] {dungeon?.DisplayName ?? "UNKNOWN — not in the cached data"}");
         Console.WriteLine($"pulls     : {route.Pulls.Count}");
+        Console.WriteLine($"objects   : {DescribeObjects(route)}");
         Console.WriteLine($"exported  : {(route.AddonVersion is { } v ? $"MDT {v}" : "no addonVersion in the string")}");
         Console.WriteLine($"cursor    : currentPull {route.CurrentPull}, sublevel {route.CurrentSubLevel}");
 
@@ -116,12 +118,84 @@ internal static class RouteCommands
             Console.WriteLine($"⚠ {warning.Message}");
         }
 
+        if (notes) PrintNotes(route);
+
+        foreach (var warning in ObjectWarnings(route, dungeon))
+            Console.WriteLine($"⚠ {warning}");
+
         var options = route.Pulls.SelectMany(p => p.UnknownOptions).Distinct().ToList();
         if (options.Count > 0)
             Console.WriteLine($"⚠ unrecognised pull option key(s): {string.Join(", ", options)}");
 
         return 0;
     }
+
+    /// <summary>The one-line census: what the author drew, and how much of it is hidden.</summary>
+    private static string DescribeObjects(Route route)
+    {
+        var notes = route.Objects.Count(o => o.Kind == RouteObjectKind.Note);
+        var drawings = route.Objects.Count - notes;
+        var total = route.Objects.Count + route.UnreadableObjects;
+
+        if (total == 0) return "none";
+
+        var hidden = route.Objects.Count(o => !o.Shown);
+        return $"{notes} note{S(notes)}, {drawings} drawing{S(drawings)} " +
+               $"({total} total, {hidden} hidden)";
+    }
+
+    /// <summary>
+    /// The headless door onto the annotations — every note in full.
+    /// </summary>
+    /// <remarks>
+    /// Notes are most of what makes a route a guide rather than a pull order, so they have to be
+    /// readable without Windows, like everything else this project draws.
+    /// </remarks>
+    private static void PrintNotes(Route route)
+    {
+        var notes = route.Objects.Where(o => o.Kind == RouteObjectKind.Note).ToList();
+
+        Console.WriteLine();
+        if (notes.Count == 0)
+        {
+            Console.WriteLine("notes     : none — this route carries no text annotations.");
+            return;
+        }
+
+        var number = 0;
+        foreach (var note in notes)
+        {
+            number++;
+            Console.WriteLine($"note {number,-2}   : sublevel {note.SubLevel?.ToString() ?? "none"}, " +
+                              $"at ({note.Position.X:0.#}, {note.Position.Y:0.#})" +
+                              (note.Shown ? "" : "  [hidden]"));
+
+            foreach (var line in (note.Text ?? "").Split('\n'))
+                Console.WriteLine($"          | {line.TrimEnd()}");
+        }
+    }
+
+    /// <summary>What is wrong with the annotations, if anything — one line each.</summary>
+    private static IEnumerable<string> ObjectWarnings(Route route, Dungeon dungeon)
+    {
+        if (route.UnreadableObjects > 0)
+            yield return $"{route.UnreadableObjects} object(s) in this route could not be read " +
+                         "and were skipped. The rest of the route is unaffected.";
+
+        // ⚠ An object's sublevel is an equality test, so one naming a sublevel the dungeon does
+        // not have is drawn nowhere — silently, unless it is said out loud here.
+        var known = dungeon.SubLevels.Select(s => s.Index).ToHashSet();
+        var stray = route.Objects
+            .Where(o => o.Shown && (o.SubLevel is null || !known.Contains(o.SubLevel.Value)))
+            .ToList();
+
+        if (stray.Count > 0)
+            yield return $"{stray.Count} object(s) name a sublevel this dungeon does not have " +
+                         $"({string.Join(", ", stray.Select(o => o.SubLevel?.ToString() ?? "none").Distinct())}) " +
+                         "— they will not be drawn.";
+    }
+
+    private static string S(int count) => count == 1 ? "" : "s";
 
     // ---- the library -------------------------------------------------------------------
 
@@ -190,7 +264,7 @@ internal static class RouteCommands
     {
         if (args.Length == 0)
         {
-            Console.Error.WriteLine("Usage: mdtdesk route show <id>   (see `mdtdesk route list`)");
+            Console.Error.WriteLine("Usage: mdtdesk route show <id> [--notes]   (see `mdtdesk route list`)");
             return 2;
         }
 
@@ -202,7 +276,7 @@ internal static class RouteCommands
         }
 
         // Decoded fresh from the stored string, which is the source of truth.
-        return Report(saved.RouteString, saved);
+        return Report(saved.RouteString, saved, notes: args.Contains("--notes"));
     }
 
     private static int RemoveSaved(string[] args)

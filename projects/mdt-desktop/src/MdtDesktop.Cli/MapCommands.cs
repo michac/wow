@@ -95,7 +95,7 @@ internal static class MapCommands
         {
             Console.WriteLine($"  ⚠ {outside.Count} blip(s) fall outside the canvas:");
             foreach (var blip in outside.Take(10))
-                Console.WriteLine($"      {blip.Label} at ({blip.X:F2}, {blip.Y:F2})");
+                Console.WriteLine($"      {blip.Describe()} at ({blip.X:F2}, {blip.Y:F2})");
         }
     }
 

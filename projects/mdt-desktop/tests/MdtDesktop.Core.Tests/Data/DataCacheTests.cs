@@ -88,6 +88,27 @@ public class DataCacheTests
         Assert.False(stamp.IsCurrentSchema);
     }
 
+    /// <summary>
+    /// ⚠ Schema 3 added <c>seasons</c>, and a schema-2 cache is refused for the same reason a
+    /// schema-1 one is: it deserializes without error and is quietly wrong — every dungeon would
+    /// fall into the synthetic "Other" group, reading as though MDT had stopped shipping seasons.
+    /// </summary>
+    [Fact]
+    public void A_schema_2_stamp_is_refused_rather_than_read()
+    {
+        var root = TempRoot();
+        var cache = new DataCache(root);
+        cache.EnsureRoot();
+
+        cache.WriteStamp(new CacheStamp(
+            "6.2.13", "6.2.13", "120100", DateTimeOffset.UtcNow, 16, 462, 3065, SchemaVersion: 2));
+
+        var stamp = cache.ReadStamp();
+        Assert.NotNull(stamp);
+        Assert.Equal(2, stamp.SchemaVersion);
+        Assert.False(stamp.IsCurrentSchema);
+    }
+
     [Fact]
     public void A_stamp_round_trips_its_schema_version()
     {

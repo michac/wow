@@ -41,11 +41,62 @@ public class AppSettingsTests
             ZoomRelativeToFit = 2.5,
             NextPullHotKey = "Ctrl+F2",
             LastDungeonIndex = 164,
-            LastRouteId = "6lbpOeHxxKG",
+            LastSeasonName = "Midnight Season 2",
+            LastRouteByDungeon = new Dictionary<int, string> { [164] = "6lbpOeHxxKG" },
         };
 
         Assert.True(store.Save(written));
-        Assert.Equal(written, store.Load());
+
+        var read = store.Load();
+        Assert.Equal(written.LastSeasonName, read.LastSeasonName);
+        Assert.Equal(written.LastRouteByDungeon, read.LastRouteByDungeon);
+        Assert.Equal(written.Window, read.Window);
+        Assert.Equal(written.NextPullHotKey, read.NextPullHotKey);
+    }
+
+    // ---- the per-dungeon route migration ----------------------------------------------------
+
+    /// <summary>
+    /// ⚠ Without this the first launch after the per-dungeon change silently forgets the open
+    /// route — the same complaint the change exists to fix, arriving once on upgrade.
+    /// </summary>
+    [Fact]
+    public void A_legacy_single_route_id_migrates_into_the_per_dungeon_map()
+    {
+        var path = TempPath();
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        File.WriteAllText(path, """
+            {"version":1,"lastDungeonIndex":164,"lastRouteId":"6lbpOeHxxKG"}
+            """);
+
+        var settings = new SettingsStore(path).Load();
+
+        Assert.Equal("6lbpOeHxxKG", settings.LastRouteByDungeon[164]);
+    }
+
+    /// <summary>A legacy id with no dungeon to file it under has nowhere to go, and is dropped.</summary>
+    [Fact]
+    public void A_legacy_route_id_with_no_remembered_dungeon_migrates_to_nothing()
+    {
+        var settings = new AppSettings { LastRouteId = "6lbpOeHxxKG" }.Migrated();
+        Assert.Empty(settings.LastRouteByDungeon);
+    }
+
+    /// <summary>
+    /// The migration is one-way and one-shot: once the map has entries the legacy id is inert,
+    /// so it cannot resurrect a route the user has since cleared.
+    /// </summary>
+    [Fact]
+    public void The_legacy_id_is_ignored_once_the_per_dungeon_map_has_entries()
+    {
+        var settings = new AppSettings
+        {
+            LastDungeonIndex = 164,
+            LastRouteId = "old",
+            LastRouteByDungeon = new Dictionary<int, string> { [160] = "new" },
+        }.Migrated();
+
+        Assert.Equal(new Dictionary<int, string> { [160] = "new" }, settings.LastRouteByDungeon);
     }
 
     /// <summary>Losing a remembered window position is a shrug; failing to start over one is not.</summary>

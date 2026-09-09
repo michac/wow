@@ -1,5 +1,4 @@
 using System.Formats.Cbor;
-using System.IO.Compression;
 using MdtDesktop.Core.Routes;
 
 namespace MdtDesktop.Core.Tests.Routes;
@@ -259,8 +258,7 @@ public class RouteDecoderTests
     // ---- helpers -------------------------------------------------------------------------
 
     /// <summary>Lua strings cross as CBOR byte strings — see <c>CborTree</c>.</summary>
-    private static void WriteText(CborWriter w, string s)
-        => w.WriteByteString(System.Text.Encoding.UTF8.GetBytes(s));
+    private static void WriteText(CborWriter w, string s) => SyntheticRoute.WriteText(w, s);
 
     private static void WriteSimpleRoute(CborWriter w, string? color)
     {
@@ -280,15 +278,5 @@ public class RouteDecoderTests
     }
 
     /// <summary>Builds a real <c>!~MDT2~</c> string, so the tests go through the whole pipeline.</summary>
-    private static Route Decode(Action<CborWriter> write)
-    {
-        var writer = new CborWriter();
-        write(writer);
-
-        using var buffer = new MemoryStream();
-        using (var deflate = new DeflateStream(buffer, CompressionLevel.Optimal, leaveOpen: true))
-            deflate.Write(writer.Encode());
-
-        return RouteDecoder.Decode(RouteDecoder.ModernPrefix + Convert.ToBase64String(buffer.ToArray()));
-    }
+    private static Route Decode(Action<CborWriter> write) => SyntheticRoute.Decode(write);
 }

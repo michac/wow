@@ -23,12 +23,14 @@ internal static class Cli
           mdtdesk roles [<idx>] [--all]  What role every mob classifies as, and the census.
           mdtdesk pulls <str>|-|<id> [--sublevel <n>] [--current <n>] [--plot]
                                          The route overlay: hulls, colours, forces, per pull.
-          mdtdesk route decode <str>|- [--json]
+          mdtdesk route decode <str>|- [--json] [--notes]
                                          Decode a route string; print its pulls and forces.
+                                         --notes prints the author's text annotations in full.
           mdtdesk route save <str>|- [--name <n>]
                                          Import a route into the local library.
           mdtdesk route list             List saved routes and whether their dungeon has moved.
-          mdtdesk route show <id>        Decode a saved route.
+          mdtdesk route show <id> [--notes]
+                                         Decode a saved route.
           mdtdesk route remove <id>      Delete a saved route.
           mdtdesk lua-check              Report the resolved Lua interpreter and round-trip a script.
           mdtdesk help                   This text.

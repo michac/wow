@@ -63,14 +63,32 @@ internal static class DataCommands
         if (Cached() is not { } data) return 1;
 
         Console.WriteLine($"MDT {data.AddonVersion} — {data.Dungeons.Count} dungeons");
-        Console.WriteLine();
-        Console.WriteLine($"{"idx",5}  {"name",-26} {"short",-6} {"forces",6} {"enemies",7} {"clones",6}");
-        foreach (var d in data.Dungeons.OrderBy(d => d.Index))
+
+        // Grouped the way MDT's own dropdown groups them, in its own order — Season 2 first —
+        // and never re-sorted, because the ordering is the addon's rather than ours. The
+        // trailing "Other" group only appears when a cached dungeon is in no declared season.
+        foreach (var season in data.SeasonsWithOrphans())
         {
-            Console.WriteLine(
-                $"{d.Index,5}  {Truncate(d.DisplayName, 26),-26} {d.ShortName,-6} {d.TotalCount,6} " +
-                $"{d.Enemies.Count,7} {d.Enemies.Sum(e => e.Clones.Count),6}");
+            Console.WriteLine();
+            Console.WriteLine($"{season.DisplayName} — {season.Dungeons.Count} dungeons");
+            Console.WriteLine($"{"idx",5}  {"name",-26} {"short",-6} {"forces",6} {"enemies",7} {"clones",6}");
+
+            foreach (var index in season.Dungeons)
+            {
+                if (data.Find(index) is not { } d)
+                {
+                    // A season naming a dungeon the release does not ship. Said out loud rather
+                    // than skipped: it means the two halves of MDT's own data disagree.
+                    Console.WriteLine($"{index,5}  ⚠ named by the season but not in the cache");
+                    continue;
+                }
+
+                Console.WriteLine(
+                    $"{d.Index,5}  {Truncate(d.DisplayName, 26),-26} {d.ShortName,-6} {d.TotalCount,6} " +
+                    $"{d.Enemies.Count,7} {d.Enemies.Sum(e => e.Clones.Count),6}");
+            }
         }
+
         return 0;
     }
 

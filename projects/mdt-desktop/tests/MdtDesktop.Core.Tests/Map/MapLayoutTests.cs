@@ -89,7 +89,7 @@ public class MapLayoutTests
     public async Task The_label_names_the_enemy_and_clone_a_route_would_refer_to()
     {
         var blips = MapLayout.Build(await FixtureDungeonAsync(), 1).ToDictionary(b => b.Key);
-        Assert.Equal("Sparse Mob [1.3] — 42 forces", blips[(1, 3)].Label);
-        Assert.Equal("Test Boss [3.1] — 0 forces (boss)", blips[(3, 1)].Label);
+        Assert.Equal("Sparse Mob [1.3] — 42 forces", blips[(1, 3)].Describe());
+        Assert.Equal("Test Boss [3.1] — 0 forces (boss)", blips[(3, 1)].Describe());
     }
 }

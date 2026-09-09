@@ -3,8 +3,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:MdtDesktop.Core.Map;assembly=MdtDesktop.Core"
              mc:Ignorable="d"
              d:DesignHeight="560" d:DesignWidth="840">
+
+    <UserControl.Resources>
+        <!-- ⚠ Declared first: StaticResource resolves in parse order, so a converter used by a
+             template below has to exist above it. -->
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+        <!-- The tooltip's look lives here and its CONTENT lives in Core.MobTooltip — the same
+             seam MapPalette and RouteOverlay already establish. A blip's ToolTip is set to the
+             data object, never to a control: 462 pre-built tooltip visual trees would be paid
+             for at load, while a template is materialised lazily, on hover, once. -->
+        <Style TargetType="ToolTip">
+            <Setter Property="Background" Value="#1A1D21" />
+            <Setter Property="BorderBrush" Value="#33383D" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="#D6DBE0" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="HasDropShadow" Value="True" />
+        </Style>
+
+        <!-- A note's tooltip. Its own template rather than a second tooltip mechanism: the
+             ToolTip style above applies to it for free, which is exactly why that style was put
+             on the type rather than on an instance. -->
+        <DataTemplate DataType="{x:Type core:NoteTooltip}">
+            <StackPanel MaxWidth="360">
+                <TextBlock Text="{Binding Heading}" FontWeight="Bold" FontSize="14"
+                           Foreground="#F2F5F8" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Body}" Foreground="#D6DBE0" FontSize="12"
+                           TextWrapping="Wrap" Margin="0,4,0,0"
+                           Visibility="{Binding HasBody, Converter={StaticResource BoolToVisibility}}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type core:MobTooltip}">
+            <StackPanel MaxWidth="320" Grid.IsSharedSizeScope="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="14"
+                               Foreground="#F2F5F8" TextWrapping="Wrap" />
+                    <TextBlock Grid.Column="1" Text="{Binding RoleLabel}" Margin="12,0,0,0"
+                               FontSize="10" FontWeight="SemiBold" Foreground="#9AA3AC"
+                               VerticalAlignment="Center" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Subtitle}" Foreground="#9AA3AC" FontSize="11"
+                               TextWrapping="Wrap" />
+                    <!-- ⚠ The one thing here that changes without the mob changing, so it is the
+                         one bound property rather than baked into a row at build time. -->
+                    <TextBlock Grid.Column="1" Text="{Binding Pull}" Margin="12,0,0,0"
+                               FontSize="11" Foreground="#E0C878" VerticalAlignment="Center" />
+                </Grid>
+
+                <ItemsControl ItemsSource="{Binding Sections}" Margin="0,2,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Rectangle Height="1" Fill="#2A2F34" Margin="0,6,0,5" />
+                                <ItemsControl ItemsSource="{Binding Rows}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"
+                                                                      SharedSizeGroup="TooltipLabel" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding Label}" Foreground="#9AA3AC"
+                                                           FontSize="11" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Value}"
+                                                           Margin="10,0,0,0" FontSize="11"
+                                                           Foreground="#D6DBE0" TextWrapping="Wrap" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
 
     <!-- The viewport clips; everything inside it moves under one transform pair, so pan and
          zoom never touch a single blip's own coordinates. -->
@@ -39,11 +129,22 @@
                  line over a 7.8-unit blip would cover the thing it is enclosing. -->
             <Canvas x:Name="Hulls" IsHitTestVisible="False" />
 
+            <!-- The author's strokes, under the hulls so a pull outline is never buried. ⚠ This
+                 is a divergence from MDT, which draws objects above everything; the same
+                 reasoning applies as for the hulls, and it is one line to flip if the rendered
+                 map disagrees. ⚠ Never hit-testable: a brush-size-5 stroke would otherwise steal
+                 hover from every blip beneath it and silently break the mob tooltips. -->
+            <Canvas x:Name="Drawings" IsHitTestVisible="False" />
+
             <Canvas x:Name="Blips" />
 
             <!-- Pull numbers on top of everything, because a number behind a boss blip is not
                  a label. -->
             <Canvas x:Name="PullLabels" IsHitTestVisible="False" />
+
+            <!-- Note pins above even those: a pin's whole job is to be the thing you point at,
+                 so it is the one annotation layer that takes hover. -->
+            <Canvas x:Name="NotePins" />
         </Grid>
     </Border>
 </UserControl>

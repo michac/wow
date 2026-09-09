@@ -233,4 +233,202 @@ public class RouteOverlayTests
             expected.Select(f => (f.PullNumber, f.Forces, f.Cumulative, f.MobCount, f.DungeonTotal)),
             actual.Select(f => (f.PullNumber, f.Forces, f.Cumulative, f.MobCount, f.DungeonTotal)));
     }
+
+    // ---- annotations -----------------------------------------------------------------------
+
+    private static RouteObject Note(
+        int index, double x, double y, int? subLevel = 1, bool shown = true, string text = "note")
+        => new()
+        {
+            Index = index,
+            Kind = RouteObjectKind.Note,
+            SubLevel = subLevel,
+            Shown = shown,
+            Position = new MapPoint(x, y),
+            Text = text,
+        };
+
+    private static RouteObject Drawing(int index, params (double X1, double Y1, double X2, double Y2)[] segments)
+        => new()
+        {
+            Index = index,
+            Kind = RouteObjectKind.Polyline,
+            SubLevel = 1,
+            Shown = true,
+            Color = "ff3eff",
+            Segments = [.. segments.Select(s =>
+                new RouteSegment(new MapPoint(s.X1, s.Y1), new MapPoint(s.X2, s.Y2)))],
+        };
+
+    private static async Task<RouteOverlayResult> OverlayOf(
+        IEnumerable<RouteObject> objects, int subLevel = 1)
+        => RouteOverlay.Build(
+            new Route { DungeonIndex = 4242, Objects = [.. objects] },
+            await FixtureDungeonAsync(), subLevel, currentPull: 1);
+
+    /// <summary>
+    /// ⚠ The divergence from clones, and the reason <see cref="MapGeometry.IsVisibleOn"/> is not
+    /// reused: MDT tests <c>obj.d[3] == currentSublevel</c> (<c>PresetObjects.lua:177</c>), so an
+    /// object naming no sublevel matches nothing — where a clone naming none shows everywhere.
+    /// </summary>
+    [Fact]
+    public async Task An_annotation_with_no_sublevel_is_drawn_nowhere_unlike_a_clone_with_none()
+    {
+        var overlay = await OverlayOf([Note(1, 100, -100, subLevel: null)]);
+
+        Assert.Empty(overlay.Annotations);
+    }
+
+    [Fact]
+    public async Task An_annotation_on_another_sublevel_or_hidden_is_not_drawn()
+    {
+        var overlay = await OverlayOf(
+        [
+            Note(1, 100, -100, subLevel: 2),
+            Note(2, 200, -200, shown: false),
+            Note(3, 300, -300),
+        ]);
+
+        var drawn = Assert.Single(overlay.Annotations);
+        Assert.Equal(3, drawn.Number);
+        Assert.Equal(300, drawn.Position.X);
+    }
+
+    /// <summary>
+    /// ⚠ Numbered across the whole route, not within the drawn subset — so a pin, its row in the
+    /// notes list and <c>route decode --notes</c> cannot disagree about which note is note 3.
+    /// </summary>
+    [Fact]
+    public async Task Notes_are_numbered_across_the_whole_route_so_a_filtered_one_still_spends_its_number()
+    {
+        var overlay = await OverlayOf(
+        [
+            Note(1, 10, -10),
+            Note(2, 20, -20, subLevel: 2),      // not drawn here, but still note 2
+            Note(3, 30, -30),
+        ]);
+
+        Assert.Equal([1, 3], overlay.Notes.Select(n => n.Number));
+    }
+
+    [Fact]
+    public async Task A_drawing_gets_no_note_number()
+    {
+        var overlay = await OverlayOf([Drawing(1, (0, 0, 10, -10))]);
+
+        Assert.Equal(0, Assert.Single(overlay.Annotations).Number);
+    }
+
+    /// <summary>y is flipped exactly as it is for a blip; x passes straight through.</summary>
+    [Fact]
+    public async Task An_annotation_is_transformed_into_canvas_space()
+    {
+        var overlay = await OverlayOf([Note(1, 686.1, -459.4)]);
+
+        var (x, y) = MapGeometry.ToCanvas(686.1, -459.4);
+        Assert.Equal(x, Assert.Single(overlay.Annotations).Position.X, 6);
+        Assert.Equal(y, Assert.Single(overlay.Annotations).Position.Y, 6);
+    }
+
+    /// <summary>
+    /// ⚠ <c>l</c> is a list of segments, so contiguity is a fact about the data rather than a
+    /// guarantee of the format. A run that chains becomes one round-joined figure; a break stays
+    /// a break, because MDT draws it as one.
+    /// </summary>
+    [Fact]
+    public async Task Chained_segments_coalesce_into_one_figure_and_a_break_starts_another()
+    {
+        var overlay = await OverlayOf([Drawing(1,
+            (0, 0, 10, -10),
+            (10, -10, 20, -20),     // chains onto the first
+            (50, -50, 60, -60))]);  // a deliberate break
+
+        var figures = Assert.Single(overlay.Annotations).Figures;
+
+        Assert.Equal(2, figures.Count);
+        Assert.Equal(3, figures[0].Count);   // three points, not two segments
+        Assert.Equal(2, figures[1].Count);
+    }
+
+    /// <summary>MDT's own factor. <c>lineFactor</c> is deliberately not in it.</summary>
+    [Fact]
+    public async Task Stroke_thickness_is_MDTs_brush_size_times_its_own_factor()
+    {
+        var overlay = await OverlayOf([Drawing(1, (0, 0, 10, -10)) with { BrushSize = 9 }]);
+
+        Assert.Equal(
+            9 * RouteOverlay.LineThicknessFactor, Assert.Single(overlay.Annotations).Thickness);
+    }
+
+    /// <summary>An unreadable colour becomes white, as MDT rewrites it (<c>PresetObjects.lua:185-189</c>).</summary>
+    [Fact]
+    public async Task A_junk_colour_falls_back_to_white_rather_than_reaching_a_draw_loop()
+    {
+        var drawing = Drawing(1, (0, 0, 10, -10)) with { Color = "not a colour" };
+        var overlay = await OverlayOf([drawing]);
+
+        Assert.Equal("ffffff", Assert.Single(overlay.Annotations).Color);
+    }
+
+    [Fact]
+    public async Task Draw_layer_orders_annotations_and_wire_order_breaks_the_tie()
+    {
+        var overlay = await OverlayOf(
+        [
+            Note(1, 10, -10) with { DrawLayer = 3 },
+            Note(2, 20, -20) with { DrawLayer = -8 },
+            Note(3, 30, -30) with { DrawLayer = -8 },
+        ]);
+
+        Assert.Equal([2, 3, 1], overlay.Annotations.Select(a => a.Number));
+    }
+
+    /// <summary>
+    /// MDT stores <c>atan2(starty - y, startx - x)</c> and adds π when drawing; WoW rotates
+    /// counter-clockwise in radians and WPF clockwise in degrees. Three conventions, so the
+    /// conversion is arithmetic in <c>Core</c> rather than a guess in a draw loop.
+    /// </summary>
+    [Theory]
+    [InlineData(0, 180)]
+    [InlineData(Math.PI, 0)]
+    [InlineData(-Math.PI / 2, 270)]
+    [InlineData(Math.PI / 2, 90)]
+    public void An_arrows_stored_rotation_becomes_clockwise_degrees(double stored, double expected)
+        => Assert.Equal(expected, RouteOverlay.HeadAngle(stored), 6);
+
+    [Fact]
+    public async Task An_arrow_carries_its_converted_angle_and_a_drawing_carries_none()
+    {
+        var arrow = Drawing(1, (0, 0, 10, -10)) with
+        {
+            Kind = RouteObjectKind.Arrow, HeadRotation = 0,
+        };
+
+        var overlay = await OverlayOf([arrow, Drawing(2, (0, 0, 5, -5))]);
+
+        Assert.Equal(180, overlay.Annotations[0].HeadAngleDegrees!.Value, 6);
+        Assert.Null(overlay.Annotations[1].HeadAngleDegrees);
+    }
+
+    /// <summary>The panel splits a note into a heading and a body; a one-line note has no body.</summary>
+    [Fact]
+    public async Task A_notes_first_line_is_its_title_and_the_rest_is_its_body()
+    {
+        var overlay = await OverlayOf(
+        [
+            Note(1, 10, -10, text: "GOLDEN SERPENT — STACK THE GOLD\nDrop Spit Gold pools together."),
+            Note(2, 20, -20, text: "A strong team can chain pull 10 and 11"),
+        ]);
+
+        Assert.Equal("GOLDEN SERPENT — STACK THE GOLD", overlay.Annotations[0].Title);
+        Assert.Equal("Drop Spit Gold pools together.", overlay.Annotations[0].Body);
+
+        Assert.Equal("A strong team can chain pull 10 and 11", overlay.Annotations[1].Title);
+        Assert.Equal("", overlay.Annotations[1].Body);
+    }
+
+    /// <summary>The common case: a route with no annotations gets an empty list, not a null.</summary>
+    [Fact]
+    public async Task A_route_with_no_annotations_has_an_empty_annotation_list()
+        => Assert.Empty((await OverlayOf([])).Annotations);
 }

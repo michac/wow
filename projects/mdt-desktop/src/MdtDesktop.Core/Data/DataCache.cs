@@ -88,8 +88,14 @@ public sealed record CacheStamp(
     /// spell list — so every mob classifies as melee, the caster count reads zero, and nothing
     /// anywhere says why. Refusing the old cache turns that into the message every call site
     /// already handles: "run `mdtdesk data update` first".
+    /// <para>
+    /// Version 3 added <c>seasons</c>, and it is the same failure again: a version-2 cache
+    /// deserializes with <c>Seasons</c> empty, so every dungeon falls into the synthetic "Other"
+    /// group and the season picker reads as though MDT stopped shipping seasons. A widening is
+    /// exactly the change that degrades silently, which is why every one of them bumps this.
+    /// </para>
     /// </remarks>
-    public const int CurrentSchemaVersion = 2;
+    public const int CurrentSchemaVersion = 3;
 
     /// <summary>Whether this stamp describes a cache the current code can read.</summary>
     public bool IsCurrentSchema => SchemaVersion == CurrentSchemaVersion;

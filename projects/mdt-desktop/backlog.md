@@ -10,8 +10,8 @@ accumulate in the status block; it says what IS, not what happened.
 ## Status
 
 **It records what is BUILT.** Right now that is the whole app — sidecar, dungeon data, route
-decoding, the map, pulls with a global hotkey, and role colouring — with **nothing yet seen on a
-screen** (2026-09-05). Everything below is verified headlessly; what is not, and cannot be, is
+decoding, the map, pulls with a global hotkey, role colouring, and the route's own annotations —
+with **nothing yet seen on a screen** (2026-09-05). Everything below is verified headlessly; what is not, and cannot be, is
 listed under *Outstanding: only the author can close these*.
 
 - **The solution is four projects** — `Core` (net10.0, no UI), `Cli` (`mdtdesk`), `App`
@@ -61,6 +61,30 @@ listed under *Outstanding: only the author can close these*.
   *dungeon re-mapped since import*, loudly and wrongly. The real library route still read `ok`
   across the change, and `Editing_a_mobs_spell_list_does_not_move_the_fingerprint` keeps it that
   way.
+- **The dungeon picker is grouped by season, and the grouping is MDT's own** (2026-09-06).
+  `Modules/DungeonSelect.lua` is loaded by the sidecar behind three stubbed globals (`tinsert`,
+  `LibStub`, `MDT:IsRetail()`) and emits `seasons` — so a season rotation upstream needs no edit
+  here, the same principle `load_midnight.xml` already establishes. On 6.2.15 that is **two
+  seasons of eight**, Season 2 first, in MDT's order and never re-sorted.
+  `DungeonData.SeasonsWithOrphans()` appends a synthetic trailing group for any cached dungeon no
+  season names, so a dungeon MDT ships but does not file stays reachable; with nothing declared
+  the one group is the flat list the picker used to be. **Schema 3**, because a schema-2 cache
+  would have deserialized with `Seasons` empty and read as though MDT had stopped shipping them.
+- **A route survives switching dungeons, and that was a real bug** (2026-09-06). `ShowMap`
+  cleared the route without touching the picker, so the toolbar went on displaying a route that
+  was no longer loaded — and re-picking it raised no `SelectionChanged`, because it was already
+  the selected item. Two changes: the picker is **filtered to the selected dungeon** and led by an
+  explicit **"— no route —"** sentinel, which is what makes "no route" an expressible selection;
+  and the decision moved into `Core.Library.RouteSelection.Choose` (pending id → the route last
+  used for this dungeon → none) and is called **directly**, not as a side effect of an event WPF
+  may or may not raise. `AppSettings.LastRouteId` became `LastRouteByDungeon`, with the legacy id
+  migrated on load so the first launch after the change does not forget the open route.
+- **Blips carry a structured tooltip and a tactical ring** (2026-09-06). `Core.Map.MobTooltip` is
+  the content and `MapView.xaml` the look; a blip's `ToolTip` is the **data object**, so 462
+  tooltip visual trees are not built at load. `MapPalette.Ring` adds the third channel — fill is
+  spent under a route, so a ring carries interrupt / enrage / crowd-control, dashed when a mob
+  carries more than one. **295 of 462 enemies wear none**, which is what keeps it readable;
+  `mdtdesk roles` prints the whole census.
 - **`mdtdesk data update [--force]` / `data list` / `data show <idx>`** are the headless door
   onto all of it. The cache root resolves through `SpecialFolder.LocalApplicationData`, so it
   is `%LOCALAPPDATA%\MdtDesktop\` on Windows and `~/.local/share/MdtDesktop/` under WSL.
@@ -130,7 +154,7 @@ listed under *Outstanding: only the author can close these*.
   in none wears its role's, which is MDT's own behaviour. Dispel/soothe flags and stealth ride as
   badge letters, never as fill.
 - **`mdtdesk roles [<idx>]` and `mdtdesk pulls <str>|-|<id>` are how all of that is checked
-  without Windows.** `roles` prints the census, the trash median, and every miniboss by name with
+  without Windows.** `roles` prints the census, the trash median, the tactical-ring split, and every miniboss by name with
   its health multiple — so the invented rule can be argued with from a terminal. `pulls` prints
   per-pull colour, alpha, hull size, centroid and cumulative forces, asserts that no mob is in two
   pulls and that no hull overhangs the canvas, and `--plot` draws each pull's number where its
@@ -167,13 +191,28 @@ listed under *Outstanding: only the author can close these*.
   rewrites the desktop shortcut, resolving Desktop through Windows because OneDrive redirects it
   here. `assets/icon.ico` carries six sizes each drawn at its own geometry, and the `.csproj`
   stamps it into the `.exe`.
-- **222 tests.** The M0 sidecar and `json.lua` set, plus a fixture MDT release that pins the
+- **261 tests.** The M0 sidecar and `json.lua` set, plus a fixture MDT release that pins the
   stub contract: sparse clone indices, a per-clone `count` override, a patrol, flagged and
   unflagged spells, the verbatim texture-folder tail, the legacy `dungeonMaps[0]` slot, per-type
   POI extras, the locale fallback, and byte-stable output. Route decoding is pinned against a real
   exported route plus synthetic strings for the shapes one route does not contain. Hull geometry,
   role classification, the palette, the route overlay, the hotkey parsing, the pull cursor and the
-  window-restore guard are all pure and all covered.
+  window-restore guard are all pure and all covered. The fixture also carries a
+  `Modules/DungeonSelect.lua` and two extra dungeons, which pin the season stub contract and the
+  synthetic-orphan group; `RouteSelection.Choose` pins the reported route bug directly.
+
+- **A route's annotations render** (2026-09-05). `preset.objects` — MDT's notes, freehand and
+  straight drawings, and arrows — is decoded off the preset **root** into `Route.Objects`,
+  resolved for one sublevel by `RouteOverlay` into `AnnotationOverlay`, and drawn by `MapView`
+  on two new canvases: strokes under the hulls, numbered note pins above everything. The route
+  panel gained a **Pulls / Notes (N)** tab pair, first-line-as-title, and clicking a row
+  highlights that pin. `route decode` gained an `objects` header line and a `--notes` door that
+  prints every note in full. Pinned by a real keystone.guru export committed as
+  `Routes/Fixtures/skandar-kings-rest.txt` — 18 objects, 16 notes and 2 drawings — plus synthetic
+  CBOR for the shapes it lacks: an arrow, a sparse `objects` map, a **sparse `d`**, integer
+  coordinates, a hidden object, a malformed object beside a good one, and an `l` that is not a
+  multiple of four. The wire facts, the traps and the two deliberate divergences from MDT are in
+  `README.md` § *Preset objects*. ⚠ **Nothing here has been seen on a screen.**
 
 ## Now
 
@@ -211,6 +250,38 @@ one wants the app open, most want MDT or WoW open beside it.
   expects is not.
 - **Does advancing a pull feel instant?** It recolours rather than rebuilds for that reason, but
   156 blips on Altar of Fangs is the real test.
+- **Do the tactical rings separate?** ⚠ The one number to argue with is the enrage amber
+  `e8892b` against the miniboss fill `c2703c`. They are adjacent hues in **different positions**
+  (ring vs fill), which should separate — but that is a claim only a rendered map settles, and it
+  sits beside the "are the four role colours distinguishable at 7.8 map units" question above.
+  Also: a ring against an arbitrary user-chosen **pull** colour, whether a dashed ring reads as
+  dashed at trash size, and whether advancing a pull dims ring, disc, label and badges together.
+- **Do the 16 note pins crowd the map?** The closest two in the King's Rest route are 38.2
+  canvas units apart against a 12-unit pin, so *this* route should be clear — a denser route is
+  the real test. ⚠ If they do crowd it, the fix is a **show/hide toggle**, which was considered
+  and deliberately not built: a toolbar checkbox is unreachable in kiosk mode, which is exactly
+  when the second monitor is in use, and a hotkey plus an `AppSettings` field is real surface for
+  a problem nobody has reported. Build it informed by seeing it.
+- **Do the pins land where keystone.guru puts its `!` markers?** The same route open in a browser
+  beside the app is the direct comparison, and it is the one that proves the coordinate reading
+  end to end.
+- **Do the two drawings render as strokes rather than as a scribble?** Specifically: did
+  coalescing contiguous segments into one figure introduce a segment MDT does not draw. The
+  fixture proves both strokes are contiguous; only the screen proves they *look* like strokes.
+- **⚠ Does the arrowhead point along the arrow?** The stored rotation → clockwise-degrees
+  conversion is arithmetic and tested, but our triangle's baseline orientation is ours to choose,
+  so which way it ends up pointing is a guess until seen — the same y-flip mirror risk already
+  recorded for the hulls. **No arrow exists in the King's Rest route**, so this needs a synthetic
+  one or another route.
+- **Is the notes tab readable at 290px**, and does the first-line-as-title split hold up? 12 of
+  the 16 real notes open with an em-dash heading, which is what the split was designed around.
+- **Is the tooltip readable at the zoom you actually play at**, and does hovering 462 blips in
+  sequence stay instant? The lazy-template claim is the thing being checked — the data object is
+  built at load, the visual only on hover.
+- **Do the season → dungeon → route chains behave?** Pick S1, pick S2, confirm the dungeon list is
+  8 each time and the map follows; then load a route, switch dungeons, switch back and confirm the
+  route is on the map without touching the route dropdown; then relaunch and confirm it is still
+  there.
 
 ### Tune the miniboss rule
 
@@ -244,16 +315,17 @@ medians span 0.7M to 3.4M and are defensible on their own terms, but they leave 
 dungeons with no minibosses at all, which reads as a broken feature rather than as a dungeon that
 happens not to have one. Revisit only with the map open.
 
-### The rich tooltip
+### What the tooltip still does not carry
 
-Deferred out of M5 on purpose and still deferred: basic function first. A blip carries a working
-tooltip today — name, role, forces, health, the enemy/clone index, whether it has an interruptible
-cast, its dispel flags, and stealth. What it does not carry is the CC-susceptibility table
-(**81/462** enemies: `Taunt` 79, `Stun` 37, `Slow` 37, `Disorient` 34, `Fear` 30, `Root` 30,
-`Silence` 29), the spell list itself, or a click through to `wowhead.com/npc=<id>` — the NPC id is
-in hand, so that costs nothing to host.
+Two things were left out of the tooltip on purpose when it was built, and both still are.
 
-Worth doing once the map reads correctly, and not before.
+- **The spell list.** ⚠ MDT ships spell **ids** with no names (`[1289416] = {}`), so a row would
+  read `1289416  interruptible, poison` — which is not worth the space it costs. It needs a name
+  source: the client's `GetSpellInfo`, which this app deliberately cannot reach, or a fetched
+  spell-name table, which is a network dependency the app currently does not have.
+- **A click through to `wowhead.com/npc=<id>`.** The NPC id is in hand and already on the
+  identity line, so this costs nothing to host — it is parked only because a second-monitor
+  viewer opening a browser is a behaviour to decide on rather than assume.
 
 ## Later
 

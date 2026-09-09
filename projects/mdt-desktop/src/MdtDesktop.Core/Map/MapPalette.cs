@@ -99,4 +99,77 @@ public static class MapPalette
         if (enemy.Stealth) badges += "s";
         return badges;
     }
+
+    // ---- the tactical ring -----------------------------------------------------------------
+
+    /// <summary>Interrupt — a kickable cast. The most mandatory and the most time-critical.</summary>
+    public const string RingInterrupt = "e34b3f";
+
+    /// <summary>Enrage — soothe it. ⚠ Adjacent in hue to <see cref="Miniboss"/>; see the docs.</summary>
+    public const string RingEnrage = "e8892b";
+
+    /// <summary>Crowd control — the mob can be stunned, feared, rooted, silenced, slowed.</summary>
+    public const string RingCrowdControl = "3fb8a5";
+
+    /// <summary>
+    /// The one <c>characteristics</c> entry that earns no ring.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ Excluded deliberately. It sits on 79 enemies, only 16 of them bosses, so it is not a
+    /// boss proxy — but it is not a crowd control that changes how a pull is planned either. It
+    /// stays in the tooltip's CC row and out of the ring.
+    /// </remarks>
+    public const string TauntCharacteristic = "Taunt";
+
+    /// <summary>
+    /// A ring around the disc saying what you have to <i>do</i> about the mob, or null for the
+    /// 295 that need nothing.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// ⚠ This channel exists because <b>fill is spent</b>: under a route a blip wears its pull's
+    /// colour, so the role colour is gone exactly when the map is most in use. A ring is the one
+    /// channel left that a pull colour cannot overwrite.
+    /// </para>
+    /// <para>
+    /// Measured across all 16 cached dungeons on MDT 6.2.13: 295 of 462 enemies wear no ring,
+    /// 111 interrupt, 31 enrage, 49 crowd control. <b>That majority is the point</b> — a ring on
+    /// everything is a ring on nothing.
+    /// </para>
+    /// <para>
+    /// Precedence is interrupt → enrage → CC, in the order of how mandatory and how
+    /// time-critical the press is. 24 enemies carry two axes and none carries three; those get a
+    /// <see cref="RingCue.Dashed"/> ring in the winning colour, which is honest about there
+    /// being more without inventing a second channel. The tooltip carries the full picture.
+    /// </para>
+    /// </remarks>
+    public static RingCue? Ring(Enemy enemy)
+    {
+        var interrupt = enemy.HasInterruptibleSpell;
+        var enrage = enemy.Spells.Any(s => s.Enrage);
+        var crowdControl = HasCrowdControl(enemy);
+
+        var axes = new List<string>(3);
+        if (interrupt) axes.Add("interrupt");
+        if (enrage) axes.Add("enrage");
+        if (crowdControl) axes.Add("crowd control");
+
+        if (axes.Count == 0) return null;
+
+        var color = interrupt ? RingInterrupt : enrage ? RingEnrage : RingCrowdControl;
+        return new RingCue(color, axes.Count > 1, string.Join(" + ", axes));
+    }
+
+    /// <summary>Whether the mob is susceptible to anything worth planning a pull around.</summary>
+    public static bool HasCrowdControl(Enemy enemy)
+        => enemy.Characteristics.Any(
+            c => !string.Equals(c, TauntCharacteristic, StringComparison.OrdinalIgnoreCase));
 }
+
+/// <summary>
+/// The ring one mob wears: its colour, whether it is dashed, and why.
+/// </summary>
+/// <param name="Color">Six hex digits — the winning axis's colour.</param>
+/// <param name="Dashed">True when the mob carries more than one axis, so the ring says so.</param>
+/// <param name="Reason">Every axis that matched, in precedence order, for the CLI and the tests.</param>
+public sealed record RingCue(string Color, bool Dashed, string Reason);

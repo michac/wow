@@ -52,6 +52,11 @@ leaving every enemy with an empty spell list, so every mob classifies as melee a
 count reads zero with nothing anywhere saying why. Refusing it turns that into the message
 every call site already handles: *run `mdtdesk data update` first*.
 
+Schema **3** added `seasons`, and it bumped for the same reason: a widening is exactly the kind
+of change that degrades silently. A schema-2 cache deserializes with `Seasons` empty, so every
+dungeon falls into the synthetic *Other* group and the season picker reads as though MDT had
+stopped shipping seasons. Every widening bumps this.
+
 ⚠ That root is resolved through `Environment.SpecialFolder.LocalApplicationData`, never a
 literal `%LOCALAPPDATA%` — on Windows the two agree, but the literal form does not exist under
 WSL, which is where the whole update path is actually developed and run.
@@ -142,6 +147,41 @@ hypothetical: **6.2.13 deleted clone 12 of The Blinding Vale's Radiant Spellsowe
 that enemy at 1–11, 13–15. So every collection crosses as an array of objects carrying their
 own `index`, and the C# side keys its dictionaries on that. Position is never identity.
 
+### Seasons
+
+**MDT groups the dungeons into seasons itself and we read that grouping rather than list it.**
+`Modules/DungeonSelect.lua` in the release zip:
+
+```lua
+tinsert(MDT.seasonList, L["Midnight Season 2"])
+tinsert(MDT.dungeonSelectionToIndex, { 160, 161, 162, 163, 164, 42, 20, 17 })
+tinsert(MDT.seasonList, L["Midnight Season 1"])
+tinsert(MDT.dungeonSelectionToIndex, { 45, 11, 150, 151, 152, 153, 154, 155 })
+```
+
+So a season rotation upstream needs **no edit here** — the same principle `load_midnight.xml`
+already establishes as the load order of record. The order is MDT's own (Season 2 first) and is
+never re-sorted, so our dropdown and its dropdown read the same way round.
+
+Loading that file needs exactly **three** stubs beyond the `MDT` table the data files need, and
+they were measured against a live release rather than guessed:
+
+- `tinsert = table.insert` — a WoW client global, absent from stock Lua 5.4.
+- `LibStub = function() return {} end` — line 2 calls it and only stores the result.
+- `MDT:IsRetail()` answering true — it gates the whole `do…end` block.
+
+Everything else in the file is function definitions that do not run at load. It is loaded after
+the locale (so `L["Midnight Season 2"]` resolves) and after the Midnight data files.
+
+⚠ A release shipping no `Modules/DungeonSelect.lua` — non-retail, or reshaped — **still
+extracts**, with no seasons. And `DungeonData.SeasonsWithOrphans()` appends a synthetic trailing
+group holding every cached dungeon no season names, emitted only when it is non-empty. That is
+the safety valve: a dungeon MDT ships but does not file must stay reachable, and with nothing
+declared at all the one synthetic group is the flat list the picker used to be. ⚠ A dungeon may
+be in **several** seasons — MDT wrote the mechanism to allow it (`DungeonSelect.lua:8`), though
+none is today — which is why the app resolves its startup dungeon first and uses the remembered
+season only to disambiguate.
+
 ### The interpreter is committed
 
 `lua/lua54.exe` + `lua/lua54.dll` — **Lua 5.4.2, win-x64**, from the LuaBinaries project
@@ -217,6 +257,127 @@ The one dependency this costs is **`System.Formats.Cbor`**, a first-party Micros
 that ships out of band rather than in the shared framework. Base64 and Deflate genuinely are
 in-box; CBOR is not, and hand-rolling a binary-format reader to avoid one Microsoft package
 would be a poor trade.
+
+### Preset objects — the author's notes and drawings
+
+A route string carries more than a pull order. `preset.objects` is a **sibling of `text` / `uid`
+/ `difficulty` on the preset ROOT** — ⚠ *not* under `preset.value`, where `pulls` lives — and it
+holds the annotations the author drew over the map. For a real keystone.guru-exported King's Rest
+route (*Skandar Tank — King's Rest (+10 to +15)*, `uid` `eMIO4TPxxKG`), that is **16 notes and 2
+drawings**, notes of 54–357 characters each — *"GOLDEN SERPENT — STACK THE GOLD / Drop Spit Gold
+pools together near one edge…"*. It is most of what makes that route a **tank guide** rather than
+a pull order, and the viewer used to drop all of it on the floor.
+
+MDT's own schema comment (`Modules/PresetObjects.lua:174-175`) is the whole format:
+
+```
+--d: size,lineFactor,sublevel,shown,colorstring,drawLayer,[smooth]
+--l: x1,y1,x2,y2,...
+```
+
+Four creating tools (`Modules/Toolbar.lua:177-207` — pencil, line, arrow, note) produce **three**
+stored shapes. Pencil and line are indistinguishable on the wire.
+
+| Kind | Discriminator | Fields |
+|---|---|---|
+| **Note** | `n = true` | `d` = x, y, sublevel, shown, **text**. No `l`. |
+| **Polyline** | `l`, no `t` | `l` = the segments; `d` as above |
+| **Arrow** | `t` present | as polyline, **`t[1]` = head rotation in radians** |
+
+#### ⚠ `l` is a list of SEGMENTS, not a polyline
+
+The single trap most likely to produce a wrong picture. `Toolbar.lua:585-588,640-644` append
+**four** numbers per stroke segment (`oldx, oldy, x, y`), and the draw loop
+(`PresetObjects.lua:194-219`) consumes four at a time and **resets all four to nil** after each.
+So `l` = `x1,y1,x2,y2, x3,y3,x4,y4, …` is segment (1→2) and segment (3→4) — the endpoint shared
+between consecutive segments appears **twice**.
+
+In the real route both drawings are contiguous (24 and 16 values → 6 and 4 segments, every
+segment's end equal to the next one's start), so a pencil stroke *is* a stroke in practice. But
+the format does not guarantee it and MDT draws disjoint groups disjoint, so `RouteObject` stores
+segments and `RouteOverlay` coalesces contiguous runs into figures. Reading `l` as a plain
+polyline would invent segments MDT does not draw.
+
+#### ⚠ Coordinates and colours cross as strings
+
+`d` is a genuinely **mixed** array. Measured on the real route:
+
+```
+NOTE d : str('686.1')  str('-459.4')  int(1)  bool(True)  str('OPENING — PURGE…')
+LINE d : int(5) int(1) int(1) bool(True) str('ffffff') int(-8) bool(True)
+LINE l : str('734.2')  str('-389.5')  str('718.9')  str('-394.9')
+```
+
+Every coordinate and the colour hex are strings; sublevel, size, lineFactor and drawLayer are
+ints; shown and smooth are bools. So `CborTree.AsDouble` parses **invariant** — under a
+comma-decimal culture an ambient parse reads `686.1` as `6861` and puts the pin eight canvas
+widths off the map, with nothing thrown. `AsInt` was made invariant at the same time, for the
+same reason.
+
+#### ⚠ `d` can arrive sparse, and the hole is load-bearing
+
+`Toolbar.lua:542-543` builds a drawing's `d` as `{ size, 1.1, sublevel, true, colorstring, nil,
+true }` — a literal `nil` at index 6 — and a Lua table with a hole serialises as an integer-keyed
+map rather than an array. Both container shapes have to be read, and **by key**: collapsing that
+hole into a dense list slides `smooth` (index 7) into `drawLayer`'s slot, so `drawLayer` reads a
+boolean and `smooth` reads nothing, silently. `objects` itself goes sparse the same way whenever
+a user erases a drawing, which makes the map shape the likely case rather than the exotic one.
+
+#### ⚠ Sublevel semantics are the OPPOSITE of a clone's
+
+MDT draws an object only `if obj.d[3] == currentSublevel and obj.d[4]` (`:177`) — an **equality**
+test, so a **missing** sublevel means **not drawn**. `Clone.SubLevel == null` is MDT's own "show
+everywhere" (`MapGeometry.IsVisibleOn`), which is why that predicate must not be reused here. The
+two look identical and mean opposite things.
+
+#### Coordinates, and what is deliberately ignored
+
+Objects live in the **same unscaled canvas space as clones and POIs**: they are stored divided by
+`MDT:GetScale()` and drawn multiplied by it, and `GetScale()` is `db.scale`, a pure UI zoom
+preference (`MainFrame.lua:229`) — the identical treatment `mapPOIs` gets
+(`Pointsofinterest.lua:54-58`). So `MapGeometry.ToCanvas` applies directly, with no new
+arithmetic. The measured note range is x 102.9…750.6, y −544.6…−129.5, inside the documented
+clone+POI extremes.
+
+Stroke width is `d[1] * 0.3`, MDT's own factor (`PresetObjects.lua:211`), and the arrow head is
+drawn at the **last** point at size `d[1] * 1.0` (`:221-225`). **`lineFactor` (`d[2]`) is
+deliberately ignored**: it exists to overlap WoW's square line textures so they do not gap at a
+joint, and a WPF `Path` with round joins has no such gap. `smooth` (`d[7]`) makes MDT draw
+circles at every joint — which *is* round joins and caps, drawn the long way because a WoW
+texture has no cap setting. A colour MDT cannot parse it rewrites to white (`:185-189`); so do we,
+in `Core`, so junk never reaches a draw loop.
+
+#### Note numbering deviates from MDT, on purpose
+
+A note's number is **positional, not stored** — MDT numbers pins in draw order (`:582,587-588`),
+wrapping at 25 because that is how many numbered quest-pin icons its texture sheet has, which
+means its note 25 wears note 1's badge. We draw our own pin and have no such limit, so we do not
+wrap. Numbering runs across the **whole route** rather than the drawn subset, so a pin, its row
+in the notes list and `route decode --notes` cannot disagree about which note is note 3.
+
+#### Two things this settled about keystone.guru
+
+- **The `!` pins in keystone.guru's UI *are* MDT preset notes**, re-skinned. Its popup is the
+  decoded object verbatim.
+- **The long coloured arrowed lines in its UI are not.** Only the white strokes are in the
+  string; the coloured paths are keystone.guru's own layer and cannot be imported.
+
+This is **decode-only**. Nothing here writes a route string back, which is a decision rather than
+a gap: the viewer's job is to show somebody else's route, not to author one.
+
+#### Rendering
+
+Final z-order is `Tiles → Drawings → Hulls → Blips → PullLabels → NotePins`. Drawings sit under
+the hulls so a pull outline is never buried — ⚠ a divergence from MDT, which draws objects above
+everything, made for the reason already recorded for the hulls themselves; it is one line of XAML
+to flip if the rendered map disagrees. Note pins go on top because they are the one thing you
+point at, and they are the only annotation layer that takes hover: a brush-size-5 stroke that
+accepted hit-testing would steal hover from every blip beneath it and silently break the mob
+tooltips.
+
+⚠ **Annotations do not dim with the pull cursor.** They carry no pull association whatsoever, so
+fading them on a non-current pull would assert a relationship that is not in the data — the same
+reasoning already recorded for a mob in no pull.
 
 ### The wire still carries dead fields
 
@@ -408,6 +569,53 @@ five dispel types, a mob can carry several at once, and they are orthogonal to i
 colour says what a mob *is* and a row of letters says what can be done *to* it. `interruptible`
 is deliberately not among them: it *is* the caster role, and a badge would spend a slot restating
 the colour.
+
+### A third channel: the tactical ring
+
+⚠ **Fill is spent.** Under a route a blip wears its pull's colour, so the role colour — the thing
+that says what the mob *is* — is gone exactly when the map is most in use. A **ring around the
+disc** is the one channel a pull colour cannot overwrite, and it carries what you have to *do*
+about the mob.
+
+| Ring | Rule | Carried | Worn | Colour |
+|---|---|---|---|---|
+| *(none)* | none of the below | **295** | 295 | — |
+| **Interrupt** | any spell `interruptible` | 111 | 111 | red `e34b3f` |
+| **Enrage** | any spell `enrage` | 31 | 25 | amber `e8892b` |
+| **Crowd control** | a `characteristics` entry other than `Taunt` | 49 | 31 | teal `3fb8a5` |
+
+Measured across all 16 cached dungeons on MDT 6.2.15, not estimated; `mdtdesk roles` prints the
+table so it can be argued with from a terminal. **295 of 462 enemies wear no ring**, and that
+majority is the point — a ring on everything is a ring on nothing.
+
+*Carried* is how many mobs have the flag at all; *worn* is how many end up in that colour once
+precedence has run. Precedence is **interrupt → enrage → CC**, the order of how mandatory and how
+time-critical the press is. The two columns differ by exactly the **24** mobs carrying two axes
+(16 interrupt+CC, 6 interrupt+enrage, 2 enrage+CC; none carries three), and precedence alone
+would hide the second — so those get a **dashed** ring in the winning colour, which is cheap,
+honest about there being more, and backed by a tooltip that carries the full picture.
+
+⚠ **`Taunt` is excluded deliberately.** It sits on 79 enemies, only **16** of which are bosses,
+so it is not a boss proxy — but it is not a crowd control that changes how a pull is planned
+either. It stays in the tooltip's CC row and out of the ring.
+
+The ring is drawn *before* its disc so it can never cover the disc edge, it is not hit-testable
+so the disc keeps the tooltip, and it dims with the rest of a non-current pull — leaving it out
+of that sweep is the one way this feature could look broken rather than merely absent.
+
+### The tooltip
+
+`Core.Map.MobTooltip` owns the **content** and `MapView.xaml` owns the look, the same seam
+`MapPalette` and `RouteOverlay` already establish. A blip's `ToolTip` is set to that **data
+object, never a control**: 462 pre-built tooltip visual trees would be paid for at load, while a
+data object plus one `DataTemplate` is materialised lazily, on hover, once.
+
+It carries the name and role, the creature line, forces and health, the three tactical rows
+(interrupt count, dispel flags, CC susceptibility including `Taunt`), stealth, and the identity
+line `enemy N · clone M · npc <id>` — which is what a blip is cross-checked against MDT's own
+window with. A section with no rows is **omitted**, so a plain melee mob gets a short tooltip.
+Everything is built once except the pull, which changes without the mob changing and is the one
+notifying property, assigned in the overlay sweep that was already happening.
 
 ## The hotkey
 

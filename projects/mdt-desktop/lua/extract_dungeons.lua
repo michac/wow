@@ -92,6 +92,50 @@ for _, file in ipairs(files) do
 end
 
 --------------------------------------------------------------------------------
+-- Seasons
+--------------------------------------------------------------------------------
+
+-- MDT groups the dungeons into seasons itself, in Modules/DungeonSelect.lua, and that
+-- grouping is EXTRACTED rather than hand-listed here — a season rotation upstream then
+-- needs no edit on this side, the same principle load_midnight.xml already establishes
+-- for the load order.
+--
+-- The file needs exactly three things beyond the MDT stub, measured against a live
+-- release rather than guessed:
+--   * `tinsert`   — a WoW client global, absent from stock Lua 5.4.
+--   * `LibStub`   — line 2 calls it and only stores the result.
+--   * MDT:IsRetail() answering true — it gates the whole do…end block.
+-- Everything else in the file is function definitions that do not run at load.
+local function extract_seasons()
+  local path = join(root, 'Modules', 'DungeonSelect.lua')
+
+  -- A non-retail or reshaped release must still extract. No seasons is a valid answer;
+  -- failing to read the dungeons at all is not.
+  if not read_file(path) then return {} end
+
+  tinsert = table.insert
+  LibStub = function() return {} end
+  function MDT:IsRetail() return true end
+
+  MDT.seasonList = {}
+  MDT.dungeonSelectionToIndex = {}
+  load_chunk(path, MDT)
+
+  local seasons = {}
+  for order, name in ipairs(MDT.seasonList) do
+    -- Built densely so json.lua gives an array; MDT's own list already is one.
+    local dungeons = {}
+    for _, idx in ipairs(MDT.dungeonSelectionToIndex[order] or {}) do
+      dungeons[#dungeons + 1] = idx
+    end
+    seasons[#seasons + 1] = { order = order, name = name, dungeons = dungeons }
+  end
+  return seasons
+end
+
+local seasons = extract_seasons()
+
+--------------------------------------------------------------------------------
 -- Reshaping
 --------------------------------------------------------------------------------
 
@@ -284,5 +328,6 @@ local version = toc and toc:match('##%s*Version:%s*([^\r\n]+)')
 io.write(json.encode({
   addonVersion = version and version:gsub('%s+$', '') or nil,
   interfaceVersion = toc and toc:match('##%s*Interface:%s*(%d+)') or nil,
+  seasons = seasons,
   dungeons = dungeons,
 }))

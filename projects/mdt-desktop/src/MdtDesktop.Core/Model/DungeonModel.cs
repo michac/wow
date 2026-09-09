@@ -23,6 +23,16 @@ public sealed class DungeonData
 
     public IReadOnlyList<Dungeon> Dungeons { get; init; } = [];
 
+    /// <summary>
+    /// MDT's own season grouping, in its own declared order — Season 2 first, as its dropdown
+    /// shows it.
+    /// </summary>
+    /// <remarks>
+    /// Read out of <c>Modules/DungeonSelect.lua</c> rather than listed by hand, so a season
+    /// rotation upstream needs no edit here. Empty when the release does not ship that file.
+    /// </remarks>
+    public IReadOnlyList<Season> Seasons { get; init; } = [];
+
     private Dictionary<int, Dungeon>? _byIndex;
 
     /// <summary>Dungeons keyed by MDT's real dungeon index.</summary>
@@ -31,6 +41,60 @@ public sealed class DungeonData
         => _byIndex ??= Dungeons.ToDictionary(d => d.Index);
 
     public Dungeon? Find(int index) => ByIndex.GetValueOrDefault(index);
+
+    /// <summary>The name a synthetic trailing season carries. Not one of MDT's.</summary>
+    public const string OrphanSeasonName = "Other";
+
+    /// <summary>
+    /// <see cref="Seasons"/>, plus a trailing synthetic season holding every cached dungeon no
+    /// declared season names — emitted only when that group is non-empty.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ This is the safety valve, and it is the reason the picker can be driven off seasons at
+    /// all: a dungeon MDT ships but does not file must stay reachable. With no seasons declared
+    /// (an older or non-retail release) every dungeon lands in the one synthetic group, which is
+    /// the flat list the app had before.
+    /// </remarks>
+    public IReadOnlyList<Season> SeasonsWithOrphans()
+    {
+        var named = Seasons.SelectMany(s => s.Dungeons).ToHashSet();
+
+        // Cache order, which is MDT's own dungeon order — not re-sorted, for the same reason a
+        // season's own list is not.
+        var orphans = Dungeons.Select(d => d.Index).Where(i => !named.Contains(i)).ToList();
+
+        return orphans.Count == 0
+            ? Seasons
+            : [.. Seasons, new Season
+                {
+                    Order = Seasons.Count + 1,
+                    Name = OrphanSeasonName,
+                    Dungeons = orphans,
+                }];
+    }
+}
+
+/// <summary>One of MDT's dungeon groupings, as its own season dropdown lists them.</summary>
+public sealed class Season
+{
+    /// <summary>1-based position in MDT's list. Season 2 is first, which is its own ordering.</summary>
+    public int Order { get; init; }
+
+    public string? Name { get; init; }
+
+    /// <summary>
+    /// The dungeon indices in this season, in MDT's order — never re-sorted.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ A dungeon may be in more than one season: MDT wrote the whole selection mechanism to
+    /// allow it (<c>DungeonSelect.lua:8</c>), though none is today.
+    /// </remarks>
+    public IReadOnlyList<int> Dungeons { get; init; } = [];
+
+    [JsonIgnore]
+    public string DisplayName => Name ?? $"Season {Order}";
+
+    public override string ToString() => $"{Order} {DisplayName} ({Dungeons.Count} dungeons)";
 }
 
 public sealed class Dungeon

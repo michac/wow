@@ -12,13 +12,23 @@ namespace MdtDesktop.Core.Tests.Data;
 /// </remarks>
 internal sealed class MdtFixture : IDisposable
 {
-    public MdtFixture(string? dungeonLua = null)
+    /// <param name="seasonLua">
+    /// The contents of <c>Modules/DungeonSelect.lua</c>. Null writes none at all — which is the
+    /// case the extractor has to survive, since a non-retail or reshaped release ships no such
+    /// file and must still yield its dungeons.
+    /// </param>
+    /// <param name="extraDungeonLua">
+    /// A second data file, added to <c>load_midnight.xml</c> after the first — the manifest is
+    /// the load order of record, so a file not listed there is not loaded.
+    /// </param>
+    public MdtFixture(string? dungeonLua = null, string? seasonLua = null, string? extraDungeonLua = null)
     {
         Root = Path.Combine(Path.GetTempPath(), "mdtdesk-fixture-" + Guid.NewGuid().ToString("N"));
         AddonDirectory = Path.Combine(Root, "MythicDungeonTools");
 
         Directory.CreateDirectory(Path.Combine(AddonDirectory, "Locales"));
         Directory.CreateDirectory(Path.Combine(AddonDirectory, "Midnight"));
+        Directory.CreateDirectory(Path.Combine(AddonDirectory, "Modules"));
 
         Write("MythicDungeonTools.toc", "## Interface: 120100\n## Version: 9.9.9\n");
 
@@ -32,13 +42,17 @@ internal sealed class MdtFixture : IDisposable
             L["TestDungeonShortName"] = "TEST"
             """);
 
-        Write(Path.Combine("Midnight", "load_midnight.xml"), """
-            <Ui xmlns="http://www.blizzard.com/wow/ui/">
-                <Script file='TestDungeon.lua'/>
-            </Ui>
-            """);
+        var extraScript = extraDungeonLua is null ? "" : "\n    <Script file='ExtraDungeons.lua'/>";
+        Write(Path.Combine("Midnight", "load_midnight.xml"),
+            "<Ui xmlns=\"http://www.blizzard.com/wow/ui/\">\n" +
+            "    <Script file='TestDungeon.lua'/>" + extraScript + "\n</Ui>\n");
 
         Write(Path.Combine("Midnight", "TestDungeon.lua"), dungeonLua ?? DefaultDungeon);
+
+        if (extraDungeonLua is not null)
+            Write(Path.Combine("Midnight", "ExtraDungeons.lua"), extraDungeonLua);
+
+        if (seasonLua is not null) Write(Path.Combine("Modules", "DungeonSelect.lua"), seasonLua);
     }
 
     public string Root { get; }
@@ -51,6 +65,52 @@ internal sealed class MdtFixture : IDisposable
     {
         try { Directory.Delete(Root, recursive: true); } catch (IOException) { /* best effort */ }
     }
+
+    /// <summary>
+    /// A second and third dungeon, so a season can name one and leave another unnamed.
+    /// </summary>
+    /// <remarks>
+    /// Deliberately minimal — the shape a dungeon must have to be listed at all is
+    /// <c>mapInfo</c>, which is what the extractor treats as "this one is real".
+    /// </remarks>
+    public const string ExtraDungeons = """
+        local _, MDT = ...
+        for _, idx in ipairs({ 4243, 4244 }) do
+          MDT.dungeonList[idx] = "Dungeon " .. idx
+          MDT.mapInfo[idx] = { englishName = "Dungeon " .. idx, mapID = idx }
+          MDT.dungeonMaps[idx] = { [0] = "", [1] = { customTextures = "Textures\\D" .. idx } }
+          MDT.dungeonSubLevels[idx] = { [1] = "Floor" }
+          MDT.dungeonTotalCount[idx] = { normal = 10 }
+          MDT.dungeonEnemies[idx] = {}
+        end
+        """;
+
+    /// <summary>
+    /// The shape of MDT's real <c>Modules/DungeonSelect.lua</c>: two seasons, declared in its
+    /// own order, built with the three globals it needs and nothing else.
+    /// </summary>
+    /// <remarks>
+    /// It pins the stub contract for that file the same way <see cref="DefaultDungeon"/> pins it
+    /// for the data files — <c>tinsert</c>, <c>LibStub</c> and <c>MDT:IsRetail()</c>. 4244 is
+    /// named by neither season on purpose: a dungeon MDT ships but does not file has to stay
+    /// reachable.
+    /// </remarks>
+    public const string DefaultSeasons = """
+        local _, MDT = ...
+        local AceGUI = LibStub("AceGUI-3.0")
+        local L = MDT.L
+        MDT.seasonList = {}
+        MDT.dungeonSelectionToIndex = {}
+        do
+          if MDT:IsRetail() then
+            tinsert(MDT.seasonList, L["Fixture Season 2"])
+            tinsert(MDT.dungeonSelectionToIndex, { 4243, 4242 })
+            tinsert(MDT.seasonList, L["Fixture Season 1"])
+            tinsert(MDT.dungeonSelectionToIndex, { 4242 })
+          end
+        end
+        function MDT:GetSeasonList() return MDT.seasonList end
+        """;
 
     /// <summary>
     /// Index 4242, one sublevel, three enemies. Between them: a sparse clone index (MDT 6.2.13

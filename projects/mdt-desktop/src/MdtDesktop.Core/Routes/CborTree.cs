@@ -1,4 +1,5 @@
 using System.Formats.Cbor;
+using System.Globalization;
 using System.Text;
 
 namespace MdtDesktop.Core.Routes;
@@ -118,7 +119,29 @@ internal static class CborTree
         long l when l >= int.MinValue && l <= int.MaxValue => (int)l,
         double d when Math.Abs(d % 1) < double.Epsilon
                       && d is >= int.MinValue and <= int.MaxValue => (int)d,
-        string s when int.TryParse(s, out var parsed) => parsed,
+        // ⚠ Invariant, matching AsDouble below: the format writes numbers Lua's way, and a
+        // culture-sensitive parse beside a culture-insensitive one is exactly the drift this
+        // codebase legislates against.
+        string s when int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed)
+            => parsed,
+        _ => null,
+    };
+
+    /// <summary>
+    /// A number, however it crossed the wire.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ Invariant on purpose. A preset object's coordinates arrive as <b>strings</b>
+    /// (<c>str('686.1')</c>, <c>str('-459.4')</c>), so this is the parse that decides where a
+    /// note lands — under a comma-decimal culture an ambient parse would read <c>686.1</c> as
+    /// <c>6861</c> and put the pin off the canvas.
+    /// </remarks>
+    public static double? AsDouble(object? value) => value switch
+    {
+        long l => l,
+        double d => d,
+        string s when double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed)
+            => parsed,
         _ => null,
     };
 }

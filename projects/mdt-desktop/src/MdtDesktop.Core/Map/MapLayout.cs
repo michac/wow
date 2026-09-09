@@ -76,8 +76,15 @@ public sealed class MapBlip
     /// <summary>How a route names this mob: the enemy index plus the clone index.</summary>
     public (int EnemyIndex, int CloneIndex) Key => (Enemy.Index, Clone.Index);
 
-    /// <summary>What the tooltip says — enough to check a blip against MDT's own window.</summary>
-    public string Label
+    /// <summary>
+    /// A one-line identity, for headless printing.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ This used to be documented as "what the tooltip says" while the app had long since
+    /// grown its own. What the tooltip says is <see cref="MobTooltip"/>, and it is the only
+    /// answer to that question — two would drift, and the losing one would be this.
+    /// </remarks>
+    public string Describe()
         => $"{Enemy.Name ?? "?"} [{Enemy.Index}.{Clone.Index}] — {Forces} forces" +
            (Enemy.IsBoss ? " (boss)" : "");
 }

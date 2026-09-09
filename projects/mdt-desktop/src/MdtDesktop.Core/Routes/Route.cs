@@ -39,6 +39,26 @@ public sealed class Route
 
     /// <summary>Pulls in order, 1-based via <see cref="Pull.Number"/>.</summary>
     public IReadOnlyList<Pull> Pulls { get; init; } = [];
+
+    /// <summary>
+    /// The author's annotations — text notes, strokes and arrows — in the order they were drawn.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ These come off the preset <b>root</b>, not off <c>value</c> where <see cref="Pulls"/>
+    /// lives. They carry no pull association whatsoever: a note is about a place on the map, not
+    /// about a step in the route.
+    /// </remarks>
+    public IReadOnlyList<RouteObject> Objects { get; init; } = [];
+
+    /// <summary>
+    /// How many entries of <c>objects</c> could not be read at all.
+    /// </summary>
+    /// <remarks>
+    /// Decoding an annotation never throws — a route that draws fifteen of sixteen notes beats
+    /// one that refuses to open — so the count is carried instead, and reported rather than
+    /// swallowed.
+    /// </remarks>
+    public int UnreadableObjects { get; init; }
 }
 
 /// <summary>

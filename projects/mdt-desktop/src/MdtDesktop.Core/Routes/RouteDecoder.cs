@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using MdtDesktop.Core.Map;
 
 namespace MdtDesktop.Core.Routes;
 
@@ -150,6 +151,8 @@ public static class RouteDecoder
         if (CborTree.Get(preset, "value") is not IReadOnlyDictionary<object, object?> value)
             throw new RouteDecodeException("The decoded route has no 'value' table.");
 
+        var objects = ReadObjects(CborTree.Get(preset, "objects"), out var unreadable);
+
         // `week`, `teeming` and `riftOffsets` are still on the wire but carry no meaning: the
         // affix machinery is gone from Midnight MDT, and Presets.lua force-nils `week` on load.
         return new Route
@@ -163,6 +166,9 @@ public static class RouteDecoder
             CurrentPull = CborTree.AsInt(CborTree.Get(value, "currentPull")) ?? 1,
             CurrentSubLevel = CborTree.AsInt(CborTree.Get(value, "currentSublevel")) ?? 1,
             Pulls = ReadPulls(CborTree.Get(value, "pulls")),
+            // ⚠ Off the ROOT, beside `text` and `uid` — not off `value`, where `pulls` lives.
+            Objects = objects,
+            UnreadableObjects = unreadable,
         };
     }
 
@@ -209,6 +215,170 @@ public static class RouteDecoder
 
         return pulls;
     }
+
+    /// <summary>
+    /// The preset's annotations — notes, strokes and arrows.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// ⚠ Nothing here throws. Annotations are decoration: a route that draws fifteen of its
+    /// sixteen notes beats one that refuses to open, and <see cref="Decode"/> is reserved for
+    /// the things that make a route meaningless. A malformed object is skipped and counted into
+    /// <paramref name="unreadable"/> so a caller can say so.
+    /// </para>
+    /// <para>
+    /// ⚠ Both container shapes are read, following <c>ReadCloneIndices</c> rather than
+    /// <c>ReadPulls</c>: <c>objects</c> goes sparse whenever a user erases a drawing, and a Lua
+    /// table with a hole serialises as an integer-keyed map rather than an array. Assuming an
+    /// array would silently return nothing for the likely case.
+    /// </para>
+    /// </remarks>
+    private static List<RouteObject> ReadObjects(object? raw, out int unreadable)
+    {
+        unreadable = 0;
+        var objects = new List<RouteObject>();
+
+        foreach (var (index, entry) in ReadIndexed(raw).OrderBy(kv => kv.Key))
+        {
+            if (entry is null) continue;
+
+            if (entry is not IReadOnlyDictionary<object, object?> table)
+            {
+                unreadable++;
+                continue;
+            }
+
+            var read = ReadObject(index, table);
+            if (read is null) unreadable++;
+            else objects.Add(read);
+        }
+
+        return objects;
+    }
+
+    /// <summary>One object, or null when it does not carry enough to draw.</summary>
+    /// <remarks>
+    /// The discrimination is MDT's own: <c>n</c> truthy is a note (<c>PresetObjects.lua:178</c>),
+    /// otherwise the presence of <c>t</c> is what makes a stroke an arrow (<c>:221-225</c>).
+    /// </remarks>
+    private static RouteObject? ReadObject(int index, IReadOnlyDictionary<object, object?> table)
+    {
+        var d = ReadIndexed(CborTree.Get(table, "d"));
+
+        var subLevel = CborTree.AsInt(At(d, 3));   // notes and drawings agree on d[3]
+        var shown = IsTruthy(At(d, 4));
+
+        if (IsTruthy(CborTree.Get(table, "n")))
+        {
+            // A note reuses `d` for x, y, sublevel, shown, text (PresetObjects.lua:178-182).
+            if (CborTree.AsDouble(At(d, 1)) is not { } x ||
+                CborTree.AsDouble(At(d, 2)) is not { } y) return null;
+
+            return new RouteObject
+            {
+                Index = index,
+                Kind = RouteObjectKind.Note,
+                SubLevel = subLevel,
+                Shown = shown,
+                Position = new MapPoint(x, y),
+                // ⚠ May legitimately be empty: the toolbar creates a note with `d[5] = ""` and
+                // fills it in afterwards, so an abandoned note is a real wire shape.
+                Text = CborTree.AsString(At(d, 5)) ?? "",
+            };
+        }
+
+        var segments = ReadSegments(CborTree.Get(table, "l"));
+        if (segments.Count == 0) return null;
+
+        var rotation = CborTree.Get(table, "t") is { } t
+            ? CborTree.AsDouble(At(ReadIndexed(t), 1))
+            : null;
+
+        return new RouteObject
+        {
+            Index = index,
+            Kind = table.ContainsKey("t") ? RouteObjectKind.Arrow : RouteObjectKind.Polyline,
+            SubLevel = subLevel,
+            Shown = shown,
+            Segments = segments,
+            // MDT's own default for a missing brush size (`obj.d[1] = obj.d[1] or 5`, :183).
+            BrushSize = CborTree.AsDouble(At(d, 1)) ?? 5,
+            Color = CborTree.AsString(At(d, 5)),
+            DrawLayer = CborTree.AsInt(At(d, 6)) ?? 0,
+            Smooth = IsTruthy(At(d, 7)),
+            HeadRotation = rotation,
+        };
+    }
+
+    /// <summary>
+    /// <c>l</c> read four numbers at a time — the way MDT draws it.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ Not a polyline. <c>Toolbar.lua:585-588,640-644</c> write four numbers per segment and
+    /// the draw loop (<c>PresetObjects.lua:194-219</c>) consumes four at a time, resetting all
+    /// four after each. So a shared endpoint appears twice and a gap between groups is a gap MDT
+    /// draws. Grouped by <b>key</b> rather than by position so that an erased segment loses only
+    /// itself instead of shifting every coordinate after it; an incomplete group is discarded,
+    /// because that is missing data rather than a corrupt string.
+    /// </remarks>
+    private static List<RouteSegment> ReadSegments(object? raw)
+    {
+        var flat = ReadIndexed(raw);
+        var segments = new List<RouteSegment>(flat.Count / 4);
+
+        foreach (var group in flat.Keys.Where(k => k >= 1)
+                     .Select(k => (k - 1) / 4).Distinct().OrderBy(g => g))
+        {
+            var i = group * 4;
+            if (CborTree.AsDouble(At(flat, i + 1)) is not { } x1 ||
+                CborTree.AsDouble(At(flat, i + 2)) is not { } y1 ||
+                CborTree.AsDouble(At(flat, i + 3)) is not { } x2 ||
+                CborTree.AsDouble(At(flat, i + 4)) is not { } y2) continue;
+
+            segments.Add(new RouteSegment(new MapPoint(x1, y1), new MapPoint(x2, y2)));
+        }
+
+        return segments;
+    }
+
+    /// <summary>
+    /// A Lua-indexed table as a <b>1-based key → value</b> map, whichever shape it crossed in.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ Positional, never densified, and that is the whole point. MDT builds a drawing's
+    /// <c>d</c> as <c>{ size, 1.1, sublevel, true, colorstring, nil, true }</c>
+    /// (<c>Toolbar.lua:542-543</c>) — a literal <c>nil</c> at index 6, which crosses as an
+    /// integer-keyed map with keys 1-5 and 7. Collapsing that hole to a dense list would slide
+    /// <c>smooth</c> into <c>drawLayer</c>'s slot: <c>drawLayer</c> would read a boolean and
+    /// <c>smooth</c> would read nothing, silently, with no exception anywhere.
+    /// </remarks>
+    private static Dictionary<int, object?> ReadIndexed(object? raw)
+    {
+        var indexed = new Dictionary<int, object?>();
+
+        switch (raw)
+        {
+            // Dense on the wire: a plain CBOR array, whose Lua keys are its 1-based positions.
+            case IReadOnlyList<object?> list:
+                for (var i = 0; i < list.Count; i++) indexed[i + 1] = list[i];
+                break;
+
+            // Sparse after editing, so it arrives keyed by the Lua index instead.
+            case IReadOnlyDictionary<object, object?> map:
+                foreach (var (key, value) in map)
+                    if (CborTree.AsInt(key) is { } k) indexed[k] = value;
+                break;
+        }
+
+        return indexed;
+    }
+
+    /// <summary>The value at a <b>1-based Lua index</b>, or null when the table has no such key.</summary>
+    private static object? At(Dictionary<int, object?> table, int luaIndex)
+        => table.GetValueOrDefault(luaIndex);
+
+    /// <summary>Lua truthiness: everything but <c>nil</c> and <c>false</c>.</summary>
+    private static bool IsTruthy(object? value) => value is not (null or false);
 
     private static bool TryEnemyIndex(object key, out int index)
     {

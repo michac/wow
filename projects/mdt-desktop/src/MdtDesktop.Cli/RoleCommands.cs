@@ -1,4 +1,5 @@
 using MdtDesktop.Core.Data;
+using MdtDesktop.Core.Map;
 using MdtDesktop.Core.Model;
 
 namespace MdtDesktop.Cli;
@@ -105,6 +106,8 @@ internal static class RoleCommands
         foreach (var flag in Enum.GetValues<SpellFlag>())
             Console.WriteLine($"  mobs with {flag,-8}        : {all.Count(e => e.SpellFlags.Contains(flag))}");
 
+        RingCensus(all);
+
         // ⚠ The heuristic, named in full. Nine mobs is the whole of it, so there is no excuse
         // for not reading the list and deciding whether the rule earned them.
         Console.WriteLine();
@@ -133,6 +136,58 @@ internal static class RoleCommands
                               $"{enemy.Name}");
 
         return 0;
+    }
+
+    /// <summary>
+    /// The tactical-ring split, printed so the channel can be argued with from a terminal —
+    /// the same way the miniboss table is.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ The number that matters is the <b>first</b> one: how many mobs wear no ring at all. A
+    /// ring on everything is a ring on nothing, so a change that pushes that count down is a
+    /// change that makes the map less readable, whatever else it does.
+    /// </remarks>
+    private static void RingCensus(IReadOnlyList<Enemy> all)
+    {
+        var cues = all.Select(e => (Enemy: e, Cue: MapPalette.Ring(e))).ToList();
+
+        int Worn(string color) => cues.Count(c => c.Cue?.Color == color);
+
+        Console.WriteLine();
+        Console.WriteLine("tactical rings — what the mob makes you DO about it:");
+        Console.WriteLine($"  {"axis",-13} {"colour",7} {"carry",6} {"worn",5}");
+
+        // TWO columns, because they answer different questions and disagreeing with each other
+        // is the whole reason precedence exists. `carry` is how many mobs have the flag at all;
+        // `worn` is how many end up wearing that colour once interrupt → enrage → CC has run.
+        // They differ by exactly the mobs that carry more than one axis.
+        Row("interrupt", MapPalette.RingInterrupt, cues.Count(c => c.Enemy.HasInterruptibleSpell));
+        Row("enrage", MapPalette.RingEnrage, cues.Count(c => c.Enemy.Spells.Any(sp => sp.Enrage)));
+        Row("crowd control", MapPalette.RingCrowdControl,
+            cues.Count(c => MapPalette.HasCrowdControl(c.Enemy)));
+
+        // ⚠ The number that matters most. A ring on everything is a ring on nothing, so a change
+        // that pushes this count down makes the map less readable whatever else it does.
+        Console.WriteLine($"  {"no ring",-13} {"—",7} {cues.Count(c => c.Cue is null),6} " +
+                          $"{cues.Count(c => c.Cue is null),5}   of {all.Count}");
+
+        var dashed = cues.Where(c => c.Cue is { Dashed: true }).ToList();
+        Console.WriteLine();
+        Console.WriteLine($"  dashed (>1 axis)        : {dashed.Count,4}   " +
+                          "precedence alone would hide the second");
+
+        void Row(string axis, string color, int carrying)
+            => Console.WriteLine($"  {axis,-13} {color,7} {carrying,6} {Worn(color),5}");
+
+        foreach (var group in dashed.GroupBy(c => c.Cue!.Reason).OrderByDescending(g => g.Count()))
+            Console.WriteLine($"      {group.Key,-28} {group.Count(),4}");
+
+        // ⚠ Excluded on purpose, and the numbers are why: it is not a boss proxy, and it is not
+        // a crowd control that changes how a pull is planned.
+        var taunt = all.Where(e => e.Characteristics.Contains(MapPalette.TauntCharacteristic)).ToList();
+        Console.WriteLine($"  {MapPalette.TauntCharacteristic} (excluded)        : {taunt.Count,4}   " +
+                          $"of which bosses: {taunt.Count(e => e.IsBoss)} — so not a boss proxy, " +
+                          "and not a CC that changes a pull");
     }
 
     private static void PrintEnemy(Enemy enemy, MobRole role, MobRoleIndex index)

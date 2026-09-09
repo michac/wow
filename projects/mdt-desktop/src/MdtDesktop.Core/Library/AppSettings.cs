@@ -54,8 +54,60 @@ public sealed record AppSettings
     /// <summary>The dungeon shown last, so a launch lands where you left it.</summary>
     public int? LastDungeonIndex { get; init; }
 
-    /// <summary>The saved route loaded last.</summary>
+    /// <summary>
+    /// The season shown last, which only disambiguates.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="LastDungeonIndex"/> is what a launch actually resolves from; this only decides
+    /// which season to open it under when a dungeon is in more than one, which MDT allows
+    /// (<c>DungeonSelect.lua:8</c>) though nothing is today.
+    /// </remarks>
+    public string? LastSeasonName { get; init; }
+
+    /// <summary>
+    /// ⚠ Legacy — the single route id this remembered before it was per-dungeon. Read on load
+    /// and migrated into <see cref="LastRouteByDungeon"/>; never written again.
+    /// </summary>
     public string? LastRouteId { get; init; }
+
+    /// <summary>
+    /// The route last loaded for each dungeon, keyed by MDT's dungeon index.
+    /// </summary>
+    /// <remarks>
+    /// Per dungeon rather than one id, because switching dungeons and switching back is the
+    /// ordinary thing to do with this app and it has to come back to what was on screen.
+    /// </remarks>
+    public IReadOnlyDictionary<int, string> LastRouteByDungeon { get; init; } = NoRoutes;
+
+    /// <summary>
+    /// One shared empty map as the default.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ Not a fresh <c>new Dictionary()</c> per instance: this is a record, so a reference-typed
+    /// member is compared by reference, and two default instances would stop being equal — which
+    /// is what several of these tests assert and what "loaded the defaults" means.
+    /// </remarks>
+    private static readonly IReadOnlyDictionary<int, string> NoRoutes = new Dictionary<int, string>();
+
+    /// <summary>
+    /// The settings as the current shape wants them: the legacy single route id folded into
+    /// <see cref="LastRouteByDungeon"/>.
+    /// </summary>
+    /// <remarks>
+    /// ⚠ Without this the first launch after the per-dungeon change silently forgets the open
+    /// route — the same complaint the change exists to fix, arriving once on upgrade.
+    /// </remarks>
+    public AppSettings Migrated()
+    {
+        if (LastRouteByDungeon.Count > 0 ||
+            LastRouteId is not { Length: > 0 } id ||
+            LastDungeonIndex is not { } dungeon)
+        {
+            return this;
+        }
+
+        return this with { LastRouteByDungeon = new Dictionary<int, string> { [dungeon] = id } };
+    }
 }
 
 /// <summary>Where the window was. Device-independent WPF units, as <c>Window.Left</c> reports them.</summary>
@@ -143,8 +195,11 @@ public sealed class SettingsStore
     {
         try
         {
+            // ⚠ Migrated on the way out, so no caller has to remember to do it — the legacy
+            // single `lastRouteId` becomes this dungeon's entry rather than being dropped.
             return File.Exists(Path)
-                ? JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(Path), JsonOptions) ?? new()
+                ? (JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(Path), JsonOptions)
+                   ?? new AppSettings()).Migrated()
                 : new AppSettings();
         }
         catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)

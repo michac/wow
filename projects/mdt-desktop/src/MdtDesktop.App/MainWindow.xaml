@@ -20,6 +20,7 @@
             <Setter Property="Padding" Value="10,4" />
             <Setter Property="Margin" Value="6,0,0,0" />
         </Style>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <Style TargetType="ComboBox">
             <Setter Property="Margin" Value="6,0,0,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -35,7 +36,14 @@
         <!-- The toolbar hides in kiosk mode, so the map is the only thing on the monitor. -->
         <Border x:Name="Toolbar" DockPanel.Dock="Top" Background="#1E2226" Padding="10,8">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Dungeon" />
+                <!-- Season first, as MDT's own dungeon dropdown does it — the grouping is read
+                     out of its Modules/DungeonSelect.lua, never listed here. -->
+                <TextBlock Text="Season" />
+                <ComboBox x:Name="SeasonPicker" Width="160"
+                          DisplayMemberPath="Label"
+                          SelectionChanged="OnSeasonChanged" />
+
+                <TextBlock Text="Dungeon" Margin="16,0,0,0" />
                 <ComboBox x:Name="DungeonPicker" Width="220"
                           DisplayMemberPath="Label"
                           SelectionChanged="OnDungeonChanged" />
@@ -97,28 +105,76 @@
                     </StackPanel>
                 </StackPanel>
 
-                <ListBox x:Name="PullList" Background="Transparent" BorderBrush="#33383D"
-                         Foreground="#D6DBE0"
-                         HorizontalContentAlignment="Stretch"
-                         SelectionChanged="OnPullSelected">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="12" />
-                                    <ColumnDefinition Width="30" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Grid.Column="0" Width="8" Height="14"
-                                           Fill="{Binding Swatch}" RadiusX="2" RadiusY="2" />
-                                <TextBlock Grid.Column="1" Text="{Binding Number}"
-                                           FontWeight="Bold" Margin="4,0,0,0" />
-                                <TextBlock Grid.Column="2" Text="{Binding Detail}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <!-- Tabs rather than a split: the pull list drives the cursor and has to keep
+                     its full height, and the header count is itself the signal that a route
+                     carries guidance in it. -->
+                <TabControl Background="Transparent" BorderBrush="#33383D" Padding="0,6,0,0">
+                    <TabItem Header="Pulls">
+                        <ListBox x:Name="PullList" Background="Transparent" BorderBrush="#33383D"
+                                 Foreground="#D6DBE0"
+                                 HorizontalContentAlignment="Stretch"
+                                 SelectionChanged="OnPullSelected">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle Grid.Column="0" Width="8" Height="14"
+                                                   Fill="{Binding Swatch}" RadiusX="2" RadiusY="2" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Number}"
+                                                   FontWeight="Bold" Margin="4,0,0,0" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Detail}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </TabItem>
+
+                    <TabItem x:Name="NotesTab" Header="Notes (0)">
+                        <Grid>
+                            <TextBlock x:Name="NotesEmpty" TextWrapping="Wrap" Margin="4,8,4,0"
+                                       Foreground="#9AA3AC" VerticalAlignment="Top"
+                                       Text="This route carries no notes. MDT's note tool — and keystone.guru's “!” pins, which are the same thing — put them here." />
+
+                            <!-- ⚠ Wrapped, not trimmed. A pull row is a fixed-shape summary and
+                                 trims correctly; a note is prose, and being readable without
+                                 hunting is the entire reason it is in the panel as well as on a
+                                 pin. -->
+                            <ListBox x:Name="NoteList" Background="Transparent" BorderBrush="#33383D"
+                                     Foreground="#D6DBE0"
+                                     HorizontalContentAlignment="Stretch"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     SelectionChanged="OnNoteSelected">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="22" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Number}" FontWeight="Bold"
+                                                       Foreground="#E0A44A" VerticalAlignment="Top" />
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="{Binding Title}" TextWrapping="Wrap"
+                                                           FontWeight="SemiBold" />
+                                                <TextBlock Text="{Binding Body}" TextWrapping="Wrap"
+                                                           Foreground="#9AA3AC" FontSize="11"
+                                                           Margin="0,2,0,0"
+                                                           Visibility="{Binding HasBody,
+                                                               Converter={StaticResource BoolToVisibility}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
             </DockPanel>
         </Border>
 
