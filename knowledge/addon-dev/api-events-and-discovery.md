@@ -1186,6 +1186,23 @@ Tier 3.
 
 ## 6. Gaps
 
+- **[gap] `C_Traits.GetNodeInfo` is undocumented by measurement.** It is the only route that
+  answers *"is this talent node purchased, and which entry of a choice node is selected"* —
+  `C_SpellBook.IsSpellKnown` answers about a **spell**, not a node, so it stands in for a talent
+  rather than being one, and a spell known from another source diverges from the talent
+  silently. What is unmeasured: the shape of the returned `TraitNodeInfo`, and whether
+  `ranksPurchased` / `activeEntry.entryID` stay readable under combat restriction or go secret.
+  Reach it via `C_ClassTalents.GetActiveConfigID()` for the config id. Treat a refusal or an
+  unrecognised shape as UNKNOWN and never as "not taken" — under a `not` a wrong `false` reads
+  as a confident true. Looked in: `SharedTraitsDocumentation.lua` (declares the return
+  `TraitNodeInfo`, `MayReturnNothing`, no `Predicate` — so §5.7 signal 1 is weakly positive and
+  nothing more), `ClassTalentsDocumentation.lua`. `@verify-ingame`
+- **[gap] Does `C_SpellBook.IsSpellKnown` answer true for a PASSIVE talent?** Open, and
+  **the question is now academic for gating purposes** — the node read above is the right
+  instrument regardless of how this resolves. Every shipped call site reads an active, castable
+  spell: Dismiss Pet, a racial, a broadcastable cooldown `[T1 obs: 4 non-doc call sites in the
+  shipped corpus]`. `IsPlayerSpell` is a CVar-gated shim over it
+  `[T1 src: Blizzard_DeprecatedSpellBook/Deprecated_SpellBook.lua:13]`.
 - **[gap] `SynchronousEvent` / `UniqueEvent` semantics.** Emitted by the doc
   generator, consumed by nothing in the shipped Lua, explained nowhere. Looked in:
   all 592 generated doc files, every other `.lua`/`.xml` in the checkout (zero

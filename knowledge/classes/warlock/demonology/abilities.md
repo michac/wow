@@ -112,8 +112,8 @@ Fear / Mortal Coil on the same target stays reduced across a wider window.
 
 | Ability | Function | Resource | Cast / CD | Description |
 |---|---|---|---|---|
-| **Shadow Bolt** | Rotational-builder | Generates 1 Soul Shard | ~2s cast | Baseline single-target filler / shard builder. Chance to grant a Demonic Core. **Damage +45% in 12.1.** **Replaced by Infernal Bolt** when *Demoniac* is talented (the standing build). |
-| **Infernal Bolt** | Rotational-builder | Generates 3 Soul Shards | ~2.3s cast | *Demoniac* talent replacement for Shadow Bolt — builds shards ~3× as fast; cast when at ≤2 shards. **12.1: now correctly grants Soul Leech.** |
+| **Shadow Bolt** | Rotational-builder | Generates 1 Soul Shard | ~2s cast | Baseline single-target filler / shard builder. Chance to grant a Demonic Core. **Damage +45% in 12.1.** **Becomes Infernal Bolt** for one cast while the Diabolist proc *Art: Mother of Chaos* is up. |
+| **Infernal Bolt** | Rotational-builder (proc) | Generates 3 Soul Shards | ~2.3s cast | A **Diabolist proc, not a talented swap**: Mother of Chaos empowers your *next* Shadow Bolt to become Infernal Bolt, so it is available one cast at a time and overrides Shadow Bolt's Cooldown Manager row only inside that window. Builds shards ~3× as fast; spend the proc at ≤2 shards. **12.1: now correctly grants Soul Leech.** |
 | **Demonbolt** | Rotational-spender (core) | Consumes 1 Demonic Core; generates 2 Soul Shards | Instant with a Demonic Core (else ~4.5s cast) | Demonic-Core spender — hits hard and refunds 2 shards. **Damage +55% in 12.1** — the single biggest number to move for this spec. Applies **Doom** if talented. Dump cores so they don't overcap. |
 | **Hand of Gul'dan** | Rotational-spender (imp generator) | 1–3 Soul Shards | ~1.5s cast | Spend 1–3 shards to summon that many **Wild Imps**. The single most-maximized cast inside the Tyrant window; cast at 4–5 shards, never overcap. |
 | **Call Dreadstalkers** | Rotational-summon | 2 Soul Shards (free/instant with *Demonic Calling*) | ~20s CD | Summons **two Dreadstalkers** for ~12s. Refresh just before Tyrant so they're fresh when it empowers them. |
@@ -184,3 +184,8 @@ Fear / Mortal Coil on the same target stays reduced across a wider window.
   Leech grant/revoke pass. Everything else is prerequisite-list ordering noise.
   *[Tier 1: patch-notes/12.1.md CLASSES ▶ WARLOCK + `all-talents.tsv`
   @ 12.1.0.69214, 2026-08-11.]*
+
+## Changelog
+
+- Infernal Bolt was described as a static *Demoniac* replacement for Shadow Bolt; it is a
+  Diabolist **proc** off Mother of Chaos, per the spell template in `ability-inventory.md`.

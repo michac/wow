@@ -133,12 +133,25 @@ game.** Defenses, in order:
   reference** (flags, subcommands, rationale); `tools/docs/` holds deeper per-tool docs
   (e.g. `wowkb-sim.md`, the sim harness design doc + field log)
 
-⚠ **`grep` in this shell is `ugrep --ignore-files`, so it OBEYS `.gitignore` — and every addon
-sub-repo is gitignored.** A repo-wide `grep -rn` therefore skips `planner-state/` and all four
-`projects/*/addon/` checkouts silently, which is exactly where the shipping Lua lives: "no hits
-in the repo" has been quietly meaning "no hits outside the addons". Use `command grep -rn …`
-(bypasses the wrapper) or `find . -name '*.lua' -print0 | xargs -0 command grep -n …` whenever
-the answer could live in addon code.
+⚠ **`grep` here OBEYS `.gitignore`, and every addon sub-repo is gitignored.** A repo-wide
+`grep -rn` therefore skips `planner-state/`, all four `projects/*/addon/` checkouts and `raw/`
+silently — which is exactly where the shipping Lua and the Blizzard UI source live. "No hits in
+the repo" has been quietly meaning "no hits outside the addons". **Pass `--no-ignore-files`
+whenever the answer could live in addon code:**
+
+```bash
+grep --no-ignore-files -rn 'PATTERN' --include='*.lua' .          # everything
+grep --no-ignore-files -rn 'PATTERN' --include='*.lua' \
+  planner-state projects/*/addon projects/addon-lab               # just the addons
+```
+
+This is not your shell profile: Claude Code injects a bash **function** named `grep` (so
+`alias grep` shows nothing) that re-execs its own binary as `ugrep` with
+`-G --ignore-files --hidden -I --exclude-dir=.git …` hardcoded. `--no-ignore-files` cancels the
+one flag and keeps the rest, which is why it beats `command grep` — that drops you to plain GNU
+grep and loses the hidden-file and binary-skip defaults. There is **no persistent switch**: a
+`.ugrep` config file is not auto-loaded, `--config` is routed away to real grep, and no
+`settings.json` key reaches this function. It is per-invocation or nothing.
 - `raw/` — gitignored fetch cache; distill into `knowledge/`, don't cite raw/
 
 ### Side projects / prototypes (standalone apps — NOT the KB)

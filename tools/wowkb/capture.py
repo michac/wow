@@ -44,6 +44,7 @@ ADDONS = {
     "cdmp": "CDMProbe",
     "clab": "ClientLab",
     "ps": "PlannerState",
+    "sg": "SmartGlo",
 }
 
 

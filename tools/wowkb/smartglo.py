@@ -15,6 +15,11 @@ The wire format is `SG1:` + base64(raw-deflate(json envelope)), the envelope car
 payload JSON as a string beside its adler32. The addon's three calls are
 C_EncodingUtil.SerializeJSON / CompressString(Deflate) / EncodeBase64(Standard); Deflate
 there is RAW deflate, which is zlib with wbits=-15 here.
+
+**Two bowls.** `when` carries readable terms and takes as many as you like; `bind` carries
+the one sealed leaf a glow may spend (§5). Which bowl a term belongs to is a fact about the
+client build, not about the rule, so the tool owns the sorting and refuses a mis-sorted term
+by naming the bowl it belongs to — in both directions.
 """
 
 import argparse
@@ -24,6 +29,8 @@ import re
 import sys
 import zlib
 from pathlib import Path
+
+from .gen_smartglo_symbols import load as load_symbols
 
 PREFIX = "SG1:"
 
@@ -39,9 +46,18 @@ PRIMARY = {
 
 COMPARISONS = {">=", ">", "<=", "<", "=="}
 
-# The palette tool/gen_media.py bakes. A gate tints the white master at runtime; a count
-# names one of these files, because a band's inline texture escape cannot be tinted.
+# The hues Look.lua tints the one white master to. Names, not files: nothing but the master
+# is ever named by filename (tool/gen_media.py).
 COLORS = {"white", "yellow", "red", "green", "blue", "purple", "orange", "cyan"}
+
+# Which bowl each readable term goes in, and the sealed families the other bowl takes.
+WHEN_TERMS = {"resource", "ready", "aura", "talent"}
+BIND_FAMILIES = {"count", "duration", "health"}
+
+# A duration bind clamps to full alpha at zero remaining, and zero remaining means READY —
+# so `<` and `outside` glow permanently while the spell is up unless something says
+# otherwise. One of these two has to be present (§6, the duration analogue of §6.4).
+UNBOUNDED_BELOW = {"<", "<=", "outside"}
 
 
 class RuleError(Exception):
@@ -77,7 +93,89 @@ def decode(text: str):
         raise RuleError("the payload is not a Smart Glo envelope")
     if zlib.adler32(envelope["j"].encode("utf-8")) & 0xFFFFFFFF != envelope["c"]:
         raise RuleError("checksum mismatch — the string was truncated or edited")
-    return json.loads(envelope["j"])
+    return [modernize(g) for g in json.loads(envelope["j"])]
+
+
+def modernize(glow: dict) -> dict:
+    """Read a rule written before the two bowls. Wire strings already in the wild carry
+    `show` and `count`; they mean exactly what `when` and a count `bind` mean now."""
+    if not isinstance(glow, dict):
+        return glow
+    glow = dict(glow)
+    if "show" in glow:
+        glow.setdefault("when", glow.pop("show"))
+    else:
+        glow.pop("show", None)
+    count = glow.pop("count", None)
+    if count is not None and glow.get("bind") is None:
+        glow["bind"] = {"family": "count", "aura": count.get("aura"),
+                        "threshold": count.get("threshold")}
+    return glow
+
+
+# ------------------------------------------------------------------- spell names
+
+def scope_key(word: str):
+    """A spec scope: `demonology`, or `warlock.demonology` when the bare word names two."""
+    symbols = load_symbols()
+    word = word.strip().lower()
+    if word in symbols["specs"]:
+        return word
+    if word in symbols["alias"]:
+        return symbols["alias"][word]
+    matches = sorted(k for k in symbols["specs"] if k.split(".", 1)[1] == word)
+    if len(matches) > 1:
+        raise RuleError(f"{word!r} names {len(matches)} specs; write one of "
+                        + ", ".join(matches))
+    raise RuleError(f"no spec {word!r}")
+
+
+def _spec_index(key: str) -> dict:
+    symbols = load_symbols()
+    return {symbols["names"][i]: i for i in symbols["specs"][key]
+            if i in symbols["names"]}
+
+
+def resolve(text: str, scope) -> int:
+    """A spell reference: a raw id, `class.spec.name`, or a bare name inside `scope`."""
+    text = text.strip().lower()
+    if re.fullmatch(r"\d+", text):
+        return int(text)
+    if not text:
+        raise RuleError("a spell name or id is required")
+    parts = text.split(".")
+    if len(parts) == 3:
+        key = scope_key(f"{parts[0]}.{parts[1]}")
+        found = _spec_index(key).get(parts[2])
+        if found is None:
+            raise RuleError(f"{key} has no {parts[2]!r}")
+        return found
+    if len(parts) != 1:
+        raise RuleError(f"{text!r} is not a name; write <class>.<spec>.<name>, "
+                        "a bare name, or an id")
+    if scope is None:
+        raise RuleError(f"{text!r} needs a scope — put `spec demonology` above the rules, "
+                        f"or write warlock.demonology.{text}, or a raw spell id")
+    found = _spec_index(scope).get(text)
+    if found is None:
+        raise RuleError(f"{scope} has no {text!r}")
+    return found
+
+
+def name_of(spell_id: int, scope) -> str:
+    """How a rule should spell an id back. Bare inside its own scope, qualified when the
+    id belongs to another spec, and the number itself when nothing names it — an override
+    id such as Ruination is a real subject and is in no spec inventory."""
+    symbols = load_symbols()
+    name = symbols["names"].get(spell_id)
+    if name is None:
+        return str(spell_id)
+    if scope is not None and spell_id in symbols["specs"].get(scope, ()):
+        return name
+    for key, ids in symbols["specs"].items():
+        if spell_id in ids:
+            return f"{key}.{name}"
+    return str(spell_id)
 
 
 # -------------------------------------------------------------- the surface text
@@ -86,7 +184,7 @@ TOKEN = re.compile(r"""
     (?P<ws>\s+)
   | (?P<comment>--[^\n]*)
   | (?P<number>\d+)
-  | (?P<name>[A-Za-z_][A-Za-z_0-9]*)
+  | (?P<name>[A-Za-z_][A-Za-z_0-9.]*)
   | (?P<cmp>>=|<=|==|>|<)
   | (?P<punct>[()])
   | (?P<string>"[^"]*")
@@ -109,9 +207,10 @@ def _lex(text):
 
 
 class _Parser:
-    def __init__(self, tokens):
+    def __init__(self, tokens, scope):
         self.tokens = tokens
         self.i = 0
+        self.scope = scope
 
     def peek(self):
         return self.tokens[self.i]
@@ -155,15 +254,22 @@ class _Parser:
             return node
         if kind != "name":
             raise RuleError(f"expected a term, found {text!r}")
-        if text in ("ready", "aura"):
+        if text in ("ready", "aura", "talent"):
             self.expect("(")
-            spell = self.take()
-            if spell[0] != "number":
-                raise RuleError(f"{text}() takes a spell id, found {spell[1]!r}")
+            ref = self.take()
+            if ref[0] not in ("name", "number"):
+                raise RuleError(f"{text}() takes a spell name or id, found {ref[1]!r}")
             self.expect(")")
-            return {"t": text, "spell": int(spell[1])}
+            return {"t": text, "spell": resolve(ref[1], self.scope)}
+        if text in ("health", "health%"):
+            raise RuleError("health is never readable — UnitHealth is unconditionally "
+                            "secret. It belongs in `bind` as `health% < <n>`, not in `when`")
         if text in PRIMARY:
-            raise RuleError(f"{text} is a primary resource and can never be a gate")
+            raise RuleError(f"{text} is a primary resource, which is never readable — it "
+                            f"belongs in `bind` as a percent, not in `when`")
+        sealed = re.search(r"\.(stacks|cooldown)$", text)
+        if sealed:
+            raise RuleError(f"{text} is a sealed term and belongs in `bind`, not in `when`")
         if text not in SECONDARY:
             raise RuleError(f"unknown term {text!r}")
         cmp_kind, cmp_text = self.take()
@@ -175,9 +281,68 @@ class _Parser:
         return {"t": "resource", "power": text, "cmp": cmp_text, "value": int(value[1])}
 
 
+# A bind is at most one leaf, so it is matched rather than parsed. `absent show` is the
+# author saying what a `<`/`outside` duration should do while the spell is ready.
+_STACKS = re.compile(r"^(?P<spell>[\w.]+)\.stacks\s*>=\s*(?P<n>\d+)$")
+_COUNT = re.compile(r"^count\(\s*(?P<spell>[\w.]+)\s*\)\s*>=\s*(?P<n>\d+)$")
+_OUTSIDE = re.compile(r"^(?P<spell>[\w.]+)\.cooldown\s+outside\s+"
+                      r"(?P<lo>[\d.]+)s\s*\.\.\s*(?P<hi>[\d.]+)s(?P<rest>.*)$")
+_REMAINS = re.compile(r"^(?P<spell>[\w.]+)\.cooldown\s*(?P<cmp>>=|<=|>|<)\s*"
+                      r"(?P<n>[\d.]+)s(?P<rest>.*)$")
+
+_HEALTH = re.compile(r"^health%\s*(?P<cmp>>=|<=|>|<)\s*(?P<n>[\d.]+)$")
+
+BIND_FORMS = ("<spell>.stacks >= <n>", "<spell>.cooldown > <n>s",
+              "<spell>.cooldown outside <a>s..<b>s", "health% < <n>")
+
+
+def _absent(rest: str) -> dict:
+    rest = rest.strip()
+    if not rest:
+        return {}
+    word = rest.split()
+    if len(word) != 2 or word[0] != "absent" or word[1] not in ("dark", "show"):
+        raise RuleError(f"trailing {rest!r}; the only tail a bind takes is "
+                        "`absent dark` or `absent show`")
+    return {"absent": word[1]}
+
+
+def parse_bind(text: str, scope) -> dict:
+    m = _STACKS.match(text) or _COUNT.match(text)
+    if m:
+        return {"family": "count", "aura": resolve(m.group("spell"), scope),
+                "threshold": int(m.group("n"))}
+    m = _OUTSIDE.match(text)
+    if m:
+        lo, hi = float(m.group("lo")), float(m.group("hi"))
+        if hi <= lo:
+            raise RuleError(f"outside {lo}s..{hi}s is empty; the second bound must be larger")
+        return {"family": "duration", "spell": resolve(m.group("spell"), scope),
+                "cmp": "outside", "lo": lo, "hi": hi, **_absent(m.group("rest"))}
+    m = _REMAINS.match(text)
+    if m:
+        return {"family": "duration", "spell": resolve(m.group("spell"), scope),
+                "cmp": m.group("cmp"), "seconds": float(m.group("n")),
+                **_absent(m.group("rest"))}
+    m = _HEALTH.match(text)
+    if m:
+        pct = float(m.group("n"))
+        if not 0 < pct < 100:
+            raise RuleError(f"health% {m.group('cmp')} {pct:g} never changes; the threshold "
+                            f"has to sit strictly between 0 and 100")
+        return {"family": "health", "cmp": m.group("cmp"), "percent": pct}
+    head = text.split()[0] if text.split() else text
+    bare = head.split(".")[0]
+    if bare in SECONDARY:
+        raise RuleError(f"{bare} is a secondary resource and reads plain — it belongs in "
+                        f"`when`, not `bind`")
+    raise RuleError(f"cannot read the bind {text!r}; the forms are "
+                    + " | ".join(BIND_FORMS))
+
+
 def parse(text: str):
     """Surface text -> the glow list the addon stores."""
-    glows, current = [], None
+    glows, current, scope = [], None, None
     for lineno, raw in enumerate(text.splitlines(), start=1):
         line = raw.split("--", 1)[0].strip()
         if not line:
@@ -185,25 +350,24 @@ def parse(text: str):
         head, _, rest = line.partition(" ")
         head, rest = head.strip(), rest.strip()
         try:
-            if head == "glow":
+            if head == "spec":
+                scope = scope_key(rest)
+            elif head == "glow":
                 current = {"name": rest.strip('"')}
                 glows.append(current)
             elif current is None:
                 raise RuleError(f"{head!r} outside any glow")
             elif head == "on":
-                current["subject"] = int(rest.split()[0])
-            elif head == "show":
-                parser = _Parser(_lex(rest))
-                current["show"] = parser.expression()
+                current["subject"] = resolve(rest.split()[0], scope)
+            elif head in ("when", "show"):
+                parser = _Parser(_lex(rest), scope)
+                current["when"] = parser.expression()
                 if parser.peek()[0] != "end":
                     raise RuleError(f"trailing {parser.peek()[1]!r}")
+            elif head in ("bind", "count"):
+                current["bind"] = parse_bind(rest, scope)
             elif head == "color":
                 current["color"] = rest.split()[0]
-            elif head == "count":
-                m = re.match(r"(?:count\()?(\d+)\)?\s*>=\s*(\d+)$", rest)
-                if m is None:
-                    raise RuleError("count takes the form `count count(<aura>) >= <n>`")
-                current["count"] = {"aura": int(m.group(1)), "threshold": int(m.group(2))}
             else:
                 raise RuleError(f"unknown keyword {head!r}")
         except RuleError as exc:
@@ -211,31 +375,54 @@ def parse(text: str):
     return glows
 
 
-def render_expr(node) -> str:
+def render_expr(node, scope=None) -> str:
     if not isinstance(node, dict):
         return "?"
     kind = node.get("t")
     if kind in ("and", "or"):
-        joined = f" {kind} ".join(render_expr(t) for t in node["terms"])
+        joined = f" {kind} ".join(render_expr(t, scope) for t in node["terms"])
         return f"({joined})"
     if kind == "not":
-        return "not " + render_expr(node["term"])
+        return "not " + render_expr(node["term"], scope)
     if kind == "resource":
         return f"{node['power']} {node['cmp']} {node['value']}"
-    if kind in ("ready", "aura"):
-        return f"{kind}({node['spell']})"
+    if kind in ("ready", "aura", "talent"):
+        return f"{kind}({name_of(node['spell'], scope)})"
     return str(kind)
 
 
-def render(glows) -> str:
+def render_bind(bind, scope=None) -> str:
+    if not isinstance(bind, dict):
+        return "?"
+    if bind.get("family") == "count":
+        return f"{name_of(bind['aura'], scope)}.stacks >= {bind['threshold']}"
+    if bind.get("family") == "duration":
+        spell = name_of(bind["spell"], scope)
+        if bind.get("cmp") == "outside":
+            body = f"{spell}.cooldown outside {_secs(bind['lo'])}s..{_secs(bind['hi'])}s"
+        else:
+            body = f"{spell}.cooldown {bind['cmp']} {_secs(bind['seconds'])}s"
+        return body + (f" absent {bind['absent']}" if bind.get("absent") else "")
+    if bind.get("family") == "health":
+        return f"health% {bind['cmp']} {bind['percent']:g}"
+    return str(bind.get("family"))
+
+
+def _secs(v) -> str:
+    return f"{v:g}"
+
+
+def render(glows, scope=None) -> str:
     lines = []
+    if scope:
+        lines += [f"spec {scope}", ""]
     for glow in glows:
         lines.append(f'glow "{glow.get("name", "")}"')
-        lines.append(f"  on     {glow.get('subject')}")
-        if glow.get("show") is not None:
-            lines.append(f"  show   {render_expr(glow['show'])}")
-        if glow.get("count") is not None:
-            lines.append(f"  count  count({glow['count']['aura']}) >= {glow['count']['threshold']}")
+        lines.append(f"  on     {name_of(glow.get('subject'), scope)}")
+        if glow.get("when") is not None:
+            lines.append(f"  when   {render_expr(glow['when'], scope)}")
+        if glow.get("bind") is not None:
+            lines.append(f"  bind   {render_bind(glow['bind'], scope)}")
         if glow.get("color") is not None:
             lines.append(f"  color  {glow['color']}")
         lines.append("")
@@ -249,17 +436,14 @@ def check(glows):
     errs = []
     for i, glow in enumerate(glows, start=1):
         if not isinstance(glow.get("subject"), int):
-            errs.append(f"glow {i}: needs `on <spell id>`")
-        if glow.get("show") is None and glow.get("count") is None:
-            errs.append(f"glow {i}: needs a `show` expression, a `count` element, or both")
+            errs.append(f"glow {i}: needs `on <spell>`")
+        if glow.get("when") is None and glow.get("bind") is None:
+            errs.append(f"glow {i}: needs a `when` expression, a `bind`, or both")
         color = glow.get("color")
         if color is not None and color not in COLORS:
             errs.append(f"glow {i}: unknown colour {color!r}; known: {', '.join(sorted(COLORS))}")
-        count = glow.get("count")
-        if count is not None:
-            if not isinstance(count.get("aura"), int) or not isinstance(count.get("threshold"), int):
-                errs.append(f"glow {i}: a count element needs a numeric aura and threshold")
-        errs.extend(f"glow {i}: {e}" for e in _check_expr(glow.get("show")))
+        errs.extend(f"glow {i}: {e}" for e in _check_expr(glow.get("when")))
+        errs.extend(f"glow {i}: {e}" for e in _check_bind(glow.get("bind"), glow.get("when")))
     return errs
 
 
@@ -279,21 +463,73 @@ def _check_expr(node):
     if kind == "resource":
         power = node.get("power")
         if power in PRIMARY:
-            return [f"{power} is a primary resource and can never be a gate"]
+            return [f"{power} is a primary resource, which is never readable — it belongs "
+                    f"in `bind` as a percent, not in `when`"]
         if power not in SECONDARY:
             return [f"unknown resource {power!r}"]
         if node.get("cmp") not in COMPARISONS:
             return [f"unknown comparison {node.get('cmp')!r}"]
         return []
-    if kind in ("ready", "aura"):
+    if kind in WHEN_TERMS:
         if not isinstance(node.get("spell"), int):
-            return [f"{kind}() needs a spell id"]
+            return [f"{kind}() needs a spell"]
         return []
     if kind == "charges":
-        return ["a charge COUNT is neither a gate nor a binding"]
-    if kind == "count":
-        return ["a count is a sealed binding and cannot appear inside an expression"]
+        return ["a charge COUNT is neither readable nor sealed; use ready() instead"]
+    if kind in BIND_FAMILIES:
+        return [f"{kind} is a sealed term and belongs in `bind`, not in `when`"]
     return [f"unknown term {kind!r}"]
+
+
+def _check_bind(bind, when):
+    if bind is None:
+        return []
+    if not isinstance(bind, dict):
+        return ["a bind must be an object"]
+    family = bind.get("family")
+    if family in WHEN_TERMS:
+        return [f"{family} is readable and belongs in `when`, not in `bind`"]
+    if family == "count":
+        if not isinstance(bind.get("aura"), int) or not isinstance(bind.get("threshold"), int):
+            return ["a count bind needs an aura and a numeric threshold"]
+        return []
+    if family == "duration":
+        if not isinstance(bind.get("spell"), int):
+            return ["a duration bind needs a spell"]
+        cmp_ = bind.get("cmp")
+        if cmp_ == "outside":
+            if not isinstance(bind.get("lo"), (int, float)) or not isinstance(bind.get("hi"), (int, float)):
+                return ["`outside` needs two bounds"]
+        elif cmp_ not in COMPARISONS - {"=="}:
+            return [f"unknown duration comparison {cmp_!r}"]
+        elif not isinstance(bind.get("seconds"), (int, float)):
+            return ["a duration bind needs a number of seconds"]
+        if cmp_ in UNBOUNDED_BELOW and not bind.get("absent") and not _guards_ready(when, bind["spell"]):
+            return [f"`{cmp_}` on a cooldown is also true when the spell is READY, so this "
+                    f"would glow permanently while it is up. Add `not ready(...)` to `when`, "
+                    f"or say `absent dark` / `absent show` on the bind"]
+        return []
+    if family == "health":
+        if bind.get("cmp") not in COMPARISONS - {"=="}:
+            return [f"unknown health comparison {bind.get('cmp')!r}"]
+        pct = bind.get("percent")
+        if not isinstance(pct, (int, float)) or not 0 < pct < 100:
+            return ["a health bind needs a percent strictly between 0 and 100"]
+        return []
+    return [f"unknown bind family {family!r}"]
+
+
+def _guards_ready(node, spell) -> bool:
+    """Is `not ready(<spell>)` somewhere in the readable half? Only a conjunction counts —
+    a disjunct leaves a path where the guard is false and the bind still drives."""
+    if not isinstance(node, dict):
+        return False
+    if node.get("t") == "and":
+        return any(_guards_ready(t, spell) for t in node.get("terms", []))
+    if node.get("t") == "not":
+        inner = node.get("term")
+        return isinstance(inner, dict) and inner.get("t") == "ready" and inner.get("spell") == spell
+    return False
 
 
 # ------------------------------------------------------------------- the commands
@@ -317,10 +553,11 @@ def cmd_encode(args) -> int:
 
 def cmd_decode(args) -> int:
     glows = decode(args.string)
+    scope = scope_key(args.spec) if args.spec else None
     if args.json:
         print(json.dumps(glows, indent=2))
     else:
-        print(render(glows), end="")
+        print(render(glows, scope), end="")
     errs = check(glows)
     for err in errs:
         print(f"refused: {err}", file=sys.stderr)
@@ -351,6 +588,7 @@ def main(argv=None) -> int:
     p = sub.add_parser("decode", help="an SG1: string -> surface text")
     p.add_argument("string")
     p.add_argument("--json", action="store_true", help="print the AST instead")
+    p.add_argument("--spec", help="render bare spell names in this spec's scope")
     p.set_defaults(fn=cmd_decode)
 
     p = sub.add_parser("check", help="parse and report the checker's refusals")

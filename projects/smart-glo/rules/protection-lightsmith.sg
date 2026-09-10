@@ -1,0 +1,80 @@
+-- Protection (Lightsmith), from the simc `protection` list and Method's 12.1 priority.
+--
+-- Each glow is one rung with the terms the addon cannot read dropped, so a lit icon means
+-- "this rung's readable conditions hold" and never "press this now": priority ORDER is not
+-- expressible. Several of these light at once.
+--
+-- Hammer of Light and everything gated on `buff.hammer_of_light_ready` is absent on purpose --
+-- it comes from Light's Deliverance, which is a TEMPLAR talent and not in this tree.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/protection-lightsmith.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/protection-lightsmith.sg
+
+spec paladin.protection
+
+-- `word_of_glory,if=buff.shining_light_free.up` -- the free cast, which is the only one that
+-- does not compete with Shield of the Righteous for Holy Power.
+glow "Word of Glory on Shining Light"
+  on     word_of_glory
+  when   aura(shining_light)
+
+-- The paid cast, for when you are actually hurt rather than when it is free. Health can only
+-- ever be a BIND: `UnitHealth` is unconditionally secret, so no gate can compare it and the
+-- threshold is handed to the client as a curve instead. The readable half carries the part
+-- that can be read -- 3 Holy Power is the cost, so this is "castable".
+--
+-- ⚠ The two halves fail differently and that is deliberate. Below 3 Holy Power the gate is
+-- false and the whole element closes. At or above it the element opens and the CURVE decides,
+-- with no way to see what it drew.
+glow "Word of Glory when hurt"
+  on     word_of_glory
+  when   holy_power >= 3
+  bind   health% < 80
+
+-- The Lightsmith button. Two charges rotating Holy Bulwark and Sacred Weapon; which one is
+-- next is not readable, so this marks the cast and leaves the choice to the player.
+glow "Holy Armaments"
+  on     holy_armaments
+  when   ready(holy_armaments)
+
+-- `avengers_shield,if=buff.vanguard.up` -- the proc is the rung that outranks everything
+-- below it. Off cooldown without the proc is an ordinary filler the swipe already shows.
+glow "Avenger's Shield on Glory of the Vanguard"
+  on     avengers_shield
+  when   aura(glory_of_the_vanguard)
+
+-- `avenging_wrath,if=cooldown.divine_toll.remains<=10` -- Divine Toll being ready is the
+-- readable form, and it is the stricter half, so this holds wings rather than leaking them.
+glow "Avenging Wrath with Divine Toll up"
+  on     avenging_wrath
+  when   ready(avenging_wrath) and ready(divine_toll)
+
+glow "Divine Toll inside Avenging Wrath"
+  on     divine_toll
+  when   ready(divine_toll) and aura(avenging_wrath)
+
+-- Not the APL's `buff.divine_guidance.stack>=5` rung but the practical one: Consecration is
+-- worth pressing when you are not standing in it and it is off cooldown. 26573 is the cast
+-- and the only Consecration row in the Protection cooldown set; 188370 is the "standing in
+-- it" player aura, and 81297 -- which the bare name resolves to -- is neither, it is the
+-- periodic damage inside the field.
+glow "Consecration when you are not in it"
+  on     26573
+  when   ready(26573) and not aura(188370)
+
+-- Two rungs on the same button, and the second is the first with its requirement lowered.
+-- At the cap you press regardless, because the next generator overcaps. With the mitigation
+-- buff DOWN it is worth pressing at the castable minimum instead, so the missing buff is what
+-- buys the drop from 5 to 3. Both light the same mark, and at 5 with the buff down both hold.
+--
+-- `>= 5` rather than `== 5` so a talent that raises the cap cannot silently step over it.
+glow "Shield of the Righteous at cap"
+  on     shield_of_the_righteous
+  when   holy_power >= 5
+
+-- 132403 is the buff; the cooldown row 53600 carries it as a linked spell, so the row and the
+-- buff are the same subject.
+glow "Shield of the Righteous with the buff down"
+  on     shield_of_the_righteous
+  when   holy_power >= 3 and not aura(132403)

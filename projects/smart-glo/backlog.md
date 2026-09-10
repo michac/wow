@@ -34,12 +34,27 @@ delete it — never leave it standing with a note underneath.
   whose band at the threshold is empty. The polarity is inverted on purpose: the client conceals
   our mark rather than revealing one of its own. Armed once in `initializeFrame`, in combat or
   out. Its readable gate closes the container's alpha before the client draws, which is how a
-  gate composes with a binding.
+  gate composes with a binding. **§6.4's absence case is closed by `Rules.Gate`**, which gives
+  every count an implicit presence term on its own aura, so the aura going away darkens the
+  mark instead of revealing it. The authored `when` is untouched, so export and the checker
+  still show the rule as written. The cost: a count glow now needs a Tracked Buffs row for its
+  aura, which the occluder alone did not.
 - **One look, one mark, on both sinks** — a spinning hexagon outline centred in the icon.
   It is **always our own Texture on our own frame**, so it takes a rotation and a vertex colour;
   what differs is who reveals it. A gate draws it; a count has the client take its occluder away.
   `Media/` is **generated** by `tool/gen_media.py` from a CC0 Kenney icon; do not hand-edit it.
   `/sg color <name>` recolours everything, both kinds, on the next evaluation.
+- **Aura presence read at the level, not only at the edge.** `Attach.AuraLatch` asks the frames
+  carrying the aura whether it is up NOW, and falls back to the edge latch when none can say.
+  This is what answers for a buff that was already up when we started watching, which an edge
+  latch cannot see. Two instruments, the better one deciding alone: a **buff-viewer** item
+  answers through `IsActive()`, whose `ShouldBeActive` the buff mixin overrides to track expiry,
+  the linked-spell fallback and totems; a cooldown-viewer row has no such predicate and can only
+  offer `wasSetFromAura` / `auraInstanceID`. ⚠ Those two fields are Tier-3
+  (`mined-pending-verification.md` E2, `@verify-ingame`), so a client without them makes the
+  cooldown-viewer half silent and the edge latch carries it exactly as before.
+  ⚠ **Being SHOWN is a different question and is not used**: `ShouldBeShown` returns true
+  whenever `hideWhenInactive` is off, a user setting, so a shown row says nothing about the aura.
 - **The config dialog** — a subject dropdown built by enumerating live item frames, a detail
   pane, and a text box that is also the import/export surface.
 - **Serialization and profiles.** `SG1:` + base64(deflate(JSON envelope)) with an adler32, every
@@ -80,6 +95,75 @@ delete it — never leave it standing with a note underneath.
   rule anyway. Out-of-range and not-usable remain: `RefreshIconColor` tints the real icon and our
   copy is untinted, so a patch would show. Both are readable (`C_Spell.IsSpellInRange`,
   `C_Spell.IsSpellUsable`) if they turn out to matter in play.
+- **The two bowls.** `when` carries unlimited readable terms; `bind` is one slot holding at
+  most one sealed leaf, so at-most-one is structural rather than checked. `count` became
+  `bind = { family = "count", … }` and survives as a legacy key on decode. The checker refuses a
+  term in the wrong bowl **by name, both directions** — a sealed `X.stacks` offered to `when`,
+  a readable `soul_shards` offered to `bind`.
+- **Names in the surface.** `Symbols.lua` is generated from the KB's ability inventory by
+  `wowkb.gen_smartglo_symbols` — 3,988 ids across all 40 specs — and `Names.lua` resolves a bare
+  name inside a `spec` scope, a `class.spec.name`, or a raw id, refusing an ambiguous word rather
+  than guessing. `/sg symbols` checks every row against `C_Spell.GetSpellName` in the live
+  client, 250 ids a frame, and runs silently on login: the client is Tier 1 for `id → name`, so a
+  patch rename is caught with no flight.
+- **Rules are authorable in the game.** `Parse.lua` reads the same grammar `wowkb.smartglo`
+  reads; the config box shows rule TEXT and takes either text or an `SG1:` string, and
+  `/sg export text` gives the editable form. ⚠ The grammar now exists in two languages. The
+  refusal STRINGS are what drift, and the capture log is the only detector — there is no test.
+- **`talent()`, off the TRAIT CONFIG.** `C_ClassTalents.GetActiveConfigID` →
+  `C_Traits.GetNodeInfo`, checking `ranksPurchased > 0` **and** `activeEntry.entryID`, so a
+  choice node answers about the half the player actually picked. `C_SpellBook.IsSpellKnown` was
+  rejected: it answers about a **spell**, not a node, so it stands in for the talent rather than
+  being it, and a spell known from another source diverges silently — under a `not` a wrong
+  `false` reads as a confident true. `Symbols.talentNodes` maps 2,469 talent spells to their
+  `{node, entry}` pairs, generated from the KB's 40 `talents.json`; a spell that names a
+  different node in another spec carries every candidate and the client arbitrates by refusing
+  the one outside the player's tree. The fold is cached against the config id and dropped on
+  `TRAIT_CONFIG_UPDATED` / spec change. ⚠ `C_Traits.GetNodeInfo` is **unmeasured** — every read
+  is `pcall`ed and every unrecognised shape reads UNKNOWN, so a refusal costs a glow and can
+  never invent one.
+- **One frame per rule.** The subject frame carries attached-and-not-editing, an element frame
+  per rule carries the readable gate, and the mark's alpha is left to whatever sealed the rule.
+  Three channels, one owner each, decided at build. A count element's container hosts on its
+  own element, so two rules on one icon no longer share an occluder.
+- **The sealed health bind.** `Health.lua` compiles `health% < N` to a Step curve and hands it
+  to `UnitHealthPercent("player", false, curve)`, whose result -- secret -- goes straight to the
+  mark's alpha. Health can never be a gate: `UnitHealth` is unconditionally secret, so the
+  readable half carries only what is readable (the Holy Power cost) and the threshold is the
+  client's to evaluate. Shares the duration bind's 10 Hz ticker shape and its alpha ownership.
+  ⚠ **Unflown**, twice over: the curve-to-alpha path has never been seen to work, and the
+  curve's **input scale** is undocumented with no Blizzard caller to copy. The curves are shaped
+  so the wrong scale reads DARK rather than permanently bright -- an extra Step point just above
+  1 takes the whole 0..1 range to zero -- so the failure is a glow that never appears.
+- **The sealed duration bind.** `Duration.lua` compiles `X.cooldown > Ns` and
+  `outside A..Bs` into a Step curve, hands it plus the opaque duration object to the engine, and
+  writes the secret result straight to `Texture:SetAlpha`. `>` and `>=` compile to the same
+  curve, because Step is a floor and the client cannot draw the difference. Re-applied on one
+  shared 10 Hz ticker, which draws and never evaluates. ⚠ **Unflown** — no eyeball has seen a
+  Step curve drive a mark across a threshold, and there is no programmatic oracle for one.
+- **The capture log.** One `attach` stream, six sessions: every dirty trigger by source, every
+  flush with the subjects that found no frame, every verdict change with its per-term
+  `T | F | ?`, aura-latch edges and UNKNOWN latch reads, count arm outcomes, parse refusals, and
+  combat / Edit Mode / spec edges. Read it with
+  `uv run python -m wowkb.capture sg attach`. The 10 Hz ticker never writes a line.
+- **An override swap re-resolves.** `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` marks dirty: a proc
+  that swaps a row's spell keeps its cooldownID, so `OnCooldownIDSet` is silent for it and the
+  bound map would go on naming the base spell. Ruination over Hand of Gul'dan and Infernal Bolt
+  over Shadow Bolt both depend on it. ⚠ **Unflown.**
+- **The Diabolist profile.** `demonology-diabolist`, eleven glows transcribed from the simc
+  `diabolist` list, with `rules/demonology-diabolist.sg` as its on-disk twin — the two render
+  identically through `Parse.Render`, which is the cross-check that the shipped table and the
+  file say the same thing. ⚠ **Unflown**, and `aura(1276166)` needs a Tracked Buffs checkbox on
+  Dominion of Argus before it can ever read anything but UNKNOWN.
+- **Two Paladin profiles.** `retribution-herald` and `protection-lightsmith`, nine glows each,
+  from the simc lists plus Method's 12.1 Protection priority, each with a `rules/*.sg` twin the
+  profile table parses identically to. Hammer of Light is absent from both by design: it comes
+  from Light's Deliverance, a **Templar** talent neither tree has. ⚠ **Unflown**, and every
+  `aura(...)` term needs a Tracked Buffs checkbox before it reads anything but UNKNOWN.
+- **`talent()` can read HERO talents.** The symbol generator walked `trees.hero` as a list, but
+  it is a dict keyed by hero-tree name, so iterating it yielded strings and every hero talent in
+  the game was silently missing — `talent(walk_into_light)` read UNKNOWN and its glow stayed
+  dark. 2,469 mapped talent spells became 3,163.
 - **What the flight did NOT cover**, and it is the question the attach path was built to answer:
   **whether a glow survives its icon being rebound to a different spell.** Nothing has forced a
   rebind or a re-layout under a live overlay, Edit Mode has not been opened with one attached,
@@ -123,16 +207,6 @@ anchor-*follower* rather than an anchor-*setter* is what makes it cheap: Blizzar
 moves the icon and the overlay follows in the same frame, with no hook and no reassert — so
 §4.6.1's reassert seam and its two-riders hazard, which are about addons that *move* item
 frames, do not apply.
-
-### The surface becomes two bowls
-
-`rule-language.md` §5/§8 now specify `when` (unlimited readable terms) and `bind` (at most one
-sealed leaf), reversing the single-expression decision — §10 carries the APL exercise that
-decided it. **The addon's runtime already has this shape**; what changes is the surface and the
-checker: the Python tool grows `when`/`bind` keywords, refuses a term in the wrong bowl by
-name, and `count` stops being a keyword and becomes an ordinary bowl-A leaf beside
-`X.cooldown` and `resource%`. No mechanism changes — the container, the formatter and the
-alpha gate stay exactly as built.
 
 ### The config: one dialog — subject dropdown, detail pane, text box
 
@@ -179,17 +253,12 @@ its leaves — no blanket `OnUpdate`. Sealed **duration** leaves are the excepti
 evaluation is a snapshot, not a live binding, so they re-arm on a **10 Hz** ticker, and only a
 glow that uses one pays for it.
 
-### The eight baked hue files are now dead weight
-
-Every mark is our own texture tinted from the white master, so `Media/hex-{blue,cyan,green,
-orange,purple,red,yellow}.tga` are unreferenced and `tool/gen_media.py` still generates them.
-Small, mechanical, and worth doing before someone reads the palette as load-bearing.
-
 ### The rule language exists as a design
 
-`rule-language.md` was written on 2026-09-08 and none of it has been built. It is the thing to
-read before writing any rule-evaluation code, and the thing to correct if the first flight
-disagrees with it. Its own `## 9. Open` carries what it does not settle.
+`rule-language.md` is the thing to read before writing any rule-evaluation code, and the thing
+to correct where a flight disagrees with it. §5's two bowls, §6's gate-over-binding composition
+and §7's syntax are built; §9's open client questions are not, and are what the next flight is
+for.
 
 What it decided, so it is not re-litigated: **subject-first** (rule-first deferred until
 repetition is felt) · **configuration, not code** (re-examined against a direct request for a

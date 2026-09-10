@@ -1,0 +1,54 @@
+-- Retribution (Herald of the Sun), transcribed from the simc `retribution` list.
+--
+-- Each glow is one APL line with the terms the addon cannot read dropped, so a lit icon means
+-- "this line's readable conditions hold" and never "cast this now": priority ORDER is not
+-- expressible. Several of these light at once.
+--
+-- Hammer of Light and everything gated on `buff.hammer_of_light_ready` is absent on purpose --
+-- it comes from Light's Deliverance, which is a TEMPLAR talent and not in this tree.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/retribution-herald.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/retribution-herald.sg
+
+spec paladin.retribution
+
+-- The generator the whole list is built around, and Herald's engine: Wake of Ashes is what
+-- applies Dawnlight, so its cooldown is the spec's rhythm.
+glow "Wake of Ashes"
+  on     wake_of_ashes
+  when   ready(wake_of_ashes)
+
+glow "Divine Toll"
+  on     divine_toll
+  when   ready(divine_toll)
+
+glow "Avenging Wrath"
+  on     avenging_wrath
+  when   ready(avenging_wrath)
+
+-- `cooldown.wake_of_ashes.remains<gcd` -- Execution Sentence goes out just before Wake of
+-- Ashes, so both being ready is the readable form of "they are about to line up".
+glow "Execution Sentence into Wake of Ashes"
+  on     execution_sentence
+  when   ready(execution_sentence) and ready(wake_of_ashes)
+
+-- `holy_power=5&cooldown.wake_of_ashes.remains` -- spend at cap, EXCEPT when Wake of Ashes is
+-- ready, because that is the one thing worth capping into.
+glow "Templar's Verdict at cap"
+  on     templars_verdict
+  when   holy_power == 5 and not ready(wake_of_ashes)
+
+glow "Divine Storm on Empyrean Power"
+  on     divine_storm
+  when   aura(empyrean_power)
+
+glow "Blade of Justice on a proc"
+  on     blade_of_justice
+  when   aura(art_of_war) or aura(righteous_cause)
+
+-- `hammer_of_wrath,if=talent.walk_into_light` sits ABOVE Blade of Justice, so with the talent
+-- taken the two swap order. This marks Blade of Justice as the one to hold.
+glow "Blade of Justice held under Walk Into Light"
+  on     blade_of_justice
+  when   talent(walk_into_light) and aura(avenging_wrath)

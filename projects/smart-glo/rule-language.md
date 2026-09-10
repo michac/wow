@@ -1,9 +1,9 @@
 # The Smart Glo rule language
 
-**Status: a design, not an implementation.** Nothing here has been built or flown. It was
-worked out in one session on 2026-09-08 against the measured client facts in
-`knowledge/addon-dev/`, and it is written down so the reasoning survives — not because any of
-it is settled by use. `backlog.md` owns what is actually built.
+**Status: mostly built.** The two bowls, the composition rules, the refusal list, the syntax
+and both sealed sinks are in the addon; `§9. Open` carries the client questions that are not,
+and no claim here is settled by a flight unless `backlog.md` says it flew. This file is the
+language — `backlog.md` owns what is actually built.
 
 `README.md` owns the product and the v1 scope. This file owns the language: what a rule can
 say, what it can never say, how the two combine, and why.
@@ -410,20 +410,27 @@ Each of these is a rule that would otherwise author cleanly and then never fire:
    threshold takes away.
 
    So every occluder rule is the genuine case. **With the aura absent the client hides the
-   button, the occluder goes with it, and the mark reads as though the threshold were met** —
-   the failure is bright rather than dark, which is worse. An occluder is only correct on an
-   aura that is **continuously present**, and that presence is a claim to confirm rather than
-   assume.
+   button, the occluder goes with it, and the mark would read as though the threshold were
+   met** — a bright failure rather than a dark one, which is worse.
 
-   The two live examples sit in the same spec and are worth keeping side by side. *"Implosion
-   at 6+ imps"* rides Wild Imps' Cooldown Manager buff, which does not drop. *"Power Siphon at
-   ≤1 Demonic Core"* would need zero Cores covered by a readable term, and that term is an
-   alert-edge latch with the Tracked Buffs precondition attached.
+   **The readable half is where this is caught, and `Rules.Gate` does it for every count
+   automatically.** A count bind gets an implicit `aura(<its own aura>)` term, so absence reads
+   F and an unreadable presence reads UNKNOWN; either closes the element's alpha, and because
+   the container is hosted on the element the occluder and the mark go together. The gate is
+   not folded into the authored `when` — export and the checker still see what the author
+   wrote, and `/sg why` prints the implicit term as its own row.
 
-   ⚠ The old advice — *"adding an aura gate for safety costs everything, because it makes the
-   glow depend on a Tracked Buffs row the player has no reason to have enabled"* — is still the
-   right warning about the **cost**. It is no longer a reason to skip the absence case; it is a
-   reason to prefer an aura that cannot drop over a gate that can go UNKNOWN.
+   This is what makes an aura that drops safe, so the rule is no longer *"point a count only at
+   an aura that cannot drop."* Both of Demonology's shapes are now expressible: *"Implosion at
+   6+ imps"* on Wild Imps, and *"Power Siphon at ≤1 Demonic Core"*, whose zero case the
+   implicit term covers.
+
+   ⚠ **The cost is real and is now paid by every count.** The presence term resolves through a
+   Cooldown Manager row, which the occluder itself does not need — so a count glow now depends
+   on a Tracked Buffs checkbox for its aura. A row in one of the two **buff** viewers answers
+   through `IsActive()`; a cooldown-viewer row can only offer the two unmeasured presence
+   fields. When neither can speak the term is UNKNOWN and the glow stays **dark and
+   self-diagnosing** — `/sg why` names the missing checkbox — rather than bright and wrong.
 5. **A temporal operator on a sealed leaf.** You never learn when a band flipped, so
    `for 2s` / debounce apply to gates only. A sealed term supports curve *shaping* instead —
    a `Linear` curve gives a ramp with no state at all.
@@ -602,6 +609,13 @@ Settled 2026-09-08, in dependency order:
 priority lists nobody authored for this document.** Every rule below is a transcription of a
 line from `knowledge/classes/**/simc-apl.md` at 12.1.
 
+The Demonology block is no longer an exercise: it ships as the `demonology-diabolist` profile,
+with `rules/demonology-diabolist.sg` as its on-disk twin. Two lines below differ from what
+shipped, and both differences are the sketch being wrong rather than the language —
+`tyrant.cooldown` is not a name the symbol table carries (`summon_demonic_tyrant` is), and the
+Dreadstalkers line's `talent(reign_of_tyranny)` is inverted, since Reign banks imps for the
+Tyrant instead of spending them on demand.
+
 ### Demonology — the `diabolist` list
 
 ```
@@ -657,7 +671,7 @@ gate is simc for *"not ready"* — a boolean wearing a duration's clothes, and a
 | **enemy count** | the real Implosion condition, Divine Storm, every AoE branch — by far the most wanted |
 | GCD remaining | Havoc's off-GCD weaves |
 | time in combat | opener-only lines |
-| guardian active | *"is Tyrant out"*, which gates Demonology's whole burst list |
+| guardian active | *"is Tyrant out"*, which gates Demonology's whole burst list. ⚠ Diabolist has a way around it: Dominion of Argus's buff window **is** the Tyrant window, so `aura(...)` on its tracked row answers the same question — a per-spec substitute, not the missing term |
 
 And two things are unreachable rather than missing: `fight_remains` / `target.time_to_die`,
 which the client does not know either, and `raid_event.*`, which is a simulator construct with

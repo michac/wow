@@ -2,15 +2,18 @@
 
     uv --directory ../../tools run python ../projects/smart-glo/tool/gen_media.py
 
-Two things this exists for. The shape is CENTRED in a square canvas, because a rotation
-animation turns about the region's centre and an off-centre shape wobbles instead of
-spinning. And the palette is baked one file per hue, because a band's inline texture escape
-cannot be tinted at runtime: a colour escape reaches the band's TEXT and leaves the art full
-white, and SetApplicationCount seals no VertexColor aspect to reach it through
-(knowledge/addon-dev/security-taint-and-restricted-data.md §3.5).
+One file, and one reason for the shape. The mark is CENTRED in a square canvas because a
+rotation animation turns about the region's centre and an off-centre shape wobbles instead
+of spinning.
 
-`white` is the master the GATE uses, tinted with SetVertexColor to any value at all; the
-named hues exist for the COUNT sink, which can only name a file.
+⚠ **One hue is all there is, and that follows from the occluder.** `white` is the master
+every mark is drawn from, tinted at runtime with SetVertexColor. Baking a file per hue was
+right while a count's mark was drawn AS a band's inline texture escape, which cannot be
+tinted (a colour escape reaches the band's TEXT and leaves the art full white, and
+SetApplicationCount seals no VertexColor aspect to reach it through —
+knowledge/addon-dev/security-taint-and-restricted-data.md §3.5). The count sink now draws
+the subject's own cropped icon as an OCCLUDER over that same white master, so the escape
+carries no hue at all and nothing but `Look.MASTER` is ever named by filename.
 
 Source art: Kenney "Board Game Icons" 1.1, CC0 (www.kenney.nl).
 """
@@ -24,15 +27,10 @@ SOURCE = Path("/mnt/c/Users/mchris/Downloads/kenney_board-game-icons/PNG/Double 
 OUT_DIR = Path(__file__).resolve().parents[1] / "addon" / "SmartGlo" / "Media"
 SIDE = 64
 
+# The hue names the rule language offers live in Look.lua's PALETTE and in
+# wowkb.smartglo's COLORS; they are TINTS applied to this one master, never files.
 PALETTE = {
     "white": (255, 255, 255),
-    "yellow": (255, 209, 64),
-    "red": (255, 82, 82),
-    "green": (110, 231, 128),
-    "blue": (96, 176, 255),
-    "purple": (196, 132, 255),
-    "orange": (255, 148, 64),
-    "cyan": (94, 234, 232),
 }
 
 

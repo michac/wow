@@ -1,0 +1,63 @@
+-- Demonology (Diabolist), transcribed from the simc `diabolist` list.
+--
+-- The on-disk twin of the `demonology-diabolist` profile the addon ships. Each glow is one
+-- APL line with the terms the addon cannot read dropped, so a lit icon means "this line's
+-- readable conditions hold" and never "cast this now": priority ORDER is not expressible.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/demonology-diabolist.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/demonology-diabolist.sg
+
+spec demonology
+
+glow "Tyrant at five shards"
+  on     summon_demonic_tyrant
+  when   soul_shards == 5
+
+glow "Hand of Gul'dan capped"
+  on     hand_of_guldan
+  when   soul_shards == 5
+
+-- Dominion of Argus's window IS the Tyrant window, so this aura is the only way the addon
+-- has to ask "is Tyrant out". The id is the tracked Cooldown Manager row, not the talent
+-- 1276163: the talent id names no row, so a latch on it would read UNKNOWN forever.
+glow "Hand of Gul'dan inside the Argus window"
+  on     hand_of_guldan
+  when   aura(1276166)
+
+glow "Demonbolt on a Core below four shards"
+  on     demonbolt
+  when   soul_shards < 4 and aura(demonic_core)
+
+-- Infernal Bolt is a Mother of Chaos PROC, so its row exists only inside the proc window --
+-- which is why this glow carries no gate of its own beyond the shard count.
+glow "Infernal Bolt below three shards"
+  on     infernal_bolt
+  when   soul_shards < 3
+
+glow "Implosion at six imps"
+  on     implosion
+  when   ready(implosion)
+  bind   wild_imp.stacks >= 6
+
+glow "Ruination"
+  on     ruination
+  when   ready(ruination)
+
+glow "Grimoire: Imp Lord"
+  on     grimoire_imp_lord
+  when   ready(grimoire_imp_lord)
+
+glow "Grimoire: Fel Ravager"
+  on     grimoire_fel_ravager
+  when   ready(grimoire_fel_ravager)
+
+glow "Summon Doomguard"
+  on     summon_doomguard
+  when   ready(summon_doomguard)
+
+-- Reign of Tyranny banks imps for the Tyrant instead, so the APL only sends Dreadstalkers
+-- on demand when it is NOT taken.
+glow "Call Dreadstalkers without Reign of Tyranny"
+  on     call_dreadstalkers
+  when   not talent(reign_of_tyranny) and ready(call_dreadstalkers)

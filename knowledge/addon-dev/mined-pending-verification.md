@@ -2,7 +2,7 @@
 title: Mined but not yet verified — the double-check queue
 patch: 12.0.7
 fetched: 2026-08-05
-reviewed: 2026-08-11   # §C triaged against shipped 12.1.0; sections A/B NOT re-reviewed and are still 12.0.7-era
+reviewed: 2026-09-09   # §E added from a v9.1.7 read (12.1-exclusive build); sections A/B still 12.0.7-era and NOT re-reviewed
 sources:
   - EllesmereUI v8.7.5 @ c4eba58d996a8436f467ac8f297148bff9dd3008 (2026-08-04),
     https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
@@ -10,6 +10,13 @@ sources:
     `mine-addon` skill, five surfaces, ~51 raw facts. ⚠ CLONE DELETED — the file:line
     anchors below resolve ONLY against that commit; re-clone per
     `raw/addon-research/ELLESMEREUI-REMOVED.md` (gitignored, local).
+  - EllesmereUI v9.1.7 @ 3860a8d5b7a31d7c9b989a7654bf1554961a678e (2026-09-08),
+    https://github.com/EllesmereGaming/EllesmereUI — license CUSTOM, ALL RIGHTS
+    RESERVED; read for API discovery only, no code copied. Mined 2026-09-09 via the
+    `mine-addon` skill, the aura-readability surface only. ⚠ CLONE DELETED — §E's
+    file:line anchors resolve ONLY against that tag. ⚠ v9.x is **12.1-exclusive**: it
+    refuses to run below interface 120100, so it carries no dual-target branching and
+    every fact in §E is a 12.1 fact rather than one reached through a version gate.
   - https://github.com/Gethe/wow-ui-source (12.0.7 checkout) — the Tier-1 corroboration
     source for everything below.
 confidence: low
@@ -233,6 +240,86 @@ which are gated on content already existing) → `UpdateAllAuras()`. The contain
 - Filter strings gain `!` negation (absent at 12.0.7, verified); groups cannot OR.
 
 ---
+
+## E. Aura readability — mined 2026-09-09 from EllesmereUI v9.1.7
+
+Three facts about *how a shipping addon decides whether an aura is readable at all*,
+which is the question `RequiresNonSecretAura` (§4.7 of
+`security-taint-and-restricted-data.md`) leaves the caller holding.
+
+### E1. `C_Secrets.ShouldSpellAuraBeSecret(spellID)` answers the allowlist question directly
+
+**The fact.** The per-spell `RequiresNonSecretAura` allowlist is queryable at runtime.
+`ShouldSpellAuraBeSecret` takes a `SpellIdentifier` and returns a non-nilable `bool`,
+documented as *"Returns true if a given spell identifier would, if applied as an aura,
+produce secret values when queried."*
+
+**Why it is load-bearing.** §4.7 establishes that a `nil` from
+`C_UnitAuras.GetPlayerAuraBySpellID` is **two worlds** — "not on the allowlist" and "the
+aura is not there" — and that the failure is silent, returning no values rather than
+erroring. A caller that cannot tell those apart must either hand-maintain a mirror of
+Blizzard's allowlist or treat every absence as unknown. This predicate collapses the
+two worlds: ask first, and a `nil` from an allowlisted spell means genuinely absent.
+
+*Tier 1:* `SecretPredicateAPIDocumentation.lua:139-154` — `Namespace = "C_Secrets"`,
+`SecretArguments = "AllowedWhenUntainted"`, `Returns { isAuraSecret, bool, Nilable = false }`.
+*Seen working in:* EllesmereUIAuraBuffReminders 9.1.7,
+`EllesmereUIAuraBuffReminders.lua:404-411` — read for API discovery only.
+*Confidence:* **medium.** Tier 1 documents the signature and the semantics; nothing here
+was measured in a client, and no Blizzard caller uses it (the only hit in the 12.0.7
+source tree is the generated doc itself).
+
+⚠ The mined addon `pcall`s the predicate and treats *both* a raised error and a secret
+return as "assume secret" — i.e. it fails closed. Whether either can actually happen is
+**`[gap]`**: the doc says the return is non-nilable `bool`, so the secret-return guard
+may be superstition. Fail-closed is the right default regardless.
+
+### E2. The CDM exposes aura PRESENCE as plain frame state — no aura API call
+
+**The fact.** A Cooldown Manager item frame carries Blizzard-set `wasSetFromAura`
+(boolean) and `auraInstanceID` fields. Either being set indicates the row's aura is
+active. In the two **buff** viewers (`BuffIconCooldownViewer`, `BuffBarCooldownViewer`)
+a frame is shown only while its effect is active, so a shown non-placeholder frame is
+itself the presence signal even when neither aura field is populated — which is how
+totems and pet-summon "buffs" that never receive an `auraInstanceID` are caught.
+
+**Why it is load-bearing.** This is a **level-triggered** presence read that costs no
+`C_UnitAuras` call, so it is not subject to `RequiresNonSecretAura` at all. An addon
+riding the CDM can answer "is this buff up right now?" by polling frame state, rather
+than by latching alert **edges** — which is the difference between being correct on the
+first evaluation after a `/reload` and being UNKNOWN until an edge happens to fire.
+
+*Tier 1:* **not corroborated.** `wasSetFromAura` does not appear in the 12.0.7
+`Blizzard_CooldownViewer` source or the generated docs under that name; the field is
+asserted by the mined addon and by its comments. **This is the weakest link in §E.**
+*Seen working in:* EllesmereUICooldownManager 9.1.7, `EllesmereUICdmHooks.lua:10262-10290`
+(the population pass) and `:1546-1554` (the cache it feeds) — read for API discovery only.
+*Confidence:* **low** — Tier 3 only, and `@verify-ingame`.
+
+### E3. A tracked row's aura may be a DIFFERENT spell id, reachable only through `linkedSpellIDs`
+
+**The fact.** `CooldownSetLinkedSpell` maps a cooldown-set row to further spell ids, and
+for tracked buffs the *aura* is frequently one of those rather than the row's own id. A
+consumer that keys on the row id alone misses the aura, and one that keys on the aura id
+alone finds no row.
+
+**Why it is load-bearing.** It decides whether "is this buff up" can be asked at all for
+a given spell. Worked examples, read from DB2 at build 12.1.0.69214 (Tier 1, and
+independent of the mined addon): Protection's Shield of the Righteous row `53600` links
+the buff `132403`; Protection's Consecration player aura `188370` links not from the
+Consecration row `26573` but from the spec-wide passive row `137028`; and Hammer of
+Wrath `24275` has **no row of its own** in either Protection or Retribution — it appears
+only as a linked spell under Retribution's `Judgment of Justice` `403495`.
+
+*Tier 1:* wago.tools DB2 @ 12.1.0.69214 — `CooldownSet`, `CooldownSetSpell`,
+`CooldownSetLinkedSpell`, `SpellName`. The mapping above is read directly from those
+tables, so the *fact* is Tier 1; what is mined is only the observation that a consumer
+must resolve the links.
+*Seen working in:* EllesmereUICooldownManager 9.1.7, `EllesmereUICdmHooks.lua:10284-10296`
+— it marks the row id, its base id and every linked id as present together, with a
+comment noting that a raw `GetPlayerAuraBySpellID` query missed on exactly this drift.
+*Confidence:* **high** for the DB2 mapping, **medium** for the "must resolve links"
+consequence.
 
 ## D. Applied already — do NOT re-mine
 

@@ -1692,6 +1692,37 @@ Immolate rows raised `PandemicTime` at the *identical* timestamp (`131182.959`),
 consumer keying per cooldownID gets two edges for one game event and must fold them to one
 answer.
 
+### 5.4a A buff item carries a LEVEL predicate, so presence need not be latched off edges
+
+`CooldownViewerBuffItemMixin:ShouldBeActive` overrides the base to track the aura itself: it
+returns false once `IsExpired()` holds with no linked spell to fall back on, and `IsExpired`
+reads the cached aura data, treats `expirationTime == 0` as infinite-and-active, and answers
+from `GetTotemData()` for a totem instead
+`[T1 src @12.1.0: CooldownViewer.lua:1186-1200, ShouldBeActive; :1167-1185, IsExpired]`. `RefreshActive` writes that
+through `SetIsActive`, and **`itemFrame:IsActive()` reads it back**
+`[T1 src @12.1.0: CooldownViewer.lua:264-266, RefreshActive; :370-378]`.
+
+**This is a level, not an edge.** A consumer that needs "is the aura up right now" can ask the
+frame, with no `C_UnitAuras` call and so no per-spell aura allowlist — and, unlike an edge
+latch off §5.1, it answers for an aura that was already up before the consumer started
+watching, which no edge can.
+
+⚠ **Only on a BUFF item.** `CooldownViewerItemMixin:ShouldBeActive` is `self.cooldownID ~= nil`
+`[T1 src @12.1.0: CooldownViewer.lua:362-364]`, so on an Essential or Utility row `IsActive()`
+is true for every bound row and says nothing about any aura.
+
+⚠ **Being SHOWN is a different question, and substituting it is wrong.**
+`CooldownViewerItemMixin:ShouldBeShown` returns true when `allowHideWhenInactive` is false,
+when `hideWhenInactive` is false, while the settings panel is open, or while editing — only
+*then* falling through to `IsActive()`
+`[T1 src @12.1.0: CooldownViewer.lua:311-334]`. `hideWhenInactive` is a per-row user setting
+`[T1 src @12.1.0: CooldownViewer.lua:306-309, SetHideWhenInactive]`, so on a row that does not
+hide when inactive a shown frame carries no aura information at all. A consumer reading
+shown-ness as presence gets a confident **true** for an aura that is down.
+
+⚠ Presence read this way still needs the row to exist: a row kept out of the viewer raises no
+frame to ask, exactly as it raises no alert edge (§2.8's three suppressions).
+
 ### 5.5 Sounds — a "Short" category, and the Combat Audio Assist tie-in (12.1.0)
 
 `Enum.CooldownViewerSoundCategory` gained a **`Short`** member, carrying **26** sound

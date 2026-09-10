@@ -2539,6 +2539,19 @@ can't do the arithmetic":
   both `SecretArguments = "AllowedWhenTainted"`
   (`CurveUtilDocumentation.lua:31, 49`) — a secret boolean can pick a colour.
 
+  ⚠ **The curve's INPUT SCALE is not documented and no Blizzard caller shows it.**
+  `@verify-ingame` — whether full health reaches the curve as `100` or as `1` decides where a
+  threshold point goes, and getting it wrong inverts the result rather than degrading it. The
+  prose says "percent", and the `CombatAudioAlertManager` mixin's same-named helper computes
+  `math.ceil((health / healthMax) * 100)` `[T1 src @12.1.0:
+  Blizzard_CombatAudioAlertManager.lua:604-611]` — but that is the mixin's own arithmetic, not
+  a call into this API, so it is suggestive and nothing more. `[searched 2026-09-09: the
+  generated docs for UnitHealthPercent/UnitPowerPercent, and every UnitHealthPercent /
+  UnitPowerPercent call site in the shipped UI source — no caller passes a curve]`
+  ⚠ A consumer that must pick one should shape the curve so the **wrong** guess reads dark: a
+  threshold that lights at LOW input covers the whole `0..1` range on a `0..100` guess, which
+  is permanently bright, and an extra step point just above `1` takes that range back to zero.
+
   ⚠ **`LuaCurveEvaluatedResult` is referenced as a return type NINE times and
   declared NOWHERE** `[T1 obs @ 12.0.7.68887]` — there is no `Structure` entry for
   it anywhere in the generated corpus. Its only definition is prose on
