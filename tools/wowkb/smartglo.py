@@ -44,6 +44,13 @@ PRIMARY = {
     "fury", "pain", "insanity", "maelstrom",
 }
 
+# Which resources may carry `.after_cast`. Not every secondary can: the Tier-1 energize rows
+# in `knowledge/classes/_abilities/power-gain.tsv` show Wake of Ashes returning 1, 3 or 5 Holy
+# Power and Ambush 1, 2 or 3 Combo Points depending on talents and procs, so there is no single
+# number to project with. Soul Shards are whole and invariant for every hard cast that
+# generates them, which is what makes the projection honest here and a guess everywhere else.
+PROJECTABLE = {"soul_shards"}
+
 COMPARISONS = {">=", ">", "<=", "<", "=="}
 
 # The hues Look.lua tints the one white master to. Names, not files: nothing but the master
@@ -264,13 +271,19 @@ class _Parser:
         if text in ("health", "health%"):
             raise RuleError("health is never readable — UnitHealth is unconditionally "
                             "secret. It belongs in `bind` as `health% < <n>`, not in `when`")
-        if text in PRIMARY:
-            raise RuleError(f"{text} is a primary resource, which is never readable — it "
+        # `soul_shards.after_cast` is one lexer token, so the suffix comes off before the
+        # name is looked up — which is also what lets `mana.after_cast` earn the primary
+        # refusal rather than the useless "unknown term".
+        power, projected = text, False
+        if text.endswith(".after_cast"):
+            power, projected = text[: -len(".after_cast")], True
+        if power in PRIMARY:
+            raise RuleError(f"{power} is a primary resource, which is never readable — it "
                             f"belongs in `bind` as a percent, not in `when`")
-        sealed = re.search(r"\.(stacks|cooldown)$", text)
+        sealed = re.search(r"\.(stacks|cooldown)$", power)
         if sealed:
-            raise RuleError(f"{text} is a sealed term and belongs in `bind`, not in `when`")
-        if text not in SECONDARY:
+            raise RuleError(f"{power} is a sealed term and belongs in `bind`, not in `when`")
+        if power not in SECONDARY:
             raise RuleError(f"unknown term {text!r}")
         cmp_kind, cmp_text = self.take()
         if cmp_kind != "cmp" or cmp_text not in COMPARISONS:
@@ -278,7 +291,10 @@ class _Parser:
         value = self.take()
         if value[0] != "number":
             raise RuleError(f"expected a number after {cmp_text}, found {value[1]!r}")
-        return {"t": "resource", "power": text, "cmp": cmp_text, "value": int(value[1])}
+        node = {"t": "resource", "power": power, "cmp": cmp_text, "value": int(value[1])}
+        if projected:
+            node["projected"] = True
+        return node
 
 
 # A bind is at most one leaf, so it is matched rather than parsed. `absent show` is the
@@ -385,7 +401,8 @@ def render_expr(node, scope=None) -> str:
     if kind == "not":
         return "not " + render_expr(node["term"], scope)
     if kind == "resource":
-        return f"{node['power']} {node['cmp']} {node['value']}"
+        suffix = ".after_cast" if node.get("projected") else ""
+        return f"{node['power']}{suffix} {node['cmp']} {node['value']}"
     if kind in ("ready", "aura", "talent"):
         return f"{kind}({name_of(node['spell'], scope)})"
     return str(kind)
@@ -469,6 +486,10 @@ def _check_expr(node):
             return [f"unknown resource {power!r}"]
         if node.get("cmp") not in COMPARISONS:
             return [f"unknown comparison {node.get('cmp')!r}"]
+        if node.get("projected") and power not in PROJECTABLE:
+            return [f"{power} cannot be read past the current cast — what a cast returns "
+                    f"depends on talents and procs for every resource but soul_shards, so "
+                    f"there is no one number to project with"]
         return []
     if kind in WHEN_TERMS:
         if not isinstance(node.get("spell"), int):

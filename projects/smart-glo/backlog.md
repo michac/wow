@@ -44,6 +44,17 @@ delete it — never leave it standing with a note underneath.
   what differs is who reveals it. A gate draws it; a count has the client take its occluder away.
   `Media/` is **generated** by `tool/gen_media.py` from a CC0 Kenney icon; do not hand-edit it.
   `/sg color <name>` recolours everything, both kinds, on the next evaluation.
+- **`<resource>.after_cast` — a threshold read past the cast in flight.** `Cast.lua` keeps a
+  one-slot ledger off `UNIT_SPELLCAST_START` and its five terminal events, registered against
+  `"player"`, whose cast id reads plain because `SecretWhenUnitSpellCastRestricted` tests the
+  unit and not combat. The projection is cost (`C_Spell.GetSpellPowerCost`, talent-correct) and
+  gain (`PowerGain.lua`, generated from `SpellEffect.db2` energize rows) applied together,
+  because the cost lands at completion. Computed in raw units and floored through
+  `UnitPowerDisplayMod`, so a partial shard does not read as a whole one. **Soul Shards only**:
+  the same Tier-1 rows show Holy Power and Combo Point gains moving with talents and procs, and
+  the checker refuses those by name. Nothing casting is a projected zero, not an unknown.
+  ⚠ **Unflown** — the ledger and the arithmetic are exercised offline, but no eyeball has seen
+  a mark change mid-cast.
 - **Aura presence read at the level, not only at the edge.** `Attach.AuraLatch` asks the frames
   carrying the aura whether it is up NOW, and falls back to the edge latch when none can say.
   This is what answers for a buff that was already up when we started watching, which an edge

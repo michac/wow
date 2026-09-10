@@ -59,9 +59,35 @@ unreachable through it *(§4.12)*.
 ### The readable vocabulary
 
 Secondary resources (Holy Power, Soul Shards, Combo Points, Chi, Arcane Charges, Essence,
-Runes) · `isActive` · `isOnGCD` · `isEnabled` · `insufficientPower` · `maxCharges` ·
+Runes), plainly or **projected past the cast in flight** · `isActive` · `isOnGCD` · `isEnabled` · `insufficientPower` · `maxCharges` ·
 `cooldownID` / `linkedSpellID` · aura **presence, through the CDM's alert edges** ·
 `C_AssistedCombat.GetNextCastSpell` · talent and spec, as static load conditions.
+
+#### `<resource>.after_cast` — the count once the cast in flight lands
+
+A resource cost is debited at **completion**, not at cast start, so mid-cast the bar still
+shows the pre-cast number. A plain threshold therefore answers about a state that is already
+spent: at 5 Soul Shards, casting Hand of Gul'dan, `soul_shards == 5` keeps saying *capped* for
+the whole cast and stops saying it exactly when the answer starts being useful. `.after_cast`
+subtracts the cost and adds the gain at the same moment, because both land at the same moment.
+
+Everything it needs is readable. The player's own cast id is not sealed —
+`SecretWhenUnitSpellCastRestricted` tests **which unit** is being asked about, not whether
+combat is restricted (`cdm-rider-patterns.md` §9.2) — so `UNIT_SPELLCAST_START` opens a window
+keyed by spell id and the terminal events close it. Only a **hard** cast opens one: `_START`
+does not fire for an instant, whose result is already in the bar by the time anything could
+read it. Costs come from `C_Spell.GetSpellPowerCost`, which is talent-correct at the moment it
+is asked; gains come from a table generated out of `SpellEffect.db2`'s energize rows.
+
+⚠ **Soul Shards are the only resource this is offered for, and the reason is measured.** The
+same Tier-1 energize rows show Wake of Ashes returning 1, 3 or 5 Holy Power and Ambush 1, 2 or
+3 Combo Points depending on talents and procs; a projection needs one number and those have
+none. The generator marks such a spell `varies` and the checker refuses the term by name.
+
+Three outcomes, kept apart: nothing in flight is a projected **zero**, not an unknown, so the
+term reads exactly like a plain threshold while you stand still; a spell whose gain varies, an
+unreadable cast id, or a refused cost reads **UNKNOWN** and the glow fails dark; anything else
+is a number.
 
 ⚠ **Aura presence is readable, but NOT through `C_UnitAuras`, and the difference decides
 whether a rule works.** Measured in combat from tainted code, the spell-keyed getters return a

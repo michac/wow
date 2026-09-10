@@ -32,6 +32,23 @@ glow "Word of Glory when hurt"
   when   holy_power >= 3
   bind   health% < 80
 
+-- ⚠ PROBE, and the only reason it exists is that a sealed bind has no readback. It is the
+-- exact COMPLEMENT of the rung above and shares its gate, so with 3+ Holy Power the two
+-- together say which of three things is true -- something a single dark icon cannot:
+--
+--   exactly one lit, flipping as you cross 80%  the curve drives alpha and the scale is 0..100
+--   both lit, always                            no curve is driving alpha; the marks sit at the
+--                                               alpha they were built with, and Health.lua is
+--                                               inert on this client
+--   both dark, always                           alpha is driven, but the scale is 0..1 and the
+--                                               guard point took every input to zero
+--
+-- Delete this rung once that is settled; it is an instrument, not advice.
+glow "PROBE: complement of the rung above"
+  on     word_of_glory
+  when   holy_power >= 3
+  bind   health% >= 80
+
 -- The Lightsmith button. Two charges rotating Holy Bulwark and Sacred Weapon; which one is
 -- next is not readable, so this marks the cast and leaves the choice to the player.
 glow "Holy Armaments"

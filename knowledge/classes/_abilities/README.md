@@ -26,6 +26,7 @@ The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md
 |------|-------------|-----|
 | `all-abilities.tsv` | (spec, ability) | grep/awk across all 40 specs |
 | `spell-descriptions.tsv` | **distinct spellID** | the description join table |
+| `power-gain.tsv` | (power type, ability) | how much of a secondary resource a cast RETURNS |
 | `pet-family-annex.tsv` | (pet skill line, spell) | "which pet/demon gives me X" — **incl. `description`** |
 | `../<class>/<spec>/ability-inventory.tsv` | ability | per-spec data, **incl. `description`** |
 | `../<class>/<spec>/ability-inventory.md` | ability | reading, citing (table + `## Descriptions`) |
@@ -33,6 +34,26 @@ The generated per-spec files are `ability-inventory.tsv` + `ability-inventory.md
 | `section-4-catalogue.{tsv,md}` | (spec, unplaced name) | section 4 — the catalogue |
 | `residual-probe.json` | residual name | leg B's cached `/data/wow/spell/{id}` results |
 | `spell-descriptions.json` | spellID | the cached RESOLVED `/data/wow/spell/{id}` descriptions |
+
+### `power-gain.tsv` — what a cast gives back
+
+Written by `wowkb.gen_smartglo_powergain --refresh` from `SpellEffect.db2` rows with
+`Effect = 30/31` (ENERGIZE), whose `EffectMiscValue_0` is the power type and whose
+`EffectBasePointsF` is the amount in **raw** units — ten raw per Soul Shard, confirmed
+independently by `SpellPower.db2` (Hand of Gul'dan `ManaCost 30, PowerType 7` for a
+three-shard spell).
+
+⚠ **The energize lives on a different spell id than the cast, and nothing in DB2 links them.**
+686 Shadow Bolt does not name 194192 Shadow Bolt through `EffectTriggerSpell` and no walk
+reaches it; the two share only a name. The join here is name equality against
+`all-abilities.tsv`, narrowed to the classes that own the power, and it is the weakest hop in
+the chain.
+
+⚠ **`varies = 1` means the amount is not a number.** One name carrying several distinct
+energize values is a talent- or proc-dependent gain — Wake of Ashes returns 1, 3 or 5 Holy
+Power, Ambush 1, 2 or 3 Combo Points — and those rows carry an empty `fragments` so a consumer
+refuses rather than picks. Soul Shards have exactly one such row (Shadowburn's kill refund) and
+none among the hard casts that generate them.
 
 ## The four sections
 

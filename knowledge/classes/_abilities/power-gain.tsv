@@ -1,0 +1,125 @@
+power_type	power	spell_id	name	class	fragments	varies	energize_ids
+4	combo_points	53	backstab	rogue	1	0	53
+4	combo_points	703	garrote	rogue	1	0	703
+4	combo_points	1752	sinister_strike	rogue	1	0	1752 193315 197834 472915
+4	combo_points	1766	kick	rogue	3	0	165996
+4	combo_points	1776	gouge	rogue	1	0	1776 372410
+4	combo_points	1822	rake	druid	1	0	1822 283699 292610 468867
+4	combo_points	1833	cheap_shot	rogue		1	1833 145424 257738 283655
+4	combo_points	5217	tigers_fury	druid	3	0	144859
+4	combo_points	5221	shred	druid	1	0	5221 283719 292624 468869
+4	combo_points	5374	mutilate	rogue	2	0	1329 60850 283658
+4	combo_points	5938	shiv	rogue	1	0	5938
+4	combo_points	8676	ambush	rogue		1	8676 194429 385897 430023 472907
+4	combo_points	8921	moonfire	druid	1	0	155625
+4	combo_points	14161	ruthlessness	rogue	1	0	1258235
+4	combo_points	14190	seal_fate	rogue	1	0	14189
+4	combo_points	22482	blade_flurry	rogue	1	0	426586
+4	combo_points	32645	envenom	rogue	1	0	167106
+4	combo_points	50334	berserk	druid	1	0	343216
+4	combo_points	51690	killing_spree	rogue	1	0	1235074
+4	combo_points	51723	fan_of_knives	rogue	1	0	234278
+4	combo_points	77758	thrash	druid	1	0	106830 211141 468985
+4	combo_points	106951	berserk	druid	1	0	343216
+4	combo_points	114014	shuriken_toss	rogue	1	0	114014
+4	combo_points	159286	primal_fury	druid	1	0	16953
+4	combo_points	185313	shadow_dance	rogue	4	0	394029
+4	combo_points	185438	shadowstrike	rogue	2	0	185438
+4	combo_points	185565	poisoned_knife	rogue	1	0	185565
+4	combo_points	185763	pistol_shot	rogue		1	185763 473199 1257324
+4	combo_points	197835	shuriken_storm	rogue	1	0	212743
+4	combo_points	200758	gloomblade	rogue	1	0	200758
+4	combo_points	210722	ashamanes_frenzy	druid	3	0	210722
+4	combo_points	213764	swipe	druid	1	0	106785 468994
+4	combo_points	274837	feral_frenzy	druid	1	0	274838
+4	combo_points	279876	opportunity	rogue	1	0	1254567
+4	combo_points	328085	blindside	rogue	1	0	111240
+4	combo_points	343160	premeditation	rogue		1	235777 343170
+4	combo_points	381828	ace_up_your_sleeve	rogue	4	0	279714 394120
+4	combo_points	382505	the_first_dance	rogue	2	0	278981
+4	combo_points	385478	shrouded_suffocation	rogue	2	0	279703 394664
+4	combo_points	385627	kingsbane	rogue	1	0	192759 385627
+4	combo_points	391872	tigers_tenacity	druid	1	0	391874
+4	combo_points	393991	elunes_guidance	druid	5	0	202060
+4	combo_points	426591	goremaws_bite	rogue	3	0	220901
+4	combo_points	441691	wildpower_surge	druid	5	0	441704
+4	combo_points	454419	deal_fate	rogue	1	0	454421
+4	combo_points	455461	lethal_preservation	druid	1	0	455466
+4	combo_points	470669	echoing_reprimand	rogue	2	0	323547 375912 385616
+4	combo_points	1243807	frantic_frenzy	druid	1	0	1278969
+4	combo_points	1247227	crimson_tempest	rogue	1	0	1247227
+4	combo_points	1250318	poisoners_drive	rogue	1	0	1250319
+4	combo_points	1265861	gravedigger	rogue	6	0	1279356
+5	runes	47568	empower_rune_weapon	death_knight	6	0	89831
+5	runes	205223	consumption	death_knight	2	0	274156
+5	runes	207061	murderous_efficiency	death_knight	1	0	207062
+5	runes	220143	apocalypse	death_knight	2	0	220143 343758
+5	runes	281238	obliteration	death_knight	1	0	281327
+5	runes	316239	rune_strike	death_knight	1	0	210764
+5	runes	377073	frigid_executioner	death_knight	1	0	377074
+5	runes	444072	a_feast_of_souls	death_knight	1	0	444842
+5	runes	1249658	breath_of_sindragosa	death_knight	2	0	1234304
+5	runes	1263824	consumption	death_knight	2	0	274156
+7	soul_shards	348	immolate	warlock	1	0	193540
+7	soul_shards	686	shadow_bolt	warlock	10	0	194192
+7	soul_shards	980	agony	warlock	10	0	17941 210067
+7	soul_shards	5740	rain_of_fire	warlock	1	0	270548
+7	soul_shards	6353	soul_fire	warlock	10	0	281490
+7	soul_shards	17877	shadowburn	warlock		1	29341 245731
+7	soul_shards	17962	conflagrate	warlock	5	0	245330
+7	soul_shards	29722	incinerate	warlock	2	0	244670
+7	soul_shards	196277	implosion	warlock	10	0	268583
+7	soul_shards	196586	dimensional_rift	warlock	3	0	196586 387976
+7	soul_shards	264178	demonbolt	warlock	20	0	196300 280127
+7	soul_shards	388667	drain_soul	warlock	10	0	205292
+7	soul_shards	433891	infernal_bolt	warlock	30	0	434506
+7	soul_shards	449620	necrolyte_teachings	warlock	10	0	450563
+7	soul_shards	449638	shadow_of_death	warlock	30	0	449858
+7	soul_shards	449706	feast_of_souls	warlock	10	0	450752
+7	soul_shards	460551	doom	warlock	10	0	193318 194379 272728
+7	soul_shards	1259790	unstable_affliction	warlock	10	0	31117
+7	soul_shards	1276163	dominion_of_argus	warlock	10	0	1276318
+9	holy_power	20271	judgment	paladin	1	0	220637
+9	holy_power	20473	holy_shock	paladin	1	0	20473 148976
+9	holy_power	24275	hammer_of_wrath	paladin	1	0	24275 1241413 1279408 1291678
+9	holy_power	25912	holy_shock	paladin	1	0	20473 148976
+9	holy_power	35395	crusader_strike	paladin		1	35395 132331 166844 192219 213844 1279187
+9	holy_power	53576	infusion_of_light	paladin	1	0	356717
+9	holy_power	53595	hammer_of_the_righteous	paladin	1	0	53595
+9	holy_power	53652	beacon_of_light	paladin	1	0	88852
+9	holy_power	81297	consecration	paladin	1	0	205228
+9	holy_power	114165	holy_prism	paladin	3	0	114165
+9	holy_power	114852	holy_prism	paladin	3	0	114165
+9	holy_power	184575	blade_of_justice	paladin	1	0	184575
+9	holy_power	204019	blessed_hammer	paladin	1	0	204019
+9	holy_power	205273	wake_of_ashes	paladin		1	209122 218001 255937 453868
+9	holy_power	255937	wake_of_ashes	paladin		1	209122 218001 255937 453868
+9	holy_power	404542	crusading_strikes	paladin	1	0	406834
+9	holy_power	431474	second_sunrise	paladin	1	0	456766
+9	holy_power	432459	holy_bulwark	paladin	3	0	432459
+9	holy_power	432977	sanctification	paladin	1	0	382492
+9	holy_power	1263782	walk_into_light	paladin	1	0	1263963
+9	holy_power	1267203	glory_of_the_vanguard	paladin	1	0	1307639
+12	chi	100784	blackout_kick	monk	1	0	118166
+12	chi	117952	crackling_jade_lightning	monk	1	0	123333
+12	chi	121817	combat_wisdom	monk	1	0	453334
+12	chi	123986	chi_burst	monk	1	0	261682
+12	chi	130654	chi_burst	monk	1	0	261682
+12	chi	392958	glory_of_the_dawn	monk	1	0	288636 392959
+12	chi	451498	energy_burst	monk	1	0	451500
+12	chi	1217413	slicing_winds	monk	2	0	1248946
+12	chi	1248833	airborne_rhythm	monk	1	0	1248835
+12	chi	1249832	obsidian_spiral	monk	1	0	1249833
+12	chi	1272694	zenith_stomp	monk	2	0	1272696
+16	arcane_charges	1449	arcane_explosion	mage	1	0	1449 414381
+16	arcane_charges	30451	arcane_blast	mage	1	0	30451
+16	arcane_charges	153626	arcane_orb	mage	1	0	153626 153640
+16	arcane_charges	321507	touch_of_the_magi	mage	4	0	321507
+16	arcane_charges	383676	impetus	mage	1	0	383677
+16	arcane_charges	449394	glorious_incandescence	mage	4	0	451223
+16	arcane_charges	451038	arcane_soul	mage	4	0	453413
+16	arcane_charges	461248	high_voltage	mage	1	0	461524
+16	arcane_charges	1223798	intuition	mage	4	0	455683 1223799
+16	arcane_charges	1241462	arcane_pulse	mage	1	0	1295977
+16	arcane_charges	1295923	prismatic_bolt	mage	4	0	1295924
+19	essence	411165	eye_of_infinity	evoker	2	0	397565

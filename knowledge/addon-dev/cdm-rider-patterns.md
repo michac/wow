@@ -1143,38 +1143,44 @@ AddToMap(C_Spell.GetBaseSpell(cdSpellID), icon)
 -- lookup mirrors the same three forms of the pressed spell.
 ```
 
-### 9.2 "The player actually cast this spell" — authoritative, and SEALED on identity
+### 9.2 "The player actually cast this spell" — authoritative, and READABLE for your own casts
 
-The obvious answer to "did that cast land" is the confirmed-cast event, filtered to the player:
+The obvious answer to "did that cast land" is the confirmed-cast event, filtered to the player —
+and for the player it is also the correct one:
 
 ```lua
 frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
 frame:SetScript("OnEvent", function(_, _, unit, castGUID, spellID)
-    if unit == "player" then RecordCast(spellID) end   -- ⚠ spellID may be SECRET here
+    if unit == "player" then RecordCast(spellID) end   -- readable; guard anyway, see below
 end)
 ```
 
-⚠⚠ **`spellID` on this event is not readable in restricted combat, so it cannot key a ledger.**
-`UNIT_SPELLCAST_SUCCEEDED` carries `SecretWhenUnitSpellCastRestricted = true`, and of its four
-payload fields only `castBarID` is marked `NeverSecret` — `unitTarget`, `castGUID` and **`spellID`
-are not**
+⚠⚠ **`SecretWhenUnitSpellCastRestricted` keys on WHICH UNIT, not on combat restriction.**
+The predicate's own definition is *"Guarded APIs and events produce secret values if the unit
+being queried for cast information is **not the player or their pet**. Individual spells may be
+flagged as never or always secret, which takes priority."*
+`[T1 docs @12.1.0: SecretPredicatesDocumentation.lua:92-96, SecretWhenUnitSpellCastRestricted]`
+
+So for `"player"` — and for the player's pet — **`spellID` is readable**, in combat, in an
+instance, on an addon-restricted map. It may key a ledger, be compared against a tracked id, and
+gate a branch. The annotation on the event says only that the field is *guarded*; this predicate
+is what decides when the guard closes, and for your own cast it does not.
+
+For any OTHER unit the field seals. `UNIT_SPELLCAST_SUCCEEDED` marks only `castBarID`
+`NeverSecret` of its four payload fields — `unitTarget`, `castGUID` and `spellID` are not — and
+the sibling `UNIT_SPELLCAST_*` events plus `UnitCastingInfo` / `UnitChannelInfo` carry the same
+annotation, their result structures marking only `castBarID`, `delayTimeMs` and `isTradeskill`
+`NeverSecret`
 `[T1 docs @12.1.0: UnitDocumentation.lua — Event UnitSpellcastSucceeded, LiteralName
-UNIT_SPELLCAST_SUCCEEDED]`. The same annotation sits on every sibling `UNIT_SPELLCAST_*` event and
-on `UnitCastingInfo` / `UnitChannelInfo`, whose result structures mark only `castBarID`,
-`delayTimeMs` and `isTradeskill` `NeverSecret`
-`[T1 docs @12.1.0: UnitDocumentation.lua — UnitCastingInfo, UnitCastingInfoResult,
-UnitChannelInfoResult]`. So *which* spell is being cast is a **sealed-display** fact under
-restriction: forward it to a client-owned sink, never compare, index or truth-test it.
+UNIT_SPELLCAST_SUCCEEDED; UnitCastingInfo, UnitCastingInfoResult, UnitChannelInfoResult]`. So a
+target's or a boss's cast is a sealed-display fact: forward it to a client-owned sink, never
+compare, index or truth-test it.
 
-The one thing this channel still gives you is the **fact and timing** of a cast, which is plain:
-the event fired, and `castBarID` is readable. Anything more specific than "a cast completed" has
-to come from somewhere else.
-
-⚠ **The restricted case is Tier-1 annotation for `spellID`, and measured for one sibling
-field.** The one in-client reading of `spellID` on record was taken **unrestricted** and found it
-plain (`cooldown-manager.md` Tier 3), which does not bear on the sealed-in-instance case either
-way. `@verify-ingame` — read `issecretvalue` on `UNIT_SPELLCAST_SUCCEEDED`'s `spellID` inside an
-instance, in combat.
+⚠ **A per-spell flag still overrides both directions** — the predicate says individual spells may
+be marked never- or always-secret, and that takes priority over the unit test. A consumer reading
+its own cast id must therefore still guard the value rather than assume it: an `issecretvalue`
+test before the id is compared costs nothing and is the difference between a skipped projection
+and a taint.
 
 What **is** measured is `UnitCastingInfo`'s **`notInterruptible`** for a non-player unit: read off
 `target` / `focus` inside an instance, in combat, it is `type() == "boolean"` with
@@ -1185,26 +1191,29 @@ interruptible/not split, verified against the client's own kick outcome. It may 
 ⚠ **This does not settle `spellID`**, which is a different field on a different call; the marker
 above stays open.
 
-**So the readable route is the press, and the two are NOT interchangeable.**
+**Both routes are readable for the player's own casts, and they answer different questions.**
 
-| | §9.1 press hook | `UNIT_SPELLCAST_SUCCEEDED` |
+| | §9.1 press hook | `UNIT_SPELLCAST_SUCCEEDED` (player) |
 |---|---|---|
 | when | key-down, before any server round-trip | after the server confirms |
 | what it means | *what I tried* — a press can be cancelled, out of range, or fail | *what landed* |
-| the spell id | **readable** — it comes off the action bar (`GetActionInfo`), not from combat state | **sealed under restriction** |
-| may key a ledger | yes | no |
+| the spell id | readable — off the action bar (`GetActionInfo`) | readable — the unit is the player |
+| may key a ledger | yes | yes |
+| misses | a cast not started from an action bar or bar macro | nothing the server confirmed |
 
-**A rolling history of recent casts follows the same split, and the lane follows the source.** A
-ring buffer fed from the **press** route is the addon's own plain data and is fully branchable —
-it is a history of intents. A ring fed from `UNIT_SPELLCAST_SUCCEEDED` is a history of confirmed
-casts whose entries are sealed, so it is forward-to-display only; it can be *shown*, and it can be
-*counted* (the count is yours), but no entry in it may be compared to a spell id.
+So the choice between them is about **intent versus outcome**, not about readability. A ring fed
+from the press is a history of what was attempted; a ring fed from the confirmed-cast event is a
+history of what happened. A projection that must not survive a cancelled cast wants the press to
+open it and the terminal events — `UNIT_SPELLCAST_INTERRUPTED` / `_FAILED` / `_STOP` — to close
+it; a ledger that must only count what landed wants the confirmed event alone.
 
-**The consequence for §3's charge estimator:** the readable trigger for "the tracked spell was
-just cast" is the **press**, or a CDM charge-alert edge — not the confirmed-cast event, because
-its id cannot be matched against the tracked spell under restriction. Debit on the readable
-trigger and treat `UNIT_SPELLCAST_SUCCEEDED` as timing only. Match the pressed id under the whole
-`{self, override, base}` set (§9.1) so a transform does not silently stop debiting.
+⚠ For any unit that is **not** the player or their pet, the confirmed-cast route is sealed on
+identity and only the press route survives — but the press route cannot see another unit's
+actions at all, so there is no readable id for a boss's cast by either road.
+
+**The consequence for §3's charge estimator:** either trigger can debit, and the confirmed event
+is the more honest one because a press that never landed spends no charge. Match the id under the
+whole `{self, override, base}` set (§9.1) so a transform does not silently stop debiting.
 
 ---
 

@@ -10,13 +10,28 @@
 
 spec demonology
 
+-- ⚠ Every shard threshold below reads `.after_cast`, which is the count as it will stand once
+-- the cast in flight lands. Shards are debited at COMPLETION, so mid-cast the bar still shows
+-- the pre-cast number and a plain threshold answers about a state that is already gone: at 5
+-- shards casting Hand of Gul'dan it keeps saying "capped" for the whole cast, and stops
+-- saying it exactly when the answer becomes useful. The projection subtracts the cost and
+-- adds the gain at the same moment, because both land at the same moment.
+--
+-- Demonology is the spec this works for. `soul_shards` is the only resource the addon lets a
+-- rule project past a cast, because it is the only one whose per-cast amounts are whole and
+-- invariant -- Holy Power and Combo Point gains move with talents and procs, and the Tier-1
+-- energize rows say so (knowledge/classes/_abilities/power-gain.tsv).
+--
+-- Nothing casting is a projection of ZERO, not an unknown, so these read exactly like plain
+-- thresholds while you stand still.
+
 glow "Tyrant at five shards"
   on     summon_demonic_tyrant
-  when   soul_shards == 5
+  when   soul_shards.after_cast == 5
 
 glow "Hand of Gul'dan capped"
   on     hand_of_guldan
-  when   soul_shards == 5
+  when   soul_shards.after_cast == 5
 
 -- Dominion of Argus's window IS the Tyrant window, so this aura is the only way the addon
 -- has to ask "is Tyrant out". The id is the tracked Cooldown Manager row, not the talent
@@ -27,13 +42,13 @@ glow "Hand of Gul'dan inside the Argus window"
 
 glow "Demonbolt on a Core below four shards"
   on     demonbolt
-  when   soul_shards < 4 and aura(demonic_core)
+  when   soul_shards.after_cast < 4 and aura(demonic_core)
 
 -- Infernal Bolt is a Mother of Chaos PROC, so its row exists only inside the proc window --
 -- which is why this glow carries no gate of its own beyond the shard count.
 glow "Infernal Bolt below three shards"
   on     infernal_bolt
-  when   soul_shards < 3
+  when   soul_shards.after_cast < 3
 
 glow "Implosion at six imps"
   on     implosion
