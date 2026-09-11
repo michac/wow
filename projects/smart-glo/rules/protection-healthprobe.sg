@@ -1,0 +1,41 @@
+-- AN INSTRUMENT, NOT ADVICE. Four health binds and nothing else, so every mark on screen is
+-- one of these four and no advice rung can be mistaken for one.
+--
+-- A LADDER: three rising thresholds and the complement of the lowest, all read at once. The
+-- COUNT of lit marks is your health band, so the curve is exercised at three points rather
+-- than one -- and out of combat your own regeneration sweeps it for you. Nothing here needs
+-- damage taken on purpose, a threshold crossed on cue, a stopwatch or a log.
+--
+--   Word of Glory            >= 80%      all three lit  = 80%+
+--   Shield of the Righteous  >= 60%      two lit        = 60-80%
+--   Consecration             >= 40%      one lit        = 40-60%
+--   Avenger's Shield         <  40%      only AS lit    = under 40%
+--
+-- Consecration and Avenger's Shield are exact complements, so EXACTLY ONE of them is lit at
+-- every health total. Both lit, or both dark, means the reading is void -- a standing validity
+-- check that costs nothing and exercises the `<` compile path beside the `>=` one.
+--
+-- The curve's input is a FRACTION, so 80% is the point 0.8. Blizzard ships
+-- `CurveConstants.ScaleTo100` to convert [0, 1] to [0, 100] and says so in its own comment.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/protection-healthprobe.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/protection-healthprobe.sg
+
+spec paladin.protection
+
+glow "LADDER: >= 80% health"
+  on     word_of_glory
+  bind   health% >= 80
+
+glow "LADDER: >= 60% health"
+  on     shield_of_the_righteous
+  bind   health% >= 60
+
+glow "LADDER: >= 40% health"
+  on     consecration
+  bind   health% >= 40
+
+glow "LADDER: < 40% health (complement of the rung above)"
+  on     avengers_shield
+  bind   health% < 40

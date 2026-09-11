@@ -126,13 +126,17 @@ glow "Hammer of the Righteous at cap"
   when   at_max_charges(hammer_of_the_righteous)
   urgent
 
+-- Sealed, not gated. `aura()` reads the CDM's alert edges, so it needs a laid-out row raising
+-- them and answers UNKNOWN -- dark -- when the Tracked Buffs checkbox for this one is off. A
+-- presence bind hands the question to an AuraContainer instead, which reads the unit directly
+-- and needs no row at all. The bind slot is free on both rungs, so it costs nothing.
 glow "Blessed Hammer on Blessed Assurance"
   on     blessed_hammer
-  when   aura(blessed_assurance)
+  bind   blessed_assurance.up
 
 glow "Hammer of the Righteous on Blessed Assurance"
   on     hammer_of_the_righteous
-  when   aura(blessed_assurance)
+  bind   blessed_assurance.up
 
 -- Not the APL's `buff.divine_guidance.stack>=5` rung but the practical one: Consecration is
 -- worth pressing when you are not standing in it and it is off cooldown.
@@ -274,12 +278,11 @@ glow "Blessing of Spellwarding when hurt"
   bind   health% < 70
 
 -- Lower, because a ten-minute button lit at 70% teaches you to burn it on a scratch.
--- ⚠ Subject is the OVERRIDE id, for the reason spelled out on the Hammer of Wrath rung: this
--- row is laid out as Lay on Hands overridden by 471195, permanently on this build, so a rung
--- on 633 attaches to nothing. 471195 carries no name in the ability tables, which is why it is
--- written as a number; the gate still asks 633, which is the spell the player knows.
+-- This row is laid out as Lay on Hands overridden by 471195, which the ability tables do not
+-- name. The name still works: the client calls both ids "Lay on Hands", so the row answers to
+-- the base as well as the override and a rung written on 633 binds either way.
 glow "Lay on Hands when nearly dead"
-  on     471195
+  on     lay_on_hands
   when   ready(lay_on_hands) and not aura(ardent_defender) and not aura(guardian_of_ancient_kings) and not aura(divine_shield) and not active(sentinel) and not aura(holy_bulwark_432607)
   bind   health% < 50
 

@@ -1,0 +1,66 @@
+-- AN INSTRUMENT, NOT ADVICE. Four duration binds, all reading ARDENT DEFENDER's cooldown
+-- (31850, ~90s, self-cast, no target, castable out of combat) and glowing four other icons.
+-- Subject and bound spell are independent, so one press lights a ladder somewhere else.
+--
+-- ANSWERED: the input is SECONDS. This ladder flew and the crossing was seen -- the `> 30s`
+-- mark went dark at thirty seconds remaining on a ~90s cooldown, with `> 0.5s` and `< 1000s`
+-- lit and `> 1000s` dark throughout, and every mark dark both before the cast and after the
+-- cooldown ended. A millisecond domain would have dropped `> 30s` at 30ms and a [0, 1] one
+-- would never have lit it, so the reading separates all three. It also shows the curve TRACKS
+-- rather than evaluating once.
+--
+-- The ladder is kept as the instrument that settled it, and is the thing to re-fly if a patch
+-- makes a duration bind start reading wrong. The question it was built for -- `Duration.lua`
+-- writes the rule's seconds straight in as a curve point, and the sibling health curve turned
+-- out to take [0, 1] where "percent" was assumed, costing four releases of silently dark
+-- health binds -- is closed.
+--
+-- Right after casting, remaining is ~90 seconds. So the input is ~90 on a seconds domain,
+-- ~90000 on milliseconds, ~1.0 on a [0, 1] fraction. Points at 30 and 1000 straddle all three.
+--
+-- Read it as a decision tree, not a count:
+--
+--   Consecration and Avenger's Shield are exact complements -- which is lit is the answer:
+--     Avenger's Shield lit      input is seconds or a fraction
+--     Consecration lit          input is MILLISECONDS
+--
+--   Shield of the Righteous then separates the remaining pair:
+--     lit                       input is SECONDS -- the shipped assumption holds
+--     dark                      input is a [0, 1] FRACTION
+--
+--   Word of Glory dark while a cooldown is running means nothing drives alpha at all, and
+--   the other three say nothing.
+--
+-- On the flight, Avenger's Shield and Shield of the Righteous both lit: seconds.
+--
+-- `< 1000s` carries `absent dark` because `<` on a cooldown is also true at zero remaining,
+-- which would glow permanently while the spell is up.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/protection-durationprobe.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/protection-durationprobe.sg
+
+spec paladin.protection
+
+glow "DPROBE: Ardent Defender cooldown > 0.5s (anything at all)"
+  on     word_of_glory
+  bind   31850.cooldown > 0.5s
+
+glow "DPROBE: > 30s (lit on seconds or ms, dark on a fraction)"
+  on     shield_of_the_righteous
+  bind   31850.cooldown > 30s
+
+glow "DPROBE: > 1000s (lit ONLY on milliseconds)"
+  on     consecration
+  bind   31850.cooldown > 1000s
+
+glow "DPROBE: < 1000s (complement of the rung above)"
+  on     avengers_shield
+  bind   31850.cooldown < 1000s absent dark
+
+-- The `outside` form: the only compile shape with two transitions, and it has never run.
+-- One press shows all three edges on this one icon -- lit from the cast down to 60s, dark
+-- through 60..30, lit again under 30, then dark when the spell comes up.
+glow "DPROBE: outside 30s..60s (three edges on one icon)"
+  on     divine_toll
+  bind   31850.cooldown outside 30s..60s absent dark

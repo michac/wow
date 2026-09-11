@@ -25,24 +25,62 @@ spec demonology
 -- Nothing casting is a projection of ZERO, not an unknown, so these read exactly like plain
 -- thresholds while you stand still.
 
+-- ⚠ An APL line is only reachable when its spell is castable, so simc never writes that
+-- condition down. A GLOW has no such implicit: `Attach.Evaluate` lights a mark on the rule's
+-- own terms and nothing else, and the only other suppressor is whether the row is visible --
+-- which a cooldown row is, all the way through its sweep. So every rung on a spell with a
+-- cooldown carries `ready()` here, and the ones that do not are the spells that have none.
+
+-- `summon_demonic_tyrant,if=soul_shard=5`. The APL also wants the Grimoires and Dreadstalkers
+-- already spent, but it says so by ORDER -- they sit above this line -- and order is the one
+-- thing a rule surface cannot say. `not ready(...)` on the two summons whose demons Tyrant
+-- actually counts is the readable form of the same thought, and it is the stricter half:
+-- it holds Tyrant rather than leaking it.
+--
+-- Not urgent. Tyrant at cap is a rhythm, not a proc window closing.
 glow "Tyrant at five shards"
   on     summon_demonic_tyrant
-  when   soul_shards.after_cast == 5
+  when   ready(summon_demonic_tyrant) and not ready(call_dreadstalkers) and not ready(grimoire_imp_lord) and soul_shards.after_cast == 5
 
+-- `hand_of_guldan,if=...|soul_shard=5` -- the unconditional half. At cap the shard is lost
+-- otherwise, so nothing outranks the dump.
 glow "Hand of Gul'dan capped"
   on     hand_of_guldan
   when   soul_shards.after_cast == 5
+  urgent
+
+-- `hand_of_guldan,if=soul_shard>=3&cooldown.summon_demonic_tyrant.remains>5`. The two halves
+-- travel together: THREE is only safe because of the Tyrant guard, which is what stops the
+-- spend band from eating the shards Tyrant wants. An earlier pass kept neither and used Icy
+-- Veins' looser "4-5 Soul Shards" instead, which spends into the window this holds for.
+--
+-- `>` is false at zero remaining, so a ready Tyrant silences this rung on its own -- no
+-- `not ready()` guard needed, and none of the true-at-zero trouble the `<` forms carry.
+glow "Hand of Gul'dan outside the Tyrant hold"
+  on     hand_of_guldan
+  when   soul_shards.after_cast >= 3
+  bind   summon_demonic_tyrant.cooldown > 5s
 
 -- Dominion of Argus's window IS the Tyrant window, so this aura is the only way the addon
 -- has to ask "is Tyrant out". The id is the tracked Cooldown Manager row, not the talent
 -- 1276163: the talent id names no row, so a latch on it would read UNKNOWN forever.
 glow "Hand of Gul'dan inside the Argus window"
   on     hand_of_guldan
-  when   aura(1276166)
+  when   aura(dominion_of_argus)
 
+-- `demonbolt,if=soul_shard<4&buff.demonic_core.react` -- any Core, below the shard ceiling.
 glow "Demonbolt on a Core below four shards"
   on     demonbolt
   when   soul_shards.after_cast < 4 and aura(demonic_core)
+
+-- Not an APL rung: the APL never counts Cores, it only asks whether one is up. This is the
+-- OVERCAP rung. Demonic Core caps at 4 and the guide's own warning is that pooling past 2
+-- risks losing stacks, so 4 is the point where the next proc is already gone. Urgent because
+-- unlike the rung above, waiting here costs something outright.
+glow "Demonbolt at Core cap"
+  on     demonbolt
+  bind   demonic_core.stacks >= 4
+  urgent
 
 -- Infernal Bolt is a Mother of Chaos PROC, so its row exists only inside the proc window --
 -- which is why this glow carries no gate of its own beyond the shard count.
@@ -50,10 +88,30 @@ glow "Infernal Bolt below three shards"
   on     infernal_bolt
   when   soul_shards.after_cast < 3
 
+-- `shadow_bolt` -- the filler, and the rung the whole list falls through to. The readable
+-- form of "you need shards and Demonbolt is not available" is the shard count plus the
+-- absence of a Core; a refused or untracked Core latch reads UNKNOWN and this fails dark,
+-- which is the right way round for a filler.
+--
+-- ⚠ Shadow Bolt and Infernal Bolt SHARE a row: the proc swaps the spell and keeps the
+-- cooldownID (Attach.lua:456), which is why Infernal Bolt has a row to appear on at all.
+-- So this glow and the rung above paint the same icon, and they overlap below 3 shards with
+-- no Core. Whether `on shadow_bolt` still binds while the row is showing Infernal Bolt is an
+-- in-game question -- see the test list at the foot of this file.
+glow "Shadow Bolt with no Core"
+  on     shadow_bolt
+  when   soul_shards.after_cast < 5 and not aura(demonic_core)
+
+-- `implosion,if=buff.wild_imps.stack>=6&(active_enemies>2|talent.to_hell_and_back.enabled)`.
+-- Enemy count is not readable, but the talent is -- and it is the half that matters here,
+-- because without To Hell and Back the guide is flat that Implosion is never worth casting
+-- single target. Dropping BOTH halves, as an earlier pass did, lit this on six imps against
+-- one target, which is the spec's classic damage loss.
 glow "Implosion at six imps"
   on     implosion
-  when   ready(implosion)
+  when   ready(implosion) and talent(to_hell_and_back)
   bind   wild_imp.stacks >= 6
+  urgent
 
 glow "Ruination"
   on     ruination
@@ -71,8 +129,77 @@ glow "Summon Doomguard"
   on     summon_doomguard
   when   ready(summon_doomguard)
 
--- Reign of Tyranny banks imps for the Tyrant instead, so the APL only sends Dreadstalkers
--- on demand when it is NOT taken.
+-- ------------------------------------------------------- Call Dreadstalkers, all four rungs
+
+-- The APL has two Dreadstalkers lines and the talent picks which one is live:
+--
+--   call_dreadstalkers,if=talent.reign_of_tyranny&(cooldown.summon_demonic_tyrant.remains>=20+gcd.max
+--                                                 |cooldown.summon_demonic_tyrant.remains<=12-gcd.max)
+--   call_dreadstalkers,if=!talent.reign_of_tyranny
+--
+-- Reign of Tyranny banks imps for the Tyrant, so with it taken the dogs are held through the
+-- 12..20s band and sent at either end. Without it there is no window at all.
+
 glow "Call Dreadstalkers without Reign of Tyranny"
   on     call_dreadstalkers
   when   not talent(reign_of_tyranny) and ready(call_dreadstalkers)
+
+-- The far end, `remains>=20+gcd.max`. Urgent: this is the send that has to happen before the
+-- band closes, and missing it costs the dogs their place in the next Tyrant.
+glow "Dreadstalkers with Tyrant far off"
+  on     call_dreadstalkers
+  when   talent(reign_of_tyranny) and ready(call_dreadstalkers)
+  bind   summon_demonic_tyrant.cooldown > 20s
+  urgent
+
+-- The near end, `remains<=12-gcd.max`, split in TWO -- and the split is what makes it
+-- expressible rather than a workaround.
+--
+-- `<` on a cooldown is also true at zero remaining, so `Rules.lua:192` refuses it without a
+-- `not ready()` guard. Here that refusal points at something real: the APL's `<=12` is
+-- deliberately true when Tyrant is UP, and a rule that bolted on the guard to satisfy the
+-- checker would go dark exactly when the dogs matter most. So the zero case gets its own
+-- glow, which needs no sealed leaf at all, and the running case gets the bind with an honest
+-- guard -- it only ever speaks while a cooldown is actually running.
+--
+-- Together they cover `remains <= 12` with no gap and no dishonest term, and the 12..20s
+-- band stays dark on all four rungs, which IS the hold.
+glow "Dreadstalkers into the Tyrant window"
+  on     call_dreadstalkers
+  when   talent(reign_of_tyranny) and ready(call_dreadstalkers) and not ready(summon_demonic_tyrant)
+  bind   summon_demonic_tyrant.cooldown < 12s
+
+glow "Dreadstalkers with Tyrant ready"
+  on     call_dreadstalkers
+  when   talent(reign_of_tyranny) and ready(call_dreadstalkers) and ready(summon_demonic_tyrant)
+
+-- ---------------------------------------------------------------------------- Power Siphon
+
+-- `power_siphon,if=buff.demonic_core.stack<=1`. ⚠ That gate is NOT expressible: a count bind
+-- reads `>= n` only (Parse.lua:232), because the client paints it by taking an occluder away
+-- at the threshold, and there is no inverse. An at-most count has no form here.
+--
+-- So the shipped gate is the imp count -- the other half of the same decision, from the Icy
+-- Veins rung ("2 or less Demonic Core and at least 2 Wild Imps out"): Power Siphon converts
+-- imps into Cores, so imps out is its precondition either way. The Core ceiling is DROPPED
+-- rather than approximated, which means this can light while you are already Core-rich.
+glow "Power Siphon with imps out"
+  on     power_siphon
+  when   ready(power_siphon)
+  bind   wild_imp.stacks >= 2
+
+-- ------------------------------------------------------------------ confirm while logged in
+--
+--   * Ruination reportedly never lit. It is an OVERRIDE id (428522) that replaces Hand of
+--     Gul'dan while the proc is up -- Profiles.lua says so -- and an override has no cooldown
+--     of its own, so `ready(428522)` may be answering for the base spell or reading UNKNOWN
+--     and failing dark. `/sg why` on the row during a proc is the test; if it reads UNKNOWN,
+--     the rung wants the proc window itself, not readiness.
+--   * Shadow Bolt (686) and its override Infernal Bolt (434506) are ONE row, and this file
+--     now puts a glow on each. Confirm `on shadow_bolt` binds while the row shows Shadow
+--     Bolt, and watch both across a Mother of Chaos proc -- the pair must not light together.
+--   * Nothing here rests on the duration curve's unit. SECONDS is already measured: a
+--     `> 30s` mark went dark at thirty seconds remaining on a ~90s cooldown, which a
+--     millisecond domain would have dropped at 30ms and a [0, 1] one would never have lit
+--     (backlog.md). protection-durationprobe.sg's header still says the unit is unmeasured;
+--     it predates that flight and is wrong.

@@ -52,3 +52,40 @@ glow "Blade of Justice on a proc"
 glow "Blade of Justice held under Walk Into Light"
   on     blade_of_justice
   when   talent(walk_into_light) and aura(avenging_wrath)
+
+-- ---------------------------------------------------------------- from the Icy Veins priority
+--
+-- The APL was the only source when this profile was written; the guide adds rungs it does not
+-- carry and names the spender the APL calls by its base name.
+
+-- "Cast Hammer of Wrath with 2 charges" is rung 11, well above the bare Hammer of Wrath at 14
+-- and 16 -- so the cap is the sharp case, and a capped charge is a resource actively draining.
+glow "Hammer of Wrath at cap"
+  on     hammer_of_wrath
+  when   at_max_charges(hammer_of_wrath)
+  urgent
+
+-- "Cast Blade of Justice with 2 stacks of Art of War" is rung 9; the bare Blade of Justice is
+-- rung 15. Two stacks is the cap, so this is the same waste signal in aura form.
+glow "Blade of Justice on capped Art of War"
+  on     blade_of_justice
+  bind   art_of_war.stacks >= 2
+  urgent
+
+-- "Cast Divine Storm with a Divine Arbiter proc from Final Verdict and 5 Holy Power" -- rung 5,
+-- the highest non-cooldown rung in the list.
+glow "Divine Storm on Divine Arbiter at cap"
+  on     divine_storm
+  when   aura(divine_arbiter) and holy_power >= 5
+  urgent
+
+-- Final Verdict is what the guide actually names as the spender -- Templar's Verdict is the
+-- base it replaces, so both ship and only the talented one ever lays out a row.
+glow "Final Verdict at cap"
+  on     final_verdict
+  when   holy_power >= 5
+  urgent
+
+glow "Judgment with room to spend"
+  on     judgment
+  when   ready(judgment) and holy_power < 5
