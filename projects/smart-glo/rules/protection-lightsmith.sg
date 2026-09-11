@@ -13,72 +13,136 @@
 
 spec paladin.protection
 
--- `word_of_glory,if=buff.shining_light_free.up` -- the free cast, which is the only one that
--- does not compete with Shield of the Righteous for Holy Power.
-glow "Word of Glory on Shining Light"
+-- Icy Veins ranks the free cast TWICE -- "below 50% Health" nine rungs above the plain proc --
+-- and the split is the whole advice, because Word of Glory scales with MISSING health. Three
+-- tiers, and the top two are URGENT: at 50% a free heal is being sat on, and at 30% it is
+-- worth three Holy Power you were saving for mitigation.
+--
+-- The unconditional "you have a proc" rung is gone: Icy Veins ranks it 14th of 15, below
+-- everything, and a rung that is true for most of a pull is what makes an icon unreadable.
+glow "Word of Glory free and hurt"
   on     word_of_glory
   when   aura(shining_light)
-
--- The paid cast, for when you are actually hurt rather than when it is free. Health can only
--- ever be a BIND: `UnitHealth` is unconditionally secret, so no gate can compare it and the
--- threshold is handed to the client as a curve instead. The readable half carries the part
--- that can be read -- 3 Holy Power is the cost, so this is "castable".
---
--- ⚠ The two halves fail differently and that is deliberate. Below 3 Holy Power the gate is
--- false and the whole element closes. At or above it the element opens and the CURVE decides,
--- with no way to see what it drew.
-glow "Word of Glory when hurt"
-  on     word_of_glory
-  when   holy_power >= 3
   bind   health% < 80
 
--- ⚠ PROBE, and the only reason it exists is that a sealed bind has no readback. It is the
--- exact COMPLEMENT of the rung above and shares its gate, so with 3+ Holy Power the two
--- together say which of three things is true -- something a single dark icon cannot:
---
---   exactly one lit, flipping as you cross 80%  the curve drives alpha and the scale is 0..100
---   both lit, always                            no curve is driving alpha; the marks sit at the
---                                               alpha they were built with, and Health.lua is
---                                               inert on this client
---   both dark, always                           alpha is driven, but the scale is 0..1 and the
---                                               guard point took every input to zero
---
--- Delete this rung once that is settled; it is an instrument, not advice.
-glow "PROBE: complement of the rung above"
+glow "Word of Glory free and badly hurt"
+  on     word_of_glory
+  when   aura(shining_light)
+  bind   health% < 50
+  urgent
+
+glow "Word of Glory paid, and desperate"
   on     word_of_glory
   when   holy_power >= 3
-  bind   health% >= 80
+  bind   health% < 30
+  urgent
 
 -- The Lightsmith button. Two charges rotating Holy Bulwark and Sacred Weapon; which one is
 -- next is not readable, so this marks the cast and leaves the choice to the player.
-glow "Holy Armaments"
-  on     holy_armaments
-  when   ready(holy_armaments)
+-- Not `ready()`: a mark meaning "this button is available" says what the swipe already says.
+-- At the cap the next charge is being thrown away, which is a decision worth marking. The
+-- CDM's own visual-source flags answer it without any charge count being read.
+-- `next_armament` needs no term of its own. A subject IS the currently bound spell, so a rung
+-- on Holy Bulwark attaches only while Bulwark is next and one on Sacred Weapon only while the
+-- Weapon is -- the override arrives on `overrideSpellID` and the flush re-resolves against it.
+-- These are the APL's two armament rungs with the unreadable half already answered.
+glow "Holy Bulwark next and capped"
+  on     holy_bulwark
+  when   at_max_charges(holy_bulwark)
+  urgent
+
+-- The APL guards this side with `buff.sacred_weapon.remains<6|!buff.sacred_weapon.up`, and
+-- neither half survives the charge economy: the shared pool recharges one charge per 60s and
+-- the cast alternates, so two charges separate one Sacred Weapon from the next -- 120s against
+-- a 20s buff. The buff is down for a minimum of 100s before the Weapon can come round again,
+-- so `!up` is a tautology and `remains<6` is unreachable. Cap is the real condition on both
+-- sides, and this is the Bulwark rung's twin for the other bound state.
+glow "Sacred Weapon next and capped"
+  on     sacred_weapon
+  when   at_max_charges(sacred_weapon)
+  urgent
 
 -- `avengers_shield,if=buff.vanguard.up` -- the proc is the rung that outranks everything
 -- below it. Off cooldown without the proc is an ordinary filler the swipe already shows.
 glow "Avenger's Shield on Glory of the Vanguard"
   on     avengers_shield
-  when   aura(glory_of_the_vanguard)
+  when   aura(glory_of_the_vanguard_1267203)
 
 -- `avenging_wrath,if=cooldown.divine_toll.remains<=10` -- Divine Toll being ready is the
 -- readable form, and it is the stricter half, so this holds wings rather than leaking them.
-glow "Avenging Wrath with Divine Toll up"
-  on     avenging_wrath
-  when   ready(avenging_wrath) and ready(divine_toll)
+-- The Wrath rungs are GONE rather than shipped dark. `ready()` reads UNKNOWN for a spell you
+-- do not know and the row is never laid out, so on a Sentinel build they could only ever be
+-- two rungs of noise. The APL is no guide here -- it names Sentinel nowhere and plays the
+-- Wrath side of the node -- so these are written against Sentinel directly.
+glow "Sentinel with Divine Toll up"
+  on     sentinel
+  when   ready(sentinel) and ready(divine_toll)
 
-glow "Divine Toll inside Avenging Wrath"
-  on     divine_toll
-  when   ready(divine_toll) and aura(avenging_wrath)
+-- The "Divine Toll inside Sentinel" rung is further down, under Sentinel and Divine Toll.
+-- `not ready(sentinel)` is not what carries it: the cooldown outlasts the buff by minutes, so
+-- it would be bright while wrong.
+
+-- The BUILDERS. `judgment,if=full_recharge_time<=gcd*2` is a "you are about to waste a charge"
+-- rung; at-the-cap is its readable half, strictly later than the APL's, so it under-marks
+-- rather than over-marks. Crusader's Judgment adds the second charge -- without it this reads
+-- as plain off-cooldown, which is honest either way.
+glow "Judgment at cap"
+  on     judgment
+  when   at_max_charges(judgment)
+  urgent
+
+-- Hammer of Wrath rides the JUDGMENT row while Sentinel is up, and it takes the row with it:
+-- `Attach.lua:94` keys a subject on `overrideSpellID` when one is set, so both Judgment rungs
+-- above go dark the moment the swap happens -- measured, 21 attached rows inside the window
+-- against 23 outside, with both Judgment rungs reading "no laid-out row". Ruination over Hand
+-- of Gul'dan and Infernal Bolt over Shadow Bolt are the same shape, and they are written the
+-- same way: a rung of the OVERRIDE's own.
+--
+-- No gate but readiness, and it does not over-light: the row only exists while the override
+-- is on it, which is exactly the window in which Hammer of Wrath is castable.
+--
+-- `hammer_of_wrath` names the OVERRIDE here, 1241413, not the baseline 24275: where a spec
+-- carries both, the symbol table prefers the id the Cooldown Manager lays out, which is the
+-- only one a rung can bind to anyway.
+--
+-- ⚠ Protection knows Hammer of Wrath by no id at all -- it is in no spell book, it arrives
+-- only as this override while Sentinel is up. What makes `ready` answerable is the bound row
+-- itself, so a gate on the base spell would be refused where this one is not.
+glow "Hammer of Wrath inside Sentinel"
+  on     hammer_of_wrath
+  when   ready(hammer_of_wrath)
+  urgent
+
+-- The filler builder is a CHOICE NODE, so both rungs ship and only the talented one can attach;
+-- the other has no laid-out row and stays dark. Three charges is where a Protection rotation
+-- actually leaks Holy Power, which is what makes the cap worth marking.
+glow "Blessed Hammer at cap"
+  on     blessed_hammer
+  when   at_max_charges(blessed_hammer)
+  urgent
+
+glow "Hammer of the Righteous at cap"
+  on     hammer_of_the_righteous
+  when   at_max_charges(hammer_of_the_righteous)
+  urgent
+
+glow "Blessed Hammer on Blessed Assurance"
+  on     blessed_hammer
+  when   aura(blessed_assurance)
+
+glow "Hammer of the Righteous on Blessed Assurance"
+  on     hammer_of_the_righteous
+  when   aura(blessed_assurance)
 
 -- Not the APL's `buff.divine_guidance.stack>=5` rung but the practical one: Consecration is
--- worth pressing when you are not standing in it and it is off cooldown. 26573 is the cast
--- and the only Consecration row in the Protection cooldown set; 188370 is the "standing in
--- it" player aura, and 81297 -- which the bare name resolves to -- is neither, it is the
--- periodic damage inside the field.
+-- worth pressing when you are not standing in it and it is off cooldown.
+--
+-- `consecration` names two tracked rows, so the aura side takes the suffixed form and says
+-- which. The subject resolves on its own now: the ability namespace lets the CDM's own row win
+-- a name inside its spec, so `consecration` is 26573, the cast, and no longer 81297.
 glow "Consecration when you are not in it"
-  on     26573
-  when   ready(26573) and not aura(188370)
+  on     consecration
+  when   ready(consecration) and not aura(consecration_188370)
 
 -- Two rungs on the same button, and the second is the first with its requirement lowered.
 -- At the cap you press regardless, because the next generator overcaps. With the mitigation
@@ -89,9 +153,145 @@ glow "Consecration when you are not in it"
 glow "Shield of the Righteous at cap"
   on     shield_of_the_righteous
   when   holy_power >= 5
+  urgent
 
--- 132403 is the buff; the cooldown row 53600 carries it as a linked spell, so the row and the
--- buff are the same subject.
+-- `on` and `aura()` read DIFFERENT namespaces, so the same word means the button in one and
+-- the mitigation buff in the other. The cooldown row carries the buff as a linked spell, which
+-- is what makes them one subject.
 glow "Shield of the Righteous with the buff down"
   on     shield_of_the_righteous
-  when   holy_power >= 3 and not aura(132403)
+  when   holy_power >= 3 and not aura(shield_of_the_righteous)
+
+-- "Consecration if everything else is on cooldown to refresh the duration" -- the third
+-- Consecration case, and the only one that fires while you are still standing in it with no
+-- Divine Guidance banked. The readable half is the builders being down; Blessed Hammer and
+-- Hammer of the Righteous are a choice node, so the untalented one reads UNKNOWN and cannot
+-- make this true on its own.
+glow "Consecration to refresh, nothing else up"
+  on     consecration
+  when   ready(consecration) and not ready(judgment) and not ready(avengers_shield)
+
+-- ---------------------------------------------------------------- baseline builders
+--
+-- The KB's own loop is "never Holy-Power-cap, keep Consecration under you, keep Shield of the
+-- Righteous rolling", and all three of these are rotational BUILDERS rather than situational
+-- buttons. The swipe already says a builder is available; what it cannot say is that you also
+-- have room for what it generates, which is the whole of the advice here.
+
+glow "Judgment with room to spend"
+  on     judgment
+  when   ready(judgment) and holy_power < 5
+
+glow "Blessed Hammer with room to spend"
+  on     blessed_hammer
+  when   ready(blessed_hammer) and holy_power < 5
+
+glow "Hammer of the Righteous with room to spend"
+  on     hammer_of_the_righteous
+  when   ready(hammer_of_the_righteous) and holy_power < 5
+
+-- Tighter, because Glory of the Vanguard makes this hand back up to three at once.
+glow "Avenger's Shield with room to spend"
+  on     avengers_shield
+  when   ready(avengers_shield) and holy_power <= 2
+
+-- ---------------------------------------------------------------- Sentinel and Divine Toll
+--
+-- Divine Toll is ~1 min and Sentinel ~2 min, which Righteous Protector halves -- so with that
+-- talent they pair 1:1 and without it Sentinel lands on every other Toll.
+
+-- Sitting on Sentinel because the Toll was misfired is a real loss, and the APL uses the same
+-- shape for the Wrath case: a cooldown far enough out that waiting costs more than desyncing.
+glow "Sentinel anyway, Divine Toll is far off"
+  on     sentinel
+  when   ready(sentinel) and not ready(divine_toll)
+  bind   divine_toll.cooldown > 30s
+
+-- `active()` rather than `aura()` or a bind. Sentinel HAS a laid-out row, so `active()` can
+-- ask it directly whether it is currently showing an aura rather than a cooldown -- which is
+-- the question, and it needs no aura id at all.
+--
+-- ⚠ The aura id is exactly what this rung cannot have. `Symbols.auraNames` carries one
+-- `sentinel`, 1253599, and that is the HUNTER Marksmanship hero talent; the Paladin row in
+-- the ability inventory has no aura id at all. A `sentinel.up` bind therefore resolved
+-- through the ability-table fallback and armed a container on 389539, the SPELL id, which no
+-- aura ever matches -- and a sealed bind that finds nothing fails dark, so it read exactly
+-- like a condition that was false.
+glow "Divine Toll inside Sentinel"
+  on     divine_toll
+  when   ready(divine_toll) and active(sentinel)
+
+-- ---------------------------------------------------------------- Consecration payload
+--
+-- Divine Guidance banks a payload on the NEXT Consecration -- "for each Holy Power ability
+-- cast, your next Consecration deals damage or healing immediately". At the cap that is a
+-- reason to recast while it is still down, which the not-standing-in-it rung cannot say.
+glow "Consecration at five Divine Guidance"
+  on     consecration
+  bind   divine_guidance.stacks >= 5
+
+-- ---------------------------------------------------------------- the panic buttons
+--
+-- A TRAINING aid, and it teaches the wrong reflex if left on: a defensive is better pressed
+-- ahead of damage than after it, and these fire after. They exist to make the buttons
+-- familiar, not to time them.
+--
+-- Every one is suppressed while another major is already up, so the set never asks you to
+-- stack two. Sentinel is in that guard through `active()` rather than `aura()`: nothing tracks
+-- it as a buff, but its own cooldown row records that its dial is drawing an aura, and that
+-- verdict is a plain boolean. The bind slot could not have carried it -- it is spent on the
+-- health threshold, and a glow holds one sealed leaf.
+-- Holy Bulwark is in, under the suffix that says which row: 432607 carries the absorb and
+-- 432496 the stat package, so the shield is the one worth guarding on.
+
+glow "Ardent Defender when hurt"
+  on     ardent_defender
+  when   ready(ardent_defender) and not aura(ardent_defender) and not aura(guardian_of_ancient_kings) and not aura(divine_shield) and not active(sentinel) and not aura(holy_bulwark_432607)
+  bind   health% < 70
+
+glow "Guardian of Ancient Kings when hurt"
+  on     guardian_of_ancient_kings
+  when   ready(guardian_of_ancient_kings) and not aura(ardent_defender) and not aura(guardian_of_ancient_kings) and not aura(divine_shield) and not active(sentinel) and not aura(holy_bulwark_432607)
+  bind   health% < 70
+
+-- ⚠ Divine Shield is only a TANK defensive with Final Stand. Without it the immunity drops
+-- threat and the pull walks past you into the group, so an unconditional panic rung here is a
+-- wipe button with a friendly face. `talent()` reads the trait config, so the rung simply
+-- cannot fire on a build that has not taken it.
+--
+-- Blessing of Protection is absent for the same reason and has no equivalent rescue: it drops
+-- threat too, and nothing makes it not. Blessing of Spellwarding is the one immunity a tank
+-- may press freely -- the KB calls it "no threat concern" -- which is why it is here and its
+-- choice-node partner is not.
+glow "Divine Shield when hurt"
+  on     divine_shield
+  when   talent(final_stand) and ready(divine_shield) and not aura(ardent_defender) and not aura(guardian_of_ancient_kings) and not aura(divine_shield) and not active(sentinel) and not aura(holy_bulwark_432607)
+  bind   health% < 70
+
+glow "Blessing of Spellwarding when hurt"
+  on     blessing_of_spellwarding
+  when   ready(blessing_of_spellwarding) and not aura(ardent_defender) and not aura(guardian_of_ancient_kings) and not aura(divine_shield) and not active(sentinel) and not aura(holy_bulwark_432607)
+  bind   health% < 70
+
+-- Lower, because a ten-minute button lit at 70% teaches you to burn it on a scratch.
+-- ⚠ Subject is the OVERRIDE id, for the reason spelled out on the Hammer of Wrath rung: this
+-- row is laid out as Lay on Hands overridden by 471195, permanently on this build, so a rung
+-- on 633 attaches to nothing. 471195 carries no name in the ability tables, which is why it is
+-- written as a number; the gate still asks 633, which is the spell the player knows.
+glow "Lay on Hands when nearly dead"
+  on     471195
+  when   ready(lay_on_hands) and not aura(ardent_defender) and not aura(guardian_of_ancient_kings) and not aura(divine_shield) and not active(sentinel) and not aura(holy_bulwark_432607)
+  bind   health% < 50
+
+-- ------------------------------------------------------------------ confirm while logged in
+--
+-- Nothing here needs a command run at the right moment. The attach flush writes the whole row
+-- inventory to the capture whenever the row set changes, and a Sentinel window changes it
+-- twice, so play a pull with `/sg procs dim` set and read it back afterwards.
+--
+--   * Which id the Cooldown Manager writes as the Judgment row's override. If it is 24275
+--     rather than 1241413, this rung's subject is wrong and the swap is one line.
+--   * Both Judgment rungs detaching on the way in and re-attaching on the way out, which is
+--     what makes this rung necessary rather than a duplicate.
+--   * The proc-alert state on a row that procced -- the client's own alpha, so a dimming that
+--     did nothing and a proc that never fired stop looking alike.
