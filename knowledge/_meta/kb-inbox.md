@@ -1072,3 +1072,28 @@ only when measured** — they are the kind of claim that reads plausible and wou
   rider. Adjacent to `cdm-rider-patterns.md` §4.6/§4.7 but not answered by either.
 
 Both are ClientLab-shaped: one test each, `projects/addon-lab/`.
+
+## Blocked on Encomplete's first combat logs (2026-09-11)
+
+**Question:** does Stormbound Emblem of Dazar (273649) earn its trinket slot at the player's
+*real* usage rate, or should it lose to a passive?
+
+Its on-use is a **2-second channel** (`1295275`, "The King's Unyielding Wind") — pure haste, no
+damage, 18.4% uptime in the sim at 2.89 uses / 300s. Player reports it is hard to work in during
+M+. The sim says the best passive alternative for that slot (Drum of Renewed Bonds 305) is
+**−2.66%** — but that is priced at on-cooldown usage.
+
+**Blocked on data, deliberately, not unscoped.** Simming a usage-rate ladder now would price a
+guess. The player has never logged; once `WoWCombatLog.txt` exists and a run is uploaded, read
+from the log first:
+
+1. casts of *The King's Unyielding Wind* per pull (`wowkb.wcl casts`)
+2. **buff duration distribution**, not just cast count — the implementation extends the haste buff
+   +5s per completed tick and *keeps accrued duration when the channel breaks*
+   (`unique_gear_midnight.cpp:3747`), so partial channels show up as short buffs, not missing
+   casts. Missing casts and short casts are different problems with different fixes.
+
+Then one narrow sim: Emblem at the measured rate vs. the Drum. Not a sweep.
+
+Prerequisite still unanswered by the player: whether to install AutoCombatLogger
+(`ghaddons.cli add Talryn/AutoCombatLogger`) or drive `/combatlog` by hand.

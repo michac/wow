@@ -1221,3 +1221,226 @@ registers the BfA implementations against the **BfA** effect spell ids (267177 /
 rows are stats-only floors. That both classes of WARN appeared in the *same run* is the
 argument for the resolver: the text is identical and only a source dig separates "working
 fine" from "genuinely dead".
+
+---
+
+### 2026-09-10 — Pollynomial (Protection Paladin), Great Vault choice — **a two-hander wore a shield**
+
+First tank, first paladin, and the first session where a `compare` variant produced a
+confident, plausible, **structurally impossible** number.
+
+**The question.** Four vault choices — three helms and a one-hand sword (Abyss Sabre 305) —
+against an equipped main hand (Beast Collector's Cudgel **259**) left on from a Holy
+experiment. The user's stated premise was that the bag held an obvious interim upgrade,
+"Realm Splitter (295)".
+
+**THE ARTIFACT — `compare` will equip a 2H main hand and keep the shield.** The first run
+ranked `Realm Splitter 295` **above** the vault sword and above every capped variant, at
++26%. Realm Splitter (272274) is `inv_type 17` — **INVTYPE_2HWEAPON**, a 3.6-speed two-handed
+sword. The profileset assigned it to `main_hand` and left `off_hand=` holding Wailing
+Bulwark, a shield. simc happily simmed 2H-plus-shield and paid out roughly double weapon
+damage. Three of six rows in that table were garbage, and **the garbage rows won**, which is
+the only reason it got caught: a 295 beating a 321 was implausible enough to look at.
+
+Invariant 3 ("a 2H main hand forces `off_hand=`") is implemented **only for the export's own
+equipped layout**. Nothing re-checks layout when a *variant* changes a weapon slot. Failure #4
+was "compared across invocations"; this is its structural sibling — *compared across
+weapon layouts* — and one invocation does not save you from it.
+
+`gear --slot main_hand` prints a `⚠ WEAPON SLOT — ranked but NOT usability-checked` banner
+(simc carries no class weapon-usability data). That banner is real but it is about the **wrong
+failure** and it lulled: usability is genuinely unknowable from simc, whereas **2H-with-shield
+is trivially decidable from `inv_type`** and should never have been a warning at all.
+
+> **GATES TO BUILD (in priority order).**
+> 1. **Weapon-layout gate — HARD FAIL, not a warning.** Any variant (or gear candidate)
+>    assigning `inv_type 17` to `main_hand` while `off_hand` is non-empty is refused. Same
+>    for the inverse: a 1H main hand on a profile whose off_hand was force-cleared. This is
+>    decidable from `item_data.inc` alone and there is no reason to ever print a number for it.
+> 2. **`compare` must print `gear`'s weapon banner.** `gear` warns, `compare` says nothing,
+>    and `compare` is the command you reach for on a cross-slot question. Hoist it.
+> 3. **Candidate filtering must know 1H vs 2H.** `gear --slot main_hand` offered two
+>    two-handers to a shield-using tank and ranked them 1st and 2nd.
+
+**Second finding — the track IS recoverable from `bonus_id`, so the invariant at line ~2660
+is false.** `item_tracks()` reads track/step only from `charstate.load()` (the PlannerState
+tooltip dump), on the stated grounds that "the track CANNOT be inferred from the ilvl". True
+but beside the point: the export carries `bonus_id`, and
+`ItemBonusListGroupEntry.SequenceValue` **is** the step, with `ItemBonus` Type 34 `Value_0/1`
+carrying the track group. Verified end-to-end this session against 12.1.0.69214 DB2:
+
+| group | track | bonus ids | note |
+|---|---|---|---|
+| 614 | Adventurer | 12817-12824 | seq 7/8 carry `Flags=3`, disabled |
+| 615 | Veteran | 12825-12832 | |
+| 616 | Champion | 12833-12840 | 12838 = 6/6 = 308 |
+| 617 | Hero | 12841-12848 | 12841 = 1/6 = 305 · 12846 = 6/6 = 321 |
+| 618 | Myth | 12849-12856 | |
+
+`ItemBonusListGroup.ItemGroupIlvlScalingID` is the **season** discriminator (11 = S1,
+612-607; 12 = S2). It resolved the equipped Cudgel's `12793` as **Season 1 Hero 1/6** — a
+leftover, which is exactly the kind of thing a track column would have made obvious at a
+glance. Regenerate the map from the CSVs per build; do **not** hardcode the bases.
+
+Two consequences, both large:
+- **Bag and vault candidates become track-resolvable.** The PlannerState dump only ever sees
+  *equipped* gear, so today the tool cannot say what track a vault item is on — which is the
+  single most important fact in a vault decision, because a fresh Hero 305 and a capped
+  Champion 308 are the same ilvl and *not* the same item.
+- **"Sim everything at its track cap" becomes mechanical**, instead of the hand-written
+  `,ilevel=321` strings this session used.
+
+**Third finding — the PlannerState dump disagreed with the export, and nothing noticed.**
+The dump (2026-09-09 23:05) is *newer* than the export (21:39) yet reports `mainhand` Hero
+1/6 (=305) where the export holds a 259 Cudgel, and Champion 4/6 / Hero 2/6 for two trinkets
+the export puts at 295 (`bonus_id 12834` = Champion 2/6, twice). The **export is internally
+self-consistent and the dump is not**. With a bonus-id decoder these two sources can be
+cross-checked; today they silently diverge and `item_tracks()` trusts the dump.
+
+> **GATE:** cross-check dump track against bonus-id track per slot; on disagreement, report
+> both and trust neither silently.
+
+**Firing gate, running tally: one TRUE positive.** `Abyss Sabre` (spell 1253357) WARNed and
+the WARN is **correct** — but the message is wrong. It reads "produced no buff and no
+action"; in fact simc creates the action (`torments_duality`, `unique_gear_midnight.cpp:4216-4282`,
+registered at :5599) and executes it **0.0 times in 300s** despite RPPM 5. So the item is
+fully implemented upstream and still contributed nothing, and the sabre's numbers in this
+session are a **floor**. Worth noting the effect is half of set 1970 "Torment's Duality" with
+Radiant Foil (251885) — and its Void Tear debuff is inert without the partner, which a
+shield-using Protection Paladin can never equip.
+
+> **GATE:** the gate says "no buff and no action" when an action exists at 0 executes.
+> Distinguish *absent* from *present-but-never-fired* — they point at different causes.
+
+**Not an artifact, but the session's most useful number:** dropping the tier helm for either
+non-tier Hero 305 helm cost **~8.5 points of relative DPS** (+15.0% → +6.5%), i.e. the 4pc
+dwarfed a 3-ilvl-per-slot question. Any gear command that ranks a tier slot without reporting
+the resulting set-piece count is inviting that mistake.
+
+### 2026-09-11 — Encomplete `--all-slots`: the only "upgrade" in sixteen slots was a slot he cannot fill
+
+The question was the player's own rule, put as a challenge: *"ilvl and raw int always trump
+secondary stats — it's not worth replacing a Hero piece with a Champion piece for better
+stats, trinkets excepted. Is that not true?"* `gear encomplete --all-slots` against the
+2026-09-06 export ranks every equipped/bag/vault row per slot, so it tests the rule against
+the actual bags rather than against a principle.
+
+**The rule survived, emphatically.** Fifteen of sixteen slots put `_baseline` (current gear)
+first or statistically tied for first. Nothing in the bags beat what is worn, at any ilvl
+gap available. The largest same-slot spread was `main_hand`, where a **311** Nibbles Training
+Rod lost to the equipped **318** Aln'hara Cane by −3.78% — ilvl winning across a 7-point gap
+even against a differently-statted weapon. The trinket slots did not produce a counterexample
+either: the best bag trinket was −0.01% (a tie) in `trinket1` and −2.66% in `trinket2`.
+
+**The sixteenth slot was `off_hand`, and it is fiction.** The frame ranked Vessel of Last
+Rites 305 at **+8.73%** and Soulsingers Horn 295 at **+8.25%**, both `significant`, against an
+empty slot. Both are `inventory_type` **23** (holdable) — and the equipped Aln'hara Cane
+(245770) is `inventory_type` **17**, a staff:
+
+```
+{ "Aln'hara Cane", 245770, …, 4, 17, 2, 10, 1, 3600, … }   # quality 4, invtype 17 (2H), class 2 subclass 10 (staff)
+{ "Vessel of Last Rites", 159667, …, 3, 23, 4, 0, 1, 0, … } # invtype 23 (holdable)
+```
+
+A staff occupies both hands. There is no configuration in which this character equips either
+item, and the harness ranked them anyway, flagged only by the generic
+`⚠ WEAPON SLOT — NOT usability-checked` banner — which reads as "confirm the weapon is
+wearable", not "this entire slot is unreachable". Left unread, an 8.7% `significant` row is
+exactly the kind of number that gets acted on.
+
+This is the **same defect as 2026-09-10's shield-wearing two-hander, from the other side**:
+that session had the tool offer two-handers to a shield user; this one had it offer off-hands
+to a staff user. The 2026-09-10 gate was written as a `main_hand` candidate filter, and so it
+did not fire here.
+
+> **GATE:** `inventory_type` of the equipped `main_hand` decides whether `off_hand` is a slot
+> at all. When it is 17 (2H weapon), `off_hand` must be **skipped entirely** — not ranked with
+> a banner — and `--all-slots` must say *why* it was skipped. The mirror already exists for
+> `main_hand`; this is the same fact read in the other direction, and both should come from one
+> helper, not two. Decidable from `item_data.inc` alone; no client, no usability table.
+
+**Second finding — the `head` frame's `_baseline` was not the player's head.** Every other
+frame encodes the equipped helm as `bonus_id=6652/12836/13662/13696` → **ilvl 302**. The
+`head` frame encodes **12834** → **ilvl 295**, and its baseline lands at **108,447** against
+~131,500 everywhere else. Same item id, same content_tuning, one bonus id different, and a
+17% baseline gap that no 7-ilvl swing can explain.
+
+The consequence is narrow but real: `head` deltas are measured against a degraded reference,
+so they read better than they are. It does not change this session's answer — the best head
+candidate was −0.00% *against the weakened baseline*, hence worse against the true one — but
+the frame's absolute numbers are unusable, and a slot whose baseline silently differs from
+every sibling frame is a defect the output did not mention.
+
+> **GATE:** `--all-slots` builds N frames from one export; the equipped set must be
+> **byte-identical** across all of them except the slot under test. Hash the non-test slots per
+> frame and fail loudly on divergence. A per-frame `_baseline` median that differs from the
+> run's median `_baseline` by more than the error band is the same alarm from the output side
+> and is cheap to print.
+
+**Firing gate — the 2026-08-27 false positive recurred, in all sixteen frames, and it cost an
+answer a second time.** Void-Reaper's Libram (1253113) WARNed "no buff and no action" in every
+frame. It is implemented (`unique_gear_midnight.cpp:2829`, registered at `:5552`) and it
+**fired**: `sacred_text` at **7.39 executes / 300s**, `sacred_duty` present in `buffs`. The gate
+misses it for the reason 2026-08-27 diagnosed — it matches on the item's name, and this effect
+registers its children under their own spell names (`sacred_text` 1266394, `text_ignite` 1266407,
+`sacred_duty` 1266403), none of which contain "libram".
+
+The gate that entry specified was never built, so the WARN reappeared and this session repeated
+the exact mistake the entry predicted: it told the player the run's numbers were a **floor**
+because the Libram "produced nothing". They were not a floor. The proc is already in them.
+
+> **GATE (restated from 2026-08-27, still unbuilt, now with two victims):** match the firing
+> gate on the driver's **triggered spell ids**, not the item name. Until then the WARN text must
+> not say "possibly unimplemented" — it must say "no action or buff matching this item's NAME;
+> the effect may register under its spell's name — grep the JSON's `stats`/`buffs` for the ids in
+> the implementation's comment header before treating this as unmodelled."
+
+simc's own caveat on this trinket stands and is unrelated: the implementation raises
+`UNVERIFIED_IMPLEMENTATION` — *"Sacred Text dot is assumed to be able to proc while Sacred Duty
+buff is up."*
+
+### 2026-09-11 — Pollynomial (Prot Paladin) Season 2 vault choice
+Question: which of four vault rewards to take — the tier helm at Hero 1/6, Abyss Sabre at
+Hero 1/6, or two non-tier Hero helms — and where 100 Hero Mistcrests should go.
+
+Answered in one `compare` frame, 8 variants. Nothing about the gear question was hard: two
+of the four vault helms break the 4pc (`Radiance of the Consecrated Flame`, worn 4/5 with a
+non-tier chest) and cost **-7.5% / -5.0%**, which dwarfed every ilvl and track consideration
+in the table — Step 7 earning its place for the second time.
+
+**The name-matching gate failed for a THIRD time, and this time with a new mechanism.**
+Abyss Sabre (1253357, `weapons::torments_duality`) WARNed "produced no buff and no action"
+in both sabre arms. Following the 2026-08-27 / 2026-09-10 entry's instruction, I checked the
+implementation's comment-header spell ids instead of trusting the WARN — and the effect is
+**fully modelled and firing**: `abyss_sabre` at **36.95 executes / 159,648 damage per 300s**,
+plus a `void_tear` debuff on the target at 2.72 starts. Roughly 532 DPS, which is essentially
+the whole +0.84% the sabre showed over baseline.
+
+The new wrinkle, and why the previous entry's fix would **not** have caught this one: the
+implementation creates a **proxy parent action** (`torments_duality`, an `ACTION_OTHER` with
+`name_str_reporting = "Torment's Duality"`) and hangs the real damage action on it via
+`proxy->add_child( damage )`. The proxy legitimately has **0 executes of its own**. In json2
+the child is **nested inside the parent's `children` array and does not appear in the flat
+`stats` list at all** — my own first diagnostic pass dumped all 34 entries of `stats` and
+found no `abyss_sabre`, which read exactly like confirmation of the WARN. The debuff is
+likewise not on the player: it is a target debuff, under `sim.targets[].buffs`.
+
+> **GATE (extends 2026-08-27, still unbuilt — now three victims and two distinct causes):**
+> the firing gate must (a) match on the driver's **triggered spell ids**, not the item name,
+> and (b) **recurse into each stat's `children`** rather than scanning the flat `stats` list,
+> and (c) search **target** debuffs (`sim.targets[].buffs`) as well as player buffs. A proxy
+> parent at 0 executes is a normal, correct reporting shape and must never by itself read as
+> "no action". Until it is built, the WARN text must not say "possibly unimplemented".
+
+Cost side, and the finding that actually decided the crest half of the question: Pollynomial
+holds **exactly 100 Hero Mistcrests** and does **not** hold `Hero of the Mist` (62414), so
+Hero ranks cost the full 20 — 100 crests is **precisely one Hero item 1/6 → 6/6, and no
+more**. Spending them on the weapon is worth **+3.17%** (current sword) to **+4.17%** (Abyss
+Sabre); spending them on the helm is worth **+0.86%**. Nearly a 5x difference per crest, and
+invisible to anything that ranks by ilvl.
+
+Also worth remembering: the two vault items differing *only* in secondaries (Abyss Sabre
+Haste/Mastery vs the equipped Swordsman's Emanation Crit/Haste — identical 1H sword,
+identical 2.60 speed, identical 5259 Str / 7889 Stam / 7000 secondary budget) split
+**+0.84% on 1T but only +0.36% on 5T**. The whole gap is the proc; the stat reshuffle itself
+is a wash. A single-fight-style answer would have overstated it by 2x.
