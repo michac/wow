@@ -2,13 +2,16 @@
 title: Crests — Mistcrests (Midnight S2) & Dawncrests (S1, historical)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-20
+reviewed: 2026-09-10
 sources:
   - https://worldofwarcraft.blizzard.com/en-us/news/24295085   # Lairs preview — Tidebound Grotto reward table, the Tier-1 Mistcrest names + track 1/6 ilvls
   - https://us.forums.blizzard.com/en/wow/posts/29833350       # S1 ending / S2 information — pre-season week reward caps
   - https://worldofwarcraft.com/en-us/news/24293281            # 12.1 Content Update Notes — crest sources re-pointed to S2
   - https://worldofwarcraft.com/en-us/news/24293963            # Coiled Isle / Vaults of Atal'Utek — Trovehunter's Bounty as a Vaults reward
   - https://wago.tools/db2/CurrencyTypes?build=12.1.0.69214       # TIER-1 FLOOR — Mistcrest IDs 3437-3446: names, per-track ilvl bands, crafting ilvls, cap fields, and the per-crest source map (local pull: raw/wago/CurrencyTypes-12.1.0.69214.csv)
+  - https://wago.tools/db2/ItemBonusListGroupEntry?build=12.1.0.69214  # TIER-1 — SequenceValue = the upgrade STEP; the group = the track (local pull: raw/wago/)
+  - https://wago.tools/db2/ItemBonus?build=12.1.0.69214                # TIER-1 — Type 34 Value_0/Value_1 = group id + track-family id; Type 4 = ItemNameDescription
+  - https://wago.tools/db2/ItemBonusListGroup?build=12.1.0.69214       # TIER-1 — ItemGroupIlvlScalingID is the SEASON discriminator (11 = S1, 12 = S2)
   - https://wago.tools/db2/Achievement?build=12.1.0.69214          # "…of the Mist" IDs 62410/62411/62412/62414/62416 (+ CriteriaTree for the high-watermark triggers)
   - https://conquestcapped.com/guides/wow/wow-midnight-mistcrests/     # T3/T4 — 20/rank, Vaskarn 30→10, per-tier source map (2026-08-07)
   - https://www.method.gg/guides/mistcrests-from-mythic-dungeons-and-raid-bosses-in-wow-midnight-season-2  # T3 — M+/raid amounts (2026-08-10)
@@ -80,6 +83,49 @@ Intermediate steps are ~3 ilvl each and are **not individually confirmed**.
 **Note the overlap, it's the same trap as S1:** a *fully capped* lower-track piece
 out-ilvls a *fresh* drop one track up — Champion 6/6 (**308**) beats a fresh Hero
 drop (**305**). Hero only pulls ahead once crested.
+
+### Reading an item's track+step from its `bonus_id` (Tier-1, DB2)
+
+**An item's track is NOT inferable from its item level** — the bands overlap by design
+(295 is Veteran 6/6 *or* Champion 2/6; 305 is Champion 6/6 *or* Hero 1/6). It **is**
+recoverable from the `bonus_id` list a `/simc` export carries on every item, via a join:
+
+```
+bonus_id → ItemBonusListGroupEntry.(ItemBonusListGroupID, SequenceValue)
+           SequenceValue IS the step (1..6)
+           ItemBonusListGroupID IS the track
+ItemBonusListGroup.ItemGroupIlvlScalingID = the SEASON  (11 = S1, 12 = S2)
+```
+
+A `ItemBonusListID` appears in **at most one** group entry across all 2473 rows, so the
+lookup is an unambiguous function. The track is carried redundantly on the bonus itself as
+`ItemBonus` **Type 34**, where `Value_0` = the group id and `Value_1` = a season-stable
+track-family id (**970** Explorer · 971 Adventurer · 972 Veteran · 973 Champion ·
+974 Hero · 978 Myth).
+
+| group | track | bonus ids | 1/6 → 6/6 |
+|---|---|---|---|
+| 614 | Adventurer | 12817-12824 | 266 → 282 |
+| 615 | Veteran | 12825-12832 | 279 → 295 |
+| 616 | Champion | 12833-12840 | 292 → 308 |
+| 617 | Hero | 12841-12848 | 305 → 321 |
+| 618 | Myth | 12849-12856 | 318 → 334 |
+
+Blocks are **8 wide, not 6**: sequence values 7 and 8 exist in every block but carry
+`Flags = 3` (vs 2 for the six live steps) and, on Myth, point at junk ilvl selectors — they
+are disabled placeholders, which is why the in-game denominator really is `/6`. Blizzard has
+already enabled a seq 9 on groups 611/612/618, so **do not hardcode the block bases in
+code** — regenerate the map per build from the two CSVs. Group **619** carries Type-34 rows
+but has no group or entry rows at all (an unwired S2 Explorer track), so a resolver must
+tolerate a missing entry rather than assume one.
+
+**The season discriminator matters in practice.** S1 group 611 = Hero, and `bonus_id 12793`
+resolves to **S1 Hero 1/6 = 259** — that is how a leftover Season 1 piece is spotted in a
+slot where its bare item level looks merely low rather than obsolete.
+
+*(Not track ids: `ItemBonus` Type 4 is an `ItemNameDescription` — 13334 → id 2015 "Heroic",
+13332 → "Raid Finder", 13335 → "Mythic" — i.e. the raid-difficulty tooltip tag, unrelated to
+the upgrade ladder.)*
 
 ### Cost per upgrade
 
