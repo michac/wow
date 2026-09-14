@@ -2,11 +2,12 @@
 title: Havoc Demon Hunter — Talents & Builds (Midnight 12.1)
 patch: 12.1
 fetched: 2026-08-11
-reviewed: 2026-08-16
+reviewed: 2026-09-12
 sources:
   - https://worldofwarcraft.com/en-us/news/24293281  # tier 1, 12.1 "Curse of Ula'tek" content update notes (CLASSES ▶ DEMON HUNTER ▶ Havoc), 2026-08-11
   - https://us.api.blizzard.com/data/wow/talent-tree  # tier 1, live 12.1 tree — distilled into talents.md/talents.json @ 12.1.0
   - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-spec-builds-talents  # tier 3, updated 2026-08-10 for 12.1, 2026-08-11
+  - https://www.icy-veins.com/wow/havoc-demon-hunter-pve-dps-rotation-cooldowns-abilities  # tier 3, revised 2026-08-30 — the hero-tree call, with Season 2 performance behind it; captured verbatim in icy-veins-rotation.md
   - https://raw.githubusercontent.com/simulationcraft/simc/midnight/profiles/MID1/MID1_Demon_Hunter_Havoc.simc  # ❌ tier 1 but STALE — commit 6e14948, 2026-03-13, i.e. 151 days BEFORE 12.1 went live. Upstream has never regenerated this profile; every Warlock MID1 profile carries a 12.1 launch-day commit. Do not cite for 12.1.
   - simc engine/class_modules/apl/apl_demon_hunter.cpp `//havoc_apl_start`  # tier 1, THE CURRENT APL — commit 5f916c6, 2026-08-14. `wowkb.simc dh havoc --module`
   - https://www.method.gg/guides/havoc-demon-hunter/talents  # tier 3, still labeled 12.0.7 as of 2026-08-11
@@ -72,31 +73,35 @@ several specs; **interrupts now show a "missed" visual + sound** when used on a
 non-casting target (a real Disrupt-discipline signal); **diminishing-return
 categories now reset after 20s** (was 16).
 
-## Hero tree: the 12.1 split (was Fel-Scarred everywhere in S1)
+## Hero tree: Fel-Scarred, in every content type
 
-In Season 1 Fel-Scarred was the answer for nearly all content. **12.1 splits it**
-(Tier 3, Icy Veins @ 2026-08-10):
+**Fel-Scarred is the pick for raid single-target, raid cleave and Mythic+ alike**
+(Tier 3, Icy Veins @ 2026-08-30, after two weeks of Season 2 play). The two trees
+land at similar single-target, but Fel-Scarred has a clear edge on cleave, is more
+flexible about switching between burst, single-target and cleave within one pull,
+and is the easier of the two to execute — which is also what makes it the M+ pick,
+via **Demonsurge**'s burst AoE. Fel-Scarred identity:
 
-- **Raid / single-target → Aldrachi Reaver.** Better single-target plus funnel via
-  **Wounded Quarry**. Identity is the **Reaver's Glaive** combo — 6 soul fragments
-  (**Art of the Glaive**) turn Throw Glaive into Reaver's Glaive, which applies
-  **Reaver's Mark** and empowers the next Chaos Strike (**Rending Strike**) and
-  Blade Dance (**Glaive Flurry → Fury of the Aldrachi**). **The Hunt** every ~min
-  guarantees a proc.
-- **Mythic+ / general keys → Fel-Scarred.** Frequent burst AoE and the easier
-  build to pilot; Aldrachi Reaver stays viable in high keys where priority/funnel
-  damage matters. Fel-Scarred identity:
-  - **Demonsurge** — Eye Beam / Metamorphosis empower the next Annihilation +
-    Death Sweep. Each demon-form entry wants ~2 Death Sweep + 1 Annihilation to
-    cash the procs.
-  - **Demonic Intensity** — during Metamorphosis, Eye Beam becomes **Abyssal
-    Gaze** and Immolation Aura becomes **Consuming Fire**, and Meta refunds
-    Immolation charges — so spend Immolation before Meta.
+- **Demonsurge** — Eye Beam / Metamorphosis empower the next Annihilation +
+  Death Sweep. Each demon-form entry wants ~2 Death Sweep + 1 Annihilation to
+  cash the procs.
+- **Demonic Intensity** — during Metamorphosis, Eye Beam becomes **Abyssal
+  Gaze** and Immolation Aura becomes **Consuming Fire**, and Meta refunds
+  Immolation charges — so spend Immolation before Meta.
 
-> The Fel-Scarred-for-everything line in the S1 version of this file came from the
-> simc default profile (`MID1_Demon_Hunter_Havoc_Fel-Scarred`) and method.gg,
-> **both still 12.0.7 vintage**. Do not treat this new split as settled until the
-> 12.1 simc APL exists.
+**Aldrachi Reaver is the live alternative, and its case is narrow.** Identity is the
+**Reaver's Glaive** combo — 6 soul fragments (**Art of the Glaive**) turn Throw
+Glaive into Reaver's Glaive, which applies **Reaver's Mark** and empowers the next
+Chaos Strike (**Rending Strike**) and Blade Dance (**Glaive Flurry → Fury of the
+Aldrachi**); **The Hunt** every ~min guarantees a proc. What it uniquely brings is
+**funnel** damage through **Wounded Quarry**, which can be worth the pick on an
+encounter that wants priority damage and in high keys. It cannot shift between burst,
+single-target and cleave the way Fel-Scarred does, which is why Season 2's early
+performance went against it.
+
+> ⚠ Still Tier 3 and **unsimmed here** — the simc MID1 profile has not been
+> re-pulled at a 12.1 SHA. What has changed since this file's day-one read is that
+> Season 2 has been live long enough for performance data to exist behind the call.
 
 ## Talent strings
 
@@ -107,9 +112,9 @@ only as a record of the S1 build.
 
 12.1 loadouts (Tier 3, Icy Veins, updated 2026-08-10 — **unverified in-game**):
 
-- **Raid / single-target (Aldrachi Reaver):**
+- **Raid / single-target (Aldrachi Reaver — the alternative):**
   `CEkAAAAAAAAAAAAAAAAAAAAAAYgZmZMjZmZmxMZMzAAAAAAAmNjZbmxYmtZmxyMjZsMzwMLzsMDGGLbMhxMjhFAAAAAAAwMDwAAAAwA`
-- **Mythic+ / AoE (Fel-Scarred):**
+- **Fel-Scarred (the pick — Icy Veins publishes it as the Mythic+ / AoE string):**
   `CEkAAAAAAAAAAAAAAAAAAAAAAYmZGzMz2MmZmxYmMmZAAAAAAAzixsNDzMwMWmZmZYmBzyAbzmZMMbMNmZGzYDAAAYAAAAMzgBAAAgB`
 
 > **Confirm both load, and load as the right hero tree, in-game** before trusting.
@@ -167,7 +172,7 @@ don't spend a point looking for it.
 
 ## Build split (12.1)
 
-- **Single-target / raid (Aldrachi Reaver)** takes the Throw-Glaive package to feed
+- **Aldrachi Reaver** takes the Throw-Glaive package to feed
   Reaver's Glaive — **Soulscar**, **Screaming Brutality** (Throw Glaive auto-fires off
   Blade Dance) — plus **Shattered Destiny** (Fury spending extends demon form) at the
   final gate. ⚠ **These three are SPEC-tree talents, not Aldrachi Reaver hero talents**
@@ -182,7 +187,7 @@ don't spend a point looking for it.
   Devourer's **Void-Scarred** tree. Why it was written here is **not established** — the
   likeliest reading is a pre-Midnight grouping that survived a patch, but that is an
   inference, not a checked fact.)*
-- **Mythic+ / AoE (Fel-Scarred)** keeps the Immolation cluster (**A Fire Inside**
+- **Fel-Scarred** keeps the Immolation cluster (**A Fire Inside**
   + **Ragefire**), **Glaive Tempest** (Blade Dance/Death Sweep at 3+ targets
   release spinning glaives), **Trail of Ruin** (lowers the Blade Dance target
   threshold — and in 12.1 pays out **immediately** instead of over 4s, so it no
@@ -222,8 +227,8 @@ not class-tree.
 
 ## TODO
 
-- [x] Hero tree resolved for 12.1 — **Aldrachi Reaver raid / Fel-Scarred M+**
-  (Tier 3, Icy Veins 2026-08-10). ⚠ day-one, unsimmed; revisit after Aug 18.
+- [x] Hero tree resolved for 12.1 — **Fel-Scarred everywhere** (Tier 3, Icy
+  Veins 2026-08-30, with Season 2 performance behind it). ⚠ still unsimmed here.
 - [x] 12.1 mechanical changes applied from the Tier-1 notes + regenerated tree
 - [x] Gearing / stat priority / enchants / consumables live in **`gearing.md`** —
   builds.md is talents/loadouts/hero-tree only
@@ -238,3 +243,12 @@ not class-tree.
   (currently a Tier-3 claim); record it in `gearing.md`
 - [ ] Re-check `maxroll-raid.md` / `maxroll-mplus.md` once maxroll re-publishes —
   today's captures carry a `kb_caveat` saying their build bodies predate 12.1
+
+## Changelog
+
+2026-09-12 — **hero tree rewritten: Fel-Scarred in all content**, replacing the
+day-one 12.1 split that sent raid single-target to Aldrachi Reaver. That read was
+Icy Veins @ 2026-08-10, published a week before Season 2 opened; the 2026-08-30
+revision reverses it with play data behind it, and Aldrachi Reaver is now recorded
+as the narrower funnel alternative. The old recommendation is deleted rather than
+annotated (staleness doctrine 7).
