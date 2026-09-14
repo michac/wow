@@ -1,187 +1,146 @@
 # Smart Glo — backlog
 
-**What this file is for:** the current implementation status and the ordered work list.
+**What this file is for:** what is not yet established, and the ordered work list.
 `README.md` owns the design and why it is shaped the way it is.
+
+**It does not inventory what works.** A "what is built" list restates the code less accurately
+than the code does, and goes stale on the next commit; `Status` was deleted for that reason.
+The thing code cannot tell you is whether a built thing has ever been seen to WORK in the
+client, so that is what `## Unproven` keeps.
 
 The live addon version comes from `wowkb.addon list`, never from prose here.
 
 **Measurements do not live here.** A fact this addon establishes about the client belongs in
 `knowledge/addon-dev/`, where the KB's gates apply and the next reader will actually find it. A
-status line may say a thing works; the evidence that it works is a claim in a topic file.
+line here may say a thing is unproven; what a flight then establishes is a claim in a topic
+file, and discharging the line means deleting it, not writing the finding into it.
 
 **An item here has to keep earning its place.** If its premise stopped being true, rewrite it or
 delete it — never leave it standing with a note underneath.
 
-## Status
+## Unproven
 
-**It records what is BUILT.**
+**It records what is NOT established.** Every line is a claim a flight or a measurement can
+discharge — when one does, delete the line. What is built and working is in the code, and the
+code does not go stale; this section is not an inventory of it.
 
-- **The attach path.** A subject's glow is our own frame, `UIParent`-parented and two-point
-  **anchored** to its Cooldown Manager item frame, at `MEDIUM` and `item:GetFrameLevel() + 5`,
-  scaled by the item's effective scale. Blizzard's `Layout` moves the icon and the overlay
-  follows; nothing of ours reasserts a position and nothing of ours is parented to a CDM frame.
-- **Rebuild, never re-apply.** `Layout` / `RefreshLayout` on all four viewers, `OnCooldownIDSet`
-  on all four item mixins and `CooldownViewerSettings.OnDataChanged` all mark dirty; one
-  `C_Timer.After(0, …)` flush detaches every overlay, re-sweeps the pools and re-reads
-  `GetCooldownID()` fresh. No id-to-frame table survives a flush. Overlays hide on Edit-Mode
-  enter, and every show is gated on `IsVisible()` through a secret guard that fails closed.
-- **The v1 rule vocabulary**, three-valued, no short-circuit: secondary-resource thresholds,
-  `ready()`, `aura()`, and `and` / `or` / `not`. The checker refuses a primary as a gate, a
-  charge count, and a count inside an expression. `/sg why` prints per-term `T | F | ?`.
-- **The count element, as an OCCLUDER.** An `AuraContainer` slot pinned by `includeSpellIDs`,
-  hosted as a child of the overlay, carrying an authored `NumericRuleFormatter` whose band
-  **below** the threshold is an inline escape of the subject's **own icon, centre-cropped**, and
-  whose band at the threshold is empty. The polarity is inverted on purpose: the client conceals
-  our mark rather than revealing one of its own. Armed once in `initializeFrame`, in combat or
-  out. Its readable gate closes the container's alpha before the client draws, which is how a
-  gate composes with a binding. **§6.4's absence case is closed by `Rules.Gate`**, which gives
-  every count an implicit presence term on its own aura, so the aura going away darkens the
-  mark instead of revealing it. The authored `when` is untouched, so export and the checker
-  still show the rule as written. The cost: a count glow now needs a Tracked Buffs row for its
-  aura, which the occluder alone did not.
-- **One look, one mark, on both sinks** — a spinning hexagon outline centred in the icon.
-  It is **always our own Texture on our own frame**, so it takes a rotation and a vertex colour;
-  what differs is who reveals it. A gate draws it; a count has the client take its occluder away.
-  `Media/` is **generated** by `tool/gen_media.py` from a CC0 Kenney icon; do not hand-edit it.
-  `/sg color <name>` recolours everything, both kinds, on the next evaluation.
-- **`<resource>.after_cast` — a threshold read past the cast in flight.** `Cast.lua` keeps a
-  one-slot ledger off `UNIT_SPELLCAST_START` and its five terminal events, registered against
-  `"player"`, whose cast id reads plain because `SecretWhenUnitSpellCastRestricted` tests the
-  unit and not combat. The projection is cost (`C_Spell.GetSpellPowerCost`, talent-correct) and
-  gain (`PowerGain.lua`, generated from `SpellEffect.db2` energize rows) applied together,
-  because the cost lands at completion. Computed in raw units and floored through
-  `UnitPowerDisplayMod`, so a partial shard does not read as a whole one. **Soul Shards only**:
-  the same Tier-1 rows show Holy Power and Combo Point gains moving with talents and procs, and
-  the checker refuses those by name. Nothing casting is a projected zero, not an unknown.
-  ⚠ **Unflown** — the ledger and the arithmetic are exercised offline, but no eyeball has seen
-  a mark change mid-cast.
-- **Aura presence read at the level, not only at the edge.** `Attach.AuraLatch` asks the frames
-  carrying the aura whether it is up NOW, and falls back to the edge latch when none can say.
-  This is what answers for a buff that was already up when we started watching, which an edge
-  latch cannot see. Two instruments, the better one deciding alone: a **buff-viewer** item
-  answers through `IsActive()`, whose `ShouldBeActive` the buff mixin overrides to track expiry,
-  the linked-spell fallback and totems; a cooldown-viewer row has no such predicate and can only
-  offer `wasSetFromAura` / `auraInstanceID`. ⚠ Those two fields are Tier-3
-  (`mined-pending-verification.md` E2, `@verify-ingame`), so a client without them makes the
-  cooldown-viewer half silent and the edge latch carries it exactly as before.
-  ⚠ **Being SHOWN is a different question and is not used**: `ShouldBeShown` returns true
-  whenever `hideWhenInactive` is off, a user setting, so a shown row says nothing about the aura.
-- **The config dialog** — a subject dropdown built by enumerating live item frames, a detail
-  pane, and a text box that is also the import/export surface.
-- **Serialization and profiles.** `SG1:` + base64(deflate(JSON envelope)) with an adler32, every
-  `C_EncodingUtil` call in its own `pcall`; `Profiles.lua` carries the Demonology set;
-  `uv run python -m wowkb.smartglo encode|decode|check` is the Python side, stdlib only.
-- **Flown, and both mechanisms draw.** Demonology at a dummy: the hexagon lit on Hand of Gul'dan
-  across the shard threshold, and the count sink drew on Implosion at six Wild Imps — a count the
-  addon never read, drawn by the client from a band table it was handed. Both confirmed by eye,
-  which is the only oracle a sealed output has. That flight was the revealing polarity; what the
-  occluder changes is which band draws, not whether the sink works.
-- ⚠ **The crop is MEASURED BY EYE and must stay that way.** Both ends of an occluder quantise
-  — the crop to whole texels of a 64px file, the draw to whole units of the host frame, because
-  `CreateTextureMarkup` emits every field with `%d` — so a drawn size almost never lands exactly
-  on its crop. A search that minimised that residual picked `0.78125` over the measured `0.82`,
-  on arithmetic saying it was six times more accurate, and it **visibly resized the icon** where
-  0.82 does not. The residual is therefore a diagnostic the probe prints, **not** an objective to
-  optimise: nothing here models what actually governs an inline escape's apparent scale.
-  `/sg tune crop <n>` picks a replacement on the real row, by looking. `Look.OCCLUDE_X` / `_Y`
-  are a sub-unit trim on the FontString's own anchor, because an escape's offsets are integers.
-- **The occluder DRAWS on a live row and is aligned**, at crop `0.82` with an x trim of
-  `+1.2` units, both measured by eye. The trim is there because a centred escape does not draw
-  centred — it claims more advance width than its ink fills, so a `CENTER` anchor centres the
-  claim (`security-taint-and-restricted-data.md` §3.5). ⚠ **OPEN: whether `+1.2` is a constant
-  in units or a fraction of the draw.** One icon size cannot tell them apart, and it is the
-  whole durability question — move the Edit Mode icon-size slider and look again. If it still
-  lands the constant is right; if it drifts it belongs in the source as a ratio.
-  `/sg tune crop|x|y` changes the live occluder and re-arms; `/sg probe occluder` lays the crop
-  in force beside its neighbours and an x-trim sweep beside that. ⚠ **The probe takes the
-  overlay's scale** — a replica at a different scale rounds differently from the row it stands
-  in for, and then disagrees with it, which is how a probe reading and a live reading came
-  apart once already.
-- ⚠ **Still unflown: whether the Cooldown Manager's Wild Imp buff is genuinely continuously
-  present.** It is load-bearing — band 0 draws, so an absent aura means no button, no occluder,
-  and a mark that reads as six (`rule-language.md` §6.4).
-- ⚠ **Two mismatches the occluder cannot hide, both accepted.** The overlay sits at item level
-  +5 and the swipe, `ChargeCount` and `CooldownFlash` all sit at +1, so a static copy of the icon
-  draws over them. `ready(implosion)` removes the cooldown case outright and is the right
-  rule anyway. Out-of-range and not-usable remain: `RefreshIconColor` tints the real icon and our
-  copy is untinted, so a patch would show. Both are readable (`C_Spell.IsSpellInRange`,
-  `C_Spell.IsSpellUsable`) if they turn out to matter in play.
-- **The two bowls.** `when` carries unlimited readable terms; `bind` is one slot holding at
-  most one sealed leaf, so at-most-one is structural rather than checked. `count` became
-  `bind = { family = "count", … }` and survives as a legacy key on decode. The checker refuses a
-  term in the wrong bowl **by name, both directions** — a sealed `X.stacks` offered to `when`,
-  a readable `soul_shards` offered to `bind`.
-- **Names in the surface.** `Symbols.lua` is generated from the KB's ability inventory by
-  `wowkb.gen_smartglo_symbols` — 3,988 ids across all 40 specs — and `Names.lua` resolves a bare
-  name inside a `spec` scope, a `class.spec.name`, or a raw id, refusing an ambiguous word rather
-  than guessing. `/sg symbols` checks every row against `C_Spell.GetSpellName` in the live
-  client, 250 ids a frame, and runs silently on login: the client is Tier 1 for `id → name`, so a
-  patch rename is caught with no flight.
-- **Rules are authorable in the game.** `Parse.lua` reads the same grammar `wowkb.smartglo`
-  reads; the config box shows rule TEXT and takes either text or an `SG1:` string, and
-  `/sg export text` gives the editable form. ⚠ The grammar now exists in two languages. The
-  refusal STRINGS are what drift, and the capture log is the only detector — there is no test.
-- **`talent()`, off the TRAIT CONFIG.** `C_ClassTalents.GetActiveConfigID` →
-  `C_Traits.GetNodeInfo`, checking `ranksPurchased > 0` **and** `activeEntry.entryID`, so a
-  choice node answers about the half the player actually picked. `C_SpellBook.IsSpellKnown` was
-  rejected: it answers about a **spell**, not a node, so it stands in for the talent rather than
-  being it, and a spell known from another source diverges silently — under a `not` a wrong
-  `false` reads as a confident true. `Symbols.talentNodes` maps 2,469 talent spells to their
-  `{node, entry}` pairs, generated from the KB's 40 `talents.json`; a spell that names a
-  different node in another spec carries every candidate and the client arbitrates by refusing
-  the one outside the player's tree. The fold is cached against the config id and dropped on
-  `TRAIT_CONFIG_UPDATED` / spec change. ⚠ `C_Traits.GetNodeInfo` is **unmeasured** — every read
-  is `pcall`ed and every unrecognised shape reads UNKNOWN, so a refusal costs a glow and can
-  never invent one.
-- **One frame per rule.** The subject frame carries attached-and-not-editing, an element frame
-  per rule carries the readable gate, and the mark's alpha is left to whatever sealed the rule.
-  Three channels, one owner each, decided at build. A count element's container hosts on its
-  own element, so two rules on one icon no longer share an occluder.
-- **The sealed health bind.** `Health.lua` compiles `health% < N` to a Step curve and hands it
-  to `UnitHealthPercent("player", false, curve)`, whose result -- secret -- goes straight to the
-  mark's alpha. Health can never be a gate: `UnitHealth` is unconditionally secret, so the
-  readable half carries only what is readable (the Holy Power cost) and the threshold is the
-  client's to evaluate. Shares the duration bind's 10 Hz ticker shape and its alpha ownership.
-  ⚠ **Unflown**, twice over: the curve-to-alpha path has never been seen to work, and the
-  curve's **input scale** is undocumented with no Blizzard caller to copy. The curves are shaped
-  so the wrong scale reads DARK rather than permanently bright -- an extra Step point just above
-  1 takes the whole 0..1 range to zero -- so the failure is a glow that never appears.
-- **The sealed duration bind.** `Duration.lua` compiles `X.cooldown > Ns` and
-  `outside A..Bs` into a Step curve, hands it plus the opaque duration object to the engine, and
-  writes the secret result straight to `Texture:SetAlpha`. `>` and `>=` compile to the same
-  curve, because Step is a floor and the client cannot draw the difference. Re-applied on one
-  shared 10 Hz ticker, which draws and never evaluates. ⚠ **Unflown** — no eyeball has seen a
-  Step curve drive a mark across a threshold, and there is no programmatic oracle for one.
-- **The capture log.** One `attach` stream, six sessions: every dirty trigger by source, every
-  flush with the subjects that found no frame, every verdict change with its per-term
-  `T | F | ?`, aura-latch edges and UNKNOWN latch reads, count arm outcomes, parse refusals, and
-  combat / Edit Mode / spec edges. Read it with
-  `uv run python -m wowkb.capture sg attach`. The 10 Hz ticker never writes a line.
-- **An override swap re-resolves.** `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` marks dirty: a proc
-  that swaps a row's spell keeps its cooldownID, so `OnCooldownIDSet` is silent for it and the
-  bound map would go on naming the base spell. Ruination over Hand of Gul'dan and Infernal Bolt
-  over Shadow Bolt both depend on it. ⚠ **Unflown.**
-- **The Diabolist profile.** `demonology-diabolist`, eleven glows transcribed from the simc
-  `diabolist` list, with `rules/demonology-diabolist.sg` as its on-disk twin — the two render
-  identically through `Parse.Render`, which is the cross-check that the shipped table and the
-  file say the same thing. ⚠ **Unflown**, and `aura(1276166)` needs a Tracked Buffs checkbox on
-  Dominion of Argus before it can ever read anything but UNKNOWN.
-- **Two Paladin profiles.** `retribution-herald` and `protection-lightsmith`, nine glows each,
-  from the simc lists plus Method's 12.1 Protection priority, each with a `rules/*.sg` twin the
-  profile table parses identically to. Hammer of Light is absent from both by design: it comes
-  from Light's Deliverance, a **Templar** talent neither tree has. ⚠ **Unflown**, and every
-  `aura(...)` term needs a Tracked Buffs checkbox before it reads anything but UNKNOWN.
-- **`talent()` can read HERO talents.** The symbol generator walked `trees.hero` as a list, but
-  it is a dict keyed by hero-tree name, so iterating it yielded strings and every hero talent in
-  the game was silently missing — `talent(walk_into_light)` read UNKNOWN and its glow stayed
-  dark. 2,469 mapped talent spells became 3,163.
-- **What the flight did NOT cover**, and it is the question the attach path was built to answer:
-  **whether a glow survives its icon being rebound to a different spell.** Nothing has forced a
-  rebind or a re-layout under a live overlay, Edit Mode has not been opened with one attached,
-  and the icon-size slider has not been moved. Until then the rebuild-on-flush design is
-  reasoning, not measurement.
+- **Whether a glow survives its icon being rebound to a different spell.** This is the question
+  the attach path was built to answer, and nothing has forced a rebind or a re-layout under a
+  live overlay. Edit Mode has not been opened with one attached and the icon-size slider has not
+  been moved. Until then rebuild-on-flush is reasoning, not measurement.
+- **Whether an override swap re-resolves.** `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` marks
+  dirty: a proc that swaps a row's spell keeps its cooldownID, so `OnCooldownIDSet` is silent
+  for it and the bound map would go on naming the base spell. Ruination over Hand of Gul'dan
+  and Infernal Bolt over Shadow Bolt both depend on it, and both are in the shipped Diabolist
+  profile — a report that one of them never lights is most likely this.
+- **`<resource>.after_cast` has never been seen to move.** The `UNIT_SPELLCAST_START` ledger
+  and the cost/gain arithmetic are exercised offline, but no eyeball has watched a mark change
+  mid-cast.
+- **Whether the Cooldown Manager's Wild Imp buff is genuinely continuously present.** It is
+  load-bearing: band 0 draws, so an absent aura means no button, no occluder, and a mark that
+  reads as six (`rule-language.md` §6.4).
+- **Whether the occluder's `+1.2` x trim is a constant in units or a fraction of the draw.**
+  One icon size cannot tell them apart, and it is the whole durability question — move the Edit
+  Mode icon-size slider and look again. If it still lands the constant is right; if it drifts it
+  belongs in the source as a ratio.
+  ⚠ It cannot be settled arithmetically. Both ends of an occluder quantise, so a drawn size
+  almost never lands on its crop; a search minimising that residual picked `0.78125` over the
+  measured `0.82` and **visibly resized the icon**. The residual is a diagnostic the probe
+  prints, not an objective — nothing models what governs an inline escape's apparent scale.
+  `/sg tune crop|x|y` changes the live occluder by eye. ⚠ **The probe takes the overlay's
+  scale**, so a replica at a different scale rounds differently from the row it stands in for;
+  that is how a probe reading and a live reading came apart once already.
+- **Every `aura()` term and every count bind needs a Tracked Buffs row** for its aura, or it
+  reads UNKNOWN forever and its glow never lights. This is a player-side checkbox no one will
+  think to tick unless the addon says so, and it is currently unsaid. It gates all three
+  shipped advice profiles; `aura(1276166)` on Dominion of Argus is the Diabolist case.
+- **`affordable()` and the `power` bind family are built and have never run in the client.**
+  Both grammars parse them, both checkers accept them, the Lua and Python ASTs were compared
+  equal, and `rules/havoc-felscarred.sg` uses both — none of which is a pixel.
+  `affordable()`'s evidence is a `[client 2026-08-03]` READ of `C_Spell.IsSpellUsable` from a
+  probe, not this term inside a glow, so what is unflown is the wiring: at low Fury the
+  spenders must go dark while Felblade and Immolation Aura stay lit. `fury% < 80` is the first
+  power bind ever armed and its diagnostic is the capture log — `power <subject> fury% < 80 ->
+  <secret>` is the client owning the alpha, a plain NUMBER means the curve domain is not
+  [0, 1]. ⚠ With the domain wrong a `<` curve lights ALWAYS rather than never, so a mark that
+  is on at full Fury is the first thing to suspect.
+- **Whether the Cooldown Manager lays out an Eclipse row at all on Elune's Chosen.** The
+  balance inventory flags exactly one Eclipse id as a CDM row, `solar_eclipse` 1233346, with
+  `lunar_eclipse` 1233272 and the bare `eclipse` 1239669 carrying none — and Lunar Calling, an
+  Elune's Chosen node, DISABLES Solar Eclipse. Two rungs in `rules/balance-eluneschosen.sg`
+  ride that row. If the row is absent or is the Lunar id instead, they never light and nothing
+  says why, because a subject with no viewer row is indistinguishable from a gate reading F.
+- **Whether `aura(eclipse)` 1239669 is the row that carries under Lunar Calling.** The buff you
+  hold is `eclipse_lunar` 48518. The Force of Nature and Wild Mushroom rungs gate on the
+  generic id; if both stay dark inside Eclipse, that is the swap to make.
+- **Whether `UnitPowerPercent` on a power the player does not have returns a plain number, a
+  nil, or raises.** `Power.lua` handles all three the same way — dark, with the class logged —
+  and deliberately compiles no class-to-power table, so a `fury%` rule on a Paladin is a
+  runtime dark rather than an authoring refusal. Which of the three happens is unmeasured.
+- **`C_Traits.GetNodeInfo` is unmeasured**, so `talent()` rests on an unverified read. Every
+  call is `pcall`ed and every unrecognised shape reads UNKNOWN, so a refusal costs a glow and
+  can never invent one.
+- **`wasSetFromAura` / `auraInstanceID` are Tier-3** (`mined-pending-verification.md` E2,
+  `@verify-ingame`). A client without them makes the aura latch's cooldown-viewer half silent
+  and the edge latch carries it exactly as before.
+- **The rule grammar exists in two languages, and the test covers one corpus.**
+  `tools/tests/check_smartglo.py` runs a fixed corpus through both — asserting accept/reject
+  parity and identical rendered text, and printing each refusal side by side — which is what
+  caught `essence_break.up` in `- **Auto-load has never run in the client.** `/sg enable` reads the spec through
+  `C_SpecializationInfo.GetSpecializationInfo` and the hero tree through the same
+  `C_Traits` read `talent()` rests on, which is itself unmeasured — so the tree half can
+  read UNKNOWN for a reason that has nothing to do with the player's build, and the path
+  that matters (log in, watch the right profile arrive) has not been walked. The
+  per-character `SmartGloCharDB` file has never been written or read back either.
+
+## Now` below. It does NOT compare refusal wording (the two
+  spell the dash differently on purpose) and it only knows the forms somebody wrote into the
+  corpus, so a family added without a corpus entry is still untested. The capture log remains
+  the detector for anything the corpus does not name.
+- **Whether a plate that TURNS reads differently from one that sits still.** The black plate
+  was reverted for reading as a hole punched in the row rather than as a ground under the mark;
+  the theory is that a still plate is scenery while one turning in step with the mark is part of
+  the same object. That is a theory about why something looked wrong, and only a look confirms
+  it.
+- **Whether `purple` at 35% is the right value for the plate.** Full `purple` would hand back
+  the 15% luminance swing the black↔yellow cycle exists to undo; 35% keeps the hue at a Michelson
+  0.60 under the bright phase. The arithmetic says it works and nothing has judged whether it
+  still reads as purple at 40px rather than as a dark blur.
+- **Whether `black` at 0.02 is an absence or a grey stroke.** The same swing shipped once with
+  its dark end at 30% of `yellow` and was reported as grey. 0.02 is far past the 15% that
+  corrected it, and against the plate the dark phase is now the mark going *darker than its own
+  ground* — a different reading from disappearing, and an unjudged one.
+- **Two mismatches the occluder cannot hide, both accepted.** The overlay sits at item level +5
+  and `RefreshIconColor` tints the real icon while our copy is untinted, so out-of-range and
+  not-usable would show as a patch. Both are readable (`C_Spell.IsSpellInRange`,
+  `C_Spell.IsSpellUsable`) if they turn out to matter in play — which nothing has tested.
 
 ## Now
+
+### A `remains` bind can only watch the target
+
+`bind <aura>.remains < <n>s` hardcodes the container to `target` / `HARMFUL|PLAYER`, because
+the family exists for a DoT you are maintaining and the grammar carries no unit. A `remains`
+bind named on a **self-buff** therefore matches nothing, arms no occluder, and leaves the mark
+bright whenever the implicit presence gate passes — the mirror of the hazard `count` carries
+for a target debuff, and the same shape §6.4 describes. The presence family already solved
+this with `[on <unit>] [mine]`; the question is whether `remains` should take the same tail or
+whether its unit should be inferred from the aura's own row.
+
+### The two grammars disagree about what an aura BIND may name, and a shipped rule is caught in it
+
+`rules/havoc-felscarred.sg:185` — `bind essence_break.up on target mine` — **does not load in
+the addon.** `Parse.ResolveAura` resolves in the aura namespace with no fallback, and Essence
+Break has no tracked row, so line 185 is a refusal and the whole file is rejected. The Python
+tool used to accept it by falling back to the ability inventory; that fallback is gone now
+(the two grammars agree), which is what made the breakage visible.
+
+The design question underneath is real and unanswered: `aura()` genuinely needs a CDM row
+(it rides the alert edges), but a **container bind does not** — `Presence.lua` reads through
+`C_UnitAuras.GetUnitAuraInstanceIDs` and reaches any aura on any unit. So the aura table may
+be the wrong universe for the three container families, and the refusal string is wrong for
+them too: it says "an aura() term reads through a Cooldown Manager row" about a bind. Either
+the container binds get a wider namespace, or that rung needs a different form.
 
 ### Subject → frame resolution
 
@@ -285,6 +244,28 @@ leaves · **one cooldown row per subject**, no frame → UNKNOWN. Its §9 now ca
 facts only**: selectors, the customizable `look` vocabulary and temporal terms were deleted
 rather than deferred, and nothing downstream refers to them.
 
+### Which mark actually survives the periphery
+
+`site/styles.html` carries seven candidates and one of them has been built, released, flown and
+reverted: the mark shrunk over a **translucent black plate**, the cycle swinging one hue
+dark↔bright instead of purple→yellow, and `urgent` moved off the size channel onto a **bounce**
+run 18% faster than a plain glow. Offline it won everything — `tool/measure_motion.py` put its
+urgent rate and swing above every other row, and under the lab's blur it survived backdrops the
+bare hexagon disappears against.
+
+It lost as a whole and was then taken apart, and three of its four ideas are shipping: the
+**smaller mark** (`FRACTION` 0.53), the **dark end of the swing** (`alarm` is black↔yellow), and
+the **plate** — purple rather than black, and turning in step with the mark rather than sitting
+still under it. A still black plate read as a hole punched in the Cooldown Manager row; whether
+turning it fixes that is `## Unproven`'s to answer. The **bounce** did not come back: beside
+icons that were not moving it read as fidgeting, and `urgent` is a pop again.
+
+⚠ **The lesson is about the measurement, not the candidates.** Every offline axis this project
+has — blur, rate, swing — ranked the whole package first, and could not tell which of its parts
+were carrying it. They rule a candidate *out*; they cannot pick the winner, and a row at the top
+of `measure_motion.py` is a reason to go and look, never a reason to ship. The retired entries
+stay in the lab so the next session finds that already written down.
+
 ## Parked
 
 ### The vocabulary the APLs want and we do not have
@@ -293,6 +274,14 @@ From §10's exercise, in priority order: **enemy count** (by far the most wanted
 difference between "Implosion at 6 imps" and the APL's real condition), GCD remaining, time in
 combat, and guardian-active. `fight_remains` / `target.time_to_die` and `raid_event.*` are
 unreachable rather than missing.
+
+**Protection's "Consecration to refresh, nothing else up", which `<aura>.remains` does not
+reach.** The rung should fire in the last few seconds of the field and instead fires whenever
+the builders are down. The `remains` family cannot answer it: the Consecration aura a rule can
+name is `188370`, the *standing in it* flag, whose `SpellDuration.Duration` is `-1` — a
+presence marker with no clock. The 12s field lives on the cast, `26573`. So this one needs a
+source neither the duration nor the remains family offers, and scoping it should start by
+establishing whether the CDM hands out a duration object for that row at all.
 
 ### Rule classes beyond resource thresholds
 

@@ -1,0 +1,415 @@
+-- Balance (Elune's Chosen), transcribed from the simc `balance` list.
+--
+-- The on-disk twin of the `balance-eluneschosen` profile the addon ships. Each glow is one
+-- APL line with the terms the addon cannot read dropped, so a lit icon means "this line's
+-- readable conditions hold" and never "cast this now": priority ORDER is not expressible.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/balance-eluneschosen.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/balance-eluneschosen.sg
+
+spec balance
+
+-- WHICH HERO TREE, and why there is no gate for it.
+--
+-- Icy Veins marks Elune's Chosen "best choice" for BOTH single-target and AoE on the 12.1
+-- rotation page, which is the tree M+ runs. `hero_tree.elunes_chosen` is not vocabulary, and
+-- it does not need to be: the PROFILE is the gate. Where the APL branches on the tree, the
+-- Elune's Chosen branch is taken and the Keeper of the Grove branch is dropped, the way
+-- retribution-herald.sg drops Hammer of Light. On a Keeper build these rungs are simply wrong
+-- rather than dark, so the profile name is load-bearing.
+
+-- ASTRAL POWER, and the two different questions it asks -- the same pair the Havoc profile
+-- documents for Fury, because the mechanism is the resource class and not the class.
+--
+--   * `affordable(<spell>)` -- can I pay for this one spell, right now. A readable GATE off
+--     `C_Spell.IsSpellUsable`'s `insufficientPower`. Costs no bind slot, so every spender
+--     below carries it.
+--     ⚠ `ready()` does NOT cover this. Starsurge and Starfall have no cooldown at all, so
+--     `ready()` on them is nearly a constant and affordability is the whole question.
+--   * `astral_power% <cmp> <n>` -- how full is the bar. A sealed BIND on `UnitPowerPercent`,
+--     whose `Enum.PowerType` key is spelled `LunarPower`. Needed because `insufficientPower`
+--     is BINARY -- false at 45 Astral Power and at 95 alike -- so overcap and pooling are
+--     reachable only here.
+--
+-- ⚠ Astral Power is the FIRST primary this addon reads that the APL speaks about in counts
+-- the percent nearly matches: the bar is 0-100 (`abilities.md`), so `astral_power>80` is
+-- `astral_power% > 80` on the nose. `abilities.md` also says "cap raised by talents", and a
+-- raised cap makes every threshold here fire slightly LATE -- the pooling direction, which is
+-- the harmless one. Which talents raise it is not established here. @verify-ingame
+
+-- ⚠ WHAT THIS PROFILE CANNOT SAY.
+--
+-- Dropped, as everywhere: `spell_targets` / `active_dots` (enemy count) and
+-- `target.time_to_die` -- every DoT line in the list carries one of each, and neither has a
+-- readable form -- plus `fight_remains`, `gcd.max`, `variable.eclipse_timings` and
+-- `variable.cds` (both multi-cooldown arithmetic), and `action.<x>.cost>1` (whether a spender
+-- is currently free).
+--
+-- ⚠ And one SHAPE rather than one term, which is worth following all the way down because
+-- the obvious conclusion is the wrong one.
+-- `!cooldown.force_of_nature.remains<dot.moonfire.remains` is "only refresh Moonfire if Force
+-- of Nature will NOT come back first", since the treants re-apply it for free. It compares two
+-- SEALED clocks, and no such comparison exists: §2's circuit does booleans over secrets each
+-- already thresholded against a constant (NOT inverts a curve, OR is sibling widgets, AND is
+-- nesting), never arithmetic BETWEEN two of them -- and `remains` could not be one of the two
+-- nested layers anyway, since its sink is a FontString that seals Alpha and yields none to
+-- multiply (`Remains.lua:19-21`).
+--
+-- But the gate this rung already spends BOUNDS the unsayable side. `refreshable(moonfire)` is
+-- the client's own pandemic window, 30% of base duration, and Moonfire's base is 18s
+-- (`ability-inventory.md:550`). So wherever the rung can fire at all, `dot.moonfire.remains`
+-- is inside (0, ~5.4s], and the comparison collapses to a CONSTANT: `force_of_nature.cooldown
+-- > 5s`. A cooldown is a duration, the alpha-capable family, and that rung's bind slot was
+-- free. The residual error is the width of the pandemic window rather than the width of a 60s
+-- cooldown.
+--
+-- ⚠ It takes TWO glows, and the second one's talent gate is load-bearing rather than tidy.
+-- A gate OR a binding has no single-widget form, so the split is §5's DNF-as-layering. And on
+-- a build without the talent the bind does not merely lose accuracy: `GetSpellCooldownDuration`
+-- hands back nil for a spell that is not on cooldown, which `Duration.lua:131-134` classes as
+-- "no duration object -- spell is ready" and draws DARK. Dark is the wrong answer there --
+-- with no Force of Nature there is no clause to honour and the rung should light -- and dark
+-- is the direction you cannot notice. So the untalented branch carries no bind and supplies
+-- the light; the talented branch carries the bind and does the suppressing.
+--
+-- ⚠ The weakening that was NOT taken, so nobody re-proposes it: `not ready(force_of_nature)`
+-- alone. `EvalReady` refuses a spell the player does not know and no laid-out row is showing
+-- (`Rules.lua:429-433`), `not UNKNOWN` is UNKNOWN, and `UNKNOWN and S` is dark -- so it would
+-- take the rung permanently dark on an untalented build with nothing saying why. It also
+-- suppresses only at the instant FoN is off cooldown, where the constant above suppresses
+-- across the whole window that matters.
+
+-- ⚠ THE SUBJECT AND THE BIND RESOLVE TO DIFFERENT IDS, on purpose. `on moonfire` is the
+-- CAST, 8921; `refreshable(moonfire)` and `moonfire.remains` are the DEBUFF, 164812. Sunfire
+-- is the same pair, 93402 against 164815. Two namespaces, two tables: that is
+-- `gen_smartglo_symbols.py`'s ability/aura split working correctly, not a typo to "fix".
+--
+-- ⚠ A `remains` bind watches THE TARGET and nothing else -- `Remains.lua:35-40` fixes the
+-- container to `target` with `HARMFUL|PLAYER`, i.e. the player's own debuffs on the current
+-- target. All five `remains` binds in this file are exactly that, so all five fit. But
+-- `buff.eclipse.remains` and its friends stay unsayable, and a `remains` bind written against
+-- a SELF-buff would not fail dark: it would find no such debuff on the target, or somebody
+-- else's, and go BRIGHT. That is the worse direction, so do not add one.
+
+-- ⚠ Celestial Alignment is the subject for everything the APL calls `ca_inc`. Incarnation:
+-- Chosen of Elune is an OVERRIDE of it -- the row keeps its cooldownID and swaps the spell it
+-- shows, the Death Sweep / Blade Dance shape -- so one rung covers both halves of the button
+-- and `celestial_alignment` is the right name to write whichever is talented.
+
+-- ----------------------------------------------------------------------- the DoTs
+
+-- Icy Veins single-target priorities 2, 3 and 4, and `ec_st` lines 1 and 2 -- which is why
+-- this section comes first. Both DoTs are "apply AND maintain", and the maintain half is the
+-- thing `refreshable()` and the `remains` bind were built for.
+--
+-- ⚠ Read the APL line before flattening it. simc's `&` binds tighter than `|`, so
+--     `sunfire,target_if=remains<2|refreshable&buff.eclipse.down&target.time_to_die>10`
+-- is `remains<2` OR (`refreshable` AND out of Eclipse) -- two rungs with DIFFERENT gates, not
+-- two spellings of one threshold:
+--
+--   * `remains<2` is UNGATED. It fires inside Eclipse too, because a DoT falling off costs
+--     more than the filler global it displaces.
+--   * `refreshable` is gated on `buff.eclipse.down` -- the opportunistic top-up you spend an
+--     OFF-Eclipse global on. It is cheap precisely because there is nothing to protect: the
+--     DoTs "update with your buffs" (`icy-veins-rotation.md:317`), so there is no snapshot.
+--
+-- Moonfire's line has the same shape, so each DoT gets both forms and each rung cites the
+-- half of the line it came from.
+
+-- The apply half. `not aura(x)` has been grammatical since the presence family shipped and
+-- this file simply never used it; protection-lightsmith.sg:279 is the established idiom.
+glow "Moonfire not on the target"
+  on     moonfire
+  when   not aura(moonfire)
+
+glow "Sunfire not on the target"
+  on     sunfire
+  when   not aura(sunfire)
+
+-- `sunfire,target_if=remains<2|...` -- the ungated half.
+glow "Sunfire about to fall off"
+  on     sunfire
+  bind   sunfire.remains < 2s
+  urgent
+
+-- `...|refreshable&buff.eclipse.down` -- the gated half.
+glow "Sunfire refreshable outside Eclipse"
+  on     sunfire
+  when   refreshable(sunfire) and not aura(eclipse)
+
+-- `moonfire,target_if=remains<2|...`, the same ungated half.
+glow "Moonfire about to fall off"
+  on     moonfire
+  bind   moonfire.remains < 2s
+  urgent
+
+-- `...|refreshable&buff.eclipse.down&!cooldown.force_of_nature.remains<dot.moonfire.remains`,
+-- as the two branches the header derives. They are mutually exclusive by their talent gates,
+-- so exactly one of them is ever a candidate on a given build.
+glow "Moonfire refreshable outside Eclipse"
+  on     moonfire
+  when   refreshable(moonfire) and not aura(eclipse) and not talent(force_of_nature)
+
+glow "Moonfire refreshable, Force of Nature too far out to help"
+  on     moonfire
+  when   refreshable(moonfire) and not aura(eclipse) and talent(force_of_nature)
+  bind   force_of_nature.cooldown > 5s
+
+-- `actions.cooldowns`: `moonfire,...&dot.moonfire.remains<12&spell_targets=1,line_cd=20` and
+-- `sunfire,if=dot.sunfire.remains<15,line_cd=10` -- top both DoTs up BEFORE the burst window
+-- opens, so the window itself is spent on spenders. Icy Veins says the same thing in its own
+-- priorities 2 and 3. Previously unsayable; it is a plain `remains` bind now.
+--
+-- `ready(celestial_alignment)` is the readable floor of `variable.cds` (a five-term minimum
+-- over three cooldowns, no readable form), and it is TIGHTER than the APL rather than looser:
+-- the cooldowns list is entered shortly BEFORE CA actually comes up, so these under-mark.
+-- `hero_tree.elunes_chosen` and `spell_targets=1` are dropped by this file's convention --
+-- the profile is the gate.
+glow "Moonfire topped up before Celestial Alignment"
+  on     moonfire
+  when   ready(celestial_alignment)
+  bind   moonfire.remains < 12s
+  urgent
+
+glow "Sunfire topped up before Celestial Alignment"
+  on     sunfire
+  when   ready(celestial_alignment)
+  bind   sunfire.remains < 15s
+  urgent
+
+-- ⚠ Moonfire's icon now hosts FIVE glows, though only four can be candidates on any one
+-- build, since the two refresh branches are split by a talent gate. Those that remain overlap
+-- by construction -- `remains<2` implies `refreshable` -- so two or three marks can spin at
+-- once on one icon. §5's DNF-as-layering sanctions that; whether it READS at a glance is a
+-- client question rather than a grammar one, and thinning is a one-line deletion.
+-- @verify-ingame
+
+-- ------------------------------------------------------------------- Fury of Elune
+
+-- `fury_of_elune,if=fight_remains<10|cooldown.ca_inc.remains>10|talent.lunation`
+--
+-- Lunation is the Elune's Chosen node that shortens this every time you spend, and the guide
+-- says it plainly: "you will want to be casting it as quickly as it comes up". With the
+-- talent the whole condition collapses to readiness.
+glow "Fury of Elune on cooldown"
+  on     fury_of_elune
+  when   talent(lunation) and ready(fury_of_elune)
+  urgent
+
+-- Without Lunation it is held clear of the burst window instead, so the cooldown half is the
+-- bind. `>` is false at zero remaining, so a ready Celestial Alignment silences this on its
+-- own with no guard needed.
+glow "Fury of Elune clear of Celestial Alignment"
+  on     fury_of_elune
+  when   not talent(lunation) and ready(fury_of_elune)
+  bind   celestial_alignment.cooldown > 10s
+
+-- ------------------------------------------------------------------ Force of Nature
+
+-- `force_of_nature,if=hero_tree.elunes_chosen&astral_power<50&cooldown.ca_inc.remains>10
+--                     &buff.eclipse.up|fight_remains<15`
+--
+-- ⚠ Two sealed leaves, and a glow may spend ONE (rule-language.md §10). The Astral Power half
+-- keeps the bind, because on Elune's Chosen this button is a GENERATOR and the whole point of
+-- the line is not to generate into a full bar. `cooldown.ca_inc.remains>10` becomes the
+-- readable `not ready(celestial_alignment)`, which is LOOSER -- it holds from the moment CA
+-- goes on cooldown rather than only past the ten-second mark.
+glow "Force of Nature with Astral Power to bank"
+  on     force_of_nature
+  when   ready(force_of_nature) and aura(eclipse) and not ready(celestial_alignment)
+  bind   astral_power% < 50
+
+-- ------------------------------------------------------------- Celestial Alignment
+
+-- `actions.cooldowns+=/celestial_alignment`, bare -- the cooldowns list is entered on
+-- `variable.cds`, a five-term minimum over three cooldowns and an Eclipse remaining that has
+-- no readable form. What survives is the button's own readiness, which is the honest reading
+-- of a press-on-cooldown burst.
+glow "Celestial Alignment"
+  on     celestial_alignment
+  when   ready(celestial_alignment)
+
+-- ------------------------------------------------------------ Convoke the Spirits
+
+-- `convoke_the_spirits,if=(buff.ca_inc.up&astral_power<40|...)&(buff.orbit_breaker.stack<10
+--                          |hero_tree.keeper_of_the_grove)`
+--
+-- The second disjunct is Keeper's (it wants Harmony of the Grove) and is dropped. What is
+-- left is the Elune's Chosen use: inside the burst, once the bar has drained enough that
+-- Convoke's own generation is not thrown away.
+--
+-- ⚠ `buff.orbit_breaker.stack<10` is dropped, not approximated. A stack count is a count
+-- bind, which is a second sealed leaf AND renders as text rather than art.
+glow "Convoke the Spirits inside Celestial Alignment"
+  on     convoke_the_spirits
+  when   ready(convoke_the_spirits) and aura(celestial_alignment)
+  bind   astral_power% < 40
+  urgent
+
+-- --------------------------------------------------------------------- Eclipse
+
+-- ⚠ The Cooldown Manager row for the Eclipse button is `solar_eclipse` 1233346 -- the only id
+-- in the balance inventory flagged as a CDM row for this button, with `lunar_eclipse` and the
+-- bare `eclipse` carrying no row of their own. On Elune's Chosen, Lunar Calling DISABLES Solar
+-- Eclipse, so whether that row is still the one the viewer lays out is the single most
+-- load-bearing unverified claim in this file. If these two rungs never light, this is why.
+-- @verify-ingame
+
+-- `eclipse,if=!variable.opener&(cooldown.eclipse.full_recharge_time<gcd.max)` -- do not cap
+-- the second charge. `full_recharge_time` is sealed and `gcd.max` is not vocabulary;
+-- `at_max_charges()` reads the same intent one charge LATER, which is the direction that
+-- costs a little rather than the direction that lies.
+glow "Eclipse before capping charges"
+  on     solar_eclipse
+  when   at_max_charges(solar_eclipse)
+  urgent
+
+-- `eclipse,if=variable.eclipse_timings` -- the timing variable is unreachable, but its floor
+-- is not: being outside Eclipse at all is when this button is the answer.
+glow "Eclipse"
+  on     solar_eclipse
+  when   ready(solar_eclipse) and not aura(eclipse)
+
+-- ------------------------------------------------------------------- Starsurge
+
+-- `starsurge,if=...|buff.starweavers_weft.react` -- Starweaver's Weft is a free Starsurge and
+-- the APL spends it the moment it exists. No `ready()`: Starsurge has no cooldown.
+glow "Starsurge on Starweaver's Weft"
+  on     starsurge
+  when   affordable(starsurge) and aura(starweavers_weft)
+  urgent
+
+-- `starsurge,if=(astral_power>80|...)` from the AoE list, and `astral_power.deficit<20` from
+-- the Elune's Chosen single-target list -- the same threshold said twice, which is the
+-- don't-cap rung. This is the one place the bar being 0-100 makes the transcription exact.
+glow "Starsurge before capping Astral Power"
+  on     starsurge
+  when   affordable(starsurge)
+  bind   astral_power% > 80
+  urgent
+
+-- --------------------------------------------------------------------- Starfall
+
+-- `starfall,if=((astral_power>80-79*hero_tree.elunes_chosen|...)&spell_targets>=2|...)`
+--
+-- ⚠ Read the arithmetic: on Elune's Chosen `80-79*1` is 1, so the threshold is "any Astral
+-- Power at all" -- which is `affordable()` and nothing more. The tree turns Starfall from a
+-- banked spender into the default one, and that is why these rungs carry no bind.
+--
+-- ⚠ `spell_targets>=2` is dropped and cannot be replaced. On one target Starfall is the wrong
+-- button and these will still light.
+
+glow "Starfall on Starweaver's Warp"
+  on     starfall
+  when   affordable(starfall) and aura(starweavers_warp)
+  urgent
+
+-- `buff.touch_the_cosmos.react` -- the free spender from Celestial Alignment.
+glow "Starfall on Touch the Cosmos"
+  on     starfall
+  when   affordable(starfall) and aura(touch_the_cosmos)
+  urgent
+
+-- Starfall bare, the rung the two above fall through to.
+glow "Starfall"
+  on     starfall
+  when   affordable(starfall)
+
+-- ------------------------------------------------------------------ the moon chain
+
+-- `new_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains
+--              <execute_time+0.5`
+--
+-- New Moon, Half Moon and Full Moon are one button: the row is `new_moon` and the other two
+-- are overrides on it, so one rung covers the whole chain.
+--
+-- The Atmospheric Exposure half is the Elune's Chosen reason to press it -- keep the debuff
+-- from lapsing -- and it has a rung of its own now, below, rather than being dropped. A
+-- `remains` bind says "about to fall off" directly, which the presence family never could.
+--
+-- `deficit>energize_amount` is "the generation will not be wasted", and the amount differs per
+-- moon (they escalate). 60% is the round that leaves room for the largest of the three.
+glow "Moon chain with room to generate"
+  on     new_moon
+  when   talent(new_moon) and ready(new_moon)
+  bind   astral_power% < 60
+
+-- `new_moon,if=...&debuff.atmospheric_exposure.remains<execute_time+0.5` -- the other half, as
+-- a SECOND glow LAYERED on the same icon, because the rung above has already spent its one
+-- bind on Astral Power (§5's DNF-as-layering is what makes two independent glows on one icon
+-- legal). New Moon's `execute_time+0.5` is about two seconds. Atmospheric Exposure 429532 is
+-- the six-second debuff Lunar Beam and Fury of Elune apply, and it carries its own CDM tracked
+-- row, so the name resolves and the bind has a container to watch.
+--
+-- ⚠ This is the most cuttable rung in the file: it is the Elune's Chosen damage amp rather
+-- than the rotation, and the moon icon may simply be too busy for it. Deleting it costs
+-- nothing else.
+glow "Moon chain before Atmospheric Exposure lapses"
+  on     new_moon
+  when   talent(new_moon) and ready(new_moon)
+  bind   atmospheric_exposure.remains < 2s
+
+-- ----------------------------------------------------------------- Wild Mushroom
+
+-- `wild_mushroom,if=buff.eclipse.up|cooldown.wild_mushroom.full_recharge_time
+--                   <cooldown.ca_inc.remains`
+-- -- the second disjunct is two sealed leaves against each other and has no form here.
+glow "Wild Mushroom inside Eclipse"
+  on     wild_mushroom
+  when   talent(wild_mushroom) and ready(wild_mushroom) and aura(eclipse)
+
+-- --------------------------------------------------------------------- Starfire
+
+-- `starfire,if=buff.ascendant_fires.up&buff.eclipse_lunar.up`
+--
+-- The bare `starfire,if=hero_tree.elunes_chosen` rung below it is deliberately NOT written:
+-- on this tree Starfire is the filler you are always pressing, so a glow on it would be lit
+-- almost always and would teach nothing. The empowered cast is the one worth marking.
+--
+-- ⚠ WRATH has no rung anywhere in this file, and that is the tree rather than an omission.
+-- Every Wrath line in the list is precombat, `hero_tree.keeper_of_the_grove`-gated,
+-- `spell_targets<=2`, or the Keeper single-target filler. Lunar Calling keeps you in Lunar
+-- Eclipse, where Starfire is the filler, so Elune's Chosen has NO in-combat Wrath line to
+-- transcribe. On a Keeper build this is one of the several ways the profile is wrong.
+glow "Starfire empowered by Ascendant Fires"
+  on     starfire
+  when   aura(ascendant_fires) and aura(eclipse_lunar)
+  urgent
+
+-- ---------------------------------------------------------------------------------------
+-- CONFIRM IN GAME
+--
+--   1. The Eclipse row. `solar_eclipse` 1233346 with Lunar Calling talented -- does the
+--      viewer lay it out, and do the two Eclipse rungs light?
+--   2. `astral_power%` seals. The capture log should read `power ... -> <secret>`; a plain
+--      number means `UnitPowerPercent` did not seal and says which scale it is on.
+--   3. Whether any talent actually raises the Astral Power cap above 100, and which.
+--   4. `aura(eclipse)` -- 1239669 is the generic Eclipse row. Under Lunar Calling the buff
+--      you actually carry is `eclipse_lunar` 48518, so if the Force of Nature and Wild
+--      Mushroom rungs stay dark inside Eclipse, swap those two gates to `aura(eclipse_lunar)`.
+--   5. `affordable(starfall)` / `affordable(starsurge)` flip with the bar and not with range.
+--   6. `refreshable(moonfire)` / `refreshable(sunfire)` -- dark through most of the DoT, lit
+--      in the last ~30% of its duration, dark again the moment you refresh. `/sg why` prints
+--      `T`/`F`, or UNKNOWN with a named reason if the tracked row is missing or raises no
+--      `PandemicTime` alert. Both DoTs carry their OWN CDM tracked-buff row (164812, 164815
+--      are in `Symbols.auraSpecs["druid.balance"]`), so `Attach.PandemicLevel` finds them by
+--      `info.spellID` and the empty-`linkedSpellIDs` hazard does not apply here. What is
+--      unmeasured is whether `GetValidAlertTypes` lists `PandemicTime` for these rows and
+--      whether Tracked Buffs is on for them -- both fail DARK, and `/sg why` names which.
+--      `item.PandemicIcon` has only ever been read at 12.0.7 on Destruction/Immolate; this is
+--      its first druid reading. @verify-ingame
+--   7. `moonfire.remains < 2s` -- the occluder lifts in the last two seconds. WITH NO TARGET,
+--      or with the DoT absent, the mark must stay DARK: that is `Rules.Gate`'s implicit
+--      `aura(moonfire)`. If it lights on an absent DoT, the gate did not apply. @verify-ingame
+--   8. The two pre-Celestial-Alignment rungs light only while CA is off cooldown, and go dark
+--      the moment it is pressed. @verify-ingame
+--   9. Moonfire's icon with several rungs live at once -- is it still readable at a glance, or
+--      does it need thinning? @verify-ingame
+--  10. The Force of Nature split, which is the one rung whose correctness differs per build.
+--      WITH the talent: "Moonfire refreshable, Force of Nature too far out to help" is dark
+--      for the first ~55s after pressing Force of Nature and lights as it comes back round,
+--      and the untalented twin never lights at all. WITHOUT it: the twin lights on every
+--      refresh window and the bound one never does. If BOTH are dark on a talented build
+--      inside a refresh window, `/sg why` should say "no duration object -- spell is ready",
+--      which would mean the 5s threshold is on the wrong side. @verify-ingame

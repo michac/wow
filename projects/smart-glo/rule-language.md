@@ -51,17 +51,38 @@ The scratch-frame trick — arm a hidden `Cooldown` from a duration object and r
 *(`cdm-rider-patterns.md` §2.3)*.
 
 **Primary resources are the exception that breaks the threshold rule.** No zero-crossing is
-readable, so even `fury > 0` is a binding. The nearest gate is `IsSpellUsable`'s
-`insufficientPower`, which answers *"can I afford this particular spell"* rather than anything
+readable, so even `fury > 0` is a binding — spelled `fury% >= 80`, a percent curve on
+`UnitPowerPercent`, which is `UnitHealthPercent`'s sibling and the same mechanism the `health%`
+family rides. The nearest **gate** is `IsSpellUsable`'s `insufficientPower`, shipped as
+`affordable(<spell>)`: it answers *"can I afford this particular spell"* rather than anything
 about the bar — and it is **binary**, false at 40 Fury and at 170 alike, so overcap is
-unreachable through it *(§4.12)*.
+unreachable through it *(§4.12)*. Both exist; they answer different questions, and the gate is
+the one most rules want because it spends no bind slot.
+
+⚠ **`ready()` is not the affordability gate and never was.** It reads
+`isActive`/`isEnabled`/`isOnGCD`, and `isEnabled` is spell-book enablement. `ready(x) and
+affordable(x)` is the pair that means *press this*.
 
 ### The readable vocabulary
 
 Secondary resources (Holy Power, Soul Shards, Combo Points, Chi, Arcane Charges, Essence,
-Runes), plainly or **projected past the cast in flight** · `isActive` · `isOnGCD` · `isEnabled` · `insufficientPower` · `maxCharges` ·
-`cooldownID` / `linkedSpellID` · aura **presence, through the CDM's alert edges** ·
-`C_AssistedCombat.GetNextCastSpell` · talent and spec, as static load conditions.
+Runes), plainly or **projected past the cast in flight** · `isActive` · `isOnGCD` · `isEnabled` · `insufficientPower`, as `affordable()` · `maxCharges` ·
+`cooldownID` / `linkedSpellID` · aura **presence, through the CDM's alert edges** · a DoT's
+**refresh window**, as `refreshable()` · `C_AssistedCombat.GetNextCastSpell` · talent and
+spec, as static load conditions.
+
+#### `refreshable(<aura>)` — the pandemic window, computed by the client
+
+`aura()`'s sibling: same namespace, same tracked row, same three values. It is the one
+readable answer to *"is this DoT about to fall off"*, and the predicate is **Blizzard's**
+rather than a threshold we picked — `item.PandemicIcon` mirrors `IsInPandemicTime` exactly,
+and that window is `GetRefreshExtendedDuration − GetAuraBaseDuration` (`cooldown-manager.md`
+§5.2, §7 Tier 2). So it matches an APL's `refreshable` instead of approximating it.
+
+⚠ Its preconditions are the row's, not the aura's, and both directions are UNKNOWN rather
+than absent: **no Cooldown Manager row bound to the aura**, and **a row that raises no
+pandemic alert at all** — a self-buff (the window is target-auras-only), an aura with no
+carry-over. `/sg why` names which.
 
 #### `<resource>.after_cast` — the count once the cast in flight lands
 
@@ -109,8 +130,9 @@ They are not interchangeable — different sinks, different domains, different p
 
 | family | source | sink | domain | precondition |
 | --- | --- | --- | --- | --- |
-| **duration** | cooldown remains · recharge remains · aura remains | curve → any texture channel — **a real glow** | seconds, or percent | none |
-| **count** | aura applications | authored `NumericRuleFormatter` → **leaf FontString only** | integer stacks | a live `auraInstanceID`, i.e. the player's CDM must be tracking that aura |
+| **duration** | cooldown remains · recharge remains | curve → any texture channel — **a real glow** | seconds, or percent | none |
+| **remains** | **aura** remains | authored `NumericRuleFormatter` → `SetDurationText`, **leaf FontString only** | seconds | a live aura on the unit the container watches — and the implicit presence gate below |
+| **count** | aura applications | authored `NumericRuleFormatter` → `SetApplicationCount`, **leaf FontString only** | integer stacks | a live `auraInstanceID`, i.e. the player's CDM must be tracking that aura |
 | **percent** | primary resource | `UnitPowerPercent` + colour curve → texture channel | percent | none |
 
 ⚠ **A count binding is TEXT, and that is a product fact rather than an implementation
@@ -332,9 +354,9 @@ glow "Tyrant: press"                  glow "Tyrant: soon"
   when   soul_shards >= 4                when   soul_shards >= 4
          and ready(tyrant)               bind   tyrant.cooldown < 5s
 
-glow "Fury nearly capped"
-  on     chaos_strike
-  bind   fury >= 80%
+glow "Fury nearly capped"          glow "Chaos Strike I can pay for"
+  on     chaos_strike                on    chaos_strike
+  bind   fury% >= 80                 when  affordable(chaos_strike)
 ```
 
 **The only look keyword in v1 is `color`**, naming one of eight baked hues (§8); everything else
@@ -580,8 +602,10 @@ Settled 2026-09-08, in dependency order:
 - **Terms resolve against the icon's currently-bound spell**, with `base(...)` to force the
   static ID. Chosen because it matches what the player is looking at; Demonbolt/Shadow Bolt,
   Ruination and Metamorphosis are the cases that bite. Stated in §1 and §5.
-- **v1 has one look, in eight colours** — a hexagon outline centred in the icon, spinning, on
-  both sinks. It is deliberately the SAME mark either way, which is what makes the gate/binding
+- **v1 has one look, in nine colours plus the `alarm` cycle** — a hexagon outline centred in
+  the icon over a translucent purple plate that turns with it, swinging black↔yellow, popping
+  when `urgent`, on both sinks. It is
+  deliberately the SAME mark either way, which is what makes the gate/binding
   split invisible to the player, and under the occluder form it is literally the same object:
   **both sinks reveal one Texture we own**, so both reach `SetVertexColor` and both turn. What
   the escape carries is the *occluder*, and an occluder wants no hue at all — it is a copy of

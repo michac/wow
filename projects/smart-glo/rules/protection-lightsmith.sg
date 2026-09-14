@@ -64,9 +64,15 @@ glow "Sacred Weapon next and capped"
 
 -- `avengers_shield,if=buff.vanguard.up` -- the proc is the rung that outranks everything
 -- below it. Off cooldown without the proc is an ordinary filler the swipe already shows.
+--
+-- ⚠ The proc OUTLIVES the cooldown, so the aura alone is not the condition. Avenger's Shield
+-- is 15s (Grand Crusader resets it at 15% on an avoided melee), and Vanguard sits on the
+-- buff bar until it is spent -- so an aura-only rung lights the moment Judgment procs and
+-- stays lit through however much cooldown is left, marking a button that cannot be pressed.
+-- `ready()` is a plain gate and costs nothing; the bind slot stays free.
 glow "Avenger's Shield on Glory of the Vanguard"
   on     avengers_shield
-  when   aura(glory_of_the_vanguard_1267203)
+  when   ready(avengers_shield) and aura(glory_of_the_vanguard_1267203)
 
 -- `avenging_wrath,if=cooldown.divine_toll.remains<=10` -- Divine Toll being ready is the
 -- readable form, and it is the stricter half, so this holds wings rather than leaking them.
@@ -108,9 +114,15 @@ glow "Judgment at cap"
 -- ⚠ Protection knows Hammer of Wrath by no id at all -- it is in no spell book, it arrives
 -- only as this override while Sentinel is up. What makes `ready` answerable is the bound row
 -- itself, so a gate on the base spell would be refused where this one is not.
+--
+-- `holy_power < 5` for the same reason both Judgment rungs carry it: Hammer of Wrath is a
+-- BUILDER, it rides the builder's row, and Icy Veins ranks it with Judgment on one line
+-- ("Hammer of Wrath / Judgment", 8th of 15). Pressed at the cap it generates into a full bar
+-- and the generation is thrown away. Sentinel wanting three Holy Power spent per second to
+-- hold its stacks is an argument for spending, not for building on top of five.
 glow "Hammer of Wrath inside Sentinel"
   on     hammer_of_wrath
-  when   ready(hammer_of_wrath)
+  when   ready(hammer_of_wrath) and holy_power < 5
   urgent
 
 -- The filler builder is a CHOICE NODE, so both rungs ship and only the talented one can attach;
@@ -130,12 +142,19 @@ glow "Hammer of the Righteous at cap"
 -- them and answers UNKNOWN -- dark -- when the Tracked Buffs checkbox for this one is off. A
 -- presence bind hands the question to an AuraContainer instead, which reads the unit directly
 -- and needs no row at all. The bind slot is free on both rungs, so it costs nothing.
+--
+-- ⚠ And `ready()` on both, for the reason the Vanguard rung above needed it: the buff is not
+-- the cooldown. Blessed Hammer and Hammer of the Righteous are charge spells that can sit at
+-- zero charges with Blessed Assurance still up, and a presence bind on its own would light
+-- them there.
 glow "Blessed Hammer on Blessed Assurance"
   on     blessed_hammer
+  when   ready(blessed_hammer)
   bind   blessed_assurance.up
 
 glow "Hammer of the Righteous on Blessed Assurance"
   on     hammer_of_the_righteous
+  when   ready(hammer_of_the_righteous)
   bind   blessed_assurance.up
 
 -- Not the APL's `buff.divine_guidance.stack>=5` rung but the practical one: Consecration is
@@ -230,8 +249,17 @@ glow "Divine Toll inside Sentinel"
 -- Divine Guidance banks a payload on the NEXT Consecration -- "for each Holy Power ability
 -- cast, your next Consecration deals damage or healing immediately". At the cap that is a
 -- reason to recast while it is still down, which the not-standing-in-it rung cannot say.
+--
+-- The payload is on "your NEXT Consecration" and nothing in the tooltip asks you to be out of
+-- one, so this rung is right to fire while you are still standing in your own -- the recast
+-- drops a fresh field at your feet and spends the bank. That is exactly the case the
+-- not-standing-in-it rung above cannot reach.
+--
+-- ⚠ `ready()` again: Consecration is ~9s and the stacks keep climbing while it recharges, so
+-- a bare stack bind marks the button through most of its own cooldown.
 glow "Consecration at five Divine Guidance"
   on     consecration
+  when   ready(consecration)
   bind   divine_guidance.stacks >= 5
 
 -- ---------------------------------------------------------------- the panic buttons

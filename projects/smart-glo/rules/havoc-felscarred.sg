@@ -1,0 +1,284 @@
+-- Havoc (Fel-Scarred), transcribed from the simc `havoc` list.
+--
+-- The on-disk twin of the `havoc-felscarred` profile the addon ships. Each glow is one APL
+-- line with the terms the addon cannot read dropped, so a lit icon means "this line's
+-- readable conditions hold" and never "cast this now": priority ORDER is not expressible.
+--
+-- Check it, or turn it into a share string:
+--     uv run python -m wowkb.smartglo check  projects/smart-glo/rules/havoc-felscarred.sg
+--     uv run python -m wowkb.smartglo encode projects/smart-glo/rules/havoc-felscarred.sg
+
+spec havoc
+
+-- FURY, and the two different questions it asks.
+--
+--   * `affordable(<spell>)` -- can I pay for this one spell, right now. A readable GATE:
+--     `C_Spell.IsSpellUsable(id) -> isUsable, insufficientPower` carries no `SecretReturns`
+--     and no `SecretWhen*` predicate, so both returns are plain booleans from tainted code,
+--     and `[client 2026-08-03]` measured it on THIS spec at low Fury -- Eye Beam, Blade Dance
+--     and Chaos Strike all `insufficientPower=true` while Throw Glaive read false in the same
+--     sample, which is what proves it is per spell against its own cost. It costs no bind
+--     slot, so every spender below carries it.
+--     ⚠ `ready()` does NOT cover this. It reads `isActive`/`isEnabled`/`isOnGCD`, and
+--     `isEnabled` is spell-book enablement, not power. The pair is what says "press this".
+--   * `fury% <cmp> <n>` -- how full is the bar. A sealed BIND on `UnitPowerPercent`, the
+--     sibling of the `UnitHealthPercent` the `health%` family rides. Needed because
+--     `insufficientPower` is BINARY -- false at 40 Fury and at 170 alike -- so overcap and
+--     pooling are reachable only here.
+--
+-- ⚠ A percent is not a Fury count, and the APL speaks in counts. `fury<=100` is 83% of a
+-- 120 bar and 71% of the 140 Unrestrained Fury gives, so a threshold written here is right
+-- for one build and approximate for the other. Where that matters it is said on the rung.
+--
+-- ⚠ Both terms take a STATIC spell id, as `ready()` does everywhere else in this file. On a
+-- row showing an override -- Death Sweep over Blade Dance -- the question is asked about the
+-- base. Death Sweep and Blade Dance cost the same, so it does not bite here.
+
+-- ⚠ Fel-Scarred's four Metamorphosis transforms need no subjects of their own. Death Sweep,
+-- Annihilation, Consuming Fire and Abyssal Gaze are OVERRIDES: the row keeps its cooldownID
+-- and swaps the spell it shows, which is the Shadow Bolt / Infernal Bolt shape from the
+-- Diabolist profile. So a rung meant for the demon-form half of a button is written on the
+-- BASE row -- blade_dance, chaos_strike, immolation_aura, eye_beam -- with `aura(metamorphosis)`
+-- as the gate that says which half of the button you are looking at.
+
+-- ⚠ `aura(demonsurge)` is the readable stand-in for the APL's THREE per-ability terms:
+-- `action.death_sweep.demonsurge_available`, `action.annihilation.demonsurge_available` and
+-- `action.immolation_aura.demonsurge_available`. Nothing here can ask which empowerment is
+-- pending, only whether the window is live. That reading rests on the Demonsurge row being
+-- present while procs are PENDING rather than only while the stacking damage buff runs --
+-- inferred from the APL's own `buff.demonsurge.remains<gcd.max`, not measured. See the foot
+-- of this file.
+
+-- ---------------------------------------------------------------------- Immolation Aura
+
+-- `immolation_aura,if=talent.violent_transformation&talent.a_fire_inside&cooldown.metamorphosis.remains<gcd.max*3`
+-- -- drain the charges before Meta, because Demonic Intensity refunds two and a capped charge
+-- is a refund thrown away. `gcd.max*3` is ~4.5s at demon-form haste; 5s is the honest round.
+--
+-- `<` on a cooldown is also true at zero remaining, so the checker wants a guard -- and here
+-- the guard is the right thought anyway: once Meta is UP you press Meta, not this.
+glow "Immolation Aura drained before Metamorphosis"
+  on     immolation_aura
+  when   talent(violent_transformation) and talent(a_fire_inside) and not ready(metamorphosis)
+  bind   metamorphosis.cooldown < 5s
+  urgent
+
+-- `immolation_aura,if=talent.a_fire_inside&talent.burning_wound&(charges=2|full_recharge_time<gcd.max*2)`.
+--
+-- A charge COUNT is neither readable nor sealed and the checker refuses it outright -- but
+-- "capped on charges" IS a gate, read off `isActive` the other way round, which is what
+-- `at_max_charges()` is. So the sharp half of that disjunction lands exactly, and the
+-- `full_recharge_time` half is dropped rather than approximated.
+--
+-- Burning Wound is dropped from the gate: Icy Veins' own rung ("Cast Immolation Aura if at 2
+-- charges") asks only for A Fire Inside, and a second charge going to waste is waste whether
+-- or not the DoT talent is taken.
+glow "Immolation Aura at two charges"
+  on     immolation_aura
+  when   talent(a_fire_inside) and at_max_charges(immolation_aura)
+  urgent
+
+-- `immolation_aura,,if=action.immolation_aura.demonsurge_available&buff.demonsurge.remains<gcd.max`
+-- -- Consuming Fire, the Demonic Intensity override. The `remains<gcd.max` half is "cash it
+-- before the window shuts", which has no readable form; `urgent` carries that instead.
+glow "Consuming Fire on Demonsurge"
+  on     immolation_aura
+  when   talent(demonic_intensity) and aura(metamorphosis) and aura(demonsurge)
+  urgent
+
+-- ----------------------------------------------------------------------- Metamorphosis
+
+-- `metamorphosis,if=(!talent.chaotic_transformation|!cooldown.blade_dance.up&cooldown.eye_beam.remains>8)
+--                   &!action.death_sweep.demonsurge_available&!action.annihilation.demonsurge_available`
+--
+-- The talent splits this in two, and the trailing pair -- don't re-enter demon form with
+-- empowerments still owed -- is the same `not aura(demonsurge)` on both.
+
+glow "Metamorphosis without Chaotic Transformation"
+  on     metamorphosis
+  when   not talent(chaotic_transformation) and ready(metamorphosis) and not aura(demonsurge)
+
+-- With the talent, Meta resets Blade Dance and Eye Beam, so pressing it while either is
+-- already up throws the reset away. `!cooldown.blade_dance.up` is a plain gate; the Eye Beam
+-- half is the bind, and `>` is false at zero remaining, so a ready Eye Beam silences this
+-- rung on its own with no guard needed.
+glow "Metamorphosis with Blade Dance spent"
+  on     metamorphosis
+  when   talent(chaotic_transformation) and ready(metamorphosis) and not ready(blade_dance) and not aura(demonsurge)
+  bind   eye_beam.cooldown > 8s
+
+-- ---------------------------------------------------------------------------- The Hunt
+--
+-- `the_hunt,if=(!talent.eternal_hunt
+--               |cooldown.eye_beam.remains<10&cooldown.metamorphosis.remains>15
+--               |!cooldown.eye_beam.up&cooldown.metamorphosis.up
+--               |!hero_tree.felscarred)&!buff.reavers_glaive.up`
+--
+-- Three disjuncts survive here, one glow each (DNF-as-layering). The Reaver's Glaive tail is
+-- Aldrachi Reaver and is dropped on purpose, the way retribution-herald.sg drops Hammer of
+-- Light: it is a hero tree this profile is not.
+
+-- The middle disjunct, and the one that carries the Apex combo: Eternal Hunt makes The Hunt
+-- empower the next Eye Beam, so it wants to land just before one -- and away from Meta,
+-- because with Meta close the empowerment belongs on Abyssal Gaze instead.
+--
+-- ⚠ Two sealed durations, and a glow may spend ONE. `cooldown.eye_beam.remains<10` becomes
+-- the readable `not ready(eye_beam)`, which is LOOSER -- it lights from the moment Eye Beam
+-- goes on cooldown rather than in the last ten seconds -- and the Meta half keeps the bind,
+-- because that is the half whose boundary actually holds the button.
+glow "The Hunt into the next Eye Beam"
+  on     the_hunt
+  when   talent(eternal_hunt) and ready(the_hunt) and not ready(eye_beam)
+  bind   metamorphosis.cooldown > 15s
+
+-- The third disjunct, `!cooldown.eye_beam.up&cooldown.metamorphosis.up`, which needs no bind
+-- at all: both halves are readiness.
+glow "The Hunt with Metamorphosis up"
+  on     the_hunt
+  when   talent(eternal_hunt) and ready(the_hunt) and ready(metamorphosis) and not ready(eye_beam)
+
+-- `!talent.eternal_hunt` -- without the Apex there is no window to hit and it goes on cooldown.
+glow "The Hunt without Eternal Hunt"
+  on     the_hunt
+  when   not talent(eternal_hunt) and ready(the_hunt)
+
+-- ------------------------------------------------------------------- the movement pair
+--
+-- `vengeful_retreat,use_off_gcd=1,if=gcd.remains<0.3&...` is the one line in all three specs
+-- that reached the one-bind limit (rule-language.md §10), and `gcd.remains` is not vocabulary
+-- we have anyway. What replaces it is the guide's own reading of the Season 2 choice node:
+-- with Exergy taken, Vengeful Retreat applies the buff directly and its ~20-25s cooldown
+-- covers the 20s duration, so it is simply a press-on-cooldown maintenance button.
+glow "Vengeful Retreat to keep Exergy up"
+  on     vengeful_retreat
+  when   talent(exergy) and ready(vengeful_retreat)
+
+-- `felblade,if=buff.inertia_trigger.up` -- the OTHER half of that choice node, dark on an
+-- Exergy build because the talent gate is false.
+--
+-- ⚠ The APL names `inertia_trigger`, the pending state; the tracked row is `inertia` 427640
+-- and which of the two it carries is not established. So the rung is written to need neither
+-- reading to be right: you have retreated (Vengeful Retreat is on cooldown) and the damage
+-- buff is not up yet, which is when a Felblade is what cashes it.
+glow "Felblade to cash Inertia"
+  on     felblade
+  when   talent(inertia) and ready(felblade) and not aura(inertia) and not ready(vengeful_retreat)
+
+-- ------------------------------------------------------------------------- Blade Dance
+--
+-- `death_sweep,if=debuff.essence_break.up|action.death_sweep.demonsurge_available` -- one APL
+-- line, two glows, and both on the blade_dance row because Death Sweep is what it shows in
+-- demon form.
+
+glow "Death Sweep on Demonsurge"
+  on     blade_dance
+  when   ready(blade_dance) and affordable(blade_dance) and aura(metamorphosis) and aura(demonsurge)
+  urgent
+
+-- A target debuff, which `aura()` cannot reach -- it reads through a Cooldown Manager row and
+-- Essence Break has no tracked aura row. The presence bind hands the question to an
+-- AuraContainer keyed on the spell id, with the unit picking HARMFUL and `mine` narrowing to
+-- the one you applied, so no row is needed at all.
+--
+-- ⚠ The id is spelled out, and a bare `essence_break` is REFUSED on purpose. A presence bind
+-- is the one aura family that may name a spell the tracked-aura table does not carry, and the
+-- `<slug>_<id>` form is what makes that safe: it states both halves, so the resolver checks
+-- the id against the name instead of guessing which of a cast and its aura was meant. For
+-- most spells those are different ids -- Moonfire is 8921 cast, 164812 debuff -- and Essence
+-- Break only reads naturally here because both of its are 258860.
+glow "Death Sweep inside Essence Break"
+  on     blade_dance
+  when   ready(blade_dance) and affordable(blade_dance) and aura(metamorphosis)
+  bind   essence_break_258860.up on target mine
+  urgent
+
+-- `death_sweep` / `blade_dance` bare, the rung the burst rungs fall through to. One glow
+-- covers both halves of the button, which is what "the icon's currently-bound spell" means.
+glow "Blade Dance"
+  on     blade_dance
+  when   ready(blade_dance) and affordable(blade_dance)
+
+-- ------------------------------------------------------------------------ Chaos Strike
+
+-- `annihilation,if=action.annihilation.demonsurge_available`. No `ready()`: Chaos Strike has
+-- no cooldown, and every other rung in this file that omits one omits it for the same reason.
+-- ⚠ What it cannot say is that you can afford it -- see the Fury note at the top.
+glow "Annihilation on Demonsurge"
+  on     chaos_strike
+  when   affordable(chaos_strike) and aura(metamorphosis) and aura(demonsurge)
+  urgent
+
+-- ---------------------------------------------------------------------------- Eye Beam
+
+-- Eternal Hunt's first point makes The Hunt empower the next Eye Beam by 100%, and that
+-- empowerment has its own tracked row -- so the combo the two Hunt rungs above set up has a
+-- readable payoff rung, which is unusual and worth having.
+glow "Eye Beam empowered by The Hunt"
+  on     eye_beam
+  when   ready(eye_beam) and affordable(eye_beam) and aura(empowered_eye_beam)
+  urgent
+
+-- `eye_beam` bare. Cycle of Hatred walks its cooldown down toward 20s, so this is the
+-- metronome the whole loop hangs off.
+glow "Eye Beam"
+  on     eye_beam
+  when   ready(eye_beam) and affordable(eye_beam)
+
+-- ----------------------------------------------------------------------- Essence Break
+
+-- `essence_break,if=cooldown.eye_beam.remains>4` -- hold it out of the Eye Beam clash, so the
+-- 4s window (6s with the Season 2 tier set) is not eaten by a channel. This is the line
+-- rule-language.md §10 used as its own worked example, and it transcribes whole.
+glow "Essence Break clear of Eye Beam"
+  on     essence_break
+  when   ready(essence_break) and affordable(essence_break)
+  bind   eye_beam.cooldown > 4s
+
+-- ---------------------------------------------------------------------------- Felblade
+
+-- `felblade,if=hero_tree.felscarred&fury<=100` -- the Fel-Scarred generator line. Fel-Scarred
+-- generates far more Fury, so Felblade is worth a GCD only while there is room to bank it;
+-- past the threshold the generation is thrown away. `talent(demonic_intensity)` is the
+-- hero-tree proxy, as elsewhere in this file: `hero_tree` is not vocabulary, but Demonic
+-- Intensity is a Fel-Scarred node and nothing else grants it.
+--
+-- ⚠ 80% is the approximation the percent-vs-count note at the top is about: `fury<=100` is
+-- 83% of a 120 bar, 71% with Unrestrained Fury. 80 sits inside the first and spends slightly
+-- early on the second, which is the harmless direction -- it generates a little less rather
+-- than overcapping.
+glow "Felblade with room to generate"
+  on     felblade
+  when   talent(demonic_intensity) and ready(felblade)
+  bind   fury% < 80
+
+-- `felblade` bare, the fall-through for any build the rung above does not describe.
+glow "Felblade"
+  on     felblade
+  when   ready(felblade)
+
+-- ------------------------------------------------------------------ confirm while logged in
+--
+--   * TRACKED BUFFS. Six rungs here read Metamorphosis, Demonsurge, Empowered Eye Beam or
+--     Inertia through a buff-viewer row, and an aura the player has not enabled raises
+--     nothing -- UNKNOWN, and the glow fails dark forever. Tick all four before judging any
+--     of this, and use `/sg why` on a dark rung before assuming the rule is wrong.
+--   * Does the Demonsurge row sit up while empowerments are PENDING, or only while the
+--     stacking damage buff runs? Every demon-form rung in this file assumes the former. Watch
+--     `/sg why` on Death Sweep across one Metamorphosis: it must light on entry and go dark
+--     once the empowerments are spent, not the reverse.
+--   * The four override rows -- Death Sweep, Annihilation, Consuming Fire, Abyssal Gaze --
+--     are the same untested path as Ruination and Infernal Bolt: the row keeps its cooldownID
+--     through the swap, so `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED` is what has to re-resolve
+--     it. If the demon-form rungs never light while the base rungs do, that is this.
+--   * `affordable()` has never run. The measurement behind it is a READ of
+--     `IsSpellUsable` from a probe, not this term inside a glow, so what is unflown is the
+--     wiring: stand at low Fury and confirm the spenders go dark while Felblade and
+--     Immolation Aura stay lit, then confirm they come back. A rung that is dark at FULL Fury
+--     is the `Knowable` guard or a non-boolean return -- `/sg why` names which.
+--   * `fury% < 80` is the first power bind ever armed, and its diagnostic is the capture log,
+--     not the icon: `power <subject> fury% < 80 -> <secret>` means the client evaluated the
+--     curve and owns the alpha. A plain NUMBER there means the domain is not [0, 1] as
+--     assumed -- and note a `<` curve with the domain wrong lights ALWAYS rather than never.
+--   * `at_max_charges(immolation_aura)` on a two-charge spell is the `isActive` <=> below-max
+--     equivalence being relied on for the first time on a spell with A Fire Inside's reduced
+--     recharge. Confirm it goes dark the instant one charge is spent.

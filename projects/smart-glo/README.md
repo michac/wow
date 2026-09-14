@@ -107,3 +107,120 @@ release, so a push alone deploys nothing.
     uv run python -m wowkb.addon release sg --patch
 
 Then `/reload`. Commands: `/sg status`.
+
+## Turning it on for a character
+
+    /sg enable
+
+Reads the spec you are playing, matches it to the profile written for that spec, loads it,
+and remembers the answer **for that character** — every later login on it takes the same
+profile without being asked. `/sg disable` turns the switch off and leaves the applied rules
+alone. `/sg status` says which way the switch is set and what it would load.
+
+A profile is eligible for this only if it declares the spec it is for (`spec` in
+`Profiles.lua`); the starter set and the probes declare none, so `/sg enable` can never hand
+one out. The shipped profiles are each transcribed for **one hero tree**, so a profile also
+names the talent that proves you are in it: in the wrong tree `/sg enable` refuses and says
+so rather than loading advice written for someone else's build, and when the talent cannot
+be read it loads and says the tree is unconfirmed.
+
+Two things it will not do, both deliberate:
+
+- **It never replaces rules you have edited.** The applied set is stamped when it is taken
+  from a profile; if it no longer matches that stamp, a login says what it wanted to load and
+  leaves your rules standing.
+- **It is one switch per character over one account-wide rule set.** The rules live in
+  `SmartGloDB` and there is one applied set; the switch lives in `SmartGloCharDB`. So an
+  enabled character claims the rule set on the way in, and a character with the switch off
+  sees whatever the last one applied.
+
+## The profile viewer
+
+`rules/*.sg` is the authoring surface and it reads badly in a terminal: the table you want
+when comparing rungs and the commentary you want when questioning one are the same text, and
+neither is scannable. `tool/gen_site.py` renders both as a static site.
+
+    uv --directory tools run python ../projects/smart-glo/tool/gen_site.py
+    uv --directory tools run python -m wowkb.serve projects/smart-glo/site \
+        --watch projects/smart-glo/rules \
+        --on-change 'uv --directory tools run python ../projects/smart-glo/tool/gen_site.py'
+
+⚠ **`site/` is generated and gitignored — never hand-edit it.** Edit the `.sg` file, or the
+generator.
+
+Three properties it is built to keep, each of which is a way it could quietly start lying:
+
+- **The table comes from `wowkb.smartglo.parse`, not from the source lines.** It renders the
+  AST the *checker* reads, so a page cannot agree with a rule's comment while disagreeing
+  with the rule. A profile that renders is a profile that checks.
+- **A subject is named as the RULE names it.** An id can answer to more than one word —
+  432459 is `holy_bulwark` to a rule and "Holy Armaments" in the ability inventory — so the
+  page prints the `on` token, borrowing the inventory only for punctuation the slug cannot
+  carry (`avengers_shield` → Avenger's Shield).
+- **Every number on the prototype page is read out of `addon/SmartGlo/Look.lua` at build
+  time** — the spin period and direction, the black↔yellow cycle and its hold/cross wave, the
+  mark fraction, the plate's scale, colour and alpha, the urgent pulse's period and scale, the
+  palette — and the art drawn is the addon's own `Media/hex-white.tga` and `Media/hex-fill.tga`.
+  Its tiles are rendered from the same `STYLES` entry the style lab marks `shipping`, so the two pages
+  cannot disagree. A renamed constant fails the build rather than drawing a stale picture. The
+  one thing it cannot simulate is the client: the icon behind the mark is a still.
+
+### The style lab
+
+`styles.html` runs candidate marks across icons chosen to fight them — gold to swallow the
+bright end of the cycle, violet and dark art to swallow its dark end — with an **icon size** slider, a
+**freeze**, and a **peripheral blur**. A style is a data entry in `STYLES` (a list of layers,
+each a mask + fill + scale + spin); `glow.js` knows no style names, so adding a candidate is
+a Python-side change and never a CSS one.
+
+⚠ **Only `current` is what the addon draws.** Every other entry is a prototype and carries
+what it would actually cost in the client, because a style that cannot be drawn there is not a
+candidate. The last four are a look that was **built, released, flown and then taken apart**:
+the mark over a translucent black plate, with `urgent` moved off the size channel onto a bounce
+run 18% fast. It won every offline measure on this page and lost the only one that counts — so
+it came back in pieces. Shipping now are the smaller mark, the dark end of the swing, and the
+plate in purple *turning with the mark*, which is what stops it reading as a hole punched in the
+row. The bounce did not come back; beside icons that are not moving it read as fidgeting.
+Those entries stay in the lab because "why not the one that measured better" is a question the
+page should be able to answer. The retired numbers live in `gen_site.py`'s `LAB` dict,
+deliberately separate from the `Look.lua` values `current` is built from, so the lab cannot show
+a constant the addon does not have.
+
+The prototype masks the other candidates need — a dilated hexagon for the rim, the triangle
+and dot shapes — are generated in `gen_site.py` from the shipping master, and so is the plate
+mask — ⚠ derived rather than converted, because the shipped `hex-fill.tga` has `PLATE_ALPHA`
+baked into its alpha and converting it would apply the translucency twice. `hex-white` is
+converted from the `.tga` the addon loads. Promoting a style means moving its derivation into
+`tool/gen_media.py` and emitting a `.tga`, which is the trip the plate has made.
+
+**The blur control is the point, not a toy — and it takes an ANGLE, not a pixel count.** A
+pixel count was unanswerable: 5px means one thing on a 28px icon and another on a 120px one.
+The slider now sets **eccentricity in degrees off-axis** and derives the blur from
+`MAR(E) = MAR₀(1 + E/E₂)` — the standard linear acuity falloff, `MAR₀` one arcminute, `E₂`
+2.3° — with sigma taken as half the minimum resolvable angle. Converting to pixels needs one
+assumption, stated on the page so it can be argued with: **a CDM icon subtends ~0.9°** (40px
+at ~45 px/deg — a 27" 1440p panel at 60cm). **10–15° is where the Essential viewer actually
+sits** while you watch your character; 20–25° is a side-mounted bar.
+
+⚠ It models low acuity and **nothing else** — not the periphery's much better **motion**
+sensitivity, nor its near-intact contrast sensitivity at low spatial frequencies. So it is
+systematically unfair to anything that moves and fair to anything large, which is exactly why
+the spin measured worse than it may fly. It rules candidates out; it does not pick the winner.
+
+`tool/measure_motion.py` renders the same compositing offline at a controlled time step and
+reports two numbers per candidate, because they disagree and the disagreement is the finding:
+**rate** (mean change between consecutive blurred frames — a derivative, so it rewards fast
+change and punishes slow) and **swing** (per-pixel max minus min over the period — an
+amplitude, blind to rate). It shares the eccentricity model with the page; keep them together.
+
+⚠ **The measurement is a ranking aid, not a verdict.** It cannot tell a change that draws the
+eye from one that merely irritates, and it says nothing about whether plain and `urgent` stay
+*tellable apart* — only how much each one moves.
+
+⚠ **A missing icon draws a blank tile rather than a near-miss.** `ICON_FALLBACK` in the
+generator carries the ids the media endpoint cannot resolve, and each entry is a claim that
+the art is *the same picture* — Protection's Hammer of Wrath override borrowing 24275 is one,
+because the client draws one picture for both. Infernal Bolt (434506 / 433891) has no
+reachable icon at all and is left blank on purpose: the Holy Armaments node resolves to the
+**Bulwark** icon, so a borrowed sibling would have shown the wrong armament and looked right
+doing it.

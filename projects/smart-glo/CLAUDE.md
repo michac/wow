@@ -11,9 +11,10 @@ name in `wowkb.addon` is `sg`.
   checker's refusal list. ⚠ It is a **design, not an implementation** — none of it has been
   built or flown, and it says so at the top. `README.md` defers to it on anything about what a
   rule can say.
-- **`backlog.md`** — `## Status` (what is BUILT), `## Now` (the ordered work list), `## Parked`.
-  ⚠ Status lives **only** there. Do not restate it here, in `README.md`, or in the root
-  `CLAUDE.md`.
+- **`backlog.md`** — `## Unproven` (what has never been seen to work in the client), `## Now`
+  (the ordered work list), `## Parked`. ⚠ There is **no `## Status`**: a "what is built" list
+  restates the code less accurately than the code does, and that section was deleted for it.
+  Do not reintroduce one here, in `README.md`, or in the root `CLAUDE.md`.
 - **`addon/CLAUDE.md`** — the release workflow for `michac/SmartGlo`. The checkout at `addon/`
   is its own git repo and is **gitignored** by the wow repo, so a `git pull` here does not
   fetch it; `wowkb.addon pull sg` does.

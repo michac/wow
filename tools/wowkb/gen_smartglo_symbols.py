@@ -192,6 +192,11 @@ def add_override_targets(table: dict) -> dict:
                 names[repl] = name
             specs[key].append(repl)
             table.setdefault("_overrideTargets", defaultdict(set))[key].add(repl)
+            # Which spell this one replaces, kept per spec: "is an override target" is too
+            # coarse to rank by, because a base can sit in the acquisition inventory while
+            # the Cooldown Manager never lays its row out. Only a replacement whose base HAS
+            # a row can be what that row shows.
+            table.setdefault("_overrideBase", defaultdict(lambda: defaultdict(set)))[key][repl].add(base)
             added += 1
 
     for key in specs:
@@ -201,7 +206,7 @@ def add_override_targets(table: dict) -> dict:
 
 
 def resolve_collisions(table: dict) -> dict:
-    """One slug, one id, inside a spec — and the winner is the id a rule can BIND to.
+    """One slug, one id, inside a spec — and the bare slug goes to the id a rule can BIND to.
 
     Two ids sharing a name inside one spec is the norm, not the exception: every spec has
     some, because an override target is named after the spell it replaces. The resolver builds
@@ -209,42 +214,79 @@ def resolve_collisions(table: dict) -> dict:
     wins — a coin flip decided by sort order, and wrong wherever a base has two replacements
     (Vengeance's three Sigils of Flame, one per sigil talent).
 
-    Rank by what a glow's subject has to be. A CooldownSetSpell row is a subject outright. An
-    override target is a subject while its carrier is up, which is exactly the transform
-    window a rule wants (Hammer of Wrath over Judgment). Anything else is in the acquisition
-    inventory and has no row, so it can never attach and must never hold the name.
+    Rank by what a glow's subject has to be:
 
-    Losers keep their global name — `Rules.Label` still renders them — and leave the spec's id
-    list, which is the only thing the resolver walks.
+    0. A `CooldownSetSpell` row is a subject outright.
+    1. An override target whose BASE has a row here — that row is what shows the replacement,
+       so this is a subject for the transform window (Hammer of Wrath over Judgment).
+    2. Any other override target. Its base is in the acquisition inventory but the Cooldown
+       Manager lays out no row for it, so nothing here can ever show it.
+    3. Everything else: inventory only, no row, can never attach.
+
+    The base is matched by SLUG as well as by id, because a spec can carry its own variant of
+    the base — Protection's Judgment row is 275779 where the effect names the generic 20271.
+
+    EVERY id keeps a name. The winner holds the bare slug; a loser is renamed `<slug>_<id>`
+    for THIS spec only and stays in the id list, so it is still writable and still prints.
+    Per-spec because the ranking is: 24275 is the bare `hammer_of_wrath` in Retribution and a
+    loser in Protection, and one global rename would break whichever spec it was not made for.
+
+    A tie inside a tier is not resolvable from this data, so NO id takes the bare slug: every
+    one is suffixed and the bare word is left out, exactly as the aura table treats a slug
+    naming two rows. Writing it then refuses and names the candidates, which is the only
+    honest answer — picking the lowest id would be a coin flip that glows for one build's
+    talents and is silently dark for another's.
     """
     names, specs = table["names"], table["specs"]
     cdm_rows = table.get("_cdmRows", {})
     over_targets = table.get("_overrideTargets", {})
-    dropped = 0
+    over_base = table.get("_overrideBase", {})
+    spec_names: dict[str, dict[int, str]] = defaultdict(dict)
+    ambiguous: dict[str, dict[str, list[int]]] = defaultdict(dict)
+    ties: list[tuple[str, str, int, list[int]]] = []
+    renamed = 0
     for key, ids in specs.items():
         rows, targets = cdm_rows.get(key, set()), over_targets.get(key, set())
+        bases = over_base.get(key, {})
+        row_slugs = {names[i] for i in rows if i in names}
 
         def rank(i: int) -> tuple[int, int]:
             if i in rows:
                 return (0, i)
             if i in targets:
-                return (1, i)
-            return (2, i)
+                for b in bases.get(i, ()):
+                    if b in rows or names.get(b) in row_slugs:
+                        return (1, i)
+                return (2, i)
+            return (3, i)
 
         by_slug: dict[str, list[int]] = defaultdict(list)
         for i in ids:
             if i in names:
                 by_slug[names[i]].append(i)
-        losers = set()
-        for slug_, group in by_slug.items():
+        for slug_, group in sorted(by_slug.items()):
             if len(group) < 2:
                 continue
             group.sort(key=rank)
-            losers.update(group[1:])
-        if losers:
-            specs[key] = [i for i in ids if i not in losers]
-            dropped += len(losers)
-    table["collisionsResolved"] = dropped
+            top = rank(group[0])[0]
+            tied = [i for i in group if rank(i)[0] == top]
+            if len(tied) > 1:
+                ties.append((key, slug_, top, tied))
+                # Only the TIED ids. A lower-ranked one shares the word but cannot attach,
+                # so offering it as a candidate would be offering a rule that never lights.
+                ambiguous[key][slug_] = sorted(tied)
+                keep = []
+            else:
+                keep = group[:1]
+            for i in group:
+                if i in keep:
+                    continue
+                spec_names[key][i] = "%s_%d" % (slug_, i)
+                renamed += 1
+    table["specNames"] = {k: dict(sorted(v.items())) for k, v in sorted(spec_names.items())}
+    table["abilityAmbiguous"] = {k: dict(sorted(v.items())) for k, v in sorted(ambiguous.items())}
+    table["collisionTies"] = ties
+    table["collisionsResolved"] = renamed
     return table
 
 
@@ -473,6 +515,34 @@ def render(table: dict) -> str:
     out += [
         "}",
         "",
+        "--- \"<class>.<spec>\" -> id -> the name that id answers to IN THAT SPEC, overriding",
+        "--- `names`. Two ids of one spec sharing a slug is the norm, so the one a rule can",
+        "--- bind to keeps the bare slug and the rest are spelled `<slug>_<id>` here. Per spec",
+        "--- because the ranking is: 24275 is the bare `hammer_of_wrath` in Retribution and a",
+        "--- suffixed one in Protection, where the row carries 1241413 instead.",
+        "Symbols.specNames = {",
+    ]
+    for key, by_id in table["specNames"].items():
+        out.append("  [%s] = {" % _lua_str(key))
+        for i, n in by_id.items():
+            out.append("    [%d] = %s," % (i, _lua_str(n)))
+        out.append("  },")
+    out += [
+        "}",
+        "",
+        "--- Slugs naming two ids that rank EQUALLY as a subject, per spec. Left out of the",
+        "--- names above on purpose -- which one is live depends on the player's talents and",
+        "--- no offline pass can tell -- and carried here so the refusal names the candidates.",
+        "Symbols.abilityAmbiguous = {",
+    ]
+    for key, by_slug in table["abilityAmbiguous"].items():
+        out.append("  [%s] = {" % _lua_str(key))
+        for name, ids in by_slug.items():
+            out.append("    [%s] = { %s }," % (_lua_str(name), " ".join("%d," % i for i in ids)))
+        out.append("  },")
+    out += [
+        "}",
+        "",
         "--- Bare spec words that name exactly one spec. An ambiguous word is absent on purpose.",
         "Symbols.specAlias = {",
     ]
@@ -571,9 +641,16 @@ def main(argv=None) -> int:
 
     OUT_LUA.parent.mkdir(parents=True, exist_ok=True)
     OUT_LUA.write_text(content, encoding="utf-8")
+    suffixed = sum(len(v) for v in table["specNames"].values())
     print(f"wrote {OUT_LUA.relative_to(REPO)} — {n} spells across {s} specs, "
           f"{len(table['alias'])} unambiguous spec words, {len(table['also'])} double-named ids, "
-          f"{len(table['talents'])} talent spells mapped to trait nodes")
+          f"{len(table['talents'])} talent spells mapped to trait nodes, "
+          f"{suffixed} ids renamed `<slug>_<id>` inside a spec")
+    # A tie inside a rank is the one thing this pass cannot decide, so it is printed rather
+    # than counted: the bare slug went to the lowest id, which is arbitrary and may be wrong.
+    for key, slug_, tier, ids in table["collisionTies"]:
+        print(f"  tie: {key} {slug_} — rank {tier}, {', '.join(str(i) for i in ids)}; "
+              f"the bare slug is withheld and naming it refuses")
     return 0
 
 
