@@ -2,7 +2,7 @@
 title: Frames, widgets and rendering
 patch: 12.1.0
 fetched: 2026-08-16
-reviewed: 2026-09-01   # 2026-09-01: §3.7 added — a rect read on the line after the SetPoint that moved it may still be the OLD rect. HEDGED and @verify-ingame: it is inferred from a defect it explains and corroborated by a shipping addon's own source comment, not measured by us. Carries the remedy (express the expectation relative to the anchor frame and read the reference when you compare). 2026-08-31: §2.6 gained the StaticPopup dialog-shape facts — GENERIC_CONFIRMATION is two-button by construction, a one-button notice needs its own StaticPopupDialogs entry, and which fields are read generically. Nothing else re-checked
+reviewed: 2026-09-11   # 2026-09-11: §5's channel-composition prose gained the measured `SetVertexColor(r,g,b,a)` vs `SetAlpha` collision — one channel, later write wins, the colour half multiplies where the alpha half does not compose. Also: the Lua-setter table gained the `Translation` row (SetOffset/GetOffset, uiUnit) from the 12.1.0 generated docs — it was the one animation type in the XSD table with no Lua spelling given, which is exactly the silent-miss trap the section warns about. Nothing else re-checked. 2026-09-01: §3.7 added — a rect read on the line after the SetPoint that moved it may still be the OLD rect. HEDGED and @verify-ingame: it is inferred from a defect it explains and corroborated by a shipping addon's own source comment, not measured by us. Carries the remedy (express the expectation relative to the anchor frame and read the reference when you compare). 2026-08-31: §2.6 gained the StaticPopup dialog-shape facts — GENERIC_CONFIRMATION is two-button by construction, a one-button notice needs its own StaticPopupDialogs entry, and which fields are read generically. Nothing else re-checked
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0; `[T1 docs @12.1.0]` / `[T1 src @12.1.0]` / `[T1 xsd @12.1.0]` locators resolve here (612 doc files, 79 ScriptObject tables)
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
@@ -1078,6 +1078,20 @@ underlying color of the texture image, but acts as a filter; see
 Region:SetVertexColor for details." `[T2 wiki: API TextureBase SetGradient,
 revid 6654937, 2026-02-19]`.
 
+**`SetVertexColor`'s fourth argument and `SetAlpha` are ONE channel, and the later write
+wins — they do not multiply** `[client 2026-09-11]`. A `Texture` given
+`SetVertexColor(0, 0, 0, 0.55)` once at creation and `SetAlpha(1)` later, on every
+evaluation, drew **fully opaque** rather than at 55%. This is consistent with the annotation
+surface — `Region:SetVertexColor` adds the aspects `{VertexColor, Alpha}`, i.e. the same
+`Alpha` aspect `SetAlpha` adds (§9 item 18) — and it is the trap, because the *colour* half
+of the same call composes multiplicatively over the base image while the alpha half does not
+compose with `SetAlpha` at all.
+⚠ One observation cannot separate "the later `SetAlpha` replaced it" from "the fourth
+argument was never applied"; a run with no `SetAlpha` on the region would `@verify-ingame`.
+Neither reading changes the rule to write by: **give a region exactly one alpha writer**. Bake
+a constant translucency into the texture's own alpha, or fold it into the single `SetAlpha`
+that the gate already drives — never split it across the two calls.
+
 **`SetGradient` resets the vertex colour to white** `[client 2026-08-05]`. On a white
 8×8 texture, `SetVertexColor(1,0,0)` reads back red; a following
 `SetGradient("HORIZONTAL", yellow, blue)` leaves `GetVertexColor()` reading
@@ -1438,6 +1452,24 @@ exactly like one that is playing and not helping. The generated docs settle the 
 | `Scale` | **`SetScaleFrom(x, y)` / `SetScaleTo(x, y)`** (+ `SetScale`, `SetOrigin(point, x, y)`, and the four matching getters) `[SimpleAnimScaleAPIDocumentation.lua:39-108]` |
 | `Alpha` | `SetFromAlpha` / `SetToAlpha` `[SimpleAnimAlphaAPIDocumentation.lua:36,46]` |
 | `Rotation` | `SetDegrees` / `SetRadians` / `SetOrigin` `[SimpleAnimRotationAPIDocumentation.lua:51,61,73]` |
+| `Translation` | **`SetOffset(offsetX, offsetY)` / `GetOffset()`** — both `uiUnit`, so the offset is in the region's own coordinate space and scales with an ancestor's `SetScale` `[T1 docs @12.1.0: SimpleAnimTranslationAPIDocumentation.lua:13-31]` |
+
+**Translation offsets ACCUMULATE across a group; they are not each measured from the
+region's layout position.** A completed translation's displacement stays in force while the
+group runs, so a chain composes and the way to come back is an equal-and-opposite second
+translation — not the end of the first one. Blizzard's own XML is built on this and is the
+evidence: `LossOfControlFrame.xml` shakes an icon with `offsetX="-20"` at `order="2"` then
+`offsetX="20"` at `order="3"`, `Blizzard_CatalogShop_Elements.xml` sways a sign −2, +2, −1,
++1 through one order on `startDelay`, and `PVPHonorSystem.xml` drifts a wreath −5, +10, −10
+`[T1 xsd @12.1.0: LossOfControlFrame.xml, Blizzard_CatalogShop_Elements.xml,
+PVPHonorSystem.xml]`. Each of those is nonsense under a
+measured-from-layout reading and exactly right under a cumulative one.
+⚠ What a **looping** group does with a chain whose offsets do not sum to zero is NOT settled
+by this — `PVPHonorSystem`'s is net −5 and whether the region creeps per loop or is restored
+at the loop boundary is unmeasured `@verify-ingame`. The safe construction, and the one to
+write, is a chain that returns to zero by the end of the loop.
+Which SPACE the offset is applied in when the same region also carries a `Rotation` —
+screen axes or the rotated frame's — is likewise unmeasured `@verify-ingame`.
 | `FlipBook` | `SetFlipBookColumns` / `SetFlipBookRows` / `SetFlipBookFrames` / `SetFlipBookFrameWidth` / `SetFlipBookFrameHeight` (+ the five matching getters) — the XSD attribute prefix `flipBook…` survives into the Lua names, unlike Scale's `[T1 docs @12.1.0: SimpleAnimFlipBookAPIDocumentation.lua:10-121]`. The docs give signatures only; the working reading — rows × columns grid the whole texture, `frames` caps the walk, `FrameWidth`/`FrameHeight` (XSD default 0) override the cell for padded sheets — is a source read of the XSD defaults, not a measurement `@verify-ingame` |
 
 **`SetFromScale` / `SetToScale` — the spelling much older addon code uses — do not appear

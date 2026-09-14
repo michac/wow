@@ -957,6 +957,35 @@ their API is Blizzard Lua mixins, not a `ScriptObject` table. Read
 3. `SetUnit(unitToken)` `[T1 src @12.1.0: Blizzard_AuraContainer.lua:40]`, then
    `UpdateAllAuras()` (`:50`).
 
+**A container is NOT limited to the player, and `PLAYER` is opt-in NARROWING.** `SetUnit` only
+asserts the token is a string `[T1 src @12.1.0: Blizzard_AuraContainer.lua:40-44]`, and the
+public source reads through `C_UnitAuras.GetUnitAuraInstanceIDs(unitToken, filterString)` in
+untainted code `[T1 src @12.1.0: Blizzard_AuraContainerSources.lua:33-34]` — so the unit is
+whatever the caller names and the bound is the filter string, not the widget.
+
+`AuraUtil.AuraFilters` is the whole vocabulary, and `AuraUtil.IsValidFilterString` **asserts**
+membership, so an unknown component is a hard error rather than a silent empty result
+`[T1 src @12.1.0: AuraUtil.lua:270-320]`. Components join with `|`
+(`AuraUtil.CreateFilterString`) and any one may be negated with a `!` prefix, except
+`INCLUDE_NAME_PLATE_ONLY` and `MAW`:
+
+| Component | Blizzard's own comment |
+|---|---|
+| `HELPFUL` / `HARMFUL` | buffs / debuffs |
+| `PLAYER` | *"Include only auras that were cast by the player, or by the player's pet or vehicle"* |
+| `RAID` | *"helpful auras the player can apply and harmful auras the player can dispel"* |
+| `IMPORTANT` | *"helpful auras that show on **enemy** nameplates even if non-stealable"* |
+| `RAID_PLAYER_DISPELLABLE` | *"including helpful **enrages on enemies**"* |
+| `CANCELABLE` · `CROWD_CONTROL` · `BIG_DEFENSIVE` · `EXTERNAL_DEFENSIVE` · `RAID_IN_COMBAT` · `DISPELLABLE` · `INCLUDE_NAME_PLATE_ONLY` · `MAW` | see source |
+
+So *"friendly auras on yourself, your own harmful auras on your target"* is **narrower than the
+API**: `PLAYER` is the component you add to get that, and two of the components above are
+documented in terms of reading **helpful** auras on **enemies**. *Corroborated in practice:*
+Plater `2b2ff46` (2026-07-23) runs one container per nameplate unit and builds exactly these
+strings, with `|PLAYER` as a user toggle `[T3: Plater_Auras.lua:719-748, 1085-1100]`.
+⚠ `@verify-ingame` for our own use: nothing in this workspace has pointed a container at
+anything but `"player"`, so a rider that needs `"target"` should still fly it once.
+
 ⚠ **The container creates and anchors the buttons; addons do not.** An `AddAuraFrame`
 API existed on PTR and was **removed** before ship `[T2 wiki: Patch 12.1.0/API
 changes, 2026-07-07 entry, revid 6801760, 2026-08-09]`. Anything describing an addon
@@ -1288,7 +1317,10 @@ read; only the bare `textFormatter` has been run. `@verify-ingame`
 - **It is the addon's threshold, not the client's.** `AddPandemicRegion` is the only route where
   the *predicate* is computed by the client
   (`GetRefreshExtendedDuration − GetAuraBaseDuration`, per spell); a band on `RemainingPercent` is
-  a number written into the addon. The two produce the same picture and are not the same claim.
+  a number written into the addon. Both routes exist and they answer different questions: the
+  same clock is available behind addon-authored bands through `SetDurationText`, at any
+  threshold you like and with no CDM row required, while only `AddPandemicRegion` gives you
+  Blizzard's own per-spell window. The two produce the same picture and are not the same claim.
 
 **And the pandemic sink cannot be inverted.** `ApplyPandemicRegions` calls
 `region:SetShown(self:IsInPandemicWindow())` with no options table, no formatter and no reverse
@@ -2539,18 +2571,27 @@ can't do the arithmetic":
   both `SecretArguments = "AllowedWhenTainted"`
   (`CurveUtilDocumentation.lua:31, 49`) — a secret boolean can pick a colour.
 
-  ⚠ **The curve's INPUT SCALE is not documented and no Blizzard caller shows it.**
-  `@verify-ingame` — whether full health reaches the curve as `100` or as `1` decides where a
-  threshold point goes, and getting it wrong inverts the result rather than degrading it. The
-  prose says "percent", and the `CombatAudioAlertManager` mixin's same-named helper computes
-  `math.ceil((health / healthMax) * 100)` `[T1 src @12.1.0:
-  Blizzard_CombatAudioAlertManager.lua:604-611]` — but that is the mixin's own arithmetic, not
-  a call into this API, so it is suggestive and nothing more. `[searched 2026-09-09: the
-  generated docs for UnitHealthPercent/UnitPowerPercent, and every UnitHealthPercent /
-  UnitPowerPercent call site in the shipped UI source — no caller passes a curve]`
-  ⚠ A consumer that must pick one should shape the curve so the **wrong** guess reads dark: a
-  threshold that lights at LOW input covers the whole `0..1` range on a `0..100` guess, which
-  is permanently bright, and an extra step point just above `1` takes that range back to zero.
+  **The curve's INPUT SCALE is `[0, 1]`** `[client 2026-09-10]` — full health reaches the curve
+  as `1.0`, not as `100`, so a threshold at 80% is the point `0.8`. Measured with four Step
+  curves at `0.4`, `0.6`, `0.8` and a `<` complement at `0.4`, each driving one texture's alpha
+  off `UnitHealthPercent("player", false, curve)`: the marks lit in the band matching the health
+  bar and the complementary pair showed exactly one lit at every total, holding that
+  correspondence while health fell under damage and regenerated back. The reading
+  discriminates — on a `[0, 100]` domain those same points sit below almost every input, so
+  every `>=` mark would be permanently lit and the `<` one permanently dark. Blizzard ships four ready-made curves for
+  converting it and each states the domain in its own comment: `CurveConstants.ZeroToOne` is
+  *"the identity function for any input percentage value"* with points `(0.0, 0.0)` and
+  `(1.0, 1.0)`; `ScaleTo100` *"re-scales any percentage value from [0, 1] to [0, 100]"*,
+  Linear from `(0.0, 0)` to `(1.0, 100)`; `Reverse` and `ReverseTo100` invert the same domain
+  `[T1 src @12.1.0: Blizzard_SharedXMLBase/CurveConstants.lua:1-25]`. ElvUI's oUF, Plater and
+  Details all pass `CurveConstants.ScaleTo100` to `UnitHealthPercent` / `UnitPowerPercent` to
+  recover a 0–100 number, which is the same fact from the consumer side.
+  ⚠ Getting this wrong **inverts** the result rather than degrading it: a threshold point
+  written in percent sits up to a hundred times above the top of the domain, so a `>=` rule
+  never lights and a `<` rule lights always.
+  ⚠ These constants are the reason a call-site search missed it — no caller passes a curve
+  *literal*, they pass one of these by name, so grepping `UnitHealthPercent` call sites finds
+  the conversion without showing the domain.
 
   ⚠ **`LuaCurveEvaluatedResult` is referenced as a return type NINE times and
   declared NOWHERE** `[T1 obs @ 12.0.7.68887]` — there is no `Structure` entry for
@@ -2784,6 +2825,35 @@ curve:AddPoint(0, 1); curve:AddPoint(threshold, 0)     -- our points, not secret
 local r = dur:EvaluateRemainingDuration(curve, Enum.DurationTimeModifier.RealTime)
 texture:SetDesaturation(r)                              -- AllowedWhenTainted sink
 ```
+
+**That `threshold` is in SECONDS** `[client 2026-09-10]` — a Step curve with its transition at
+`30` took a mark dark at thirty seconds remaining on a ~90 second cooldown, alongside a `0.5`
+point lit throughout and a `1000` point never lit. The crossing is what discriminates: a
+millisecond domain would have moved that mark at 30ms and a `[0, 1]` one would never have lit
+it. The evaluation also **tracks** — re-evaluating the same curve follows the value down rather
+than answering once. Each evaluator names its own unit in its `Documentation`
+string, so the domain never has to be guessed: `EvaluateRemainingDuration` *"calculates the
+remaining duration **in seconds** and evaluates it against a supplied curve"*, while
+`EvaluateRemainingPercent` *"calculates the remaining duration as a **percentage** value"* and
+therefore takes the `[0, 1]` domain above `[T1 src @12.1.0:
+LuaDurationObjectAPIDocumentation.lua:72-88]`.
+⚠ **A READY spell is a ZERO, not an absent object** `[client 2026-09-10]`.
+`C_Spell.GetSpellCooldownDuration` hands back a `LuaDurationObject` for a spell that is up, and
+`EvaluateRemainingDuration` on it evaluates the curve at **0** — so any curve whose low end
+lights (`<`, and the low limb of `outside`) glows permanently while the spell is ready, and a
+nil-guard never runs to stop it. Observed as a `< 1000s` mark lit on a ready spell whose bind
+carried an explicit absent-is-dark tail, which is the guard that cannot fire. Shape the band to
+open just above zero instead; ElvUI's two duration curves use `(0, 0), (0.001, 1)` for the same
+edge and call it *"hiding at Zero"*.
+
+⚠ **Read the `Documentation` string, not just the signature.** The units live only there —
+`Arguments` says `curve: LuaCurveObjectBase` for both, identically, so a reader who checks the
+argument list learns nothing and a reader who assumes symmetry with the percent-flavoured
+`UnitHealthPercent` gets it wrong. The two evaluators on the same object take different domains.
+⚠ ElvUI is no help on this one and shows why a consumer survey can come up empty: its only two
+duration curves are `(0, 0), (0.001, 1)`, an epsilon "is it non-zero" test its own comment calls
+*"float for hiding at Zero"* `[T1 src: ElvUI Game/Shared/General/API.lua:630-647]`. An epsilon
+reads the same on every positive domain, so no shipping caller here exercises a magnitude.
 
 §4.8.1 concluded secret **counts** have no curve sink. True for counts — but a
 duration object carries its own evaluator, so this is a general *"threshold a
@@ -3122,7 +3192,7 @@ whole object is plain and no row here applies.
 | `HasSecretValues()` | bool | **PLAIN, always** | `ReturnsNeverSecret = true`; read `true` in combat on a player buff and a target debuff `[client 2026-08-05]` |
 | `GetRemainingDuration(mod)` | `DurationSeconds` | **SECRET** | both columns of the aura table `[client 2026-08-05]`; also finding 7. **The seal has no hole here** |
 | `FormatRemainingDuration(fmt, mod)` | string | **secret string that RENDERS** | finding 2 `[client 2026-08-04]` — `SetText` puts it on screen, ticking, in combat. ⚠ the FontString must be a leaf (finding 10) |
-| `EvaluateRemainingDuration(curve, mod)` | `LuaCurveEvaluatedResult` | **SECRET** | `[client 2026-08-07]` — secret **even with a non-secret curve** (`curve:HasSecretValues()` false), control `GetRemainingDuration` secret in the same sample. `SecretWhenCurveSecret` is a sufficient condition, not a necessary one |
+| `EvaluateRemainingDuration(curve, mod)` | `LuaCurveEvaluatedResult` | **SECRET in restricted combat; PLAIN out of it** | `[client 2026-08-07]` — secret **even with a non-secret curve** (`curve:HasSecretValues()` false), control `GetRemainingDuration` secret in the same sample. `SecretWhenCurveSecret` is a sufficient condition, not a necessary one. ⚠ **Out of combat the result is an ordinary number** `[client 2026-09-10]` — four Step curves on one spell's cooldown returned `0`, `0`, `0` and `1` through a formatter that renders a secret as `<secret>` and did not. The seal is combat-gated here, and that is the DIFFERENCE from `UnitHealthPercent`, whose curve result read `<secret>` **out of combat** in the same capture: §4.7's "unconditionally secret" is literal for health and not for durations. Do not build a readback on the out-of-combat value — it vanishes exactly when a rotation addon wants it |
 | `EvaluateRemainingPercent` · `EvaluateElapsedDuration` · `EvaluateElapsedPercent` · `EvaluateTotalDuration` | same | **SECRET** | all four measured in the same sample `[client 2026-08-07]`. **The curve route leaks nothing — hand the result to a sink and stop guarding it** |
 | `HasExpired(mod)` · `IsActive(mod)` · `HasStarted(mod)` · `IsZero()` | bool | **SECRET booleans** | All four read `<secret boolean>` in combat, on 5 in-combat runs, on a duration whose `HasSecretValues()` is true, with `GetRemainingDuration` secret in the same sample as the control `[client 2026-08-06]` ⚠ *evidence gone — that lab run is off the ring; the values survive only as a queue transcription*. **They are the object's whole predicate surface — `LuaDurationObjectAPIDocumentation.lua` lists no other bool return but `HasSecretValues()` — so the object exposes no readable in-combat readiness of its own**, and the absent annotation was again not a guarantee. A secret bool may not gate a branch, but it still drives `SetAlphaFromBoolean` / `SetVertexColorFromBoolean` leak-free — so readiness is **drawable and not branchable *on this object***. An addon that must *branch* on readiness gets it off a different surface: `C_Spell.GetSpellCooldown(id).isActive` is a **plain, discriminating boolean in restricted combat** (`cooldown-manager.md` §7 Tier 3), because that struct seals per member rather than whole. Failing that, the `Available` / `OnCooldown` alert edges of `cooldown-manager.md` §5.1, with that section's warning about the rows those edges never fire for. These are also the workspace's **first boolean-typed secrets**, which is what supplies the operation table's row 8 with a source it never had |
 | `GetElapsedDuration` · `GetTotalDuration` · `GetStartTime` · `GetEndTime` · `GetRemainingPercent` · `GetElapsedPercent` · `GetClockTime` · `GetModRate` | numbers | **SECRET — all eight** | Measured, not presumed: every one read `<secret>` on an object whose `HasSecretValues()` is true, in combat, on a real cooldown (Call Dreadstalkers), and replicated on a second (Grimoire: Fel Ravager) `[client 2026-09-08]`. **The object exposes no readable number at all** — `GetRemainingDuration`'s seal is the whole family's, not a special case. ⚠ `GetClock` is the exception and is not a number: it returned **`nil`**, not a secret |

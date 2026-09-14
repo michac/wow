@@ -2,7 +2,7 @@
 title: Cooldown-Manager rider patterns — 12.1 secret-safe API cookbook
 patch: 12.1.0
 fetched: 2026-08-12
-reviewed: 2026-09-01   # 2026-09-01: §4.8 added — EllesmereUI's unlock-mode element registration read from a 9.1.3 live install: the array/colon vs table/dot call shapes, the one flat key namespace, getSize being read in UIParent units (so a self-scaled element must multiply its own-unit size in), savePosition's SEVEN arguments and loadPosition's single-table return, the asymmetric noResize prune that touches MATCHES and never ANCHORS, and the login-timing trap — the PLAYER_ENTERING_WORLD+1s listener exists only when EllesmereUIActionBars is ABSENT. 2026-08-31: §4.7 added — the viewer's layout fields and their Tier-1 defaults, the real column gap (iconPadding + GetAdditionalPaddingOffset() = 5 + (-4) = 1, not 5), the 50px item template, and the iconScale DOUBLE-COUNT trap (SetScale leaves GetWidth at 50, so a rider matching effective scale must not multiply it in again). 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
+reviewed: 2026-09-11   # 2026-09-11: §6.2's proc-glow dimming claim REFUTED and rewritten -- alertFrame:SetAlpha is accepted, reads back, and does not dim; ProcLoop rewrites ProcLoopFlipbook's alpha every cycle, and the sanctioned quiet form is the art swap to ProcAltGlow. 2026-09-01: §4.8 added — EllesmereUI's unlock-mode element registration read from a 9.1.3 live install: the array/colon vs table/dot call shapes, the one flat key namespace, getSize being read in UIParent units (so a self-scaled element must multiply its own-unit size in), savePosition's SEVEN arguments and loadPosition's single-table return, the asymmetric noResize prune that touches MATCHES and never ANCHORS, and the login-timing trap — the PLAYER_ENTERING_WORLD+1s listener exists only when EllesmereUIActionBars is ABSENT. 2026-08-31: §4.7 added — the viewer's layout fields and their Tier-1 defaults, the real column gap (iconPadding + GetAdditionalPaddingOffset() = 5 + (-4) = 1, not 5), the 50px item template, and the iconScale DOUBLE-COUNT trap (SetScale leaves GetWidth at 50, so a rider matching effective scale must not multiply it in again). 2026-08-31: §4.6.1 gained the TWO-RIDERS hazard — one item frame carrying two SetPoint reasserts recurses without bound, which is a client crash, plus the two-stage detection and the published conflict-table shape, from an EllesmereUI 9.0.8 live-install read. 2026-08-27: §4.6 rewritten from an EllesmereUI 9.0.5 mining pass — the in-combat reposition question is CLOSED (Tier-1 absence check on CooldownViewer.xml + a shipping addon doing it ungated) and §4.6.1 records the per-frame SetPoint reassert seam. 2026-08-21: §2's EvaluateRemainingDuration second argument corrected to the DurationTimeModifier and §9.2 rewritten on the UNIT_SPELLCAST secrecy annotation, both from the 12.1.0 generated docs. 2026-08-21: the aura-edges frame-enumeration form retired as validated-in-cap (confirmed-by-use, not a controlled measurement). §11 re-grounded 2026-08-19 on shipped 12.1 source; the rest not re-checked — read each [client] tag, not this line
 sources:
   - "Cooldown Companion 2.0 (live install)"
   - "Cooldown Manager Centered 4.2.1 (live install)"
@@ -956,6 +956,64 @@ if ActionButtonSpellAlertManager then
     end)
 end
 ```
+
+**Alpha does not dim this glow. Swap the art instead.** `alertFrame:SetAlpha(n)` is accepted
+and reads back — the frame reports `n` as its own *and* its effective alpha, with
+`IsIgnoringParentAlpha` false — and the glow still draws at full brightness.
+`ProcLoopFlipbook`, the texture actually drawing, reads back at `1` however it is written,
+because `ProcLoop` is `looping="REPEAT"` and rewrites that texture's alpha every cycle; a
+write to the texture's own alpha or its vertex colour is taken back between re-asserts.
+`ProcAltGlow`, which no animation drives, holds every alpha written to it.
+`[client 2026-09-11]`
+
+The sanctioned quiet form is the one the client uses for a downgraded alert: hide
+`ProcStartFlipbook` and `ProcLoopFlipbook`, show `ProcAltGlow`. Show/Hide is the channel that
+takes, and alpha then holds on the quiet texture, so a level remains available.
+`[T1 src @12.1.0: ActionButtonSpellAlerts.lua:57-65]`
+
+**To change what a proc looks like, replace the alert rather than restyle it.** Hide the
+client's — `ActionButtonSpellAlertManager:HideAlert(item)`, which also stops `ProcStartAnim`
+and clears `playingAnimation` — and build one of your own from the same
+`ActionButtonSpellAlertTemplate`, parented to the item at 1.4x its size. A frame you create is
+never entered in `activeAlerts`, so `CheckAndSetArtStyle` never reaches it and its own alpha
+is yours to set. The client does this itself for its second alert kind, and the swap is an
+atlas pair on the two flipbook textures: `OneButton_ProcStart_Flipbook` and
+`OneButton_ProcLoop_Flipbook` replace the defaults on an identical template, so the 6x5 /
+30-frame flipbook geometry carries over unchanged. The two silhouettes are distinguishable at
+icon size — a fat rounded square against a thin shield outline.
+`[T1 src @12.1.0: ActionButtonSpellAlerts.lua:11-35, 68-79]`
+
+⚠ **Play the birth animation by hand.** The template registers its `OnShow` handler against
+the `OnHide` script — two `<OnHide>` elements, the second naming `method="OnShow"` — so the
+mixin's own replay never fires on show. The `OnShow` body is inert regardless: it tests
+`self.animationPlaying`, while `ShowAlert` sets `playingAnimation`.
+`[T1 src @12.1.0: ActionButtonSpellAlerts.xml:34-38, ActionButtonSpellAlerts.lua:81-99, 155-159]`
+
+**Who re-asserts what, so a rider knows which writes it has to defend.** Every `<Alpha>`
+element in the template is `childKey`-scoped and no Lua path writes the alert frame's own
+alpha, so `frame:SetAlpha(n)` is never taken back — and therefore PERSISTS on a pooled frame
+long after the alert that prompted it, which is the trap: a stale zero leaves later art swaps
+correct and invisible. Show/Hide on the three textures has exactly one writer,
+`CheckAndSetArtStyle`, and it runs from two places — the internal `ShowAlert`, which a
+post-hook beats, and `RefreshArtStyles`, bound to four `EventRegistry` callbacks plus the
+`assistedCombatReduceHighlights` CVar callback and reached without any `ShowAlert` call at
+all. A rider that re-asserts only from a `ShowAlert` post-hook loses its swap on those edges;
+one that re-asserts from its own evaluation pass does not. Note also that the public
+`ShowAlert` calls the internal one only when the alert TYPE changes, so a post-hook on it
+fires far more often than the art is actually set.
+`[T1 src @12.1.0: ActionButtonSpellAlerts.xml:21-33, ActionButtonSpellAlerts.lua:41-66, 101-126]`
+
+Hiding the whole alert still works, and alpha zero on the frame differs from `HideAlert`:
+`HideAlert` also stops `ProcStartAnim` and clears `playingAnimation`, so a fully transparent
+alert left at alpha 0 goes on animating.
+`[T1 src @12.1.0: ActionButtonSpellAlerts.lua:69-77]`
+
+**The frame hangs off the button for a Default alert only.** `GetAlertFrame` stores it at
+`actionButton.SpellActivationAlert`; the `AssistedCombatRotation` branch parks it on
+`actionButton.AssistedCombatRotationFrame` instead, and is selected by
+`actionButton.action and C_ActionBar.IsAssistedCombatAction(actionButton.action)` — a CDM item
+frame carries no `action` field, so a cooldown row can only ever take the Default form.
+`[T1 src @12.1.0: ActionButtonSpellAlerts.lua:11-35, 117-123]`
 
 Install these at **file load**, not on a later event: Blizzard re-fires `ShowAlert` during
 `PLAYER_LOGIN` for procs that are already up, and a late hook misses them. Map the alerted

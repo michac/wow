@@ -1182,6 +1182,28 @@ what a measurement closes. The worked case that ran the ladder and then flew it 
 `C_AssistedCombat.GetNextCastSpell`, in [`cooldown-manager`](./cooldown-manager.md) §7
 Tier 3.
 
+### 5.8 "Does the player have this spell?" — `IsSpellKnown`, never `IsSpellInSpellBook`
+
+Two neighbours that read alike and answer different questions:
+
+| Call | Asks about | Its own doc string |
+|---|---|---|
+| `C_SpellBook.IsSpellKnown(spellID, bank)` | the **player** | *"Returns true if a player knows a spell. This function can also return true for spells that aren't in the spellbook, such as temporarily-granted abilities"* |
+| `C_SpellBook.IsSpellInSpellBook(spellID, bank, includeOverrides)` | the **book** | *"Returns true if a spell should be found in the spellbook. This function can also return true for **spells that aren't known**, such as override spells granted by an aura linked to class talents"* |
+
+`[T1 src @12.1.0: SpellBookDocumentation.lua:648-681]`
+
+So a base ability that a talent **replaces** — Avenging Wrath under Sentinel, say — is reported
+present by `IsSpellInSpellBook` through the spell that replaced it. `includeOverrides` does not
+save you: it governs whether overrides are *searched*, while the doc string's "spells that
+aren't known" case is about what the book legitimately contains. Only `IsSpellKnown` answers
+the ownership question, and it takes no `includeOverrides` argument at all.
+⚠ `@verify-ingame` — that `IsSpellKnown` reads **false** for such a replaced base spell is the
+reading this implies and is not yet measured.
+⚠ Neither is a talent-node test. For *"is this node purchased, and which entry of a choice node
+is live"*, §6's `C_Traits.GetNodeInfo` read is still the instrument: a spell known from another
+source diverges from the talent silently.
+
 ---
 
 ## 6. Gaps

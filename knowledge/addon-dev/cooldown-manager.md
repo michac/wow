@@ -1573,10 +1573,13 @@ returning a secret boolean `[client 2026-07-30]`. The method is **not blocked**:
 `pcall`, not `issecretvalue`.** Untainted code does the same arithmetic fine; we cannot.
 
 **The design consequence:** an addon can learn *that* a DoT entered its refresh window (the
-edge) but cannot ask *how long is left*. Two patterns survive — an **edge-driven latch**
-(set on `PandemicTime`, clear on `OnAuraRemoved`/`OnAuraApplied` for the same cooldownID),
-and, better, the per-frame readable mirror **`item.PandemicIcon`** (§7 Tier 2), which unlike
-the edge also clears on a refresh.
+edge) but cannot ask *how long is left*. Two patterns survive **on this frame** — an
+**edge-driven latch** (set on `PandemicTime`, clear on `OnAuraRemoved`/`OnAuraApplied` for the
+same cooldownID), and, better, the per-frame readable mirror **`item.PandemicIcon`** (§7
+Tier 2), which unlike the edge also clears on a refresh. A DoT with **no CDM row** is off this
+frame entirely and is reached instead through the aura container's sinks, which band an
+addon-authored threshold against the sealed clock
+([`security-taint-and-restricted-data`](./security-taint-and-restricted-data.md) §3.5.2).
 
 ⚠ **Do not read "not populated" from a `nil` here.** The same capture shows `nil` on
 non-eligible items and `SECRET` on eligible ones, which is exactly the discrimination that
@@ -2161,7 +2164,7 @@ read the viewer's own `IsShown()` for that, and let the row count mean *configur
 | `C_AssistedCombat.GetNextCastSpell` | **`[client 2026-08-01]`** ⚠ *evidence gone — capture off the ring, no surviving extract* — readable — a plain number in combat and out. See below: readability is proven, usefulness is not |
 | `C_Spell.GetSpellCooldown` | **`[client 2026-08-09]`** **not sealed whole** — a plain table whose members seal individually. `isEnabled` / `isActive` / `isOnGCD` read plain in restricted combat; `startTime` / `duration` / `modRate` are secret. See below |
 | `C_Spell.GetSpellCharges` | **`[client 2026-08-11]`** a plain table whose members seal by state. Conflagrate at 2/2 was wholly readable even in restricted combat; at 1/2 and 0/2 its current count and recharge values were secret, while `maxCharges=2` and `isActive=true` stayed plain. See below |
-| `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **`[client 2026-08-09]`** returns a `LuaDurationObject` in restricted combat, `HasSecretValues()` plain `true`, every getter on it secret. See below |
+| `C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD)` | **`[client 2026-08-09]`** returns a `LuaDurationObject` in restricted combat, `HasSecretValues()` plain `true`, every getter on it secret. **`[client 2026-09-10]` a READY spell also returns an object — one reading zero remaining, not `nil`.** See below |
 | `C_UnitAuras.Get*` | The `AuraData` record is secret when restricted. Three getters carry a **per-aura** `RequiresNonSecretAura` precondition; it fails **silently** (`nil`), while the enumerators fail **loudly** — see below |
 
 **`C_Spell.GetSpellCooldown` is NOT sealed whole, and `isActive` is a readable, branchable

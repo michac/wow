@@ -289,12 +289,18 @@ riding the CDM can answer "is this buff up right now?" by polling frame state, r
 than by latching alert **edges** — which is the difference between being correct on the
 first evaluation after a `/reload` and being UNKNOWN until an edge happens to fire.
 
-*Tier 1:* **not corroborated.** `wasSetFromAura` does not appear in the 12.0.7
-`Blizzard_CooldownViewer` source or the generated docs under that name; the field is
-asserted by the mined addon and by its comments. **This is the weakest link in §E.**
+*Tier 1:* **CORROBORATED at 12.1.0.** `wasSetFromAura` is Blizzard's own field, one of five
+visual-data-source flags with accessors and a clearer: `ClearVisualDataSource` zeroes
+`wasSetFromCharges` / `wasSetFromCooldown` / `wasSetFromAura` / `wasSetFromItem` /
+`wasSetFromEditMode`, `AddVisualDataSource_Aura` sets it, and `IsUsingVisualDataSource_Spell`
+ORs the first three `[T1 src @12.1.0: CooldownViewer.lua:652-682]`. It was absent from the
+12.0.7 tree under that name, which is what the mined reading rested on.
+*Also measured:* the three spell-source flags read **plain in and out of combat**
+(`cooldown-manager.md` §7 `[client 2026-07-31]`).
 *Seen working in:* EllesmereUICooldownManager 9.1.7, `EllesmereUICdmHooks.lua:10262-10290`
 (the population pass) and `:1546-1554` (the cache it feeds) — read for API discovery only.
-*Confidence:* **low** — Tier 3 only, and `@verify-ingame`.
+*Confidence:* **high** for the field's existence and readability. The `auraInstanceID` half of
+the claim is untouched by this and stays `@verify-ingame`.
 
 ### E3. A tracked row's aura may be a DIFFERENT spell id, reachable only through `linkedSpellIDs`
 
