@@ -6,6 +6,7 @@ reviewed: 2026-08-11
 sources:
   - https://github.com/Gethe/wow-ui-source (tag 12.1.0, version.txt 12.1.0.69273, commit eb941aad028d73ddc69e3e8ef4da709f4d3cd744) — raw/addon-research/wow-ui-source-12.1.0. EVERY corpus count in this file was re-parsed here on 2026-08-11; `[T1 docs @12.1.0]` locators resolve here
   - https://warcraft.wiki.gg/wiki/Patch_12.1.0/API_changes (revid 6801760, 2026-08-09)
+  - https://wago.tools/db2/Holidays (build 12.1.0.69814) + https://wago.tools/db2/HolidayNames — the §5.5 worked example; pulled via `wowkb.wago` to raw/wago/
   - https://github.com/Gethe/wow-ui-source (version.txt 12.0.7.68887, commit 4383ced30106d51b27e3e86d1987f1552f0d259d) — raw/addon-research/wow-ui-source; the build an UNSTAMPED `file:line` was read at
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterEvent (revid 6654488, 2026-02-19)
   - https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEvent (revid 6735133, 2026-06-04)
@@ -970,6 +971,38 @@ locale-independent and do not depend on spellbook state.
   `LE_SCRIPT_BINDING_TYPE_INTRINSIC_POSTCALL = 2`, `NUM_LE_SCRIPT_BINDING_TYPES = 2`
   *[T2 res: `Resources/LuaEnum.lua:9251-9254`]* — and note that those four values
   are internally inconsistent (3 named values, `NUM_… = 2`).
+- **A namespace can document every event and none of its functions.** `Functions = {}`
+  does not mean the namespace has none: **26 of the 275 namespaced doc files declare an
+  empty `Functions` table, and 4 of those name functions Blizzard's own shipped code
+  calls** — `C_AdventureJournal` (8), `C_TalkingHead` (4), `C_ClassTrial` (2),
+  `C_GlyphInfo` (1) *[T1 obs @12.1.0]*. `C_AdventureJournal` is the extreme case: all
+  **14** of its events are documented in full *[T1 docs @12.1.0:
+  `AdventureJournalDocumentation.lua`]*, while the Encounter Journal's entire Suggested
+  Content tab runs on eight functions that appear nowhere in the docs —
+  `GetSuggestions(tbl)` (an **out-parameter**: it fills the table you pass),
+  `GetNumAvailableSuggestions`, `GetPrimaryOffset`/`SetPrimaryOffset`, `GetReward(index)`,
+  `UpdateSuggestions`, `ActivateEntry`, `CanBeShown` *[T1 src @12.1.0:
+  `Blizzard_EncounterJournal/Mainline/Blizzard_EncounterJournal.lua:3084`, `:3090-3098`,
+  `:3116`, `:3159`, `:3368`; `Blizzard_EncounterJournal_Bootstrap.lua:32`]*. The tell is
+  one command: `wowkb.uiapi system AdventureJournal` ends with
+  `-- 0 function(s), 14 event(s)`.
+  ⚠ With no signature and no `SecretArguments` annotation on any of them, the
+  cheap prediction in §5.7 has nothing to read — these have to be flown.
+  ⚠ A suggestion entry's fields are `title`, `description`, `buttonText`, `iconPath`,
+  `index` *[T1 src @12.1.0: same file, `:3186-3228`]* — **localized display strings**,
+  so this surface is a renderer, not a key. See §5.5 for what to key on instead.
+- **An undocumented legacy global's specification is Blizzard's own unpack — and that
+  is a floor, not a census.** `GetLFGDungeonInfo`, `GetLFGRandomDungeonInfo`,
+  `GetNumRandomDungeons` and `GetLFDChoiceOrder` are all absent from the generated docs
+  *[T1 obs @12.1.0, via `wowkb.uiapi missing <name>`]*, yet `GetLFGDungeonInfo` is
+  positional and called 29 times across the shipped corpus. A shipped constant table names
+  its returns — `LFG_RETURN_VALUES`, 20 entries including `expansionLevel = 9`,
+  `isHoliday = 15`, `isTimewalker = 18` *[T1 src @12.1.0:
+  `Blizzard_GroupFinder/Shared/LFGFrame.lua:19-41`]* — but callers unpack past its
+  end: `isScalingDungeon` at **21** *[T1 src @12.1.0: same file, `:1677`]* and `lfgMapID`
+  at **22** *[T1 src @12.1.0: `Blizzard_LFGUtil/Mainline/LFGUtil.lua:27`]*. Grep the
+  callers for a named-index table before counting commas — then grep for the
+  **longest** unpack before trusting the table.
 
 ---
 
@@ -1127,6 +1160,29 @@ not expose the client database tables to Lua; `wago.tools` mirrors them.
 
 Pin the `--build` when you want a reproducible citation; the default is "latest",
 which moves.
+
+**Worked example — when the runtime hands you a name that is not a key.** Every
+Timewalking week the client calls "Timewalking Dungeon Event": `Holidays.db2` joined to
+`HolidayNames.db2` on `HolidayNameID` has **48 rows sharing that one `Name_lang`**, spread
+over 10 distinct `TextureFileDataID_0` values, and only *Turbulent Timeways* (IDs 1425,
+1458–1460) carries a name of its own *[T1 db2: `Holidays`, `HolidayNames`
+@12.1.0.69814]*. So a calendar scan that keys holidays by `title` cannot tell one
+Timewalking week from the next, and **deduping by title silently merges consecutive
+occurrences into one wide window**. The discriminators are the holiday **ID** and the
+**texture fileID**, both reachable from Lua:
+
+- `C_Calendar.GetDayEvent(monthOffset, day, index)` → a `CalendarDayEvent` carrying
+  `eventID` and `iconTexture` *[T1 docs @12.1.0: `CalendarDocumentation.lua:544-561`,
+  fields at `:1009`, `:1017`]*. A multi-day holiday yields one row per day spanned, so
+  this needs deduping — on `eventID`, never on `title`.
+- `C_Calendar.GetHolidayInfo(monthOffset, day, index)` →
+  `{name, description, texture, startTime, endTime}`, a **per-occurrence** window
+  *[T1 docs @12.1.0: same file, `:657-673`; structure at `:1145-1154`]*.
+
+The generalisable shape: **when a DB2 shows many rows sharing one localized string, any
+Lua that keys on that string is wrong, and the table tells you which field to key on
+instead.** (The third route to the same answer is the Group Finder's `isTimewalker` /
+`expansionLevel` returns — §4.3.)
 
 Also useful for template discovery *inside* the client:
 `C_XMLUtil.GetTemplateInfo(name)` *[T1 docs: `XMLUtilDocumentation.lua:11-25`]* and
@@ -1494,6 +1550,17 @@ Blizzard has not documented (§2.4 gap) — advisory only.
 
 ## Changelog
 
+- 2026-09-15 — §4.3 gained two limits of the generated docs: a namespace can declare
+  `Functions = {}` and still have them (26 of 275 doc files do; 4 name functions the
+  shipped corpus calls, `C_AdventureJournal` worst at 8), and an undocumented legacy
+  global's positional contract lives in a shipped constant table that callers unpack past
+  (`LFG_RETURN_VALUES` names 20; `GetLFGDungeonInfo` yields at least 22). §5.5 gained the
+  localized-name-collision example: 48 `Holidays.db2` rows share the name "Timewalking
+  Dungeon Event", so keying a calendar scan on `title` merges occurrences — key on
+  `eventID`. **Scope: only §4.3 and §5.5 were touched; the rest of the file was not
+  re-verified on this date, which is why the front matter still reads 2026-08-11.**
+  All new claims are source reads and DB2 counts — **nothing was measured in the
+  client**.
 - 2026-08-11 — 12.1.0. Every corpus count **re-parsed**, not hand-edited: §2.1
   1741→1782 events / 204→210 systems, §2.4 the flag table, §4.1 6144→6335 functions
   (4202/695/1438). The same parser reproduces the 12.0.7 figures exactly, which is
